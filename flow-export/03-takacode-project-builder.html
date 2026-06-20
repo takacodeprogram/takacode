@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TakaCode – Project Builder</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --bg-main: #0A0A0A;
+  --bg-card: #111111;
+  --bg-card-alt: #151515;
+  --border: rgba(255,255,255,0.07);
+  --accent-blue: #4F8EF7;
+  --accent-violet: #9B6DFF;
+  --accent-cyan: #22D3EE;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { background-color: #0A0A0A; }
+body { font-family: 'Poppins', sans-serif; background: #0A0A0A; color: #FFFFFF; overflow: hidden; height: 100vh; }
+
+.font-valorax {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  font-style: italic;
+}
+.font-venite {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+::-webkit-scrollbar { width: 3px; height: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #222; border-radius: 2px; }
+
+.glow-btn { box-shadow: 0 0 24px rgba(255,255,255,0.15), 0 2px 12px rgba(0,0,0,0.5); }
+.glow-blue { box-shadow: 0 0 40px rgba(79,142,247,0.1), 0 0 20px rgba(79,142,247,0.05); }
+
+.card-hover { transition: border-color 0.25s ease, box-shadow 0.25s ease; }
+.card-hover:hover { border-color: rgba(79,142,247,0.2) !important; box-shadow: 0 4px 24px rgba(79,142,247,0.06); }
+
+.btn-primary {
+  background: #FFFFFF;
+  color: #0A0A0A;
+  font-weight: 600;
+  font-size: 12px;
+  padding: 10px 20px;
+  border-radius: 7px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-primary:hover { background: #F0F0F0; }
+
+.btn-secondary {
+  background: transparent;
+  color: #888;
+  font-weight: 500;
+  font-size: 12px;
+  padding: 9px 18px;
+  border-radius: 7px;
+  border: 1px solid rgba(255,255,255,0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-secondary:hover { border-color: rgba(255,255,255,0.2); color: #FFF; }
+
+.section-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #4F8EF7;
+}
+
+.progress-bar {
+  height: 2px;
+  border-radius: 1px;
+  background: linear-gradient(to right, #4F8EF7, #9B6DFF);
+}
+
+.level-beginner { background: rgba(34,211,238,0.1); color: #22D3EE; border: 1px solid rgba(34,211,238,0.2); }
+
+.nav-link {
+  font-size: 13px;
+  font-weight: 500;
+  color: #888;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-link:hover { color: #FFF; }
+.nav-link.active { color: #FFF; }
+
+/* Step states */
+.step-done { border-color: rgba(34,211,238,0.25) !important; background: rgba(34,211,238,0.04) !important; }
+.step-active { border-color: rgba(79,142,247,0.35) !important; background: rgba(79,142,247,0.05) !important; box-shadow: 0 0 20px rgba(79,142,247,0.08); }
+.step-pending { opacity: 0.5; }
+
+/* Sidebar nav item */
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 12px;
+  color: #666;
+  border: 1px solid transparent;
+}
+.sidebar-item:hover { background: rgba(255,255,255,0.04); color: #AAA; }
+.sidebar-item.active { background: rgba(79,142,247,0.08); border-color: rgba(79,142,247,0.15); color: #FFF; }
+
+/* AI message bubble */
+.ai-bubble {
+  background: rgba(79,142,247,0.06);
+  border: 1px solid rgba(79,142,247,0.12);
+  border-radius: 12px 12px 12px 4px;
+  padding: 12px 14px;
+  font-size: 12px;
+  color: #AAA;
+  line-height: 1.6;
+}
+.user-bubble {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 12px 12px 4px 12px;
+  padding: 12px 14px;
+  font-size: 12px;
+  color: #CCC;
+  line-height: 1.6;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-in { animation: fadeInUp 0.4s ease both; }
+.animate-in-d1 { animation: fadeInUp 0.4s ease 0.08s both; }
+.animate-in-d2 { animation: fadeInUp 0.4s ease 0.16s both; }
+.animate-in-d3 { animation: fadeInUp 0.4s ease 0.24s both; }
+
+/* Editor area */
+.editor-area {
+  background: #0D0D0D;
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 10px;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 12px;
+  color: #888;
+  padding: 16px;
+  line-height: 1.7;
+}
+.code-line-num { color: #333; margin-right: 16px; user-select: none; }
+.code-keyword { color: #9B6DFF; }
+.code-string { color: #22D3EE; }
+.code-comment { color: #444; }
+.code-fn { color: #4F8EF7; }
+
+/* Resource pill */
+.resource-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 100px;
+  border: 1px solid rgba(255,255,255,0.07);
+  background: rgba(255,255,255,0.03);
+  font-size: 11px;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.resource-pill:hover { border-color: rgba(79,142,247,0.3); color: #4F8EF7; background: rgba(79,142,247,0.05); }
+</style>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        'tc-bg': '#0A0A0A',
+        'tc-card': '#111111',
+        'tc-blue': '#4F8EF7',
+        'tc-violet': '#9B6DFF',
+        'tc-cyan': '#22D3EE',
+      }
+    }
+  }
+}
+</script>
+  <style>sd-component { display: block; }</style>
+  <script src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js" defer init></script>
+</head>
+<body>
+<div class="flex flex-col h-screen bg-[#0A0A0A]">
+
+  <!-- ═══ TOP NAVIGATION ═══ -->
+  <nav class="flex-shrink-0 bg-[#0A0A0A] border-b border-white/[0.05] z-40" style="view-transition-name: main-nav;">
+    <div class="px-6 h-[56px] flex items-center justify-between">
+      <!-- Left: Logo + Breadcrumb -->
+      <div class="flex items-center gap-4">
+        <a href="#" id="nav-logo-link">
+          <img src="https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/uploads/161cd373-01d3-4786-8399-e0dbe1644cae/1781767252990-e202dde8/logo-light-4.png" alt="TakaCode" class="h-7 w-auto">
+        </a>
+        <div class="flex items-center gap-2 text-[#444]">
+          <iconify-icon icon="lucide:chevron-right" style="font-size: 12px;"></iconify-icon>
+          <a href="#" id="breadcrumb-parcours-link" class="text-[12px] text-[#555] hover:text-white transition-colors">Mes Parcours</a>
+          <iconify-icon icon="lucide:chevron-right" style="font-size: 12px;"></iconify-icon>
+          <span class="text-[12px] text-white font-medium">Automatisation IA</span>
+          <iconify-icon icon="lucide:chevron-right" style="font-size: 12px;"></iconify-icon>
+          <span class="text-[12px] text-[#4F8EF7] font-medium">Étape 3</span>
+        </div>
+      </div>
+
+      <!-- Center: Nav Links -->
+      <div class="flex items-center gap-6">
+        <a href="#" id="nav-home-link" class="nav-link">Accueil</a>
+        <a href="#" id="nav-parcours-link" class="nav-link active">Parcours</a>
+        <a href="#" id="nav-projets-link" class="nav-link">Projets</a>
+        <a href="#" id="nav-ressources-link" class="nav-link">Ressources</a>
+        <a href="#" id="nav-communaute-link" class="nav-link">Communauté</a>
+      </div>
+
+      <!-- Right: Actions -->
+      <div class="flex items-center gap-3">
+        <!-- Session live badge -->
+        <div class="flex items-center gap-2 bg-green-500/[0.08] border border-green-500/20 rounded-lg px-3 py-1.5">
+          <div class="w-1.5 h-1.5 rounded-full bg-green-400" style="animation: pulse-glow 2s ease infinite;"></div>
+          <span class="text-[11px] text-green-400 font-medium">Session live dans 1h</span>
+        </div>
+        <!-- Avatar -->
+        <div class="flex items-center gap-2 bg-[#111] border border-white/[0.07] rounded-lg px-3 py-1.5 cursor-pointer card-hover">
+          <div class="w-5 h-5 rounded-full bg-gradient-to-br from-blue-400 to-violet-500 flex-shrink-0"></div>
+          <span class="text-[12px] text-[#CCC]">Kofi M.</span>
+          <iconify-icon icon="lucide:chevron-down" class="text-[#444]" style="font-size: 12px;"></iconify-icon>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══ MAIN BODY ═══ -->
+  <div class="flex flex-1 overflow-hidden">
+
+    <!-- ═══ LEFT SIDEBAR ═══ -->
+    <aside class="w-[240px] flex-shrink-0 bg-[#0A0A0A] border-r border-white/[0.05] flex flex-col overflow-hidden">
+
+      <!-- Project Info -->
+      <div class="p-4 border-b border-white/[0.05]">
+        <div class="bg-[#111] border border-white/[0.07] rounded-xl p-3.5 card-hover" style="border-color: rgba(155,109,255,0.15);">
+          <div class="flex items-center gap-2.5 mb-3">
+            <div class="w-8 h-8 rounded-lg bg-violet-500/10 border border-violet-500/15 flex items-center justify-center flex-shrink-0">
+              <iconify-icon icon="lucide:cpu" class="text-tc-violet" style="font-size: 14px;"></iconify-icon>
+            </div>
+            <div>
+              <div class="font-venite text-[11px] text-white">AUTOMATISATION IA</div>
+              <div class="text-[10px] text-[#555]">Mon Agent WhatsApp</div>
+            </div>
+          </div>
+          <!-- Overall progress -->
+          <div class="mb-2">
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-[10px] text-[#555]">Progression</span>
+              <span class="text-[10px] text-[#4F8EF7] font-semibold">42%</span>
+            </div>
+            <div class="h-1 bg-white/[0.05] rounded-full overflow-hidden">
+              <div class="progress-bar h-full" style="width: 42%;"></div>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 text-[10px] text-[#444]">
+            <span class="flex items-center gap-1"><iconify-icon icon="lucide:clock" style="font-size: 10px;"></iconify-icon> 5 sem. restantes</span>
+            <span class="flex items-center gap-1"><iconify-icon icon="lucide:layers" style="font-size: 10px;"></iconify-icon> 6 projets</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Steps Navigation -->
+      <div class="flex-1 overflow-y-auto p-3 space-y-1">
+        <div class="text-[10px] text-[#333] font-semibold uppercase tracking-widest px-2 mb-2">Module 1 — Fondations</div>
+
+        <div class="sidebar-item step-done">
+          <div class="w-5 h-5 rounded-full bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center flex-shrink-0">
+            <iconify-icon icon="lucide:check" class="text-tc-cyan" style="font-size: 10px;"></iconify-icon>
+          </div>
+          <span>Introduction à l'IA</span>
+          <iconify-icon icon="lucide:check" class="text-tc-cyan ml-auto" style="font-size: 10px;"></iconify-icon>
+        </div>
+
+        <div class="sidebar-item step-done">
+          <div class="w-5 h-5 rounded-full bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center flex-shrink-0">
+            <iconify-icon icon="lucide:check" class="text-tc-cyan" style="font-size: 10px;"></iconify-icon>
+          </div>
+          <span>APIs et Webhooks</span>
+          <iconify-icon icon="lucide:check" class="text-tc-cyan ml-auto" style="font-size: 10px;"></iconify-icon>
+        </div>
+
+        <div class="sidebar-item active">
+          <div class="w-5 h-5 rounded-full bg-blue-500/20 border border-blue-500/30 flex items-center justify-center flex-shrink-0">
+            <div class="w-1.5 h-1.5 rounded-full bg-tc-blue"></div>
+          </div>
+          <span class="text-white">Construire l'Agent</span>
+          <span class="ml-auto text-[9px] text-[#4F8EF7] font-semibold bg-blue-500/10 px-1.5 py-0.5 rounded-full">EN COURS</span>
+        </div>
+
+        <div class="sidebar-item step-pending">
+          <div class="w-5 h-5 rounded-full bg-white/[0.05] border border-white/[0.08] flex items-center justify-center flex-shrink-0">
+            <div class="w-1.5 h-1.5 rounded-full bg-[#333]"></div>
+          </div>
+          <span>Intégration WhatsApp</span>
+        </div>
+
+        <div class="sidebar-item step-pending">
+          <div class="w-5 h-5 rounded-full bg-white/[0.05] border border-white/[0.08] flex items-center justify-center flex-shrink-0">
+            <div class="w-1.5 h-1.5 rounded-full bg-[#333]"></div>
+          </div>
+          <span>Tests et déploiement</span>
+        </div>
+
+        <div class="sidebar-item step-pending">
+          <div class="w-5 h-5 rounded-full bg-white/[0.05] border border-white/[0.08] flex items-center justify-center flex-shrink-0">
+            <div class="w-1.5 h-1.5 rounded-full bg-[#333]"></div>
+          </div>
+          <span>Publication projet</span>
+        </div>
+
+        <div class="text-[10px] text-[#333] font-semibold uppercase tracking-widest px-2 mt-4 mb-2">Module 2 — Avancé</div>
+
+        <div class="sidebar-item step-pending">
+          <div class="w-5 h-5 rounded-full bg-white/[0.05] border border-white/[0.08] flex items-center justify-center flex-shrink-0">
+            <div class="w-1.5 h-1.5 rounded-full bg-[#333]"></div>
+          </div>
+          <span>Workflows complexes</span>
+        </div>
+
+        <div class="sidebar-item step-pending">
+          <div class="w-5 h-5 rounded-full bg-white/[0.05] border border-white/[0.08] flex items-center justify-center flex-shrink-0">
+            <div class="w-1.5 h-1.5 rounded-full bg-[#333]"></div>
+          </div>
+          <span>Multi-agents</span>
+        </div>
+      </div>
+
+      <!-- Quick Resources -->
+      <div class="p-3 border-t border-white/[0.05]">
+        <div class="text-[10px] text-[#333] font-semibold uppercase tracking-widest mb-2">Ressources rapides</div>
+        <div class="space-y-1">
+          <a href="#" id="resource-guide-link" class="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-white/[0.04] transition-colors group">
+            <iconify-icon icon="lucide:file-text" class="text-[#4F8EF7] flex-shrink-0" style="font-size: 13px;"></iconify-icon>
+            <span class="text-[11px] text-[#666] group-hover:text-[#AAA]">Guide n8n débutant</span>
+          </a>
+          <a href="#" id="resource-video-link" class="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-white/[0.04] transition-colors group">
+            <iconify-icon icon="lucide:play-circle" class="text-red-400 flex-shrink-0" style="font-size: 13px;"></iconify-icon>
+            <span class="text-[11px] text-[#666] group-hover:text-[#AAA]">Vidéo tutoriel agent</span>
+          </a>
+          <a href="#" id="resource-template-link" class="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-white/[0.04] transition-colors group">
+            <iconify-icon icon="lucide:layout-template" class="text-tc-violet flex-shrink-0" style="font-size: 13px;"></iconify-icon>
+            <span class="text-[11px] text-[#666] group-hover:text-[#AAA]">Template workflow n8n</span>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ═══ CENTER MAIN WORKSPACE ═══ -->
+    <main class="flex-1 flex flex-col overflow-hidden relative">
+
+      <!-- Subtle background halos -->
+      <div class="absolute top-0 right-0 w-[400px] h-[400px] bg-blue-500/[0.03] rounded-full filter blur-[100px] pointer-events-none"></div>
+      <div class="absolute bottom-0 left-0 w-[300px] h-[300px] bg-violet-500/[0.03] rounded-full filter blur-[80px] pointer-events-none"></div>
+
+      <!-- Step Header -->
+      <div class="flex-shrink-0 px-7 pt-6 pb-5 border-b border-white/[0.05] relative z-10">
+        <div class="flex items-start justify-between">
+          <div class="animate-in">
+            <div class="section-label mb-2">ÉTAPE 3 SUR 8 — MODULE 1</div>
+            <h1 class="font-valorax text-[24px] mb-1" style="letter-spacing: -0.02em;">CONSTRUIRE L'AGENT IA</h1>
+            <p class="text-[13px] text-[#666] max-w-lg">Configure ton premier agent IA avec n8n. Tu vas créer un workflow qui reçoit des messages, les traite avec GPT-4, et renvoie une réponse automatique.</p>
+          </div>
+          <div class="flex items-center gap-2 flex-shrink-0 animate-in-d1">
+            <a href="#" id="prev-step-link" class="btn-secondary">
+              <iconify-icon icon="lucide:arrow-left" style="font-size: 13px;"></iconify-icon>
+              Précédent
+            </a>
+            <a href="#" id="next-step-link" class="btn-primary glow-btn">
+              Étape suivante
+              <iconify-icon icon="lucide:arrow-right" style="font-size: 13px;"></iconify-icon>
+            </a>
+          </div>
+        </div>
+
+        <!-- Step progress pills -->
+        <div class="flex items-center gap-2 mt-4">
+          <div class="flex items-center gap-1.5">
+            <div class="w-6 h-1.5 rounded-full bg-tc-cyan"></div>
+            <div class="w-6 h-1.5 rounded-full bg-tc-cyan"></div>
+            <div class="w-6 h-1.5 rounded-full bg-[#4F8EF7]"></div>
+            <div class="w-6 h-1.5 rounded-full bg-white/[0.08]"></div>
+            <div class="w-6 h-1.5 rounded-full bg-white/[0.08]"></div>
+            <div class="w-6 h-1.5 rounded-full bg-white/[0.08]"></div>
+            <div class="w-6 h-1.5 rounded-full bg-white/[0.08]"></div>
+            <div class="w-6 h-1.5 rounded-full bg-white/[0.08]"></div>
+          </div>
+          <span class="text-[10px] text-[#555] ml-2">3/8 complétées</span>
+        </div>
+      </div>
+
+      <!-- Scrollable content -->
+      <div class="flex-1 overflow-y-auto px-7 py-5 relative z-10 space-y-4">
+
+        <!-- Checkpoint tasks -->
+        <div class="animate-in-d1">
+          <div class="text-[11px] text-[#444] font-semibold uppercase tracking-widest mb-3">CHECKPOINTS DE L'ÉTAPE</div>
+          <div class="grid grid-cols-3 gap-3">
+            <!-- Task 1: Done -->
+            <div class="bg-[#111] border border-white/[0.07] rounded-xl p-4 step-done card-hover">
+              <div class="flex items-center gap-2.5 mb-2">
+                <div class="w-6 h-6 rounded-lg bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center flex-shrink-0">
+                  <iconify-icon icon="lucide:check" class="text-tc-cyan" style="font-size: 12px;"></iconify-icon>
+                </div>
+                <span class="text-[11px] font-semibold text-white">Créer le workflow</span>
+              </div>
+              <p class="text-[11px] text-[#555]">Nouveau workflow vide créé dans n8n</p>
+            </div>
+
+            <!-- Task 2: Active -->
+            <div class="bg-[#111] border border-white/[0.07] rounded-xl p-4 step-active card-hover">
+              <div class="flex items-center gap-2.5 mb-2">
+                <div class="w-6 h-6 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center flex-shrink-0">
+                  <div class="w-2 h-2 rounded-full bg-tc-blue" style="animation: pulse-glow 1.5s ease infinite;"></div>
+                </div>
+                <span class="text-[11px] font-semibold text-white">Configurer le nœud IA</span>
+              </div>
+              <p class="text-[11px] text-[#666]">Connecte GPT-4 à ton workflow via API</p>
+            </div>
+
+            <!-- Task 3: Pending -->
+            <div class="bg-[#111] border border-white/[0.07] rounded-xl p-4 step-pending">
+              <div class="flex items-center gap-2.5 mb-2">
+                <div class="w-6 h-6 rounded-lg bg-white/[0.04] border border-white/[0.07] flex items-center justify-center flex-shrink-0">
+                  <div class="w-1.5 h-1.5 rounded-full bg-[#333]"></div>
+                </div>
+                <span class="text-[11px] font-semibold text-[#555]">Tester le workflow</span>
+              </div>
+              <p class="text-[11px] text-[#444]">Envoie un message test et vérifie la réponse</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main editor area -->
+        <div class="animate-in-d2">
+          <div class="flex items-center justify-between mb-3">
+            <div class="text-[11px] text-[#444] font-semibold uppercase tracking-widest">WORKSPACE — NŒUD IA (ÉTAPE ACTIVE)</div>
+            <div class="flex items-center gap-2">
+              <a href="#" id="workspace-run-link" class="btn-primary" style="font-size: 11px; padding: 7px 14px;">
+                <iconify-icon icon="lucide:play" style="font-size: 12px;"></iconify-icon>
+                Exécuter le test
+              </a>
+              <a href="#" id="workspace-save-link" class="btn-secondary" style="font-size: 11px; padding: 7px 14px;">
+                <iconify-icon icon="lucide:save" style="font-size: 12px;"></iconify-icon>
+                Sauvegarder
+              </a>
+            </div>
+          </div>
+
+          <div class="bg-[#0D0D0D] border border-white/[0.05] rounded-xl overflow-hidden glow-blue">
+            <!-- Editor tabs -->
+            <div class="flex items-center border-b border-white/[0.05] px-4 pt-3 pb-0 gap-1">
+              <div class="px-3 py-2 text-[11px] text-white font-medium border-b-2 border-tc-blue -mb-px">workflow.json</div>
+              <div class="px-3 py-2 text-[11px] text-[#555] cursor-pointer hover:text-white transition-colors">prompt_template.txt</div>
+              <div class="px-3 py-2 text-[11px] text-[#555] cursor-pointer hover:text-white transition-colors">test_payload.json</div>
+              <div class="ml-auto pb-2">
+                <div class="flex items-center gap-1.5 bg-white/[0.04] rounded-lg px-2.5 py-1">
+                  <iconify-icon icon="lucide:circle-dot" class="text-green-400" style="font-size: 10px;"></iconify-icon>
+                  <span class="text-[10px] text-green-400">Workflow actif</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Code area -->
+            <div class="p-4 font-mono text-[11px] leading-6 overflow-x-auto">
+              <div class="text-[#555] mb-2">// Workflow n8n — Agent IA WhatsApp</div>
+              <div><span class="code-line-num">1</span><span class="code-keyword">const</span> <span style="color: #CCC;">workflow</span> = {</div>
+              <div><span class="code-line-num">2</span>  <span style="color: #4F8EF7;">name</span>: <span class="code-string">"Agent Support WhatsApp"</span>,</div>
+              <div><span class="code-line-num">3</span>  <span style="color: #4F8EF7;">nodes</span>: [</div>
+              <div><span class="code-line-num">4</span>    {</div>
+              <div><span class="code-line-num">5</span>      <span style="color: #4F8EF7;">type</span>: <span class="code-string">"webhook"</span>,</div>
+              <div><span class="code-line-num">6</span>      <span style="color: #4F8EF7;">name</span>: <span class="code-string">"Recevoir Message"</span>,</div>
+              <div><span class="code-line-num">7</span>      <span style="color: #4F8EF7;">parameters</span>: { <span style="color: #4F8EF7;">path</span>: <span class="code-string">"/whatsapp"</span> }</div>
+              <div><span class="code-line-num">8</span>    },</div>
+              <div><span class="code-line-num">9</span>    {</div>
+              <div><span class="code-line-num">10</span>     <span style="color: #4F8EF7;">type</span>: <span class="code-string">"openAi"</span>,  <span class="code-comment">// ← Configure ici ton API key</span></div>
+              <div class="bg-blue-500/[0.06] rounded px-1"><span class="code-line-num">11</span>     <span style="color: #4F8EF7;">name</span>: <span class="code-string">"GPT-4 Répondeur"</span>,  <span class="code-comment">// ← ÉTAPE ACTUELLE</span></div>
+              <div><span class="code-line-num">12</span>     <span style="color: #4F8EF7;">model</span>: <span class="code-string">"gpt-4o"</span>,</div>
+              <div><span class="code-line-num">13</span>     <span style="color: #4F8EF7;">prompt</span>: <span class="code-string">"Tu es un assistant client..."</span></div>
+              <div><span class="code-line-num">14</span>    }</div>
+              <div><span class="code-line-num">15</span>  ]</div>
+              <div><span class="code-line-num">16</span>};</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Resources linked to step -->
+        <div class="animate-in-d3">
+          <div class="text-[11px] text-[#444] font-semibold uppercase tracking-widest mb-3">RESSOURCES POUR CETTE ÉTAPE</div>
+          <div class="flex flex-wrap gap-2">
+            <a href="#" id="res-1-link" class="resource-pill">
+              <iconify-icon icon="lucide:file-text" style="font-size: 12px;"></iconify-icon>
+              Guide OpenAI API
+            </a>
+            <a href="#" id="res-2-link" class="resource-pill">
+              <iconify-icon icon="lucide:play-circle" style="font-size: 12px;"></iconify-icon>
+              Vidéo — Configurer n8n
+            </a>
+            <a href="#" id="res-3-link" class="resource-pill">
+              <iconify-icon icon="lucide:layout-template" style="font-size: 12px;"></iconify-icon>
+              Template prompt système
+            </a>
+            <a href="#" id="res-4-link" class="resource-pill">
+              <iconify-icon icon="lucide:external-link" style="font-size: 12px;"></iconify-icon>
+              Docs n8n officiel
+            </a>
+            <a href="#" id="res-5-link" class="resource-pill">
+              <iconify-icon icon="lucide:key" style="font-size: 12px;"></iconify-icon>
+              Obtenir clé API OpenAI
+            </a>
+          </div>
+        </div>
+
+        <!-- Milestone Banner -->
+        <div class="bg-gradient-to-r from-violet-500/[0.06] to-blue-500/[0.06] border border-violet-500/[0.12] rounded-xl p-4 flex items-center gap-4">
+          <div class="w-10 h-10 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center flex-shrink-0">
+            <iconify-icon icon="lucide:trophy" class="text-yellow-400" style="font-size: 18px;"></iconify-icon>
+          </div>
+          <div class="flex-1">
+            <div class="font-venite text-[12px] text-white mb-1">PROCHAIN MILESTONE</div>
+            <p class="text-[11px] text-[#666]">Complète les 2 checkpoints restants pour débloquer <span class="text-white font-medium">le badge Agent IA</span> et accéder à l'intégration WhatsApp.</p>
+          </div>
+          <div class="text-right flex-shrink-0">
+            <div class="text-[11px] text-[#555] mb-1">2 étapes restantes</div>
+            <div class="h-1.5 w-24 bg-white/[0.05] rounded-full overflow-hidden">
+              <div class="progress-bar h-full" style="width: 33%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Next session promo -->
+        <div class="bg-[#0D0D0D] border border-white/[0.05] rounded-xl p-4 flex items-center gap-4">
+          <div class="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/15 flex flex-col items-center justify-center flex-shrink-0">
+            <div class="text-[9px] text-[#555] font-medium">AUJ.</div>
+            <div class="text-[16px] font-bold text-tc-blue leading-none">18h</div>
+          </div>
+          <div class="flex-1">
+            <div class="font-venite text-[12px] text-white mb-0.5">SESSION LIVE — AGENTS IA</div>
+            <p class="text-[11px] text-[#555]">Construire et déboguer ton agent en temps réel avec la communauté</p>
+          </div>
+          <div class="flex items-center gap-1.5 flex-shrink-0">
+            <div class="w-1.5 h-1.5 rounded-full bg-green-400"></div>
+            <span class="text-[11px] text-green-400 mr-3">Aujourd'hui</span>
+            <a href="#" id="session-join-link" class="btn-secondary" style="font-size: 11px; padding: 7px 14px;">S'inscrire</a>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- ═══ RIGHT SIDEBAR — AI ASSISTANT ═══ -->
+    <aside class="w-[280px] flex-shrink-0 bg-[#0A0A0A] border-l border-white/[0.05] flex flex-col overflow-hidden">
+
+      <!-- AI Header -->
+      <div class="flex-shrink-0 p-4 border-b border-white/[0.05]">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center flex-shrink-0" style="box-shadow: 0 0 16px rgba(155,109,255,0.15);">
+            <iconify-icon icon="lucide:bot" class="text-tc-violet" style="font-size: 16px;"></iconify-icon>
+          </div>
+          <div>
+            <div class="font-venite text-[12px] text-white">ASSISTANT IA</div>
+            <div class="flex items-center gap-1.5">
+              <div class="w-1.5 h-1.5 rounded-full bg-green-400" style="animation: pulse-glow 2s ease infinite;"></div>
+              <span class="text-[10px] text-green-400">En ligne</span>
+            </div>
+          </div>
+          <button id="ai-settings-btn" class="ml-auto w-7 h-7 rounded-lg bg-white/[0.04] border border-white/[0.07] flex items-center justify-center hover:bg-white/[0.07] transition-colors">
+            <iconify-icon icon="lucide:settings" class="text-[#555]" style="font-size: 12px;"></iconify-icon>
+          </button>
+        </div>
+      </div>
+
+      <!-- Chat messages -->
+      <div class="flex-1 overflow-y-auto p-4 space-y-4">
+
+        <!-- AI tip -->
+        <div>
+          <div class="flex items-center gap-2 mb-2">
+            <div class="w-5 h-5 rounded-full bg-violet-500/20 border border-violet-500/25 flex items-center justify-center flex-shrink-0">
+              <iconify-icon icon="lucide:bot" class="text-tc-violet" style="font-size: 10px;"></iconify-icon>
+            </div>
+            <span class="text-[10px] text-[#444]">TakaAI • Étape 3</span>
+          </div>
+          <div class="ai-bubble">
+            Pour cette étape, tu dois ajouter le nœud <strong class="text-white">OpenAI Chat Model</strong> après ton webhook. Dans les paramètres, entre ta clé API et configure le modèle sur <span class="text-tc-cyan">gpt-4o</span>.
+          </div>
+        </div>
+
+        <!-- User message -->
+        <div class="pl-4">
+          <div class="flex items-center gap-2 mb-2 justify-end">
+            <span class="text-[10px] text-[#444]">Toi • Il y a 2 min</span>
+            <div class="w-5 h-5 rounded-full bg-gradient-to-br from-blue-400 to-violet-500 flex-shrink-0"></div>
+          </div>
+          <div class="user-bubble">
+            Où je trouve ma clé API OpenAI ? Je ne la vois pas dans mon tableau de bord.
+          </div>
+        </div>
+
+        <!-- AI response -->
+        <div>
+          <div class="flex items-center gap-2 mb-2">
+            <div class="w-5 h-5 rounded-full bg-violet-500/20 border border-violet-500/25 flex items-center justify-center flex-shrink-0">
+              <iconify-icon icon="lucide:bot" class="text-tc-violet" style="font-size: 10px;"></iconify-icon>
+            </div>
+            <span class="text-[10px] text-[#444]">TakaAI</span>
+          </div>
+          <div class="ai-bubble">
+            Voici comment l'obtenir :<br><br>
+            1. Va sur <span class="text-tc-blue">platform.openai.com</span><br>
+            2. Clique <strong class="text-white">API Keys</strong> dans le menu<br>
+            3. <strong class="text-white">Create new secret key</strong><br>
+            4. Copie la clé et colle-la dans n8n sous <span class="text-tc-cyan">Credentials</span>.<br><br>
+            J'ai ajouté le guide dans les ressources de cette étape 👆
+          </div>
+        </div>
+
+        <!-- Contextual tips -->
+        <div class="bg-[#111] border border-white/[0.07] rounded-xl p-3.5">
+          <div class="flex items-center gap-2 mb-2.5">
+            <iconify-icon icon="lucide:lightbulb" class="text-yellow-400" style="font-size: 13px;"></iconify-icon>
+            <span class="font-venite text-[10px] text-white">CONSEIL PRO</span>
+          </div>
+          <p class="text-[11px] text-[#666] leading-relaxed">Commence avec le modèle <span class="text-white">gpt-3.5-turbo</span> pour tester gratuitement, puis passe à gpt-4o quand tout fonctionne.</p>
+        </div>
+
+        <!-- Progress insight -->
+        <div>
+          <div class="flex items-center gap-2 mb-2">
+            <div class="w-5 h-5 rounded-full bg-violet-500/20 border border-violet-500/25 flex items-center justify-center flex-shrink-0">
+              <iconify-icon icon="lucide:bot" class="text-tc-violet" style="font-size: 10px;"></iconify-icon>
+            </div>
+            <span class="text-[10px] text-[#444]">TakaAI • Analyse</span>
+          </div>
+          <div class="ai-bubble">
+            <div class="flex items-center gap-2 mb-2">
+              <iconify-icon icon="lucide:trending-up" class="text-tc-blue" style="font-size: 13px;"></iconify-icon>
+              <span class="text-white font-semibold text-[11px]">Tu progresses bien !</span>
+            </div>
+            Tu as complété cette étape 35% plus vite que la moyenne. Continue sur cette lancée pour terminer le module cette semaine.
+          </div>
+        </div>
+      </div>
+
+      <!-- Chat input -->
+      <div class="flex-shrink-0 p-3 border-t border-white/[0.05]">
+        <div class="bg-[#111] border border-white/[0.07] rounded-xl flex items-center gap-2 px-3 py-2.5 card-hover" style="transition: border-color 0.2s;">
+          <input type="text" placeholder="Pose une question à l'IA..." class="flex-1 bg-transparent text-[12px] text-white placeholder-[#444] outline-none min-w-0" id="ai-chat-input">
+          <button id="ai-send-btn" class="w-7 h-7 rounded-lg bg-tc-violet/20 border border-tc-violet/30 flex items-center justify-center flex-shrink-0 hover:bg-tc-violet/30 transition-colors">
+            <iconify-icon icon="lucide:send" class="text-tc-violet" style="font-size: 12px;"></iconify-icon>
+          </button>
+        </div>
+
+        <!-- Quick prompts -->
+        <div class="flex flex-wrap gap-1.5 mt-2.5">
+          <button id="qp-1-btn" class="resource-pill text-[10px]" style="padding: 3px 8px;">Comment tester ?</button>
+          <button id="qp-2-btn" class="resource-pill text-[10px]" style="padding: 3px 8px;">Erreur fréquente</button>
+          <button id="qp-3-btn" class="resource-pill text-[10px]" style="padding: 3px 8px;">Étape suivante</button>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+</div>
+
+<!-- component: Footer (e674cbad-90d0-4d57-8311-9ecca36f61d5) -->
+<div v-scope="{ ...{&quot;parcoursHref&quot;:&quot;#parcours&quot;,&quot;competencesHref&quot;:&quot;#competences&quot;,&quot;projetsHref&quot;:&quot;#projets&quot;,&quot;ressourcesHref&quot;:&quot;#ressources&quot;,&quot;communauteHref&quot;:&quot;#communaute&quot;,&quot;sessionsHref&quot;:&quot;#sessions&quot;,&quot;challengesHref&quot;:&quot;#challenges&quot;,&quot;galerieHref&quot;:&quot;#galerie&quot;,&quot;connexionHref&quot;:&quot;#connexion&quot;,&quot;inscriptionHref&quot;:&quot;#inscription&quot;,&quot;tarifsHref&quot;:&quot;#tarifs&quot;,&quot;profilHref&quot;:&quot;#profil&quot;,&quot;aboutHref&quot;:&quot;#about&quot;,&quot;blogHref&quot;:&quot;#blog&quot;,&quot;contactHref&quot;:&quot;#contact&quot;,&quot;privacyHref&quot;:&quot;#privacy&quot;,&quot;termsHref&quot;:&quot;#terms&quot;,&quot;frenchHref&quot;:&quot;#french&quot;}, $emit() {} }">
+<footer class="py-16 bg-[#0A0A0A]">
+    <div class="max-w-[1320px] mx-auto px-8">
+      <div class="flex items-center justify-between mb-12">
+        <img src="https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/uploads/161cd373-01d3-4786-8399-e0dbe1644cae/1781767252990-e202dde8/logo-light-4.png" alt="TakaCode" class="h-7 w-auto opacity-80">
+        <p class="text-[12px] text-[#444]">L'atelier numérique où l'on apprend en construisant.</p>
+      </div>
+      <div class="grid grid-cols-5 gap-10 mb-14">
+        <div>
+          <div class="text-[11px] font-semibold text-[#444] uppercase tracking-widest mb-4">Plateforme</div>
+          <div class="space-y-2.5">
+            <div><a :href="parcoursHref" class="text-[12px] text-[#555] hover:text-white transition-colors">Parcours</a></div>
+            <div><a :href="competencesHref" class="text-[12px] text-[#555] hover:text-white transition-colors">Compétences</a></div>
+            <div><a :href="projetsHref" class="text-[12px] text-[#555] hover:text-white transition-colors">Projets</a></div>
+            <div><a :href="ressourcesHref" class="text-[12px] text-[#555] hover:text-white transition-colors">Ressources</a></div>
+          </div>
+        </div>
+        <div>
+          <div class="text-[11px] font-semibold text-[#444] uppercase tracking-widest mb-4">Communauté</div>
+          <div class="space-y-2.5">
+            <div><a :href="communauteHref" class="text-[12px] text-[#555] hover:text-white transition-colors">Communauté</a></div>
+            <div><a :href="sessionsHref" class="text-[12px] text-[#555] hover:text-white transition-colors">Sessions live</a></div>
+            <div><a :href="challengesHref" class="text-[12px] text-[#555] hover:text-white transition-colors">Challenges</a></div>
+            <div><a :href="galerieHref" class="text-[12px] text-[#555] hover:text-white transition-colors">Galerie projets</a></div>
+          </div>
+        </div>
+        <div>
+          <div class="text-[11px] font-semibold text-[#444] uppercase tracking-widest mb-4">Compte</div>
+          <div class="space-y-2.5">
+            <div><a :href="connexionHref" class="text-[12px] text-[#555] hover:text-white transition-colors">Connexion</a></div>
+            <div><a :href="inscriptionHref" class="text-[12px] text-[#555] hover:text-white transition-colors">S'inscrire</a></div>
+            <div><a :href="tarifsHref" class="text-[12px] text-[#555] hover:text-white transition-colors">Tarifs</a></div>
+            <div><a :href="profilHref" class="text-[12px] text-[#555] hover:text-white transition-colors">Mon profil</a></div>
+          </div>
+        </div>
+        <div>
+          <div class="text-[11px] font-semibold text-[#444] uppercase tracking-widest mb-4">Entreprise</div>
+          <div class="space-y-2.5">
+            <div><a :href="aboutHref" class="text-[12px] text-[#555] hover:text-white transition-colors">À propos</a></div>
+            <div><a :href="blogHref" class="text-[12px] text-[#555] hover:text-white transition-colors">Blog</a></div>
+            <div><a :href="contactHref" class="text-[12px] text-[#555] hover:text-white transition-colors">Contact</a></div>
+          </div>
+        </div>
+        <div>
+          <div class="text-[11px] font-semibold text-[#444] uppercase tracking-widest mb-4">Légal</div>
+          <div class="space-y-2.5">
+            <div><a :href="privacyHref" class="text-[12px] text-[#555] hover:text-white transition-colors">Confidentialité</a></div>
+            <div><a :href="termsHref" class="text-[12px] text-[#555] hover:text-white transition-colors">Conditions</a></div>
+          </div>
+        </div>
+      </div>
+      <div class="pt-8 border-t border-white/[0.05] flex items-center justify-between">
+        <div class="text-[11px] text-[#333]">© 2025 TakaCode. Tous droits réservés.</div>
+        <div class="flex items-center gap-5">
+          <a :href="frenchHref" class="text-[11px] text-[#444] hover:text-white transition-colors">Français</a>
+          <a :href="parcoursHref" class="text-[11px] text-[#444] hover:text-white transition-colors">Parcours</a>
+          <a :href="projetsHref" class="text-[11px] text-[#444] hover:text-white transition-colors">Projets</a>
+          <a :href="ressourcesHref" class="text-[11px] text-[#444] hover:text-white transition-colors">Ressources</a>
+          <a :href="communauteHref" class="text-[11px] text-[#444] hover:text-white transition-colors">Communauté</a>
+        </div>
+      </div>
+    </div>
+</footer>
+</div>
+<!-- /component: Footer (e674cbad-90d0-4d57-8311-9ecca36f61d5) -->
+
+</body>
+</html>

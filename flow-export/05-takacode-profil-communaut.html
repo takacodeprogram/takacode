@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TakaCode – Profil de Kofi Mensah</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<script src="https://unpkg.com/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --bg-main: #0A0A0A;
+  --bg-card: #111111;
+  --bg-card-alt: #151515;
+  --border: rgba(255,255,255,0.07);
+  --text-primary: #FFFFFF;
+  --text-secondary: #888888;
+  --text-muted: #555555;
+  --accent-blue: #4F8EF7;
+  --accent-violet: #9B6DFF;
+  --accent-cyan: #22D3EE;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { background-color: #0A0A0A; scroll-behavior: smooth; }
+body { font-family: 'Poppins', sans-serif; background: #0A0A0A; color: #FFFFFF; overflow-x: hidden; }
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #0A0A0A; }
+::-webkit-scrollbar-thumb { background: #222; border-radius: 2px; }
+
+.font-valorax {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  font-style: italic;
+}
+.font-venite {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.glow-blue { box-shadow: 0 0 80px rgba(79,142,247,0.12), 0 0 40px rgba(79,142,247,0.06); }
+.glow-violet { box-shadow: 0 0 80px rgba(155,109,255,0.15), 0 0 40px rgba(155,109,255,0.08); }
+.glow-btn { box-shadow: 0 0 24px rgba(255,255,255,0.15), 0 2px 12px rgba(0,0,0,0.5); }
+
+.card-hover { transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; }
+.card-hover:hover {
+  border-color: rgba(79,142,247,0.25) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 40px rgba(79,142,247,0.08);
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-fade-up { animation: fadeInUp 0.7s ease both; }
+.animate-fade-up-d1 { animation: fadeInUp 0.7s ease 0.1s both; }
+.animate-fade-up-d2 { animation: fadeInUp 0.7s ease 0.2s both; }
+.animate-fade-up-d3 { animation: fadeInUp 0.7s ease 0.3s both; }
+
+.tag-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 100px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.04);
+  font-size: 11px;
+  font-weight: 500;
+  color: #888;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #FFFFFF 0%, #888888 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.gradient-text-blue {
+  background: linear-gradient(135deg, #FFFFFF 0%, #4F8EF7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.btn-primary {
+  background: #FFFFFF;
+  color: #0A0A0A;
+  font-weight: 600;
+  font-size: 13px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+.btn-primary:hover { background: #F0F0F0; box-shadow: 0 0 24px rgba(255,255,255,0.2); }
+
+.btn-secondary {
+  background: transparent;
+  color: #AAAAAA;
+  font-weight: 500;
+  font-size: 13px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.12);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+.btn-secondary:hover { border-color: rgba(255,255,255,0.25); color: #FFFFFF; }
+
+.section-divider { border: none; border-top: 1px solid rgba(255,255,255,0.05); margin: 0; }
+
+.nav-link {
+  font-size: 13px;
+  font-weight: 500;
+  color: #888;
+  text-decoration: none;
+  transition: color 0.2s;
+  letter-spacing: 0.01em;
+}
+.nav-link:hover { color: #FFF; }
+.nav-link.active { color: #FFF; }
+
+.progress-bar {
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(to right, #4F8EF7, #9B6DFF);
+}
+.progress-bar-thin {
+  height: 2px;
+  border-radius: 1px;
+  background: linear-gradient(to right, #4F8EF7, #9B6DFF);
+}
+
+.section-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #4F8EF7;
+}
+
+.stat-value {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.project-card { position: relative; overflow: hidden; }
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(79,142,247,0.4), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.project-card:hover::before { opacity: 1; }
+
+.level-beginner { background: rgba(34,211,238,0.1); color: #22D3EE; border: 1px solid rgba(34,211,238,0.2); }
+.level-intermediate { background: rgba(79,142,247,0.1); color: #4F8EF7; border: 1px solid rgba(79,142,247,0.2); }
+.level-advanced { background: rgba(155,109,255,0.1); color: #9B6DFF; border: 1px solid rgba(155,109,255,0.2); }
+
+.community-tag {
+  padding: 6px 14px;
+  border-radius: 100px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.03);
+  font-size: 12px;
+  color: #888;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.community-tag:hover { border-color: rgba(79,142,247,0.4); color: #4F8EF7; background: rgba(79,142,247,0.05); }
+
+/* Profile specific */
+.profile-cover {
+  height: 240px;
+  background: linear-gradient(135deg, rgba(79,142,247,0.15) 0%, rgba(155,109,255,0.12) 50%, rgba(34,211,238,0.08) 100%);
+  position: relative;
+  overflow: hidden;
+}
+.profile-cover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse at 20% 50%, rgba(79,142,247,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 50%, rgba(155,109,255,0.1) 0%, transparent 60%);
+}
+.profile-cover-grid {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.avatar-ring {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  padding: 3px;
+  background: linear-gradient(135deg, #4F8EF7, #9B6DFF);
+  flex-shrink: 0;
+}
+.avatar-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4F8EF7, #22D3EE);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  font-weight: 900;
+  color: white;
+  border: 3px solid #0A0A0A;
+}
+
+.skill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.03);
+  font-size: 11px;
+  font-weight: 500;
+  color: #888;
+  transition: all 0.2s;
+  cursor: default;
+}
+.skill-badge.active {
+  background: rgba(79,142,247,0.08);
+  border-color: rgba(79,142,247,0.2);
+  color: #4F8EF7;
+}
+.skill-badge.violet {
+  background: rgba(155,109,255,0.08);
+  border-color: rgba(155,109,255,0.2);
+  color: #9B6DFF;
+}
+.skill-badge.cyan {
+  background: rgba(34,211,238,0.08);
+  border-color: rgba(34,211,238,0.2);
+  color: #22D3EE;
+}
+.skill-badge.green {
+  background: rgba(52,211,153,0.08);
+  border-color: rgba(52,211,153,0.2);
+  color: #34D399;
+}
+.skill-badge.orange {
+  background: rgba(251,146,60,0.08);
+  border-color: rgba(251,146,60,0.2);
+  color: #FB923C;
+}
+
+.badge-card {
+  background: #111;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+  cursor: default;
+}
+.badge-card:hover {
+  border-color: rgba(79,142,247,0.2);
+  transform: translateY(-2px);
+}
+.badge-card.locked { opacity: 0.4; filter: grayscale(1); }
+
+.badge-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+.activity-item {
+  display: flex;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.activity-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+
+.tab-btn {
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+  background: transparent;
+  text-decoration: none;
+  display: inline-block;
+}
+.tab-btn.active {
+  color: #FFF;
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(255,255,255,0.08);
+}
+.tab-btn:hover:not(.active) { color: #AAA; }
+
+.rank-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 100px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.rank-gold { background: rgba(251,191,36,0.1); color: #FBBF24; border: 1px solid rgba(251,191,36,0.25); }
+.rank-silver { background: rgba(156,163,175,0.1); color: #9CA3AF; border: 1px solid rgba(156,163,175,0.25); }
+.rank-bronze { background: rgba(180,120,60,0.1); color: #B4783C; border: 1px solid rgba(180,120,60,0.25); }
+
+/* stat card mini */
+.stat-mini {
+  background: #111;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 14px;
+  padding: 16px 20px;
+  text-align: center;
+}
+
+.hero-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* contribution heatmap */
+.heat-cell {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background: rgba(255,255,255,0.04);
+  transition: all 0.2s;
+}
+.heat-cell:hover { transform: scale(1.3); }
+.heat-1 { background: rgba(79,142,247,0.2); }
+.heat-2 { background: rgba(79,142,247,0.4); }
+.heat-3 { background: rgba(79,142,247,0.65); }
+.heat-4 { background: rgba(79,142,247,0.9); }
+</style>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        'tc-bg': '#0A0A0A',
+        'tc-card': '#111111',
+        'tc-card-alt': '#151515',
+        'tc-blue': '#4F8EF7',
+        'tc-violet': '#9B6DFF',
+        'tc-cyan': '#22D3EE',
+      }
+    }
+  }
+}
+</script>
+</head>
+<body>
+<div class="min-h-screen bg-[#0A0A0A] text-white">
+
+  <!-- ═══════════════════════ NAVIGATION ═══════════════════════ -->
+  <!-- component: Navigation (798d3743-79b9-42af-8e3c-5794e2100e75) -->
+<div v-scope="{ ...{&quot;activePage&quot;:&quot;communaute&quot;,&quot;homeHref&quot;:&quot;#&quot;,&quot;parcoursHref&quot;:&quot;https://draft-095df780-601e-4cd7-b102-3817d5cc7eee.preview.superdesign.dev&quot;,&quot;competencesHref&quot;:&quot;#competences&quot;,&quot;projetsHref&quot;:&quot;https://draft-afb26455-ac89-4ceb-9d0f-2aca5900a69a.preview.superdesign.dev&quot;,&quot;ressourcesHref&quot;:&quot;#ressources&quot;,&quot;communauteHref&quot;:&quot;https://draft-6b430e13-6268-4704-83cd-ff9d67d635cf.preview.superdesign.dev&quot;,&quot;tarifsHref&quot;:&quot;#tarifs&quot;,&quot;connexionHref&quot;:&quot;#connexion&quot;,&quot;ctaPrimaryHref&quot;:&quot;#start&quot;}, $emit() {} }">
+<nav class="fixed top-0 left-0 right-0 z-50 bg-[#0A0A0A] border-b border-white/[0.05]">
+    <div class="max-w-[1320px] mx-auto px-8 h-[64px] flex items-center justify-between">
+      <!-- Logo -->
+      <a :href="homeHref" class="flex items-center gap-2 flex-shrink-0">
+        <img src="https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/uploads/161cd373-01d3-4786-8399-e0dbe1644cae/1781767252990-e202dde8/logo-light-4.png" alt="TakaCode" class="h-8 w-auto">
+      </a>
+      <!-- Nav Links -->
+      <div class="flex items-center gap-7">
+        <a :href="homeHref" class="text-[13px] font-medium transition-colors tracking-wide" :class="activePage === 'home' ? 'text-white' : 'text-[#888] hover:text-white'">Accueil</a>
+        <a :href="parcoursHref" class="text-[13px] font-medium transition-colors tracking-wide" :class="activePage === 'parcours' ? 'text-white' : 'text-[#888] hover:text-white'">Parcours</a>
+        <a :href="competencesHref" class="text-[13px] font-medium transition-colors tracking-wide" :class="activePage === 'competences' ? 'text-white' : 'text-[#888] hover:text-white'">Compétences</a>
+        <a :href="projetsHref" class="text-[13px] font-medium transition-colors tracking-wide" :class="activePage === 'projets' ? 'text-white' : 'text-[#888] hover:text-white'">Projets</a>
+        <a :href="ressourcesHref" class="text-[13px] font-medium transition-colors tracking-wide" :class="activePage === 'ressources' ? 'text-white' : 'text-[#888] hover:text-white'">Ressources</a>
+        <a :href="communauteHref" class="text-[13px] font-medium transition-colors tracking-wide" :class="activePage === 'communaute' ? 'text-white' : 'text-[#888] hover:text-white'">Communauté</a>
+        <a :href="tarifsHref" class="text-[13px] font-medium transition-colors tracking-wide" :class="activePage === 'tarifs' ? 'text-white' : 'text-[#888] hover:text-white'">Tarifs</a>
+      </div>
+      <!-- Actions -->
+      <div class="flex items-center gap-3">
+        <a :href="connexionHref" class="text-[13px] font-medium text-[#888] hover:text-white transition-colors">Connexion</a>
+        <a :href="ctaPrimaryHref" class="bg-white text-[#0A0A0A] font-semibold text-[13px] px-6 py-3 rounded-lg hover:bg-[#F0F0F0] transition-all whitespace-nowrap tracking-[0.02em] shadow-[0_0_24px_rgba(255,255,255,0.15),0_2px_12px_rgba(0,0,0,0.5)]">Commencer un projet</a>
+      </div>
+    </div>
+</nav>
+</div>
+<!-- /component: Navigation (798d3743-79b9-42af-8e3c-5794e2100e75) -->
+
+  <!-- ═══════════════════════ PROFILE COVER + HEADER ═══════════════════════ -->
+  <div class="pt-[64px]">
+    <!-- Cover Banner -->
+    <div class="profile-cover">
+      <div class="profile-cover-grid"></div>
+      <!-- Decorative elements -->
+      <div class="hero-glow w-[400px] h-[400px] bg-blue-500/[0.08] left-[10%] top-0"></div>
+      <div class="hero-glow w-[300px] h-[300px] bg-violet-500/[0.1] right-[15%] top-0"></div>
+      <!-- Cover edit btn -->
+      <div class="absolute top-4 right-6">
+        <button id="edit-cover-btn" class="btn-secondary flex items-center gap-2" style="font-size: 12px; padding: 8px 16px;">
+          <iconify-icon icon="lucide:image" style="font-size: 14px;"></iconify-icon>
+          Modifier la couverture
+        </button>
+      </div>
+    </div>
+
+    <!-- Profile Info Bar -->
+    <div class="bg-[#0A0A0A] border-b border-white/[0.05]">
+      <div class="max-w-[1320px] mx-auto px-8">
+        <div class="flex items-end gap-6 -mt-12 pb-6 relative z-10">
+          <!-- Avatar -->
+          <div class="avatar-ring animate-fade-up flex-shrink-0">
+            <div class="avatar-inner">K</div>
+          </div>
+
+          <!-- Name + Info -->
+          <div class="flex-1 pb-1 animate-fade-up-d1">
+            <div class="flex items-center gap-3 mb-1.5">
+              <h1 class="font-valorax text-[28px]" style="letter-spacing: -0.02em;">KOFI MENSAH</h1>
+              <span class="rank-badge rank-gold">
+                <iconify-icon icon="lucide:crown" style="font-size: 10px;"></iconify-icon>
+                Bâtisseur Gold
+              </span>
+              <span class="tag-badge" style="font-size: 10px;">
+                <span class="w-1.5 h-1.5 rounded-full bg-green-400 inline-block" style="animation: pulse-glow 2s ease-in-out infinite;"></span>
+                En ligne
+              </span>
+            </div>
+            <div class="flex items-center gap-5 text-[13px] text-[#555]">
+              <span class="flex items-center gap-1.5">
+                <iconify-icon icon="lucide:map-pin" style="font-size: 13px;"></iconify-icon>
+                Accra, Ghana
+              </span>
+              <span class="flex items-center gap-1.5">
+                <iconify-icon icon="lucide:calendar" style="font-size: 13px;"></iconify-icon>
+                Membre depuis Mai 2024
+              </span>
+              <span class="flex items-center gap-1.5">
+                <iconify-icon icon="lucide:git-branch" style="font-size: 13px;"></iconify-icon>
+                Parcours Développement Web
+              </span>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="flex items-center gap-3 pb-1 animate-fade-up-d2">
+            <button id="follow-btn" class="btn-secondary flex items-center gap-2" style="font-size: 13px; padding: 10px 20px;">
+              <iconify-icon icon="lucide:user-plus" style="font-size: 14px;"></iconify-icon>
+              Suivre
+            </button>
+            <button id="message-btn" class="btn-secondary flex items-center gap-2" style="font-size: 13px; padding: 10px 20px;">
+              <iconify-icon icon="lucide:message-circle" style="font-size: 14px;"></iconify-icon>
+              Message
+            </button>
+            <button id="more-btn" class="btn-secondary" style="padding: 10px 14px;">
+              <iconify-icon icon="lucide:more-horizontal" style="font-size: 16px;"></iconify-icon>
+            </button>
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="flex items-center gap-1 pb-0">
+          <a href="#projets" id="tab-projets" class="tab-btn active">Projets <span class="ml-1 text-[10px] text-[#555] font-normal">(12)</span></a>
+          <a href="#competences" id="tab-competences" class="tab-btn">Compétences</a>
+          <a href="#badges" id="tab-badges" class="tab-btn">Succès</a>
+          <a href="#activite" id="tab-activite" class="tab-btn">Activité</a>
+          <a href="#parcours" id="tab-parcours" class="tab-btn">Parcours</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════ MAIN CONTENT ═══════════════════════ -->
+  <div class="max-w-[1320px] mx-auto px-8 py-10">
+    <div class="grid grid-cols-[1fr_340px] gap-8">
+
+      <!-- ═══ LEFT COLUMN ═══ -->
+      <div class="space-y-8">
+
+        <!-- STAT CARDS ROW -->
+        <div class="grid grid-cols-4 gap-4 animate-fade-up">
+          <div class="stat-mini">
+            <div class="stat-value text-[28px] text-white mb-0.5">12</div>
+            <div class="text-[11px] text-[#555] font-medium">Projets publiés</div>
+          </div>
+          <div class="stat-mini" style="border-color: rgba(79,142,247,0.15);">
+            <div class="stat-value text-[28px] text-[#4F8EF7] mb-0.5">3</div>
+            <div class="text-[11px] text-[#555] font-medium">Parcours complétés</div>
+          </div>
+          <div class="stat-mini" style="border-color: rgba(155,109,255,0.15);">
+            <div class="stat-value text-[28px] text-[#9B6DFF] mb-0.5">847</div>
+            <div class="text-[11px] text-[#555] font-medium">Points d'XP</div>
+          </div>
+          <div class="stat-mini" style="border-color: rgba(34,211,238,0.15);">
+            <div class="stat-value text-[28px] text-[#22D3EE] mb-0.5">24</div>
+            <div class="text-[11px] text-[#555] font-medium">Sessions live</div>
+          </div>
+        </div>
+
+        <!-- ═══ PROJETS PUBLIÉS ═══ -->
+        <div id="projets">
+          <div class="flex items-center justify-between mb-5">
+            <div>
+              <div class="section-label mb-1">GALERIE</div>
+              <h2 class="font-valorax gradient-text text-[28px]" style="letter-spacing: -0.02em;">PROJETS PUBLIÉS</h2>
+            </div>
+            <a href="https://draft-afb26455-ac89-4ceb-9d0f-2aca5900a69a.preview.superdesign.dev" id="all-projects-link" class="btn-secondary flex items-center gap-2" style="font-size: 12px; padding: 9px 18px;">
+              Voir tous
+              <iconify-icon icon="lucide:arrow-right" style="font-size: 13px;"></iconify-icon>
+            </a>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <!-- Project 1 — Featured -->
+            <div class="bg-[#111] border rounded-2xl overflow-hidden card-hover project-card col-span-2" style="border-color: rgba(79,142,247,0.15); box-shadow: 0 0 40px rgba(79,142,247,0.05);">
+              <div class="flex">
+                <div class="w-56 bg-[#0D0D0D] relative overflow-hidden flex-shrink-0" style="min-height: 160px;">
+                  <div class="absolute inset-0" style="background: linear-gradient(135deg, rgba(79,142,247,0.1) 0%, rgba(155,109,255,0.08) 100%);">
+                    <div class="flex items-center justify-center h-full">
+                      <iconify-icon icon="lucide:layout-dashboard" class="text-[#333]" style="font-size: 52px;"></iconify-icon>
+                    </div>
+                  </div>
+                  <div class="absolute top-3 left-3">
+                    <span class="tag-badge" style="font-size: 9px;">Dashboard</span>
+                  </div>
+                  <div class="absolute bottom-3 right-3 flex items-center gap-1">
+                    <iconify-icon icon="lucide:star" class="text-yellow-400" style="font-size: 11px;"></iconify-icon>
+                    <span class="text-[10px] text-yellow-400 font-medium">4.9</span>
+                  </div>
+                </div>
+                <div class="flex-1 p-5">
+                  <div class="flex items-start justify-between mb-2">
+                    <div class="font-venite text-[14px] text-white">DASHBOARD AGRI DATA</div>
+                    <span class="text-[10px] bg-green-500/10 text-green-400 border border-green-500/20 px-2.5 py-1 rounded-full font-medium">Projet vedette</span>
+                  </div>
+                  <p class="text-[12px] text-[#666] leading-relaxed mb-4">Tableau de bord complet pour l'analyse des données agricoles collectées avec KoboCollect. Intégration Python pour le traitement automatisé.</p>
+                  <div class="flex flex-wrap gap-1.5 mb-4">
+                    <span class="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">Power BI</span>
+                    <span class="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">KoboCollect</span>
+                    <span class="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">Python</span>
+                    <span class="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">Pandas</span>
+                  </div>
+                  <div class="flex items-center gap-5 text-[11px] text-[#555]">
+                    <span class="flex items-center gap-1.5"><iconify-icon icon="lucide:eye"></iconify-icon> 1 243 vues</span>
+                    <span class="flex items-center gap-1.5"><iconify-icon icon="lucide:heart"></iconify-icon> 87 likes</span>
+                    <span class="flex items-center gap-1.5"><iconify-icon icon="lucide:message-circle"></iconify-icon> 12 commentaires</span>
+                    <span class="ml-auto">
+                      <a href="https://draft-afb26455-ac89-4ceb-9d0f-2aca5900a69a.preview.superdesign.dev" id="project-featured-link" class="text-[11px] text-[#4F8EF7] font-medium flex items-center gap-1 hover:gap-2 transition-all">Voir le projet <iconify-icon icon="lucide:arrow-right" style="font-size: 11px;"></iconify-icon></a>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="bg-[#111] border border-white/[0.07] rounded-2xl overflow-hidden card-hover project-card">
+              <div class="h-36 bg-[#0D0D0D] relative overflow-hidden">
+                <div class="absolute inset-0" style="background: linear-gradient(135deg, rgba(34,211,238,0.08) 0%, rgba(0,0,0,0) 60%);">
+                  <div class="flex items-center justify-center h-full">
+                    <iconify-icon icon="lucide:globe" class="text-[#333]" style="font-size: 40px;"></iconify-icon>
+                  </div>
+                </div>
+                <div class="absolute top-3 left-3"><span class="tag-badge" style="font-size: 9px;">Site web</span></div>
+              </div>
+              <div class="p-4">
+                <div class="font-venite text-[12px] text-white mb-1.5">VITRINE E-COMMERCE</div>
+                <p class="text-[11px] text-[#555] mb-3">Site boutique artisanale avec paiement mobile money.</p>
+                <div class="flex flex-wrap gap-1 mb-3">
+                  <span class="text-[9px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">React</span>
+                  <span class="text-[9px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">Node.js</span>
+                </div>
+                <div class="flex items-center justify-between text-[10px] text-[#555]">
+                  <span class="flex items-center gap-1"><iconify-icon icon="lucide:eye" style="font-size: 10px;"></iconify-icon> 654</span>
+                  <a href="#" id="project-2-profile-link" class="text-[#4F8EF7] font-medium flex items-center gap-1">Voir <iconify-icon icon="lucide:arrow-right" style="font-size: 10px;"></iconify-icon></a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Project 3 -->
+            <div class="bg-[#111] border border-white/[0.07] rounded-2xl overflow-hidden card-hover project-card">
+              <div class="h-36 bg-[#0D0D0D] relative overflow-hidden">
+                <div class="absolute inset-0" style="background: linear-gradient(135deg, rgba(155,109,255,0.08) 0%, rgba(0,0,0,0) 60%);">
+                  <div class="flex items-center justify-center h-full">
+                    <iconify-icon icon="lucide:bot" class="text-[#333]" style="font-size: 40px;"></iconify-icon>
+                  </div>
+                </div>
+                <div class="absolute top-3 left-3"><span class="tag-badge" style="font-size: 9px;">Automatisation</span></div>
+              </div>
+              <div class="p-4">
+                <div class="font-venite text-[12px] text-white mb-1.5">AGENT IA SUPPORT</div>
+                <p class="text-[11px] text-[#555] mb-3">Agent IA WhatsApp avec Make.com et GPT-4.</p>
+                <div class="flex flex-wrap gap-1 mb-3">
+                  <span class="text-[9px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">Make.com</span>
+                  <span class="text-[9px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">GPT-4</span>
+                </div>
+                <div class="flex items-center justify-between text-[10px] text-[#555]">
+                  <span class="flex items-center gap-1"><iconify-icon icon="lucide:eye" style="font-size: 10px;"></iconify-icon> 421</span>
+                  <a href="#" id="project-3-profile-link" class="text-[#4F8EF7] font-medium flex items-center gap-1">Voir <iconify-icon icon="lucide:arrow-right" style="font-size: 10px;"></iconify-icon></a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Project 4 -->
+            <div class="bg-[#111] border border-white/[0.07] rounded-2xl overflow-hidden card-hover project-card">
+              <div class="h-36 bg-[#0D0D0D] relative overflow-hidden">
+                <div class="absolute inset-0" style="background: linear-gradient(135deg, rgba(251,146,60,0.07) 0%, rgba(0,0,0,0) 60%);">
+                  <div class="flex items-center justify-center h-full">
+                    <iconify-icon icon="lucide:bar-chart-3" class="text-[#333]" style="font-size: 40px;"></iconify-icon>
+                  </div>
+                </div>
+                <div class="absolute top-3 left-3"><span class="tag-badge" style="font-size: 9px;">Analyse</span></div>
+              </div>
+              <div class="p-4">
+                <div class="font-venite text-[12px] text-white mb-1.5">RAPPORT DONNÉES TERRAIN</div>
+                <p class="text-[11px] text-[#555] mb-3">Visualisation données KoboCollect avec Python.</p>
+                <div class="flex flex-wrap gap-1 mb-3">
+                  <span class="text-[9px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">Python</span>
+                  <span class="text-[9px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">Matplotlib</span>
+                </div>
+                <div class="flex items-center justify-between text-[10px] text-[#555]">
+                  <span class="flex items-center gap-1"><iconify-icon icon="lucide:eye" style="font-size: 10px;"></iconify-icon> 389</span>
+                  <a href="#" id="project-4-profile-link" class="text-[#4F8EF7] font-medium flex items-center gap-1">Voir <iconify-icon icon="lucide:arrow-right" style="font-size: 10px;"></iconify-icon></a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Project 5 -->
+            <div class="bg-[#111] border border-white/[0.07] rounded-2xl overflow-hidden card-hover project-card">
+              <div class="h-36 bg-[#0D0D0D] relative overflow-hidden">
+                <div class="absolute inset-0" style="background: linear-gradient(135deg, rgba(52,211,153,0.07) 0%, rgba(0,0,0,0) 60%);">
+                  <div class="flex items-center justify-center h-full">
+                    <iconify-icon icon="lucide:leaf" class="text-[#333]" style="font-size: 40px;"></iconify-icon>
+                  </div>
+                </div>
+                <div class="absolute top-3 left-3"><span class="tag-badge" style="font-size: 9px;">Agritech</span></div>
+              </div>
+              <div class="p-4">
+                <div class="font-venite text-[12px] text-white mb-1.5">SUIVI CULTURES IA</div>
+                <p class="text-[11px] text-[#555] mb-3">Application de monitoring agricole avec alertes IA.</p>
+                <div class="flex flex-wrap gap-1 mb-3">
+                  <span class="text-[9px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">KoboCollect</span>
+                  <span class="text-[9px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">n8n</span>
+                </div>
+                <div class="flex items-center justify-between text-[10px] text-[#555]">
+                  <span class="flex items-center gap-1"><iconify-icon icon="lucide:eye" style="font-size: 10px;"></iconify-icon> 312</span>
+                  <a href="#" id="project-5-profile-link" class="text-[#4F8EF7] font-medium flex items-center gap-1">Voir <iconify-icon icon="lucide:arrow-right" style="font-size: 10px;"></iconify-icon></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Load more -->
+          <div class="text-center mt-5">
+            <button id="load-more-btn" class="btn-secondary flex items-center gap-2 mx-auto" style="font-size: 12px; padding: 10px 20px;">
+              <iconify-icon icon="lucide:grid-3x3" style="font-size: 13px;"></iconify-icon>
+              Voir les 7 autres projets
+            </button>
+          </div>
+        </div>
+
+        <!-- ═══ COMPÉTENCES ═══ -->
+        <div id="competences">
+          <div class="mb-5">
+            <div class="section-label mb-1">SAVOIR-FAIRE</div>
+            <h2 class="font-valorax gradient-text text-[28px]" style="letter-spacing: -0.02em;">COMPÉTENCES ACQUISES</h2>
+          </div>
+
+          <div class="bg-[#111] border border-white/[0.07] rounded-2xl p-6">
+            <!-- Skill categories -->
+            <div class="grid grid-cols-2 gap-6">
+              <!-- Développement Web -->
+              <div>
+                <div class="flex items-center gap-2 mb-4">
+                  <div class="w-7 h-7 rounded-lg bg-blue-500/10 border border-blue-500/15 flex items-center justify-center flex-shrink-0">
+                    <iconify-icon icon="lucide:code-2" class="text-[#4F8EF7]" style="font-size: 13px;"></iconify-icon>
+                  </div>
+                  <span class="font-venite text-[11px] text-white">DÉVELOPPEMENT WEB</span>
+                </div>
+                <div class="space-y-3">
+                  <div>
+                    <div class="flex justify-between text-[11px] mb-1.5">
+                      <span class="text-[#888]">HTML / CSS</span>
+                      <span class="text-[#4F8EF7]">Expert</span>
+                    </div>
+                    <div class="h-1.5 bg-white/[0.05] rounded-full overflow-hidden">
+                      <div class="progress-bar h-full" style="width:92%"></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="flex justify-between text-[11px] mb-1.5">
+                      <span class="text-[#888]">JavaScript</span>
+                      <span class="text-[#4F8EF7]">Avancé</span>
+                    </div>
+                    <div class="h-1.5 bg-white/[0.05] rounded-full overflow-hidden">
+                      <div class="progress-bar h-full" style="width:78%"></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="flex justify-between text-[11px] mb-1.5">
+                      <span class="text-[#888]">React</span>
+                      <span class="text-[#888]">Intermédiaire</span>
+                    </div>
+                    <div class="h-1.5 bg-white/[0.05] rounded-full overflow-hidden">
+                      <div class="progress-bar h-full" style="width:62%"></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="flex justify-between text-[11px] mb-1.5">
+                      <span class="text-[#888]">Node.js</span>
+                      <span class="text-[#888]">Intermédiaire</span>
+                    </div>
+                    <div class="h-1.5 bg-white/[0.05] rounded-full overflow-hidden">
+                      <div class="progress-bar h-full" style="width:55%"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Données & IA -->
+              <div>
+                <div class="flex items-center gap-2 mb-4">
+                  <div class="w-7 h-7 rounded-lg bg-violet-500/10 border border-violet-500/15 flex items-center justify-center flex-shrink-0">
+                    <iconify-icon icon="lucide:brain" class="text-[#9B6DFF]" style="font-size: 13px;"></iconify-icon>
+                  </div>
+                  <span class="font-venite text-[11px] text-white">DONNÉES & IA</span>
+                </div>
+                <div class="space-y-3">
+                  <div>
+                    <div class="flex justify-between text-[11px] mb-1.5">
+                      <span class="text-[#888]">KoboCollect</span>
+                      <span class="text-[#9B6DFF]">Expert</span>
+                    </div>
+                    <div class="h-1.5 bg-white/[0.05] rounded-full overflow-hidden">
+                      <div style="height: 6px; border-radius: 3px; background: linear-gradient(to right, #9B6DFF, #4F8EF7); width: 88%;"></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="flex justify-between text-[11px] mb-1.5">
+                      <span class="text-[#888]">Python / Pandas</span>
+                      <span class="text-[#9B6DFF]">Avancé</span>
+                    </div>
+                    <div class="h-1.5 bg-white/[0.05] rounded-full overflow-hidden">
+                      <div style="height: 6px; border-radius: 3px; background: linear-gradient(to right, #9B6DFF, #4F8EF7); width: 74%;"></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="flex justify-between text-[11px] mb-1.5">
+                      <span class="text-[#888]">Power BI</span>
+                      <span class="text-[#888]">Intermédiaire</span>
+                    </div>
+                    <div class="h-1.5 bg-white/[0.05] rounded-full overflow-hidden">
+                      <div style="height: 6px; border-radius: 3px; background: linear-gradient(to right, #9B6DFF, #4F8EF7); width: 65%;"></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="flex justify-between text-[11px] mb-1.5">
+                      <span class="text-[#888]">Agents IA / n8n</span>
+                      <span class="text-[#888]">Débutant+</span>
+                    </div>
+                    <div class="h-1.5 bg-white/[0.05] rounded-full overflow-hidden">
+                      <div style="height: 6px; border-radius: 3px; background: linear-gradient(to right, #9B6DFF, #4F8EF7); width: 42%;"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Skill tags -->
+            <div class="mt-6 pt-5 border-t border-white/[0.05]">
+              <div class="text-[11px] text-[#555] font-medium mb-3">Toutes les compétences</div>
+              <div class="flex flex-wrap gap-2">
+                <span class="skill-badge active"><iconify-icon icon="lucide:code-2" style="font-size: 11px;"></iconify-icon> HTML/CSS</span>
+                <span class="skill-badge active"><iconify-icon icon="lucide:cpu" style="font-size: 11px;"></iconify-icon> JavaScript</span>
+                <span class="skill-badge violet"><iconify-icon icon="lucide:database" style="font-size: 11px;"></iconify-icon> KoboCollect</span>
+                <span class="skill-badge violet"><iconify-icon icon="lucide:bar-chart-3" style="font-size: 11px;"></iconify-icon> Power BI</span>
+                <span class="skill-badge cyan"><iconify-icon icon="lucide:bot" style="font-size: 11px;"></iconify-icon> Python</span>
+                <span class="skill-badge cyan"><iconify-icon icon="lucide:leaf" style="font-size: 11px;"></iconify-icon> Agritech</span>
+                <span class="skill-badge active"><iconify-icon icon="lucide:layers" style="font-size: 11px;"></iconify-icon> React</span>
+                <span class="skill-badge green"><iconify-icon icon="lucide:zap" style="font-size: 11px;"></iconify-icon> Make.com</span>
+                <span class="skill-badge orange"><iconify-icon icon="lucide:layout-dashboard" style="font-size: 11px;"></iconify-icon> Dashboards</span>
+                <span class="skill-badge"><iconify-icon icon="lucide:server" style="font-size: 11px;"></iconify-icon> Node.js</span>
+                <span class="skill-badge"><iconify-icon icon="lucide:git-branch" style="font-size: 11px;"></iconify-icon> Git</span>
+                <span class="skill-badge"><iconify-icon icon="lucide:globe" style="font-size: 11px;"></iconify-icon> Web design</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══ BADGES & SUCCÈS ═══ -->
+        <div id="badges">
+          <div class="mb-5">
+            <div class="section-label mb-1">RÉALISATIONS</div>
+            <h2 class="font-valorax gradient-text text-[28px]" style="letter-spacing: -0.02em;">SUCCÈS & BADGES</h2>
+          </div>
+
+          <div class="grid grid-cols-5 gap-3">
+            <!-- Badge 1 — Earned -->
+            <div class="badge-card">
+              <div class="badge-icon" style="background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.2);">
+                🏆
+              </div>
+              <div class="font-venite text-[10px] text-white text-center leading-tight">PREMIER PROJET</div>
+              <div class="text-[9px] text-[#555] text-center">Publié ton 1er projet</div>
+            </div>
+
+            <!-- Badge 2 — Earned -->
+            <div class="badge-card" style="border-color: rgba(79,142,247,0.15);">
+              <div class="badge-icon" style="background: rgba(79,142,247,0.1); border: 1px solid rgba(79,142,247,0.2);">
+                ⚡
+              </div>
+              <div class="font-venite text-[10px] text-white text-center leading-tight">BÂTISSEUR RAPIDE</div>
+              <div class="text-[9px] text-[#555] text-center">5 projets en 60 jours</div>
+            </div>
+
+            <!-- Badge 3 — Earned -->
+            <div class="badge-card" style="border-color: rgba(155,109,255,0.15);">
+              <div class="badge-icon" style="background: rgba(155,109,255,0.1); border: 1px solid rgba(155,109,255,0.2);">
+                🤖
+              </div>
+              <div class="font-venite text-[10px] text-white text-center leading-tight">MAÎTRE DE L'IA</div>
+              <div class="text-[9px] text-[#555] text-center">Parcours IA complété</div>
+            </div>
+
+            <!-- Badge 4 — Earned -->
+            <div class="badge-card" style="border-color: rgba(34,211,238,0.15);">
+              <div class="badge-icon" style="background: rgba(34,211,238,0.1); border: 1px solid rgba(34,211,238,0.2);">
+                🌱
+              </div>
+              <div class="font-venite text-[10px] text-white text-center leading-tight">AGRI-TECH</div>
+              <div class="text-[9px] text-[#555] text-center">Projet terrain publié</div>
+            </div>
+
+            <!-- Badge 5 — Earned -->
+            <div class="badge-card" style="border-color: rgba(52,211,153,0.15);">
+              <div class="badge-icon" style="background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.2);">
+                👥
+              </div>
+              <div class="font-venite text-[10px] text-white text-center leading-tight">COMMUNAUTAIRE</div>
+              <div class="text-[9px] text-[#555] text-center">50 followers atteints</div>
+            </div>
+
+            <!-- Badge 6 — Earned -->
+            <div class="badge-card" style="border-color: rgba(251,146,60,0.15);">
+              <div class="badge-icon" style="background: rgba(251,146,60,0.1); border: 1px solid rgba(251,146,60,0.2);">
+                🎯
+              </div>
+              <div class="font-venite text-[10px] text-white text-center leading-tight">EXPERT DATA</div>
+              <div class="text-[9px] text-[#555] text-center">3 dashboards publiés</div>
+            </div>
+
+            <!-- Badge 7 — Earned -->
+            <div class="badge-card">
+              <div class="badge-icon" style="background: rgba(244,114,182,0.1); border: 1px solid rgba(244,114,182,0.2);">
+                🔥
+              </div>
+              <div class="font-venite text-[10px] text-white text-center leading-tight">EN FEU</div>
+              <div class="text-[9px] text-[#555] text-center">7 jours consécutifs</div>
+            </div>
+
+            <!-- Badge 8 — Locked -->
+            <div class="badge-card locked">
+              <div class="badge-icon" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);">
+                💎
+              </div>
+              <div class="font-venite text-[10px] text-white text-center leading-tight">DIAMANT</div>
+              <div class="text-[9px] text-[#444] text-center">10 projets avec 100+ likes</div>
+            </div>
+
+            <!-- Badge 9 — Locked -->
+            <div class="badge-card locked">
+              <div class="badge-icon" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);">
+                🚀
+              </div>
+              <div class="font-venite text-[10px] text-white text-center leading-tight">LANCEUR</div>
+              <div class="text-[9px] text-[#444] text-center">Produit payant lancé</div>
+            </div>
+
+            <!-- Badge 10 — Locked -->
+            <div class="badge-card locked">
+              <div class="badge-icon" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);">
+                👑
+              </div>
+              <div class="font-venite text-[10px] text-white text-center leading-tight">LÉGENDE</div>
+              <div class="text-[9px] text-[#444] text-center">Top 10 classement</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══ CONTRIBUTION HEATMAP ═══ -->
+        <div id="activite">
+          <div class="mb-5">
+            <div class="section-label mb-1">ACTIVITÉ</div>
+            <h2 class="font-valorax gradient-text text-[28px]" style="letter-spacing: -0.02em;">CONTRIBUTIONS</h2>
+          </div>
+          <div class="bg-[#111] border border-white/[0.07] rounded-2xl p-6">
+            <div class="flex items-center justify-between mb-5">
+              <div class="text-[13px] text-[#888]">847 contributions cette année</div>
+              <div class="flex items-center gap-3 text-[11px] text-[#555]">
+                <span>Moins</span>
+                <div class="flex gap-1">
+                  <div class="heat-cell"></div>
+                  <div class="heat-cell heat-1"></div>
+                  <div class="heat-cell heat-2"></div>
+                  <div class="heat-cell heat-3"></div>
+                  <div class="heat-cell heat-4"></div>
+                </div>
+                <span>Plus</span>
+              </div>
+            </div>
+            <!-- Heatmap grid -->
+            <div class="overflow-x-auto">
+              <div class="flex gap-1.5" style="min-width: 700px;">
+                <!-- 52 weeks -->
+                <div class="flex flex-col gap-1 text-[9px] text-[#444] pr-1" style="padding-top: 2px;">
+                  <span style="height: 10px; line-height: 10px;">Lu</span>
+                  <span style="height: 10px; line-height: 10px;"></span>
+                  <span style="height: 10px; line-height: 10px;">Me</span>
+                  <span style="height: 10px; line-height: 10px;"></span>
+                  <span style="height: 10px; line-height: 10px;">Ve</span>
+                  <span style="height: 10px; line-height: 10px;"></span>
+                  <span style="height: 10px; line-height: 10px;">Di</span>
+                </div>
+                <!-- Weeks - simplified representation -->
+                <div class="flex gap-1.5 flex-1">
+                  <!-- Each column = 1 week, row = day of week -->
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell"></div><div class="heat-cell heat-1"></div><div class="heat-cell"></div><div class="heat-cell heat-2"></div><div class="heat-cell"></div><div class="heat-cell heat-1"></div><div class="heat-cell"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-2"></div><div class="heat-cell"></div><div class="heat-cell heat-3"></div><div class="heat-cell"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-2"></div><div class="heat-cell"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-1"></div><div class="heat-cell"></div><div class="heat-cell heat-2"></div><div class="heat-cell"></div><div class="heat-cell heat-1"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-3"></div><div class="heat-cell heat-2"></div><div class="heat-cell"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-3"></div><div class="heat-cell"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-1"></div><div class="heat-cell"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-3"></div><div class="heat-cell"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-2"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-3"></div><div class="heat-cell"></div><div class="heat-cell heat-2"></div><div class="heat-cell"></div><div class="heat-cell heat-1"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-2"></div><div class="heat-cell heat-1"></div><div class="heat-cell"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-1"></div><div class="heat-cell"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-1"></div><div class="heat-cell"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-2"></div><div class="heat-cell"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-2"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-1"></div><div class="heat-cell"></div><div class="heat-cell heat-3"></div><div class="heat-cell"></div><div class="heat-cell heat-1"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-3"></div><div class="heat-cell heat-1"></div><div class="heat-cell"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-3"></div><div class="heat-cell"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-2"></div><div class="heat-cell"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-3"></div><div class="heat-cell"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-1"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-2"></div><div class="heat-cell"></div><div class="heat-cell heat-1"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-4"></div><div class="heat-cell heat-2"></div><div class="heat-cell"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-2"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-1"></div><div class="heat-cell"></div><div class="heat-cell heat-2"></div><div class="heat-cell"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-1"></div><div class="heat-cell"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-2"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-2"></div><div class="heat-cell"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-3"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-2"></div><div class="heat-cell"></div><div class="heat-cell heat-1"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-3"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-2"></div><div class="heat-cell"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-2"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-2"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-1"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-3"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-4"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-2"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-3"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-4"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-4"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-3"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-3"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-1"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-2"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-3"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-1"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-2"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-3"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-1"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-2"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-2"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-4"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-4"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-3"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-1"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-2"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-2"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-1"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-1"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-4"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-2"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-2"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-4"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-3"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-2"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-4"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-3"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-1"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-2"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-2"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-1"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-3"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-2"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-4"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-1"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-2"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-4"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-1"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-3"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-3"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-3"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-4"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-2"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-2"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-4"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-3"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-3"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-1"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-1"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-2"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-4"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-4"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-3"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-3"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-2"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-4"></div></div>
+                  <div class="flex flex-col gap-1.5"><div class="heat-cell heat-2"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-1"></div><div class="heat-cell heat-3"></div><div class="heat-cell heat-4"></div><div class="heat-cell heat-2"></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ RIGHT SIDEBAR ═══ -->
+      <div class="space-y-5">
+
+        <!-- About Card -->
+        <div class="bg-[#111] border border-white/[0.07] rounded-2xl p-5">
+          <div class="font-venite text-[11px] text-white mb-4">À PROPOS</div>
+          <p class="text-[12px] text-[#666] leading-relaxed mb-5">Développeur web passionné par l'Agritech et les solutions numériques pour l'agriculture africaine. J'apprends en construisant et je partage tout ce que je crée.</p>
+          <div class="space-y-2.5">
+            <div class="flex items-center gap-2.5 text-[12px] text-[#555]">
+              <iconify-icon icon="lucide:globe" class="text-[#4F8EF7]" style="font-size: 13px;"></iconify-icon>
+              <a href="#" id="profile-website-link" class="hover:text-white transition-colors">kofi.build</a>
+            </div>
+            <div class="flex items-center gap-2.5 text-[12px] text-[#555]">
+              <iconify-icon icon="lucide:github" style="font-size: 13px;"></iconify-icon>
+              <a href="#" id="profile-github-link" class="hover:text-white transition-colors">@kofi-mensah</a>
+            </div>
+            <div class="flex items-center gap-2.5 text-[12px] text-[#555]">
+              <iconify-icon icon="lucide:linkedin" style="font-size: 13px;"></iconify-icon>
+              <a href="#" id="profile-linkedin-link" class="hover:text-white transition-colors">linkedin/kofi-mensah</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Social Stats -->
+        <div class="bg-[#111] border border-white/[0.07] rounded-2xl p-5">
+          <div class="font-venite text-[11px] text-white mb-4">RÉSEAU</div>
+          <div class="grid grid-cols-3 gap-3 text-center mb-4">
+            <div>
+              <div class="stat-value text-[20px] text-white mb-0.5">234</div>
+              <div class="text-[10px] text-[#555]">Abonnés</div>
+            </div>
+            <div class="border-x border-white/[0.05]">
+              <div class="stat-value text-[20px] text-white mb-0.5">89</div>
+              <div class="text-[10px] text-[#555]">Abonnements</div>
+            </div>
+            <div>
+              <div class="stat-value text-[20px] text-white mb-0.5">1.2k</div>
+              <div class="text-[10px] text-[#555]">Likes reçus</div>
+            </div>
+          </div>
+          <div class="border-t border-white/[0.05] pt-4">
+            <div class="text-[11px] text-[#555] font-medium mb-3">Suit également</div>
+            <div class="flex flex-wrap gap-2">
+              <div class="flex items-center gap-1.5 bg-white/[0.03] border border-white/[0.06] rounded-lg px-2.5 py-1.5 cursor-pointer hover:border-white/[0.12] transition-colors">
+                <div class="w-5 h-5 rounded-full bg-gradient-to-br from-cyan-400 to-green-500 flex-shrink-0"></div>
+                <span class="text-[10px] text-[#888]">Awa D.</span>
+              </div>
+              <div class="flex items-center gap-1.5 bg-white/[0.03] border border-white/[0.06] rounded-lg px-2.5 py-1.5 cursor-pointer hover:border-white/[0.12] transition-colors">
+                <div class="w-5 h-5 rounded-full bg-gradient-to-br from-violet-400 to-pink-500 flex-shrink-0"></div>
+                <span class="text-[10px] text-[#888]">Ibrahim S.</span>
+              </div>
+              <div class="flex items-center gap-1.5 bg-white/[0.03] border border-white/[0.06] rounded-lg px-2.5 py-1.5 cursor-pointer hover:border-white/[0.12] transition-colors">
+                <div class="w-5 h-5 rounded-full bg-gradient-to-br from-orange-400 to-red-500 flex-shrink-0"></div>
+                <span class="text-[10px] text-[#888]">Fatou D.</span>
+              </div>
+              <div class="flex items-center gap-1.5 bg-white/[0.03] border border-white/[0.06] rounded-lg px-2.5 py-1.5 cursor-pointer hover:border-white/[0.12] transition-colors">
+                <div class="w-5 h-5 rounded-full bg-gradient-to-br from-blue-400 to-cyan-500 flex-shrink-0"></div>
+                <span class="text-[10px] text-[#888]">Amara T.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Current Parcours -->
+        <div class="bg-[#111] border border-white/[0.07] rounded-2xl p-5" id="parcours" style="border-color: rgba(79,142,247,0.12);">
+          <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/20 to-transparent rounded-t-2xl" style="position: relative;"></div>
+          <div class="font-venite text-[11px] text-white mb-4">PARCOURS EN COURS</div>
+
+          <div class="space-y-4">
+            <!-- Parcours 1 - Completed -->
+            <div>
+              <div class="flex items-center gap-2.5 mb-2">
+                <div class="w-7 h-7 rounded-lg bg-green-500/10 border border-green-500/20 flex items-center justify-center flex-shrink-0">
+                  <iconify-icon icon="lucide:check" class="text-green-400" style="font-size: 12px;"></iconify-icon>
+                </div>
+                <div class="flex-1">
+                  <div class="text-[11px] font-semibold text-white leading-tight">Développement Web</div>
+                  <div class="text-[9px] text-[#555]">Complété · 12 semaines</div>
+                </div>
+                <span class="level-beginner text-[9px] px-2 py-0.5 rounded-full font-medium">100%</span>
+              </div>
+              <div class="h-1 bg-white/[0.05] rounded-full overflow-hidden">
+                <div class="h-full rounded-full bg-green-500" style="width: 100%;"></div>
+              </div>
+            </div>
+
+            <!-- Parcours 2 - In Progress -->
+            <div>
+              <div class="flex items-center gap-2.5 mb-2">
+                <div class="w-7 h-7 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center flex-shrink-0">
+                  <iconify-icon icon="lucide:zap" class="text-[#4F8EF7]" style="font-size: 12px;"></iconify-icon>
+                </div>
+                <div class="flex-1">
+                  <div class="text-[11px] font-semibold text-white leading-tight">Automatisation & IA</div>
+                  <div class="text-[9px] text-[#555]">En cours · 8 semaines</div>
+                </div>
+                <span class="level-intermediate text-[9px] px-2 py-0.5 rounded-full font-medium">62%</span>
+              </div>
+              <div class="h-1 bg-white/[0.05] rounded-full overflow-hidden">
+                <div class="progress-bar h-full" style="width: 62%;"></div>
+              </div>
+            </div>
+
+            <!-- Parcours 3 - Completed -->
+            <div>
+              <div class="flex items-center gap-2.5 mb-2">
+                <div class="w-7 h-7 rounded-lg bg-green-500/10 border border-green-500/20 flex items-center justify-center flex-shrink-0">
+                  <iconify-icon icon="lucide:check" class="text-green-400" style="font-size: 12px;"></iconify-icon>
+                </div>
+                <div class="flex-1">
+                  <div class="text-[11px] font-semibold text-white leading-tight">Collecte de données</div>
+                  <div class="text-[9px] text-[#555]">Complété · 6 semaines</div>
+                </div>
+                <span class="level-beginner text-[9px] px-2 py-0.5 rounded-full font-medium">100%</span>
+              </div>
+              <div class="h-1 bg-white/[0.05] rounded-full overflow-hidden">
+                <div class="h-full rounded-full bg-green-500" style="width: 100%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <a href="https://draft-095df780-601e-4cd7-b102-3817d5cc7eee.preview.superdesign.dev" id="sidebar-parcours-link" class="w-full btn-secondary flex items-center justify-center gap-1.5 mt-4" style="font-size: 11px; padding: 9px 16px;">
+            Voir le parcours actif
+            <iconify-icon icon="lucide:arrow-right" style="font-size: 12px;"></iconify-icon>
+          </a>
+        </div>
+
+        <!-- Fil d'activité récente -->
+        <div class="bg-[#111] border border-white/[0.07] rounded-2xl p-5">
+          <div class="font-venite text-[11px] text-white mb-4">ACTIVITÉ RÉCENTE</div>
+          <div class="space-y-0">
+            <div class="activity-item">
+              <div class="activity-dot bg-green-400 mt-1.5"></div>
+              <div>
+                <div class="text-[11px] text-[#CCC] leading-tight mb-0.5">Projet publié : <span class="text-white">Dashboard Agri Data</span></div>
+                <div class="text-[10px] text-[#555]">Il y a 2 jours</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot bg-[#4F8EF7] mt-1.5"></div>
+              <div>
+                <div class="text-[11px] text-[#CCC] leading-tight mb-0.5">Session live participée : <span class="text-white">Atelier Agents IA</span></div>
+                <div class="text-[10px] text-[#555]">Il y a 4 jours</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot bg-[#9B6DFF] mt-1.5"></div>
+              <div>
+                <div class="text-[11px] text-[#CCC] leading-tight mb-0.5">Badge obtenu : <span class="text-white">Bâtisseur Rapide</span></div>
+                <div class="text-[10px] text-[#555]">Il y a 1 semaine</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot bg-yellow-400 mt-1.5"></div>
+              <div>
+                <div class="text-[11px] text-[#CCC] leading-tight mb-0.5">Module complété : <span class="text-white">APIs REST</span></div>
+                <div class="text-[10px] text-[#555]">Il y a 8 jours</div>
+              </div>
+            </div>
+            <div class="activity-item" style="border-bottom: none;">
+              <div class="activity-dot bg-[#22D3EE] mt-1.5"></div>
+              <div>
+                <div class="text-[11px] text-[#CCC] leading-tight mb-0.5">Projet commenté : <span class="text-white">Vitrine E-Commerce</span></div>
+                <div class="text-[10px] text-[#555]">Il y a 10 jours</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- XP Progress -->
+        <div class="bg-[#111] border border-white/[0.07] rounded-2xl p-5" style="border-color: rgba(155,109,255,0.12);">
+          <div class="flex items-center justify-between mb-4">
+            <div class="font-venite text-[11px] text-white">NIVEAU & XP</div>
+            <span class="rank-badge rank-gold">Niveau 7</span>
+          </div>
+          <div class="flex items-center gap-3 mb-3">
+            <div class="text-[32px] font-black text-[#9B6DFF]" style="line-height: 1;">847</div>
+            <div>
+              <div class="text-[11px] text-white font-medium">Points d'XP</div>
+              <div class="text-[10px] text-[#555]">153 XP pour le niveau 8</div>
+            </div>
+          </div>
+          <div class="h-2 bg-white/[0.05] rounded-full overflow-hidden mb-2">
+            <div style="height: 8px; border-radius: 4px; background: linear-gradient(to right, #9B6DFF, #4F8EF7); width: 85%;"></div>
+          </div>
+          <div class="flex justify-between text-[9px] text-[#444]">
+            <span>Niveau 7 • 700 XP</span>
+            <span>Niveau 8 • 1000 XP</span>
+          </div>
+        </div>
+
+        <!-- Classement -->
+        <div class="bg-[#111] border border-white/[0.07] rounded-2xl p-5">
+          <div class="font-venite text-[11px] text-white mb-4">CLASSEMENT</div>
+          <div class="space-y-2.5">
+            <div class="flex items-center gap-2.5 p-2 rounded-lg bg-yellow-400/[0.04] border border-yellow-400/[0.1]">
+              <div class="text-[11px] font-bold text-yellow-400 w-5 text-center">#3</div>
+              <div class="w-6 h-6 rounded-full bg-gradient-to-br from-blue-400 to-cyan-500 flex-shrink-0"></div>
+              <span class="text-[11px] text-white font-medium">Kofi M.</span>
+              <span class="ml-auto text-[10px] text-yellow-400 font-medium">847 XP</span>
+            </div>
+            <div class="flex items-center gap-2.5 p-2 rounded-lg">
+              <div class="text-[11px] font-medium text-[#555] w-5 text-center">#1</div>
+              <div class="w-6 h-6 rounded-full bg-gradient-to-br from-orange-400 to-red-500 flex-shrink-0"></div>
+              <span class="text-[11px] text-[#888]">Ismaël B.</span>
+              <span class="ml-auto text-[10px] text-[#555]">1 205 XP</span>
+            </div>
+            <div class="flex items-center gap-2.5 p-2 rounded-lg">
+              <div class="text-[11px] font-medium text-[#555] w-5 text-center">#2</div>
+              <div class="w-6 h-6 rounded-full bg-gradient-to-br from-violet-400 to-pink-500 flex-shrink-0"></div>
+              <span class="text-[11px] text-[#888]">Fatou D.</span>
+              <span class="ml-auto text-[10px] text-[#555]">962 XP</span>
+            </div>
+            <div class="flex items-center gap-2.5 p-2 rounded-lg">
+              <div class="text-[11px] font-medium text-[#555] w-5 text-center">#4</div>
+              <div class="w-6 h-6 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 flex-shrink-0"></div>
+              <span class="text-[11px] text-[#888]">Amara T.</span>
+              <span class="ml-auto text-[10px] text-[#555]">724 XP</span>
+            </div>
+          </div>
+          <a href="#" id="classement-voir-link" class="text-[11px] text-[#4F8EF7] font-medium flex items-center gap-1 mt-4 hover:gap-2 transition-all">
+            Voir le classement complet
+            <iconify-icon icon="lucide:arrow-right" style="font-size: 11px;"></iconify-icon>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="section-divider mt-12">
+
+  <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+  <!-- component: Footer (e674cbad-90d0-4d57-8311-9ecca36f61d5) -->
+<div v-scope="{ ...{&quot;parcoursHref&quot;:&quot;https://draft-095df780-601e-4cd7-b102-3817d5cc7eee.preview.superdesign.dev&quot;,&quot;competencesHref&quot;:&quot;#competences&quot;,&quot;projetsHref&quot;:&quot;https://draft-afb26455-ac89-4ceb-9d0f-2aca5900a69a.preview.superdesign.dev&quot;,&quot;ressourcesHref&quot;:&quot;#ressources&quot;,&quot;communauteHref&quot;:&quot;https://draft-6b430e13-6268-4704-83cd-ff9d67d635cf.preview.superdesign.dev&quot;,&quot;sessionsHref&quot;:&quot;#sessions&quot;,&quot;challengesHref&quot;:&quot;#challenges&quot;,&quot;galerieHref&quot;:&quot;#galerie&quot;,&quot;connexionHref&quot;:&quot;#connexion&quot;,&quot;inscriptionHref&quot;:&quot;#inscription&quot;,&quot;tarifsHref&quot;:&quot;#tarifs&quot;,&quot;profilHref&quot;:&quot;#profil&quot;,&quot;aboutHref&quot;:&quot;#about&quot;,&quot;blogHref&quot;:&quot;#blog&quot;,&quot;contactHref&quot;:&quot;#contact&quot;,&quot;privacyHref&quot;:&quot;#privacy&quot;,&quot;termsHref&quot;:&quot;#terms&quot;,&quot;frenchHref&quot;:&quot;#french&quot;}, $emit() {} }">
+<footer class="py-16 bg-[#0A0A0A]">
+    <div class="max-w-[1320px] mx-auto px-8">
+      <div class="flex items-center justify-between mb-12">
+        <img src="https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/uploads/161cd373-01d3-4786-8399-e0dbe1644cae/1781767252990-e202dde8/logo-light-4.png" alt="TakaCode" class="h-7 w-auto opacity-80">
+        <p class="text-[12px] text-[#444]">L'atelier numérique où l'on apprend en construisant.</p>
+      </div>
+      <div class="grid grid-cols-5 gap-10 mb-14">
+        <div>
+          <div class="text-[11px] font-semibold text-[#444] uppercase tracking-widest mb-4">Plateforme</div>
+          <div class="space-y-2.5">
+            <div><a :href="parcoursHref" class="text-[12px] text-[#555] hover:text-white transition-colors">Parcours</a></div>
+            <div><a :href="competencesHref" class="text-[12px] text-[#555] hover:text-white transition-colors">Compétences</a></div>
+            <div><a :href="projetsHref" class="text-[12px] text-[#555] hover:text-white transition-colors">Projets</a></div>
+            <div><a :href="ressourcesHref" class="text-[12px] text-[#555] hover:text-white transition-colors">Ressources</a></div>
+          </div>
+        </div>
+        <div>
+          <div class="text-[11px] font-semibold text-[#444] uppercase tracking-widest mb-4">Communauté</div>
+          <div class="space-y-2.5">
+            <div><a :href="communauteHref" class="text-[12px] text-[#555] hover:text-white transition-colors">Communauté</a></div>
+            <div><a :href="sessionsHref" class="text-[12px] text-[#555] hover:text-white transition-colors">Sessions live</a></div>
+            <div><a :href="challengesHref" class="text-[12px] text-[#555] hover:text-white transition-colors">Challenges</a></div>
+            <div><a :href="galerieHref" class="text-[12px] text-[#555] hover:text-white transition-colors">Galerie projets</a></div>
+          </div>
+        </div>
+        <div>
+          <div class="text-[11px] font-semibold text-[#444] uppercase tracking-widest mb-4">Compte</div>
+          <div class="space-y-2.5">
+            <div><a :href="connexionHref" class="text-[12px] text-[#555] hover:text-white transition-colors">Connexion</a></div>
+            <div><a :href="inscriptionHref" class="text-[12px] text-[#555] hover:text-white transition-colors">S'inscrire</a></div>
+            <div><a :href="tarifsHref" class="text-[12px] text-[#555] hover:text-white transition-colors">Tarifs</a></div>
+            <div><a :href="profilHref" class="text-[12px] text-[#555] hover:text-white transition-colors">Mon profil</a></div>
+          </div>
+        </div>
+        <div>
+          <div class="text-[11px] font-semibold text-[#444] uppercase tracking-widest mb-4">Entreprise</div>
+          <div class="space-y-2.5">
+            <div><a :href="aboutHref" class="text-[12px] text-[#555] hover:text-white transition-colors">À propos</a></div>
+            <div><a :href="blogHref" class="text-[12px] text-[#555] hover:text-white transition-colors">Blog</a></div>
+            <div><a :href="contactHref" class="text-[12px] text-[#555] hover:text-white transition-colors">Contact</a></div>
+          </div>
+        </div>
+        <div>
+          <div class="text-[11px] font-semibold text-[#444] uppercase tracking-widest mb-4">Légal</div>
+          <div class="space-y-2.5">
+            <div><a :href="privacyHref" class="text-[12px] text-[#555] hover:text-white transition-colors">Confidentialité</a></div>
+            <div><a :href="termsHref" class="text-[12px] text-[#555] hover:text-white transition-colors">Conditions</a></div>
+          </div>
+        </div>
+      </div>
+      <div class="pt-8 border-t border-white/[0.05] flex items-center justify-between">
+        <div class="text-[11px] text-[#333]">© 2025 TakaCode. Tous droits réservés.</div>
+        <div class="flex items-center gap-5">
+          <a :href="frenchHref" class="text-[11px] text-[#444] hover:text-white transition-colors">Français</a>
+          <a :href="parcoursHref" class="text-[11px] text-[#444] hover:text-white transition-colors">Parcours</a>
+          <a :href="projetsHref" class="text-[11px] text-[#444] hover:text-white transition-colors">Projets</a>
+          <a :href="ressourcesHref" class="text-[11px] text-[#444] hover:text-white transition-colors">Ressources</a>
+          <a :href="communauteHref" class="text-[11px] text-[#444] hover:text-white transition-colors">Communauté</a>
+        </div>
+      </div>
+    </div>
+</footer>
+</div>
+<!-- /component: Footer (e674cbad-90d0-4d57-8311-9ecca36f61d5) -->
+
+</div>
+</body>
+</html>

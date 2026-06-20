@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TakaCode – Dashboard</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --bg-main: #0A0A0A;
+  --bg-card: #111111;
+  --bg-card-alt: #151515;
+  --border: rgba(255,255,255,0.07);
+  --text-primary: #FFFFFF;
+  --text-secondary: #888888;
+  --text-muted: #555555;
+  --accent-blue: #4F8EF7;
+  --accent-violet: #9B6DFF;
+  --accent-cyan: #22D3EE;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { background-color: #0A0A0A; scroll-behavior: smooth; }
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #0A0A0A; }
+::-webkit-scrollbar-thumb { background: #222; border-radius: 2px; }
+
+.font-valorax {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  font-style: italic;
+}
+.font-venite {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #FFFFFF 0%, #888888 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.gradient-text-blue {
+  background: linear-gradient(135deg, #FFFFFF 0%, #4F8EF7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.section-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #4F8EF7;
+}
+
+.progress-bar {
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(to right, #4F8EF7, #9B6DFF);
+}
+
+.card-hover {
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card-hover:hover {
+  border-color: rgba(79,142,247,0.25) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 40px rgba(79,142,247,0.08);
+}
+
+.btn-primary {
+  background: #FFFFFF;
+  color: #0A0A0A;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.btn-primary:hover { background: #F0F0F0; box-shadow: 0 0 24px rgba(255,255,255,0.15); }
+
+.btn-secondary {
+  background: transparent;
+  color: #AAAAAA;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  padding: 9px 18px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-secondary:hover { border-color: rgba(255,255,255,0.22); color: #FFFFFF; }
+
+.glow-btn { box-shadow: 0 0 24px rgba(255,255,255,0.12), 0 2px 12px rgba(0,0,0,0.5); }
+
+.level-beginner { background: rgba(34,211,238,0.1); color: #22D3EE; border: 1px solid rgba(34,211,238,0.2); }
+.level-intermediate { background: rgba(79,142,247,0.1); color: #4F8EF7; border: 1px solid rgba(79,142,247,0.2); }
+.level-advanced { background: rgba(155,109,255,0.1); color: #9B6DFF; border: 1px solid rgba(155,109,255,0.2); }
+
+.section-divider { border: none; border-top: 1px solid rgba(255,255,255,0.05); margin: 0; }
+
+.tag-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 100px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.04);
+  font-size: 11px;
+  font-weight: 500;
+  color: #888;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.project-card { position: relative; overflow: hidden; }
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(79,142,247,0.4), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.project-card:hover::before { opacity: 1; }
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-in { animation: fadeInUp 0.5s ease both; }
+.animate-in-d1 { animation: fadeInUp 0.5s ease 0.1s both; }
+.animate-in-d2 { animation: fadeInUp 0.5s ease 0.2s both; }
+.animate-in-d3 { animation: fadeInUp 0.5s ease 0.3s both; }
+
+.stat-glow-blue { box-shadow: 0 0 40px rgba(79,142,247,0.08); }
+.stat-glow-violet { box-shadow: 0 0 40px rgba(155,109,255,0.08); }
+
+.streak-fire {
+  animation: pulse-glow 1.5s ease-in-out infinite;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 260px;
+  flex-shrink: 0;
+}
+
+/* Main content */
+.main-content {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+  height: calc(100vh - 64px);
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #666;
+  text-decoration: none;
+  transition: all 0.2s;
+  font-family: 'Poppins', sans-serif;
+}
+.sidebar-link:hover { background: rgba(255,255,255,0.04); color: #CCC; }
+.sidebar-link.active { background: rgba(79,142,247,0.08); color: #FFFFFF; border: 1px solid rgba(79,142,247,0.15); }
+.sidebar-link.active iconify-icon { color: #4F8EF7; }
+
+.activity-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+
+.leaderboard-rank {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: -0.02em;
+  width: 22px;
+  text-align: center;
+}
+</style>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        'tc-bg': '#0A0A0A',
+        'tc-card': '#111111',
+        'tc-card-alt': '#151515',
+        'tc-blue': '#4F8EF7',
+        'tc-violet': '#9B6DFF',
+        'tc-cyan': '#22D3EE',
+      }
+    }
+  }
+}
+</script>
+</head>
+<body>
+<div class="min-h-screen bg-[#0A0A0A] text-white" style="font-family:'Poppins',sans-serif;">
+
+  <!-- ═══ TOP NAV ═══ -->
+  <!-- component: Navigation (798d3743-79b9-42af-8e3c-5794e2100e75) -->
+<div v-scope="{ ...{&quot;activePage&quot;:&quot;dashboard&quot;,&quot;homeHref&quot;:&quot;#&quot;,&quot;parcoursHref&quot;:&quot;#parcours&quot;,&quot;competencesHref&quot;:&quot;#competences&quot;,&quot;projetsHref&quot;:&quot;#projets&quot;,&quot;ressourcesHref&quot;:&quot;#ressources&quot;,&quot;communauteHref&quot;:&quot;#communaute&quot;,&quot;tarifsHref&quot;:&quot;#tarifs&quot;,&quot;connexionHref&quot;:&quot;#connexion&quot;,&quot;ctaPrimaryHref&quot;:&quot;#start&quot;}, $emit() {} }">
+<nav class="fixed top-0 left-0 right-0 z-50 bg-[#0A0A0A] border-b border-white/[0.05]">
+    <div class="max-w-[1320px] mx-auto px-8 h-[64px] flex items-center justify-between">
+      <!-- Logo -->
+      <a :href="homeHref" class="flex items-center gap-2 flex-shrink-0">
+        <img src="https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/uploads/161cd373-01d3-4786-8399-e0dbe1644cae/1781767252990-e202dde8/logo-light-4.png" alt="TakaCode" class="h-8 w-auto">
+      </a>
+      <!-- Nav Links -->
+      <div class="flex items-center gap-7">
+        <a :href="homeHref" class="text-[13px] font-medium transition-colors tracking-wide" :class="activePage === 'home' ? 'text-white' : 'text-[#888] hover:text-white'">Accueil</a>
+        <a :href="parcoursHref" class="text-[13px] font-medium transition-colors tracking-wide" :class="activePage === 'parcours' ? 'text-white' : 'text-[#888] hover:text-white'">Parcours</a>
+        <a :href="competencesHref" class="text-[13px] font-medium transition-colors tracking-wide" :class="activePage === 'competences' ? 'text-white' : 'text-[#888] hover:text-white'">Compétences</a>
+        <a :href="projetsHref" class="text-[13px] font-medium transition-colors tracking-wide" :class="activePage === 'projets' ? 'text-white' : 'text-[#888] hover:text-white'">Projets</a>
+        <a :href="ressourcesHref" class="text-[13px] font-medium transition-colors tracking-wide" :class="activePage === 'ressources' ? 'text-white' : 'text-[#888] hover:text-white'">Ressources</a>
+        <a :href="communauteHref" class="text-[13px] font-medium transition-colors tracking-wide" :class="activePage === 'communaute' ? 'text-white' : 'text-[#888] hover:text-white'">Communauté</a>
+        <a :href="tarifsHref" class="text-[13px] font-medium transition-colors tracking-wide" :class="activePage === 'tarifs' ? 'text-white' : 'text-[#888] hover:text-white'">Tarifs</a>
+      </div>
+      <!-- Actions -->
+      <div class="flex items-center gap-3">
+        <a :href="connexionHref" class="text-[13px] font-medium text-[#888] hover:text-white transition-colors">Connexion</a>
+        <a :href="ctaPrimaryHref" class="bg-white text-[#0A0A0A] font-semibold text-[13px] px-6 py-3 rounded-lg hover:bg-[#F0F0F0] transition-all whitespace-nowrap tracking-[0.02em] shadow-[0_0_24px_rgba(255,255,255,0.15),0_2px_12px_rgba(0,0,0,0.5)]">Commencer un projet</a>
+      </div>
+    </div>
+</nav>
+</div>
+<!-- /component: Navigation (798d3743-79b9-42af-8e3c-5794e2100e75) -->
+
+  <!-- ═══ LAYOUT BELOW NAV ═══ -->
+  <div class="flex" style="margin-top:64px; height:calc(100vh - 64px);">
+
+    <!-- ═══ SIDEBAR ═══ -->
+    <aside class="sidebar bg-[#0A0A0A] border-r border-white/[0.05] flex flex-col pt-6 pb-6 px-4 overflow-y-auto">
+      <!-- User avatar block -->
+      <div class="flex items-center gap-3 px-2 mb-8">
+        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-violet-600 flex-shrink-0 flex items-center justify-center text-[13px] font-bold">KM</div>
+        <div>
+          <div class="text-[13px] font-semibold text-white">Kofi Mensah</div>
+          <div class="text-[11px] text-[#555]">Niveau 7 · Bâtisseur</div>
+        </div>
+        <iconify-icon icon="lucide:chevron-down" class="text-[#444] ml-auto" style="font-size:14px;"></iconify-icon>
+      </div>
+
+      <!-- Nav items -->
+      <div class="space-y-1 mb-8">
+        <div class="text-[10px] font-semibold text-[#333] uppercase tracking-widest px-2 mb-3">Principal</div>
+        <a href="#" id="sidebar-dashboard" class="sidebar-link active">
+          <iconify-icon icon="lucide:layout-dashboard" style="font-size:16px;"></iconify-icon>
+          Dashboard
+        </a>
+        <a href="https://draft-095df780-601e-4cd7-b102-3817d5cc7eee.preview.superdesign.dev" id="sidebar-parcours" class="sidebar-link">
+          <iconify-icon icon="lucide:map" style="font-size:16px;"></iconify-icon>
+          Mes parcours
+        </a>
+        <a href="https://draft-ed7eb485-c940-42df-a4ad-ce4c792c26d4.preview.superdesign.dev" id="sidebar-projets" class="sidebar-link">
+          <iconify-icon icon="lucide:layers" style="font-size:16px;"></iconify-icon>
+          Mes projets
+        </a>
+        <a href="#" id="sidebar-ressources" class="sidebar-link">
+          <iconify-icon icon="lucide:book-open" style="font-size:16px;"></iconify-icon>
+          Ressources
+        </a>
+      </div>
+
+      <div class="space-y-1 mb-8">
+        <div class="text-[10px] font-semibold text-[#333] uppercase tracking-widest px-2 mb-3">Communauté</div>
+        <a href="https://draft-afb26455-ac89-4ceb-9d0f-2aca5900a69a.preview.superdesign.dev" id="sidebar-galerie" class="sidebar-link">
+          <iconify-icon icon="lucide:image" style="font-size:16px;"></iconify-icon>
+          Galerie
+        </a>
+        <a href="https://draft-6b430e13-6268-4704-83cd-ff9d67d635cf.preview.superdesign.dev" id="sidebar-profil" class="sidebar-link">
+          <iconify-icon icon="lucide:user-circle" style="font-size:16px;"></iconify-icon>
+          Mon profil
+        </a>
+        <a href="#" id="sidebar-challenges" class="sidebar-link">
+          <iconify-icon icon="lucide:trophy" style="font-size:16px;"></iconify-icon>
+          Challenges
+        </a>
+        <a href="#" id="sidebar-sessions" class="sidebar-link">
+          <iconify-icon icon="lucide:video" style="font-size:16px;"></iconify-icon>
+          Sessions live
+        </a>
+      </div>
+
+      <!-- Bottom actions -->
+      <div class="mt-auto space-y-1">
+        <hr class="section-divider mb-4">
+        <a href="#" id="sidebar-settings" class="sidebar-link">
+          <iconify-icon icon="lucide:settings" style="font-size:16px;"></iconify-icon>
+          Paramètres
+        </a>
+        <a href="#" id="sidebar-help" class="sidebar-link">
+          <iconify-icon icon="lucide:help-circle" style="font-size:16px;"></iconify-icon>
+          Aide
+        </a>
+      </div>
+    </aside>
+
+    <!-- ═══ MAIN CONTENT ═══ -->
+    <main class="main-content relative bg-[#0A0A0A]">
+      <!-- Subtle bg glow -->
+      <div style="position:absolute;top:0;left:0;width:600px;height:400px;background:radial-gradient(ellipse at top left,rgba(79,142,247,0.04) 0%,transparent 70%);pointer-events:none;z-index:0;"></div>
+      <div style="position:absolute;top:200px;right:0;width:400px;height:400px;background:radial-gradient(ellipse at top right,rgba(155,109,255,0.04) 0%,transparent 70%);pointer-events:none;z-index:0;"></div>
+
+      <div class="relative z-10 px-10 py-9">
+
+        <!-- ═══ GREETING HEADER ═══ -->
+        <div class="animate-in flex items-start justify-between mb-8">
+          <div>
+            <div class="section-label mb-2">TABLEAU DE BORD</div>
+            <h1 class="font-valorax gradient-text-blue mb-1" style="font-size:36px;line-height:1;letter-spacing:-0.02em;">BIENVENUE, KOFI</h1>
+            <p class="text-[#666] text-[14px]">Mardi 18 juin 2025 · Série active : <span class="text-orange-400 font-semibold">12 jours 🔥</span></p>
+          </div>
+          <div class="flex items-center gap-3">
+            <a href="https://draft-ed7eb485-c940-42df-a4ad-ce4c792c26d4.preview.superdesign.dev" id="dashboard-new-project-btn" class="btn-secondary">
+              <iconify-icon icon="lucide:plus" style="font-size:14px;"></iconify-icon>
+              Nouveau projet
+            </a>
+            <a href="https://draft-095df780-601e-4cd7-b102-3817d5cc7eee.preview.superdesign.dev" id="dashboard-continue-btn" class="btn-primary glow-btn">
+              <iconify-icon icon="lucide:play" style="font-size:14px;"></iconify-icon>
+              Continuer à apprendre
+            </a>
+          </div>
+        </div>
+
+        <!-- ═══ QUICK STATS ROW ═══ -->
+        <div class="animate-in-d1 grid grid-cols-4 gap-4 mb-8">
+          <!-- Stat 1 -->
+          <div class="bg-[#111] border border-white/[0.07] rounded-xl p-5 card-hover stat-glow-blue">
+            <div class="flex items-center justify-between mb-3">
+              <div class="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/15 flex items-center justify-center">
+                <iconify-icon icon="lucide:map" class="text-[#4F8EF7]" style="font-size:16px;"></iconify-icon>
+              </div>
+              <span class="text-[10px] text-green-400 font-medium bg-green-400/10 px-2 py-0.5 rounded-full">+1 ce mois</span>
+            </div>
+            <div class="text-[28px] font-extrabold text-white mb-0.5" style="letter-spacing:-0.03em;">3</div>
+            <div class="text-[12px] text-[#555] font-medium">Parcours actifs</div>
+          </div>
+
+          <!-- Stat 2 -->
+          <div class="bg-[#111] border border-white/[0.07] rounded-xl p-5 card-hover">
+            <div class="flex items-center justify-between mb-3">
+              <div class="w-8 h-8 rounded-lg bg-green-500/10 border border-green-500/15 flex items-center justify-center">
+                <iconify-icon icon="lucide:package" class="text-green-400" style="font-size:16px;"></iconify-icon>
+              </div>
+              <span class="text-[10px] text-green-400 font-medium bg-green-400/10 px-2 py-0.5 rounded-full">+2 ce mois</span>
+            </div>
+            <div class="text-[28px] font-extrabold text-white mb-0.5" style="letter-spacing:-0.03em;">7</div>
+            <div class="text-[12px] text-[#555] font-medium">Projets réalisés</div>
+          </div>
+
+          <!-- Stat 3 -->
+          <div class="bg-[#111] border border-white/[0.07] rounded-xl p-5 card-hover stat-glow-violet">
+            <div class="flex items-center justify-between mb-3">
+              <div class="w-8 h-8 rounded-lg bg-violet-500/10 border border-violet-500/15 flex items-center justify-center">
+                <iconify-icon icon="lucide:users" class="text-[#9B6DFF]" style="font-size:16px;"></iconify-icon>
+              </div>
+              <span class="text-[10px] text-[#4F8EF7] font-medium bg-blue-500/10 px-2 py-0.5 rounded-full">Niveau 7</span>
+            </div>
+            <div class="text-[28px] font-extrabold text-white mb-0.5" style="letter-spacing:-0.03em;">248</div>
+            <div class="text-[12px] text-[#555] font-medium">Points communauté</div>
+          </div>
+
+          <!-- Stat 4 -->
+          <div class="bg-[#111] border border-white/[0.07] rounded-xl p-5 card-hover">
+            <div class="flex items-center justify-between mb-3">
+              <div class="w-8 h-8 rounded-lg bg-orange-500/10 border border-orange-500/15 flex items-center justify-center">
+                <iconify-icon icon="lucide:award" class="text-orange-400" style="font-size:16px;"></iconify-icon>
+              </div>
+              <span class="text-[10px] text-orange-400 font-medium bg-orange-400/10 px-2 py-0.5 rounded-full">+3 récents</span>
+            </div>
+            <div class="text-[28px] font-extrabold text-white mb-0.5" style="letter-spacing:-0.03em;">14</div>
+            <div class="text-[12px] text-[#555] font-medium">Badges obtenus</div>
+          </div>
+        </div>
+
+        <!-- ═══ MAIN GRID: Parcours actifs + Sidebar right ═══ -->
+        <div class="animate-in-d2 grid grid-cols-3 gap-5 mb-6">
+
+          <!-- LEFT 2/3: Active pathways -->
+          <div class="col-span-2 space-y-4">
+            <!-- Section header -->
+            <div class="flex items-center justify-between">
+              <div>
+                <div class="section-label mb-1">EN COURS</div>
+                <h2 class="font-venite text-[16px] text-white">MES PARCOURS ACTIFS</h2>
+              </div>
+              <a href="https://draft-095df780-601e-4cd7-b102-3817d5cc7eee.preview.superdesign.dev" id="dashboard-all-paths-link" class="btn-secondary">
+                Tous les parcours <iconify-icon icon="lucide:arrow-right" style="font-size:12px;"></iconify-icon>
+              </a>
+            </div>
+
+            <!-- Pathway 1 - Featured (active) -->
+            <div class="bg-[#151515] border rounded-xl p-5 card-hover project-card" style="border-color:rgba(79,142,247,0.2);box-shadow:0 0 40px rgba(79,142,247,0.06);">
+              <div class="absolute top-0 left-0 right-0 h-px rounded-t-xl" style="background:linear-gradient(to right,transparent,rgba(79,142,247,0.4),transparent);"></div>
+              <div class="flex items-start gap-4">
+                <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/15 flex items-center justify-center flex-shrink-0">
+                  <iconify-icon icon="lucide:code-2" class="text-[#4F8EF7]" style="font-size:22px;"></iconify-icon>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center justify-between mb-1">
+                    <div class="font-venite text-[13px] text-white">DÉVELOPPEMENT WEB</div>
+                    <div class="flex items-center gap-1.5">
+                      <div class="w-1.5 h-1.5 rounded-full bg-green-400" style="animation:pulse-glow 2s ease infinite;"></div>
+                      <span class="text-[11px] text-green-400 font-medium">Actif aujourd'hui</span>
+                    </div>
+                  </div>
+                  <div class="text-[11px] text-[#555] mb-3">Prochaine étape : Module 7 – APIs REST avec Node.js</div>
+                  <!-- Progress -->
+                  <div class="flex items-center gap-3 mb-3">
+                    <div class="flex-1 h-1.5 bg-white/[0.05] rounded-full overflow-hidden">
+                      <div class="progress-bar h-full" style="width:62%;"></div>
+                    </div>
+                    <span class="text-[11px] font-semibold text-[#4F8EF7]">62%</span>
+                  </div>
+                  <div class="flex items-center gap-4 text-[11px] text-[#444]">
+                    <span class="flex items-center gap-1"><iconify-icon icon="lucide:clock" style="font-size:11px;"></iconify-icon> 12 sem. · Sem. 8</span>
+                    <span class="flex items-center gap-1"><iconify-icon icon="lucide:check-circle" style="font-size:11px;" class="text-green-500"></iconify-icon> 5 projets complétés</span>
+                    <span class="flex items-center gap-1"><iconify-icon icon="lucide:book" style="font-size:11px;"></iconify-icon> 30/48 ressources</span>
+                  </div>
+                </div>
+                <a href="https://draft-095df780-601e-4cd7-b102-3817d5cc7eee.preview.superdesign.dev" id="pathway-1-continue" class="btn-primary glow-btn flex-shrink-0" style="font-size:12px;padding:9px 16px;">
+                  <iconify-icon icon="lucide:play" style="font-size:13px;"></iconify-icon>
+                  Continuer
+                </a>
+              </div>
+            </div>
+
+            <!-- Pathway 2 -->
+            <div class="bg-[#111] border border-white/[0.07] rounded-xl p-5 card-hover project-card">
+              <div class="flex items-start gap-4">
+                <div class="w-12 h-12 rounded-xl bg-violet-500/10 border border-violet-500/15 flex items-center justify-center flex-shrink-0">
+                  <iconify-icon icon="lucide:cpu" class="text-[#9B6DFF]" style="font-size:22px;"></iconify-icon>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center justify-between mb-1">
+                    <div class="font-venite text-[13px] text-white">AUTOMATISATION ET IA</div>
+                    <span class="text-[11px] text-[#555]">Il y a 2 jours</span>
+                  </div>
+                  <div class="text-[11px] text-[#555] mb-3">Prochaine étape : Module 4 – Créer son premier agent IA</div>
+                  <div class="flex items-center gap-3 mb-3">
+                    <div class="flex-1 h-1.5 bg-white/[0.05] rounded-full overflow-hidden">
+                      <div class="progress-bar h-full" style="width:38%;"></div>
+                    </div>
+                    <span class="text-[11px] font-semibold text-[#9B6DFF]">38%</span>
+                  </div>
+                  <div class="flex items-center gap-4 text-[11px] text-[#444]">
+                    <span class="flex items-center gap-1"><iconify-icon icon="lucide:clock" style="font-size:11px;"></iconify-icon> 8 sem. · Sem. 4</span>
+                    <span class="flex items-center gap-1"><iconify-icon icon="lucide:check-circle" style="font-size:11px;" class="text-green-500"></iconify-icon> 2 projets complétés</span>
+                  </div>
+                </div>
+                <a href="https://draft-095df780-601e-4cd7-b102-3817d5cc7eee.preview.superdesign.dev" id="pathway-2-continue" class="btn-secondary flex-shrink-0" style="font-size:12px;">
+                  <iconify-icon icon="lucide:play" style="font-size:12px;"></iconify-icon>
+                  Reprendre
+                </a>
+              </div>
+            </div>
+
+            <!-- Pathway 3 -->
+            <div class="bg-[#111] border border-white/[0.07] rounded-xl p-5 card-hover project-card">
+              <div class="flex items-start gap-4">
+                <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/15 flex items-center justify-center flex-shrink-0">
+                  <iconify-icon icon="lucide:bar-chart-3" class="text-[#22D3EE]" style="font-size:22px;"></iconify-icon>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center justify-between mb-1">
+                    <div class="font-venite text-[13px] text-white">ANALYSE DE DONNÉES</div>
+                    <span class="text-[11px] text-[#555]">Il y a 5 jours</span>
+                  </div>
+                  <div class="text-[11px] text-[#555] mb-3">Prochaine étape : Module 2 – Tableaux croisés avec Excel</div>
+                  <div class="flex items-center gap-3 mb-3">
+                    <div class="flex-1 h-1.5 bg-white/[0.05] rounded-full overflow-hidden">
+                      <div class="progress-bar h-full" style="width:18%;"></div>
+                    </div>
+                    <span class="text-[11px] font-semibold text-[#22D3EE]">18%</span>
+                  </div>
+                  <div class="flex items-center gap-4 text-[11px] text-[#444]">
+                    <span class="flex items-center gap-1"><iconify-icon icon="lucide:clock" style="font-size:11px;"></iconify-icon> 10 sem. · Sem. 2</span>
+                    <span class="flex items-center gap-1"><iconify-icon icon="lucide:check-circle" style="font-size:11px;" class="text-green-500"></iconify-icon> 0 projets complétés</span>
+                  </div>
+                </div>
+                <a href="https://draft-095df780-601e-4cd7-b102-3817d5cc7eee.preview.superdesign.dev" id="pathway-3-continue" class="btn-secondary flex-shrink-0" style="font-size:12px;">
+                  <iconify-icon icon="lucide:play" style="font-size:12px;"></iconify-icon>
+                  Reprendre
+                </a>
+              </div>
+            </div>
+
+            <!-- Recent Projects section -->
+            <div class="flex items-center justify-between mt-6 mb-3">
+              <div>
+                <div class="section-label mb-1">RÉALISATIONS</div>
+                <h2 class="font-venite text-[16px] text-white">PROJETS RÉCENTS</h2>
+              </div>
+              <a href="https://draft-afb26455-ac89-4ceb-9d0f-2aca5900a69a.preview.superdesign.dev" id="dashboard-all-projects-link" class="btn-secondary">
+                Voir tout <iconify-icon icon="lucide:arrow-right" style="font-size:12px;"></iconify-icon>
+              </a>
+            </div>
+
+            <div class="grid grid-cols-3 gap-4">
+              <!-- Project card 1 -->
+              <div class="bg-[#111] border border-white/[0.07] rounded-xl overflow-hidden card-hover project-card">
+                <div class="h-28 bg-[#0D0D0D] relative" style="background:linear-gradient(135deg,rgba(79,142,247,0.1) 0%,rgba(0,0,0,0) 60%);">
+                  <div class="flex items-center justify-center h-full">
+                    <iconify-icon icon="lucide:globe" class="text-[#2a2a2a]" style="font-size:36px;"></iconify-icon>
+                  </div>
+                  <div class="absolute top-2.5 left-2.5"><span class="tag-badge">Site web</span></div>
+                  <div class="absolute top-2.5 right-2.5">
+                    <span class="text-[10px] text-green-400 bg-green-400/10 border border-green-400/20 px-2 py-0.5 rounded-full">Publié</span>
+                  </div>
+                </div>
+                <div class="p-3.5">
+                  <div class="font-venite text-[11px] text-white mb-1">VITRINE ARTISANAT</div>
+                  <div class="flex flex-wrap gap-1 mb-2.5">
+                    <span class="text-[9px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-1.5 py-0.5 rounded-full">React</span>
+                    <span class="text-[9px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-1.5 py-0.5 rounded-full">Node.js</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span class="text-[10px] text-[#444]">14 juin 2025</span>
+                    <a href="https://draft-afb26455-ac89-4ceb-9d0f-2aca5900a69a.preview.superdesign.dev" id="proj-recent-1" class="text-[10px] text-[#4F8EF7] font-medium flex items-center gap-1">Voir <iconify-icon icon="lucide:arrow-right" style="font-size:10px;"></iconify-icon></a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Project card 2 -->
+              <div class="bg-[#111] border border-white/[0.07] rounded-xl overflow-hidden card-hover project-card">
+                <div class="h-28 bg-[#0D0D0D] relative" style="background:linear-gradient(135deg,rgba(155,109,255,0.1) 0%,rgba(0,0,0,0) 60%);">
+                  <div class="flex items-center justify-center h-full">
+                    <iconify-icon icon="lucide:bot" class="text-[#2a2a2a]" style="font-size:36px;"></iconify-icon>
+                  </div>
+                  <div class="absolute top-2.5 left-2.5"><span class="tag-badge">Agent IA</span></div>
+                  <div class="absolute top-2.5 right-2.5">
+                    <span class="text-[10px] text-green-400 bg-green-400/10 border border-green-400/20 px-2 py-0.5 rounded-full">Publié</span>
+                  </div>
+                </div>
+                <div class="p-3.5">
+                  <div class="font-venite text-[11px] text-white mb-1">CHATBOT SUPPORT</div>
+                  <div class="flex flex-wrap gap-1 mb-2.5">
+                    <span class="text-[9px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-1.5 py-0.5 rounded-full">Make.com</span>
+                    <span class="text-[9px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-1.5 py-0.5 rounded-full">GPT-4</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span class="text-[10px] text-[#444]">8 juin 2025</span>
+                    <a href="https://draft-afb26455-ac89-4ceb-9d0f-2aca5900a69a.preview.superdesign.dev" id="proj-recent-2" class="text-[10px] text-[#4F8EF7] font-medium flex items-center gap-1">Voir <iconify-icon icon="lucide:arrow-right" style="font-size:10px;"></iconify-icon></a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Project card 3 -->
+              <div class="bg-[#111] border border-white/[0.07] rounded-xl overflow-hidden card-hover project-card">
+                <div class="h-28 bg-[#0D0D0D] relative" style="background:linear-gradient(135deg,rgba(34,211,238,0.1) 0%,rgba(0,0,0,0) 60%);">
+                  <div class="flex items-center justify-center h-full">
+                    <iconify-icon icon="lucide:layout-dashboard" class="text-[#2a2a2a]" style="font-size:36px;"></iconify-icon>
+                  </div>
+                  <div class="absolute top-2.5 left-2.5"><span class="tag-badge">Dashboard</span></div>
+                  <div class="absolute top-2.5 right-2.5">
+                    <span class="text-[10px] text-[#4F8EF7] bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-full">En cours</span>
+                  </div>
+                </div>
+                <div class="p-3.5">
+                  <div class="font-venite text-[11px] text-white mb-1">DATA AGRI BOARD</div>
+                  <div class="flex flex-wrap gap-1 mb-2.5">
+                    <span class="text-[9px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-1.5 py-0.5 rounded-full">Power BI</span>
+                    <span class="text-[9px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-1.5 py-0.5 rounded-full">Python</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span class="text-[10px] text-[#444]">En construction</span>
+                    <a href="https://draft-ed7eb485-c940-42df-a4ad-ce4c792c26d4.preview.superdesign.dev" id="proj-recent-3" class="text-[10px] text-[#4F8EF7] font-medium flex items-center gap-1">Ouvrir <iconify-icon icon="lucide:arrow-right" style="font-size:10px;"></iconify-icon></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT 1/3: Sidebar widgets -->
+          <div class="space-y-4">
+
+            <!-- Learning Goals -->
+            <div class="bg-[#111] border border-white/[0.07] rounded-xl p-5">
+              <div class="section-label mb-3">OBJECTIFS</div>
+              <div class="space-y-4">
+                <div>
+                  <div class="flex items-center justify-between mb-1.5">
+                    <span class="text-[12px] text-[#888] font-medium">Compléter Dev Web</span>
+                    <span class="text-[11px] text-[#4F8EF7]">62%</span>
+                  </div>
+                  <div class="h-1 bg-white/[0.05] rounded-full overflow-hidden">
+                    <div class="progress-bar h-full" style="width:62%;"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex items-center justify-between mb-1.5">
+                    <span class="text-[12px] text-[#888] font-medium">10 projets publiés</span>
+                    <span class="text-[11px] text-[#9B6DFF]">70%</span>
+                  </div>
+                  <div class="h-1 bg-white/[0.05] rounded-full overflow-hidden">
+                    <div class="progress-bar h-full" style="width:70%;"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex items-center justify-between mb-1.5">
+                    <span class="text-[12px] text-[#888] font-medium">Niveau 10</span>
+                    <span class="text-[11px] text-[#22D3EE]">48%</span>
+                  </div>
+                  <div class="h-1 bg-white/[0.05] rounded-full overflow-hidden">
+                    <div class="progress-bar h-full" style="width:48%;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Activity Feed -->
+            <div class="bg-[#111] border border-white/[0.07] rounded-xl p-5">
+              <div class="flex items-center justify-between mb-4">
+                <div class="section-label">ACTIVITÉ</div>
+                <span class="text-[10px] text-[#444]">Aujourd'hui</span>
+              </div>
+              <div class="space-y-3.5">
+                <div class="flex items-start gap-3">
+                  <div class="activity-dot bg-green-400 mt-1.5"></div>
+                  <div>
+                    <div class="text-[12px] text-[#CCC] font-medium">Badge « Constructeur » obtenu</div>
+                    <div class="text-[11px] text-[#555]">Il y a 2 heures</div>
+                  </div>
+                </div>
+                <div class="flex items-start gap-3">
+                  <div class="activity-dot bg-blue-400 mt-1.5"></div>
+                  <div>
+                    <div class="text-[12px] text-[#CCC] font-medium">Module 6 Dev Web complété</div>
+                    <div class="text-[11px] text-[#555]">Il y a 4 heures</div>
+                  </div>
+                </div>
+                <div class="flex items-start gap-3">
+                  <div class="activity-dot bg-violet-400 mt-1.5"></div>
+                  <div>
+                    <div class="text-[12px] text-[#CCC] font-medium">3 commentaires sur ton projet</div>
+                    <div class="text-[11px] text-[#555]">Hier, 18h30</div>
+                  </div>
+                </div>
+                <div class="flex items-start gap-3">
+                  <div class="activity-dot bg-orange-400 mt-1.5"></div>
+                  <div>
+                    <div class="text-[12px] text-[#CCC] font-medium">Challenge #12 complété</div>
+                    <div class="text-[11px] text-[#555]">Hier, 15h00</div>
+                  </div>
+                </div>
+                <div class="flex items-start gap-3">
+                  <div class="activity-dot bg-cyan-400 mt-1.5"></div>
+                  <div>
+                    <div class="text-[12px] text-[#CCC] font-medium">8 nouveaux abonnés</div>
+                    <div class="text-[11px] text-[#555]">Il y a 2 jours</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Leaderboard snippet -->
+            <div class="bg-[#111] border border-white/[0.07] rounded-xl p-5">
+              <div class="flex items-center justify-between mb-4">
+                <div class="section-label">CLASSEMENT</div>
+                <a href="https://draft-6b430e13-6268-4704-83cd-ff9d67d635cf.preview.superdesign.dev" id="dashboard-leaderboard-link" class="text-[10px] text-[#4F8EF7] font-medium">Voir tout</a>
+              </div>
+              <div class="space-y-2.5">
+                <!-- 1st -->
+                <div class="flex items-center gap-3 p-2 rounded-lg bg-yellow-400/[0.03] border border-yellow-400/[0.08]">
+                  <span class="leaderboard-rank text-yellow-400">1</span>
+                  <div class="w-7 h-7 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex-shrink-0"></div>
+                  <div class="flex-1 min-w-0">
+                    <div class="text-[12px] font-semibold text-white truncate">Fatou D.</div>
+                    <div class="text-[10px] text-[#555]">412 pts</div>
+                  </div>
+                  <iconify-icon icon="lucide:trophy" class="text-yellow-400" style="font-size:14px;"></iconify-icon>
+                </div>
+                <!-- 2nd -->
+                <div class="flex items-center gap-3 p-2 rounded-lg">
+                  <span class="leaderboard-rank text-[#888]">2</span>
+                  <div class="w-7 h-7 rounded-full bg-gradient-to-br from-violet-400 to-pink-500 flex-shrink-0"></div>
+                  <div class="flex-1 min-w-0">
+                    <div class="text-[12px] font-semibold text-[#CCC] truncate">Ibrahim S.</div>
+                    <div class="text-[10px] text-[#555]">389 pts</div>
+                  </div>
+                </div>
+                <!-- 3rd -->
+                <div class="flex items-center gap-3 p-2 rounded-lg">
+                  <span class="leaderboard-rank text-[#888]">3</span>
+                  <div class="w-7 h-7 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 flex-shrink-0"></div>
+                  <div class="flex-1 min-w-0">
+                    <div class="text-[12px] font-semibold text-[#CCC] truncate">Amara T.</div>
+                    <div class="text-[10px] text-[#555]">361 pts</div>
+                  </div>
+                </div>
+                <!-- 4th - you (highlighted) -->
+                <div class="flex items-center gap-3 p-2 rounded-lg bg-blue-500/[0.06] border border-blue-500/[0.15]">
+                  <span class="leaderboard-rank text-[#4F8EF7]">8</span>
+                  <div class="w-7 h-7 rounded-full bg-gradient-to-br from-blue-500 to-violet-600 flex-shrink-0 flex items-center justify-center text-[10px] font-bold">KM</div>
+                  <div class="flex-1 min-w-0">
+                    <div class="text-[12px] font-semibold text-white truncate">Toi · Kofi M.</div>
+                    <div class="text-[10px] text-[#4F8EF7]">248 pts</div>
+                  </div>
+                  <iconify-icon icon="lucide:arrow-up" class="text-green-400" style="font-size:12px;"></iconify-icon>
+                </div>
+              </div>
+            </div>
+
+            <!-- Next Session card -->
+            <div class="bg-[#151515] border rounded-xl p-5 card-hover" style="border-color:rgba(79,142,247,0.15);">
+              <div class="absolute top-0 left-0 right-0 h-px rounded-t-xl" style="background:linear-gradient(to right,transparent,rgba(79,142,247,0.3),transparent);position:relative;"></div>
+              <div class="flex items-center gap-2 mb-3">
+                <div class="w-1.5 h-1.5 rounded-full bg-green-400" style="animation:pulse-glow 2s ease infinite;"></div>
+                <span class="text-[11px] text-green-400 font-medium">Prochaine session</span>
+              </div>
+              <div class="font-venite text-[13px] text-white mb-1.5">ATELIER AGENTS IA</div>
+              <div class="text-[12px] text-[#666] mb-4">24 juin · 47 inscrits · 2h restantes</div>
+              <a href="#" id="dashboard-session-join" class="btn-primary glow-btn w-full justify-center" style="font-size:12px;padding:9px 16px;">
+                <iconify-icon icon="lucide:video" style="font-size:13px;"></iconify-icon>
+                Rejoindre la session
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══ BOTTOM ROW: Recommended + Quick Actions ═══ -->
+        <div class="animate-in-d3 grid grid-cols-3 gap-5 mt-2 pb-10">
+
+          <!-- Recommended next steps -->
+          <div class="col-span-2 bg-[#111] border border-white/[0.07] rounded-xl p-5">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <div class="section-label mb-1">RECOMMANDÉS</div>
+                <h3 class="font-venite text-[14px] text-white">PROCHAINES ÉTAPES</h3>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <!-- Rec 1 -->
+              <div class="bg-[#0D0D0D] border border-white/[0.05] rounded-xl p-4 card-hover flex items-start gap-3">
+                <div class="w-8 h-8 rounded-lg bg-violet-500/10 border border-violet-500/15 flex items-center justify-center flex-shrink-0">
+                  <iconify-icon icon="lucide:cpu" class="text-[#9B6DFF]" style="font-size:16px;"></iconify-icon>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="font-venite text-[11px] text-white mb-1">MODULE AGENTS IA</div>
+                  <div class="text-[10px] text-[#555] mb-2.5">Construire ton premier workflow IA avec n8n et GPT-4.</div>
+                  <a href="https://draft-095df780-601e-4cd7-b102-3817d5cc7eee.preview.superdesign.dev" id="rec-1-link" class="text-[10px] text-[#9B6DFF] font-medium flex items-center gap-1">Commencer <iconify-icon icon="lucide:arrow-right" style="font-size:10px;"></iconify-icon></a>
+                </div>
+              </div>
+              <!-- Rec 2 -->
+              <div class="bg-[#0D0D0D] border border-white/[0.05] rounded-xl p-4 card-hover flex items-start gap-3">
+                <div class="w-8 h-8 rounded-lg bg-orange-500/10 border border-orange-500/15 flex items-center justify-center flex-shrink-0">
+                  <iconify-icon icon="lucide:trophy" class="text-orange-400" style="font-size:16px;"></iconify-icon>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="font-venite text-[11px] text-white mb-1">CHALLENGE #14</div>
+                  <div class="text-[10px] text-[#555] mb-2.5">Crée un mini-dashboard en 48h. Prix : badge Analyste.</div>
+                  <a href="#" id="rec-2-link" class="text-[10px] text-orange-400 font-medium flex items-center gap-1">Participer <iconify-icon icon="lucide:arrow-right" style="font-size:10px;"></iconify-icon></a>
+                </div>
+              </div>
+              <!-- Rec 3 -->
+              <div class="bg-[#0D0D0D] border border-white/[0.05] rounded-xl p-4 card-hover flex items-start gap-3">
+                <div class="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/15 flex items-center justify-center flex-shrink-0">
+                  <iconify-icon icon="lucide:file-text" class="text-[#22D3EE]" style="font-size:16px;"></iconify-icon>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="font-venite text-[11px] text-white mb-1">GUIDE APIS REST</div>
+                  <div class="text-[10px] text-[#555] mb-2.5">Complète la ressource recommandée pour ton module actuel.</div>
+                  <a href="#" id="rec-3-link" class="text-[10px] text-[#22D3EE] font-medium flex items-center gap-1">Lire <iconify-icon icon="lucide:arrow-right" style="font-size:10px;"></iconify-icon></a>
+                </div>
+              </div>
+              <!-- Rec 4 -->
+              <div class="bg-[#0D0D0D] border border-white/[0.05] rounded-xl p-4 card-hover flex items-start gap-3">
+                <div class="w-8 h-8 rounded-lg bg-green-500/10 border border-green-500/15 flex items-center justify-center flex-shrink-0">
+                  <iconify-icon icon="lucide:users-2" class="text-green-400" style="font-size:16px;"></iconify-icon>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="font-venite text-[11px] text-white mb-1">GROUPE D'ÉTUDE JS</div>
+                  <div class="text-[10px] text-[#555] mb-2.5">Rejoins le groupe de 12 membres étudiant React.</div>
+                  <a href="https://draft-6b430e13-6268-4704-83cd-ff9d67d635cf.preview.superdesign.dev" id="rec-4-link" class="text-[10px] text-green-400 font-medium flex items-center gap-1">Rejoindre <iconify-icon icon="lucide:arrow-right" style="font-size:10px;"></iconify-icon></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Actions -->
+          <div class="bg-[#111] border border-white/[0.07] rounded-xl p-5">
+            <div class="section-label mb-3">ACTIONS RAPIDES</div>
+            <div class="space-y-2.5">
+              <a href="https://draft-095df780-601e-4cd7-b102-3817d5cc7eee.preview.superdesign.dev" id="quick-continue" class="flex items-center gap-3 p-3 bg-[#0D0D0D] border border-white/[0.05] rounded-xl card-hover w-full text-left">
+                <div class="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/15 flex items-center justify-center flex-shrink-0">
+                  <iconify-icon icon="lucide:play" class="text-[#4F8EF7]" style="font-size:16px;"></iconify-icon>
+                </div>
+                <div>
+                  <div class="text-[12px] font-semibold text-white">Continuer l'apprentissage</div>
+                  <div class="text-[10px] text-[#555]">Module 7 – APIs REST</div>
+                </div>
+              </a>
+              <a href="https://draft-ed7eb485-c940-42df-a4ad-ce4c792c26d4.preview.superdesign.dev" id="quick-new-project" class="flex items-center gap-3 p-3 bg-[#0D0D0D] border border-white/[0.05] rounded-xl card-hover w-full text-left">
+                <div class="w-8 h-8 rounded-lg bg-violet-500/10 border border-violet-500/15 flex items-center justify-center flex-shrink-0">
+                  <iconify-icon icon="lucide:plus-circle" class="text-[#9B6DFF]" style="font-size:16px;"></iconify-icon>
+                </div>
+                <div>
+                  <div class="text-[12px] font-semibold text-white">Démarrer un projet</div>
+                  <div class="text-[10px] text-[#555]">Transformer une idée en projet</div>
+                </div>
+              </a>
+              <a href="#" id="quick-challenges" class="flex items-center gap-3 p-3 bg-[#0D0D0D] border border-white/[0.05] rounded-xl card-hover w-full text-left">
+                <div class="w-8 h-8 rounded-lg bg-orange-500/10 border border-orange-500/15 flex items-center justify-center flex-shrink-0">
+                  <iconify-icon icon="lucide:trophy" class="text-orange-400" style="font-size:16px;"></iconify-icon>
+                </div>
+                <div>
+                  <div class="text-[12px] font-semibold text-white">Voir les challenges</div>
+                  <div class="text-[10px] text-[#555]">3 challenges actifs</div>
+                </div>
+              </a>
+              <a href="https://draft-afb26455-ac89-4ceb-9d0f-2aca5900a69a.preview.superdesign.dev" id="quick-gallery" class="flex items-center gap-3 p-3 bg-[#0D0D0D] border border-white/[0.05] rounded-xl card-hover w-full text-left">
+                <div class="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/15 flex items-center justify-center flex-shrink-0">
+                  <iconify-icon icon="lucide:image" class="text-[#22D3EE]" style="font-size:16px;"></iconify-icon>
+                </div>
+                <div>
+                  <div class="text-[12px] font-semibold text-white">Galerie projets</div>
+                  <div class="text-[10px] text-[#555]">Explorer la communauté</div>
+                </div>
+              </a>
+              <a href="https://draft-6b430e13-6268-4704-83cd-ff9d67d635cf.preview.superdesign.dev" id="quick-profile" class="flex items-center gap-3 p-3 bg-[#0D0D0D] border border-white/[0.05] rounded-xl card-hover w-full text-left">
+                <div class="w-8 h-8 rounded-lg bg-green-500/10 border border-green-500/15 flex items-center justify-center flex-shrink-0">
+                  <iconify-icon icon="lucide:user-circle" class="text-green-400" style="font-size:16px;"></iconify-icon>
+                </div>
+                <div>
+                  <div class="text-[12px] font-semibold text-white">Mon profil public</div>
+                  <div class="text-[10px] text-[#555]">Voir ma page créateur</div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /px-10 py-9 -->
+    </main>
+  </div><!-- /flex layout -->
+
+</div>
+<script src="https://unpkg.com/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script src="https://cdn.superdesign.dev/sd-components/sd-components.umd.js"></script>
+</body>
+</html>
