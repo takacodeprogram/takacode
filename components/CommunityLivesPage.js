@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 
 const FEATURED_SERVERS = [
   {
@@ -578,7 +578,7 @@ export default function CommunityLivesPage() {
 
               <div className="rounded-2xl border border-white/[0.08] bg-black/25 p-5 space-y-4">
                 <Link
-                  href="/connexion"
+                  href="/signup"
                   id="join-connexion-btn"
                   className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-white text-[#0A0A0A] px-4 py-3 text-[13px] font-semibold hover:bg-[#f0f0f0] transition-colors"
                 >

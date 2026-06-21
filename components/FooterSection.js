@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import logoLight4 from "../assets/logos-light-png/logo-light-4.png";
 
 export default function FooterSection() {
@@ -34,8 +34,8 @@ export default function FooterSection() {
           <div>
             <div className="text-[11px] font-semibold text-[#444] uppercase tracking-widest mb-4">Compte</div>
             <div className="space-y-2.5 font-body-readable">
-              <div><Link href="/connexion" id="footer-connexion-link" className="text-[12px] text-[#555] hover:text-white transition-colors">Connexion</Link></div>
-              <div><Link href="/connexion" id="footer-inscription-link" className="text-[12px] text-[#555] hover:text-white transition-colors">S'inscrire</Link></div>
+              <div><Link href="/signin" id="footer-connexion-link" className="text-[12px] text-[#555] hover:text-white transition-colors">Connexion</Link></div>
+              <div><Link href="/signup" id="footer-inscription-link" className="text-[12px] text-[#555] hover:text-white transition-colors">S'inscrire</Link></div>
               <div><Link href="/tarifs" id="footer-tarifs-link" className="text-[12px] text-[#555] hover:text-white transition-colors">Tarifs</Link></div>
               <div><Link href="/dashboard" id="footer-profil-link" className="text-[12px] text-[#555] hover:text-white transition-colors">Mon dashboard</Link></div>
             </div>
@@ -53,14 +53,14 @@ export default function FooterSection() {
           <div>
             <div className="text-[11px] font-semibold text-[#444] uppercase tracking-widest mb-4">Legal</div>
             <div className="space-y-2.5 font-body-readable">
-              <div><Link href="/tarifs" id="footer-privacy-link" className="text-[12px] text-[#555] hover:text-white transition-colors">Confidentialite</Link></div>
-              <div><Link href="/tarifs" id="footer-terms-link" className="text-[12px] text-[#555] hover:text-white transition-colors">Conditions</Link></div>
+              <div><Link href="/privacy" id="footer-privacy-link" className="text-[12px] text-[#555] hover:text-white transition-colors">Confidentialite</Link></div>
+              <div><Link href="/terms" id="footer-terms-link" className="text-[12px] text-[#555] hover:text-white transition-colors">Conditions</Link></div>
             </div>
           </div>
         </div>
 
         <div className="pt-8 border-t border-white/[0.05] flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="font-body-readable text-[11px] text-[#333]">© 2025 TakaCode. Tous droits reserves.</div>
+          <div className="font-body-readable text-[11px] text-[#333]">(c) 2025 TakaCode. Tous droits reserves.</div>
           <div className="font-body-readable flex flex-wrap items-center gap-x-5 gap-y-2">
             <Link href="/" id="footer-francais-link" className="text-[11px] text-[#444] hover:text-white transition-colors">Francais</Link>
             <Link href="/parcours" id="footer-parcours-footer-link" className="text-[11px] text-[#444] hover:text-white transition-colors">Parcours</Link>

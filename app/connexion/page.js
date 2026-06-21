@@ -1,5 +1,5 @@
-﻿import AuthOnboardingPage from "../../components/AuthOnboardingPage";
+import { redirect } from "next/navigation";
 
 export default function ConnexionPage() {
-  return <AuthOnboardingPage />;
+  redirect("/signin");
 }

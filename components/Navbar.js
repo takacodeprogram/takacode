@@ -1,9 +1,10 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import logoLight4 from "../assets/logos-light-png/logo-light-4.png";
+import { createClient } from "../utils/supabase/client";
 
 const navLinks = [
   { href: "/", id: "nav-accueil-link", label: "Accueil", match: ["/"] },
@@ -26,9 +27,12 @@ function isLinkActive(pathname, link) {
 
 export default function Navbar() {
   const pathname = usePathname();
+  const supabase = useMemo(() => createClient(), []);
+
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [hasScrolled, setHasScrolled] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     const closeOnDesktop = () => {
@@ -53,8 +57,42 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", updateScrolledState);
   }, []);
 
+  useEffect(() => {
+    let isMounted = true;
+
+    async function syncAuthState() {
+      const {
+        data: { user }
+      } = await supabase.auth.getUser();
+
+      if (isMounted) {
+        setIsAuthenticated(Boolean(user));
+      }
+    }
+
+    syncAuthState();
+
+    const {
+      data: { subscription }
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (isMounted) {
+        setIsAuthenticated(Boolean(session?.user));
+      }
+    });
+
+    return () => {
+      isMounted = false;
+      subscription.unsubscribe();
+    };
+  }, [supabase]);
+
   const toggleMobileMenu = () => setIsMobileOpen((current) => !current);
   const closeMobileMenu = () => setIsMobileOpen(false);
+
+  const authHref = isAuthenticated ? "/dashboard" : "/signin";
+  const authLabel = isAuthenticated ? "Dashboard" : "Connexion";
+  const ctaHref = isAuthenticated ? "/dashboard" : "/signup";
+  const ctaLabel = isAuthenticated ? "Dashboard" : "Commencer";
 
   return (
     <nav
@@ -84,8 +122,8 @@ export default function Navbar() {
         </div>
 
         <div className="nav-desktop-actions flex items-center gap-3">
-          <Link href="/connexion" id="nav-connexion-link" className="nav-link">Connexion</Link>
-          <Link href="/projets" id="nav-cta-link" className="btn-primary glow-btn">Commencer un projet</Link>
+          <Link href={authHref} id="nav-connexion-link" className="nav-link">{authLabel}</Link>
+          <Link href={ctaHref} id="nav-cta-link" className="btn-primary glow-btn">{ctaLabel}</Link>
         </div>
 
         <button
@@ -123,20 +161,20 @@ export default function Navbar() {
 
           <div className="nav-mobile-actions">
             <Link
-              href="/connexion"
+              href={authHref}
               id="nav-connexion-mobile-link"
               className="nav-link nav-mobile-link"
               onClick={closeMobileMenu}
             >
-              Connexion
+              {authLabel}
             </Link>
             <Link
-              href="/projets"
+              href={ctaHref}
               id="nav-cta-mobile-link"
               className="btn-primary glow-btn nav-mobile-cta"
               onClick={closeMobileMenu}
             >
-              Commencer un projet
+              {ctaLabel}
             </Link>
           </div>
         </div>

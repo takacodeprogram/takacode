@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import logoLight4 from "../assets/logos-light-png/logo-light-4.png";
 
 const SIDEBAR_LINKS = [
@@ -10,33 +10,74 @@ const SIDEBAR_LINKS = [
   { id: "side-resources", href: "/ressources", icon: "lucide:book-open", label: "Ressources" }
 ];
 
-const PROJECTS = [
-  { title: "AgriConnect Web", subtitle: "Modifie il y a 4h", icon: "lucide:globe", color: "text-cyan-400", bg: "bg-cyan-500/10" },
-  { title: "N8N Automate", subtitle: "Modifie il y a 2j", icon: "lucide:zap", color: "text-orange-400", bg: "bg-orange-500/10" }
+const QUICK_ACTIONS = [
+  { label: "Continuer mon parcours", href: "/parcours", icon: "lucide:play-circle" },
+  { label: "Explorer les ressources", href: "/ressources", icon: "lucide:book-marked" },
+  { label: "Rejoindre la session live", href: "/communaute#sessions", icon: "lucide:calendar" }
 ];
 
-const RECOMMENDED = [
-  {
-    tag: "GUIDE",
-    tagClass: "bg-blue-500/10 text-blue-400",
-    icon: "lucide:file-text",
-    iconClass: "text-[#4F8EF7]",
-    title: "Guide : structure d'un agent n8n",
-    desc: "Apprends a optimiser tes workflows pour la performance.",
-    meta: "12 min de lecture"
-  },
-  {
-    tag: "VIDEO",
-    tagClass: "bg-red-500/10 text-red-400",
-    icon: "lucide:youtube",
-    iconClass: "text-red-500",
-    title: "Les bases du prompt engineering",
-    desc: "Maitrise les instructions pour obtenir de meilleurs resultats.",
-    meta: "18 min - Video"
+const FALLBACK_STEPS = [
+  { label: "Decouvrir les bases", state: "done" },
+  { label: "Lancer le premier exercice", state: "current" },
+  { label: "Construire un mini projet", state: "locked" }
+];
+
+function getInitials(value) {
+  const tokens = String(value || "")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean);
+
+  if (!tokens.length) {
+    return "ME";
   }
-];
 
-export default function AdminDashboardPage() {
+  if (tokens.length === 1) {
+    return tokens[0].slice(0, 2).toUpperCase();
+  }
+
+  return `${tokens[0][0]}${tokens[tokens.length - 1][0]}`.toUpperCase();
+}
+
+function getStepUi(state) {
+  if (state === "done") {
+    return {
+      icon: "lucide:check",
+      chip: "bg-emerald-500/10 border-emerald-500/35 text-emerald-300"
+    };
+  }
+
+  if (state === "current") {
+    return {
+      icon: "lucide:hourglass",
+      chip: "bg-blue-500/10 border-blue-500/35 text-blue-200"
+    };
+  }
+
+  return {
+    icon: "lucide:lock",
+    chip: "bg-white/[0.03] border-white/[0.1] text-[#777]"
+  };
+}
+
+export default function AdminDashboardPage({ user, onboarding }) {
+  const displayName = user?.displayName || "Membre";
+  const firstName = displayName.split(" ")[0] || "Membre";
+  const email = user?.email || "membre@takacode.app";
+  const roleLabel = (user?.role || "user").toUpperCase();
+  const initials = getInitials(displayName);
+
+  const goalLabel = onboarding?.goalLabel || "Construire un projet digital";
+  const objective = onboarding?.objective || "Construire ton premier projet concret.";
+  const progress = Math.max(0, Math.min(Number(onboarding?.progress ?? 8), 100));
+  const nextSession = onboarding?.nextSession || "Mercredi 20h00";
+  const parcoursTitle = onboarding?.parcoursTitle || "Parcours personnalise";
+  const parcoursMeta = onboarding?.parcoursMeta || "12 semaines - Debutant";
+  const nextSteps = Array.isArray(onboarding?.nextSteps) && onboarding.nextSteps.length ? onboarding.nextSteps : FALLBACK_STEPS;
+  const resources = Array.isArray(onboarding?.resources) && onboarding.resources.length
+    ? onboarding.resources
+    : ["Guide de demarrage", "Projet d'introduction", "Session live de lancement"];
+
   return (
     <div className="min-h-screen bg-[#0A0A0A] flex text-white">
       <aside className="w-[280px] border-r border-white/[0.05] bg-[#0A0A0A] sticky top-0 h-screen z-40 p-6 hidden lg:flex lg:flex-col">
@@ -77,7 +118,7 @@ export default function AdminDashboardPage() {
             Parametres
           </Link>
           <Link
-            href="/connexion"
+            href="/auth/signout"
             id="side-logout"
             className="flex items-center gap-3 rounded-xl px-4 py-3 text-[14px] font-medium text-red-400/70 hover:text-red-400 hover:bg-red-400/5 transition-all"
           >
@@ -95,264 +136,135 @@ export default function AdminDashboardPage() {
           <Link href="/communaute" className="shrink-0 rounded-lg border border-white/[0.08] bg-white/[0.03] px-3 py-2 text-[11px] font-semibold text-[#bbb]">Communaute</Link>
         </div>
 
-        <header className="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between mb-10 animate-fade-up">
+        <header className="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between mb-8 animate-fade-up">
           <div>
             <h1 className="font-valorax text-3xl mb-1">DASHBOARD</h1>
             <div className="flex items-center gap-3">
-              <span className="section-label">Bienvenue Kofi</span>
+              <span className="section-label">Bienvenue {displayName}</span>
               <span className="text-[#444] text-xs">-</span>
-              <span className="text-[#666] text-xs">Derniere connexion il y a 2h</span>
+              <span className="text-[#666] text-xs">Ton espace personnalise est actif</span>
             </div>
           </div>
 
           <div className="flex flex-wrap items-center gap-3 sm:gap-4">
-            <div className="flex items-center gap-2 px-4 py-2 bg-white/[0.03] border border-white/[0.06] rounded-xl min-w-[240px]">
-              <iconify-icon icon="lucide:search" className="text-[#666]" />
-              <input
-                type="text"
-                placeholder="Rechercher un cours..."
-                className="bg-transparent outline-none text-sm text-white w-full"
-              />
-            </div>
-
-            <button className="relative p-2.5 rounded-xl bg-white/[0.03] border border-white/[0.06] text-[#888] hover:text-white transition-all">
-              <iconify-icon icon="lucide:bell" />
-              <span className="absolute top-2 right-2 w-2 h-2 bg-blue-500 rounded-full border-2 border-[#0A0A0A]" />
-            </button>
-
             <div className="flex items-center gap-3 pl-1">
               <div className="text-right hidden sm:block">
-                <div className="text-[13px] font-semibold">Kofi Mensah</div>
-                <div className="text-[11px] text-[#4ADE80]">Niveau 12 - Explorateur</div>
+                <div className="text-[13px] font-semibold">{displayName}</div>
+                <div className="text-[11px] text-[#4ADE80]">Role {roleLabel}</div>
+                <div className="text-[10px] text-[#555]">{email}</div>
               </div>
-              <div className="w-10 h-10 rounded-full border border-white/10 bg-gradient-to-br from-blue-400 to-cyan-500" />
+              <div className="w-10 h-10 rounded-full border border-white/10 bg-gradient-to-br from-blue-400 to-cyan-500 flex items-center justify-center text-[11px] font-semibold">{initials}</div>
             </div>
           </div>
         </header>
 
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-          <div className="xl:col-span-2 space-y-8">
-            <section className="animate-fade-up" style={{ animationDelay: "0.1s" }}>
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="font-venite text-[13px] tracking-widest text-[#888]">EN COURS</h2>
-                <Link href="/parcours" className="text-[11px] text-[#4F8EF7] font-semibold hover:underline">Voir tout</Link>
-              </div>
-
-              <div className="bg-gradient-to-br from-[#111] to-[#0D0D0D] border border-white/[0.06] rounded-[20px] p-6 md:p-8">
-                <div className="flex flex-col md:flex-row gap-8 items-center">
-                  <div className="w-32 h-32 rounded-2xl bg-blue-500/10 border border-blue-500/10 flex items-center justify-center flex-shrink-0">
-                    <iconify-icon icon="lucide:bot" className="text-6xl text-[#4F8EF7]" />
-                  </div>
-
-                  <div className="flex-1 space-y-4">
-                    <div className="flex items-center justify-between">
-                      <span className="bg-violet-500/10 border border-violet-500/20 rounded-full px-3 py-1 text-[11px] text-[#9B6DFF] font-semibold uppercase tracking-[0.05em]">
-                        AUTOMATISATION ET IA
-                      </span>
-                      <span className="text-xs text-[#666]">Etape 4 / 12</span>
-                    </div>
-
-                    <h3 className="font-valorax text-xl">CONSTRUIRE UN AGENT IA AVEC N8N</h3>
-
-                    <div className="space-y-2">
-                      <div className="flex justify-between text-xs">
-                        <span className="text-[#888]">Progression globale</span>
-                        <span className="font-bold text-[#4F8EF7]">42%</span>
-                      </div>
-                      <div className="h-1 rounded bg-white/[0.05] overflow-hidden">
-                        <div className="h-full rounded bg-gradient-to-r from-[#4F8EF7] to-[#9B6DFF]" style={{ width: "42%" }} />
-                      </div>
-                    </div>
-
-                    <div className="flex flex-wrap gap-3">
-                      <Link href="/parcours" className="btn-primary">Reprendre</Link>
-                      <Link href="/parcours" className="btn-secondary">Details</Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <section className="animate-fade-up" style={{ animationDelay: "0.2s" }}>
-                <div className="flex items-center justify-between mb-4">
-                  <h2 className="font-venite text-[13px] tracking-widest text-[#888]">SESSIONS LIVE</h2>
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75" />
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500" />
-                  </span>
-                </div>
-
-                <div className="bg-[#111] border border-white/[0.06] rounded-[20px] p-6 space-y-5">
-                  <div className="flex items-center gap-4 pb-4 border-b border-white/[0.04]">
-                    <div className="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/15 flex flex-col items-center justify-center">
-                      <span className="text-[9px] text-[#888]">JUN</span>
-                      <span className="text-lg font-bold text-red-500 leading-none">24</span>
-                    </div>
-                    <div>
-                      <div className="text-[13px] font-semibold">Atelier webhooks</div>
-                      <div className="text-[11px] text-[#555]">Aujourd'hui a 20:00 - Discord</div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-4 opacity-50">
-                    <div className="w-12 h-12 rounded-xl bg-white/[0.03] border border-white/[0.05] flex flex-col items-center justify-center">
-                      <span className="text-[9px] text-[#888]">JUN</span>
-                      <span className="text-lg font-bold text-[#666] leading-none">27</span>
-                    </div>
-                    <div>
-                      <div className="text-[13px] font-semibold">Masterclass React</div>
-                      <div className="text-[11px] text-[#555]">Jeudi - Twitch Live</div>
-                    </div>
-                  </div>
-
-                  <Link
-                    href="/communaute#sessions"
-                    className="w-full py-3 bg-white/[0.02] border border-white/[0.06] rounded-xl text-[12px] font-semibold hover:bg-white/[0.04] transition-all inline-flex justify-center"
-                  >
-                    Acceder au calendrier
-                  </Link>
-                </div>
-              </section>
-
-              <section className="animate-fade-up" style={{ animationDelay: "0.3s" }}>
-                <div className="flex items-center justify-between mb-4">
-                  <h2 className="font-venite text-[13px] tracking-widest text-[#888]">MES PROJETS</h2>
-                </div>
-
-                <div className="space-y-4">
-                  {PROJECTS.map((project) => (
-                    <Link
-                      key={project.title}
-                      href="/projets"
-                      className="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-4 flex items-center justify-between hover:border-white/10 transition-all"
-                    >
-                      <div className="flex items-center gap-4">
-                        <div className={`w-10 h-10 rounded-lg ${project.bg} flex items-center justify-center`}>
-                          <iconify-icon icon={project.icon} className={project.color} />
-                        </div>
-                        <div>
-                          <div className="text-[13px] font-semibold">{project.title}</div>
-                          <div className="text-[10px] text-[#444]">{project.subtitle}</div>
-                        </div>
-                      </div>
-                      <iconify-icon icon="lucide:chevron-right" className="text-[#333]" />
-                    </Link>
-                  ))}
-
-                  <Link
-                    href="/projets"
-                    className="w-full py-3 border border-dashed border-white/[0.1] rounded-xl text-[11px] text-[#555] font-medium hover:border-white/[0.2] hover:text-[#888] transition-all flex items-center justify-center gap-2"
-                  >
-                    <iconify-icon icon="lucide:plus-circle" />
-                    Nouveau projet
-                  </Link>
-                </div>
-              </section>
+        <section className="rounded-3xl border border-white/[0.08] bg-gradient-to-br from-[#121212] via-[#101018] to-[#121212] p-6 md:p-8 mb-8 animate-fade-up-d1">
+          <div className="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-6">
+            <div>
+              <div className="section-label mb-3">Objectif actuel</div>
+              <h2 className="font-valorax text-[clamp(30px,4.4vw,52px)] leading-[0.9] mb-3">BONJOUR {firstName.toUpperCase()}</h2>
+              <p className="font-body-readable text-[15px] text-[#a5a5a5] max-w-[720px] leading-relaxed">{goalLabel}</p>
             </div>
 
-            <section className="animate-fade-up" style={{ animationDelay: "0.4s" }}>
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="font-venite text-[13px] tracking-widest text-[#888]">RESSOURCES RECOMMANDEES</h2>
-              </div>
+            <div className="rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 min-w-[220px]">
+              <div className="text-[10px] text-[#666] uppercase tracking-widest mb-1">Parcours recommande</div>
+              <div className="text-[13px] font-semibold">{parcoursTitle}</div>
+              <div className="text-[11px] text-[#777] font-body-readable">{parcoursMeta}</div>
+            </div>
+          </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {RECOMMENDED.map((item) => (
+          <div className="mt-7">
+            <div className="flex items-center justify-between text-[12px] mb-2">
+              <span className="text-[#888]">Progression</span>
+              <span className="font-bold text-[#4F8EF7]">{progress}%</span>
+            </div>
+            <div className="h-1.5 rounded bg-white/[0.06] overflow-hidden">
+              <div className="h-full rounded bg-gradient-to-r from-[#4F8EF7] to-[#9B6DFF]" style={{ width: `${progress}%` }} />
+            </div>
+          </div>
+
+          <div className="mt-7 grid sm:grid-cols-2 gap-3">
+            {nextSteps.map((stepItem) => {
+              const ui = getStepUi(stepItem.state);
+              return (
+                <div key={stepItem.label} className="rounded-xl border border-white/[0.08] bg-white/[0.02] px-3.5 py-3 flex items-center gap-3">
+                  <span className={`inline-flex h-7 w-7 items-center justify-center rounded-full border ${ui.chip}`}>
+                    <iconify-icon icon={ui.icon} style={{ fontSize: "12px" }} />
+                  </span>
+                  <span className="text-[12px] text-[#cfcfcf] font-body-readable">{stepItem.label}</span>
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="mt-6 rounded-xl border border-blue-500/25 bg-blue-500/10 px-4 py-3 flex items-center gap-3">
+            <iconify-icon icon="lucide:calendar-clock" style={{ color: "#4F8EF7", fontSize: "16px" }} />
+            <div className="text-[12px] text-blue-100 font-body-readable">Session live: {nextSession}</div>
+          </div>
+        </section>
+
+        <div className="grid xl:grid-cols-[1.4fr_1fr] gap-6">
+          <section className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 animate-fade-up-d2">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-venite text-[13px] tracking-widest text-[#888]">OBJECTIF</h3>
+              <Link href="/parcours" className="text-[11px] text-[#4F8EF7] hover:underline">Voir le parcours</Link>
+            </div>
+
+            <p className="font-body-readable text-[14px] text-[#9a9a9a] leading-relaxed mb-5">{objective}</p>
+
+            <div className="space-y-2.5 mb-6">
+              {resources.map((resource) => (
+                <div key={resource} className="rounded-xl border border-white/[0.08] bg-white/[0.02] px-3.5 py-3 flex items-center gap-3">
+                  <iconify-icon icon="lucide:file-text" style={{ color: "#9B6DFF", fontSize: "15px" }} />
+                  <span className="text-[12px] text-[#c4c4c4] font-body-readable">{resource}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex flex-wrap gap-3">
+              <Link href="/parcours" className="btn-primary">Commencer le parcours</Link>
+              <Link href="/projets" className="btn-secondary">Lancer un projet</Link>
+            </div>
+          </section>
+
+          <section className="space-y-4 animate-fade-up-d3">
+            <article className="rounded-2xl border border-white/[0.08] bg-[#111] p-5">
+              <h3 className="font-venite text-[12px] tracking-widest text-[#888] mb-3">PROFIL</h3>
+              <div className="text-[13px] text-white font-semibold mb-1">{displayName}</div>
+              <div className="text-[11px] text-[#777] font-body-readable mb-1">{email}</div>
+              <div className="text-[11px] text-[#4ADE80] font-body-readable">{onboarding?.weeklyCommitmentLabel || "2 a 5h"} par semaine</div>
+              {onboarding?.projectIdea ? (
+                <div className="mt-4 rounded-xl border border-white/[0.08] bg-white/[0.02] px-3.5 py-3">
+                  <div className="text-[10px] text-[#666] uppercase tracking-widest mb-1">Ton idee</div>
+                  <div className="text-[12px] text-[#c9c9c9] font-body-readable">{onboarding.projectIdea}</div>
+                </div>
+              ) : null}
+            </article>
+
+            <article className="rounded-2xl border border-white/[0.08] bg-[#111] p-5">
+              <h3 className="font-venite text-[12px] tracking-widest text-[#888] mb-3">ACTIONS RAPIDES</h3>
+              <div className="space-y-2.5">
+                {QUICK_ACTIONS.map((action) => (
                   <Link
-                    key={item.title}
-                    href="/ressources"
-                    className="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-5 hover:bg-white/[0.04] transition-all cursor-pointer group"
+                    key={action.label}
+                    href={action.href}
+                    className="w-full rounded-xl border border-white/[0.08] bg-white/[0.02] px-3.5 py-3 text-[12px] font-semibold text-[#d1d1d1] hover:bg-white/[0.05] transition-colors inline-flex items-center gap-2"
                   >
-                    <div className="flex justify-between items-start mb-4">
-                      <iconify-icon icon={item.icon} className={`${item.iconClass} text-2xl`} />
-                      <span className={`text-[9px] px-2 py-1 rounded ${item.tagClass}`}>{item.tag}</span>
-                    </div>
-                    <h4 className="text-sm font-semibold mb-2">{item.title}</h4>
-                    <p className="text-[11px] text-[#555] leading-relaxed mb-4">{item.desc}</p>
-                    <div className="flex items-center gap-2 text-[10px] text-[#444] font-medium">
-                      {item.meta}
-                      <iconify-icon icon="lucide:arrow-right" className="group-hover:translate-x-1 transition-transform" />
-                    </div>
+                    <iconify-icon icon={action.icon} style={{ color: "#4F8EF7", fontSize: "14px" }} />
+                    {action.label}
                   </Link>
                 ))}
               </div>
-            </section>
-          </div>
+            </article>
 
-          <div className="space-y-8">
-            <section className="animate-fade-up" style={{ animationDelay: "0.2s" }}>
-              <div className="bg-gradient-to-b from-[#151515] to-[#111] border border-white/[0.06] rounded-[20px] p-6">
-                <h2 className="font-venite text-[11px] tracking-[0.2em] text-[#4F8EF7] mb-6">STATISTIQUES</h2>
-
-                <div className="grid grid-cols-2 gap-4">
-                  {[
-                    ["Projets", "08"],
-                    ["Sessions", "14"],
-                    ["Badges", "03"],
-                    ["Points", "420"]
-                  ].map(([label, value]) => (
-                    <div key={label} className="bg-white/[0.02] border border-white/[0.05] rounded-xl p-4">
-                      <div className="text-[#555] text-[10px] uppercase font-bold mb-1">{label}</div>
-                      <div className="text-2xl font-valorax">{value}</div>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="mt-8">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-xs text-[#888]">Niveau suivant</span>
-                    <span className="text-xs text-[#4F8EF7]">80%</span>
-                  </div>
-                  <div className="h-1 rounded bg-white/[0.05] overflow-hidden">
-                    <div className="h-full rounded bg-gradient-to-r from-[#4F8EF7] to-[#9B6DFF]" style={{ width: "80%" }} />
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            <section className="animate-fade-up" style={{ animationDelay: "0.3s" }}>
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="font-venite text-[13px] tracking-widest text-[#888]">BADGES</h2>
-              </div>
-
-              <div className="flex flex-wrap gap-3">
-                <div className="w-12 h-12 rounded-full bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
-                  <iconify-icon icon="lucide:compass" className="text-blue-400" />
-                </div>
-                <div className="w-12 h-12 rounded-full bg-violet-500/10 border border-violet-500/20 flex items-center justify-center">
-                  <iconify-icon icon="lucide:rocket" className="text-violet-400" />
-                </div>
-                <div className="w-12 h-12 rounded-full bg-orange-500/10 border border-orange-500/20 flex items-center justify-center">
-                  <iconify-icon icon="lucide:message-square" className="text-orange-400" />
-                </div>
-                <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center opacity-30">
-                  <iconify-icon icon="lucide:lock" className="text-white" />
-                </div>
-              </div>
-            </section>
-
-            <section className="animate-fade-up" style={{ animationDelay: "0.4s" }}>
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="font-venite text-[13px] tracking-widest text-[#888]">ACTIVITE</h2>
-              </div>
-
-              <div className="space-y-4">
-                {[
-                  ["#4F8EF7", "Projet AgriConnect mis a jour", "Il y a 4 heures"],
-                  ["#9B6DFF", "Participation a IA Live Atelier", "Hier, 20:15"],
-                  ["#4ADE80", "Nouveau badge : Explorer", "2 jours avant"]
-                ].map(([color, title, time]) => (
-                  <div key={title} className="flex gap-4 items-start">
-                    <span className="w-2 h-2 rounded-full mt-1.5" style={{ background: color }} />
-                    <div className="flex-1">
-                      <div className="text-[12px] text-white font-medium">{title}</div>
-                      <div className="text-[10px] text-[#555]">{time}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </section>
-          </div>
+            <Link
+              href="/auth/signout"
+              className="w-full rounded-xl border border-red-500/25 bg-red-500/10 px-4 py-3 text-[12px] font-semibold text-red-300 hover:bg-red-500/15 transition-colors inline-flex items-center justify-center gap-2"
+            >
+              <iconify-icon icon="lucide:log-out" style={{ fontSize: "14px" }} />
+              Se deconnecter
+            </Link>
+          </section>
         </div>
       </main>
     </div>
