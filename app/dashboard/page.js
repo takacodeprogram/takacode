@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import AdminDashboardPage from "../../components/AdminDashboardPage";
-import { getUserRole, userHasRole } from "../../lib/auth";
+import { getUserAccessContext } from "../../lib/auth";
 import { getOnboardingProfile, isOnboardingCompleted } from "../../lib/onboarding";
 import { createClient } from "../../utils/supabase/server";
 
@@ -38,22 +38,25 @@ export default async function DashboardPage() {
     redirect("/signin?next=/dashboard");
   }
 
-  if (!userHasRole(user, ["user", "admin"])) {
+  const accessContext = await getUserAccessContext(supabase, user);
+
+  if (!accessContext.hasRole(["user", "mentor", "admin"])) {
     redirect("/signin?error=forbidden");
   }
 
-  if (!isOnboardingCompleted(user)) {
+  if (accessContext.role !== "admin" && !isOnboardingCompleted(user)) {
     redirect("/onboarding");
   }
 
   const onboardingProfile = getOnboardingProfile(user);
+  const points = Number.isFinite(Number(accessContext.profile?.points)) ? Number(accessContext.profile?.points) : 0;
 
   return (
     <AdminDashboardPage
       user={{
         email: user.email ?? "",
         displayName: formatDisplayName(user),
-        role: getUserRole(user)
+        role: accessContext.role
       }}
       onboarding={{
         goalLabel: onboardingProfile.goalLabel,
@@ -67,6 +70,11 @@ export default async function DashboardPage() {
         weeklyCommitmentLabel: onboardingProfile.weeklyCommitmentLabel,
         projectIdea: onboardingProfile.projectIdea,
         tools: onboardingProfile.tools
+      }}
+      gamification={{
+        points,
+        grade: accessContext.profile?.grade || "Starter",
+        referralCode: accessContext.profile?.referral_code || ""
       }}
     />
   );

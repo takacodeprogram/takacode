@@ -17,14 +17,14 @@ function getPasswordStrength(password) {
 
 function getStrengthMeta(score) {
   if (score < 45) {
-    return { label: "Securite faible", color: "#ef4444" };
+    return { label: "Mot de passe faible", color: "#ef4444" };
   }
 
   if (score < 75) {
-    return { label: "Securite moyenne", color: "#f97316" };
+    return { label: "Mot de passe moyen", color: "#f97316" };
   }
 
-  return { label: "Securite forte", color: "#22c55e" };
+  return { label: "Mot de passe solide", color: "#22c55e" };
 }
 
 export default function ResetPasswordPage() {
@@ -33,6 +33,8 @@ export default function ResetPasswordPage() {
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [infoMessage, setInfoMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -49,7 +51,7 @@ export default function ResetPasswordPage() {
       } = await supabase.auth.getSession();
 
       if (!session && isMounted) {
-        setInfoMessage("Ouvre cette page depuis le lien recu par email pour reinitialiser ton mot de passe.");
+        setInfoMessage("Ouvre cette page depuis le lien recu par email pour choisir ton nouveau mot de passe.");
       }
     }
 
@@ -69,7 +71,7 @@ export default function ResetPasswordPage() {
     }
 
     if (strength < 75) {
-      setErrorMessage("Mot de passe trop faible. Utilise au moins 10 caracteres avec majuscule, chiffre et symbole.");
+      setErrorMessage("Choisis un mot de passe plus solide (min 10 caracteres, majuscule, chiffre, symbole).");
       return;
     }
 
@@ -93,10 +95,10 @@ export default function ResetPasswordPage() {
   return (
     <main className="min-h-screen bg-[#0A0A0A] text-white px-6 py-20 md:py-24 flex items-center justify-center">
       <div className="w-full max-w-[560px] bg-[#111] border border-white/[0.07] rounded-3xl p-8 sm:p-10">
-        <div className="section-label mb-4">SECURITE</div>
-        <h1 className="font-valorax text-[34px] mb-4">NOUVEAU MOT DE PASSE</h1>
+        <div className="section-label mb-4">NOUVEAU MOT DE PASSE</div>
+        <h1 className="font-valorax text-[34px] mb-4">PRET A REPRENDRE ?</h1>
         <p className="font-body-readable text-[14px] text-[#888] leading-relaxed mb-8">
-          Definis un mot de passe fort puis reconnecte-toi.
+          Choisis un nouveau mot de passe pour retrouver ton espace et poursuivre tes projets.
         </p>
 
         {errorMessage ? (
@@ -114,14 +116,23 @@ export default function ResetPasswordPage() {
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="space-y-1.5">
             <label className="text-[12px] text-[#555] ml-1">Nouveau mot de passe</label>
-            <input
-              type="password"
-              className="auth-input"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              placeholder="********"
-              required
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                className="auth-input pr-[92px]"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                placeholder="********"
+                required
+              />
+              <button
+                type="button"
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-[11px] text-[#8FA8FF] hover:text-white transition-colors"
+                onClick={() => setShowPassword((current) => !current)}
+              >
+                {showPassword ? "Masquer" : "Afficher"}
+              </button>
+            </div>
             <div className="h-1 rounded bg-[#222] mt-1 overflow-hidden">
               <div className="h-full transition-all" style={{ width: `${strength}%`, backgroundColor: strengthMeta.color }} />
             </div>
@@ -130,18 +141,27 @@ export default function ResetPasswordPage() {
 
           <div className="space-y-1.5">
             <label className="text-[12px] text-[#555] ml-1">Confirmer le mot de passe</label>
-            <input
-              type="password"
-              className="auth-input"
-              value={confirmPassword}
-              onChange={(event) => setConfirmPassword(event.target.value)}
-              placeholder="********"
-              required
-            />
+            <div className="relative">
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                className="auth-input pr-[92px]"
+                value={confirmPassword}
+                onChange={(event) => setConfirmPassword(event.target.value)}
+                placeholder="********"
+                required
+              />
+              <button
+                type="button"
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-[11px] text-[#8FA8FF] hover:text-white transition-colors"
+                onClick={() => setShowConfirmPassword((current) => !current)}
+              >
+                {showConfirmPassword ? "Masquer" : "Afficher"}
+              </button>
+            </div>
           </div>
 
           <button type="submit" className="btn-primary w-full h-[48px]" disabled={loading}>
-            {loading ? "Mise a jour..." : "Mettre a jour"}
+            {loading ? "Mise a jour..." : "Reprendre mon parcours"}
           </button>
         </form>
 

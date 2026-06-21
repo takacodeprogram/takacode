@@ -7,9 +7,70 @@ import { createClient } from "../utils/supabase/client";
 
 const AUTH_ERROR_MESSAGES = {
   forbidden: "Ton compte ne dispose pas du role requis pour acceder au dashboard.",
-  oauth_callback_failed: "La connexion OAuth a echoue. Reessaie.",
-  oauth_code_missing: "Code OAuth manquant. Relance la connexion.",
-  oauth_denied: "Connexion OAuth annulee ou refusee."
+  oauth_callback_failed: "La connexion n'a pas abouti. Reessaie.",
+  oauth_code_missing: "La connexion a ete interrompue. Reessaie.",
+  oauth_denied: "Connexion annulee ou refusee."
+};
+
+const AUTH_MODE_COPY = {
+  signup: {
+    badge: "COMMUNAUTE TAKACODE",
+    titleLines: ["COMMENCE TON", "PROCHAIN PROJET"],
+    description:
+      "Cree ton compte et accede aux parcours, ressources, sessions live et a une communaute qui apprend en construisant.",
+    highlights: [
+      {
+        icon: "lucide:book-open",
+        iconColor: "#4F8EF7",
+        shellClass: "bg-blue-500/10 border-blue-500/20",
+        title: "Apprends avec methode",
+        text: "Parcours guides, ressources selectionnees et exercices pratiques pour progresser a ton rythme."
+      },
+      {
+        icon: "lucide:users",
+        iconColor: "#9B6DFF",
+        shellClass: "bg-violet-500/10 border-violet-500/20",
+        title: "Construis avec la communaute",
+        text: "Participe aux sessions live, echange avec d'autres createurs et avance ensemble."
+      },
+      {
+        icon: "lucide:zap",
+        iconColor: "#22D3EE",
+        shellClass: "bg-cyan-500/10 border-cyan-500/20",
+        title: "Accelere avec l'IA",
+        text: "Profite des meilleurs outils d'IA pour comprendre plus vite et transformer tes idees en projets concrets."
+      }
+    ]
+  },
+  signin: {
+    badge: "BON RETOUR",
+    titleLines: ["RETROUVE TES PROJETS", "ET CONTINUE A AVANCER"],
+    description:
+      "Reconnecte-toi pour reprendre ton parcours, participer aux sessions live et poursuivre tes realisations.",
+    highlights: [
+      {
+        icon: "lucide:rocket",
+        iconColor: "#4F8EF7",
+        shellClass: "bg-blue-500/10 border-blue-500/20",
+        title: "Reprends la ou tu t'es arrete",
+        text: "Tes parcours, ressources et projets t'attendent."
+      },
+      {
+        icon: "lucide:users",
+        iconColor: "#9B6DFF",
+        shellClass: "bg-violet-500/10 border-violet-500/20",
+        title: "Retrouve la communaute",
+        text: "Echange avec d'autres createurs et participe aux prochaines sessions."
+      },
+      {
+        icon: "lucide:chart-column-increasing",
+        iconColor: "#22D3EE",
+        shellClass: "bg-cyan-500/10 border-cyan-500/20",
+        title: "Continue a progresser",
+        text: "Chaque etape te rapproche un peu plus de ton prochain projet."
+      }
+    ]
+  }
 };
 
 function sanitizeNextPath(value) {
@@ -36,14 +97,14 @@ function getPasswordStrength(password) {
 
 function getStrengthMeta(score) {
   if (score < 45) {
-    return { label: "Securite faible", color: "#ef4444" };
+    return { label: "Mot de passe faible", color: "#ef4444" };
   }
 
   if (score < 75) {
-    return { label: "Securite moyenne", color: "#f97316" };
+    return { label: "Mot de passe moyen", color: "#f97316" };
   }
 
-  return { label: "Securite forte", color: "#22c55e" };
+  return { label: "Mot de passe solide", color: "#22c55e" };
 }
 
 function buildOAuthRedirect(nextPath) {
@@ -62,6 +123,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }) {
   const nextPath = sanitizeNextPath(searchParams.get("next"));
   const queryError = searchParams.get("error");
   const resetSuccess = searchParams.get("reset") === "success";
+  const referralFromQuery = searchParams.get("ref");
 
   const [mode, setMode] = useState(initialMode === "signup" ? "signup" : "signin");
   const [firstName, setFirstName] = useState("");
@@ -69,15 +131,22 @@ export default function AuthOnboardingPage({ initialMode = "signin" }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [referralCode, setReferralCode] = useState(
+    typeof referralFromQuery === "string" ? referralFromQuery.trim().toUpperCase() : ""
+  );
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [infoMessage, setInfoMessage] = useState("");
 
   const passwordStrength = getPasswordStrength(password);
   const strengthMeta = getStrengthMeta(passwordStrength);
+  const modeCopy = AUTH_MODE_COPY[mode] ?? AUTH_MODE_COPY.signin;
 
-  const activeErrorMessage = errorMessage || (queryError ? AUTH_ERROR_MESSAGES[queryError] ?? "Erreur d'authentification." : "");
-  const activeInfoMessage = infoMessage || (resetSuccess ? "Mot de passe mis a jour. Connecte-toi avec le nouveau mot de passe." : "");
+  const activeErrorMessage = errorMessage || (queryError ? AUTH_ERROR_MESSAGES[queryError] ?? "La connexion n'a pas abouti. Reessaie." : "");
+  const activeInfoMessage = infoMessage;
+  const showResetSuccessState = mode === "signin" && resetSuccess && !infoMessage;
 
   async function handleOAuth(provider) {
     setLoading(true);
@@ -151,7 +220,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }) {
     }
 
     if (passwordStrength < 75) {
-      setErrorMessage("Utilise un mot de passe plus fort (min 10 caracteres, majuscule, chiffre, symbole).");
+      setErrorMessage("Utilise un mot de passe plus solide (min 10 caracteres, majuscule, chiffre, symbole).");
       return;
     }
 
@@ -169,7 +238,8 @@ export default function AuthOnboardingPage({ initialMode = "signin" }) {
         data: {
           first_name: firstName,
           last_name: lastName,
-          role: "user"
+          role: "user",
+          referral_code: referralCode ? referralCode.trim().toUpperCase() : undefined
         }
       }
     });
@@ -186,7 +256,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }) {
       return;
     }
 
-    setInfoMessage("Compte cree. Verifie ton email pour confirmer l'inscription.");
+    setInfoMessage("Compte cree. Verifie ton email pour confirmer ton inscription.");
     setLoading(false);
   }
 
@@ -213,38 +283,31 @@ export default function AuthOnboardingPage({ initialMode = "signin" }) {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div className="hidden lg:block space-y-10 animate-fade-up">
+            <div className="section-label">{modeCopy.badge}</div>
+
             <h1 className="font-valorax text-[56px] leading-[0.9] gradient-text-blue">
-              ACCEDE
-              <br />
-              A TON
-              <br />
-              ESPACE
+              {modeCopy.titleLines.map((line, index) => (
+                <span key={line}>
+                  {line}
+                  {index < modeCopy.titleLines.length - 1 ? <br /> : null}
+                </span>
+              ))}
             </h1>
 
-            <p className="text-[#888] text-lg max-w-md font-body-readable">
-              Connexion email, OAuth Google/GitHub et wallet Ethereum, avec un dashboard protege par role utilisateur.
-            </p>
+            <p className="text-[#888] text-lg max-w-xl font-body-readable">{modeCopy.description}</p>
 
             <div className="space-y-5 pt-4">
-              <div className="flex items-start gap-4">
-                <div className="w-11 h-11 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center flex-shrink-0">
-                  <iconify-icon icon="lucide:shield-check" className="text-[#4F8EF7] text-xl" />
+              {modeCopy.highlights.map((item) => (
+                <div key={item.title} className="flex items-start gap-4">
+                  <div className={`w-11 h-11 rounded-xl border flex items-center justify-center flex-shrink-0 ${item.shellClass}`}>
+                    <iconify-icon icon={item.icon} style={{ color: item.iconColor, fontSize: "22px" }} />
+                  </div>
+                  <div>
+                    <h3 className="text-sm text-white font-venite-italic">{item.title}</h3>
+                    <p className="text-[13px] text-[#555] font-body-readable">{item.text}</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-sm text-white font-venite-italic">Acces securise</h3>
-                  <p className="text-[13px] text-[#555] font-body-readable">Auth Supabase + controle de role avant dashboard.</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div className="w-11 h-11 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center flex-shrink-0">
-                  <iconify-icon icon="lucide:key-round" className="text-[#9B6DFF] text-xl" />
-                </div>
-                <div>
-                  <h3 className="text-sm text-white font-venite-italic">Recuperation mot de passe</h3>
-                  <p className="text-[13px] text-[#555] font-body-readable">Flux complet: forgot password + reset password.</p>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
 
@@ -257,7 +320,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }) {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3 mb-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
                 <button
                   type="button"
                   className="btn-secondary flex items-center justify-center gap-2 py-3"
@@ -265,7 +328,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }) {
                   onClick={() => handleOAuth("google")}
                 >
                   <iconify-icon icon="logos:google-icon" className="text-lg" />
-                  <span className="text-[12px]">Google</span>
+                  <span className="text-[12px]">Continuer avec Google</span>
                 </button>
 
                 <button
@@ -274,8 +337,10 @@ export default function AuthOnboardingPage({ initialMode = "signin" }) {
                   disabled={loading}
                   onClick={() => handleOAuth("github")}
                 >
-                  <iconify-icon icon="logos:github-icon" className="text-lg" />
-                  <span className="text-[12px]">GitHub</span>
+                  <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-white">
+                    <iconify-icon icon="logos:github-icon" style={{ fontSize: "14px" }} />
+                  </span>
+                  <span className="text-[12px]">Continuer avec GitHub</span>
                 </button>
               </div>
 
@@ -286,7 +351,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }) {
                 onClick={handleWalletLogin}
               >
                 <iconify-icon icon="lucide:wallet" className="text-lg" />
-                <span className="text-[12px]">Wallet Ethereum</span>
+                <span className="text-[12px]">Continuer avec Wallet Ethereum</span>
               </button>
 
               <div className="flex items-center gap-4 mb-8">
@@ -301,9 +366,26 @@ export default function AuthOnboardingPage({ initialMode = "signin" }) {
                 </div>
               ) : null}
 
+              {showResetSuccessState ? (
+                <div className="mb-4 rounded-xl border border-emerald-500/25 bg-emerald-500/10 px-4 py-4 text-emerald-100">
+                  <div className="text-[10px] font-semibold tracking-[0.16em] uppercase text-emerald-300 mb-1">C'EST BON !</div>
+                  <div className="text-[14px] font-semibold mb-1">TON MOT DE PASSE A ETE MIS A JOUR</div>
+                  <p className="text-[12px] text-emerald-100/80 mb-2">Tu peux maintenant te reconnecter et reprendre la ou tu t'etais arrete.</p>
+                  <Link href="/signin?next=/dashboard" className="text-[12px] font-semibold text-emerald-200 hover:text-white transition-colors">
+                    Continuer mon parcours
+                  </Link>
+                </div>
+              ) : null}
+
               {activeInfoMessage ? (
                 <div className="mb-4 rounded-xl border border-blue-500/25 bg-blue-500/10 px-4 py-3 text-[12px] text-blue-200">
                   {activeInfoMessage}
+                </div>
+              ) : null}
+
+              {mode === "signup" && referralCode ? (
+                <div className="mb-4 rounded-xl border border-emerald-500/25 bg-emerald-500/10 px-4 py-3 text-[12px] text-emerald-200">
+                  Code parrainage detecte: <span className="font-semibold">{referralCode}</span>
                 </div>
               ) : null}
 
@@ -345,16 +427,39 @@ export default function AuthOnboardingPage({ initialMode = "signin" }) {
                   />
                 </div>
 
+                {mode === "signup" ? (
+                  <div className="space-y-1.5">
+                    <label className="text-[12px] text-[#555] ml-1">Code de parrainage (facultatif)</label>
+                    <input
+                      type="text"
+                      className="auth-input uppercase"
+                      placeholder="ABC123DEF0"
+                      value={referralCode}
+                      maxLength={16}
+                      onChange={(event) => setReferralCode(event.target.value.toUpperCase())}
+                    />
+                  </div>
+                ) : null}
+
                 <div className="space-y-1.5">
                   <label className="text-[12px] text-[#555] ml-1">Mot de passe</label>
-                  <input
-                    type="password"
-                    className="auth-input"
-                    placeholder="********"
-                    value={password}
-                    onChange={(event) => setPassword(event.target.value)}
-                    required
-                  />
+                  <div className="relative">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      className="auth-input pr-[92px]"
+                      placeholder="********"
+                      value={password}
+                      onChange={(event) => setPassword(event.target.value)}
+                      required
+                    />
+                    <button
+                      type="button"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 text-[11px] text-[#8FA8FF] hover:text-white transition-colors"
+                      onClick={() => setShowPassword((current) => !current)}
+                    >
+                      {showPassword ? "Masquer" : "Afficher"}
+                    </button>
+                  </div>
                   {mode === "signup" ? (
                     <>
                       <div className="h-1 rounded bg-[#222] mt-1 overflow-hidden">
@@ -368,14 +473,23 @@ export default function AuthOnboardingPage({ initialMode = "signin" }) {
                 {mode === "signup" ? (
                   <div className="space-y-1.5">
                     <label className="text-[12px] text-[#555] ml-1">Confirmer le mot de passe</label>
-                    <input
-                      type="password"
-                      className="auth-input"
-                      placeholder="********"
-                      value={passwordConfirm}
-                      onChange={(event) => setPasswordConfirm(event.target.value)}
-                      required
-                    />
+                    <div className="relative">
+                      <input
+                        type={showPasswordConfirm ? "text" : "password"}
+                        className="auth-input pr-[92px]"
+                        placeholder="********"
+                        value={passwordConfirm}
+                        onChange={(event) => setPasswordConfirm(event.target.value)}
+                        required
+                      />
+                      <button
+                        type="button"
+                        className="absolute right-2 top-1/2 -translate-y-1/2 text-[11px] text-[#8FA8FF] hover:text-white transition-colors"
+                        onClick={() => setShowPasswordConfirm((current) => !current)}
+                      >
+                        {showPasswordConfirm ? "Masquer" : "Afficher"}
+                      </button>
+                    </div>
                   </div>
                 ) : null}
 
@@ -395,7 +509,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }) {
               <div className="mt-8 pt-8 border-t border-white/[0.05] text-center text-[13px] text-[#666]">
                 {mode === "signin" ? (
                   <>
-                    Pas encore de compte ?{" "}
+                    Pas encore membre ?{" "}
                     <button
                       type="button"
                       className="text-white font-medium hover:underline"
@@ -405,7 +519,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }) {
                         setInfoMessage("");
                       }}
                     >
-                      S'inscrire
+                      Creer un compte
                     </button>
                   </>
                 ) : (

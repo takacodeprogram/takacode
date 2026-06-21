@@ -60,7 +60,7 @@ function getStepUi(state) {
   };
 }
 
-export default function AdminDashboardPage({ user, onboarding }) {
+export default function AdminDashboardPage({ user, onboarding, gamification }) {
   const displayName = user?.displayName || "Membre";
   const firstName = displayName.split(" ")[0] || "Membre";
   const email = user?.email || "membre@takacode.app";
@@ -78,6 +78,14 @@ export default function AdminDashboardPage({ user, onboarding }) {
     ? onboarding.resources
     : ["Guide de demarrage", "Projet d'introduction", "Session live de lancement"];
 
+  const points = Math.max(0, Number(gamification?.points ?? 0));
+  const grade = typeof gamification?.grade === "string" && gamification.grade.trim() ? gamification.grade : "Starter";
+  const referralCode = typeof gamification?.referralCode === "string" ? gamification.referralCode.trim().toUpperCase() : "";
+  const referralHref = referralCode ? `/signup?ref=${encodeURIComponent(referralCode)}` : "";
+  const isAdmin = (user?.role || "").toLowerCase() === "admin";
+  const quickActions = isAdmin
+    ? [...QUICK_ACTIONS, { label: "Administrer la plateforme", href: "/admin", icon: "lucide:shield-check" }]
+    : QUICK_ACTIONS;
   return (
     <div className="min-h-screen bg-[#0A0A0A] flex text-white">
       <aside className="w-[280px] border-r border-white/[0.05] bg-[#0A0A0A] sticky top-0 h-screen z-40 p-6 hidden lg:flex lg:flex-col">
@@ -233,6 +241,32 @@ export default function AdminDashboardPage({ user, onboarding }) {
               <div className="text-[13px] text-white font-semibold mb-1">{displayName}</div>
               <div className="text-[11px] text-[#777] font-body-readable mb-1">{email}</div>
               <div className="text-[11px] text-[#4ADE80] font-body-readable">{onboarding?.weeklyCommitmentLabel || "2 a 5h"} par semaine</div>
+
+              <div className="mt-4 grid grid-cols-3 gap-2">
+                <div className="rounded-lg border border-white/[0.08] bg-white/[0.02] px-2.5 py-2">
+                  <div className="text-[9px] text-[#666] uppercase tracking-widest">Points</div>
+                  <div className="text-[12px] text-white font-semibold">{points}</div>
+                </div>
+                <div className="rounded-lg border border-white/[0.08] bg-white/[0.02] px-2.5 py-2">
+                  <div className="text-[9px] text-[#666] uppercase tracking-widest">Grade</div>
+                  <div className="text-[12px] text-white font-semibold">{grade}</div>
+                </div>
+                <div className="rounded-lg border border-white/[0.08] bg-white/[0.02] px-2.5 py-2">
+                  <div className="text-[9px] text-[#666] uppercase tracking-widest">Role</div>
+                  <div className="text-[12px] text-white font-semibold">{roleLabel}</div>
+                </div>
+              </div>
+
+              {referralCode ? (
+                <div className="mt-4 rounded-xl border border-blue-500/25 bg-blue-500/10 px-3.5 py-3">
+                  <div className="text-[10px] text-blue-200 uppercase tracking-widest mb-1">Ton code parrainage</div>
+                  <div className="text-[12px] text-white font-semibold mb-1">{referralCode}</div>
+                  <Link href={referralHref} className="text-[11px] text-blue-200 hover:text-white transition-colors">
+                    Lien d'inscription
+                  </Link>
+                </div>
+              ) : null}
+
               {onboarding?.projectIdea ? (
                 <div className="mt-4 rounded-xl border border-white/[0.08] bg-white/[0.02] px-3.5 py-3">
                   <div className="text-[10px] text-[#666] uppercase tracking-widest mb-1">Ton idee</div>
@@ -244,7 +278,7 @@ export default function AdminDashboardPage({ user, onboarding }) {
             <article className="rounded-2xl border border-white/[0.08] bg-[#111] p-5">
               <h3 className="font-venite text-[12px] tracking-widest text-[#888] mb-3">ACTIONS RAPIDES</h3>
               <div className="space-y-2.5">
-                {QUICK_ACTIONS.map((action) => (
+                {quickActions.map((action) => (
                   <Link
                     key={action.label}
                     href={action.href}

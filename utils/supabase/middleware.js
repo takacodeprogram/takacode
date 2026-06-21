@@ -1,17 +1,17 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse } from "next/server";
-import { userHasRole } from "../../lib/auth";
+import { getUserAccessContext } from "../../lib/auth";
 import { isOnboardingCompleted } from "../../lib/onboarding";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
 const AUTH_PATHS = new Set(["/signin", "/signup", "/connexion"]);
 const ONBOARDING_PATH = "/onboarding";
 
 function getConfig() {
   if (!supabaseUrl || !supabaseKey) {
-    throw new Error("Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY");
+    throw new Error("Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY");
   }
 
   return { supabaseUrl, supabaseKey };
@@ -23,6 +23,10 @@ function isDashboardPath(pathname) {
 
 function isOnboardingPath(pathname) {
   return pathname === ONBOARDING_PATH || pathname.startsWith("/onboarding/");
+}
+
+function isAdminPath(pathname) {
+  return pathname === "/admin" || pathname.startsWith("/admin/");
 }
 
 function buildNextPath(pathname, search) {
@@ -61,6 +65,13 @@ export async function updateSession(request) {
 
   const { pathname, search } = request.nextUrl;
 
+  let accessContext = null;
+  const requiresRoleContext = user && (isOnboardingPath(pathname) || isDashboardPath(pathname) || isAdminPath(pathname) || AUTH_PATHS.has(pathname));
+
+  if (requiresRoleContext) {
+    accessContext = await getUserAccessContext(supabase, user);
+  }
+
   if (isOnboardingPath(pathname)) {
     if (!user) {
       const redirectUrl = new URL("/signin", request.url);
@@ -68,13 +79,13 @@ export async function updateSession(request) {
       return NextResponse.redirect(redirectUrl);
     }
 
-    if (!userHasRole(user, ["user", "admin"])) {
+    if (!accessContext?.hasRole(["user", "mentor", "admin"])) {
       const redirectUrl = new URL("/signin", request.url);
       redirectUrl.searchParams.set("error", "forbidden");
       return NextResponse.redirect(redirectUrl);
     }
 
-    if (isOnboardingCompleted(user)) {
+    if (accessContext.role !== "admin" && isOnboardingCompleted(user)) {
       return NextResponse.redirect(new URL("/dashboard", request.url));
     }
 
@@ -88,18 +99,34 @@ export async function updateSession(request) {
       return NextResponse.redirect(redirectUrl);
     }
 
-    if (!userHasRole(user, ["user", "admin"])) {
+    if (!accessContext?.hasRole(["user", "mentor", "admin"])) {
       const redirectUrl = new URL("/signin", request.url);
       redirectUrl.searchParams.set("error", "forbidden");
       return NextResponse.redirect(redirectUrl);
     }
 
-    if (!isOnboardingCompleted(user)) {
+    if (accessContext.role !== "admin" && !isOnboardingCompleted(user)) {
       return NextResponse.redirect(new URL(ONBOARDING_PATH, request.url));
     }
   }
 
+  if (isAdminPath(pathname)) {
+    if (!user) {
+      const redirectUrl = new URL("/signin", request.url);
+      redirectUrl.searchParams.set("next", buildNextPath(pathname, search));
+      return NextResponse.redirect(redirectUrl);
+    }
+
+    if (!accessContext?.hasRole(["admin"])) {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
+    }
+  }
+
   if (AUTH_PATHS.has(pathname) && user) {
+    if (accessContext?.role === "admin") {
+      return NextResponse.redirect(new URL("/admin", request.url));
+    }
+
     const redirectTarget = isOnboardingCompleted(user) ? "/dashboard" : ONBOARDING_PATH;
     return NextResponse.redirect(new URL(redirectTarget, request.url));
   }
