@@ -1,5 +1,7 @@
 import Link from "next/link";
 import logoLight4 from "../assets/logos-light-png/logo-light-4.png";
+import AdminTracksManager from "./AdminTracksManager";
+import AdminUsersManager from "./AdminUsersManager";
 
 const SIDEBAR_LINKS = [
   { id: "side-dash", href: "/dashboard", icon: "lucide:layout-grid", label: "Dashboard", active: true },
@@ -67,7 +69,7 @@ function formatTrackMetaForCard(track) {
   return durationLabel + " - " + level;
 }
 
-export default function AdminDashboardPage({ user, onboarding, tracks, gamification }) {
+export default function AdminDashboardPage({ user, onboarding, tracks, gamification, adminData }) {
   const displayName = user?.displayName || "Membre";
   const firstName = displayName.split(" ")[0] || "Membre";
   const email = user?.email || "membre@takacode.app";
@@ -78,7 +80,7 @@ export default function AdminDashboardPage({ user, onboarding, tracks, gamificat
   const objective = onboarding?.objective || "Construire ton premier projet concret.";
   const progress = Math.max(0, Math.min(Number(onboarding?.progress ?? 8), 100));
   const nextSession = onboarding?.nextSession || "Mercredi 20h00";
-  const parcoursTitle = onboarding?.parcoursTitle || "Parcours personnalise";
+  const parcoursTitle = onboarding?.parcoursTitle || "Parcours personalise";
   const parcoursMeta = onboarding?.parcoursMeta || "12 semaines - Debutant";
   const nextSteps = Array.isArray(onboarding?.nextSteps) && onboarding.nextSteps.length ? onboarding.nextSteps : FALLBACK_STEPS;
   const resources = Array.isArray(onboarding?.resources) && onboarding.resources.length
@@ -97,6 +99,17 @@ export default function AdminDashboardPage({ user, onboarding, tracks, gamificat
   const enrolledTracks = Array.isArray(tracks?.enrolled) ? tracks.enrolled : [];
   const recommendedTracks = Array.isArray(tracks?.recommended) ? tracks.recommended : [];
   const visibleUserTracks = (enrolledTracks.length ? enrolledTracks : recommendedTracks).slice(0, 4);
+
+  const adminUsers = Array.isArray(adminData?.users) ? adminData.users : [];
+  const adminTracks = Array.isArray(adminData?.tracks) ? adminData.tracks : [];
+  const usersSchemaReady = adminData?.usersSchemaReady !== false;
+  const tracksSchemaReady = adminData?.tracksSchemaReady !== false;
+  const usersError = typeof adminData?.usersError === "string" ? adminData.usersError : "";
+  const tracksError = typeof adminData?.tracksError === "string" ? adminData.tracksError : "";
+  const appUrl = typeof adminData?.appUrl === "string" && adminData.appUrl.trim()
+    ? adminData.appUrl.trim()
+    : "https://takacode.vercel.app";
+
   return (
     <div className="min-h-screen bg-[#0A0A0A] flex text-white">
       <aside className="w-[280px] border-r border-white/[0.05] bg-[#0A0A0A] sticky top-0 h-screen z-40 p-6 hidden lg:flex lg:flex-col">
@@ -340,6 +353,84 @@ export default function AdminDashboardPage({ user, onboarding, tracks, gamificat
             </form>
           </section>
         </div>
+
+        {isAdmin ? (
+          <section className="mt-8 space-y-4 animate-fade-up-d4">
+            <article className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 md:p-6">
+              <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+                <div>
+                  <div className="section-label mb-2">Centre de controle</div>
+                  <h2 className="font-valorax text-[28px] leading-[0.9]">ADMIN SYSTEME</h2>
+                  <p className="font-body-readable text-[13px] text-[#8d8d8d] mt-3 max-w-[760px]">
+                    Tout piloter depuis ce dashboard: comptes, roles, points, parcours, publication et outils de pilotage.
+                  </p>
+                </div>
+                <div className="grid grid-cols-3 gap-2 min-w-[240px]">
+                  <div className="rounded-lg border border-white/[0.08] bg-white/[0.02] px-3 py-2">
+                    <div className="text-[9px] text-[#666] uppercase tracking-widest">Users</div>
+                    <div className="text-[14px] font-semibold text-white">{adminUsers.length}</div>
+                  </div>
+                  <div className="rounded-lg border border-white/[0.08] bg-white/[0.02] px-3 py-2">
+                    <div className="text-[9px] text-[#666] uppercase tracking-widest">Parcours</div>
+                    <div className="text-[14px] font-semibold text-white">{adminTracks.length}</div>
+                  </div>
+                  <div className="rounded-lg border border-white/[0.08] bg-white/[0.02] px-3 py-2">
+                    <div className="text-[9px] text-[#666] uppercase tracking-widest">Schema</div>
+                    <div className="text-[14px] font-semibold text-emerald-300">OK</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-5 flex flex-wrap items-center gap-2.5">
+                <a href="/api/admin/pitch-deck" className="btn-primary">
+                  Telecharger le pitch (.pptx)
+                </a>
+                <a href={appUrl} target="_blank" rel="noreferrer" className="btn-secondary">
+                  Ouvrir l'app deployee
+                </a>
+                <Link href="/admin" className="btn-secondary">
+                  Ouvrir /admin
+                </Link>
+              </div>
+            </article>
+
+            {!usersSchemaReady ? (
+              <article className="rounded-2xl border border-amber-500/25 bg-amber-500/10 p-5">
+                <h3 className="font-valorax text-[22px] mb-2">TABLE USER_PROFILES MANQUANTE</h3>
+                <p className="text-[12px] text-amber-100/90 font-body-readable">
+                  Lance `supabase/sql/001_roles_points_referrals.sql` puis `supabase/sql/002_bootstrap_admin.sql`.
+                </p>
+              </article>
+            ) : null}
+
+            {usersError ? (
+              <article className="rounded-2xl border border-red-500/25 bg-red-500/10 p-5">
+                <h3 className="font-valorax text-[22px] mb-2">ERREUR CHARGEMENT USERS</h3>
+                <p className="text-[12px] text-red-200 font-body-readable">{usersError}</p>
+              </article>
+            ) : null}
+
+            {usersSchemaReady && !usersError ? <AdminUsersManager initialUsers={adminUsers} /> : null}
+
+            {!tracksSchemaReady ? (
+              <article className="rounded-2xl border border-amber-500/25 bg-amber-500/10 p-5">
+                <h3 className="font-valorax text-[22px] mb-2">TABLE LEARNING_TRACKS MANQUANTE</h3>
+                <p className="text-[12px] text-amber-100/90 font-body-readable">
+                  Lance `supabase/sql/003_learning_tracks.sql` pour activer la gestion des parcours.
+                </p>
+              </article>
+            ) : null}
+
+            {tracksError ? (
+              <article className="rounded-2xl border border-red-500/25 bg-red-500/10 p-5">
+                <h3 className="font-valorax text-[22px] mb-2">ERREUR CHARGEMENT PARCOURS</h3>
+                <p className="text-[12px] text-red-200 font-body-readable">{tracksError}</p>
+              </article>
+            ) : null}
+
+            {tracksSchemaReady && !tracksError ? <AdminTracksManager initialTracks={adminTracks} /> : null}
+          </section>
+        ) : null}
       </main>
     </div>
   );
