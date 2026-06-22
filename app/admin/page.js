@@ -68,9 +68,11 @@ export default async function AdminPage() {
               <Link href="/dashboard" className="btn-secondary">
                 Retour dashboard
               </Link>
-              <Link href="/auth/signout" className="btn-secondary">
-                Deconnexion
-              </Link>
+              <form action="/auth/signout" method="post">
+                <button type="submit" className="btn-secondary">
+                  Deconnexion
+                </button>
+              </form>
             </div>
           </div>
         </section>

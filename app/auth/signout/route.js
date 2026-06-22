@@ -37,7 +37,8 @@ async function signOutAndRedirect(request) {
 }
 
 export async function GET(request) {
-  return signOutAndRedirect(request);
+  const requestUrl = new URL(request.url);
+  return NextResponse.redirect(new URL("/signin", requestUrl.origin));
 }
 
 export async function POST(request) {

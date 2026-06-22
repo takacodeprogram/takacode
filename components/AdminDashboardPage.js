@@ -89,9 +89,8 @@ export default function AdminDashboardPage({ user, onboarding, gamification }) {
   return (
     <div className="min-h-screen bg-[#0A0A0A] flex text-white">
       <aside className="w-[280px] border-r border-white/[0.05] bg-[#0A0A0A] sticky top-0 h-screen z-40 p-6 hidden lg:flex lg:flex-col">
-        <div className="flex items-center gap-3 mb-10 pl-2">
-          <img src={logoLight4.src} alt="TakaCode" className="h-8 w-auto" />
-          <span className="font-valorax text-sm tracking-widest">TAKACODE</span>
+        <div className="mb-10 pl-2">
+          <img src={logoLight4.src} alt="TakaCode" className="nav-logo-image" />
         </div>
 
         <nav className="space-y-2 flex-1">
@@ -125,14 +124,16 @@ export default function AdminDashboardPage({ user, onboarding, gamification }) {
             <iconify-icon icon="lucide:settings" />
             Parametres
           </Link>
-          <Link
-            href="/auth/signout"
-            id="side-logout"
-            className="flex items-center gap-3 rounded-xl px-4 py-3 text-[14px] font-medium text-red-400/70 hover:text-red-400 hover:bg-red-400/5 transition-all"
-          >
-            <iconify-icon icon="lucide:log-out" />
-            Deconnexion
-          </Link>
+          <form action="/auth/signout" method="post">
+            <button
+              type="submit"
+              id="side-logout"
+              className="w-full flex items-center gap-3 rounded-xl px-4 py-3 text-[14px] font-medium text-red-400/70 hover:text-red-400 hover:bg-red-400/5 transition-all"
+            >
+              <iconify-icon icon="lucide:log-out" />
+              Deconnexion
+            </button>
+          </form>
         </div>
       </aside>
 
@@ -290,14 +291,15 @@ export default function AdminDashboardPage({ user, onboarding, gamification }) {
                 ))}
               </div>
             </article>
-
-            <Link
-              href="/auth/signout"
-              className="w-full rounded-xl border border-red-500/25 bg-red-500/10 px-4 py-3 text-[12px] font-semibold text-red-300 hover:bg-red-500/15 transition-colors inline-flex items-center justify-center gap-2"
-            >
-              <iconify-icon icon="lucide:log-out" style={{ fontSize: "14px" }} />
-              Se deconnecter
-            </Link>
+            <form action="/auth/signout" method="post" className="w-full">
+              <button
+                type="submit"
+                className="w-full rounded-xl border border-red-500/25 bg-red-500/10 px-4 py-3 text-[12px] font-semibold text-red-300 hover:bg-red-500/15 transition-colors inline-flex items-center justify-center gap-2"
+              >
+                <iconify-icon icon="lucide:log-out" style={{ fontSize: "14px" }} />
+                Se deconnecter
+              </button>
+            </form>
           </section>
         </div>
       </main>
