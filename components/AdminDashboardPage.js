@@ -137,7 +137,7 @@ export default function AdminDashboardPage({ user, onboarding, gamification }) {
         </div>
       </aside>
 
-      <main className="flex-1 overflow-y-auto p-6 md:p-8">
+      <main className="flex-1 overflow-y-auto p-6 md:p-8 pt-10 md:pt-12">
         <div className="lg:hidden mb-6 flex items-center gap-2 overflow-x-auto pb-1">
           <Link href="/dashboard" className="shrink-0 rounded-lg border border-blue-500/20 bg-blue-500/10 px-3 py-2 text-[11px] font-semibold text-[#4F8EF7]">Dashboard</Link>
           <Link href="/parcours" className="shrink-0 rounded-lg border border-white/[0.08] bg-white/[0.03] px-3 py-2 text-[11px] font-semibold text-[#bbb]">Parcours</Link>

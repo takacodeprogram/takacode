@@ -124,8 +124,8 @@ export default function Navbar() {
   const isAuthLoading = authState === "loading";
   const isAuthenticated = authState === "authenticated";
 
-  const authHref = isAuthenticated ? "/dashboard" : "/signin";
-  const authLabel = isAuthenticated ? "Dashboard" : "Connexion";
+  const authHref = "/signin";
+  const authLabel = "Connexion";
   const ctaHref = isAuthenticated ? "/dashboard" : "/signup";
   const ctaLabel = isAuthenticated ? "Dashboard" : "Commencer";
 
@@ -159,6 +159,8 @@ export default function Navbar() {
         <div className="nav-desktop-actions flex items-center gap-3">
           {isAuthLoading ? (
             <div className="h-10 w-[168px]" aria-hidden="true" />
+          ) : isAuthenticated ? (
+            <Link href={ctaHref} id="nav-dashboard-link" className="btn-primary glow-btn">{ctaLabel}</Link>
           ) : (
             <>
               <Link href={authHref} id="nav-connexion-link" className="nav-link">{authLabel}</Link>
@@ -201,7 +203,16 @@ export default function Navbar() {
           </div>
 
           <div className="nav-mobile-actions">
-            {isAuthLoading ? null : (
+            {isAuthLoading ? null : isAuthenticated ? (
+              <Link
+                href={ctaHref}
+                id="nav-dashboard-mobile-link"
+                className="btn-primary glow-btn nav-mobile-cta"
+                onClick={closeMobileMenu}
+              >
+                {ctaLabel}
+              </Link>
+            ) : (
               <>
                 <Link
                   href={authHref}
