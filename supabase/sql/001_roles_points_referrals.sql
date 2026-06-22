@@ -56,7 +56,7 @@ declare
   candidate text;
 begin
   loop
-    candidate := upper(substr(encode(gen_random_bytes(6), 'hex'), 1, 10));
+    candidate := upper(substr(encode(extensions.gen_random_bytes(6), 'hex'), 1, 10));
     exit when not exists (
       select 1
       from public.user_profiles p
