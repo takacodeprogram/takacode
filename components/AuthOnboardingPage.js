@@ -148,17 +148,54 @@ export default function AuthOnboardingPage({ initialMode = "signin" }) {
     let isMounted = true;
 
     async function redirectIfSessionExists() {
+      const pushAuthenticatedRoute = (role, onboardingCompleted) => {
+        if (role === "admin") {
+          router.replace("/admin");
+          return;
+        }
+
+        router.replace(onboardingCompleted ? "/dashboard" : "/onboarding");
+      };
+
+      try {
+        const response = await fetch("/auth/session", {
+          method: "GET",
+          credentials: "include",
+          cache: "no-store"
+        });
+
+        if (response.ok) {
+          const payload = await response.json();
+
+          if (!isMounted) {
+            return;
+          }
+
+          if (payload?.authenticated) {
+            const role = typeof payload?.role === "string" ? payload.role.toLowerCase() : "user";
+            pushAuthenticatedRoute(role, payload?.onboardingCompleted === true);
+            return;
+          }
+        }
+      } catch {
+        // Fallback to browser session lookup below.
+      }
+
       try {
         const {
-          data: { user }
-        } = await supabase.auth.getUser();
+          data: { session }
+        } = await supabase.auth.getSession();
+
+        const user = session?.user;
 
         if (!isMounted || !user) {
           return;
         }
 
-        router.replace("/connexion");
-        router.refresh();
+        const role = typeof user?.app_metadata?.role === "string" ? user.app_metadata.role.toLowerCase() : "user";
+        const onboardingCompleted = user?.user_metadata?.onboarding_completed === true;
+
+        pushAuthenticatedRoute(role, onboardingCompleted);
       } catch {
         // Keep auth form visible when user data cannot be loaded.
       }

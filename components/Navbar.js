@@ -62,21 +62,36 @@ export default function Navbar() {
 
     async function syncAuthState() {
       try {
+        const response = await fetch("/auth/session", {
+          method: "GET",
+          credentials: "include",
+          cache: "no-store"
+        });
+
+        if (response.ok) {
+          const payload = await response.json();
+
+          if (!isMounted) {
+            return;
+          }
+
+          setAuthState(payload?.authenticated ? "authenticated" : "anonymous");
+          return;
+        }
+      } catch {
+        // Fallback to browser session lookup below.
+      }
+
+      try {
         const {
-          data: { user },
-          error
-        } = await supabase.auth.getUser();
+          data: { session }
+        } = await supabase.auth.getSession();
 
         if (!isMounted) {
           return;
         }
 
-        if (error) {
-          setAuthState("anonymous");
-          return;
-        }
-
-        setAuthState(user ? "authenticated" : "anonymous");
+        setAuthState(session?.user ? "authenticated" : "anonymous");
       } catch {
         if (isMounted) {
           setAuthState("anonymous");
