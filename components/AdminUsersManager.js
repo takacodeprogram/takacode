@@ -13,6 +13,28 @@ function shortId(value) {
   return `${value.slice(0, 6)}...${value.slice(-4)}`;
 }
 
+function resolveUserDisplayName(user) {
+  const directName = typeof user?.display_name === "string" ? user.display_name.trim() : "";
+  if (directName) {
+    return directName;
+  }
+
+  const email = typeof user?.email === "string" ? user.email.trim() : "";
+  if (email && email.includes("@")) {
+    return email.split("@")[0];
+  }
+
+  return shortId(user?.id);
+}
+
+function resolveUserSecondary(user) {
+  const email = typeof user?.email === "string" ? user.email.trim() : "";
+  if (email) {
+    return email;
+  }
+
+  return "Email non disponible";
+}
 function formatDate(value) {
   if (!value) {
     return "-";
@@ -137,8 +159,9 @@ export default function AdminUsersManager({ initialUsers = [] }) {
               return (
                 <tr key={user.id} className="border-b border-white/[0.04] text-[13px] text-[#d5d5d5]">
                   <td className="py-3 pr-4 font-body-readable">
-                    <div className="font-semibold text-white">{shortId(user.id)}</div>
-                    <div className="text-[11px] text-[#666]">{user.id}</div>
+                    <div className="font-semibold text-white">{resolveUserDisplayName(user)}</div>
+                    <div className="text-[11px] text-[#8b8b8b]">{resolveUserSecondary(user)}</div>
+                    <div className="text-[10px] text-[#575757] font-mono mt-0.5">{shortId(user.id)}</div>
                   </td>
                   <td className="py-3 pr-4 font-mono text-[12px]">{user.referral_code || "-"}</td>
                   <td className="py-3 pr-4">

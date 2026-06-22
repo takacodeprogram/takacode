@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import AdminDashboardPage from "../../components/AdminDashboardPage";
+import { buildAuthUsersLookup, mergeProfilesWithAuthUsers } from "../../lib/adminUsers";
 import { getUserAccessContext } from "../../lib/auth";
 import { getOnboardingProfile, isOnboardingCompleted } from "../../lib/onboarding";
 import { buildPageMetadata } from "../../lib/seo";
@@ -183,8 +184,12 @@ export default async function DashboardPage() {
     const usersSchemaReady = !isMissingProfilesTableError(usersResult.error);
     const tracksSchemaReady = !isMissingTracksTableError(tracksResult.error);
 
+    const baseUsers = !usersSchemaReady || usersResult.error ? [] : usersResult.data || [];
+    const authUsersById = baseUsers.length ? await buildAuthUsersLookup() : {};
+    const mergedUsers = mergeProfilesWithAuthUsers(baseUsers, authUsersById);
+
     adminData = {
-      users: !usersSchemaReady || usersResult.error ? [] : usersResult.data || [],
+      users: mergedUsers,
       tracks: !tracksSchemaReady || tracksResult.error ? [] : tracksResult.data || [],
       usersSchemaReady,
       tracksSchemaReady,

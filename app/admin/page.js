@@ -2,6 +2,7 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import AdminUsersManager from "../../components/AdminUsersManager";
+import { buildAuthUsersLookup, mergeProfilesWithAuthUsers } from "../../lib/adminUsers";
 import { getUserAccessContext, isBootstrapAdminEmail } from "../../lib/auth";
 import { createClient } from "../../utils/supabase/server";
 import { buildPageMetadata } from "../../lib/seo";
@@ -80,6 +81,10 @@ export default async function AdminPage() {
   const roleLabel = String(accessContext.role || "user").toLowerCase();
   const fromBootstrapList = isBootstrapAdminEmail(currentAdminEmail);
   const missingSchema = isMissingProfilesTableError(error);
+
+  const baseUsers = !missingSchema && !error ? users || [] : [];
+  const authUsersById = baseUsers.length ? await buildAuthUsersLookup() : {};
+  const usersWithNames = mergeProfilesWithAuthUsers(baseUsers, authUsersById);
 
   return (
     <main className="min-h-screen bg-[#0A0A0A] text-white px-6 py-20 md:py-24">
@@ -183,7 +188,7 @@ export default async function AdminPage() {
           </section>
         ) : null}
 
-        {!missingSchema && !error ? <AdminUsersManager initialUsers={users || []} /> : null}
+        {!missingSchema && !error ? <AdminUsersManager initialUsers={usersWithNames} /> : null}
       </div>
     </main>
   );
