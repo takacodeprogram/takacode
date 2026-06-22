@@ -1,6 +1,13 @@
 import Link from "next/link";
 import Navbar from "../../components/Navbar";
 import FooterSection from "../../components/FooterSection";
+import { buildPageMetadata } from "../../lib/seo";
+
+export const metadata = buildPageMetadata({
+  title: "Conditions d'utilisation",
+  description: "Lis les conditions d'utilisation de TakaCode pour comprendre les regles d'usage de la plateforme.",
+  path: "/terms"
+});
 
 export default function TermsPage() {
   return (
@@ -12,10 +19,10 @@ export default function TermsPage() {
           <div className="max-w-[920px] mx-auto px-8 relative z-10">
             <div className="section-label mb-5">LEGAL</div>
             <h1 className="font-valorax gradient-text mb-6" style={{ fontSize: "clamp(34px, 4.8vw, 58px)", letterSpacing: "-0.02em" }}>
-              CONDITIONS D&apos;UTILISATION
+              CONDITIONS D'UTILISATION
             </h1>
             <p className="font-body-readable text-[#888] text-[15px] leading-relaxed max-w-[760px] mb-10">
-              Ces conditions definissent les regles d&apos;usage de TakaCode. En utilisant la plateforme, tu acceptes les termes ci-dessous.
+              Ces conditions definissent les regles d'usage de TakaCode. En utilisant la plateforme, tu acceptes les termes ci-dessous.
             </p>
 
             <div className="space-y-8 font-body-readable">
@@ -30,14 +37,14 @@ export default function TermsPage() {
                 <h2 className="text-[16px] font-semibold text-white mb-3">2. Compte utilisateur</h2>
                 <p className="text-[14px] leading-relaxed text-[#9A9A9A]">
                   Tu es responsable des informations de ton compte et de la confidentialite de tes acces.
-                  Toute activite effectuee depuis ton compte est presumee t&apos;etre attribuable.
+                  Toute activite effectuee depuis ton compte est presumee t'etre attribuable.
                 </p>
               </section>
 
               <section className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6">
                 <h2 className="text-[16px] font-semibold text-white mb-3">3. Usage acceptable</h2>
                 <p className="text-[14px] leading-relaxed text-[#9A9A9A]">
-                  Il est interdit d&apos;utiliser la plateforme pour des activites illegales, malveillantes, frauduleuses,
+                  Il est interdit d'utiliser la plateforme pour des activites illegales, malveillantes, frauduleuses,
                   ou portant atteinte aux autres utilisateurs et aux infrastructures.
                 </p>
               </section>

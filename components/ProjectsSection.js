@@ -33,21 +33,21 @@ export default function ProjectsSection() {
                   style={{ background: "linear-gradient(135deg, rgba(79,142,247,0.08) 0%, rgba(0,0,0,0) 60%), linear-gradient(225deg, rgba(155,109,255,0.06) 0%, rgba(0,0,0,0) 60%)" }}
                 >
                   <div className="flex items-center justify-center h-full">
-                    <iconify-icon icon="lucide:layout-dashboard" className="text-[#333]" style={{ fontSize: "48px" }} />
+                    <iconify-icon icon="lucide:wallet" className="text-[#333]" style={{ fontSize: "48px" }} />
                   </div>
                 </div>
               </div>
               <div className="absolute top-3 left-3">
-                <span className="tag-badge">Dashboard</span>
+                <span className="tag-badge">Web3</span>
               </div>
             </div>
             <div className="p-5">
-              <div className="font-venite text-[13px] text-white mb-2">DASHBOARD AGRI DATA</div>
-              <p className="font-body-readable text-[11px] text-[#555] mb-4">Tableau de bord pour l'analyse des donnees agricoles collectees avec KoboCollect.</p>
+              <div className="font-venite text-[13px] text-white mb-2">DAPP GESTION COMMUNAUTE</div>
+              <p className="font-body-readable text-[11px] text-[#555] mb-4">Application Web3 pour gerer membres, badges et paiements on-chain d'une communaute.</p>
               <div className="font-body-readable flex flex-wrap gap-1.5 mb-4">
-                <span className="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">Power BI</span>
-                <span className="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">KoboCollect</span>
-                <span className="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">Python</span>
+                <span className="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">Solidity</span>
+                <span className="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">WalletConnect</span>
+                <span className="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">Next.js</span>
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -65,20 +65,20 @@ export default function ProjectsSection() {
             <div className="h-44 bg-[#0D0D0D] relative overflow-hidden">
               <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(34,211,238,0.08) 0%, rgba(0,0,0,0) 60%)" }}>
                 <div className="flex items-center justify-center h-full">
-                  <iconify-icon icon="lucide:globe" className="text-[#333]" style={{ fontSize: "48px" }} />
+                  <iconify-icon icon="lucide:music-2" className="text-[#333]" style={{ fontSize: "48px" }} />
                 </div>
               </div>
               <div className="absolute top-3 left-3">
-                <span className="tag-badge">Site web</span>
+                <span className="tag-badge">Musique</span>
               </div>
             </div>
             <div className="p-5">
-              <div className="font-venite text-[13px] text-white mb-2">VITRINE E-COMMERCE</div>
-              <p className="font-body-readable text-[11px] text-[#555] mb-4">Site web complet pour une boutique artisanale avec paiement mobile money integre.</p>
+              <div className="font-venite text-[13px] text-white mb-2">STUDIO AUDIO EN LIGNE</div>
+              <p className="font-body-readable text-[11px] text-[#555] mb-4">Plateforme pour composer, mixer et publier des contenus musicaux et audio avec assistance IA.</p>
               <div className="font-body-readable flex flex-wrap gap-1.5 mb-4">
-                <span className="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">React</span>
-                <span className="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">Node.js</span>
-                <span className="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">Stripe</span>
+                <span className="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">Ableton</span>
+                <span className="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">FL Studio</span>
+                <span className="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">AI Audio</span>
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -96,20 +96,20 @@ export default function ProjectsSection() {
             <div className="h-44 bg-[#0D0D0D] relative overflow-hidden">
               <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(155,109,255,0.08) 0%, rgba(0,0,0,0) 60%)" }}>
                 <div className="flex items-center justify-center h-full">
-                  <iconify-icon icon="lucide:bot" className="text-[#333]" style={{ fontSize: "48px" }} />
+                  <iconify-icon icon="lucide:box" className="text-[#333]" style={{ fontSize: "48px" }} />
                 </div>
               </div>
               <div className="absolute top-3 left-3">
-                <span className="tag-badge">Automatisation</span>
+                <span className="tag-badge">3D</span>
               </div>
             </div>
             <div className="p-5">
-              <div className="font-venite text-[13px] text-white mb-2">AGENT IA SUPPORT CLIENT</div>
-              <p className="font-body-readable text-[11px] text-[#555] mb-4">Agent IA automatisant les reponses client avec integration WhatsApp et Make.com.</p>
+              <div className="font-venite text-[13px] text-white mb-2">CONFIGURATEUR 3D PRODUIT</div>
+              <p className="font-body-readable text-[11px] text-[#555] mb-4">Experience 3D interactive permettant de personnaliser un produit en temps reel.</p>
               <div className="font-body-readable flex flex-wrap gap-1.5 mb-4">
-                <span className="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">Make.com</span>
-                <span className="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">GPT-4</span>
-                <span className="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">WhatsApp API</span>
+                <span className="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">Three.js</span>
+                <span className="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">Blender</span>
+                <span className="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">React Three Fiber</span>
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">

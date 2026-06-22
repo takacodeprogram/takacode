@@ -86,31 +86,31 @@ export default function ParcoursSection() {
         {/* Secondary compact parcours cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
           <div className="bg-[#111] border border-white/[0.07] rounded-2xl p-5 card-hover project-card">
-            <div className="w-10 h-10 rounded-xl bg-green-500/10 border border-green-500/15 flex items-center justify-center mb-4">
-              <iconify-icon icon="lucide:database" className="text-green-400" style={{ fontSize: "18px" }} />
+            <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/15 flex items-center justify-center mb-4">
+              <iconify-icon icon="lucide:wallet" className="text-cyan-400" style={{ fontSize: "18px" }} />
             </div>
-            <div className="font-venite text-[12px] text-white mb-1.5">COLLECTE DE DONNEES</div>
-            <p className="font-body-readable text-[11px] text-[#555] leading-relaxed mb-4">KoboCollect, ODK et gestion des donnees terrain.</p>
+            <div className="font-venite text-[12px] text-white mb-1.5">WEB3 ET BLOCKCHAIN</div>
+            <p className="font-body-readable text-[11px] text-[#555] leading-relaxed mb-4">Wallets, smart contracts et creation de dApps connectees au web.</p>
             <div className="font-body-readable flex items-center gap-3 mb-4 text-[10px] text-[#444]">
-              <span className="flex items-center gap-1"><iconify-icon icon="lucide:clock" /> 6 sem.</span>
-              <span className="level-beginner text-[10px] font-medium px-2 py-0.5 rounded-full">Debutant</span>
+              <span className="flex items-center gap-1"><iconify-icon icon="lucide:clock" /> 10 sem.</span>
+              <span className="level-intermediate text-[10px] font-medium px-2 py-0.5 rounded-full">Intermediaire</span>
             </div>
-            <Link href="/parcours" id="parcours-collecte-link" className="text-[11px] text-[#4F8EF7] font-medium flex items-center gap-1 hover:gap-2 transition-all">
+            <Link href="/parcours" id="parcours-web3-link" className="text-[11px] text-[#4F8EF7] font-medium flex items-center gap-1 hover:gap-2 transition-all">
               Decouvrir <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "12px" }} />
             </Link>
           </div>
 
           <div className="bg-[#111] border border-white/[0.07] rounded-2xl p-5 card-hover project-card">
-            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/15 flex items-center justify-center mb-4">
-              <iconify-icon icon="lucide:leaf" className="text-emerald-400" style={{ fontSize: "18px" }} />
+            <div className="w-10 h-10 rounded-xl bg-violet-500/10 border border-violet-500/15 flex items-center justify-center mb-4">
+              <iconify-icon icon="lucide:box" className="text-violet-400" style={{ fontSize: "18px" }} />
             </div>
-            <div className="font-venite text-[12px] text-white mb-1.5">AGRITECH</div>
-            <p className="font-body-readable text-[11px] text-[#555] leading-relaxed mb-4">Outils numeriques pour l'agriculture et les projets de terrain.</p>
+            <div className="font-venite text-[12px] text-white mb-1.5">3D ET IMMERSIF</div>
+            <p className="font-body-readable text-[11px] text-[#555] leading-relaxed mb-4">Modelisation 3D, animation et experiences interactives pour le web et le jeu.</p>
             <div className="font-body-readable flex items-center gap-3 mb-4 text-[10px] text-[#444]">
-              <span className="flex items-center gap-1"><iconify-icon icon="lucide:clock" /> 8 sem.</span>
-              <span className="level-beginner text-[10px] font-medium px-2 py-0.5 rounded-full">Debutant</span>
+              <span className="flex items-center gap-1"><iconify-icon icon="lucide:clock" /> 12 sem.</span>
+              <span className="level-intermediate text-[10px] font-medium px-2 py-0.5 rounded-full">Intermediaire</span>
             </div>
-            <Link href="/parcours" id="parcours-agritech-link" className="text-[11px] text-[#4F8EF7] font-medium flex items-center gap-1 hover:gap-2 transition-all">
+            <Link href="/parcours" id="parcours-3d-link" className="text-[11px] text-[#4F8EF7] font-medium flex items-center gap-1 hover:gap-2 transition-all">
               Decouvrir <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "12px" }} />
             </Link>
           </div>

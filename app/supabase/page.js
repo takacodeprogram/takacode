@@ -1,5 +1,13 @@
-﻿import { cookies } from "next/headers";
+import { cookies } from "next/headers";
 import { createClient } from "../../utils/supabase/server";
+import { buildPageMetadata } from "../../lib/seo";
+
+export const metadata = buildPageMetadata({
+  title: "Demo Supabase",
+  description: "Page de demonstration technique Supabase.",
+  path: "/supabase",
+  noIndex: true
+});
 
 export default async function SupabasePage() {
   const cookieStore = await cookies();

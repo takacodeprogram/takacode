@@ -2,10 +2,29 @@ import "./globals.css";
 import Script from "next/script";
 import logoLight2 from "../assets/logos-light-png/logo-light-2.png";
 import StartupLoader from "../components/StartupLoader";
+import { SEO_DEFAULTS } from "../lib/seo";
 
 export const metadata = {
-  title: "TakaCode - Homepage",
-  description: "Homepage TakaCode",
+  metadataBase: new URL(SEO_DEFAULTS.siteUrl),
+  applicationName: SEO_DEFAULTS.siteName,
+  title: {
+    default: SEO_DEFAULTS.defaultTitle,
+    template: "%s | TakaCode"
+  },
+  description: SEO_DEFAULTS.defaultDescription,
+  openGraph: {
+    title: SEO_DEFAULTS.defaultTitle,
+    description: SEO_DEFAULTS.defaultDescription,
+    url: "/",
+    siteName: SEO_DEFAULTS.siteName,
+    locale: SEO_DEFAULTS.locale,
+    type: "website"
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SEO_DEFAULTS.defaultTitle,
+    description: SEO_DEFAULTS.defaultDescription
+  },
   icons: {
     icon: logoLight2.src,
     shortcut: logoLight2.src,

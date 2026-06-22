@@ -1,4 +1,4 @@
-﻿import Navbar from "../components/Navbar.js";
+import Navbar from "../components/Navbar.js";
 import Hero from "../components/Hero.js";
 import ValuesSection from "../components/ValuesSection.js";
 import HowItWorksSection from "../components/HowItWorksSection.js";
@@ -12,6 +12,14 @@ import TestimonialsSection from "../components/TestimonialsSection.js";
 import FAQSection from "../components/FAQSection.js";
 import FinalCtaSection from "../components/FinalCtaSection.js";
 import FooterSection from "../components/FooterSection.js";
+import { buildPageMetadata } from "../lib/seo";
+
+export const metadata = buildPageMetadata({
+  title: "Accueil",
+  description:
+    "TakaCode est la plateforme ou tu apprends en construisant: parcours guides, projets reels, sessions live et communaute active.",
+  path: "/"
+});
 
 export default function Home() {
   return (

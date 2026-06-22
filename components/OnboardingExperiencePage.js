@@ -35,9 +35,9 @@ const STEP_META = {
 };
 
 const LEVEL_VISUALS = {
-  beginner: { icon: "lucide:seedling", accent: "#22D3EE" },
+  beginner: { icon: "lucide:rocket", accent: "#22D3EE" },
   basics: { icon: "lucide:book-open", accent: "#4F8EF7" },
-  projects: { icon: "lucide:folder-git-2", accent: "#9B6DFF" },
+  projects: { icon: "lucide:target", accent: "#9B6DFF" },
   advanced: { icon: "lucide:trending-up", accent: "#10B981" }
 };
 

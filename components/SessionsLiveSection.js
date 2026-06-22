@@ -81,8 +81,8 @@ export default function SessionsLiveSection() {
                 <div className="text-[18px] font-bold text-[#9B6DFF] leading-none">27</div>
               </div>
               <div className="flex-1 min-w-0">
-                <div className="font-venite text-[13px] text-white mb-1">MASTERCLASS DONNEES</div>
-                <div className="font-body-readable text-[11px] text-[#555]">KoboCollect pour la collecte terrain</div>
+                <div className="font-venite text-[13px] text-white mb-1">MASTERCLASS WEB3</div>
+                <div className="font-body-readable text-[11px] text-[#555]">Creer ta premiere dApp avec wallet connecte</div>
               </div>
               <div className="text-right flex-shrink-0">
                 <div className="flex items-center justify-end gap-1.5 mb-1">
@@ -99,8 +99,8 @@ export default function SessionsLiveSection() {
                 <div className="text-[18px] font-bold text-[#22D3EE] leading-none">02</div>
               </div>
               <div className="flex-1 min-w-0">
-                <div className="font-venite text-[13px] text-white mb-1">Q&R DEVELOPPEMENT WEB</div>
-                <div className="font-body-readable text-[11px] text-[#555]">Debogage, questions et revue de code</div>
+                <div className="font-venite text-[13px] text-white mb-1">WORKSHOP 3D IMMERSIF</div>
+                <div className="font-body-readable text-[11px] text-[#555]">Intro Three.js et React Three Fiber en direct</div>
               </div>
               <div className="text-right flex-shrink-0">
                 <div className="flex items-center justify-end gap-1.5 mb-1">

@@ -4,6 +4,14 @@ import OnboardingExperiencePage from "../../components/OnboardingExperiencePage"
 import { userHasRole } from "../../lib/auth";
 import { isOnboardingCompleted } from "../../lib/onboarding";
 import { createClient } from "../../utils/supabase/server";
+import { buildPageMetadata } from "../../lib/seo";
+
+export const metadata = buildPageMetadata({
+  title: "Onboarding",
+  description: "Onboarding TakaCode pour personnaliser ton parcours selon ton objectif de projet.",
+  path: "/onboarding",
+  noIndex: true
+});
 
 function formatDisplayName(user) {
   const fullName = typeof user?.user_metadata?.full_name === "string" ? user.user_metadata.full_name.trim() : "";

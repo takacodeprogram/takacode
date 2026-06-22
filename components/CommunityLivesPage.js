@@ -1,5 +1,8 @@
 import Link from "next/link";
 
+const DISCORD_INVITE_URL = process.env.NEXT_PUBLIC_DISCORD_INVITE_URL || "/communaute#serveurs";
+const TWITCH_CHANNEL_URL = process.env.NEXT_PUBLIC_TWITCH_CHANNEL_URL || "/communaute#sessions";
+
 const FEATURED_SERVERS = [
   {
     id: "discord-web-btn",
@@ -38,16 +41,16 @@ const FEATURED_SERVERS = [
     borderTone: "rgba(34,211,238,0.16)"
   },
   {
-    id: "discord-agri-btn",
-    icon: "lucide:leaf",
-    title: "Agritech et terrain",
-    description: "KoboCollect, ODK et outils numeriques pour les projets terrain et agricoles.",
-    channels: ["kobocollect-odk", "projets-terrain", "ressources-agri"],
-    members: "480 membres",
-    online: "29 en ligne",
-    iconShell: "bg-green-500/10 border-green-500/20",
-    iconColor: "#4ADE80",
-    borderTone: "rgba(74,222,128,0.16)"
+    id: "discord-web3-btn",
+    icon: "lucide:wallet",
+    title: "Web3 et blockchain",
+    description: "Wallets, smart contracts, dApps et integrations blockchain en production.",
+    channels: ["wallet-smart-contracts", "dapps-build", "web3-ressources"],
+    members: "560 membres",
+    online: "41 en ligne",
+    iconShell: "bg-cyan-500/10 border-cyan-500/20",
+    iconColor: "#38BDF8",
+    borderTone: "rgba(56,189,248,0.18)"
   }
 ];
 
@@ -69,12 +72,12 @@ const SECONDARY_SERVERS = [
     color: "#f472b6"
   },
   {
-    id: "discord-challenges-btn",
-    icon: "lucide:trophy",
-    title: "Challenges",
-    meta: "620 membres - 34 en ligne",
-    shell: "bg-orange-500/10 border-orange-500/20",
-    color: "#fb923c"
+    id: "discord-3d-btn",
+    icon: "lucide:box",
+    title: "3D et immersif",
+    meta: "410 membres - 19 en ligne",
+    shell: "bg-violet-500/10 border-violet-500/20",
+    color: "#A78BFA"
   },
   {
     id: "discord-mentorat-btn",
@@ -297,6 +300,8 @@ export default function CommunityLivesPage() {
                 "#dev-web",
                 "#ia-automatisation",
                 "#donnees-analyse",
+                "#web3-blockchain",
+                "#3d-immersif",
                 "#marketing-digital",
                 "Atelier Live IA",
                 "Live Coding Web",
@@ -314,6 +319,8 @@ export default function CommunityLivesPage() {
                 "#dev-web",
                 "#ia-automatisation",
                 "#donnees-analyse",
+                "#web3-blockchain",
+                "#3d-immersif",
                 "#marketing-digital",
                 "Atelier Live IA",
                 "Live Coding Web",
@@ -586,23 +593,23 @@ export default function CommunityLivesPage() {
                   Creer mon compte
                 </Link>
 
-                <a
-                  href="#"
+                <Link
+                  href={DISCORD_INVITE_URL}
                   id="join-discord-btn"
                   className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#5865F2] px-4 py-3 text-[13px] font-semibold hover:bg-[#4752c4] transition-colors"
                 >
                   <iconify-icon icon="ic:baseline-discord" style={{ fontSize: "16px" }} />
                   Rejoindre Discord
-                </a>
+                </Link>
 
-                <a
-                  href="#"
+                <Link
+                  href={TWITCH_CHANNEL_URL}
                   id="join-twitch-btn"
                   className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#9147FF] px-4 py-3 text-[13px] font-semibold hover:bg-[#7b2fbe] transition-colors"
                 >
                   <iconify-icon icon="mdi:twitch" style={{ fontSize: "16px" }} />
                   Suivre sur Twitch
-                </a>
+                </Link>
               </div>
             </div>
           </div>

@@ -4,6 +4,14 @@ import { redirect } from "next/navigation";
 import AdminUsersManager from "../../components/AdminUsersManager";
 import { getUserAccessContext } from "../../lib/auth";
 import { createClient } from "../../utils/supabase/server";
+import { buildPageMetadata } from "../../lib/seo";
+
+export const metadata = buildPageMetadata({
+  title: "Admin",
+  description: "Espace administration TakaCode pour gerer roles, points, grades et referral.",
+  path: "/admin",
+  noIndex: true
+});
 
 function isMissingProfilesTableError(error) {
   const code = typeof error?.code === "string" ? error.code : "";

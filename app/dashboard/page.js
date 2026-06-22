@@ -4,6 +4,14 @@ import AdminDashboardPage from "../../components/AdminDashboardPage";
 import { getUserAccessContext } from "../../lib/auth";
 import { getOnboardingProfile, isOnboardingCompleted } from "../../lib/onboarding";
 import { createClient } from "../../utils/supabase/server";
+import { buildPageMetadata } from "../../lib/seo";
+
+export const metadata = buildPageMetadata({
+  title: "Dashboard",
+  description: "Tableau de bord personnel TakaCode pour suivre ta progression, tes parcours et tes objectifs.",
+  path: "/dashboard",
+  noIndex: true
+});
 
 function formatDisplayName(user) {
   const fullName = typeof user?.user_metadata?.full_name === "string" ? user.user_metadata.full_name.trim() : "";
