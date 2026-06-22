@@ -32,7 +32,7 @@ export default function Navbar() {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [hasScrolled, setHasScrolled] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authState, setAuthState] = useState("loading");
 
   useEffect(() => {
     const closeOnDesktop = () => {
@@ -61,33 +61,53 @@ export default function Navbar() {
     let isMounted = true;
 
     async function syncAuthState() {
-      const {
-        data: { user }
-      } = await supabase.auth.getUser();
+      try {
+        const {
+          data: { user },
+          error
+        } = await supabase.auth.getUser();
 
-      if (isMounted) {
-        setIsAuthenticated(Boolean(user));
+        if (!isMounted) {
+          return;
+        }
+
+        if (error) {
+          setAuthState("anonymous");
+          return;
+        }
+
+        setAuthState(user ? "authenticated" : "anonymous");
+      } catch {
+        if (isMounted) {
+          setAuthState("anonymous");
+        }
       }
     }
 
     syncAuthState();
 
+    return () => {
+      isMounted = false;
+    };
+  }, [pathname, supabase]);
+
+  useEffect(() => {
     const {
       data: { subscription }
     } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (isMounted) {
-        setIsAuthenticated(Boolean(session?.user));
-      }
+      setAuthState(session?.user ? "authenticated" : "anonymous");
     });
 
     return () => {
-      isMounted = false;
       subscription.unsubscribe();
     };
   }, [supabase]);
 
   const toggleMobileMenu = () => setIsMobileOpen((current) => !current);
   const closeMobileMenu = () => setIsMobileOpen(false);
+
+  const isAuthLoading = authState === "loading";
+  const isAuthenticated = authState === "authenticated";
 
   const authHref = isAuthenticated ? "/dashboard" : "/signin";
   const authLabel = isAuthenticated ? "Dashboard" : "Connexion";
@@ -122,8 +142,14 @@ export default function Navbar() {
         </div>
 
         <div className="nav-desktop-actions flex items-center gap-3">
-          <Link href={authHref} id="nav-connexion-link" className="nav-link">{authLabel}</Link>
-          <Link href={ctaHref} id="nav-cta-link" className="btn-primary glow-btn">{ctaLabel}</Link>
+          {isAuthLoading ? (
+            <div className="h-10 w-[168px]" aria-hidden="true" />
+          ) : (
+            <>
+              <Link href={authHref} id="nav-connexion-link" className="nav-link">{authLabel}</Link>
+              <Link href={ctaHref} id="nav-cta-link" className="btn-primary glow-btn">{ctaLabel}</Link>
+            </>
+          )}
         </div>
 
         <button
@@ -160,22 +186,26 @@ export default function Navbar() {
           </div>
 
           <div className="nav-mobile-actions">
-            <Link
-              href={authHref}
-              id="nav-connexion-mobile-link"
-              className="nav-link nav-mobile-link"
-              onClick={closeMobileMenu}
-            >
-              {authLabel}
-            </Link>
-            <Link
-              href={ctaHref}
-              id="nav-cta-mobile-link"
-              className="btn-primary glow-btn nav-mobile-cta"
-              onClick={closeMobileMenu}
-            >
-              {ctaLabel}
-            </Link>
+            {isAuthLoading ? null : (
+              <>
+                <Link
+                  href={authHref}
+                  id="nav-connexion-mobile-link"
+                  className="nav-link nav-mobile-link"
+                  onClick={closeMobileMenu}
+                >
+                  {authLabel}
+                </Link>
+                <Link
+                  href={ctaHref}
+                  id="nav-cta-mobile-link"
+                  className="btn-primary glow-btn nav-mobile-cta"
+                  onClick={closeMobileMenu}
+                >
+                  {ctaLabel}
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>

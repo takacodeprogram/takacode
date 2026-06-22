@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "../utils/supabase/client";
 
@@ -143,6 +143,33 @@ export default function AuthOnboardingPage({ initialMode = "signin" }) {
   const passwordStrength = getPasswordStrength(password);
   const strengthMeta = getStrengthMeta(passwordStrength);
   const modeCopy = AUTH_MODE_COPY[mode] ?? AUTH_MODE_COPY.signin;
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function redirectIfSessionExists() {
+      try {
+        const {
+          data: { user }
+        } = await supabase.auth.getUser();
+
+        if (!isMounted || !user) {
+          return;
+        }
+
+        router.replace("/connexion");
+        router.refresh();
+      } catch {
+        // Keep auth form visible when user data cannot be loaded.
+      }
+    }
+
+    redirectIfSessionExists();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [router, supabase]);
 
   const activeErrorMessage = errorMessage || (queryError ? AUTH_ERROR_MESSAGES[queryError] ?? "La connexion n'a pas abouti. Reessaie." : "");
   const activeInfoMessage = infoMessage;
