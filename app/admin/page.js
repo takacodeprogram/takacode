@@ -2,7 +2,7 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import AdminUsersManager from "../../components/AdminUsersManager";
-import { getUserAccessContext } from "../../lib/auth";
+import { getUserAccessContext, isBootstrapAdminEmail } from "../../lib/auth";
 import { createClient } from "../../utils/supabase/server";
 import { buildPageMetadata } from "../../lib/seo";
 
@@ -23,6 +23,32 @@ function isMissingProfilesTableError(error) {
     message.includes("user_profiles") ||
     message.includes("schema cache")
   );
+}
+
+function resolveAppUrl() {
+  const candidates = [
+    process.env.NEXT_PUBLIC_APP_URL,
+    process.env.NEXT_PUBLIC_SITE_URL,
+    process.env.VERCEL_PROJECT_PRODUCTION_URL
+      ? `https://${String(process.env.VERCEL_PROJECT_PRODUCTION_URL).replace(/^https?:\/\//i, "")}`
+      : "",
+    "https://takacode.vercel.app"
+  ];
+
+  for (const candidate of candidates) {
+    const value = String(candidate || "").trim();
+    if (!value) {
+      continue;
+    }
+
+    if (/^https?:\/\//i.test(value)) {
+      return value;
+    }
+
+    return `https://${value.replace(/^\/+/, "")}`;
+  }
+
+  return "https://takacode.vercel.app";
 }
 
 export default async function AdminPage() {
@@ -49,6 +75,10 @@ export default async function AdminPage() {
     .order("points", { ascending: false })
     .limit(250);
 
+  const appUrl = resolveAppUrl();
+  const currentAdminEmail = typeof user?.email === "string" ? user.email : "";
+  const roleLabel = String(accessContext.role || "user").toLowerCase();
+  const fromBootstrapList = isBootstrapAdminEmail(currentAdminEmail);
   const missingSchema = isMissingProfilesTableError(error);
 
   return (
@@ -75,6 +105,62 @@ export default async function AdminPage() {
               </form>
             </div>
           </div>
+        </section>
+
+        <section className="grid grid-cols-1 xl:grid-cols-[1.15fr_0.85fr] gap-4">
+          <article className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 md:p-6">
+            <div className="section-label mb-2">PITCH APP DEPLOYEE</div>
+            <h2 className="font-valorax text-[26px] leading-[0.95]">PRESENTATION POWERPOINT</h2>
+            <p className="font-body-readable text-[13px] text-[#8d8d8d] mt-3 max-w-[760px]">
+              Deck de presentation genere au format .pptx avec direction visuelle TakaCode pour pitcher l'application deployee.
+            </p>
+
+            <div className="flex flex-wrap items-center gap-2.5 mt-5">
+              <a href="/api/admin/pitch-deck" className="btn-primary">
+                Telecharger le pitch (.pptx)
+              </a>
+              <a href={appUrl} target="_blank" rel="noreferrer" className="btn-secondary">
+                Ouvrir l'app deployee
+              </a>
+            </div>
+
+            <p className="font-body-readable text-[11px] text-[#666] mt-3">
+              URL cible: <span className="text-[#8fd1ff]">{appUrl}</span>
+            </p>
+          </article>
+
+          <article className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 md:p-6">
+            <div className="section-label mb-2">ACCES ADMIN</div>
+            <h2 className="font-valorax text-[24px] leading-[0.95]">INFOS D'ACCES</h2>
+
+            <div className="mt-4 space-y-2.5">
+              <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] px-3.5 py-3 text-[12px] font-body-readable text-[#cfcfcf]">
+                <span className="text-[#666]">URL admin:</span> /admin
+              </div>
+              <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] px-3.5 py-3 text-[12px] font-body-readable text-[#cfcfcf]">
+                <span className="text-[#666]">Compte connecte:</span> {currentAdminEmail || "non disponible"}
+              </div>
+              <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] px-3.5 py-3 text-[12px] font-body-readable text-[#cfcfcf]">
+                <span className="text-[#666]">Role detecte:</span> {roleLabel}
+              </div>
+            </div>
+
+            <div
+              className={`mt-3 rounded-xl px-3.5 py-3 text-[11px] font-body-readable border ${
+                fromBootstrapList
+                  ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-200"
+                  : "border-blue-500/25 bg-blue-500/10 text-blue-100"
+              }`}
+            >
+              {fromBootstrapList
+                ? "Ce compte est configure dans TAKACODE_ADMIN_EMAILS."
+                : "Ce compte est admin via user_profiles/app_metadata (pas via TAKACODE_ADMIN_EMAILS)."}
+            </div>
+
+            <p className="font-body-readable text-[11px] text-[#6f6f6f] mt-3">
+              Pour ajouter un autre admin: execute `supabase/sql/002_bootstrap_admin.sql` en remplacant EMAIL_PLACEHOLDER.
+            </p>
+          </article>
         </section>
 
         {missingSchema ? (

@@ -3,13 +3,16 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { sanitizeAuthEmail, toAuthErrorMessage } from "../lib/authErrors";
 import { createClient } from "../utils/supabase/client";
 
 const AUTH_ERROR_MESSAGES = {
   forbidden: "Ton compte ne dispose pas du role requis pour acceder au dashboard.",
   oauth_callback_failed: "La connexion n'a pas abouti. Reessaie.",
   oauth_code_missing: "La connexion a ete interrompue. Reessaie.",
-  oauth_denied: "Connexion annulee ou refusee."
+  oauth_denied: "Connexion annulee ou refusee.",
+  auth_config_missing: "Configuration auth manquante. Contacte l'administrateur.",
+  auth_network: "Probleme reseau pendant la connexion OAuth. Reessaie."
 };
 
 const AUTH_MODE_COPY = {
@@ -217,20 +220,25 @@ export default function AuthOnboardingPage({ initialMode = "signin" }) {
     setErrorMessage("");
     setInfoMessage("");
 
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider,
-      options: {
-        redirectTo: buildOAuthRedirect(nextPath)
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider,
+        options: {
+          redirectTo: buildOAuthRedirect(nextPath)
+        }
+      });
+
+      if (error) {
+        setErrorMessage(toAuthErrorMessage(error, "Impossible de demarrer la connexion OAuth."));
+        setLoading(false);
+        return;
       }
-    });
 
-    if (error) {
-      setErrorMessage(error.message);
+      // Browser is redirected by Supabase for OAuth.
+    } catch {
+      setErrorMessage("Probleme reseau. Reessaie dans un instant.");
       setLoading(false);
-      return;
     }
-
-    // Browser is redirected by Supabase for OAuth.
   }
 
   async function handleWalletLogin() {
@@ -238,45 +246,67 @@ export default function AuthOnboardingPage({ initialMode = "signin" }) {
     setErrorMessage("");
     setInfoMessage("");
 
-    const { error } = await supabase.auth.signInWithWeb3({
-      chain: "ethereum",
-      statement: "Connexion a TakaCode"
-    });
+    try {
+      const { error } = await supabase.auth.signInWithWeb3({
+        chain: "ethereum",
+        statement: "Connexion a TakaCode"
+      });
 
-    if (error) {
-      setErrorMessage(error.message);
+      if (error) {
+        setErrorMessage(toAuthErrorMessage(error, "Impossible de connecter le wallet."));
+        setLoading(false);
+        return;
+      }
+
+      router.push(nextPath);
+      router.refresh();
+    } catch {
+      setErrorMessage("Probleme reseau. Reessaie dans un instant.");
       setLoading(false);
-      return;
     }
-
-    router.push(nextPath);
-    router.refresh();
   }
 
   async function handleSignIn(event) {
     event.preventDefault();
 
+    const normalizedEmail = sanitizeAuthEmail(email);
+    if (!normalizedEmail) {
+      setErrorMessage("Entre ton email pour te connecter.");
+      return;
+    }
+
     setLoading(true);
     setErrorMessage("");
     setInfoMessage("");
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password
-    });
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email: normalizedEmail,
+        password
+      });
 
-    if (error) {
-      setErrorMessage(error.message);
+      if (error) {
+        setErrorMessage(toAuthErrorMessage(error, "Connexion impossible pour le moment."));
+        setLoading(false);
+        return;
+      }
+
+      router.push(nextPath);
+      router.refresh();
+    } catch {
+      setErrorMessage("Probleme reseau. Reessaie dans un instant.");
       setLoading(false);
-      return;
     }
-
-    router.push(nextPath);
-    router.refresh();
   }
 
   async function handleSignUp(event) {
     event.preventDefault();
+
+    const normalizedEmail = sanitizeAuthEmail(email);
+    if (!normalizedEmail) {
+      setErrorMessage("Entre une adresse email valide.");
+      return;
+    }
 
     if (password !== passwordConfirm) {
       setErrorMessage("Les mots de passe ne correspondent pas.");
@@ -294,34 +324,39 @@ export default function AuthOnboardingPage({ initialMode = "signin" }) {
 
     const emailRedirectTo = buildOAuthRedirect(nextPath);
 
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo,
-        data: {
-          first_name: firstName,
-          last_name: lastName,
-          role: "user",
-          referral_code: referralCode ? referralCode.trim().toUpperCase() : undefined
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email: normalizedEmail,
+        password,
+        options: {
+          emailRedirectTo,
+          data: {
+            first_name: firstName,
+            last_name: lastName,
+            role: "user",
+            referral_code: referralCode ? referralCode.trim().toUpperCase() : undefined
+          }
         }
+      });
+
+      if (error) {
+        setErrorMessage(toAuthErrorMessage(error, "Inscription impossible pour le moment."));
+        setLoading(false);
+        return;
       }
-    });
 
-    if (error) {
-      setErrorMessage(error.message);
+      if (data.session) {
+        router.push(nextPath);
+        router.refresh();
+        return;
+      }
+
+      setInfoMessage("Compte cree. Verifie ton email pour confirmer ton inscription.");
       setLoading(false);
-      return;
+    } catch {
+      setErrorMessage("Probleme reseau. Reessaie dans un instant.");
+      setLoading(false);
     }
-
-    if (data.session) {
-      router.push(nextPath);
-      router.refresh();
-      return;
-    }
-
-    setInfoMessage("Compte cree. Verifie ton email pour confirmer ton inscription.");
-    setLoading(false);
   }
 
   return (

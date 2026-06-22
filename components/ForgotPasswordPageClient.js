@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { isValidAuthEmail, sanitizeAuthEmail, toAuthErrorMessage } from "../lib/authErrors";
 import { createClient } from "../utils/supabase/client";
 
 export default function ForgotPasswordPageClient() {
@@ -13,21 +14,34 @@ export default function ForgotPasswordPageClient() {
 
   async function handleSubmit(event) {
     event.preventDefault();
-    setLoading(true);
-    setErrorMessage("");
 
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/reset-password`
-    });
+    const normalizedEmail = sanitizeAuthEmail(email);
 
-    if (error) {
-      setErrorMessage(error.message);
-      setLoading(false);
+    if (!isValidAuthEmail(normalizedEmail)) {
+      setErrorMessage("Entre une adresse email valide.");
       return;
     }
 
-    setEmailSent(true);
-    setLoading(false);
+    setLoading(true);
+    setErrorMessage("");
+
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(normalizedEmail, {
+        redirectTo: `${window.location.origin}/reset-password`
+      });
+
+      if (error) {
+        setErrorMessage(toAuthErrorMessage(error, "Impossible d'envoyer le lien pour le moment."));
+        return;
+      }
+
+      setEmail(normalizedEmail);
+      setEmailSent(true);
+    } catch {
+      setErrorMessage("Probleme reseau. Verifie ta connexion puis reessaie.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -39,10 +53,10 @@ export default function ForgotPasswordPageClient() {
         {emailSent ? (
           <>
             <p className="font-body-readable text-[14px] text-[#888] leading-relaxed mb-3">
-              Nous venons de t'envoyer un lien pour reinitialiser ton mot de passe.
+              Un lien de reinitialisation a ete envoye a <span className="text-white">{email}</span>.
             </p>
             <p className="font-body-readable text-[14px] text-[#888] leading-relaxed mb-8">
-              Tu pourras bientot reprendre ton parcours et continuer a construire.
+              Regarde aussi dans les dossiers spam, promotions ou social puis ouvre le lien recu.
             </p>
           </>
         ) : (

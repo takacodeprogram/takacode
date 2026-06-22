@@ -60,7 +60,14 @@ function getStepUi(state) {
   };
 }
 
-export default function AdminDashboardPage({ user, onboarding, gamification }) {
+function formatTrackMetaForCard(track) {
+  const duration = Number.isFinite(Number(track?.durationWeeks)) ? Number(track.durationWeeks) : 0;
+  const durationLabel = duration > 0 ? String(duration) + " semaines" : "Progressif";
+  const level = typeof track?.levelLabel === "string" && track.levelLabel.trim() ? track.levelLabel.trim() : "Tous niveaux";
+  return durationLabel + " - " + level;
+}
+
+export default function AdminDashboardPage({ user, onboarding, tracks, gamification }) {
   const displayName = user?.displayName || "Membre";
   const firstName = displayName.split(" ")[0] || "Membre";
   const email = user?.email || "membre@takacode.app";
@@ -86,6 +93,10 @@ export default function AdminDashboardPage({ user, onboarding, gamification }) {
   const quickActions = isAdmin
     ? [...QUICK_ACTIONS, { label: "Administrer la plateforme", href: "/admin", icon: "lucide:shield-check" }]
     : QUICK_ACTIONS;
+
+  const enrolledTracks = Array.isArray(tracks?.enrolled) ? tracks.enrolled : [];
+  const recommendedTracks = Array.isArray(tracks?.recommended) ? tracks.recommended : [];
+  const visibleUserTracks = (enrolledTracks.length ? enrolledTracks : recommendedTracks).slice(0, 4);
   return (
     <div className="min-h-screen bg-[#0A0A0A] flex text-white">
       <aside className="w-[280px] border-r border-white/[0.05] bg-[#0A0A0A] sticky top-0 h-screen z-40 p-6 hidden lg:flex lg:flex-col">
@@ -274,6 +285,33 @@ export default function AdminDashboardPage({ user, onboarding, gamification }) {
                   <div className="text-[12px] text-[#c9c9c9] font-body-readable">{onboarding.projectIdea}</div>
                 </div>
               ) : null}
+            </article>
+
+            <article className="rounded-2xl border border-white/[0.08] bg-[#111] p-5">
+              <div className="flex items-center justify-between gap-3 mb-3">
+                <h3 className="font-venite text-[12px] tracking-widest text-[#888]">MES PARCOURS</h3>
+                <Link href="/parcours" className="text-[11px] text-[#4F8EF7] hover:underline">Voir tous</Link>
+              </div>
+
+              {visibleUserTracks.length ? (
+                <div className="space-y-2.5">
+                  {visibleUserTracks.map((track) => (
+                    <div key={track.id || track.slug || track.title} className="rounded-xl border border-white/[0.08] bg-white/[0.02] px-3.5 py-3">
+                      <div className="flex items-center justify-between gap-2 mb-1.5">
+                        <div className="text-[12px] text-white font-semibold leading-tight">{track.title}</div>
+                        {Number.isFinite(Number(track.progress)) ? (
+                          <span className="text-[10px] text-[#6ec3ff] font-semibold">{Math.max(0, Math.min(Number(track.progress), 100))}%</span>
+                        ) : null}
+                      </div>
+                      <div className="text-[10px] text-[#666] font-body-readable">{formatTrackMetaForCard(track)}</div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] px-3.5 py-3 text-[11px] text-[#777] font-body-readable">
+                  Ton parcours apparaitra ici apres ton onboarding.
+                </div>
+              )}
             </article>
 
             <article className="rounded-2xl border border-white/[0.08] bg-[#111] p-5">

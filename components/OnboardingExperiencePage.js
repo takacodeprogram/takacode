@@ -144,6 +144,7 @@ export default function OnboardingExperiencePage({ user }) {
   const [weeklyCommitmentKey, setWeeklyCommitmentKey] = useState(
     findOption(WEEKLY_COMMITMENT_OPTIONS, profileSeed.weekly_commitment, "2_to_5").key
   );
+  const [databaseRecommendation, setDatabaseRecommendation] = useState(null);
   const [saving, setSaving] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const skipDraftSyncRef = useRef(true);
@@ -153,7 +154,8 @@ export default function OnboardingExperiencePage({ user }) {
   const selectedProjectClarity = findOption(PROJECT_CLARITY_OPTIONS, projectClarityKey, "explore");
   const selectedWeeklyCommitment = findOption(WEEKLY_COMMITMENT_OPTIONS, weeklyCommitmentKey, "2_to_5");
 
-  const recommendation = useMemo(() => buildOnboardingRecommendation(goalKey), [goalKey]);
+  const fallbackRecommendation = useMemo(() => buildOnboardingRecommendation(goalKey), [goalKey]);
+  const recommendation = databaseRecommendation || fallbackRecommendation;
   const stepMeta = STEP_META[step] || STEP_META[1];
 
   const draftPayload = useMemo(() => {
@@ -204,6 +206,52 @@ export default function OnboardingExperiencePage({ user }) {
     return () => window.clearTimeout(timeoutId);
   }, [draftPayload, metadata?.onboarding_completed, saving, supabase]);
 
+  useEffect(() => {
+    let isMounted = true;
+
+    async function loadDatabaseRecommendation() {
+      if (isMounted) {
+        setDatabaseRecommendation(null);
+      }
+
+      try {
+        const response = await fetch("/api/tracks/recommendation?goal_key=" + encodeURIComponent(goalKey), {
+          method: "GET",
+          cache: "no-store"
+        });
+
+        if (!response.ok) {
+          if (isMounted) {
+            setDatabaseRecommendation(null);
+          }
+          return;
+        }
+
+        const payload = await response.json();
+
+        if (!isMounted) {
+          return;
+        }
+
+        if (payload?.recommendation && typeof payload.recommendation === "object") {
+          setDatabaseRecommendation(payload.recommendation);
+          return;
+        }
+
+        setDatabaseRecommendation(null);
+      } catch {
+        if (isMounted) {
+          setDatabaseRecommendation(null);
+        }
+      }
+    }
+
+    loadDatabaseRecommendation();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [goalKey]);
   const canContinue = useMemo(() => {
     if (step === 1) return true;
     if (step === 2) return Boolean(goalKey);

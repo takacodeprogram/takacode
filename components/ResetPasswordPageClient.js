@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import { toAuthErrorMessage } from "../lib/authErrors";
 import { createClient } from "../utils/supabase/client";
 
 function getPasswordStrength(password) {
@@ -46,12 +47,18 @@ export default function ResetPasswordPageClient() {
     let isMounted = true;
 
     async function verifySession() {
-      const {
-        data: { session }
-      } = await supabase.auth.getSession();
+      try {
+        const {
+          data: { session }
+        } = await supabase.auth.getSession();
 
-      if (!session && isMounted) {
-        setInfoMessage("Ouvre cette page depuis le lien recu par email pour choisir ton nouveau mot de passe.");
+        if (!session && isMounted) {
+          setInfoMessage("Ouvre cette page depuis le lien recu par email pour choisir ton nouveau mot de passe.");
+        }
+      } catch {
+        if (isMounted) {
+          setInfoMessage("Impossible de verifier la session. Recharge la page depuis le lien recu par email.");
+        }
       }
     }
 
@@ -79,17 +86,22 @@ export default function ResetPasswordPageClient() {
     setErrorMessage("");
     setInfoMessage("");
 
-    const { error } = await supabase.auth.updateUser({ password });
+    try {
+      const { error } = await supabase.auth.updateUser({ password });
 
-    if (error) {
-      setErrorMessage(error.message);
+      if (error) {
+        setErrorMessage(toAuthErrorMessage(error, "Impossible de mettre a jour le mot de passe."));
+        return;
+      }
+
+      await supabase.auth.signOut();
+      router.replace("/signin?reset=success");
+      router.refresh();
+    } catch {
+      setErrorMessage("Probleme reseau. Reessaie dans un instant.");
+    } finally {
       setLoading(false);
-      return;
     }
-
-    await supabase.auth.signOut();
-    router.replace("/signin?reset=success");
-    router.refresh();
   }
 
   return (
@@ -165,9 +177,12 @@ export default function ResetPasswordPageClient() {
           </button>
         </form>
 
-        <div className="mt-8 pt-6 border-t border-white/[0.05] text-[13px]">
+        <div className="mt-8 pt-6 border-t border-white/[0.05] text-[13px] flex items-center justify-between">
           <Link href="/signin" className="text-[#888] hover:text-white transition-colors">
             Retour a la connexion
+          </Link>
+          <Link href="/forgot-password" className="text-[#4F8EF7] hover:underline">
+            Nouveau lien
           </Link>
         </div>
       </div>

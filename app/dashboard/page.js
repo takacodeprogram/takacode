@@ -3,8 +3,17 @@ import { redirect } from "next/navigation";
 import AdminDashboardPage from "../../components/AdminDashboardPage";
 import { getUserAccessContext } from "../../lib/auth";
 import { getOnboardingProfile, isOnboardingCompleted } from "../../lib/onboarding";
-import { createClient } from "../../utils/supabase/server";
 import { buildPageMetadata } from "../../lib/seo";
+import {
+  ensureUserPrimaryEnrollment,
+  listRecommendedTracksForGoal,
+  listUserTrackEnrollments,
+  mapTrackToRecommendation
+} from "../../lib/tracks";
+import { createClient } from "../../utils/supabase/server";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export const metadata = buildPageMetadata({
   title: "Dashboard",
@@ -57,6 +66,31 @@ export default async function DashboardPage() {
   }
 
   const onboardingProfile = getOnboardingProfile(user);
+
+  if (accessContext.role !== "admin") {
+    await ensureUserPrimaryEnrollment(supabase, user.id, onboardingProfile.goalKey);
+  }
+
+  const enrollmentResult = await listUserTrackEnrollments(supabase, user.id, { limit: 8 });
+  const enrolledTracks = enrollmentResult.enrollments.map((entry) => ({
+    ...entry.track,
+    enrollmentId: entry.id,
+    progress: entry.progress,
+    status: entry.status
+  }));
+
+  const excludedTrackIds = enrolledTracks.map((track) => track.id);
+  const recommendedResult = await listRecommendedTracksForGoal(supabase, onboardingProfile.goalKey, {
+    limit: 4,
+    excludedTrackIds
+  });
+  const recommendedTracks = recommendedResult.tracks;
+
+  const primaryTrack = enrolledTracks[0] || recommendedTracks[0] || null;
+  const recommendation = primaryTrack
+    ? mapTrackToRecommendation(primaryTrack, onboardingProfile.recommendation.parcoursTitle)
+    : onboardingProfile.recommendation;
+
   const points = Number.isFinite(Number(accessContext.profile?.points)) ? Number(accessContext.profile?.points) : 0;
 
   return (
@@ -68,16 +102,21 @@ export default async function DashboardPage() {
       }}
       onboarding={{
         goalLabel: onboardingProfile.goalLabel,
-        objective: onboardingProfile.recommendation.objective,
+        objective: recommendation.objective,
         progress: onboardingProfile.progress,
-        nextSteps: onboardingProfile.recommendation.nextSteps,
-        nextSession: onboardingProfile.recommendation.nextSession,
-        parcoursTitle: onboardingProfile.recommendation.parcoursTitle,
-        parcoursMeta: onboardingProfile.recommendation.parcoursMeta,
-        resources: onboardingProfile.recommendation.resources,
+        nextSteps: recommendation.nextSteps,
+        nextSession: recommendation.nextSession,
+        parcoursTitle: recommendation.parcoursTitle,
+        parcoursMeta: recommendation.parcoursMeta,
+        resources: recommendation.resources,
         weeklyCommitmentLabel: onboardingProfile.weeklyCommitmentLabel,
         projectIdea: onboardingProfile.projectIdea,
         tools: onboardingProfile.tools
+      }}
+      tracks={{
+        enrolled: enrolledTracks,
+        recommended: recommendedTracks,
+        schemaReady: enrollmentResult.schemaReady && recommendedResult.schemaReady
       }}
       gamification={{
         points,

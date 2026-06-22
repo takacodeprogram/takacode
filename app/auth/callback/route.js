@@ -18,7 +18,7 @@ function sanitizeNextPath(value) {
 
 function getConfig() {
   if (!supabaseUrl || !supabaseKey) {
-    throw new Error("Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY");
+    return null;
   }
 
   return { supabaseUrl, supabaseKey };
@@ -42,12 +42,18 @@ export async function GET(request) {
     return NextResponse.redirect(redirectUrl);
   }
 
-  const { supabaseUrl: url, supabaseKey: key } = getConfig();
+  const config = getConfig();
+
+  if (!config) {
+    const redirectUrl = new URL("/signin", requestUrl.origin);
+    redirectUrl.searchParams.set("error", "auth_config_missing");
+    return NextResponse.redirect(redirectUrl);
+  }
 
   const redirectUrl = new URL(nextPath, requestUrl.origin);
   const response = NextResponse.redirect(redirectUrl);
 
-  const supabase = createServerClient(url, key, {
+  const supabase = createServerClient(config.supabaseUrl, config.supabaseKey, {
     cookies: {
       getAll() {
         return request.cookies.getAll();
@@ -60,13 +66,19 @@ export async function GET(request) {
     }
   });
 
-  const { error } = await supabase.auth.exchangeCodeForSession(code);
+  try {
+    const { error } = await supabase.auth.exchangeCodeForSession(code);
 
-  if (error) {
+    if (error) {
+      const failureUrl = new URL("/signin", requestUrl.origin);
+      failureUrl.searchParams.set("error", "oauth_callback_failed");
+      return NextResponse.redirect(failureUrl);
+    }
+
+    return response;
+  } catch {
     const failureUrl = new URL("/signin", requestUrl.origin);
-    failureUrl.searchParams.set("error", "oauth_callback_failed");
+    failureUrl.searchParams.set("error", "auth_network");
     return NextResponse.redirect(failureUrl);
   }
-
-  return response;
 }
