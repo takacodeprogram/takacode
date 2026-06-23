@@ -141,6 +141,8 @@ export default function AdminDashboardPage({ user, onboarding, tracks, gamificat
     ? adminData.appUrl.trim()
     : "https://takacode.vercel.app";
   const normalizedCurrentPath = normalizePathname(currentPath);
+  const isAdminAreaPath = normalizedCurrentPath === "/admin" || normalizedCurrentPath.startsWith("/admin/");
+  const showAdminPitchDeck = !isAdminAreaPath;
   const sidebarLinks = SIDEBAR_LINKS.filter((link) => !link.adminOnly || isAdmin);
 
   const mobileLinks = [
@@ -261,7 +263,7 @@ export default function AdminDashboardPage({ user, onboarding, tracks, gamificat
                 <div className="flex flex-wrap items-center gap-2.5">
                   <a href={appUrl} target="_blank" rel="noreferrer" className="btn-secondary">Voir l'app</a>
                   <Link href="/admin" className="btn-secondary">Aller sur /admin</Link>
-                  <a href="/api/admin/pitch-deck" className="btn-primary">Pitch deck</a>
+                  {showAdminPitchDeck ? <a href="/api/admin/pitch-deck" className="btn-primary">Pitch deck</a> : null}
                 </div>
               </div>
 
@@ -286,6 +288,7 @@ export default function AdminDashboardPage({ user, onboarding, tracks, gamificat
               usersError={usersError}
               tracksError={tracksError}
               appUrl={appUrl}
+              showPitchDeck={showAdminPitchDeck}
             />
           </>
         ) : (

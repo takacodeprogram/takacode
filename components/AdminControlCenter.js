@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
@@ -22,7 +22,8 @@ export default function AdminControlCenter({
   tracksSchemaReady = true,
   usersError = "",
   tracksError = "",
-  appUrl = "https://takacode.vercel.app"
+  appUrl = "https://takacode.vercel.app",
+  showPitchDeck = true
 }) {
   const [activeTab, setActiveTab] = useState("overview");
 
@@ -124,9 +125,11 @@ export default function AdminControlCenter({
           )}
 
           <div className="flex flex-wrap gap-2.5">
-            <a href="/api/admin/pitch-deck" className="btn-primary">
-              Telecharger le pitch
-            </a>
+            {showPitchDeck ? (
+              <a href="/api/admin/pitch-deck" className="btn-primary">
+                Telecharger le pitch
+              </a>
+            ) : null}
             <a href={appUrl} target="_blank" rel="noreferrer" className="btn-secondary">
               Ouvrir l'app deployee
             </a>
