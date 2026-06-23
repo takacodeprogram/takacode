@@ -1,6 +1,6 @@
-"use client";
+﻿"use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createClient } from "../utils/supabase/client";
 
 const TRACK_SELECT = "id, slug, goal_key, title, summary, level_label, duration_weeks, accent_color, icon, objective, resources, next_session, is_published, is_active, sort_order, updated_at";
@@ -22,8 +22,21 @@ const DEFAULT_CREATE_FORM = {
 
 function normalizeTrack(track) {
   return {
-    ...track,
-    resources: Array.isArray(track?.resources) ? track.resources : []
+    id: String(track?.id || "").trim(),
+    slug: String(track?.slug || "").trim(),
+    goal_key: String(track?.goal_key || track?.goalKey || "other").trim().toLowerCase() || "other",
+    title: String(track?.title || "Parcours").trim() || "Parcours",
+    summary: String(track?.summary || track?.description || "Parcours en preparation.").trim() || "Parcours en preparation.",
+    level_label: String(track?.level_label || track?.levelLabel || "Debutant").trim() || "Debutant",
+    duration_weeks: Math.max(1, Number.parseInt(String(track?.duration_weeks ?? track?.durationWeeks ?? 8), 10) || 8),
+    sort_order: Math.max(1, Number.parseInt(String(track?.sort_order ?? track?.sortOrder ?? 100), 10) || 100),
+    accent_color: String(track?.accent_color || track?.accentColor || "#4F8EF7").trim() || "#4F8EF7",
+    icon: String(track?.icon || "lucide:route").trim() || "lucide:route",
+    objective: String(track?.objective || "Construire un projet concret.").trim() || "Construire un projet concret.",
+    resources: Array.isArray(track?.resources) ? track.resources : [],
+    next_session: String(track?.next_session || track?.nextSession || "Session annoncee bientot").trim() || "Session annoncee bientot",
+    is_published: track?.is_published === true || track?.isPublished === true,
+    is_active: track?.is_active !== false && track?.isActive !== false
   };
 }
 
@@ -43,27 +56,37 @@ function parseResources(value) {
     .slice(0, 8);
 }
 
+function buildTrackDraft(track) {
+  return {
+    title: String(track.title || ""),
+    summary: String(track.summary || ""),
+    goal_key: String(track.goal_key || "other"),
+    level_label: String(track.level_label || "Debutant"),
+    duration_weeks: String(Number(track.duration_weeks || 8)),
+    sort_order: String(Number(track.sort_order || 100)),
+    accent_color: String(track.accent_color || "#4F8EF7"),
+    icon: String(track.icon || "lucide:route"),
+    objective: String(track.objective || "Construire un projet concret."),
+    resources: toResourcesInput(track.resources),
+    next_session: String(track.next_session || "Session annoncee bientot"),
+    is_published: track.is_published === true,
+    is_active: track.is_active !== false
+  };
+}
+
 function buildInitialDrafts(tracks) {
-  return Object.fromEntries(
-    tracks.map((track) => [
-      track.id,
-      {
-        title: String(track.title || ""),
-        summary: String(track.summary || ""),
-        goal_key: String(track.goal_key || "other"),
-        level_label: String(track.level_label || "Debutant"),
-        duration_weeks: String(Number(track.duration_weeks || 8)),
-        sort_order: String(Number(track.sort_order || 100)),
-        accent_color: String(track.accent_color || "#4F8EF7"),
-        icon: String(track.icon || "lucide:route"),
-        objective: String(track.objective || "Construire un projet concret."),
-        resources: toResourcesInput(track.resources),
-        next_session: String(track.next_session || "Session annoncee bientot"),
-        is_published: track.is_published === true,
-        is_active: track.is_active !== false
-      }
-    ])
-  );
+  return Object.fromEntries(tracks.map((track) => [track.id, buildTrackDraft(track)]));
+}
+
+function sortTracks(list) {
+  return [...list].sort((a, b) => {
+    const sortGap = Number(a.sort_order || 100) - Number(b.sort_order || 100);
+    if (sortGap !== 0) {
+      return sortGap;
+    }
+
+    return String(a.title || "").localeCompare(String(b.title || ""), "fr");
+  });
 }
 
 function slugIsValid(slug) {
@@ -121,7 +144,7 @@ export default function AdminTracksManager({ initialTracks = [] }) {
   const supabase = useMemo(() => createClient(), []);
 
   const seededTracks = Array.isArray(initialTracks)
-    ? initialTracks.map((track) => normalizeTrack(track))
+    ? sortTracks(initialTracks.map((track) => normalizeTrack(track)).filter((track) => track.id))
     : [];
 
   const [tracks, setTracks] = useState(seededTracks);
@@ -129,8 +152,90 @@ export default function AdminTracksManager({ initialTracks = [] }) {
   const [createForm, setCreateForm] = useState(DEFAULT_CREATE_FORM);
   const [savingId, setSavingId] = useState("");
   const [creating, setCreating] = useState(false);
+  const [loadingTracks, setLoadingTracks] = useState(false);
+  const [didAutoReload, setDidAutoReload] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+
+  async function reloadTracks(options = {}) {
+    const showSuccess = options.showSuccess === true;
+
+    setLoadingTracks(true);
+    setErrorMessage("");
+
+    const { data, error } = await supabase
+      .from("learning_tracks")
+      .select(TRACK_SELECT)
+      .order("sort_order", { ascending: true })
+      .order("created_at", { ascending: true })
+      .limit(300);
+
+    if (error) {
+      setErrorMessage(error.message || "Impossible de charger les parcours.");
+      setLoadingTracks(false);
+      return;
+    }
+
+    const refreshedTracks = sortTracks((data || []).map((track) => normalizeTrack(track)).filter((track) => track.id));
+
+    setTracks(refreshedTracks);
+    setDrafts(buildInitialDrafts(refreshedTracks));
+    setLoadingTracks(false);
+
+    if (showSuccess) {
+      if (refreshedTracks.length) {
+        setSuccessMessage("Parcours synchronises depuis la base.");
+      } else {
+        setSuccessMessage("Aucun parcours trouve en base.");
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (tracks.length || didAutoReload) {
+      return;
+    }
+
+    let cancelled = false;
+
+    async function runAutoReload() {
+      setDidAutoReload(true);
+      setLoadingTracks(true);
+
+      const { data, error } = await supabase
+        .from("learning_tracks")
+        .select(TRACK_SELECT)
+        .order("sort_order", { ascending: true })
+        .order("created_at", { ascending: true })
+        .limit(300);
+
+      if (cancelled) {
+        return;
+      }
+
+      if (error) {
+        setErrorMessage(error.message || "Impossible de charger les parcours.");
+        setLoadingTracks(false);
+        return;
+      }
+
+      const refreshedTracks = sortTracks((data || []).map((track) => normalizeTrack(track)).filter((track) => track.id));
+
+      setTracks(refreshedTracks);
+      setDrafts(buildInitialDrafts(refreshedTracks));
+      setLoadingTracks(false);
+
+      if (refreshedTracks.length) {
+        setSuccessMessage("Parcours charges depuis la base.");
+      }
+    }
+
+    runAutoReload();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [didAutoReload, supabase, tracks.length]);
 
   async function handleSave(trackId) {
     const draft = drafts[trackId];
@@ -160,28 +265,12 @@ export default function AdminTracksManager({ initialTracks = [] }) {
     const normalized = normalizeTrack(data);
 
     setTracks((current) =>
-      current
-        .map((item) => (item.id === trackId ? normalized : item))
-        .sort((a, b) => Number(a.sort_order || 100) - Number(b.sort_order || 100))
+      sortTracks(current.map((item) => (item.id === trackId ? normalized : item)))
     );
 
     setDrafts((current) => ({
       ...current,
-      [trackId]: {
-        title: normalized.title,
-        summary: normalized.summary,
-        goal_key: normalized.goal_key,
-        level_label: normalized.level_label,
-        duration_weeks: String(Number(normalized.duration_weeks || 8)),
-        sort_order: String(Number(normalized.sort_order || 100)),
-        accent_color: normalized.accent_color,
-        icon: normalized.icon,
-        objective: normalized.objective,
-        resources: toResourcesInput(normalized.resources),
-        next_session: normalized.next_session,
-        is_published: normalized.is_published === true,
-        is_active: normalized.is_active !== false
-      }
+      [trackId]: buildTrackDraft(normalized)
     }));
 
     setSuccessMessage("Parcours mis a jour.");
@@ -221,27 +310,11 @@ export default function AdminTracksManager({ initialTracks = [] }) {
 
     const normalized = normalizeTrack(data);
 
-    setTracks((current) =>
-      [normalized, ...current].sort((a, b) => Number(a.sort_order || 100) - Number(b.sort_order || 100))
-    );
+    setTracks((current) => sortTracks([normalized, ...current]));
 
     setDrafts((current) => ({
       ...current,
-      [normalized.id]: {
-        title: normalized.title,
-        summary: normalized.summary,
-        goal_key: normalized.goal_key,
-        level_label: normalized.level_label,
-        duration_weeks: String(Number(normalized.duration_weeks || 8)),
-        sort_order: String(Number(normalized.sort_order || 100)),
-        accent_color: normalized.accent_color,
-        icon: normalized.icon,
-        objective: normalized.objective,
-        resources: toResourcesInput(normalized.resources),
-        next_session: normalized.next_session,
-        is_published: normalized.is_published === true,
-        is_active: normalized.is_active !== false
-      }
+      [normalized.id]: buildTrackDraft(normalized)
     }));
 
     setCreateForm(DEFAULT_CREATE_FORM);
@@ -268,8 +341,18 @@ export default function AdminTracksManager({ initialTracks = [] }) {
             Gere la publication, l'activation et les meta des parcours depuis le dashboard admin.
           </p>
         </div>
-        <div className="rounded-lg border border-white/[0.08] bg-white/[0.02] px-3 py-1.5 text-[11px] text-[#bbb]">
-          {tracks.length} parcours
+        <div className="flex items-center gap-2">
+          <div className="rounded-lg border border-white/[0.08] bg-white/[0.02] px-3 py-1.5 text-[11px] text-[#bbb]">
+            {tracks.length} parcours
+          </div>
+          <button
+            type="button"
+            className="btn-secondary h-[34px] px-3 text-[11px]"
+            onClick={() => reloadTracks({ showSuccess: true })}
+            disabled={loadingTracks}
+          >
+            {loadingTracks ? "Chargement..." : "Recharger"}
+          </button>
         </div>
       </div>
 
@@ -362,17 +445,20 @@ export default function AdminTracksManager({ initialTracks = [] }) {
                 <button type="button" className="btn-secondary h-[36px] px-3 text-[11px]" onClick={() => handleSave(track.id)} disabled={isSaving}>
                   {isSaving ? "Sauvegarde..." : "Sauvegarder"}
                 </button>
-                <a href={`/parcours#detail-${track.slug}`} className="text-[11px] text-[#4F8EF7] hover:underline">
-                  Voir sur /parcours
-                </a>
+                {track.slug ? (
+                  <a href={`/parcours/${track.slug}`} className="text-[11px] text-[#4F8EF7] hover:underline">
+                    Voir le detail public
+                  </a>
+                ) : null}
               </div>
             </article>
           );
         })}
 
         {!tracks.length ? (
-          <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-3 text-[12px] text-[#808080] font-body-readable">
-            Aucun parcours charge.
+          <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-4 text-[12px] text-[#808080] font-body-readable">
+            <p className="text-[#a4a4a4] mb-1">Aucun parcours visible pour ce compte.</p>
+            <p className="text-[#757575]">Si les parcours existent deja en base, verifie le role admin/RLS puis clique sur "Recharger".</p>
           </div>
         ) : null}
       </div>

@@ -3,12 +3,13 @@ import logoLight4 from "../assets/logos-light-png/logo-light-4.png";
 import AdminControlCenter from "./AdminControlCenter";
 
 const SIDEBAR_LINKS = [
-  { id: "side-dash", href: "/dashboard", icon: "lucide:layout-grid", label: "Dashboard", active: true },
-  { id: "side-parcours", href: "/parcours", icon: "lucide:map", label: "Mes parcours" },
-  { id: "side-sessions", href: "/communaute#sessions", icon: "lucide:video", label: "Sessions live", live: true },
-  { id: "side-projects", href: "/projets", icon: "lucide:folder-code", label: "Mes projets" },
-  { id: "side-community", href: "/communaute", icon: "lucide:users", label: "Communaute" },
-  { id: "side-resources", href: "/ressources", icon: "lucide:book-open", label: "Ressources" }
+  { id: "side-dash", href: "/dashboard", matchPrefix: "/dashboard", icon: "lucide:layout-grid", label: "Dashboard" },
+  { id: "side-admin", href: "/admin", matchPrefix: "/admin", icon: "lucide:shield-check", label: "Centre admin", adminOnly: true },
+  { id: "side-parcours", href: "/parcours", matchPrefix: "/parcours", icon: "lucide:map", label: "Mes parcours" },
+  { id: "side-sessions", href: "/communaute#sessions", matchPrefix: "/communaute", icon: "lucide:video", label: "Sessions live", live: true },
+  { id: "side-projects", href: "/projets", matchPrefix: "/projets", icon: "lucide:folder-code", label: "Mes projets" },
+  { id: "side-community", href: "/communaute", matchPrefix: "/communaute", icon: "lucide:users", label: "Communaute" },
+  { id: "side-resources", href: "/ressources", matchPrefix: "/ressources", icon: "lucide:book-open", label: "Ressources" }
 ];
 
 const USER_QUICK_ACTIONS = [
@@ -76,7 +77,33 @@ function formatHeaderSubtitle(isAdmin) {
   return "Ton espace personnel est actif";
 }
 
-export default function AdminDashboardPage({ user, onboarding, tracks, gamification, adminData }) {
+function normalizePathname(value) {
+  const normalized = String(value || "")
+    .split("?")[0]
+    .split("#")[0]
+    .trim();
+
+  if (!normalized) {
+    return "/dashboard";
+  }
+
+  if (normalized !== "/" && normalized.endsWith("/")) {
+    return normalized.slice(0, -1);
+  }
+
+  return normalized;
+}
+
+function isLinkActive(currentPath, link) {
+  const targetPrefix = String(link?.matchPrefix || link?.href || "").split("#")[0].trim();
+  if (!targetPrefix) {
+    return false;
+  }
+
+  return currentPath === targetPrefix || currentPath.startsWith(targetPrefix + "/");
+}
+
+export default function AdminDashboardPage({ user, onboarding, tracks, gamification, adminData, currentPath = "/dashboard" }) {
   const displayName = user?.displayName || "Membre";
   const firstName = displayName.split(" ")[0] || "Membre";
   const email = user?.email || "membre@takacode.app";
@@ -113,6 +140,16 @@ export default function AdminDashboardPage({ user, onboarding, tracks, gamificat
   const appUrl = typeof adminData?.appUrl === "string" && adminData.appUrl.trim()
     ? adminData.appUrl.trim()
     : "https://takacode.vercel.app";
+  const normalizedCurrentPath = normalizePathname(currentPath);
+  const sidebarLinks = SIDEBAR_LINKS.filter((link) => !link.adminOnly || isAdmin);
+
+  const mobileLinks = [
+    { href: "/dashboard", label: "Dashboard", matchPrefix: "/dashboard" },
+    isAdmin ? { href: "/admin", label: "Admin", matchPrefix: "/admin" } : null,
+    { href: "/parcours", label: "Parcours", matchPrefix: "/parcours" },
+    { href: "/projets", label: "Projets", matchPrefix: "/projets" },
+    { href: "/communaute", label: "Communaute", matchPrefix: "/communaute" }
+  ].filter(Boolean);
 
   return (
     <div className="min-h-screen bg-[#0A0A0A] flex text-white">
@@ -122,14 +159,14 @@ export default function AdminDashboardPage({ user, onboarding, tracks, gamificat
         </div>
 
         <nav className="space-y-2 flex-1">
-          {SIDEBAR_LINKS.map((link) => (
+          {sidebarLinks.map((link) => (
             <Link
               key={link.id}
               id={link.id}
               href={link.href}
               className={[
                 "flex items-center justify-between rounded-xl px-4 py-3 text-[14px] font-medium transition-all",
-                link.active
+                isLinkActive(normalizedCurrentPath, link)
                   ? "bg-blue-500/10 text-[#4F8EF7] border border-blue-500/15"
                   : "text-[#888] hover:text-white hover:bg-white/[0.04]"
               ].join(" ")}
@@ -167,10 +204,24 @@ export default function AdminDashboardPage({ user, onboarding, tracks, gamificat
 
       <main className="flex-1 overflow-y-auto p-6 md:p-8 pt-10 md:pt-12">
         <div className="lg:hidden mb-6 flex items-center gap-2 overflow-x-auto pb-1">
-          <Link href="/dashboard" className="shrink-0 rounded-lg border border-blue-500/20 bg-blue-500/10 px-3 py-2 text-[11px] font-semibold text-[#4F8EF7]">Dashboard</Link>
-          <Link href="/parcours" className="shrink-0 rounded-lg border border-white/[0.08] bg-white/[0.03] px-3 py-2 text-[11px] font-semibold text-[#bbb]">Parcours</Link>
-          <Link href="/projets" className="shrink-0 rounded-lg border border-white/[0.08] bg-white/[0.03] px-3 py-2 text-[11px] font-semibold text-[#bbb]">Projets</Link>
-          <Link href="/communaute" className="shrink-0 rounded-lg border border-white/[0.08] bg-white/[0.03] px-3 py-2 text-[11px] font-semibold text-[#bbb]">Communaute</Link>
+          {mobileLinks.map((link) => {
+            const active = isLinkActive(normalizedCurrentPath, link);
+
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={[
+                  "shrink-0 rounded-lg px-3 py-2 text-[11px] font-semibold border",
+                  active
+                    ? "border-blue-500/20 bg-blue-500/10 text-[#4F8EF7]"
+                    : "border-white/[0.08] bg-white/[0.03] text-[#bbb]"
+                ].join(" ")}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
         </div>
 
         <header className="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between mb-8 animate-fade-up">

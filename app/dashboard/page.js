@@ -7,6 +7,7 @@ import { getOnboardingProfile, isOnboardingCompleted } from "../../lib/onboardin
 import { buildPageMetadata } from "../../lib/seo";
 import {
   ensureUserPrimaryEnrollment,
+  listPublishedTracks,
   listRecommendedTracksForGoal,
   listUserTrackEnrollments,
   mapTrackToRecommendation
@@ -188,9 +189,19 @@ export default async function DashboardPage() {
     const authUsersById = baseUsers.length ? await buildAuthUsersLookup() : {};
     const mergedUsers = mergeProfilesWithAuthUsers(baseUsers, authUsersById);
 
+    const baseTracks = !tracksSchemaReady || tracksResult.error ? [] : tracksResult.data || [];
+    let visibleTracks = baseTracks;
+
+    if (tracksSchemaReady && !tracksResult.error && baseTracks.length === 0) {
+      const fallbackTracksResult = await listPublishedTracks(supabase, { limit: 300 });
+      if (fallbackTracksResult.schemaReady && !fallbackTracksResult.error && fallbackTracksResult.tracks.length) {
+        visibleTracks = fallbackTracksResult.tracks;
+      }
+    }
+
     adminData = {
       users: mergedUsers,
-      tracks: !tracksSchemaReady || tracksResult.error ? [] : tracksResult.data || [],
+      tracks: visibleTracks,
       usersSchemaReady,
       tracksSchemaReady,
       usersError: usersSchemaReady && usersResult.error ? usersResult.error.message || "Erreur user_profiles" : "",
@@ -230,6 +241,7 @@ export default async function DashboardPage() {
         referralCode: accessContext.profile?.referral_code || ""
       }}
       adminData={adminData}
+      currentPath="/dashboard"
     />
   );
 }

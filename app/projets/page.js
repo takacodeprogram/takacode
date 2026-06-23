@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import FooterSection from "../../components/FooterSection";
 import Navbar from "../../components/Navbar";
 import { buildPageMetadata } from "../../lib/seo";
@@ -83,7 +83,7 @@ const PROJECT_LIBRARY = [
       "Connecter un formulaire fonctionnel"
     ],
     stack: ["HTML", "Tailwind", "Next.js", "Vercel"],
-    parcoursHref: "/parcours#detail-site-web"
+    parcoursHref: "/parcours/site-web"
   },
   {
     id: "dashboard-kpi",
@@ -101,7 +101,7 @@ const PROJECT_LIBRARY = [
       "Presenter insights actionnables"
     ],
     stack: ["Excel", "Power BI", "Looker Studio"],
-    parcoursHref: "/parcours#detail-analyse-donnees"
+    parcoursHref: "/parcours/analyse-donnees"
   },
   {
     id: "agent-support",
@@ -119,7 +119,7 @@ const PROJECT_LIBRARY = [
       "Suivre taux de resolution"
     ],
     stack: ["n8n", "OpenAI", "Supabase", "Webhook"],
-    parcoursHref: "/parcours#detail-automatisation-ia"
+    parcoursHref: "/parcours/automatisation-ia"
   },
   {
     id: "mobile-terrain",
@@ -137,7 +137,7 @@ const PROJECT_LIBRARY = [
       "Synchroniser vers backend"
     ],
     stack: ["React Native", "Expo", "Supabase"],
-    parcoursHref: "/parcours#detail-application-mobile"
+    parcoursHref: "/parcours/application-mobile"
   },
   {
     id: "mvp-business",
@@ -155,7 +155,7 @@ const PROJECT_LIBRARY = [
       "Mesurer conversion et revenu"
     ],
     stack: ["Notion", "Stripe", "Email", "Analytics"],
-    parcoursHref: "/parcours#detail-business-digital"
+    parcoursHref: "/parcours/business-digital"
   },
   {
     id: "dapp-community",
@@ -173,7 +173,7 @@ const PROJECT_LIBRARY = [
       "Deployer et tester la dApp"
     ],
     stack: ["Solidity", "Ethers", "Next.js", "WalletConnect"],
-    parcoursHref: "/parcours#detail-web3-blockchain"
+    parcoursHref: "/parcours/web3-blockchain"
   }
 ];
 
@@ -392,3 +392,4 @@ export default function ProjetsPage() {
     </div>
   );
 }
+

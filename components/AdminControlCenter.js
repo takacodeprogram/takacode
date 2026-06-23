@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
@@ -33,8 +33,8 @@ export default function AdminControlCenter({
     return {
       users: listUsers.length,
       admins: listUsers.filter((entry) => isRoleAdmin(entry?.role)).length,
-      activeTracks: listTracks.filter((entry) => entry?.is_active !== false).length,
-      publishedTracks: listTracks.filter((entry) => entry?.is_published === true).length
+      activeTracks: listTracks.filter((entry) => entry?.is_active !== false && entry?.isActive !== false).length,
+      publishedTracks: listTracks.filter((entry) => entry?.is_published === true || entry?.isPublished === true).length
     };
   }, [users, tracks]);
 
@@ -57,8 +57,12 @@ export default function AdminControlCenter({
       issues.push(`Erreur parcours: ${tracksError}`);
     }
 
+    if (tracksSchemaReady && !tracksError && (!Array.isArray(tracks) || tracks.length === 0)) {
+      issues.push("Aucun parcours visible. Verifie les donnees learning_tracks et les policies RLS admin.");
+    }
+
     return issues;
-  }, [usersSchemaReady, tracksSchemaReady, usersError, tracksError]);
+  }, [usersSchemaReady, tracksSchemaReady, usersError, tracksError, tracks]);
 
   return (
     <section className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 md:p-6 space-y-5">
@@ -171,3 +175,4 @@ export default function AdminControlCenter({
     </section>
   );
 }
+
