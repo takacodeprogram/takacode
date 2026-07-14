@@ -1,4 +1,10 @@
-export default function LoaderVisual({ logoSrc }) {
+"use client";
+
+import dynamic from "next/dynamic";
+
+const SkullLoader3D = dynamic(() => import("./SkullLoader3D"), { ssr: false });
+
+export default function LoaderVisual() {
   const matrixColumns = [
     { x: "4%", delay: "0s", duration: "4.6s", text: "01011010100101101010" },
     { x: "12%", delay: "-1.2s", duration: "5.2s", text: "10100100101101001011" },
@@ -27,13 +33,7 @@ export default function LoaderVisual({ logoSrc }) {
       </div>
 
       <div className="startup-loader-core" aria-hidden="true">
-        <img
-          src={logoSrc}
-          alt="Chargement TakaCode"
-          width="86"
-          height="86"
-          className="startup-loader-logo"
-        />
+        <SkullLoader3D />
       </div>
 
       <div className="startup-loader-text font-venite-italic">INITIALISATION</div>

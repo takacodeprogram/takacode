@@ -1,14 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import logoLight2 from "../assets/logos-light-png/logo-light-2.png";
 import LoaderVisual from "./LoaderVisual";
 
 export default function StartupLoader() {
   const [isHidden, setIsHidden] = useState(false);
 
   useEffect(() => {
-    // Keep the loader visible for a minimum duration to avoid visual flicker.
     const minDurationMs = 900;
     const startTime = Date.now();
     let timer;
@@ -33,7 +31,7 @@ export default function StartupLoader() {
 
   return (
     <div className={`startup-loader${isHidden ? " hidden" : ""}`} aria-hidden={isHidden}>
-      <LoaderVisual logoSrc={logoLight2.src} />
+      <LoaderVisual />
     </div>
   );
 }
