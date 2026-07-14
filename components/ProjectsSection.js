@@ -21,107 +21,23 @@ export default function ProjectsSection() {
             <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "14px" }} />
           </Link>
         </div>
-        <p className="font-body-readable text-[#666] text-[14px] mb-14">Decouvrez les realisations des membres de la communaute.</p>
+        <p className="font-body-readable text-[#666] text-[14px] mb-14">Les projets termines par les membres seront publies ici.</p>
 
-        {/* Community project cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-5">
-          <div className="bg-[#111] border border-white/[0.07] rounded-2xl overflow-hidden card-hover project-card">
-            <div className="h-44 bg-[#0D0D0D] relative overflow-hidden">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div
-                  className="w-full h-full"
-                  style={{ background: "linear-gradient(135deg, rgba(79,142,247,0.08) 0%, rgba(0,0,0,0) 60%), linear-gradient(225deg, rgba(155,109,255,0.06) 0%, rgba(0,0,0,0) 60%)" }}
-                >
-                  <div className="flex items-center justify-center h-full">
-                    <iconify-icon icon="lucide:wallet" className="text-[#333]" style={{ fontSize: "48px" }} />
-                  </div>
-                </div>
-              </div>
-              <div className="absolute top-3 left-3">
-                <span className="tag-badge">Web3</span>
-              </div>
-            </div>
-            <div className="p-5">
-              <div className="font-venite text-[13px] text-white mb-2">DAPP GESTION COMMUNAUTE</div>
-              <p className="font-body-readable text-[11px] text-[#555] mb-4">Application Web3 pour gerer membres, badges et paiements on-chain d'une communaute.</p>
-              <div className="font-body-readable flex flex-wrap gap-1.5 mb-4">
-                <span className="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">Solidity</span>
-                <span className="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">WalletConnect</span>
-                <span className="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">Next.js</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-400 to-violet-500" />
-                  <span className="font-body-readable text-[11px] text-[#666]">Moussa K.</span>
-                </div>
-                <Link href="/projets" id="project-1-link" className="text-[11px] text-[#4F8EF7] font-medium flex items-center gap-1 hover:gap-2 transition-all">
-                  Voir <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "11px" }} />
-                </Link>
-              </div>
-            </div>
+        {/* Etat vide honnete: aucun projet publie tant que la communaute n'en a pas termine. */}
+        <div className="rounded-2xl border border-white/[0.07] bg-[#111] p-10 flex flex-col items-center text-center gap-4">
+          <div className="w-14 h-14 rounded-2xl border border-white/[0.08] bg-white/[0.02] flex items-center justify-center">
+            <iconify-icon icon="lucide:rocket" className="text-[#4F8EF7]" style={{ fontSize: "26px" }} />
           </div>
-
-          <div className="bg-[#111] border border-white/[0.07] rounded-2xl overflow-hidden card-hover project-card">
-            <div className="h-44 bg-[#0D0D0D] relative overflow-hidden">
-              <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(34,211,238,0.08) 0%, rgba(0,0,0,0) 60%)" }}>
-                <div className="flex items-center justify-center h-full">
-                  <iconify-icon icon="lucide:music-2" className="text-[#333]" style={{ fontSize: "48px" }} />
-                </div>
-              </div>
-              <div className="absolute top-3 left-3">
-                <span className="tag-badge">Musique</span>
-              </div>
-            </div>
-            <div className="p-5">
-              <div className="font-venite text-[13px] text-white mb-2">STUDIO AUDIO EN LIGNE</div>
-              <p className="font-body-readable text-[11px] text-[#555] mb-4">Plateforme pour composer, mixer et publier des contenus musicaux et audio avec assistance IA.</p>
-              <div className="font-body-readable flex flex-wrap gap-1.5 mb-4">
-                <span className="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">Ableton</span>
-                <span className="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">FL Studio</span>
-                <span className="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">AI Audio</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-full bg-gradient-to-br from-cyan-400 to-green-500" />
-                  <span className="font-body-readable text-[11px] text-[#666]">Awa D.</span>
-                </div>
-                <Link href="/projets" id="project-2-link" className="text-[11px] text-[#4F8EF7] font-medium flex items-center gap-1 hover:gap-2 transition-all">
-                  Voir <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "11px" }} />
-                </Link>
-              </div>
-            </div>
+          <div>
+            <div className="font-venite text-[15px] text-white mb-1.5">LA GALERIE DEMARRE AVEC TOI</div>
+            <p className="font-body-readable text-[13px] text-[#777] max-w-[460px]">
+              Aucun projet n'a encore ete publie. Termine ton premier parcours puis publie ton projet pour ouvrir la galerie de la communaute.
+            </p>
           </div>
-
-          <div className="bg-[#111] border border-white/[0.07] rounded-2xl overflow-hidden card-hover project-card">
-            <div className="h-44 bg-[#0D0D0D] relative overflow-hidden">
-              <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(155,109,255,0.08) 0%, rgba(0,0,0,0) 60%)" }}>
-                <div className="flex items-center justify-center h-full">
-                  <iconify-icon icon="lucide:box" className="text-[#333]" style={{ fontSize: "48px" }} />
-                </div>
-              </div>
-              <div className="absolute top-3 left-3">
-                <span className="tag-badge">3D</span>
-              </div>
-            </div>
-            <div className="p-5">
-              <div className="font-venite text-[13px] text-white mb-2">CONFIGURATEUR 3D PRODUIT</div>
-              <p className="font-body-readable text-[11px] text-[#555] mb-4">Experience 3D interactive permettant de personnaliser un produit en temps reel.</p>
-              <div className="font-body-readable flex flex-wrap gap-1.5 mb-4">
-                <span className="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">Three.js</span>
-                <span className="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">Blender</span>
-                <span className="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">React Three Fiber</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-full bg-gradient-to-br from-violet-400 to-pink-500" />
-                  <span className="font-body-readable text-[11px] text-[#666]">Ibrahim S.</span>
-                </div>
-                <Link href="/projets" id="project-3-link" className="text-[11px] text-[#4F8EF7] font-medium flex items-center gap-1 hover:gap-2 transition-all">
-                  Voir <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "11px" }} />
-                </Link>
-              </div>
-            </div>
-          </div>
+          <Link href="/parcours" id="projets-start-link" className="btn-primary inline-flex items-center gap-2" style={{ fontSize: "13px", padding: "12px 24px" }}>
+            <iconify-icon icon="lucide:play" style={{ fontSize: "14px" }} />
+            Commencer un parcours
+          </Link>
         </div>
 
         <div className="flex items-center justify-center mt-10">

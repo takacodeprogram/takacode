@@ -11,8 +11,8 @@ import ParcoursSection from "../components/ParcoursSection.js";
 import ProjectsSection from "../components/ProjectsSection.js";
 import RessourcesSection from "../components/RessourcesSection.js";
 import SessionsLiveSection from "../components/SessionsLiveSection.js";
-import TestimonialsSection from "../components/TestimonialsSection.js";
 import ValuesSection from "../components/ValuesSection.js";
+import { getPlatformStats } from "../lib/platformStats";
 import { buildPageMetadata } from "../lib/seo";
 import { listPublishedTracks } from "../lib/tracks";
 import { createClient } from "../utils/supabase/server";
@@ -30,13 +30,16 @@ export const metadata = buildPageMetadata({
 export default async function Home() {
   const cookieStore = await cookies();
   const supabase = await createClient(cookieStore);
-  const { tracks } = await listPublishedTracks(supabase, { limit: 7 });
+  const [{ tracks }, stats] = await Promise.all([
+    listPublishedTracks(supabase, { limit: 7 }),
+    getPlatformStats(supabase)
+  ]);
 
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-white">
       <Navbar />
       <main>
-        <Hero />
+        <Hero stats={stats} />
         <ValuesSection />
         <hr className="section-divider" />
         <HowItWorksSection />
@@ -52,8 +55,6 @@ export default async function Home() {
         <ProjectsSection />
         <hr className="section-divider" />
         <CommunitySection />
-        <hr className="section-divider" />
-        <TestimonialsSection />
         <hr className="section-divider" />
         <FAQSection />
         <hr className="section-divider" />

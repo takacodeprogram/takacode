@@ -277,6 +277,7 @@ export default function AdminDashboardPage({ user, onboarding, tracks, gamificat
               usersError={usersError}
               tracksError={tracksError}
               appUrl={appUrl}
+              platformStats={adminData?.platformStats || null}
             />
           </>
         ) : (

@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import AdminDashboardPage from "../../components/AdminDashboardPage";
 import { buildAuthUsersLookup, mergeProfilesWithAuthUsers } from "../../lib/adminUsers";
 import { getUserAccessContext } from "../../lib/auth";
+import { getPlatformStats } from "../../lib/platformStats";
 import { buildPageMetadata } from "../../lib/seo";
 import { listPublishedTracks } from "../../lib/tracks";
 import { createClient } from "../../utils/supabase/server";
@@ -158,6 +159,7 @@ export default async function AdminPage() {
   }
 
   const points = Number.isFinite(Number(accessContext.profile?.points)) ? Number(accessContext.profile?.points) : 0;
+  const platformStats = await getPlatformStats(supabase);
 
   return (
     <AdminDashboardPage
@@ -184,7 +186,8 @@ export default async function AdminPage() {
         tracksSchemaReady,
         usersError: usersSchemaReady && usersResult.error ? usersResult.error.message || "Erreur user_profiles" : "",
         tracksError: tracksSchemaReady && tracksResult.error ? tracksResult.error.message || "Erreur learning_tracks" : "",
-        appUrl: resolveAppUrl()
+        appUrl: resolveAppUrl(),
+        platformStats
       }}
       currentPath="/admin"
     />

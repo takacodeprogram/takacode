@@ -4,6 +4,7 @@ import AdminDashboardPage from "../../components/AdminDashboardPage";
 import { buildAuthUsersLookup, mergeProfilesWithAuthUsers } from "../../lib/adminUsers";
 import { getUserAccessContext } from "../../lib/auth";
 import { getOnboardingProfile, isOnboardingCompleted } from "../../lib/onboarding";
+import { getPlatformStats } from "../../lib/platformStats";
 import { buildPageMetadata } from "../../lib/seo";
 import {
   ensureUserPrimaryEnrollment,
@@ -206,7 +207,8 @@ export default async function DashboardPage() {
       tracksSchemaReady,
       usersError: usersSchemaReady && usersResult.error ? usersResult.error.message || "Erreur user_profiles" : "",
       tracksError: tracksSchemaReady && tracksResult.error ? tracksResult.error.message || "Erreur learning_tracks" : "",
-      appUrl: resolveAppUrl()
+      appUrl: resolveAppUrl(),
+      platformStats: await getPlatformStats(supabase)
     };
   }
 

@@ -1,7 +1,22 @@
 import Link from "next/link";
 import CountUpStat from "./CountUpStat.js";
 
-export default function Hero() {
+function HeroStat({ value, suffix = "", label }) {
+  const hasValue = Number.isFinite(Number(value));
+
+  return (
+    <div>
+      {hasValue ? (
+        <CountUpStat end={Number(value)} suffix={suffix} className="stat-value text-[28px] text-white mb-0.5" />
+      ) : (
+        <div className="stat-value text-[28px] text-white mb-0.5">—</div>
+      )}
+      <div className="font-body-readable text-[12px] text-[#555] font-medium">{label}</div>
+    </div>
+  );
+}
+
+export default function Hero({ stats = null }) {
   return (
     <section className="relative pt-[64px] min-h-screen flex items-center overflow-hidden" id="hero">
       {/* Ambient glows behind the hero */}
@@ -54,18 +69,9 @@ export default function Hero() {
             </div>
 
             <div className="animate-fade-up-d4 grid grid-cols-3 gap-4 sm:gap-8 pt-8 border-t border-white/[0.06] max-w-[520px]">
-              <div>
-                <CountUpStat end={2400} suffix="+" className="stat-value text-[28px] text-white mb-0.5" />
-                <div className="font-body-readable text-[12px] text-[#555] font-medium">Membres actifs</div>
-              </div>
-              <div>
-                <CountUpStat end={890} suffix="+" className="stat-value text-[28px] text-white mb-0.5" />
-                <div className="font-body-readable text-[12px] text-[#555] font-medium">Projets réalisés</div>
-              </div>
-              <div>
-                <CountUpStat end={48} className="stat-value text-[28px] text-white mb-0.5" />
-                <div className="font-body-readable text-[12px] text-[#555] font-medium">Parcours disponibles</div>
-              </div>
+              <HeroStat value={stats?.members} label="Membres inscrits" />
+              <HeroStat value={stats?.submittedProjects} label="Micro-projets réalisés" />
+              <HeroStat value={stats?.publishedTracks} label="Parcours disponibles" />
             </div>
           </div>
 

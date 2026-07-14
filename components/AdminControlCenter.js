@@ -15,6 +15,21 @@ function isRoleAdmin(role) {
   return String(role || "").trim().toLowerCase() === "admin";
 }
 
+function resolveUserLabel(user) {
+  const name = typeof user?.display_name === "string" ? user.display_name.trim() : "";
+  if (name) {
+    return name;
+  }
+
+  const email = typeof user?.email === "string" ? user.email.trim() : "";
+  if (email && email.includes("@")) {
+    return email.split("@")[0];
+  }
+
+  const id = typeof user?.id === "string" ? user.id : "";
+  return id ? `${id.slice(0, 6)}...` : "Membre";
+}
+
 export default function AdminControlCenter({
   users = [],
   tracks = [],
@@ -22,7 +37,8 @@ export default function AdminControlCenter({
   tracksSchemaReady = true,
   usersError = "",
   tracksError = "",
-  appUrl = "https://takacode.vercel.app"
+  appUrl = "https://takacode.vercel.app",
+  platformStats = null
 }) {
   const [activeTab, setActiveTab] = useState("overview");
 
@@ -37,6 +53,29 @@ export default function AdminControlCenter({
       publishedTracks: listTracks.filter((entry) => entry?.is_published === true || entry?.isPublished === true).length
     };
   }, [users, tracks]);
+
+  const leaderboard = useMemo(() => {
+    const listUsers = Array.isArray(users) ? users : [];
+
+    return [...listUsers]
+      .map((entry) => ({
+        id: entry?.id,
+        label: resolveUserLabel(entry),
+        grade: typeof entry?.grade === "string" && entry.grade.trim() ? entry.grade : "Starter",
+        points: Number.isFinite(Number(entry?.points)) ? Number(entry.points) : 0
+      }))
+      .sort((a, b) => b.points - a.points)
+      .slice(0, 5);
+  }, [users]);
+
+  const curriculumTiles = platformStats?.ready
+    ? [
+        { label: "Modules", value: platformStats.totalModules },
+        { label: "Lecons", value: platformStats.totalLessons },
+        { label: "Lecons validees", value: platformStats.completedLessons },
+        { label: "Micro-projets soumis", value: platformStats.submittedProjects }
+      ]
+    : [];
 
   const systemIssues = useMemo(() => {
     const issues = [];
@@ -105,6 +144,39 @@ export default function AdminControlCenter({
               <div className="text-[20px] text-white font-semibold mt-1">{metrics.publishedTracks}</div>
             </div>
           </div>
+
+          {curriculumTiles.length ? (
+            <div className="grid grid-cols-2 xl:grid-cols-4 gap-2.5">
+              {curriculumTiles.map((tile) => (
+                <div key={tile.label} className="rounded-xl border border-white/[0.08] bg-white/[0.02] px-3.5 py-3">
+                  <div className="text-[10px] text-[#666] uppercase tracking-widest">{tile.label}</div>
+                  <div className="text-[20px] text-white font-semibold mt-1">
+                    {Number.isFinite(Number(tile.value)) ? tile.value : "—"}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : null}
+
+          {leaderboard.length ? (
+            <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4">
+              <div className="text-[11px] text-[#8d8d8d] uppercase tracking-widest font-semibold mb-3">Leaderboard (top 5 XP)</div>
+              <div className="space-y-2">
+                {leaderboard.map((entry, index) => (
+                  <div key={entry.id || entry.label} className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <span className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-blue-500/25 bg-blue-500/10 text-[11px] font-semibold text-blue-200">
+                        {index + 1}
+                      </span>
+                      <span className="text-[12px] text-white font-body-readable truncate">{entry.label}</span>
+                      <span className="text-[10px] text-[#777] hidden sm:inline">{entry.grade}</span>
+                    </div>
+                    <span className="text-[12px] text-[#6ec3ff] font-semibold shrink-0">{entry.points} XP</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : null}
 
           {systemIssues.length ? (
             <div className="rounded-xl border border-amber-500/25 bg-amber-500/10 px-4 py-3">
