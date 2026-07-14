@@ -11,9 +11,20 @@ export const MEMBER_LINKS = [
   { href: "/dashboard/profil", icon: "lucide:user", label: "Profil" }
 ];
 
-export const ADMIN_LINKS = [
-  { href: "/admin", icon: "lucide:shield-check", label: "Centre admin", exact: true }
+// Lien vers l'espace admin, ajoute a la sidebar membre pour les admins.
+export const ADMIN_ENTRY_LINK = { href: "/admin", icon: "lucide:shield-check", label: "Centre admin", exact: true };
+
+// Liens propres a l'espace admin (affiches quand on est sous /admin/*).
+export const ADMIN_AREA_LINKS = [
+  { href: "/admin", icon: "lucide:layout-dashboard", label: "Vue globale", exact: true },
+  { href: "/admin/utilisateurs", icon: "lucide:users", label: "Utilisateurs" },
+  { href: "/admin/parcours", icon: "lucide:route", label: "Parcours" }
 ];
+
+export function isAdminAreaPath(pathname) {
+  const clean = String(pathname || "").split("?")[0].split("#")[0];
+  return clean === "/admin" || clean.startsWith("/admin/");
+}
 
 export function isSidebarLinkActive(pathname, link) {
   const target = String(link?.href || "").split("#")[0].trim();

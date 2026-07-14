@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import logoLight4 from "../../assets/logos-light-png/logo-light-4.png";
-import { ADMIN_LINKS, MEMBER_LINKS, isSidebarLinkActive } from "./appNav";
+import { ADMIN_AREA_LINKS, ADMIN_ENTRY_LINK, MEMBER_LINKS, isAdminAreaPath, isSidebarLinkActive } from "./appNav";
 
 function getInitials(value) {
   const tokens = String(value || "")
@@ -55,7 +55,12 @@ export default function AppShell({ user, children }) {
   const isAdmin = role === "admin";
   const initials = getInitials(displayName);
 
-  const links = isAdmin ? [...MEMBER_LINKS, ...ADMIN_LINKS] : MEMBER_LINKS;
+  const adminArea = isAdmin && isAdminAreaPath(pathname);
+  const links = adminArea
+    ? ADMIN_AREA_LINKS
+    : isAdmin
+      ? [...MEMBER_LINKS, ADMIN_ENTRY_LINK]
+      : MEMBER_LINKS;
   const mobileLinks = links.filter((link) => link.href !== "/dashboard/profil");
 
   return (
@@ -73,7 +78,16 @@ export default function AppShell({ user, children }) {
           ))}
         </nav>
 
-        <div className="pt-6 border-t border-white/[0.05]">
+        <div className="pt-6 border-t border-white/[0.05] space-y-2">
+          {adminArea ? (
+            <Link
+              href="/dashboard"
+              className="flex items-center gap-3 rounded-xl px-4 py-3 text-[14px] font-medium text-[#888] hover:text-white hover:bg-white/[0.04] transition-all"
+            >
+              <iconify-icon icon="lucide:arrow-left" />
+              Espace membre
+            </Link>
+          ) : null}
           <form action="/auth/signout" method="post">
             <button
               type="submit"
