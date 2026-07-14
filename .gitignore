@@ -6,5 +6,6 @@ out
 .env.*.local
 .agents
 .codex
+.mimocode
 *.log
 .vercel
