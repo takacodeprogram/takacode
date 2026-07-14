@@ -11,6 +11,7 @@ import {
   toProgress,
   toTextList
 } from "../../../lib/parcours";
+import { getTrackCurriculum } from "../../../lib/curriculum";
 import { buildPageMetadata } from "../../../lib/seo";
 import { formatTrackMeta, listPublishedTracks, listUserTrackEnrollments } from "../../../lib/tracks";
 import { createClient } from "../../../utils/supabase/server";
@@ -63,8 +64,15 @@ export default async function ParcoursDetailPage({ params }) {
     ? myEnrollmentsResult.enrollments.find((entry) => entry.trackId === track.id) || null
     : null;
 
-  const progress = toProgress(enrollment?.progress);
+  const curriculum = track ? await getTrackCurriculum(supabase, track.id, user?.id || "") : null;
+  const hasCurriculum = Boolean(curriculum?.hasCurriculum);
+
+  const progress = user && hasCurriculum ? toProgress(curriculum.progressPercent) : toProgress(enrollment?.progress);
   const isMine = Boolean(enrollment);
+
+  const continueHref = hasCurriculum && curriculum.nextLesson
+    ? `/parcours/${track.slug}/lecon/${curriculum.nextLesson.lessonSlug}`
+    : "/dashboard";
 
   const competencies = track ? buildTrackCompetencies(track) : [];
   const stepRows = track ? buildStepRows(track) : [];
@@ -211,11 +219,101 @@ export default async function ParcoursDetailPage({ params }) {
                   </div>
                 </div>
 
+                {hasCurriculum ? (
+                  <div className="mt-6">
+                    <div className="flex items-center justify-between gap-3 flex-wrap mb-3">
+                      <h2 className="font-venite-italic text-[12px] tracking-widest text-[#4F8EF7]">PROGRAMME DU PARCOURS</h2>
+                      <span className="text-[10px] text-[#7a7a7a] font-body-readable">
+                        {curriculum.totalLessons} lecons - quiz et micro projet a chaque etape
+                      </span>
+                    </div>
+
+                    <div className="space-y-3">
+                      {curriculum.modules.map((module, moduleIndex) => (
+                        <div key={`${track.id}-module-${module.id}`} className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4">
+                          <div className="flex items-center justify-between gap-3 flex-wrap mb-3">
+                            <div className="flex items-center gap-3">
+                              <span
+                                className={`inline-flex h-7 w-7 items-center justify-center rounded-full border text-[11px] font-semibold ${
+                                  module.state === "completed"
+                                    ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-200"
+                                    : module.state === "locked"
+                                      ? "border-white/[0.12] bg-white/[0.03] text-[#7a7a7a]"
+                                      : "border-blue-500/30 bg-blue-500/10 text-blue-200"
+                                }`}
+                              >
+                                {module.state === "locked" ? (
+                                  <iconify-icon icon="lucide:lock" style={{ fontSize: "11px" }} />
+                                ) : (
+                                  moduleIndex + 1
+                                )}
+                              </span>
+                              <div>
+                                <div className="font-venite-italic text-[13px] text-white leading-tight">{module.title}</div>
+                                {module.summary ? (
+                                  <div className="font-body-readable text-[11px] text-[#7a7a7a]">{module.summary}</div>
+                                ) : null}
+                              </div>
+                            </div>
+                            <span className="text-[10px] text-[#89c7ff] font-semibold">
+                              {module.completedLessons}/{module.totalLessons} lecons
+                            </span>
+                          </div>
+
+                          <div className="space-y-2">
+                            {module.lessons.map((lesson) => {
+                              const lessonUiState =
+                                lesson.state === "completed" ? "done" : lesson.state === "locked" ? "locked" : "current";
+                              const ui = getStepUi(lessonUiState);
+                              const isLocked = lesson.state === "locked" || !user;
+
+                              const lessonRow = (
+                                <div
+                                  className={`rounded-lg border border-white/[0.08] bg-[#0f0f0f] px-3 py-2.5 flex items-center gap-2.5 ${
+                                    isLocked ? "opacity-60" : "card-hover"
+                                  }`}
+                                >
+                                  <span className={`inline-flex h-6 w-6 items-center justify-center rounded-full border ${ui.chip}`}>
+                                    <iconify-icon icon={ui.icon} style={{ fontSize: "11px" }} />
+                                  </span>
+                                  <div className="flex-1">
+                                    <div className="font-body-readable text-[11px] text-[#d0d0d0] leading-snug">{lesson.title}</div>
+                                    <div className="text-[10px] text-[#666]">
+                                      {lesson.durationMinutes} min - {lesson.xpReward} XP
+                                      {lesson.quiz.length ? " - quiz" : ""}
+                                      {lesson.microProject ? " - micro projet" : ""}
+                                    </div>
+                                  </div>
+                                  {!isLocked ? (
+                                    <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "13px", color: "#7f7f7f" }} />
+                                  ) : null}
+                                </div>
+                              );
+
+                              return isLocked ? (
+                                <div key={`${module.id}-lesson-${lesson.id}`}>{lessonRow}</div>
+                              ) : (
+                                <Link
+                                  key={`${module.id}-lesson-${lesson.id}`}
+                                  href={`/parcours/${track.slug}/lecon/${lesson.slug}`}
+                                  className="block"
+                                >
+                                  {lessonRow}
+                                </Link>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
+
                 <div className="mt-6 flex flex-wrap gap-2.5">
                   {user ? (
                     <>
-                      <Link href="/dashboard" className="btn-secondary inline-flex items-center gap-2 text-[12px]" style={{ padding: "10px 16px" }}>
-                        {isMine ? "Continuer" : "Demarrer"}
+                      <Link href={continueHref} className="btn-secondary inline-flex items-center gap-2 text-[12px]" style={{ padding: "10px 16px" }}>
+                        {isMine || (hasCurriculum && curriculum.completedLessons > 0) ? "Continuer" : "Demarrer"}
                         <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "13px" }} />
                       </Link>
                       <Link href="/projets" className="btn-secondary inline-flex items-center gap-2 text-[12px]" style={{ padding: "10px 16px" }}>
