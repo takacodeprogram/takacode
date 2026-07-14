@@ -7,7 +7,7 @@ import { getTrackCurriculum } from "../../../lib/curriculum";
 import { formatDisplayName } from "../../../lib/displayName";
 import { getOnboardingProfile, isOnboardingCompleted } from "../../../lib/onboarding";
 import { buildPageMetadata } from "../../../lib/seo";
-import { formatTrackMeta, listRecommendedTracksForGoal, listUserTrackEnrollments } from "../../../lib/tracks";
+import { formatTrackMeta, listPublishedTracks, listRecommendedTracksForGoal, listUserTrackEnrollments } from "../../../lib/tracks";
 import { createClient } from "../../../utils/supabase/server";
 
 export const dynamic = "force-dynamic";
@@ -51,11 +51,18 @@ export default async function DashboardHomePage() {
     : null;
 
   // Quand aucun parcours n'est demarre, on met en avant LE parcours recommande
-  // (base sur l'objectif choisi a l'onboarding).
-  const recommendedResult = !primaryEnrollment
-    ? await listRecommendedTracksForGoal(supabase, onboardingProfile.goalKey, { limit: 1 })
-    : { tracks: [] };
-  const recommendedTrack = recommendedResult.tracks?.[0] || null;
+  // (base sur l'objectif choisi a l'onboarding). Si ce goalKey ne pointe vers
+  // aucun parcours avec contenu, on retombe sur le premier parcours publie.
+  let recommendedTrack = null;
+  if (!primaryEnrollment) {
+    const recommendedResult = await listRecommendedTracksForGoal(supabase, onboardingProfile.goalKey, { limit: 1 });
+    recommendedTrack = recommendedResult.tracks?.[0] || null;
+
+    if (!recommendedTrack) {
+      const publishedResult = await listPublishedTracks(supabase, { limit: 1 });
+      recommendedTrack = publishedResult.tracks?.[0] || null;
+    }
+  }
 
   const progress = curriculum?.hasCurriculum
     ? curriculum.progressPercent

@@ -3,6 +3,47 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import CelebrationOverlay from "./effects/CelebrationOverlay";
+import { playPop } from "./effects/sound";
+
+const CLOSED_CELEBRATION = { open: false, variant: "success", title: "", message: "", xp: 0, ctaLabel: "", ctaAction: "" };
+
+function LessonSteps({ hasQuiz, hasProject, quizDone, projectDone, completed }) {
+  const steps = [
+    { label: "Ressources", done: true },
+    ...(hasQuiz ? [{ label: "Quiz", done: quizDone }] : []),
+    ...(hasProject ? [{ label: "Micro-projet", done: projectDone }] : []),
+    { label: "Validee", done: completed }
+  ];
+
+  const currentIndex = steps.findIndex((step) => !step.done);
+
+  return (
+    <div className="flex items-center gap-1.5 flex-wrap mb-5">
+      {steps.map((step, index) => {
+        const isCurrent = index === currentIndex;
+        return (
+          <div key={step.label} className="flex items-center gap-1.5">
+            <span
+              className={[
+                "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] font-semibold transition-colors",
+                step.done
+                  ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-200"
+                  : isCurrent
+                    ? "border-blue-500/35 bg-blue-500/10 text-blue-100 step-active"
+                    : "border-white/[0.1] bg-white/[0.02] text-[#777]"
+              ].join(" ")}
+            >
+              <iconify-icon icon={step.done ? "lucide:check" : isCurrent ? "lucide:dot" : "lucide:circle"} style={{ fontSize: "11px" }} />
+              {step.label}
+            </span>
+            {index < steps.length - 1 ? <span className="h-px w-3 bg-white/[0.1]" /> : null}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
 
 const ERROR_MESSAGES = {
   not_authenticated: "Ta session a expire. Reconnecte-toi pour continuer.",
@@ -43,6 +84,11 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
 
   const [status, setStatus] = useState(initialProgress?.status || "in_progress");
   const [xpAwarded, setXpAwarded] = useState(Number(initialProgress?.xpAwarded) || 0);
+  const [celebration, setCelebration] = useState(CLOSED_CELEBRATION);
+
+  function closeCelebration() {
+    setCelebration((current) => ({ ...current, open: false }));
+  }
 
   const isCompleted = status === "completed";
   const allAnswered = useMemo(() => answers.every((value) => value !== null), [answers]);
@@ -84,6 +130,37 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
         setStatus("completed");
         setXpAwarded(Number(data.xpAwarded) || 0);
         router.refresh();
+        setCelebration({
+          open: true,
+          variant: "success",
+          title: nextLessonSlug ? "Lecon validee !" : "Parcours termine !",
+          message: nextLessonSlug
+            ? "Bravo, tu progresses. Continue sur ta lancee !"
+            : "Felicitations, tu as termine toutes les lecons de ce parcours !",
+          xp: Number(data.xpAwarded) || 0,
+          ctaLabel: nextLessonSlug ? "Lecon suivante" : "",
+          ctaAction: nextLessonSlug ? "next" : ""
+        });
+      } else if (data.passed) {
+        setCelebration({
+          open: true,
+          variant: "success",
+          title: "Quiz valide !",
+          message: hasProject ? "Excellent. Termine le micro-projet pour valider la lecon." : "Excellent travail !",
+          xp: 0,
+          ctaLabel: "",
+          ctaAction: ""
+        });
+      } else {
+        setCelebration({
+          open: true,
+          variant: "fail",
+          title: "Presque !",
+          message: `Score ${data.score}/${data.total} — il te faut 70%. Relis les ressources et reessaie, tu y es presque !`,
+          xp: 0,
+          ctaLabel: "Reessayer",
+          ctaAction: "retry"
+        });
       }
     } catch {
       setQuizError(toErrorMessage("network"));
@@ -126,6 +203,28 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
         setStatus("completed");
         setXpAwarded(Number(data.xpAwarded) || 0);
         router.refresh();
+        setCelebration({
+          open: true,
+          variant: "success",
+          title: nextLessonSlug ? "Lecon validee !" : "Parcours termine !",
+          message: nextLessonSlug
+            ? "Ton micro-projet est enregistre. Bravo, continue !"
+            : "Felicitations, tu as termine tout le parcours !",
+          xp: Number(data.xpAwarded) || 0,
+          ctaLabel: nextLessonSlug ? "Lecon suivante" : "",
+          ctaAction: nextLessonSlug ? "next" : ""
+        });
+      } else {
+        playPop();
+        setCelebration({
+          open: true,
+          variant: "success",
+          title: "Projet soumis !",
+          message: hasQuiz && !quizPassed ? "Valide le quiz pour terminer la lecon." : "Beau travail, c'est enregistre.",
+          xp: 0,
+          ctaLabel: "",
+          ctaAction: ""
+        });
       }
     } catch {
       setProjectError(toErrorMessage("network"));
@@ -136,6 +235,14 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
 
   return (
     <div className="space-y-6">
+      <LessonSteps
+        hasQuiz={hasQuiz}
+        hasProject={hasProject}
+        quizDone={quizPassed}
+        projectDone={projectSubmitted}
+        completed={isCompleted}
+      />
+
       {isCompleted ? (
         <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 flex items-center justify-between gap-3 flex-wrap">
           <div className="flex items-center gap-2.5">
@@ -444,6 +551,24 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
           </Link>
         ) : null}
       </div>
+
+      <CelebrationOverlay
+        open={celebration.open}
+        variant={celebration.variant}
+        title={celebration.title}
+        message={celebration.message}
+        xp={celebration.xp}
+        ctaLabel={celebration.ctaLabel}
+        onClose={closeCelebration}
+        onCta={() => {
+          closeCelebration();
+          if (celebration.ctaAction === "retry") {
+            retryQuiz();
+          } else if (celebration.ctaAction === "next" && nextLessonSlug) {
+            router.push(`/parcours/${trackSlug}/lecon/${nextLessonSlug}`);
+          }
+        }}
+      />
     </div>
   );
 }
