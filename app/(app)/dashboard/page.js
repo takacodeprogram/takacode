@@ -7,7 +7,7 @@ import { getTrackCurriculum } from "../../../lib/curriculum";
 import { formatDisplayName } from "../../../lib/displayName";
 import { getOnboardingProfile, isOnboardingCompleted } from "../../../lib/onboarding";
 import { buildPageMetadata } from "../../../lib/seo";
-import { formatTrackMeta, listUserTrackEnrollments } from "../../../lib/tracks";
+import { formatTrackMeta, listRecommendedTracksForGoal, listUserTrackEnrollments } from "../../../lib/tracks";
 import { createClient } from "../../../utils/supabase/server";
 
 export const dynamic = "force-dynamic";
@@ -50,14 +50,23 @@ export default async function DashboardHomePage() {
     ? await getTrackCurriculum(supabase, primaryEnrollment.trackId, user.id)
     : null;
 
+  // Quand aucun parcours n'est demarre, on met en avant LE parcours recommande
+  // (base sur l'objectif choisi a l'onboarding).
+  const recommendedResult = !primaryEnrollment
+    ? await listRecommendedTracksForGoal(supabase, onboardingProfile.goalKey, { limit: 1 })
+    : { tracks: [] };
+  const recommendedTrack = recommendedResult.tracks?.[0] || null;
+
   const progress = curriculum?.hasCurriculum
     ? curriculum.progressPercent
     : Math.max(0, Math.min(Number(primaryEnrollment?.progress ?? 0), 100));
 
-  const nextLessonHref = curriculum?.nextLesson && primaryEnrollment
-    ? `/parcours/${primaryEnrollment.track.slug}/lecon/${curriculum.nextLesson.lessonSlug}`
-    : primaryEnrollment
-      ? `/parcours/${primaryEnrollment.track.slug}`
+  const startHref = primaryEnrollment
+    ? curriculum?.nextLesson
+      ? `/parcours/${primaryEnrollment.track.slug}/lecon/${curriculum.nextLesson.lessonSlug}`
+      : `/parcours/${primaryEnrollment.track.slug}`
+    : recommendedTrack
+      ? `/parcours/${recommendedTrack.slug}`
       : "/parcours";
 
   const points = Number.isFinite(Number(accessContext.profile?.points)) ? Number(accessContext.profile.points) : 0;
@@ -90,6 +99,22 @@ export default async function DashboardHomePage() {
               </div>
               <div className="text-[11px] text-[#777] font-body-readable">{formatTrackMeta(primaryEnrollment.track)}</div>
             </div>
+          ) : recommendedTrack ? (
+            <div className="rounded-xl border border-blue-500/25 bg-blue-500/10 p-4 mb-5">
+              <div className="text-[10px] text-blue-200 uppercase tracking-widest mb-2">Parcours recommande pour toi</div>
+              <div className="flex items-center gap-3">
+                <div
+                  className="w-11 h-11 rounded-xl border flex items-center justify-center shrink-0"
+                  style={{ borderColor: `${recommendedTrack.accentColor}55`, background: `${recommendedTrack.accentColor}1f` }}
+                >
+                  <iconify-icon icon={recommendedTrack.icon} style={{ color: recommendedTrack.accentColor, fontSize: "20px" }} />
+                </div>
+                <div className="min-w-0">
+                  <div className="text-[13px] text-white font-semibold leading-tight">{recommendedTrack.title}</div>
+                  <div className="text-[11px] text-blue-100/80 font-body-readable">{formatTrackMeta(recommendedTrack)}</div>
+                </div>
+              </div>
+            </div>
           ) : (
             <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4 mb-5 text-[12px] text-[#888] font-body-readable">
               Tu n'as pas encore de parcours actif. Choisis-en un pour demarrer.
@@ -97,8 +122,8 @@ export default async function DashboardHomePage() {
           )}
 
           <div className="flex flex-wrap gap-3">
-            <Link href={nextLessonHref} className="btn-primary inline-flex items-center gap-2">
-              {curriculum?.completedLessons ? "Continuer" : "Demarrer"}
+            <Link href={startHref} className="btn-primary inline-flex items-center gap-2">
+              {primaryEnrollment ? (curriculum?.completedLessons ? "Continuer" : "Demarrer") : recommendedTrack ? "Demarrer ce parcours" : "Choisir un parcours"}
               <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "14px" }} />
             </Link>
             <Link href="/dashboard/parcours" className="btn-secondary">Voir mes parcours</Link>

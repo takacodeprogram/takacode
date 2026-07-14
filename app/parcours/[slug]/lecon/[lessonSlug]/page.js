@@ -6,7 +6,7 @@ import LessonExperience from "../../../../../components/LessonExperience";
 import Navbar from "../../../../../components/Navbar";
 import { findLessonInCurriculum, getTrackCurriculum } from "../../../../../lib/curriculum";
 import { buildPageMetadata } from "../../../../../lib/seo";
-import { listPublishedTracks } from "../../../../../lib/tracks";
+import { ensureUserTrackEnrollment, listPublishedTracks } from "../../../../../lib/tracks";
 import { createClient } from "../../../../../utils/supabase/server";
 
 export const dynamic = "force-dynamic";
@@ -51,6 +51,9 @@ export default async function LessonPage({ params }) {
   if (!track) {
     notFound();
   }
+
+  // Ouvrir une lecon marque le parcours comme demarre (apparait dans le dashboard).
+  await ensureUserTrackEnrollment(supabase, user.id, track.id);
 
   const curriculum = await getTrackCurriculum(supabase, track.id, user.id);
 
