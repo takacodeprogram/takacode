@@ -22,8 +22,7 @@ export default function AdminControlCenter({
   tracksSchemaReady = true,
   usersError = "",
   tracksError = "",
-  appUrl = "https://takacode.vercel.app",
-  showPitchDeck = true
+  appUrl = "https://takacode.vercel.app"
 }) {
   const [activeTab, setActiveTab] = useState("overview");
 
@@ -125,11 +124,6 @@ export default function AdminControlCenter({
           )}
 
           <div className="flex flex-wrap gap-2.5">
-            {showPitchDeck ? (
-              <a href="/api/admin/pitch-deck" className="btn-primary">
-                Telecharger le pitch
-              </a>
-            ) : null}
             <a href={appUrl} target="_blank" rel="noreferrer" className="btn-secondary">
               Ouvrir l'app deployee
             </a>

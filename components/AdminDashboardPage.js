@@ -141,8 +141,6 @@ export default function AdminDashboardPage({ user, onboarding, tracks, gamificat
     ? adminData.appUrl.trim()
     : "https://takacode.vercel.app";
   const normalizedCurrentPath = normalizePathname(currentPath);
-  const isAdminAreaPath = normalizedCurrentPath === "/admin" || normalizedCurrentPath.startsWith("/admin/");
-  const showAdminPitchDeck = !isAdminAreaPath;
   const sidebarLinks = SIDEBAR_LINKS.filter((link) => !link.adminOnly || isAdmin);
 
   const mobileLinks = [
@@ -183,14 +181,6 @@ export default function AdminDashboardPage({ user, onboarding, tracks, gamificat
         </nav>
 
         <div className="pt-6 border-t border-white/[0.05] space-y-2">
-          <Link
-            href="/dashboard"
-            id="side-settings"
-            className="flex items-center gap-3 rounded-xl px-4 py-3 text-[14px] font-medium text-[#888] hover:text-white hover:bg-white/[0.04] transition-all"
-          >
-            <iconify-icon icon="lucide:settings" />
-            Parametres
-          </Link>
           <form action="/auth/signout" method="post">
             <button
               type="submit"
@@ -263,7 +253,6 @@ export default function AdminDashboardPage({ user, onboarding, tracks, gamificat
                 <div className="flex flex-wrap items-center gap-2.5">
                   <a href={appUrl} target="_blank" rel="noreferrer" className="btn-secondary">Voir l'app</a>
                   <Link href="/admin" className="btn-secondary">Aller sur /admin</Link>
-                  {showAdminPitchDeck ? <a href="/api/admin/pitch-deck" className="btn-primary">Pitch deck</a> : null}
                 </div>
               </div>
 
@@ -288,7 +277,6 @@ export default function AdminDashboardPage({ user, onboarding, tracks, gamificat
               usersError={usersError}
               tracksError={tracksError}
               appUrl={appUrl}
-              showPitchDeck={showAdminPitchDeck}
             />
           </>
         ) : (
