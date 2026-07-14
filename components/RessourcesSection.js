@@ -26,7 +26,7 @@ export default function RessourcesSection() {
               <span className="community-tag">Bibliotheque IA</span>
             </div>
 
-            <Link href="/ressources" id="ressources-cta-link" className="btn-primary glow-btn inline-flex items-center gap-2" style={{ fontSize: "14px", padding: "14px 28px" }}>
+            <Link href="/parcours" id="ressources-cta-link" className="btn-primary glow-btn inline-flex items-center gap-2" style={{ fontSize: "14px", padding: "14px 28px" }}>
               Explorer les ressources
               <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "16px" }} />
             </Link>

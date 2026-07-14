@@ -17,7 +17,7 @@ export default function FooterSection() {
               <div><Link href="/parcours" id="footer-parcours-link" className="text-[12px] text-[#555] hover:text-white transition-colors">Parcours</Link></div>
               <div><Link href="/competences" id="footer-competences-link" className="text-[12px] text-[#555] hover:text-white transition-colors">Competences</Link></div>
               <div><Link href="/projets" id="footer-projets-link" className="text-[12px] text-[#555] hover:text-white transition-colors">Projets</Link></div>
-              <div><Link href="/ressources" id="footer-ressources-link" className="text-[12px] text-[#555] hover:text-white transition-colors">Ressources</Link></div>
+              <div><Link href="/competences" id="footer-competences2-link" className="text-[12px] text-[#555] hover:text-white transition-colors">Approche</Link></div>
             </div>
           </div>
 
@@ -45,7 +45,6 @@ export default function FooterSection() {
             <div className="text-[11px] font-semibold text-[#444] uppercase tracking-widest mb-4">Entreprise</div>
             <div className="space-y-2.5 font-body-readable">
               <div><Link href="/" id="footer-about-link" className="text-[12px] text-[#555] hover:text-white transition-colors">A propos</Link></div>
-              <div><Link href="/ressources" id="footer-blog-link" className="text-[12px] text-[#555] hover:text-white transition-colors">Blog</Link></div>
               <div><Link href="/communaute" id="footer-contact-link" className="text-[12px] text-[#555] hover:text-white transition-colors">Contact</Link></div>
             </div>
           </div>
@@ -65,7 +64,6 @@ export default function FooterSection() {
             <Link href="/" id="footer-francais-link" className="text-[11px] text-[#444] hover:text-white transition-colors">Francais</Link>
             <Link href="/parcours" id="footer-parcours-footer-link" className="text-[11px] text-[#444] hover:text-white transition-colors">Parcours</Link>
             <Link href="/projets" id="footer-projets-footer-link" className="text-[11px] text-[#444] hover:text-white transition-colors">Projets</Link>
-            <Link href="/ressources" id="footer-ressources-footer-link" className="text-[11px] text-[#444] hover:text-white transition-colors">Ressources</Link>
             <Link href="/communaute" id="footer-communaute-footer-link" className="text-[11px] text-[#444] hover:text-white transition-colors">Communaute</Link>
           </div>
         </div>

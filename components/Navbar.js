@@ -11,7 +11,6 @@ const navLinks = [
   { href: "/parcours", id: "nav-parcours-link", label: "Parcours", match: ["/parcours"] },
   { href: "/competences", id: "nav-competences-link", label: "Competences", match: ["/competences"] },
   { href: "/projets", id: "nav-projets-link", label: "Projets", match: ["/projets"] },
-  { href: "/ressources", id: "nav-ressources-link", label: "Ressources", match: ["/ressources"] },
   { href: "/communaute", id: "nav-communaute-link", label: "Communaute", match: ["/communaute"] },
   { href: "/tarifs", id: "nav-tarifs-link", label: "Tarifs", match: ["/tarifs"] }
 ];

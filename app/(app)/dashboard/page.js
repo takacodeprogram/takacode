@@ -1,0 +1,146 @@
+import Link from "next/link";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import PageHeader from "../../../components/app-shell/PageHeader";
+import { getUserAccessContext } from "../../../lib/auth";
+import { getTrackCurriculum } from "../../../lib/curriculum";
+import { formatDisplayName } from "../../../lib/displayName";
+import { getOnboardingProfile, isOnboardingCompleted } from "../../../lib/onboarding";
+import { buildPageMetadata } from "../../../lib/seo";
+import { formatTrackMeta, listUserTrackEnrollments } from "../../../lib/tracks";
+import { createClient } from "../../../utils/supabase/server";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+export const metadata = buildPageMetadata({
+  title: "Dashboard",
+  description: "Ton espace personnel TakaCode: progression, prochaine lecon et raccourcis.",
+  path: "/dashboard",
+  noIndex: true
+});
+
+export default async function DashboardHomePage() {
+  const cookieStore = await cookies();
+  const supabase = await createClient(cookieStore);
+
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/signin?next=/dashboard");
+  }
+
+  const accessContext = await getUserAccessContext(supabase, user);
+
+  if (accessContext.role !== "admin" && !isOnboardingCompleted(user)) {
+    redirect("/onboarding");
+  }
+
+  const onboardingProfile = getOnboardingProfile(user);
+  const displayName = formatDisplayName(user);
+  const firstName = displayName.split(" ")[0] || "Membre";
+
+  const enrollmentResult = await listUserTrackEnrollments(supabase, user.id, { limit: 8 });
+  const enrolledTracks = enrollmentResult.enrollments;
+  const primaryEnrollment = enrolledTracks[0] || null;
+
+  const curriculum = primaryEnrollment
+    ? await getTrackCurriculum(supabase, primaryEnrollment.trackId, user.id)
+    : null;
+
+  const progress = curriculum?.hasCurriculum
+    ? curriculum.progressPercent
+    : Math.max(0, Math.min(Number(primaryEnrollment?.progress ?? 0), 100));
+
+  const nextLessonHref = curriculum?.nextLesson && primaryEnrollment
+    ? `/parcours/${primaryEnrollment.track.slug}/lecon/${curriculum.nextLesson.lessonSlug}`
+    : primaryEnrollment
+      ? `/parcours/${primaryEnrollment.track.slug}`
+      : "/parcours";
+
+  const points = Number.isFinite(Number(accessContext.profile?.points)) ? Number(accessContext.profile.points) : 0;
+  const grade = accessContext.profile?.grade || "Starter";
+
+  const quickActions = [
+    { label: "Mes parcours", href: "/dashboard/parcours", icon: "lucide:map" },
+    { label: "Mes ressources", href: "/dashboard/ressources", icon: "lucide:book-open" },
+    { label: "Mes projets", href: "/dashboard/projets", icon: "lucide:folder-code" }
+  ];
+
+  return (
+    <>
+      <PageHeader title="DASHBOARD" subtitle={`Bienvenue ${displayName}`} />
+
+      <div className="grid xl:grid-cols-[1.4fr_0.9fr] gap-6">
+        <section className="rounded-2xl border border-white/[0.08] bg-[#111] p-6 animate-fade-up-d1">
+          <div className="section-label mb-2">Mon cap</div>
+          <h2 className="font-valorax text-[clamp(24px,3.4vw,38px)] leading-[0.95] mb-2">BONJOUR {firstName.toUpperCase()}</h2>
+          <p className="font-body-readable text-[14px] text-[#a5a5a5] leading-relaxed mb-5">{onboardingProfile.goalLabel}</p>
+
+          {primaryEnrollment ? (
+            <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4 mb-5">
+              <div className="flex items-center justify-between gap-3 mb-2">
+                <div className="text-[13px] text-white font-semibold">{primaryEnrollment.track.title}</div>
+                <span className="text-[11px] text-[#89c7ff] font-semibold">{progress}%</span>
+              </div>
+              <div className="h-1.5 rounded bg-white/[0.06] overflow-hidden mb-2">
+                <div className="h-full rounded bg-gradient-to-r from-[#4F8EF7] to-[#9B6DFF]" style={{ width: `${progress}%` }} />
+              </div>
+              <div className="text-[11px] text-[#777] font-body-readable">{formatTrackMeta(primaryEnrollment.track)}</div>
+            </div>
+          ) : (
+            <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4 mb-5 text-[12px] text-[#888] font-body-readable">
+              Tu n'as pas encore de parcours actif. Choisis-en un pour demarrer.
+            </div>
+          )}
+
+          <div className="flex flex-wrap gap-3">
+            <Link href={nextLessonHref} className="btn-primary inline-flex items-center gap-2">
+              {curriculum?.completedLessons ? "Continuer" : "Demarrer"}
+              <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "14px" }} />
+            </Link>
+            <Link href="/dashboard/parcours" className="btn-secondary">Voir mes parcours</Link>
+          </div>
+        </section>
+
+        <section className="space-y-4 animate-fade-up-d2">
+          <article className="rounded-2xl border border-white/[0.08] bg-[#111] p-5">
+            <h3 className="font-venite text-[12px] tracking-widest text-[#888] mb-3">MA PROGRESSION</h3>
+            <div className="grid grid-cols-3 gap-2">
+              <div className="rounded-lg border border-white/[0.08] bg-white/[0.02] px-2.5 py-2">
+                <div className="text-[9px] text-[#666] uppercase tracking-widest">Points</div>
+                <div className="text-[15px] text-white font-semibold">{points}</div>
+              </div>
+              <div className="rounded-lg border border-white/[0.08] bg-white/[0.02] px-2.5 py-2">
+                <div className="text-[9px] text-[#666] uppercase tracking-widest">Grade</div>
+                <div className="text-[15px] text-white font-semibold">{grade}</div>
+              </div>
+              <div className="rounded-lg border border-white/[0.08] bg-white/[0.02] px-2.5 py-2">
+                <div className="text-[9px] text-[#666] uppercase tracking-widest">Parcours</div>
+                <div className="text-[15px] text-white font-semibold">{enrolledTracks.length}</div>
+              </div>
+            </div>
+          </article>
+
+          <article className="rounded-2xl border border-white/[0.08] bg-[#111] p-5">
+            <h3 className="font-venite text-[12px] tracking-widest text-[#888] mb-3">ACCES RAPIDE</h3>
+            <div className="space-y-2.5">
+              {quickActions.map((action) => (
+                <Link
+                  key={action.href}
+                  href={action.href}
+                  className="w-full rounded-xl border border-white/[0.08] bg-white/[0.02] px-3.5 py-3 text-[12px] font-semibold text-[#d1d1d1] hover:bg-white/[0.05] transition-colors inline-flex items-center gap-2"
+                >
+                  <iconify-icon icon={action.icon} style={{ color: "#4F8EF7", fontSize: "14px" }} />
+                  {action.label}
+                </Link>
+              ))}
+            </div>
+          </article>
+        </section>
+      </div>
+    </>
+  );
+}

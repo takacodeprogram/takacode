@@ -9,12 +9,12 @@ const SIDEBAR_LINKS = [
   { id: "side-sessions", href: "/communaute#sessions", matchPrefix: "/communaute", icon: "lucide:video", label: "Sessions live", live: true },
   { id: "side-projects", href: "/projets", matchPrefix: "/projets", icon: "lucide:folder-code", label: "Mes projets" },
   { id: "side-community", href: "/communaute", matchPrefix: "/communaute", icon: "lucide:users", label: "Communaute" },
-  { id: "side-resources", href: "/ressources", matchPrefix: "/ressources", icon: "lucide:book-open", label: "Ressources" }
+  { id: "side-resources", href: "/dashboard/ressources", matchPrefix: "/dashboard/ressources", icon: "lucide:book-open", label: "Ressources" }
 ];
 
 const USER_QUICK_ACTIONS = [
   { label: "Continuer mon parcours", href: "/parcours", icon: "lucide:play-circle" },
-  { label: "Explorer les ressources", href: "/ressources", icon: "lucide:book-marked" },
+  { label: "Explorer les ressources", href: "/dashboard/ressources", icon: "lucide:book-marked" },
   { label: "Rejoindre la session live", href: "/communaute#sessions", icon: "lucide:calendar" }
 ];
 
