@@ -1,9 +1,3 @@
-"use client";
-
-import dynamic from "next/dynamic";
-
-const SkullLoader3D = dynamic(() => import("./SkullLoader3D"), { ssr: false });
-
 export default function LoaderVisual() {
   const matrixColumns = [
     { x: "4%", delay: "0s", duration: "4.6s", text: "01011010100101101010" },
@@ -33,7 +27,7 @@ export default function LoaderVisual() {
       </div>
 
       <div className="startup-loader-core" aria-hidden="true">
-        <SkullLoader3D />
+        <img src="/logo-light-2.png" alt="" className="startup-loader-logo" />
       </div>
 
       <div className="startup-loader-text font-venite-italic">INITIALISATION</div>
