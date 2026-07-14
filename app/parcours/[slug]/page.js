@@ -309,27 +309,27 @@ export default async function ParcoursDetailPage({ params }) {
                   </div>
                 ) : null}
 
-                <div className="mt-6 flex flex-wrap gap-2.5">
+                <div className="mt-6 flex flex-wrap items-center gap-3">
                   {user ? (
                     <>
-                      <Link href={continueHref} className="btn-secondary inline-flex items-center gap-2 text-[12px]" style={{ padding: "10px 16px" }}>
-                        {isMine || (hasCurriculum && curriculum.completedLessons > 0) ? "Continuer" : "Demarrer"}
-                        <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "13px" }} />
+                      <Link href={continueHref} className="btn-primary glow-btn inline-flex items-center gap-2 text-[13px]" style={{ padding: "12px 22px" }}>
+                        <iconify-icon icon={isMine || (hasCurriculum && curriculum.completedLessons > 0) ? "lucide:play-circle" : "lucide:play"} style={{ fontSize: "15px" }} />
+                        {isMine || (hasCurriculum && curriculum.completedLessons > 0) ? "Continuer le parcours" : "Demarrer le parcours"}
                       </Link>
-                      <Link href="/projets" className="btn-secondary inline-flex items-center gap-2 text-[12px]" style={{ padding: "10px 16px" }}>
-                        Projets associes
+                      <Link href="/projets" className="inline-flex items-center gap-1.5 text-[12px] text-[#888] hover:text-white transition-colors">
                         <iconify-icon icon="lucide:folder-code" style={{ fontSize: "13px" }} />
+                        Voir les projets associes
                       </Link>
                     </>
                   ) : (
                     <>
-                      <Link href="/signin?next=/dashboard" className="btn-secondary inline-flex items-center gap-2 text-[12px]" style={{ padding: "10px 16px" }}>
-                        Connexion
-                        <iconify-icon icon="lucide:log-in" style={{ fontSize: "13px" }} />
+                      <Link href="/signup?next=/dashboard" className="btn-primary glow-btn inline-flex items-center gap-2 text-[13px]" style={{ padding: "12px 22px" }}>
+                        <iconify-icon icon="lucide:play" style={{ fontSize: "15px" }} />
+                        Commencer ce parcours
                       </Link>
-                      <Link href="/signup?next=/dashboard" className="btn-secondary inline-flex items-center gap-2 text-[12px]" style={{ padding: "10px 16px" }}>
-                        Commencer
-                        <iconify-icon icon="lucide:play" style={{ fontSize: "13px" }} />
+                      <Link href="/signin?next=/dashboard" className="inline-flex items-center gap-1.5 text-[12px] text-[#888] hover:text-white transition-colors">
+                        <iconify-icon icon="lucide:log-in" style={{ fontSize: "13px" }} />
+                        J'ai deja un compte
                       </Link>
                     </>
                   )}

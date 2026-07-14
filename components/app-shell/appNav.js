@@ -18,7 +18,8 @@ export const ADMIN_ENTRY_LINK = { href: "/admin", icon: "lucide:shield-check", l
 export const ADMIN_AREA_LINKS = [
   { href: "/admin", icon: "lucide:layout-dashboard", label: "Vue globale", exact: true },
   { href: "/admin/utilisateurs", icon: "lucide:users", label: "Utilisateurs" },
-  { href: "/admin/parcours", icon: "lucide:route", label: "Parcours" }
+  { href: "/admin/parcours", icon: "lucide:route", label: "Parcours" },
+  { href: "/admin/sessions", icon: "lucide:video", label: "Sessions live" }
 ];
 
 export function isAdminAreaPath(pathname) {

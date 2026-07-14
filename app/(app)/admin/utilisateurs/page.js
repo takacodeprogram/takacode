@@ -27,6 +27,10 @@ export default async function AdminUsersPage() {
   const cookieStore = await cookies();
   const supabase = await createClient(cookieStore);
 
+  const {
+    data: { user: currentUser }
+  } = await supabase.auth.getUser();
+
   const usersResult = await supabase
     .from("user_profiles")
     .select(ADMIN_USERS_SELECT)
@@ -51,7 +55,7 @@ export default async function AdminUsersPage() {
           {usersResult.error.message || "Erreur de chargement des utilisateurs."}
         </div>
       ) : (
-        <AdminUsersManager initialUsers={users} />
+        <AdminUsersManager initialUsers={users} currentUserId={currentUser?.id || ""} />
       )}
     </>
   );
