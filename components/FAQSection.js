@@ -1,4 +1,4 @@
-﻿export default function FAQSection() {
+export default function FAQSection() {
   return (
     <section className="py-28">
       <div className="max-w-[1320px] mx-auto px-8">
@@ -11,7 +11,7 @@
               FREQUENTES
             </h2>
             <p className="font-body-readable text-[#666] text-[15px] leading-relaxed">
-              Tu as une question ? La reponse est surement ici. Si ce n'est pas le cas, la communaute est la pour t'aider.
+              Tu as une question ? La réponse est sûrement ici. Si ce n'est pas le cas, la communauté est là pour t'aider.
             </p>
           </div>
 
@@ -23,13 +23,13 @@
                 <iconify-icon icon="lucide:plus" className="text-[#444] flex-shrink-0" style={{ fontSize: "16px" }} />
               </div>
               <p className="font-body-readable text-[13px] text-[#555] mt-3 leading-relaxed hidden">
-                Absolument pas. TakaCode est concu pour les debutants complets. Nos parcours commencent depuis zero et l'assistant IA t'accompagne a chaque etape.
+                Absolument pas. TakaCode est conçu pour les débutants complets. Nos parcours commencent depuis zéro et l'assistant IA t'accompagne à chaque étape.
               </p>
             </div>
 
             <div className="faq-item py-5">
               <div className="faq-question flex items-center justify-between">
-                <span className="font-body-readable text-[14px] text-[#CCC] font-medium">Puis-je commencer sans experience ?</span>
+                <span className="font-body-readable text-[14px] text-[#CCC] font-medium">Puis-je commencer sans expérience ?</span>
                 <iconify-icon icon="lucide:plus" className="text-[#444] flex-shrink-0" style={{ fontSize: "16px" }} />
               </div>
             </div>
@@ -43,7 +43,7 @@
 
             <div className="faq-item py-5">
               <div className="faq-question flex items-center justify-between">
-                <span className="font-body-readable text-[14px] text-[#CCC] font-medium">Comment se deroulent les sessions live ?</span>
+                <span className="font-body-readable text-[14px] text-[#CCC] font-medium">Comment se déroulent les sessions live ?</span>
                 <iconify-icon icon="lucide:plus" className="text-[#444] flex-shrink-0" style={{ fontSize: "16px" }} />
               </div>
             </div>

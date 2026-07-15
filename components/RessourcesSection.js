@@ -11,7 +11,7 @@ export default function RessourcesSection() {
               RESSOURCES POUR AVANCER
             </h2>
             <p className="font-body-readable text-[#666] text-[15px] leading-relaxed mb-8 max-w-[420px]">
-              Guides, tutoriels, templates, prompts, outils recommandes et bien plus. Tout ce dont tu as besoin pour progresser.
+              Guides, tutoriels, templates, prompts, outils recommandés et bien plus. Tout ce dont tu as besoin pour progresser.
             </p>
 
             {/* Resource category pills */}

@@ -47,18 +47,18 @@ function LessonSteps({ hasQuiz, hasProject, quizDone, projectDone, completed }) 
 }
 
 const ERROR_MESSAGES = {
-  not_authenticated: "Ta session a expire. Reconnecte-toi pour continuer.",
-  lesson_not_found: "Cette lecon n'est plus disponible.",
-  module_locked: "Ce module est encore verrouille : termine d'abord les modules precedents.",
-  invalid_answers: "Reponds a toutes les questions avant de valider.",
-  submission_too_short: "Decris ton travail un peu plus en detail (20 caracteres minimum).",
-  submission_too_long: "Ta soumission est trop longue (5000 caracteres maximum).",
-  invalid_payload: "Requete invalide. Recharge la page et reessaie.",
-  network: "Impossible de contacter le serveur. Verifie ta connexion et reessaie."
+  not_authenticated: "Ta session a expiré. Reconnecte-toi pour continuer.",
+  lesson_not_found: "Cette leçon n'est plus disponible.",
+  module_locked: "Ce module est encore verrouillé : termine d'abord les modules précédents.",
+  invalid_answers: "Réponds à toutes les questions avant de valider.",
+  submission_too_short: "Décris ton travail un peu plus en détail (20 caractères minimum).",
+  submission_too_long: "Ta soumission est trop longue (5000 caractères maximum).",
+  invalid_payload: "Requête invalide. Recharge la page et réessaie.",
+  network: "Impossible de contacter le serveur. Vérifie ta connexion et réessaie."
 };
 
 function toErrorMessage(code) {
-  return ERROR_MESSAGES[code] || "Une erreur est survenue. Reessaie dans un instant.";
+  return ERROR_MESSAGES[code] || "Une erreur est survenue. Réessaie dans un instant.";
 }
 
 function SectionTitle({ children }) {
@@ -166,23 +166,23 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
         setCelebration({
           open: true,
           variant: "success",
-          title: nextLessonSlug ? "Lecon validee !" : "Parcours termine !",
+          title: nextLessonSlug ? "Leçon validée !" : "Parcours terminé !",
           message: nextLessonSlug
-            ? "Bravo, tu progresses. Continue sur ta lancee !"
-            : "Felicitations, tu as termine toutes les lecons de ce parcours !",
+            ? "Bravo, tu progresses. Continue sur ta lancée !"
+            : "Félicitations, tu as terminé toutes les leçons de ce parcours !",
           xp: Number(data.xpAwarded) || 0,
-          ctaLabel: nextLessonSlug ? "Lecon suivante" : "",
+          ctaLabel: nextLessonSlug ? "Leçon suivante" : "",
           ctaAction: nextLessonSlug ? "next" : "",
           shareText: nextLessonSlug
-            ? `Je viens de valider la lecon "${lesson.title}" sur TakaCode ! 🚀`
-            : "J'ai termine un parcours complet sur TakaCode ! 🏆"
+            ? `Je viens de valider la leçon "${lesson.title}" sur TakaCode ! 🚀`
+            : "J'ai terminé un parcours complet sur TakaCode ! 🏆"
         });
       } else if (data.passed) {
         setCelebration({
           open: true,
           variant: "success",
-          title: "Quiz valide !",
-          message: hasProject ? "Excellent. Termine le micro-projet pour valider la lecon." : "Excellent travail !",
+          title: "Quiz validé !",
+          message: hasProject ? "Excellent. Termine le micro-projet pour valider la leçon." : "Excellent travail !",
           xp: 0,
           ctaLabel: "",
           ctaAction: ""
@@ -191,21 +191,21 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
         const newFailCount = failCount + 1;
         setFailCount(newFailCount);
 
-        // Message progressif selon le nombre d'echecs
+        // Message progressif selon le nombre d'échecs
         const failMessages = [
-          `Score ${data.score}/${data.total} — il te faut 70%. Relis les ressources et reessaie, tu y es presque !`,
-          `Score ${data.score}/${data.total} — Concentre-toi sur les notions clefs dans les ressources ci-dessous.`,
-          `Score ${data.score}/${data.total} — Les reponses justes sont surlignees en vert. Inspire-t-en pour le prochain essai.`
+          `Score ${data.score}/${data.total} — il te faut 70%. Relis les ressources et réessaie, tu y es presque !`,
+          `Score ${data.score}/${data.total} — Concentre-toi sur les notions clés dans les ressources ci-dessous.`,
+          `Score ${data.score}/${data.total} — Les réponses justes sont surlignées en vert. Inspire-t-en pour le prochain essai.`
         ];
         const failMessage = failMessages[Math.min(newFailCount - 1, failMessages.length - 1)];
 
         setCelebration({
           open: true,
           variant: "fail",
-          title: newFailCount >= 3 ? "Ne lache pas !" : "Presque !",
-          message: failMessage + (lesson.resources.length ? " N'hesite pas a rouvrir les ressources." : ""),
+          title: newFailCount >= 3 ? "Ne lâche pas !" : "Presque !",
+          message: failMessage + (lesson.resources.length ? " N'hésite pas à rouvrir les ressources." : ""),
           xp: 0,
-          ctaLabel: "Reessayer",
+          ctaLabel: "Réessayer",
           ctaAction: "retry",
           shareText: ""
         });
@@ -249,39 +249,95 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
       if (data.reviewStatus) {
         setReviewStatus(data.reviewStatus);
       }
+      if (data.reviewFeedback) {
+        setReviewFeedback(data.reviewFeedback);
+      }
 
       if (data.status === "completed") {
         setStatus("completed");
         setReviewStatus("approved");
         setXpAwarded(Number(data.xpAwarded) || 0);
         router.refresh();
+
+        // Determiner le message selon l'origine de la validation.
+        const isAI = data.aiReview?.available === true;
+        const aiComment = data.aiReview?.feedback || "";
+        const successMessage = nextLessonSlug
+          ? "Ton micro-projet est enregistré. Bravo, continue !"
+          : "Félicitations, tu as terminé tout le parcours !";
+        const messageWithAI = isAI && aiComment
+          ? `L'IA a validé ton travail.\n\n${aiComment}\n\n${successMessage}`
+          : successMessage;
+
         setCelebration({
           open: true,
           variant: "success",
-          title: nextLessonSlug ? "Lecon validee !" : "Parcours termine !",
-          message: nextLessonSlug
-            ? "Ton micro-projet est enregistre. Bravo, continue !"
-            : "Felicitations, tu as termine tout le parcours !",
+          title: nextLessonSlug ? "Leçon validée !" : "Parcours terminé !",
+          message: messageWithAI,
           xp: Number(data.xpAwarded) || 0,
-          ctaLabel: nextLessonSlug ? "Lecon suivante" : "",
+          ctaLabel: nextLessonSlug ? "Leçon suivante" : "",
           ctaAction: nextLessonSlug ? "next" : "",
           shareText: nextLessonSlug
-            ? `Je viens de valider la lecon "${lesson.title}" sur TakaCode ! 🚀`
-            : "J'ai termine un parcours complet sur TakaCode ! 🏆"
+            ? `Je viens de valider la leçon "${lesson.title}" sur TakaCode ! 🚀`
+            : "J'ai terminé un parcours complet sur TakaCode ! 🏆"
+        });
+      } else if (data.reviewStatus === "changes_requested") {
+        playPop();
+        const aiComment = data.reviewFeedback || data.aiReview?.feedback || "";
+        const baseMessage = "Des améliorations ont été demandées. ";
+
+        let message;
+        if (data.aiReview?.available === false) {
+          // IA non disponible : en attente de revue manuelle.
+          message = "L'IA n'est pas disponible. Ton projet est en attente de validation manuelle par un pair ou un mentor. Tu peux continuer en attendant.";
+        } else if (aiComment) {
+          // IA a donne des recommandations.
+          message = `${baseMessage}\n\n${aiComment}`;
+        } else {
+          message = `${baseMessage}Retraite ton projet en fonction des remarques et re-soumets.`;
+        }
+
+        setCelebration({
+          open: true,
+          variant: "fail",
+          title: "Améliorations demandées",
+          message,
+          xp: 0,
+          ctaLabel: "",
+          ctaAction: "",
+          shareText: ""
         });
       } else if (data.reviewStatus === "pending") {
         playPop();
+        const isAI = data.aiReview?.available === true;
+        const isUnavailable = data.aiReview?.available === false;
+
+        let title, message;
+        if (isUnavailable) {
+          title = "En attente de revue";
+          message = "L'IA n'est pas disponible. Ton projet est en attente de validation manuelle par un pair ou un mentor. " +
+            (nextLessonSlug
+              ? "Pas besoin d'attendre : continue la suite, l'XP arrive une fois validé."
+              : "Tu recevras l'XP une fois le retour validé.");
+        } else if (validationMode === "peer") {
+          title = "Soumis pour revue !";
+          message = "Un autre membre va relire ton travail et te donner un retour. " +
+            (nextLessonSlug
+              ? "Pas besoin d'attendre : continue la suite, l'XP arrive une fois validé."
+              : "Tu recevras l'XP une fois le retour validé.");
+        } else {
+          title = "Soumis pour revue !";
+          message = "Ton travail part en revue. " +
+            (nextLessonSlug
+              ? "Pas besoin d'attendre : continue la suite, l'XP arrive une fois validé."
+              : "Tu recevras l'XP une fois le retour validé.");
+        }
+
         setCelebration({
           open: true,
           variant: "success",
-          title: "Soumis pour revue !",
-          message:
-            (validationMode === "peer"
-              ? "Un autre membre va relire ton travail et te donner un retour. "
-              : "Ton travail part en revue. ") +
-            (nextLessonSlug
-              ? "Pas besoin d'attendre : continue la suite, l'XP arrive une fois valide."
-              : "Tu recevras l'XP une fois le retour valide."),
+          title,
+          message,
           xp: 0,
           ctaLabel: nextLessonSlug ? "Continuer" : "",
           ctaAction: nextLessonSlug ? "next" : "",
@@ -293,7 +349,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
           open: true,
           variant: "success",
           title: "Projet soumis !",
-          message: hasQuiz && !quizPassed ? "Valide le quiz pour terminer la lecon." : "Beau travail, c'est enregistre.",
+          message: hasQuiz && !quizPassed ? "Valide le quiz pour terminer la leçon." : "Beau travail, c'est enregistré.",
           xp: 0,
           ctaLabel: "",
           ctaAction: "",
@@ -322,7 +378,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
           <div className="flex items-center gap-2.5">
             <iconify-icon icon="lucide:badge-check" style={{ fontSize: "18px", color: "#6ee7b7" }} />
             <span className="font-body-readable text-[12px] text-emerald-100">
-              Lecon validee{xpAwarded > 0 ? ` : +${xpAwarded} XP gagnes` : ""}
+              Leçon validée{xpAwarded > 0 ? ` : +${xpAwarded} XP gagnés` : ""}
             </span>
           </div>
           {nextLessonSlug ? (
@@ -331,7 +387,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
               className="btn-secondary inline-flex items-center gap-2 text-[12px]"
               style={{ padding: "9px 14px" }}
             >
-              Lecon suivante{nextLessonTitle ? ` : ${nextLessonTitle}` : ""}
+              Leçon suivante{nextLessonTitle ? ` : ${nextLessonTitle}` : ""}
               <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "13px" }} />
             </Link>
           ) : (
@@ -340,7 +396,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
               className="btn-secondary inline-flex items-center gap-2 text-[12px]"
               style={{ padding: "9px 14px" }}
             >
-              Parcours termine, retour au programme
+              Parcours terminé, retour au programme
               <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "13px" }} />
             </Link>
           )}
@@ -351,8 +407,8 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
             <iconify-icon icon="lucide:hourglass" style={{ fontSize: "18px", color: "#c4b5fd" }} />
             <span className="font-body-readable text-[12px] text-violet-100">
               {reviewStatus === "changes_requested"
-                ? "Des ameliorations ont ete demandees sur ce micro-projet. Tu peux continuer en attendant de le retravailler."
-                : "Micro-projet envoye en revue. Tu peux continuer : l'XP et la validation arrivent apres l'approbation."}
+                ? "Des améliorations ont été demandées sur ce micro-projet. Tu peux continuer en attendant de le retravailler."
+                : "Micro-projet envoyé en revue. Tu peux continuer : l'XP et la validation arrivent après l'approbation."}
             </span>
           </div>
           {nextLessonSlug ? (
@@ -495,7 +551,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
 
           {quizPassed && !quizResult ? (
             <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-3 font-body-readable text-[12px] text-[#b3b3b3]">
-              Tu as deja valide ce quiz
+              Tu as déjà validé ce quiz
               {initialProgress?.quizTotal ? ` (${initialProgress.quizScore}/${initialProgress.quizTotal})` : ""}.
             </div>
           ) : (
@@ -565,7 +621,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
                       className="btn-secondary inline-flex items-center gap-2 text-[12px]"
                       style={{ padding: "9px 14px" }}
                     >
-                      Reessayer
+                      Réessayer
                       <iconify-icon icon="lucide:rotate-ccw" style={{ fontSize: "13px" }} />
                     </button>
                   ) : null}
@@ -580,7 +636,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
                   }`}
                   style={{ padding: "10px 16px" }}
                 >
-                  {quizSubmitting ? "Correction..." : "Valider mes reponses"}
+                  {quizSubmitting ? "Correction..." : "Valider mes réponses"}
                   <iconify-icon icon="lucide:check" style={{ fontSize: "13px" }} />
                 </button>
               )}
@@ -598,7 +654,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
               </span>
             ) : null}
             {reviewStatus === "changes_requested" ? (
-              <span className="text-[10px] font-semibold px-2.5 py-1 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-100 -mt-3">Ameliorations demandees</span>
+              <span className="text-[10px] font-semibold px-2.5 py-1 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-100 -mt-3">Améliorations demandées</span>
             ) : null}
             {reviewStatus === "approved" || isCompleted ? (
               <span className="text-[10px] font-semibold px-2.5 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-200 -mt-3">Valide</span>
@@ -638,7 +694,11 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
             {isReviewMode && reviewStatus === "pending" ? (
               <div className="rounded-lg border border-amber-500/25 bg-amber-500/10 px-3.5 py-2.5 text-[12px] text-amber-100 font-body-readable inline-flex items-center gap-2">
                 <iconify-icon icon="lucide:clock" style={{ fontSize: "14px" }} />
-                {validationMode === "peer" ? "En attente d'une revue par les pairs." : "En attente d'une revue mentor."}
+                {validationMode === "ai"
+                  ? "En attente de revue IA ou manuelle."
+                  : validationMode === "peer"
+                    ? "En attente d'une revue par les pairs."
+                    : "En attente d'une revue mentor."}
               </div>
             ) : null}
 
@@ -646,7 +706,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
               <div className="rounded-lg border border-blue-500/25 bg-blue-500/10 px-3.5 py-2.5">
                 <div className="text-[10px] text-blue-200 uppercase tracking-widest font-semibold mb-1 inline-flex items-center gap-1.5">
                   <iconify-icon icon="lucide:message-square" style={{ fontSize: "12px" }} />
-                  Ameliorations demandees
+                  Améliorations demandées
                 </div>
                 <p className="font-body-readable text-[12px] text-blue-100/90 leading-relaxed">{reviewFeedback}</p>
               </div>
@@ -665,7 +725,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
             {projectText.trim().length > 0 && projectText.trim().length < 50 && !projectSubmitted ? (
               <div className="flex items-start gap-2 text-[11px] text-amber-100/80 font-body-readable">
                 <iconify-icon icon="lucide:info" style={{ fontSize: "13px", color: "#fbbf24", marginTop: "1px" }} />
-                <span>Ton livrable est assez court. Assure-toi d'avoir bien inclus tout ce qui est demande (lien, explications, etc.).</span>
+                <span>Ton livrable est assez court. Assure-toi d'avoir bien inclus tout ce qui est demandé (lien, explications, etc.).</span>
               </div>
             ) : null}
 
@@ -688,7 +748,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
                   : reviewStatus === "changes_requested"
                     ? "Re-soumettre"
                     : projectSubmitted
-                      ? "Mettre a jour ma soumission"
+                      ? "Mettre à jour ma soumission"
                       : isReviewMode
                         ? "Soumettre pour revue"
                         : "Soumettre mon micro projet"}
@@ -707,7 +767,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
             style={{ padding: "9px 14px" }}
           >
             <iconify-icon icon="lucide:arrow-left" style={{ fontSize: "13px" }} />
-            Lecon precedente
+            Leçon précédente
           </Link>
         ) : (
           <span />
@@ -719,7 +779,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
             className="btn-secondary inline-flex items-center gap-2 text-[12px]"
             style={{ padding: "9px 14px" }}
           >
-            Lecon suivante
+            Leçon suivante
             <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "13px" }} />
           </Link>
         ) : null}

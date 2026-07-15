@@ -64,7 +64,7 @@ async function findUserByEmail(adminClient, email) {
     const { data, error } = await adminClient.auth.admin.listUsers({ page, perPage });
 
     if (error) {
-      throw new Error(`Impossible de lire les utilisateurs: ${error.message}`);
+      throw new Error(`Impossible de lire les utilisateurs : ${error.message}`);
     }
 
     const users = Array.isArray(data?.users) ? data.users : [];
@@ -109,7 +109,7 @@ async function main() {
   }
 
   if (!serviceRoleKey) {
-    throw new Error("SUPABASE_SERVICE_ROLE_KEY manquant. Ajoute-le dans .env.local pour creer/promouvoir un admin.");
+    throw new Error("SUPABASE_SERVICE_ROLE_KEY manquant. Ajoute-le dans .env.local pour créer/promouvoir un admin.");
   }
 
   const adminClient = createClient(supabaseUrl, serviceRoleKey, {
@@ -141,11 +141,11 @@ async function main() {
     });
 
     if (error) {
-      throw new Error(`Echec promotion admin: ${error.message}`);
+      throw new Error(`Échec promotion admin : ${error.message}`);
     }
 
     targetUserId = data.user?.id || existing.id;
-    console.log(`Utilisateur existant promu admin: ${email}`);
+    console.log(`Utilisateur existant promu admin : ${email}`);
   } else {
     const { data, error } = await adminClient.auth.admin.createUser({
       email,
@@ -156,15 +156,15 @@ async function main() {
     });
 
     if (error) {
-      throw new Error(`Echec creation admin: ${error.message}`);
+      throw new Error(`Échec création admin : ${error.message}`);
     }
 
     targetUserId = data.user?.id || "";
-    console.log(`Compte admin cree: ${email}`);
+    console.log(`Compte admin créé : ${email}`);
   }
 
   if (!targetUserId) {
-    throw new Error("Impossible de recuperer l'identifiant utilisateur admin.");
+    throw new Error("Impossible de récupérer l'identifiant utilisateur admin.");
   }
 
   const normalizedPoints = Number.isFinite(points) ? Math.max(points, 0) : 1500;
@@ -182,11 +182,11 @@ async function main() {
     );
 
   if (profileError) {
-    throw new Error(`Admin cree/promu mais profil non mis a jour: ${profileError.message}`);
+    throw new Error(`Admin créé/promu mais profil non mis à jour : ${profileError.message}`);
   }
 
-  console.log("Profil admin synchronise.");
-  console.log(`Connexion admin: ${email}`);
+  console.log("Profil admin synchronisé.");
+  console.log(`Connexion admin : ${email}`);
 }
 
 main().catch((error) => {

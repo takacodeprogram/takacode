@@ -9,8 +9,8 @@ const ERRORS = {
   not_authenticated: "Reconnecte-toi.",
   cannot_review_self: "Tu ne peux pas revoir ton propre travail.",
   invalid_verdict: "Verdict invalide.",
-  comment_required: "Ajoute un commentaire pour demander des ameliorations.",
-  forbidden: "Ce niveau de revue est reserve aux mentors.",
+  comment_required: "Ajoute un commentaire pour demander des améliorations.",
+  forbidden: "Ce niveau de revue est réservé aux mentors.",
   not_pending: "Cette soumission n'est plus en attente.",
   not_reviewable: "Ce projet n'est pas en revue."
 };
@@ -123,7 +123,7 @@ export default function ReviewQueue({ initialItems = [] }) {
                 style={{ padding: "9px 14px" }}
               >
                 <iconify-icon icon="lucide:rotate-ccw" style={{ fontSize: "13px" }} />
-                Demander des ameliorations
+                Demander des améliorations
               </button>
             </div>
           </article>

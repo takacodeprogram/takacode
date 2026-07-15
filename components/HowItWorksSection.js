@@ -10,7 +10,7 @@ export default function HowItWorksSection() {
             COMMENT CA MARCHE
           </h2>
           <p className="font-body-readable text-[#666] text-[15px] max-w-md mx-auto">
-            De ton idee a ton projet publie, un chemin clair et guide.
+            De ton idée à ton projet publié, un chemin clair et guidé.
           </p>
         </div>
 
@@ -23,7 +23,7 @@ export default function HowItWorksSection() {
                 <iconify-icon icon="lucide:lightbulb" className="text-[#4F8EF7]" style={{ fontSize: "28px" }} />
               </div>
               <div className="font-venite text-[12px] text-white mb-2">UNE IDEE</div>
-              <p className="font-body-readable text-[11px] text-[#555] leading-relaxed">Tu viens avec une idee, un besoin ou simplement l'envie d'apprendre.</p>
+              <p className="font-body-readable text-[11px] text-[#555] leading-relaxed">Tu viens avec une idée, un besoin ou simplement l'envie d'apprendre.</p>
             </div>
 
             <div className="text-center">
@@ -31,7 +31,7 @@ export default function HowItWorksSection() {
                 <iconify-icon icon="lucide:git-branch" className="text-[#888]" style={{ fontSize: "28px" }} />
               </div>
               <div className="font-venite text-[12px] text-white mb-2">UN PARCOURS ADAPTE</div>
-              <p className="font-body-readable text-[11px] text-[#555] leading-relaxed">Tu choisis le parcours qui correspond a ton objectif et ton niveau.</p>
+              <p className="font-body-readable text-[11px] text-[#555] leading-relaxed">Tu choisis le parcours qui correspond à ton objectif et ton niveau.</p>
             </div>
 
             <div className="text-center">
@@ -39,7 +39,7 @@ export default function HowItWorksSection() {
                 <iconify-icon icon="lucide:book-open" className="text-[#888]" style={{ fontSize: "28px" }} />
               </div>
               <div className="font-venite text-[12px] text-white mb-2">RESSOURCES ET PRATIQUE</div>
-              <p className="font-body-readable text-[11px] text-[#555] leading-relaxed">Tu accedes aux ressources, exercices et a l'assistance de l'IA.</p>
+              <p className="font-body-readable text-[11px] text-[#555] leading-relaxed">Tu accèdes aux ressources, exercices et à l'assistance de l'IA.</p>
             </div>
 
             <div className="text-center">
@@ -47,7 +47,7 @@ export default function HowItWorksSection() {
                 <iconify-icon icon="lucide:video" className="text-[#888]" style={{ fontSize: "28px" }} />
               </div>
               <div className="font-venite text-[12px] text-white mb-2">SESSIONS LIVE</div>
-              <p className="font-body-readable text-[11px] text-[#555] leading-relaxed">Tu participes a des sessions de pratique et de co-construction.</p>
+              <p className="font-body-readable text-[11px] text-[#555] leading-relaxed">Tu participes à des sessions de pratique et de co-construction.</p>
             </div>
 
             <div className="text-center">
@@ -55,7 +55,7 @@ export default function HowItWorksSection() {
                 <iconify-icon icon="lucide:package" className="text-[#888]" style={{ fontSize: "28px" }} />
               </div>
               <div className="font-venite text-[12px] text-white mb-2">PROJET REALISE</div>
-              <p className="font-body-readable text-[11px] text-[#555] leading-relaxed">Tu finalises et tu realises un projet concret, vraiment fonctionnel.</p>
+              <p className="font-body-readable text-[11px] text-[#555] leading-relaxed">Tu finalises et tu réalises un projet concret, vraiment fonctionnel.</p>
             </div>
 
             <div className="text-center">
@@ -63,7 +63,7 @@ export default function HowItWorksSection() {
                 <iconify-icon icon="lucide:share-2" className="text-[#9B6DFF]" style={{ fontSize: "28px" }} />
               </div>
               <div className="font-venite text-[12px] text-white mb-2">PARTAGE</div>
-              <p className="font-body-readable text-[11px] text-[#555] leading-relaxed">Tu publies sur la galerie et partages avec toute la communaute.</p>
+              <p className="font-body-readable text-[11px] text-[#555] leading-relaxed">Tu publies sur la galerie et partages avec toute la communauté.</p>
             </div>
           </div>
         </div>

@@ -23,7 +23,7 @@ export const revalidate = 0;
 export const metadata = buildPageMetadata({
   title: "Accueil",
   description:
-    "TakaCode est la plateforme ou tu apprends en construisant: parcours guides, projets reels, sessions live et communaute active.",
+    "TakaCode est la plateforme où tu apprends en construisant : parcours guidés, projets réels, sessions live et communauté active.",
   path: "/"
 });
 

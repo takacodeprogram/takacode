@@ -85,7 +85,7 @@ export default async function AdminTracksListPage() {
                 </div>
               </div>
               <div className="flex items-center gap-2 shrink-0">
-                <StatusBadge ok={track.is_published === true} labelOn="Publie" labelOff="Brouillon" />
+                <StatusBadge ok={track.is_published === true} labelOn="Publié" labelOff="Brouillon" />
                 <StatusBadge ok={track.is_active !== false} labelOn="Actif" labelOff="Inactif" />
                 <iconify-icon icon="lucide:chevron-right" style={{ fontSize: "16px", color: "#666" }} />
               </div>

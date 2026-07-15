@@ -15,16 +15,16 @@ export default function FooterSection() {
             <div className="text-[11px] font-semibold text-[#444] uppercase tracking-widest mb-4">Plateforme</div>
             <div className="space-y-2.5 font-body-readable">
               <div><Link href="/parcours" id="footer-parcours-link" className="text-[12px] text-[#555] hover:text-white transition-colors">Parcours</Link></div>
-              <div><Link href="/competences" id="footer-competences-link" className="text-[12px] text-[#555] hover:text-white transition-colors">Competences</Link></div>
+              <div><Link href="/competences" id="footer-competences-link" className="text-[12px] text-[#555] hover:text-white transition-colors">Compétences</Link></div>
               <div><Link href="/projets" id="footer-projets-link" className="text-[12px] text-[#555] hover:text-white transition-colors">Projets</Link></div>
               <div><Link href="/competences" id="footer-competences2-link" className="text-[12px] text-[#555] hover:text-white transition-colors">Approche</Link></div>
             </div>
           </div>
 
           <div>
-            <div className="text-[11px] font-semibold text-[#444] uppercase tracking-widest mb-4">Communaute</div>
+            <div className="text-[11px] font-semibold text-[#444] uppercase tracking-widest mb-4">Communauté</div>
             <div className="space-y-2.5 font-body-readable">
-              <div><Link href="/communaute" id="footer-communaute-link" className="text-[12px] text-[#555] hover:text-white transition-colors">Communaute</Link></div>
+              <div><Link href="/communaute" id="footer-communaute-link" className="text-[12px] text-[#555] hover:text-white transition-colors">Communauté</Link></div>
               <div><Link href="/communaute#sessions" id="footer-sessions-link" className="text-[12px] text-[#555] hover:text-white transition-colors">Sessions live</Link></div>
               <div><Link href="/communaute" id="footer-challenges-link" className="text-[12px] text-[#555] hover:text-white transition-colors">Challenges</Link></div>
               <div><Link href="/projets" id="footer-galerie-link" className="text-[12px] text-[#555] hover:text-white transition-colors">Galerie projets</Link></div>
@@ -59,12 +59,12 @@ export default function FooterSection() {
         </div>
 
         <div className="pt-8 border-t border-white/[0.05] flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="font-body-readable text-[11px] text-[#333]">(c) 2025 TakaCode. Tous droits reserves.</div>
+          <div className="font-body-readable text-[11px] text-[#333]">(c) 2025 TakaCode. Tous droits réservés.</div>
           <div className="font-body-readable flex flex-wrap items-center gap-x-5 gap-y-2">
-            <Link href="/" id="footer-francais-link" className="text-[11px] text-[#444] hover:text-white transition-colors">Francais</Link>
+            <Link href="/" id="footer-francais-link" className="text-[11px] text-[#444] hover:text-white transition-colors">Français</Link>
             <Link href="/parcours" id="footer-parcours-footer-link" className="text-[11px] text-[#444] hover:text-white transition-colors">Parcours</Link>
             <Link href="/projets" id="footer-projets-footer-link" className="text-[11px] text-[#444] hover:text-white transition-colors">Projets</Link>
-            <Link href="/communaute" id="footer-communaute-footer-link" className="text-[11px] text-[#444] hover:text-white transition-colors">Communaute</Link>
+            <Link href="/communaute" id="footer-communaute-footer-link" className="text-[11px] text-[#444] hover:text-white transition-colors">Communauté</Link>
           </div>
         </div>
       </div>

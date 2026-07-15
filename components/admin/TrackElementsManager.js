@@ -114,7 +114,7 @@ export default function TrackElementsManager({ trackId, trackSlug, initialModule
   }
 
   async function handleDeleteModule(moduleId) {
-    if (!window.confirm("Supprimer ce module et toutes ses lecons ? Cette action est irreversible.")) {
+    if (!window.confirm("Supprimer ce module et toutes ses leçons ? Cette action est irréversible.")) {
       return;
     }
     setBusy(true);
@@ -128,7 +128,7 @@ export default function TrackElementsManager({ trackId, trackSlug, initialModule
   }
 
   async function handleDeleteLesson(lessonId) {
-    if (!window.confirm("Supprimer cette lecon ? Cette action est irreversible.")) {
+    if (!window.confirm("Supprimer cette leçon ? Cette action est irréversible.")) {
       return;
     }
     setBusy(true);
@@ -144,7 +144,7 @@ export default function TrackElementsManager({ trackId, trackSlug, initialModule
   return (
     <section className="space-y-4">
       <div className="flex items-center justify-between gap-3">
-        <h2 className="font-venite text-[13px] tracking-widest text-[#888]">MODULES ET LECONS</h2>
+        <h2 className="font-venite text-[13px] tracking-widest text-[#888]">MODULES ET LEÇONS</h2>
         <span className="text-[11px] text-[#6d6d6d]">{modules.length} module(s)</span>
       </div>
 
@@ -177,7 +177,7 @@ export default function TrackElementsManager({ trackId, trackSlug, initialModule
                 </div>
               </div>
               <div className="flex items-center gap-1.5 shrink-0">
-                <button type="button" onClick={() => startEdit(module)} className="text-[#888] hover:text-white p-1" title="Editer le module">
+                <button type="button" onClick={() => startEdit(module)} className="text-[#888] hover:text-white p-1" title="Éditer le module">
                   <iconify-icon icon="lucide:pencil" style={{ fontSize: "14px" }} />
                 </button>
                 <button type="button" onClick={() => handleDeleteModule(module.id)} className="text-red-400/70 hover:text-red-400 p-1" title="Supprimer le module">
@@ -198,10 +198,10 @@ export default function TrackElementsManager({ trackId, trackSlug, initialModule
                   </div>
                 </div>
                 <div className="flex items-center gap-1.5 shrink-0">
-                  <Link href={`/admin/parcours/${trackId}/lecons/${lesson.id}`} className="text-[#888] hover:text-white p-1" title="Editer la lecon">
+                  <Link href={`/admin/parcours/${trackId}/lecons/${lesson.id}`} className="text-[#888] hover:text-white p-1" title="Éditer la leçon">
                     <iconify-icon icon="lucide:pencil" style={{ fontSize: "13px" }} />
                   </Link>
-                  <button type="button" onClick={() => handleDeleteLesson(lesson.id)} className="text-red-400/70 hover:text-red-400 p-1" title="Supprimer la lecon">
+                  <button type="button" onClick={() => handleDeleteLesson(lesson.id)} className="text-red-400/70 hover:text-red-400 p-1" title="Supprimer la leçon">
                     <iconify-icon icon="lucide:trash-2" style={{ fontSize: "13px" }} />
                   </button>
                 </div>
@@ -213,7 +213,7 @@ export default function TrackElementsManager({ trackId, trackSlug, initialModule
               className="inline-flex items-center gap-1.5 text-[11px] text-[#4F8EF7] hover:underline mt-1"
             >
               <iconify-icon icon="lucide:plus" style={{ fontSize: "12px" }} />
-              Ajouter une lecon
+              Ajouter une leçon
             </Link>
           </div>
         </div>

@@ -4,8 +4,8 @@ import FooterSection from "../../components/FooterSection";
 import { buildPageMetadata } from "../../lib/seo";
 
 export const metadata = buildPageMetadata({
-  title: "Politique de confidentialite",
-  description: "Consulte la politique de confidentialite TakaCode: donnees collectees, utilisation, protection et droits utilisateur.",
+  title: "Politique de confidentialité",
+  description: "Consulte la politique de confidentialité TakaCode : données collectées, utilisation, protection et droits utilisateur.",
   path: "/privacy"
 });
 
@@ -22,40 +22,40 @@ export default function PrivacyPage() {
               POLITIQUE DE CONFIDENTIALITE
             </h1>
             <p className="font-body-readable text-[#888] text-[15px] leading-relaxed max-w-[760px] mb-10">
-              Cette page explique quelles donnees TakaCode collecte, comment elles sont utilisees et quelles options tu as pour les gerer.
-              En utilisant la plateforme, tu acceptes les pratiques decrites ici.
+              Cette page explique quelles données TakaCode collecte, comment elles sont utilisées et quelles options tu as pour les gérer.
+              En utilisant la plateforme, tu acceptes les pratiques décrites ici.
             </p>
 
             <div className="space-y-8 font-body-readable">
               <section className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6">
-                <h2 className="text-[16px] font-semibold text-white mb-3">1. Donnees collectees</h2>
+                <h2 className="text-[16px] font-semibold text-white mb-3">1. Données collectées</h2>
                 <p className="text-[14px] leading-relaxed text-[#9A9A9A]">
-                  Nous pouvons collecter des informations de compte (nom, email), des donnees d'usage (pages consultees, progression),
-                  et des donnees techniques (navigateur, appareil, logs de securite).
+                  Nous pouvons collecter des informations de compte (nom, email), des données d'usage (pages consultées, progression),
+                  et des données techniques (navigateur, appareil, logs de sécurité).
                 </p>
               </section>
 
               <section className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6">
-                <h2 className="text-[16px] font-semibold text-white mb-3">2. Utilisation des donnees</h2>
+                <h2 className="text-[16px] font-semibold text-white mb-3">2. Utilisation des données</h2>
                 <p className="text-[14px] leading-relaxed text-[#9A9A9A]">
-                  Ces donnees sont utilisees pour fournir le service, ameliorer l'experience, personnaliser les contenus,
-                  assurer la securite de la plateforme et communiquer des informations importantes.
+                  Ces données sont utilisées pour fournir le service, améliorer l'expérience, personnaliser les contenus,
+                  assurer la sécurité de la plateforme et communiquer des informations importantes.
                 </p>
               </section>
 
               <section className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6">
                 <h2 className="text-[16px] font-semibold text-white mb-3">3. Conservation et protection</h2>
                 <p className="text-[14px] leading-relaxed text-[#9A9A9A]">
-                  Les donnees sont conservees pendant la duree necessaire au fonctionnement du service et protegees par des mesures
-                  techniques et organisationnelles adaptees.
+                  Les données sont conservées pendant la durée nécessaire au fonctionnement du service et protégées par des mesures
+                  techniques et organisationnelles adaptées.
                 </p>
               </section>
 
               <section className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6">
                 <h2 className="text-[16px] font-semibold text-white mb-3">4. Tes droits</h2>
                 <p className="text-[14px] leading-relaxed text-[#9A9A9A]">
-                  Tu peux demander l'acces, la correction ou la suppression de tes donnees, selon la reglementation applicable.
-                  Pour toute demande, utilise la page communaute/contact.
+                  Tu peux demander l'accès, la correction ou la suppression de tes données, selon la réglementation applicable.
+                  Pour toute demande, utilise la page communauté/contact.
                 </p>
               </section>
             </div>

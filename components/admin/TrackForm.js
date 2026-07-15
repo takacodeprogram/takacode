@@ -46,14 +46,14 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
     goal_key: track?.goal_key || "other",
     title: track?.title || "",
     summary: track?.summary || "",
-    level_label: track?.level_label || "Debutant",
+    level_label: track?.level_label || "Débutant",
     duration_weeks: String(track?.duration_weeks ?? 8),
     sort_order: String(track?.sort_order ?? 100),
     accent_color: track?.accent_color || "#4F8EF7",
     icon: track?.icon || "lucide:route",
     objective: track?.objective || "Construire un projet concret.",
     resources: toResourcesInput(track?.resources),
-    next_session: track?.next_session || "Session annoncee bientot",
+    next_session: track?.next_session || "Session annoncée bientôt",
     is_published: track ? track.is_published === true : true,
     is_active: track ? track.is_active !== false : true
   }));
@@ -70,16 +70,16 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
     return {
       goal_key: form.goal_key.trim().toLowerCase() || "other",
       title: form.title.trim() || "Parcours",
-      summary: summary || "Parcours en preparation.",
-      description: summary || "Parcours en preparation.",
-      level_label: form.level_label.trim() || "Debutant",
+      summary: summary || "Parcours en préparation.",
+      description: summary || "Parcours en préparation.",
+      level_label: form.level_label.trim() || "Débutant",
       duration_weeks: Math.max(1, Number.parseInt(form.duration_weeks, 10) || 8),
       sort_order: Math.max(1, Number.parseInt(form.sort_order, 10) || 100),
       accent_color: form.accent_color.trim() || "#4F8EF7",
       icon: form.icon.trim() || "lucide:route",
       objective: form.objective.trim() || "Construire un projet concret.",
       resources: parseResources(form.resources),
-      next_session: form.next_session.trim() || "Session annoncee bientot",
+      next_session: form.next_session.trim() || "Session annoncée bientôt",
       is_published: proposal ? false : form.is_published === true,
       is_active: proposal ? false : form.is_active === true
     };
@@ -91,7 +91,7 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
     setMessage("");
 
     if (!form.title.trim() || !form.summary.trim()) {
-      setError("Titre et resume sont obligatoires.");
+      setError("Titre et résumé sont obligatoires.");
       return;
     }
 
@@ -104,7 +104,7 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
         setSaving(false);
         return;
       }
-      setMessage("Parcours mis a jour.");
+      setMessage("Parcours mis à jour.");
       setSaving(false);
       router.refresh();
       return;
@@ -117,7 +117,7 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
       return;
     }
 
-    const insertPayload = { slug, ...buildPayload(), next_steps: [{ label: "Demarrer le parcours", state: "current" }] };
+    const insertPayload = { slug, ...buildPayload(), next_steps: [{ label: "Démarrer le parcours", state: "current" }] };
     if (proposal) {
       insertPayload.created_by = userId;
       insertPayload.is_pending = true;
@@ -168,7 +168,7 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
 
       {proposal ? (
         <div className="rounded-xl border border-blue-500/25 bg-blue-500/10 px-3.5 py-2.5 text-[12px] text-blue-100 font-body-readable">
-          Cette proposition sera <span className="font-semibold">validee par un admin</span> avant d'etre publiee.
+          Cette proposition sera <span className="font-semibold">validée par un admin</span> avant d'être publiée.
         </div>
       ) : (
         <div className="flex items-center gap-5">
@@ -185,7 +185,7 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
       {message ? <div className="rounded-xl border border-emerald-500/25 bg-emerald-500/10 px-4 py-3 text-[12px] text-emerald-200">{message}</div> : null}
 
       <button type="submit" disabled={saving} className={`btn-primary inline-flex items-center gap-2 text-[12px] ${saving ? "opacity-50 cursor-not-allowed" : ""}`} style={{ padding: "10px 18px" }}>
-        {saving ? "Enregistrement..." : isEdit ? "Enregistrer" : "Creer le parcours"}
+        {saving ? "Enregistrement..." : isEdit ? "Enregistrer" : "Créer le parcours"}
         <iconify-icon icon="lucide:save" style={{ fontSize: "13px" }} />
       </button>
     </form>

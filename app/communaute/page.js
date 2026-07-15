@@ -14,15 +14,15 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export const metadata = buildPageMetadata({
-  title: "Communaute",
-  description: "La communaute TakaCode: membres actifs, projets publies et sessions live a venir.",
+  title: "Communauté",
+  description: "La communauté TakaCode: membres actifs, projets publiés et sessions live à venir.",
   path: "/communaute"
 });
 
 function formatWhen(value) {
-  if (!value) return "Date a confirmer";
+  if (!value) return "Date à confirmer";
   const parsed = new Date(value);
-  if (Number.isNaN(parsed.getTime())) return "Date a confirmer";
+  if (Number.isNaN(parsed.getTime())) return "Date à confirmer";
   return parsed.toLocaleString("fr-FR", { weekday: "long", day: "2-digit", month: "long", hour: "2-digit", minute: "2-digit" });
 }
 
@@ -54,7 +54,7 @@ export default async function CommunautePage() {
 
   const statCards = [
     { label: "Membres", value: stats.members, icon: "lucide:users" },
-    { label: "Lecons validees", value: stats.completedLessons, icon: "lucide:check-circle" },
+    { label: "Leçons validées", value: stats.completedLessons, icon: "lucide:check-circle" },
     { label: "Micro-projets", value: stats.submittedProjects, icon: "lucide:folder-code" },
     { label: "Parcours", value: stats.publishedTracks, icon: "lucide:route" }
   ];
@@ -119,7 +119,7 @@ export default async function CommunautePage() {
                   </div>
                 ) : (
                   <div className="rounded-2xl border border-white/[0.07] bg-[#111] p-8 text-center font-body-readable text-[13px] text-[#777]">
-                    Aucun projet publie pour l'instant. Termine un parcours et publie ton projet pour ouvrir le bal.
+                    Aucun projet publié pour l'instant. Termine un parcours et publie ton projet pour ouvrir le bal.
                   </div>
                 )}
               </section>
@@ -141,7 +141,7 @@ export default async function CommunautePage() {
                         </div>
                       ))
                     ) : (
-                      <div className="px-4 py-4 text-[12px] text-[#777] font-body-readable">Le classement se remplira bientot.</div>
+                      <div className="px-4 py-4 text-[12px] text-[#777] font-body-readable">Le classement se remplira bientôt.</div>
                     )}
                   </div>
                 </div>
@@ -161,7 +161,7 @@ export default async function CommunautePage() {
                       ))
                     ) : (
                       <div className="rounded-2xl border border-white/[0.08] bg-[#111] px-4 py-4 text-[12px] text-[#777] font-body-readable">
-                        Pas de session programmee pour le moment.
+                        Pas de session programmée pour le moment.
                       </div>
                     )}
                   </div>

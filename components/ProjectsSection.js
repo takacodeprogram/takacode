@@ -21,9 +21,9 @@ export default function ProjectsSection() {
             <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "14px" }} />
           </Link>
         </div>
-        <p className="font-body-readable text-[#666] text-[14px] mb-14">Les projets termines par les membres seront publies ici.</p>
+        <p className="font-body-readable text-[#666] text-[14px] mb-14">Les projets terminés par les membres seront publiés ici.</p>
 
-        {/* Etat vide honnete: aucun projet publie tant que la communaute n'en a pas termine. */}
+        {/* État vide honnête : aucun projet publié tant que la communauté n'en a pas terminé. */}
         <div className="rounded-2xl border border-white/[0.07] bg-[#111] p-10 flex flex-col items-center text-center gap-4">
           <div className="w-14 h-14 rounded-2xl border border-white/[0.08] bg-white/[0.02] flex items-center justify-center">
             <iconify-icon icon="lucide:rocket" className="text-[#4F8EF7]" style={{ fontSize: "26px" }} />
@@ -31,7 +31,7 @@ export default function ProjectsSection() {
           <div>
             <div className="font-venite text-[15px] text-white mb-1.5">LA GALERIE DEMARRE AVEC TOI</div>
             <p className="font-body-readable text-[13px] text-[#777] max-w-[460px]">
-              Aucun projet n'a encore ete publie. Termine ton premier parcours puis publie ton projet pour ouvrir la galerie de la communaute.
+              Aucun projet n'a encore été publié. Termine ton premier parcours puis publie ton projet pour ouvrir la galerie de la communauté.
             </p>
           </div>
           <Link href="/parcours" id="projets-start-link" className="btn-primary inline-flex items-center gap-2" style={{ fontSize: "13px", padding: "12px 24px" }}>

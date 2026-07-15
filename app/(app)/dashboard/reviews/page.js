@@ -26,7 +26,7 @@ export default async function ReviewsPage() {
       <PageHeader title="REVUES" subtitle="Relis et valide les micro-projets des autres" />
 
       <div className="rounded-xl border border-blue-500/20 bg-blue-500/[0.06] px-4 py-3 text-[12px] text-blue-100/90 font-body-readable mb-5">
-        Aide la communaute : donne un retour constructif. Chaque revue te rapporte des points.
+        Aide la communauté : donne un retour constructif. Chaque revue te rapporte des points.
       </div>
 
       {!schemaReady ? (

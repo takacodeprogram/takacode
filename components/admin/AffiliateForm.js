@@ -115,7 +115,7 @@ export default function AffiliateForm({ link = null }) {
         </Field>
       </div>
 
-      <Field label="Titre"><input className={INPUT} value={form.title} onChange={(e) => setField("title", e.target.value)} placeholder="Ex: Hebergement web Hostinger" /></Field>
+      <Field label="Titre"><input className={INPUT} value={form.title} onChange={(e) => setField("title", e.target.value)} placeholder="Ex: Hébergement web Hostinger" /></Field>
       <Field label="Description"><textarea className={`${INPUT} min-h-[64px]`} value={form.description} onChange={(e) => setField("description", e.target.value)} /></Field>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">

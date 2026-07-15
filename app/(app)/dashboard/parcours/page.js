@@ -93,7 +93,7 @@ export default async function MyTracksPage() {
 
               <div className="flex flex-wrap gap-2.5">
                 <Link href={nextHref} className="btn-primary inline-flex items-center gap-2 text-[12px]" style={{ padding: "10px 16px" }}>
-                  {started ? "Continuer" : "Demarrer"}
+                  {started ? "Continuer" : "Démarrer"}
                   <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "13px" }} />
                 </Link>
                 <Link href={`/parcours/${track.slug}`} className="btn-secondary inline-flex items-center gap-2 text-[12px]" style={{ padding: "10px 16px" }}>
@@ -111,7 +111,7 @@ export default async function MyTracksPage() {
           <div>
             <div className="font-venite text-[15px] text-white mb-1.5">AUCUN PARCOURS ACTIF</div>
             <p className="font-body-readable text-[13px] text-[#777] max-w-[440px]">
-              Choisis un parcours dans le catalogue pour commencer a apprendre et construire ton projet.
+              Choisis un parcours dans le catalogue pour commencer à apprendre et construire ton projet.
             </p>
           </div>
           <Link href="/parcours" className="btn-primary inline-flex items-center gap-2" style={{ fontSize: "13px", padding: "12px 24px" }}>

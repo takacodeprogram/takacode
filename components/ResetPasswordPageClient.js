@@ -53,11 +53,11 @@ export default function ResetPasswordPageClient() {
         } = await supabase.auth.getSession();
 
         if (!session && isMounted) {
-          setInfoMessage("Ouvre cette page depuis le lien recu par email pour choisir ton nouveau mot de passe.");
+          setInfoMessage("Ouvre cette page depuis le lien reçu par email pour choisir ton nouveau mot de passe.");
         }
       } catch {
         if (isMounted) {
-          setInfoMessage("Impossible de verifier la session. Recharge la page depuis le lien recu par email.");
+          setInfoMessage("Impossible de vérifier la session. Recharge la page depuis le lien reçu par email.");
         }
       }
     }
@@ -78,7 +78,7 @@ export default function ResetPasswordPageClient() {
     }
 
     if (strength < 75) {
-      setErrorMessage("Choisis un mot de passe plus solide (min 10 caracteres, majuscule, chiffre, symbole).");
+      setErrorMessage("Choisis un mot de passe plus solide (min 10 caractères, majuscule, chiffre, symbole).");
       return;
     }
 
@@ -90,7 +90,7 @@ export default function ResetPasswordPageClient() {
       const { error } = await supabase.auth.updateUser({ password });
 
       if (error) {
-        setErrorMessage(toAuthErrorMessage(error, "Impossible de mettre a jour le mot de passe."));
+        setErrorMessage(toAuthErrorMessage(error, "Impossible de mettre à jour le mot de passe."));
         return;
       }
 
@@ -98,7 +98,7 @@ export default function ResetPasswordPageClient() {
       router.replace("/signin?reset=success");
       router.refresh();
     } catch {
-      setErrorMessage("Probleme reseau. Reessaie dans un instant.");
+      setErrorMessage("Problème réseau. Réessaie dans un instant.");
     } finally {
       setLoading(false);
     }
@@ -173,13 +173,13 @@ export default function ResetPasswordPageClient() {
           </div>
 
           <button type="submit" className="btn-primary w-full h-[48px]" disabled={loading}>
-            {loading ? "Mise a jour..." : "Reprendre mon parcours"}
+            {loading ? "Mise à jour..." : "Reprendre mon parcours"}
           </button>
         </form>
 
         <div className="mt-8 pt-6 border-t border-white/[0.05] text-[13px] flex items-center justify-between">
           <Link href="/signin" className="text-[#888] hover:text-white transition-colors">
-            Retour a la connexion
+            Retour à la connexion
           </Link>
           <Link href="/forgot-password" className="text-[#4F8EF7] hover:underline">
             Nouveau lien

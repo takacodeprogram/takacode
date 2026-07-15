@@ -6,7 +6,7 @@ import { createClient } from "../../../../utils/supabase/server";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-// Reserve aux mentors (et admins).
+// Réservé aux mentors (et admins).
 export default async function MentorLayout({ children }) {
   const cookieStore = await cookies();
   const supabase = await createClient(cookieStore);

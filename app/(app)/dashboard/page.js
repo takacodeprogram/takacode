@@ -17,7 +17,7 @@ export const revalidate = 0;
 
 export const metadata = buildPageMetadata({
   title: "Dashboard",
-  description: "Ton espace personnel TakaCode: progression, prochaine lecon et raccourcis.",
+  description: "Ton espace personnel TakaCode : progression, prochaine leçon et raccourcis.",
   path: "/dashboard",
   noIndex: true
 });
@@ -52,9 +52,9 @@ export default async function DashboardHomePage() {
     ? await getTrackCurriculum(supabase, primaryEnrollment.trackId, user.id)
     : null;
 
-  // Quand aucun parcours n'est demarre, on met en avant LE parcours recommande
-  // (base sur l'objectif choisi a l'onboarding). Si ce goalKey ne pointe vers
-  // aucun parcours avec contenu, on retombe sur le premier parcours publie.
+  // Quand aucun parcours n'est démarré, on met en avant LE parcours recommandé
+  // (basé sur l'objectif choisi à l'onboarding). Si ce goalKey ne pointe vers
+  // aucun parcours avec contenu, on retombe sur le premier parcours publié.
   let recommendedTrack = null;
   if (!primaryEnrollment) {
     const recommendedResult = await listRecommendedTracksForGoal(supabase, onboardingProfile.goalKey, { limit: 1 });
@@ -81,8 +81,8 @@ export default async function DashboardHomePage() {
   const points = Number.isFinite(Number(accessContext.profile?.points)) ? Number(accessContext.profile.points) : 0;
   const grade = accessContext.profile?.grade || "Starter";
 
-  // Feuille de route conseillee : tous les parcours dans l'ordre recommande,
-  // annotes de l'etat du membre (termine / en cours / a decouvrir).
+  // Feuille de route conseillée : tous les parcours dans l'ordre recommandé,
+  // annotés de l'état du membre (terminé / en cours / à découvrir).
   const roadmapResult = await listPublishedTracks(supabase, { limit: 20 });
   const enrollmentByTrackId = new Map(enrolledTracks.map((entry) => [entry.trackId, entry]));
   const roadmap = orderTracksByGuidance(roadmapResult.tracks).map((item) => {
@@ -120,7 +120,7 @@ export default async function DashboardHomePage() {
             </div>
           ) : recommendedTrack ? (
             <div className="rounded-xl border border-blue-500/25 bg-blue-500/10 p-4 mb-5">
-              <div className="text-[10px] text-blue-200 uppercase tracking-widest mb-2">Parcours recommande pour toi</div>
+              <div className="text-[10px] text-blue-200 uppercase tracking-widest mb-2">Parcours recommandé pour toi</div>
               <div className="flex items-center gap-3">
                 <div
                   className="w-11 h-11 rounded-xl border flex items-center justify-center shrink-0"
@@ -136,13 +136,13 @@ export default async function DashboardHomePage() {
             </div>
           ) : (
             <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4 mb-5 text-[12px] text-[#888] font-body-readable">
-              Tu n'as pas encore de parcours actif. Choisis-en un pour demarrer.
+              Tu n'as pas encore de parcours actif. Choisis-en un pour démarrer.
             </div>
           )}
 
           <div className="flex flex-wrap gap-3">
             <Link href={startHref} className="btn-primary inline-flex items-center gap-2">
-              {primaryEnrollment ? (curriculum?.completedLessons ? "Continuer" : "Demarrer") : recommendedTrack ? "Demarrer ce parcours" : "Choisir un parcours"}
+              {primaryEnrollment ? (curriculum?.completedLessons ? "Continuer" : "Démarrer") : recommendedTrack ? "Démarrer ce parcours" : "Choisir un parcours"}
               <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "14px" }} />
             </Link>
             <Link href="/dashboard/parcours" className="btn-secondary">Voir mes parcours</Link>
@@ -200,7 +200,7 @@ export default async function DashboardHomePage() {
             </Link>
           </div>
           <p className="font-body-readable text-[12px] text-[#8d8d8d] leading-relaxed mb-4">
-            Du plus fondamental au plus avance. Comprends l'IA, puis apprends a construire avec elle.
+            Du plus fondamental au plus avancé. Comprends l'IA, puis apprends à construire avec elle.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3">
@@ -212,11 +212,11 @@ export default async function DashboardHomePage() {
               >
                 <div className="flex items-center justify-between gap-2 mb-2">
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full border border-blue-400/25 bg-blue-500/10 text-blue-200">
-                    Etape {index + 1}
+                    Étape {index + 1}
                   </span>
                   {entry.state === "done" ? (
                     <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-200">
-                      termine
+                      terminé
                     </span>
                   ) : entry.state === "active" ? (
                     <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full border border-blue-400/30 bg-blue-500/10 text-blue-200">
