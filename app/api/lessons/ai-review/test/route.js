@@ -3,9 +3,16 @@ import { getAIReviewConfig } from "../../../../../lib/aiReview";
 
 const PROVIDER_DEFAULTS = {
   gemini: "gemini-2.0-flash",
-  openrouter: "meta-llama/llama-4-maverick:free",
+  openrouter: "meta-llama/llama-3.2-3b-instruct:free",
   huggingface: "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
 };
+
+// Modeles OpenRouter fallback (utilises dans testSingleProvider)
+const OPENROUTER_FALLBACK_MODELS = [
+  "meta-llama/llama-3.2-3b-instruct:free",
+  "nousresearch/hermes-3-llama-3.1-405b:free",
+  "google/gemma-2-27b-it:free"
+];
 
 const PROVIDER_LABELS = {
   gemini: "Google Gemini",
@@ -70,62 +77,70 @@ function parseResponse(provider, json) {
 }
 
 async function testSingleProvider(provider) {
-  try {
-    const model = process.env.AI_REVIEW_MODEL || "";
-    // Cherche la cle specifique ou generique
-    // Supporte les formats : AI_REVIEW_OPENROUTER_API_KEY et AI_REVIEW_OPEN_ROUTER_API_KEY
-    const key = process.env[`AI_REVIEW_${provider.toUpperCase()}_API_KEY`]
-      || (provider === "openrouter" ? process.env.AI_REVIEW_OPEN_ROUTER_API_KEY : "")
-      || process.env.AI_REVIEW_API_KEY
-      || "";
+  // Pour OpenRouter, on teste plusieurs modeles fallback
+  const modelsToTest = provider === "openrouter"
+    ? (process.env.AI_REVIEW_MODEL
+        ? process.env.AI_REVIEW_MODEL.split(",").map((m) => m.trim()).filter(Boolean)
+        : OPENROUTER_FALLBACK_MODELS)
+    : [process.env.AI_REVIEW_MODEL || ""];
 
-    const { url, headers, body } = buildRequest(provider, model, key);
-    const startTime = Date.now();
-    const response = await fetch(url, {
-      method: "POST",
-      headers,
-      body: JSON.stringify(body)
-    });
-    const elapsedMs = Date.now() - startTime;
+  const errors = [];
 
-    if (!response.ok) {
-      let detail = "";
-      try { detail = await response.text(); } catch {}
-      return { ok: false, provider, model: model || PROVIDER_DEFAULTS[provider], elapsedMs, error: `HTTP ${response.status}`, detail: detail.slice(0, 300) };
-    }
+  for (const model of modelsToTest) {
+    try {
+      // Cherche la cle specifique ou generique
+      const key = process.env[`AI_REVIEW_${provider.toUpperCase()}_API_KEY`]
+        || (provider === "openrouter" ? process.env.AI_REVIEW_OPEN_ROUTER_API_KEY : "")
+        || process.env.AI_REVIEW_API_KEY
+        || "";
 
-    const json = await response.json();
-    const text = parseResponse(provider, json).trim();
-    const ok = text.toLowerCase().includes("ok");
-    const responseText = text.slice(0, 200);
+      const { url, headers, body } = buildRequest(provider, model, key);
+      const startTime = Date.now();
+      const response = await fetch(url, {
+        method: "POST",
+        headers,
+        body: JSON.stringify(body)
+      });
+      const elapsedMs = Date.now() - startTime;
 
-    if (!ok) {
+      if (!response.ok) {
+        let detail = "";
+        try { detail = await response.text(); } catch {}
+        errors.push(`${model}: HTTP ${response.status}`);
+        continue; //essaie le modele suivant
+      }
+
+      const json = await response.json();
+      const text = parseResponse(provider, json).trim();
+      const ok = text.toLowerCase().includes("ok");
+      const responseText = text.slice(0, 200);
+
+      if (!ok) {
+        errors.push(`${model}: Reponse inattendue`);
+        continue;
+      }
+
       return {
-        ok: false,
+        ok,
         provider,
-        model: model || PROVIDER_DEFAULTS[provider],
+        model,
         elapsedMs,
-        error: `Reponse inattendue: "${responseText}"`,
-        detail: JSON.stringify(json).slice(0, 400)
+        response: responseText,
+        label: PROVIDER_LABELS[provider] || provider
       };
+    } catch (err) {
+      errors.push(`${model}: ${err.message || "Erreur reseau"}`);
     }
-
-    return {
-      ok,
-      provider,
-      model: model || PROVIDER_DEFAULTS[provider],
-      elapsedMs,
-      response: responseText,
-      label: PROVIDER_LABELS[provider] || provider
-    };
-  } catch (err) {
-    return {
-      ok: false,
-      provider,
-      error: err.message || "Erreur reseau",
-      detail: err.stack?.slice(0, 300) || ""
-    };
   }
+
+  // Tous les modeles ont echoue pour ce provider
+  return {
+    ok: false,
+    provider,
+    model: modelsToTest.join(", "),
+    error: errors.join(" | ") || "Erreur inconnue",
+    detail: ""
+  };
 }
 
 // Teste tous les providers configures (fallback chain).
