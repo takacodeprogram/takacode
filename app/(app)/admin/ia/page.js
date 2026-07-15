@@ -278,6 +278,52 @@ export default async function AdminIAConfigPage() {
           </div>
         </div>
 
+        {/* Fallback */}
+        <div className="rounded-2xl border border-white/[0.08] bg-[#111] p-6">
+          <h2 className="font-venite-italic text-[14px] text-white mb-2">
+            <iconify-icon icon="lucide:shuffle" style={{ fontSize: "16px", color: "#4F8EF7", marginRight: "8px" }} />
+            Fallback automatique
+          </h2>
+          <p className="font-body-readable text-[12px] text-[#a5a5a5] leading-relaxed mb-4">
+            Si le premier provider est en erreur (quota épuisé 429, timeout...), le suivant est essayé automatiquement.
+          </p>
+
+          <div className="rounded-xl border border-white/[0.08] bg-[#0f0f0f] p-4">
+            <div className="text-[11px] text-white font-semibold mb-2">Configuration avec fallback</div>
+            <pre className="font-body-readable text-[10px] text-[#b3b3b3] bg-black/30 rounded p-3 overflow-x-auto">
+              <span className="text-[#6ec3ff]"># Provider principal (essaye en premier)</span>
+              AI_REVIEW_PROVIDER=openrouter
+              {`\n`}
+              <span className="text-[#6ec3ff]"># Cle specifique OpenRouter (detectee automatiquement)</span>
+              AI_REVIEW_OPENROUTER_API_KEY=sk-or-xxx
+              {`\n`}
+              <span className="text-[#6ec3ff]"># Fallback : si openrouter echoue, essaye huggingface puis gemini</span>
+              AI_REVIEW_FALLBACK=huggingface,gemini
+              {`\n`}
+              <span className="text-[#6ec3ff]"># Cle pour le fallback Gemini (optionnel)</span>
+              AI_REVIEW_GEMINI_API_KEY=ta_cle_gemini
+            </pre>
+          </div>
+
+          <div className="mt-3 flex flex-wrap gap-2">
+            {config.fallbackChain?.length ? (
+              <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/[0.06] px-3.5 py-2.5 text-[11px] text-emerald-100">
+                <span className="font-semibold">Chaine de fallback active :</span>{' '}
+                {config.fallbackChain.map((p, i) => (
+                  <span key={p}>
+                    {i > 0 ? <span className="mx-1 text-emerald-300">→</span> : null}
+                    {p === "openrouter" ? "OpenRouter" : p === "gemini" ? "Gemini" : p === "huggingface" ? "HuggingFace" : p}
+                  </span>
+                ))}
+              </div>
+            ) : (
+              <div className="rounded-lg border border-amber-500/20 bg-amber-500/[0.06] px-3.5 py-2.5 text-[11px] text-amber-100">
+                Aucun fallback configure. Ajoute <strong className="text-white">AI_REVIEW_FALLBACK=huggingface,gemini</strong>
+              </div>
+            )}
+          </div>
+        </div>
+
         {/* Test interactif */}
         <div className="rounded-2xl border border-white/[0.08] bg-[#111] p-6">
           <h2 className="font-venite-italic text-[14px] text-white mb-2">
