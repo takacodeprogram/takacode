@@ -2,6 +2,8 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import PageHeader from "../../../../components/app-shell/PageHeader";
 import ProfileEditor from "../../../../components/ProfileEditor";
+import GradeProgress from "../../../../components/GradeProgress";
+import { resolveAvatarUrl } from "../../../../lib/avatar";
 import { getUserAccessContext } from "../../../../lib/auth";
 import { formatDisplayName } from "../../../../lib/displayName";
 import { buildPageMetadata } from "../../../../lib/seo";
@@ -20,18 +22,20 @@ export const metadata = buildPageMetadata({
 async function getProfileFields(supabase, userId) {
   const { data, error } = await supabase
     .from("user_profiles")
-    .select("bio, socials, skills")
+    .select("bio, socials, skills, avatar_url, public_name")
     .eq("id", userId)
     .maybeSingle();
 
   if (error || !data) {
-    return { bio: "", socials: {}, skills: [] };
+    return { bio: "", socials: {}, skills: [], avatarUrl: "", publicName: "" };
   }
 
   return {
     bio: typeof data.bio === "string" ? data.bio : "",
     socials: data.socials && typeof data.socials === "object" ? data.socials : {},
-    skills: Array.isArray(data.skills) ? data.skills : []
+    skills: Array.isArray(data.skills) ? data.skills : [],
+    avatarUrl: typeof data.avatar_url === "string" ? data.avatar_url : "",
+    publicName: typeof data.public_name === "string" ? data.public_name : ""
   };
 }
 
@@ -58,7 +62,8 @@ export default async function ProfilePage() {
     : "";
 
   const profileFields = await getProfileFields(supabase, user.id);
-  const avatarUrl = typeof user.user_metadata?.avatar_url === "string" ? user.user_metadata.avatar_url : "";
+  const googleAvatar = typeof user.user_metadata?.avatar_url === "string" ? user.user_metadata.avatar_url : "";
+  const avatarUrl = resolveAvatarUrl(profileFields.avatarUrl, googleAvatar);
 
   return (
     <>
@@ -95,6 +100,8 @@ export default async function ProfilePage() {
             </div>
           </article>
 
+          <GradeProgress points={points} />
+
           {referralCode ? (
             <article className="rounded-2xl border border-blue-500/25 bg-blue-500/10 p-5">
               <div className="text-[10px] text-blue-200 uppercase tracking-widest mb-1">Code parrainage</div>
@@ -106,7 +113,14 @@ export default async function ProfilePage() {
           ) : null}
         </section>
 
-        <ProfileEditor initialBio={profileFields.bio} initialSocials={profileFields.socials} initialSkills={profileFields.skills} />
+        <ProfileEditor
+          initialBio={profileFields.bio}
+          initialSocials={profileFields.socials}
+          initialSkills={profileFields.skills}
+          initialAvatarUrl={profileFields.avatarUrl}
+          initialPublicName={profileFields.publicName}
+          seedBase={profileFields.publicName || displayName}
+        />
       </div>
     </>
   );

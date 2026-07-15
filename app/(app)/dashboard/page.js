@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import GradeProgress from "../../../components/GradeProgress";
 import PageHeader from "../../../components/app-shell/PageHeader";
 import { getUserAccessContext } from "../../../lib/auth";
 import { getTrackCurriculum } from "../../../lib/curriculum";
@@ -81,8 +82,8 @@ export default async function DashboardHomePage() {
 
   const quickActions = [
     { label: "Mes parcours", href: "/dashboard/parcours", icon: "lucide:map" },
-    { label: "Mes ressources", href: "/dashboard/ressources", icon: "lucide:book-open" },
-    { label: "Mes projets", href: "/dashboard/projets", icon: "lucide:folder-code" }
+    { label: "Mes projets", href: "/dashboard/projets", icon: "lucide:folder-code" },
+    { label: "Classement", href: "/classement", icon: "lucide:trophy" }
   ];
 
   return (
@@ -138,8 +139,10 @@ export default async function DashboardHomePage() {
         </section>
 
         <section className="space-y-4 animate-fade-up-d2">
+          <GradeProgress points={points} compact />
+
           <article className="rounded-2xl border border-white/[0.08] bg-[#111] p-5">
-            <h3 className="font-venite text-[12px] tracking-widest text-[#888] mb-3">MA PROGRESSION</h3>
+            <h3 className="font-venite text-[12px] tracking-widest text-[#888] mb-3">MES STATS</h3>
             <div className="grid grid-cols-3 gap-2">
               <div className="rounded-lg border border-white/[0.08] bg-white/[0.02] px-2.5 py-2">
                 <div className="text-[9px] text-[#666] uppercase tracking-widest">Points</div>

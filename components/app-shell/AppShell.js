@@ -55,6 +55,7 @@ export default function AppShell({ user, children }) {
   const roleLabel = role.toUpperCase();
   const isAdmin = role === "admin";
   const initials = getInitials(displayName);
+  const avatarUrl = typeof user?.avatarUrl === "string" ? user.avatarUrl : "";
 
   const adminArea = isAdmin && isAdminAreaPath(pathname);
   const links = adminArea ? ADMIN_AREA_LINKS : isAdmin ? [...MEMBER_LINKS, ADMIN_ENTRY_LINK] : MEMBER_LINKS;
@@ -166,9 +167,13 @@ export default function AppShell({ user, children }) {
                 <div className="text-[13px] font-semibold leading-tight">{displayName}</div>
                 <div className="text-[10px] text-[#4ADE80] leading-tight">Role {roleLabel}</div>
               </div>
-              <div className="w-9 h-9 rounded-full border border-white/10 bg-gradient-to-br from-blue-400 to-cyan-500 flex items-center justify-center text-[11px] font-semibold">
-                {initials}
-              </div>
+              {avatarUrl ? (
+                <img src={avatarUrl} alt="" className="w-9 h-9 rounded-full border border-white/10 object-cover bg-white/[0.03]" />
+              ) : (
+                <div className="w-9 h-9 rounded-full border border-white/10 bg-gradient-to-br from-blue-400 to-cyan-500 flex items-center justify-center text-[11px] font-semibold">
+                  {initials}
+                </div>
+              )}
               <iconify-icon icon="lucide:chevron-down" style={{ fontSize: "14px", color: "#888" }} />
             </button>
 

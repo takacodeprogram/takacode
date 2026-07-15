@@ -12,6 +12,7 @@ const navLinks = [
   { href: "/competences", id: "nav-competences-link", label: "Competences", match: ["/competences"] },
   { href: "/projets", id: "nav-projets-link", label: "Projets", match: ["/projets"] },
   { href: "/communaute", id: "nav-communaute-link", label: "Communaute", match: ["/communaute"] },
+  { href: "/classement", id: "nav-classement-link", label: "Classement", match: ["/classement"] },
   { href: "/tarifs", id: "nav-tarifs-link", label: "Tarifs", match: ["/tarifs"] }
 ];
 
