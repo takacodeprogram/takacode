@@ -105,8 +105,9 @@ export async function POST(request) {
   });
 }
 
-// Declenche une review IA et enregistre le verdict via submit_ai_review.
-// Retourne le result { verdict, feedback } ou null en cas d'echec.
+// Declenche une review IA et enregistre le verdict.
+// Essaie d'abord submit_ai_review, sinon fallback sur submit_project_review.
+// Retourne le result { verdict, feedback } ou null en cas d'echec total.
 async function triggerAIReview(supabase, currentUser, lessonId) {
   // Recuperer les infos de la lecon et de la soumission
   const { data: lessonData, error: lessonError } = await supabase
@@ -141,7 +142,7 @@ async function triggerAIReview(supabase, currentUser, lessonId) {
       submission: lessonData.project_submission || ""
     });
 
-    // Enregistrer le verdict via submit_ai_review (contourne le self-review).
+    // Essayer submit_ai_review d'abord (review_method = 'ai')
     const { data: reviewData, error: reviewError } = await supabase.rpc("submit_ai_review", {
       p_author: lessonData.user_id,
       p_lesson: lessonId,
@@ -149,8 +150,25 @@ async function triggerAIReview(supabase, currentUser, lessonId) {
       p_comment: result.feedback
     });
 
-    if (reviewError) {
-      console.error("AI review save error:", reviewError);
+    if (!reviewError && reviewData?.ok) {
+      return { verdict: result.verdict, feedback: result.feedback };
+    }
+
+    // Fallback : si submit_ai_review n'existe pas ou echoue,
+    // utiliser submit_project_review avec un commentaire prefixe
+    // pour identifier que c'est une review IA.
+    const aiPrefix = "[IA automatique] ";
+    const prefixedComment = aiPrefix + (result.feedback || "");
+
+    const { error: fallbackError } = await supabase.rpc("submit_project_review", {
+      p_author: lessonData.user_id,
+      p_lesson: lessonId,
+      p_verdict: result.verdict,
+      p_comment: prefixedComment
+    });
+
+    if (fallbackError) {
+      console.error("AI review fallback error:", fallbackError);
       return null;
     }
 

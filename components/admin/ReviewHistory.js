@@ -11,14 +11,18 @@ function Avatar({ url, name }) {
   );
 }
 
-function MethodBadge({ method }) {
+function MethodBadge({ method, comment }) {
+  // Detecter le prefixe IA dans le commentaire (fallback si review_method n'est pas 'ai')
+  const isAIComment = typeof comment === "string" && comment.startsWith("[IA automatique] ");
+  const effectiveMethod = method === "peer" && isAIComment ? "ai" : method;
+
   const config = {
     ai: { label: "IA", cls: "border-cyan-500/30 bg-cyan-500/10 text-cyan-200" },
     peer: { label: "Pairs", cls: "border-blue-500/30 bg-blue-500/10 text-blue-200" },
     mentor: { label: "Mentor", cls: "border-violet-500/30 bg-violet-500/10 text-violet-200" },
     heuristic: { label: "Heuristique", cls: "border-amber-500/30 bg-amber-500/10 text-amber-100" }
   };
-  const { label, cls } = config[method] || config.peer;
+  const { label, cls } = config[effectiveMethod] || config.peer;
   return (
     <span className={`text-[9px] font-semibold px-2 py-0.5 rounded-full border ${cls}`}>
       {label}
@@ -82,7 +86,7 @@ export default function ReviewHistory({ items = [] }) {
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <MethodBadge method={item.review_method} />
+                <MethodBadge method={item.review_method} comment={item.comment} />
                 <StatusBadge status={item.review_status} verdict={item.verdict} />
               </div>
             </div>
@@ -93,14 +97,18 @@ export default function ReviewHistory({ items = [] }) {
               </div>
             ) : null}
 
-            {item.comment ? (
-              <div className="rounded-lg border border-white/[0.08] bg-[#0f0f0f] px-3 py-2">
-                <div className="text-[9px] text-[#666] uppercase tracking-widest mb-1">
-                  Commentaire{item.reviewer_name ? ` de ${item.reviewer_name}` : ""}
+            {item.comment ? (() => {
+              const isAIComment = item.comment.startsWith("[IA automatique] ");
+              const displayComment = isAIComment ? item.comment.slice("[IA automatique] ".length) : item.comment;
+              return (
+                <div className="rounded-lg border border-white/[0.08] bg-[#0f0f0f] px-3 py-2">
+                  <div className="text-[9px] text-[#666] uppercase tracking-widest mb-1">
+                    {isAIComment ? "Retour IA" : `Commentaire${item.reviewer_name ? ` de ${item.reviewer_name}` : ""}`}
+                  </div>
+                  <p className="font-body-readable text-[11px] text-[#c7c7c7] leading-relaxed">{displayComment}</p>
                 </div>
-                <p className="font-body-readable text-[11px] text-[#c7c7c7] leading-relaxed">{item.comment}</p>
-              </div>
-            ) : item.review_feedback ? (
+              );
+            })() : item.review_feedback ? (
               <div className="rounded-lg border border-white/[0.08] bg-[#0f0f0f] px-3 py-2">
                 <div className="text-[9px] text-[#666] uppercase tracking-widest mb-1">Retour</div>
                 <p className="font-body-readable text-[11px] text-[#c7c7c7] leading-relaxed">{item.review_feedback}</p>
