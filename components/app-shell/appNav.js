@@ -30,7 +30,7 @@ export const ADMIN_AREA_LINKS = [
   { href: "/admin/parcours", icon: "lucide:route", label: "Parcours" },
   { href: "/admin/sessions", icon: "lucide:video", label: "Sessions live" },
   { href: "/admin/affiliations", icon: "lucide:link", label: "Affiliations" },
-  { href: "/admin/ia", icon: "lucide:brain-circuit", label: "Review IA" }
+  { href: "/admin/ia", icon: "lucide:bot", label: "Review IA" }
 ];
 
 export function isAdminAreaPath(pathname) {
