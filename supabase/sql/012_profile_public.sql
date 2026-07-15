@@ -74,6 +74,7 @@ grant execute on function public.update_my_profile(text, jsonb, jsonb, text, tex
 drop function if exists public.update_my_profile(text, jsonb, jsonb);
 
 -- Leaderboard PUBLIC: uniquement des champs non sensibles (aucun email/vrai nom/id).
+-- Les admins sont exclus du classement public.
 create or replace function public.public_leaderboard(p_limit integer default 50)
 returns jsonb
 language sql
@@ -92,7 +93,7 @@ as $$
     ) as row
     from public.user_profiles
     where points > 0
-      and role <> 'admin'
+      and lower(role) <> 'admin'
     order by points desc, updated_at asc
     limit greatest(1, least(coalesce(p_limit, 50), 100))
   ) ranked;
