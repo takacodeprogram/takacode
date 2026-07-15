@@ -39,29 +39,44 @@ export async function POST(request) {
     return NextResponse.json({ error: "not_authenticated" }, { status: 401 });
   }
 
+  console.log(`[PROJECT] Soumission lecon=${lessonId} user=${user.id.substring(0, 8)}...`);
+
   const { data, error } = await supabase.rpc("submit_lesson_project", {
     p_lesson_id: lessonId,
     p_submission: submission
   });
 
   if (error) {
+    console.error("[PROJECT] RPC error:", error.message);
     return NextResponse.json({ error: error.message || "rpc_error" }, { status: 500 });
   }
 
   const rpcError = typeof data?.error === "string" ? data.error : "";
 
   if (rpcError) {
+    console.error("[PROJECT] RPC business error:", rpcError);
     return NextResponse.json({ error: rpcError }, { status: ERROR_STATUS[rpcError] || 400 });
   }
 
+  console.log(`[PROJECT] RPC ok: validation=${data?.validation} reviewStatus=${data?.reviewStatus} status=${data?.status}`);
+
   // Si le mode de validation est 'ai', declencher automatiquement la review IA.
-  // On attend la reponse (quelques secondes) pour garantir la fiabilite sur Vercel.
   let aiReviewResult = null;
   if (data?.validation === "ai" && data?.reviewStatus === "pending") {
     const aiConfig = getAIReviewConfig();
-    if (isAIReviewAvailable(aiConfig)) {
+    const aiAvailable = isAIReviewAvailable(aiConfig);
+    console.log(`[PROJECT] AI review: available=${aiAvailable} provider=${aiConfig?.provider || "none"}`);
+
+    if (aiAvailable) {
       aiReviewResult = await triggerAIReview(supabase, user, lessonId);
+      console.log(`[PROJECT] AI review result:`, aiReviewResult ? `verdict=${aiReviewResult.verdict}` : "null (echec)");
+    } else {
+      console.log("[PROJECT] AI review: non disponible, en attente de revue manuelle");
     }
+  } else if (data?.validation === "auto") {
+    console.log("[PROJECT] Mode auto: validation immediate sans review");
+  } else if (data?.validation === "ai" && data?.reviewStatus !== "pending") {
+    console.log(`[PROJECT] Mode ai mais reviewStatus=${data?.reviewStatus} (deja traite)`);
   }
 
   // Injecter le resultat de la reponse IA dans la reponse au client.
@@ -72,11 +87,9 @@ export async function POST(request) {
       feedback: aiReviewResult.feedback,
       available: true
     };
-    // Mettre a jour le reviewStatus si l'IA a statue.
     if (aiReviewResult.verdict === "approved") {
       response.reviewStatus = "approved";
       response.status = "completed";
-      // Re-fetcher les XP mis a jour par le RPC.
       const { data: updated } = await supabase
         .from("user_lesson_progress")
         .select("xp_awarded, status, review_status")
@@ -93,7 +106,6 @@ export async function POST(request) {
       response.reviewFeedback = aiReviewResult.feedback;
     }
   } else if (data?.validation === "ai" && data?.reviewStatus === "pending") {
-    // IA non disponible : informer le client.
     response.aiReview = { available: false };
   }
 
@@ -106,10 +118,7 @@ export async function POST(request) {
 }
 
 // Declenche une review IA et enregistre le verdict.
-// Essaie d'abord submit_ai_review, sinon fallback sur submit_project_review.
-// Retourne le result { verdict, feedback } ou null en cas d'echec total.
 async function triggerAIReview(supabase, currentUser, lessonId) {
-  // Recuperer les infos de la lecon et de la soumission
   const { data: lessonData, error: lessonError } = await supabase
     .from("user_lesson_progress")
     .select(`
@@ -124,13 +133,15 @@ async function triggerAIReview(supabase, currentUser, lessonId) {
     .single();
 
   if (lessonError || !lessonData) {
-    console.error("AI review: lecon non trouvee", lessonError);
+    console.error("[AI-REVIEW] Lecon non trouvee:", lessonError?.message);
     return null;
   }
 
   const lesson = lessonData.lesson;
   const microProject = lesson.micro_project || {};
   const steps = Array.isArray(microProject.steps) ? microProject.steps : [];
+
+  console.log(`[AI-REVIEW] Lecon: "${lesson.title}" submission=${(lessonData.project_submission || "").substring(0, 50)}...`);
 
   try {
     const result = await reviewProject({
@@ -142,7 +153,9 @@ async function triggerAIReview(supabase, currentUser, lessonId) {
       submission: lessonData.project_submission || ""
     });
 
-    // Essayer submit_ai_review d'abord (review_method = 'ai')
+    console.log(`[AI-REVIEW] IA verdict: ${result.verdict} feedback=${(result.feedback || "").substring(0, 80)}...`);
+
+    // Essayer submit_ai_review d'abord
     const { data: reviewData, error: reviewError } = await supabase.rpc("submit_ai_review", {
       p_author: lessonData.user_id,
       p_lesson: lessonId,
@@ -151,12 +164,11 @@ async function triggerAIReview(supabase, currentUser, lessonId) {
     });
 
     if (!reviewError && reviewData?.ok) {
+      console.log("[AI-REVIEW] Enregistre via submit_ai_review");
       return { verdict: result.verdict, feedback: result.feedback };
     }
 
-    // Fallback : si submit_ai_review n'existe pas ou echoue,
-    // utiliser submit_project_review avec un commentaire prefixe
-    // pour identifier que c'est une review IA.
+    console.log("[AI-REVIEW] submit_ai_review echoue, fallback sur submit_project_review");
     const aiPrefix = "[IA automatique] ";
     const prefixedComment = aiPrefix + (result.feedback || "");
 
@@ -168,15 +180,14 @@ async function triggerAIReview(supabase, currentUser, lessonId) {
     });
 
     if (fallbackError) {
-      console.error("AI review fallback error:", fallbackError);
+      console.error("[AI-REVIEW] Fallback error:", fallbackError.message);
       return null;
     }
 
+    console.log("[AI-REVIEW] Enregistre via submit_project_review (fallback)");
     return { verdict: result.verdict, feedback: result.feedback };
   } catch (err) {
-    console.error("AI review error:", err);
-    // Fallback : si l'IA echoue, la soumission reste 'pending'
-    // et est automatiquement visible dans la file d'attente de revue manuelle.
+    console.error("[AI-REVIEW] Exception:", err.message);
     return null;
   }
 }
