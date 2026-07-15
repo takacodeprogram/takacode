@@ -1,16 +1,18 @@
 // Configuration des liens de l'espace applicatif (dashboard membre + admin).
 // Tous les liens sont INTERNES (aucun renvoi vers le site public).
 
+// Identifiants pour le guide interactif (GuidedTour).
+// Chaque lien peut avoir un champ `tour` correspondant a un step du tour.
 export const MEMBER_LINKS = [
-  { href: "/dashboard", icon: "lucide:layout-grid", label: "Dashboard", exact: true },
-  { href: "/dashboard/parcours", icon: "lucide:map", label: "Mes parcours" },
-  { href: "/dashboard/projets", icon: "lucide:folder-code", label: "Mes projets" },
-  { href: "/dashboard/reviews", icon: "lucide:git-pull-request", label: "Revues" },
-  { href: "/dashboard/ressources", icon: "lucide:book-open", label: "Ressources" },
-  { href: "/dashboard/sessions", icon: "lucide:video", label: "Sessions live", live: true },
-  { href: "/dashboard/communaute", icon: "lucide:users", label: "Communaute" },
-  { href: "/dashboard/outils", icon: "lucide:wrench", label: "Outils" },
-  { href: "/dashboard/profil", icon: "lucide:user", label: "Profil" }
+  { href: "/dashboard", icon: "lucide:layout-grid", label: "Dashboard", exact: true, tour: "dashboard" },
+  { href: "/dashboard/parcours", icon: "lucide:map", label: "Mes parcours", tour: "parcours" },
+  { href: "/dashboard/projets", icon: "lucide:folder-code", label: "Mes projets", tour: "projets" },
+  { href: "/dashboard/reviews", icon: "lucide:git-pull-request", label: "Revues", tour: "reviews" },
+  { href: "/dashboard/ressources", icon: "lucide:book-open", label: "Ressources", tour: "ressources" },
+  { href: "/dashboard/sessions", icon: "lucide:video", label: "Sessions live", live: true, tour: "sessions" },
+  { href: "/dashboard/communaute", icon: "lucide:users", label: "Communaute", tour: "communaute" },
+  { href: "/dashboard/outils", icon: "lucide:wrench", label: "Outils", tour: "outils" },
+  { href: "/dashboard/profil", icon: "lucide:user", label: "Profil", tour: "profil" }
 ];
 
 export const ADMIN_AFFILIATIONS_LINK = { href: "/admin/affiliations", icon: "lucide:link", label: "Affiliations" };
