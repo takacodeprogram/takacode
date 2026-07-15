@@ -14,6 +14,9 @@ export const MEMBER_LINKS = [
 // Lien vers l'espace admin, ajoute a la sidebar membre pour les admins.
 export const ADMIN_ENTRY_LINK = { href: "/admin", icon: "lucide:shield-check", label: "Centre admin", exact: true };
 
+// Lien mentor (proposer des parcours), ajoute a la sidebar membre pour les mentors.
+export const MENTOR_LINK = { href: "/dashboard/mentor", icon: "lucide:book-plus", label: "Proposer un parcours" };
+
 // Liens propres a l'espace admin (affiches quand on est sous /admin/*).
 export const ADMIN_AREA_LINKS = [
   { href: "/admin", icon: "lucide:layout-dashboard", label: "Vue globale", exact: true },

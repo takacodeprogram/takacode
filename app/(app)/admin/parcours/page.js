@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
 import PageHeader from "../../../../components/app-shell/PageHeader";
+import PendingTracksReview from "../../../../components/admin/PendingTracksReview";
 import { listAdminTracks } from "../../../../lib/adminCurriculum";
 import { buildPageMetadata } from "../../../../lib/seo";
 import { createClient } from "../../../../utils/supabase/server";
@@ -34,6 +35,16 @@ export default async function AdminTracksListPage() {
 
   const { tracks, schemaReady, error } = await listAdminTracks(supabase);
 
+  // Requete gardee: propositions mentor en attente (necessite la migration 014).
+  const { data: pendingData } = await supabase
+    .from("learning_tracks")
+    .select("id, slug, title")
+    .eq("is_pending", true)
+    .order("updated_at", { ascending: false });
+  const pending = pendingData || [];
+  const pendingIds = new Set(pending.map((t) => t.id));
+  const visibleTracks = tracks.filter((t) => !pendingIds.has(t.id));
+
   return (
     <>
       <PageHeader
@@ -49,6 +60,8 @@ export default async function AdminTracksListPage() {
         }
       />
 
+      <PendingTracksReview initialPending={pending} />
+
       {!schemaReady ? (
         <div className="rounded-xl border border-amber-500/25 bg-amber-500/10 px-4 py-3 text-[12px] text-amber-100 font-body-readable">
           Tables parcours manquantes. Lance supabase/sql/003_learning_tracks.sql et 004_track_curriculum.sql.
@@ -57,9 +70,9 @@ export default async function AdminTracksListPage() {
         <div className="rounded-xl border border-red-500/25 bg-red-500/10 px-4 py-3 text-[12px] text-red-200 font-body-readable">
           {error.message || "Erreur de chargement."}
         </div>
-      ) : tracks.length ? (
+      ) : visibleTracks.length ? (
         <div className="space-y-2.5">
-          {tracks.map((track) => (
+          {visibleTracks.map((track) => (
             <Link
               key={track.id}
               href={`/admin/parcours/${track.id}`}

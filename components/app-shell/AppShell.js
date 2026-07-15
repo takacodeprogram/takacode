@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import logoLight4 from "../../assets/logos-light-png/logo-light-4.png";
-import { ADMIN_AREA_LINKS, ADMIN_ENTRY_LINK, MEMBER_LINKS, isAdminAreaPath, isSidebarLinkActive } from "./appNav";
+import { ADMIN_AREA_LINKS, ADMIN_ENTRY_LINK, MEMBER_LINKS, MENTOR_LINK, isAdminAreaPath, isSidebarLinkActive } from "./appNav";
 
 function getInitials(value) {
   const tokens = String(value || "")
@@ -58,7 +58,13 @@ export default function AppShell({ user, children }) {
   const avatarUrl = typeof user?.avatarUrl === "string" ? user.avatarUrl : "";
 
   const adminArea = isAdmin && isAdminAreaPath(pathname);
-  const links = adminArea ? ADMIN_AREA_LINKS : isAdmin ? [...MEMBER_LINKS, ADMIN_ENTRY_LINK] : MEMBER_LINKS;
+  const links = adminArea
+    ? ADMIN_AREA_LINKS
+    : isAdmin
+      ? [...MEMBER_LINKS, ADMIN_ENTRY_LINK]
+      : role === "mentor"
+        ? [...MEMBER_LINKS, MENTOR_LINK]
+        : MEMBER_LINKS;
 
   // Ferme le drawer + le menu a chaque changement de route.
   useEffect(() => {

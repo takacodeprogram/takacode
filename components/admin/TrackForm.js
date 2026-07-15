@@ -36,7 +36,7 @@ function Field({ label, children }) {
 
 const INPUT_CLASS = "auth-input text-[12px] w-full";
 
-export default function TrackForm({ mode = "create", track = null }) {
+export default function TrackForm({ mode = "create", track = null, proposal = false, userId = "", redirectBase = "/admin/parcours" }) {
   const router = useRouter();
   const supabase = useMemo(() => createClient(), []);
   const isEdit = mode === "edit";
@@ -80,8 +80,8 @@ export default function TrackForm({ mode = "create", track = null }) {
       objective: form.objective.trim() || "Construire un projet concret.",
       resources: parseResources(form.resources),
       next_session: form.next_session.trim() || "Session annoncee bientot",
-      is_published: form.is_published === true,
-      is_active: form.is_active === true
+      is_published: proposal ? false : form.is_published === true,
+      is_active: proposal ? false : form.is_active === true
     };
   }
 
@@ -117,11 +117,13 @@ export default function TrackForm({ mode = "create", track = null }) {
       return;
     }
 
-    const { data, error: insertError } = await supabase
-      .from("learning_tracks")
-      .insert({ slug, ...buildPayload(), next_steps: [{ label: "Demarrer le parcours", state: "current" }] })
-      .select(TRACK_SELECT)
-      .single();
+    const insertPayload = { slug, ...buildPayload(), next_steps: [{ label: "Demarrer le parcours", state: "current" }] };
+    if (proposal) {
+      insertPayload.created_by = userId;
+      insertPayload.is_pending = true;
+    }
+
+    const { data, error: insertError } = await supabase.from("learning_tracks").insert(insertPayload).select(TRACK_SELECT).single();
 
     if (insertError) {
       setError(insertError.message);
@@ -129,7 +131,7 @@ export default function TrackForm({ mode = "create", track = null }) {
       return;
     }
 
-    router.push(`/admin/parcours/${data.id}`);
+    router.push(`${redirectBase}/${data.id}`);
   }
 
   return (
@@ -164,14 +166,20 @@ export default function TrackForm({ mode = "create", track = null }) {
 
       <Field label="Ressources (separees par virgule)"><input className={INPUT_CLASS} value={form.resources} onChange={(e) => setField("resources", e.target.value)} /></Field>
 
-      <div className="flex items-center gap-5">
-        <label className="text-[11px] text-[#9b9b9b] flex items-center gap-1.5">
-          <input type="checkbox" checked={form.is_published} onChange={(e) => setField("is_published", e.target.checked)} /> Publie
-        </label>
-        <label className="text-[11px] text-[#9b9b9b] flex items-center gap-1.5">
-          <input type="checkbox" checked={form.is_active} onChange={(e) => setField("is_active", e.target.checked)} /> Actif
-        </label>
-      </div>
+      {proposal ? (
+        <div className="rounded-xl border border-blue-500/25 bg-blue-500/10 px-3.5 py-2.5 text-[12px] text-blue-100 font-body-readable">
+          Cette proposition sera <span className="font-semibold">validee par un admin</span> avant d'etre publiee.
+        </div>
+      ) : (
+        <div className="flex items-center gap-5">
+          <label className="text-[11px] text-[#9b9b9b] flex items-center gap-1.5">
+            <input type="checkbox" checked={form.is_published} onChange={(e) => setField("is_published", e.target.checked)} /> Publie
+          </label>
+          <label className="text-[11px] text-[#9b9b9b] flex items-center gap-1.5">
+            <input type="checkbox" checked={form.is_active} onChange={(e) => setField("is_active", e.target.checked)} /> Actif
+          </label>
+        </div>
+      )}
 
       {error ? <div className="rounded-xl border border-red-500/25 bg-red-500/10 px-4 py-3 text-[12px] text-red-200">{error}</div> : null}
       {message ? <div className="rounded-xl border border-emerald-500/25 bg-emerald-500/10 px-4 py-3 text-[12px] text-emerald-200">{message}</div> : null}
