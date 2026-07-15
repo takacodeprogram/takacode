@@ -390,9 +390,9 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
                       </span>
                       <div className="font-body-readable text-[11px] text-[#c7c7c7] leading-snug">
                         {item.label ? (
-                          <><span className="text-amber-100 font-semibold">{item.label}</span> : {item.detail}</>
+                          <><span className="text-amber-100 font-semibold">{item.label}</span> : <GlossaryText text={item.detail} as="span" /></>
                         ) : (
-                          item.detail
+                          <GlossaryText text={item.detail} as="span" />
                         )}
                       </div>
                     </div>
@@ -415,7 +415,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
                       <span className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-blue-400/30 bg-blue-500/10 text-blue-200 text-[9px] font-semibold flex-shrink-0 mt-0.5">
                         {idx + 1}
                       </span>
-                      <span className="font-body-readable text-[11px] text-[#c7c7c7] leading-snug pt-0.5">{step}</span>
+                      <GlossaryText as="span" className="font-body-readable text-[11px] text-[#c7c7c7] leading-snug pt-0.5" text={step} />
                     </div>
                   ))}
                 </div>

@@ -35,6 +35,55 @@ const GLOSSARY = {
     "Technique qui demande au modele de raisonner etape par etape, ce qui reduit les erreurs sur les problemes complexes.",
   prompt:
     "Instruction ou question donnee a l'IA. Structure, contexte et format determinent la qualite de la reponse.",
+  // Termes Internet / reseau
+  "adresse IP":
+    "Etiquette numerique unique attribuee a chaque appareil connecte a un reseau (comme une adresse postale pour ton ordinateur).",
+  "IPv4":
+    "Version 4 du protocole IP : 4 nombres separes par des points (ex: 192.168.1.1). Permet environ 4 milliards d'adresses.",
+  "IPv6":
+    "Version 6 du protocole IP : format hexadecimal long, cree pour remplacer IPv4 et resoudre la penurie d'adresses.",
+  TCP:
+    "Transmission Control Protocol : protocole qui decoupe les donnees en paquets, les envoie, et verifie qu'ils arrivent dans le bon ordre.",
+  UDP:
+    "User Datagram Protocol : protocole plus rapide mais sans verification, utilise pour le streaming et les jeux en ligne.",
+  DNS:
+    "Domain Name System : l'annuaire d'Internet qui traduit les noms de domaine (google.com) en adresses IP.",
+  HTTP:
+    "HyperText Transfer Protocol : le protocole de base du web, definit comment le navigateur et le serveur communiquent.",
+  HTTPS:
+    "Version securisee de HTTP : les donnees sont chiffrees entre le navigateur et le serveur grace a TLS/SSL.",
+  TLS:
+    "Transport Layer Security : protocole de chiffrement qui securise les communications sur Internet (le successeur de SSL).",
+  SSL:
+    "Secure Sockets Layer : ancien protocole de chiffrement remplace par TLS, mais le terme est encore utilise couramment.",
+  certificat:
+    "Document electronique qui verifie l'identite d'un site web et permet le chiffrement HTTPS. Delivre par une autorite de certification.",
+  serveur:
+    "Ordinateur distant qui stocke et fournit des donnees (pages web, fichiers) aux clients qui les demandent.",
+  client:
+    "Appareil ou logiciel (navigateur, app) qui envoie des requetes a un serveur pour obtenir des donnees.",
+  navigateur:
+    "Logiciel (Chrome, Firefox, Safari) qui affiche les pages web en interpretant le HTML, CSS et JavaScript.",
+  "nom de domaine":
+    "Adresse lisible d'un site web (ex: takacode.fr) qui pointe vers une adresse IP via le DNS.",
+  hebergement:
+    "Service qui stocke les fichiers de ton site web sur un serveur accessible 24h/24 sur Internet.",
+  URL:
+    "Uniform Resource Locator : l'adresse complete d'une ressource sur le web (ex: https://takacode.fr/parcours).",
+  paquet:
+    "Unite de donnees transmise sur un reseau. Les fichiers sont decoupes en paquets avant d'etre envoyes.",
+  routeur:
+    "Appareil qui achemine les paquets de donnees entre differents reseaux pour qu'ils arrivent a destination.",
+  "bande passante":
+    "Quantite de donnees maximale qui peut etre transmise par seconde sur une connexion. Plus c'est haut, plus c'est rapide.",
+  ping:
+    "Temps de latence entre l'envoi d'une requete et la reception de la reponse. Mesure la reactivite de la connexion.",
+  parefeu:
+    "Firewall : systeme de securite qui filtre le trafic reseau pour bloquer les connexions non autorisees.",
+  proxy:
+    "Serveur intermediaire entre le client et le serveur destination, utilise pour l'anonymat ou le contournement.",
+  CDN:
+    "Content Delivery Network : reseau de serveurs distribues dans le monde pour livrer le contenu plus vite aux utilisateurs.",
 };
 
 // Trier les termes du plus long au plus court pour matcher d'abord les expressions composees
