@@ -757,6 +757,12 @@ h6 {
 }
 
 /* Level badges for parcours cards */
+.level-foundations {
+  background: rgba(56,189,248,0.1);
+  color: #38BDF8;
+  border: 1px solid rgba(56,189,248,0.2);
+}
+
 .level-beginner {
   background: rgba(34,211,238,0.1);
   color: #22D3EE;
