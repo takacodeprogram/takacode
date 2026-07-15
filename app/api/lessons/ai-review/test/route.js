@@ -64,7 +64,9 @@ function parseResponse(provider, json) {
   if (provider === "huggingface") {
     return Array.isArray(json) ? (json[0]?.generated_text || "") : (json?.generated_text || "");
   }
-  return json?.choices?.[0]?.message?.content || "";
+  // openrouter : certains modeles (poolside, deepseek) mettent le texte dans reasoning
+  const msg = json?.choices?.[0]?.message || {};
+  return msg.content || msg.reasoning || "";
 }
 
 async function testSingleProvider(provider) {
