@@ -94,6 +94,29 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
   // Compteur d'echecs pour afficher des messages progressifs
   const [failCount, setFailCount] = useState(0);
 
+  // Decoupe un texte en segments structurés pour l'affichage
+  function parseWhyImportant(text) {
+    if (!text) return [];
+    const segments = text.split(/[.]+\s*/).filter((s) => s.trim().length > 0);
+    return segments.map((s) => {
+      const colonIdx = s.indexOf(":");
+      if (colonIdx > 0) {
+        return { label: s.slice(0, colonIdx).trim(), detail: s.slice(colonIdx + 1).trim() };
+      }
+      return { label: "", detail: s.trim() };
+    });
+  }
+
+  function parseHowToUse(text) {
+    if (!text) return [];
+    // Separe sur "puis", puis sur les phrases
+    const raw = text
+      .replace(/puis/gi, "\n")
+      .split(/[\n.]+\s*/)
+      .filter((s) => s.trim().length > 0);
+    return raw.map((s) => s.trim());
+  }
+
   function closeCelebration() {
     setCelebration((current) => ({ ...current, open: false }));
   }
@@ -351,18 +374,54 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
         ) : null}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          {lesson.whyImportant ? (
-            <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4">
-              <div className="font-venite-italic text-[11px] tracking-widest text-[#888] mb-2">POURQUOI C'EST IMPORTANT</div>
-              <p className="font-body-readable text-[12px] text-[#b3b3b3] leading-relaxed">{lesson.whyImportant}</p>
-            </div>
-          ) : null}
-          {lesson.howToUse ? (
-            <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4">
-              <div className="font-venite-italic text-[11px] tracking-widest text-[#888] mb-2">COMMENT TRAVAILLER CETTE LECON</div>
-              <p className="font-body-readable text-[12px] text-[#b3b3b3] leading-relaxed">{lesson.howToUse}</p>
-            </div>
-          ) : null}
+          {lesson.whyImportant ? (() => {
+            const whyItems = parseWhyImportant(lesson.whyImportant);
+            return (
+              <div className="rounded-xl border border-amber-500/20 bg-amber-500/[0.04] p-4 transition-colors duration-200 hover:border-amber-500/30">
+                <div className="flex items-center gap-2 mb-3">
+                  <iconify-icon icon="lucide:lightbulb" style={{ fontSize: "15px", color: "#fbbf24" }} />
+                  <div className="font-venite-italic text-[11px] tracking-widest text-amber-200/80">POURQUOI C'EST IMPORTANT</div>
+                </div>
+                <div className="space-y-2">
+                  {whyItems.map((item, idx) => (
+                    <div key={`why-${idx}`} className="flex items-start gap-2 leading-snug">
+                      <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-amber-500/20 text-amber-200/70 text-[8px] font-bold flex-shrink-0 mt-0.5">
+                        {idx + 1}
+                      </span>
+                      <div className="font-body-readable text-[11px] text-[#c7c7c7] leading-snug">
+                        {item.label ? (
+                          <><span className="text-amber-100 font-semibold">{item.label}</span> : {item.detail}</>
+                        ) : (
+                          item.detail
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })() : null}
+          {lesson.howToUse ? (() => {
+            const howSteps = parseHowToUse(lesson.howToUse);
+            return (
+              <div className="rounded-xl border border-blue-500/20 bg-blue-500/[0.04] p-4 transition-colors duration-200 hover:border-blue-500/30">
+                <div className="flex items-center gap-2 mb-3">
+                  <iconify-icon icon="lucide:list-checks" style={{ fontSize: "15px", color: "#6ec3ff" }} />
+                  <div className="font-venite-italic text-[11px] tracking-widest text-blue-200/80">COMMENT TRAVAILLER</div>
+                </div>
+                <div className="space-y-2.5">
+                  {howSteps.map((step, idx) => (
+                    <div key={`how-${idx}`} className="flex items-start gap-2.5">
+                      <span className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-blue-400/30 bg-blue-500/10 text-blue-200 text-[9px] font-semibold flex-shrink-0 mt-0.5">
+                        {idx + 1}
+                      </span>
+                      <span className="font-body-readable text-[11px] text-[#c7c7c7] leading-snug pt-0.5">{step}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })() : null}
         </div>
 
         {lesson.objectives.length ? (
