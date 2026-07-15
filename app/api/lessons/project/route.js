@@ -119,5 +119,9 @@ async function triggerAIReview(supabase, currentUser, lessonId) {
     }
   } catch (err) {
     console.error("AI review error:", err);
+    // Fallback : si l'IA echoue, la soumission reste 'pending'
+    // et est automatiquement visible dans la file d'attente de revue manuelle.
+    // Pas besoin de transition explicite : le RPC list_review_queue inclut
+    // les submissions 'pending' avec validation 'ai' ou 'mentor'.
   }
 }
