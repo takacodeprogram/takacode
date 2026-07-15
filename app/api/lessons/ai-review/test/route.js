@@ -20,31 +20,43 @@ export async function GET() {
     const model = config.model || PROVIDER_DEFAULTS[provider] || "";
     const apiKey = config.apiKey;
 
-    // Construit une requete de test simple
-    const url = provider === "gemini"
-      ? `https://generativelanguage.googleapis.com/v1beta/models/${model || "gemini-2.0-flash"}:generateContent`
-      : "https://openrouter.ai/api/v1/chat/completions";
+    // Construit la requete de test selon le provider
+    let url, headers, body;
 
-    const headers = provider === "gemini"
-      ? { "Content-Type": "application/json", "x-goog-api-key": apiKey }
-      : {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${apiKey}`,
-          "HTTP-Referer": "https://takacode.com",
-          "X-Title": "TakaCode AI Review"
-        };
-
-    const body = provider === "gemini"
-      ? {
-          contents: [{ role: "user", parts: [{ text: "Reponds UNIQUEMENT par le mot OK." }] }],
-          generationConfig: { temperature: 0, maxOutputTokens: 10 }
-        }
-      : {
-          model: model || "google/gemini-2.0-flash-lite-free",
-          messages: [{ role: "user", content: "Reponds UNIQUEMENT par le mot OK." }],
-          temperature: 0,
-          max_tokens: 10
-        };
+    if (provider === "gemini") {
+      const m = model || "gemini-2.0-flash";
+      url = `https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent`;
+      headers = { "Content-Type": "application/json", "x-goog-api-key": apiKey };
+      body = {
+        contents: [{ role: "user", parts: [{ text: "Reponds UNIQUEMENT par le mot OK." }] }],
+        generationConfig: { temperature: 0, maxOutputTokens: 10 }
+      };
+    } else if (provider === "huggingface") {
+      const m = model || "microsoft/phi-4-mini-instruct";
+      url = `https://api-inference.huggingface.co/models/${m}`;
+      headers = { "Content-Type": "application/json" };
+      if (apiKey) headers["Authorization"] = `Bearer ${apiKey}`;
+      body = {
+        inputs: "Reponds UNIQUEMENT par le mot OK.",
+        parameters: { temperature: 0, max_new_tokens: 10, return_full_text: false }
+      };
+    } else {
+      // openrouter (defaut)
+      const m = model || "google/gemini-2.0-flash-lite-free";
+      url = "https://openrouter.ai/api/v1/chat/completions";
+      headers = {
+        "Content-Type": "application/json",
+        ...(apiKey ? { Authorization: `Bearer ${apiKey}` } : {}),
+        "HTTP-Referer": "https://takacode.com",
+        "X-Title": "TakaCode AI Review"
+      };
+      body = {
+        model: m,
+        messages: [{ role: "user", content: "Reponds UNIQUEMENT par le mot OK." }],
+        temperature: 0,
+        max_tokens: 10
+      };
+    }
 
     const startTime = Date.now();
     const response = await fetch(url, {
@@ -71,10 +83,15 @@ export async function GET() {
 
     const json = await response.json();
 
-    // Verifie qu'on a bien une reponse
-    const text = provider === "gemini"
-      ? json?.candidates?.[0]?.content?.parts?.[0]?.text || ""
-      : json?.choices?.[0]?.message?.content || "";
+    // Extrait le texte selon le provider
+    let text = "";
+    if (provider === "gemini") {
+      text = json?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+    } else if (provider === "huggingface") {
+      text = Array.isArray(json) ? (json[0]?.generated_text || "") : (json?.generated_text || "");
+    } else {
+      text = json?.choices?.[0]?.message?.content || "";
+    }
 
     const ok = text.trim().toLowerCase().includes("ok");
 
@@ -98,5 +115,6 @@ export async function GET() {
 
 const PROVIDER_DEFAULTS = {
   gemini: "gemini-2.0-flash",
-  openrouter: "google/gemini-2.0-flash-lite-free"
+  openrouter: "google/gemini-2.0-flash-lite-free",
+  huggingface: "microsoft/phi-4-mini-instruct"
 };

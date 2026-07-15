@@ -39,28 +39,39 @@ export default async function AdminIAConfigPage() {
   // Lit la config depuis les variables d'environnement (cote serveur seulement)
   const config = getAIReviewConfig();
 
-  // Providers disponibles
+  // Providers disponibles (tries du plus recommandé au moins)
   const providers = [
-    {
-      id: "gemini",
-      name: "Google Gemini",
-      description: "Free tier le plus genereux : 60 req/min, 1M tokens/min. Recommande.",
-      docsUrl: "https://aistudio.google.com/apikey",
-      icon: "lucide:sparkles",
-      models: ["gemini-2.0-flash", "gemini-2.0-flash-lite", "gemini-1.5-flash"]
-    },
     {
       id: "openrouter",
       name: "OpenRouter",
-      description: "Acces a de nombreux modeles (dont Gemini, Llama, Mistral). Modeles 'Free' disponibles.",
+      description: "Acces a de nombreux modeles gratuits : Gemini, Llama, Mistral... ~20 req/min.",
       docsUrl: "https://openrouter.ai/keys",
       icon: "lucide:git-branch",
+      badge: "RECOMMANDE",
       models: [
         "google/gemini-2.0-flash-lite-free",
         "google/gemma-3-27b-it:free",
         "meta-llama/llama-4-maverick:free",
         "mistralai/mistral-small-3.1-24b-instruct:free"
       ]
+    },
+    {
+      id: "huggingface",
+      name: "Hugging Face",
+      description: "Completement gratuit, sans cle API requise. Modele Phi-4 mini.",
+      docsUrl: "https://huggingface.co/settings/tokens",
+      icon: "lucide:smile",
+      badge: "SANS CLE",
+      apiKeyOptional: true,
+      models: ["microsoft/phi-4-mini-instruct", "HuggingFaceH4/zephyr-7b-beta", "microsoft/Phi-3-mini-4k-instruct"]
+    },
+    {
+      id: "gemini",
+      name: "Google Gemini",
+      description: "Quota AI Studio, peut expirer (erreur 429) si usage intensif.",
+      docsUrl: "https://aistudio.google.com/apikey",
+      icon: "lucide:sparkles",
+      models: ["gemini-2.0-flash", "gemini-2.0-flash-lite", "gemini-1.5-flash"]
     }
   ];
 
@@ -144,6 +155,13 @@ export default async function AdminIAConfigPage() {
                     <div className="flex items-center gap-2 mb-1">
                       <iconify-icon icon={p.icon} style={{ fontSize: "14px" }} />
                       <span className="font-semibold">{p.name}</span>
+                      {p.badge ? (
+                        <span className={`text-[8px] font-bold px-1.5 py-0.5 rounded-full ${
+                          p.badge === "RECOMMANDE"
+                            ? 'bg-emerald-500/20 text-emerald-200 border border-emerald-400/30'
+                            : 'bg-amber-500/20 text-amber-100 border border-amber-400/30'
+                        }`}>{p.badge}</span>
+                      ) : null}
                     </div>
                     <p className="text-[10px] opacity-70">{p.description}</p>
                   </a>
@@ -152,23 +170,43 @@ export default async function AdminIAConfigPage() {
             </div>
 
             <div className="rounded-xl border border-white/[0.08] bg-[#0f0f0f] p-4">
-              <div className="text-[11px] text-white font-semibold mb-2">2. Variables d'environnement</div>
-              <pre className="font-body-readable text-[11px] text-[#b3b3b3] bg-black/30 rounded-lg p-3 overflow-x-auto">
-                <span className="text-[#6ec3ff]"># Provider</span>
-                AI_REVIEW_PROVIDER=gemini
-                {`\n`}
-                <span className="text-[#6ec3ff]"># Ta cle API (obtiens-la sur le site du provider)</span>
-                AI_REVIEW_API_KEY=ta_cle_ici
-                {`\n`}
-                <span className="text-[#6ec3ff]"># Modele (optionnel : laisse vide pour le defaut)</span>
-                AI_REVIEW_MODEL=gemini-2.0-flash
-              </pre>
+              <div className="text-[11px] text-white font-semibold mb-2">2. Choix rapide selon ton besoin</div>
+
+              <div className="space-y-2">
+                <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/[0.06] p-3">
+                  <div className="text-[11px] text-emerald-200 font-semibold flex items-center gap-1.5 mb-1">
+                    <iconify-icon icon="lucide:zap" style={{ fontSize: "13px" }} />
+                    Option A : OpenRouter (recommandé)
+                  </div>
+                  <pre className="font-body-readable text-[10px] text-[#b3b3b3] bg-black/30 rounded p-2 mt-1 overflow-x-auto">AI_REVIEW_PROVIDER=openrouter{`\n`}AI_REVIEW_API_KEY=ta_cle_openrouter</pre>
+                  <a href="https://openrouter.ai/keys" target="_blank" rel="noopener noreferrer" className="text-[10px] text-[#4F8EF7] hover:underline mt-1 inline-block">
+                    Obtenir une cle OpenRouter gratuit →
+                  </a>
+                </div>
+
+                <div className="rounded-lg border border-violet-500/20 bg-violet-500/[0.06] p-3">
+                  <div className="text-[11px] text-violet-200 font-semibold flex items-center gap-1.5 mb-1">
+                    <iconify-icon icon="lucide:smile" style={{ fontSize: "13px" }} />
+                    Option B : Hugging Face (sans cle API)
+                  </div>
+                  <pre className="font-body-readable text-[10px] text-[#b3b3b3] bg-black/30 rounded p-2 mt-1 overflow-x-auto">AI_REVIEW_PROVIDER=huggingface</pre>
+                  <p className="text-[10px] text-violet-200/70 mt-1">Aucune cle requise. Modele libre heberge gratuitement.</p>
+                </div>
+
+                <div className="rounded-lg border border-white/[0.06] bg-white/[0.02] p-3">
+                  <div className="text-[11px] text-[#ccc] font-semibold flex items-center gap-1.5 mb-1">
+                    <iconify-icon icon="lucide:sparkles" style={{ fontSize: "13px" }} />
+                    Option C : Google Gemini (si tu as deja une cle)
+                  </div>
+                  <pre className="font-body-readable text-[10px] text-[#b3b3b3] bg-black/30 rounded p-2 mt-1 overflow-x-auto">AI_REVIEW_PROVIDER=gemini{`\n`}AI_REVIEW_API_KEY=ta_cle_gemini</pre>
+                </div>
+              </div>
             </div>
 
             <div className="rounded-xl border border-white/[0.08] bg-[#0f0f0f] p-4">
-              <div className="text-[11px] text-white font-semibold mb-2">3. Obtenir une cle API gratuite</div>
+              <div className="text-[11px] text-white font-semibold mb-2">3. Obtenir une cle API (optionnel pour Hugging Face)</div>
               <div className="space-y-2">
-                {providers.map((p) => (
+                {providers.filter(p => !p.apiKeyOptional).map((p) => (
                   <a
                     key={p.id}
                     href={p.docsUrl}
@@ -181,6 +219,10 @@ export default async function AdminIAConfigPage() {
                     <iconify-icon icon="lucide:external-link" style={{ fontSize: "11px", color: "#666" }} />
                   </a>
                 ))}
+                <div className="flex items-center gap-2 rounded-lg border border-violet-400/20 bg-violet-500/[0.06] px-3.5 py-2.5 text-[12px] text-violet-200">
+                  <iconify-icon icon="lucide:smile" style={{ fontSize: "14px" }} />
+                  <span>Hugging Face : aucune cle requise ! pret a l'emploi.</span>
+                </div>
               </div>
             </div>
           </div>
