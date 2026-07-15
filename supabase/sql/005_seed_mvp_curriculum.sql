@@ -37,12 +37,12 @@ declare
           {
             "slug": "fonctionnement-des-llm",
             "title": "Comment fonctionne un LLM",
-            "intro": "Un LLM (Large Language Model) est un modele entraine sur d'immenses corpus de texte. Il ne recherche pas dans une base de donnees : il predit le prochain token le plus probable, encore et encore, jusqu'a produire une reponse complete.",
+            "intro": "Un LLM (Large Language Model) est un modele entraine sur d'immenses corpus de texte. Il ne recherche pas dans une base de donnees : il predit le prochain token le plus probable, encore et encore, jusqu'a produire une reponse complete. Un token est un fragment de texte (un mot, une partie de mot ou un signe de ponctuation) : c'est l'unite de base que le modele manipule a chaque etape.",
             "why_important": "Comprendre ce mecanisme t'evite les deux pieges classiques : croire que l'IA sait tout, ou croire qu'elle ne sert a rien. Tu sauras quand lui faire confiance et quand verifier.",
             "how_to_use": "Regarde d'abord la video, puis lis l'article pour fixer le vocabulaire. Teste ensuite les memes questions dans un chat IA pour observer les variations.",
             "objectives": [
               "Expliquer ce qu'est un LLM en une phrase simple",
-              "Comprendre la prediction de token",
+              "Comprendre ce qu'est un token et le mecanisme de prediction",
               "Identifier les limites d'un LLM (hallucinations, connaissances datees)"
             ],
             "resources": [
@@ -50,7 +50,7 @@ declare
               {"label": "What is a large language model (Cloudflare Learning)", "url": "https://www.cloudflare.com/learning/ai/what-is-large-language-model/", "kind": "article", "why": "Un article court qui fixe le vocabulaire de base.", "how": "Lis-le apres la video pour consolider les notions."}
             ],
             "quiz": [
-              {"q": "Que fait fondamentalement un LLM quand il repond ?", "choices": ["Il cherche la reponse dans une base de donnees", "Il predit le prochain token le plus probable", "Il execute un programme ecrit par un humain"], "answer": 1, "explanation": "Un LLM genere sa reponse token par token, en predisant a chaque fois le plus probable."},
+              {"q": "Que fait fondamentalement un LLM quand il repond ?", "choices": ["Il cherche la reponse dans une base de donnees", "Il predit le prochain token le plus probable", "Il execute un programme ecrit par un humain"], "answer": 1, "explanation": "Un LLM genere sa reponse token par token (un token = un fragment de texte comme un mot ou un morceau de mot), en predisant a chaque fois le plus probable."},
               {"q": "Sur quoi un LLM est-il entraine ?", "choices": ["Uniquement des encyclopedies", "D'immenses corpus de textes varies", "Des conversations en direct"], "answer": 1, "explanation": "L'entrainement se fait sur des corpus massifs de textes issus du web, de livres et de code."},
               {"q": "Qu'est-ce qu'une hallucination ?", "choices": ["Une reponse plausible mais fausse", "Un bug qui fait planter le modele", "Une reponse trop longue"], "answer": 0, "explanation": "Le modele peut generer une information fausse avec un ton tres assure : il faut verifier les faits critiques."}
             ],

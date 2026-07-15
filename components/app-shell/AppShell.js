@@ -203,6 +203,15 @@ export default function AppShell({ user, children }) {
                   <iconify-icon icon="lucide:user" style={{ fontSize: "15px", color: "#89c7ff" }} />
                   Mon profil
                 </Link>
+                <Link
+                  href="/dashboard/guide"
+                  onClick={() => setMenuOpen(false)}
+                  className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[#d1d1d1] hover:bg-white/[0.05] transition-colors"
+                  role="menuitem"
+                >
+                  <iconify-icon icon="lucide:compass" style={{ fontSize: "15px", color: "#89c7ff" }} />
+                  Guide de demarrage
+                </Link>
                 {isAdmin ? (
                   <Link
                     href="/admin"

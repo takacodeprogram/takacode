@@ -2,6 +2,7 @@ import "./globals.css";
 import Script from "next/script";
 import logoLight2 from "../assets/logos-light-png/logo-light-2.png";
 import StartupLoader from "../components/StartupLoader";
+import CookieNotice from "../components/CookieNotice";
 import { SEO_DEFAULTS } from "../lib/seo";
 
 export const metadata = {
@@ -46,6 +47,7 @@ export default function RootLayout({ children }) {
         <Script src="https://cdn.tailwindcss.com" strategy="beforeInteractive" />
         <Script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js" strategy="beforeInteractive" />
         {children}
+        <CookieNotice />
       </body>
     </html>
   );

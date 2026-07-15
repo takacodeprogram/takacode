@@ -2,82 +2,16 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
+import { TOUR_STEPS as STEPS } from "./tourSteps";
 
 const STORAGE_KEY = "tk_tour_done_v1";
 
-const STEPS = [
-  {
-    id: "welcome",
-    icon: "lucide:sparkles",
-    title: "Bienvenue dans ton espace !",
-    body: "Faisons un petit tour des sections clés pour que tu puisses profiter pleinement de TakaCode. 🚀",
-    center: true
-  },
-  {
-    id: "dashboard",
-    icon: "lucide:layout-grid",
-    title: "Tableau de bord",
-    body: "Ta vue d'ensemble : progression dans tes parcours, statistiques (points, grade) et accès rapide vers l'essentiel."
-  },
-  {
-    id: "parcours",
-    icon: "lucide:map",
-    title: "Mes parcours",
-    body: "Les parcours que tu suis, avec leurs modules, leçons, quiz et micro-projets à valider pour progresser."
-  },
-  {
-    id: "projets",
-    icon: "lucide:folder-code",
-    title: "Mes projets",
-    body: "Crée tes projets personnels et partage-les avec la communauté pour montrer ton travail."
-  },
-  {
-    id: "reviews",
-    icon: "lucide:git-pull-request",
-    title: "Revues",
-    body: "Soumets tes micro-projets pour validation et review ceux des autres membres (pairs ou mentors)."
-  },
-  {
-    id: "ressources",
-    icon: "lucide:book-open",
-    title: "Ressources",
-    body: "Bibliothèque de ressources externes recommandées pour approfondir chaque sujet."
-  },
-  {
-    id: "sessions",
-    icon: "lucide:video",
-    title: "Sessions live",
-    body: "Rejoins les sessions en direct : coding sessions, Q&A, ateliers avec la communauté.",
-    live: true
-  },
-  {
-    id: "communaute",
-    icon: "lucide:users",
-    title: "Communauté",
-    body: "Échange avec les autres créateurs, découvre leurs projets et partage les tiens."
-  },
-  {
-    id: "outils",
-    icon: "lucide:wrench",
-    title: "Outils",
-    body: "Les services et outils recommandés par TakaCode : hébergement, IA, noms de domaine, déploiement…"
-  },
-  {
-    id: "profil",
-    icon: "lucide:user",
-    title: "Profil",
-    body: "Gère ton identité, ton avatar DiceBear, tes informations et tes préférences."
-  },
-  {
-    id: "done",
-    icon: "lucide:rocket",
-    title: "Prêt à créer ! 💪",
-    body: "Tu connais maintenant toutes les sections. Explore, apprends et construis ton projet. Ce guide reste accessible depuis ton Tableau de bord si besoin.",
-    center: true
-  }
-];
-
 const STEP_DESKTOP_IDS = STEPS.filter((s) => !s.center).map((s) => s.id);
+
+function isDesktop() {
+  if (typeof window === "undefined") return false;
+  return window.matchMedia("(min-width: 1024px)").matches;
+}
 
 export default function GuidedTour() {
   const pathname = usePathname();
@@ -87,9 +21,10 @@ export default function GuidedTour() {
   const tooltipRef = useRef(null);
   const highlightRef = useRef(null);
 
-  // Determine if we should show the tour (only on /dashboard, once per user)
+  // Le tour cible des elements de la sidebar (caches sur mobile) -> desktop uniquement.
+  // Sur mobile, on renvoie vers la page guide dediee /dashboard/guide.
   useEffect(() => {
-    if (pathname !== "/dashboard") {
+    if (pathname !== "/dashboard" || !isDesktop()) {
       setActive(false);
       return;
     }
@@ -179,7 +114,6 @@ export default function GuidedTour() {
       }
     : null;
 
-  // Tooltip positioned to the right of the target
   const tooltipStyleDesktop = targetRect
     ? {
         position: "fixed",
@@ -190,14 +124,9 @@ export default function GuidedTour() {
       }
     : null;
 
-  // Tooltip pointing down (for left-side position, fallback)
-  // We'll use a smart positioning approach
-
-  // --- Shared card content ---
   function renderCardContent() {
     return (
       <>
-        {/* Header: icon + step counter */}
         <div className="flex items-center justify-between mb-2.5">
           <div className="flex items-center gap-2">
             <div className="w-7 h-7 rounded-lg bg-blue-500/15 flex items-center justify-center">
@@ -219,7 +148,6 @@ export default function GuidedTour() {
           </button>
         </div>
 
-        {/* Title & body */}
         {step.live ? (
           <div className="flex items-center gap-1.5 mb-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
@@ -229,7 +157,6 @@ export default function GuidedTour() {
         <div className="text-[15px] font-semibold leading-tight mb-1.5">{step.title}</div>
         <p className="text-[12px] text-[#b0b0b0] leading-relaxed font-body-readable mb-4">{step.body}</p>
 
-        {/* Navigation buttons */}
         <div className="flex items-center justify-between">
           <div className="flex gap-2">
             {!isFirst ? (
@@ -238,17 +165,13 @@ export default function GuidedTour() {
                 onClick={prev}
                 className="text-[11px] text-[#666] hover:text-white px-2.5 py-1.5 rounded-lg hover:bg-white/[0.04] transition-all"
               >
-                ← Précédent
+                ← Precedent
               </button>
             ) : null}
           </div>
           <div className="flex items-center gap-2">
             {isCenter && !isLast ? (
-              <button
-                type="button"
-                onClick={skip}
-                className="text-[10px] text-[#555] hover:text-[#888] transition-colors"
-              >
+              <button type="button" onClick={skip} className="text-[10px] text-[#555] hover:text-[#888] transition-colors">
                 Passer
               </button>
             ) : null}
@@ -269,46 +192,26 @@ export default function GuidedTour() {
     );
   }
 
-  // --- Center overlay (welcome / done) ---
   if (isCenter) {
     return (
       <div className="fixed inset-0 z-[300] flex items-center justify-center p-6" style={{ background: "rgba(0,0,0,0.65)" }} role="dialog" aria-modal="true" aria-label="Guide interactif">
-        <div
-          className="w-full max-w-sm rounded-2xl border border-white/[0.10] bg-[#0F0F0F]/95 backdrop-blur-xl p-6 animate-fade-up-d1"
-          style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.6)" }}
-        >
+        <div className="w-full max-w-sm rounded-2xl border border-white/[0.10] bg-[#0F0F0F]/95 backdrop-blur-xl p-6 animate-fade-up-d1" style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.6)" }}>
           {renderCardContent()}
         </div>
       </div>
     );
   }
 
-  // --- Desktop: tooltip positioned next to target + highlight ---
   return (
     <>
-      {/* Backdrop */}
       <div className="fixed inset-0 z-[199]" style={{ background: "rgba(0,0,0,0.45)" }} onClick={skip} role="presentation" />
-
-      {/* Target highlight ring */}
       {highlightStyle ? <div style={highlightStyle} ref={highlightRef} /> : null}
-
-      {/* Tooltip card */}
       <div
         ref={tooltipRef}
-        className="hidden lg:block w-[300px] sm:w-[320px] rounded-2xl border border-white/[0.10] bg-[#0F0F0F]/95 backdrop-blur-xl p-5 animate-fade-up-d1"
+        className="hidden lg:block w-[320px] rounded-2xl border border-white/[0.10] bg-[#0F0F0F]/95 backdrop-blur-xl p-5 animate-fade-up-d1"
         style={{ ...tooltipStyleDesktop, boxShadow: "0 16px 40px rgba(0,0,0,0.5)" }}
       >
         {renderCardContent()}
-      </div>
-
-      {/* Mobile fallback: bottom sheet */}
-      <div className="block lg:hidden fixed bottom-0 left-0 right-0 z-[250] p-4 animate-fade-up-d1">
-        <div
-          className="rounded-2xl border border-white/[0.10] bg-[#0F0F0F] p-5"
-          style={{ boxShadow: "0 -8px 40px rgba(0,0,0,0.6)" }}
-        >
-          {renderCardContent()}
-        </div>
       </div>
     </>
   );

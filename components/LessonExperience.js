@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import CelebrationOverlay from "./effects/CelebrationOverlay";
+import { GlossaryText } from "./GlossaryTooltip";
 import { playPop } from "./effects/sound";
 
 const CLOSED_CELEBRATION = { open: false, variant: "success", title: "", message: "", xp: 0, ctaLabel: "", ctaAction: "", shareText: "" };
@@ -306,7 +307,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
 
       <div className="space-y-4">
         {lesson.intro ? (
-          <p className="font-body-readable text-[13px] text-[#a5a5a5] leading-relaxed">{lesson.intro}</p>
+          <GlossaryText as="p" className="font-body-readable text-[13px] text-[#a5a5a5] leading-relaxed" text={lesson.intro} />
         ) : null}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
