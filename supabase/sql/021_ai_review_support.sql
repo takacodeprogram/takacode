@@ -86,6 +86,7 @@ update public.project_reviews set review_method = 'peer'
 where review_method = 'peer' and reviewer_id <> internal.ai_reviewer_id();
 
 -- 5. RPC pour l'historique des revues (admin only)
+-- Monte TOUS les projets soumis (revus OU en attente) avec leurs details.
 create or replace function public.list_review_history(p_limit integer default 50)
 returns jsonb
 language sql
@@ -97,30 +98,36 @@ as $$
   from (
     select
       jsonb_build_object(
-        'author_id', r.author_id,
+        'author_id', p.user_id,
         'author', case when btrim(up.public_name) = '' then 'Membre anonyme' else up.public_name end,
         'avatar_url', up.avatar_url,
-        'lesson_id', r.lesson_id,
+        'lesson_id', p.lesson_id,
         'lesson_title', l.title,
         'track_title', t.title,
         'submission', p.project_submission,
+        'review_status', p.review_status,
+        'review_feedback', p.review_feedback,
         'verdict', r.verdict,
         'comment', r.comment,
-        'review_method', r.review_method,
+        'review_method', coalesce(r.review_method, 'peer'),
         'reviewer_name', case
+          when r.reviewer_id is null then null
           when r.reviewer_id = internal.ai_reviewer_id() then 'IA automatique'
           else case when btrim(rup.public_name) = '' then 'Membre anonyme' else rup.public_name end
         end,
-        'created_at', r.created_at
+        'reviewed_at', r.created_at,
+        'submitted_at', p.project_submitted_at
       ) as item
-    from public.project_reviews r
-    join public.user_profiles up on up.id = r.author_id
-    join public.track_lessons l on l.id = r.lesson_id
+    from public.user_lesson_progress p
+    join public.user_profiles up on up.id = p.user_id
+    join public.track_lessons l on l.id = p.lesson_id
     join public.track_modules m on m.id = l.module_id
     join public.learning_tracks t on t.id = m.track_id
-    left join public.user_lesson_progress p on p.user_id = r.author_id and p.lesson_id = r.lesson_id
+    left join public.project_reviews r
+      on r.author_id = p.user_id and r.lesson_id = p.lesson_id
     left join public.user_profiles rup on rup.id = r.reviewer_id
-    order by r.created_at desc
+    where p.project_submitted_at is not null
+    order by p.project_submitted_at desc
     limit greatest(1, least(coalesce(p_limit, 50), 200))
   ) ranked;
 $$;

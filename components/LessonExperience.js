@@ -119,6 +119,8 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
 
   function closeCelebration() {
     setCelebration((current) => ({ ...current, open: false }));
+    // Refresh la page quand la popup se ferme pour同步 l'etat serveur.
+    router.refresh();
   }
 
   const isCompleted = status === "completed";
@@ -257,7 +259,8 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
         setStatus("completed");
         setReviewStatus("approved");
         setXpAwarded(Number(data.xpAwarded) || 0);
-        router.refresh();
+        // Pas de router.refresh() ici : on garde la popup ouverte.
+        // Le refresh se fera quand l'utilisateur naviguera ou fermera la popup.
 
         // Determiner le message selon l'origine de la validation.
         const isAI = data.aiReview?.available === true;

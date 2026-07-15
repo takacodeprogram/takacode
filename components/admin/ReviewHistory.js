@@ -26,15 +26,30 @@ function MethodBadge({ method }) {
   );
 }
 
-function VerdictBadge({ verdict }) {
-  const isApproved = verdict === "approved";
+function StatusBadge({ status, verdict }) {
+  if (verdict) {
+    const isApproved = verdict === "approved";
+    return (
+      <span className={`text-[9px] font-semibold px-2 py-0.5 rounded-full border ${
+        isApproved
+          ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-200"
+          : "border-amber-500/30 bg-amber-500/10 text-amber-100"
+      }`}>
+        {isApproved ? "Approuvé" : "Améliorations"}
+      </span>
+    );
+  }
+
+  const statusConfig = {
+    approved: { label: "Approuvé", cls: "border-emerald-500/30 bg-emerald-500/10 text-emerald-200" },
+    pending: { label: "En attente", cls: "border-amber-500/30 bg-amber-500/10 text-amber-100" },
+    changes_requested: { label: "Améliorations", cls: "border-amber-500/30 bg-amber-500/10 text-amber-100" },
+    none: { label: "Soumis", cls: "border-white/[0.15] bg-white/[0.03] text-[#999]" }
+  };
+  const { label, cls } = statusConfig[status] || statusConfig.none;
   return (
-    <span className={`text-[9px] font-semibold px-2 py-0.5 rounded-full border ${
-      isApproved
-        ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-200"
-        : "border-amber-500/30 bg-amber-500/10 text-amber-100"
-    }`}>
-      {isApproved ? "Approuve" : "Ameliorations"}
+    <span className={`text-[9px] font-semibold px-2 py-0.5 rounded-full border ${cls}`}>
+      {label}
     </span>
   );
 }
@@ -51,8 +66,10 @@ export default function ReviewHistory({ items = [] }) {
   return (
     <div className="space-y-3">
       {items.map((item, index) => {
-        const date = item.created_at ? new Date(item.created_at) : null;
-        const dateStr = date ? date.toLocaleDateString("fr-FR", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" }) : "";
+        const submittedDate = item.submitted_at ? new Date(item.submitted_at) : null;
+        const reviewedDate = item.reviewed_at ? new Date(item.reviewed_at) : null;
+        const submittedStr = submittedDate ? submittedDate.toLocaleDateString("fr-FR", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" }) : "";
+        const reviewedStr = reviewedDate ? reviewedDate.toLocaleDateString("fr-FR", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" }) : "";
 
         return (
           <article key={`${item.author_id}-${item.lesson_id}-${index}`} className="rounded-2xl border border-white/[0.08] bg-[#111] p-4 space-y-3">
@@ -66,7 +83,7 @@ export default function ReviewHistory({ items = [] }) {
               </div>
               <div className="flex items-center gap-2">
                 <MethodBadge method={item.review_method} />
-                <VerdictBadge verdict={item.verdict} />
+                <StatusBadge status={item.review_status} verdict={item.verdict} />
               </div>
             </div>
 
@@ -78,12 +95,25 @@ export default function ReviewHistory({ items = [] }) {
 
             {item.comment ? (
               <div className="rounded-lg border border-white/[0.08] bg-[#0f0f0f] px-3 py-2">
-                <div className="text-[9px] text-[#666] uppercase tracking-widest mb-1">Commentaire de {item.reviewer_name}</div>
+                <div className="text-[9px] text-[#666] uppercase tracking-widest mb-1">
+                  Commentaire{item.reviewer_name ? ` de ${item.reviewer_name}` : ""}
+                </div>
                 <p className="font-body-readable text-[11px] text-[#c7c7c7] leading-relaxed">{item.comment}</p>
+              </div>
+            ) : item.review_feedback ? (
+              <div className="rounded-lg border border-white/[0.08] bg-[#0f0f0f] px-3 py-2">
+                <div className="text-[9px] text-[#666] uppercase tracking-widest mb-1">Retour</div>
+                <p className="font-body-readable text-[11px] text-[#c7c7c7] leading-relaxed">{item.review_feedback}</p>
               </div>
             ) : null}
 
-            <div className="text-[10px] text-[#555]">{dateStr}</div>
+            <div className="flex items-center gap-4 text-[10px] text-[#555]">
+              {submittedStr ? <span>Soumis le {submittedStr}</span> : null}
+              {reviewedStr ? <span>Revu le {reviewedStr}</span> : null}
+              {!reviewedStr && item.review_status === "pending" ? (
+                <span className="text-amber-400/70">En attente de revue</span>
+              ) : null}
+            </div>
           </article>
         );
       })}
