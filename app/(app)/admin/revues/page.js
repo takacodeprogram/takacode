@@ -37,7 +37,7 @@ export default async function AdminReviewsPage() {
         </div>
       ) : error ? (
         <div className="rounded-xl border border-amber-500/25 bg-amber-500/10 px-4 py-3 text-[12px] text-amber-100 font-body-readable">
-          Impossible de charger l&apos;historique. Execute supabase/sql/019_ai_review_support.sql pour activer cette fonctionnalite.
+          Impossible de charger l&apos;historique. Execute supabase/sql/021_ai_review_support.sql pour activer cette fonctionnalite.
         </div>
       ) : (
         <ReviewHistory items={items} />
