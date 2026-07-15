@@ -93,7 +93,7 @@ stable
 security definer
 set search_path = public, internal, pg_temp
 as $$
-  select coalesce(jsonb_agg(item order by r.created_at desc), '[]'::jsonb)
+  select coalesce(jsonb_agg(item), '[]'::jsonb)
   from (
     select
       jsonb_build_object(
