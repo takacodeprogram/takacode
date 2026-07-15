@@ -107,19 +107,42 @@ async function testSingleProvider(provider) {
 
 // Teste tous les providers configures (fallback chain).
 export async function GET() {
-  const config = getAIReviewConfig();
-  const chain = config.fallbackChain?.length ? config.fallbackChain : [config.provider];
+  try {
+    const config = getAIReviewConfig();
+    const chain = config.fallbackChain?.length ? config.fallbackChain : [config.provider];
 
-  if (!chain.length) {
-    return NextResponse.json({ providers: [], ok: false, error: "Aucun provider IA configure" }, { status: 200 });
+    if (!chain.length) {
+      return NextResponse.json({ providers: [], ok: false, error: "Aucun provider IA configure. Ajoute AI_REVIEW_PROVIDER et AI_REVIEW_API_KEY dans .env" }, { status: 200 });
+    }
+
+    const results = await Promise.allSettled(chain.map(testSingleProvider));
+    const providers = results.map((r) => {
+      if (r.status === "fulfilled") return r.value;
+      const reason = r.reason;
+      return {
+        ok: false,
+        provider: "?",
+        error: reason?.message || "Erreur inconnue",
+        detail: reason?.stack ? reason.stack.slice(0, 200) : ""
+      };
+    });
+
+    const anyOk = providers.some((p) => p.ok);
+    const allFailed = providers.length > 0 && !anyOk;
+
+    return NextResponse.json({
+      ok: anyOk,
+      providers,
+      chain,
+      error: allFailed ? providers.map((p) => `${p.provider}: ${p.error || "?"}`).join(" | ") : undefined
+    });
+  } catch (err) {
+    return NextResponse.json({
+      ok: false,
+      providers: [],
+      chain: [],
+      error: err?.message || "Erreur interne du serveur",
+      detail: err?.stack ? err.stack.slice(0, 300) : ""
+    }, { status: 200 });
   }
-
-  const results = await Promise.allSettled(chain.map(testSingleProvider));
-  const providers = results.map((r) => (r.status === "fulfilled" ? r.value : { ok: false, provider: "?", error: r.reason?.message || "Erreur" }));
-
-  return NextResponse.json({
-    ok: providers.some((p) => p.ok),
-    providers,
-    chain
-  });
 }

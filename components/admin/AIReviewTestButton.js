@@ -12,7 +12,20 @@ export default function AIReviewTestButton() {
 
     try {
       const response = await fetch("/api/lessons/ai-review/test");
-      const data = await response.json();
+
+      // Tente de parser le JSON, meme si le status n'est pas 200
+      let data;
+      try {
+        data = await response.json();
+      } catch (parseErr) {
+        const text = await response.text().catch(() => "");
+        setState("error");
+        setResult({
+          error: "Reponse serveur invalide",
+          detail: `HTTP ${response.status}: ${text.slice(0, 300)}`
+        });
+        return;
+      }
 
       setResult(data);
 
@@ -23,7 +36,10 @@ export default function AIReviewTestButton() {
       }
     } catch (err) {
       setState("error");
-      setResult({ error: err.message || "Erreur reseau" });
+      setResult({
+        error: "Erreur reseau",
+        detail: err.message || "Impossible de contacter le serveur"
+      });
     }
   }
 
@@ -51,27 +67,47 @@ export default function AIReviewTestButton() {
         )}
       </button>
 
-      {state === "success" ? (
-        <div className="rounded-xl border border-emerald-500/25 bg-emerald-500/10 px-4 py-3 flex items-start gap-3">
-          <iconify-icon icon="lucide:check-circle" style={{ fontSize: "18px", color: "#6ee7b7", marginTop: "1px" }} />
-          <div>
-            <div className="font-body-readable text-[12px] text-emerald-100 font-semibold">Connexion reussie !</div>
-            {result?.elapsedMs ? (
-              <p className="font-body-readable text-[11px] text-emerald-100/70 mt-0.5">
-                Reponse en {result.elapsedMs}ms • {result.provider} • {result.model}
+      {state === "success" ? (() => {
+        const firstOk = Array.isArray(result?.providers) ? result.providers.find((p) => p.ok) : null;
+        return (
+          <div className="rounded-xl border border-emerald-500/25 bg-emerald-500/10 px-4 py-3 flex items-start gap-3">
+            <iconify-icon icon="lucide:check-circle" style={{ fontSize: "18px", color: "#6ee7b7", marginTop: "1px" }} />
+            <div>
+              <div className="font-body-readable text-[12px] text-emerald-100 font-semibold">Connexion reussie !</div>
+              {firstOk ? (
+                <p className="font-body-readable text-[11px] text-emerald-100/70 mt-0.5">
+                  {firstOk.elapsedMs ? `Reponse en ${firstOk.elapsedMs}ms ` : ""}
+                  {firstOk.provider ? `• ${firstOk.label || firstOk.provider}` : ""}
+                  {firstOk.model ? ` • ${firstOk.model}` : ""}
+                </p>
+              ) : null}
+              {firstOk?.response ? (
+                <p className="font-body-readable text-[11px] text-emerald-100/70 mt-0.5">
+                  Reponse du modele : &ldquo;{firstOk.response}&rdquo;
+                </p>
+              ) : null}
+              {Array.isArray(result?.providers) && result.providers.length > 1 ? (
+                <div className="flex flex-wrap gap-1.5 mt-2">
+                  {result.providers.map((p, i) => (
+                    <span key={p.provider || i}
+                      className={`text-[9px] font-semibold px-1.5 py-0.5 rounded-full ${
+                        p.ok
+                          ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-200"
+                          : "border-red-500/25 bg-red-500/10 text-red-200"
+                      }`}
+                    >
+                      {p.label || p.provider}: {p.ok ? "OK" : (p.elapsedMs ? `${p.error || "?"}` : "X")}
+                    </span>
+                  ))}
+                </div>
+              ) : null}
+              <p className="font-body-readable text-[10px] text-emerald-100/50 mt-1">
+                La review automatique des micro-projets est operationnelle.
               </p>
-            ) : null}
-            {result?.response ? (
-              <p className="font-body-readable text-[11px] text-emerald-100/70 mt-0.5">
-                Reponse du modele : &ldquo;{result.response}&rdquo;
-              </p>
-            ) : null}
-            <p className="font-body-readable text-[10px] text-emerald-100/50 mt-1">
-              La review automatique des micro-projets est operationnelle.
-            </p>
+            </div>
           </div>
-        </div>
-      ) : null}
+        );
+      })() : null}
 
       {state === "error" ? (
         <div className="rounded-xl border border-red-500/25 bg-red-500/10 px-4 py-3 flex items-start gap-3">
@@ -83,6 +119,21 @@ export default function AIReviewTestButton() {
               <pre className="font-body-readable text-[10px] text-red-200/60 mt-1.5 bg-black/20 rounded-lg p-2 overflow-x-auto max-h-24">
                 {result.detail}
               </pre>
+            ) : null}
+            {Array.isArray(result?.providers) && result.providers.length ? (
+              <div className="flex flex-wrap gap-1.5 mt-2">
+                {result.providers.map((p, i) => (
+                  <span key={p.provider || i}
+                    className={`text-[9px] font-semibold px-1.5 py-0.5 rounded-full ${
+                      p.ok
+                        ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-200"
+                        : "border-red-500/25 bg-red-500/10 text-red-200"
+                    }`}
+                  >
+                    {p.label || p.provider}: {p.ok ? "OK" : (p.error || "X")}
+                  </span>
+                ))}
+              </div>
             ) : null}
             <p className="font-body-readable text-[10px] text-red-200/50 mt-1">
               Verifie ta cle API et que le provider est bien accessible depuis ton reseau.
