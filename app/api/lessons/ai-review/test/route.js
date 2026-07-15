@@ -3,7 +3,7 @@ import { getAIReviewConfig } from "../../../../../lib/aiReview";
 
 const PROVIDER_DEFAULTS = {
   gemini: "gemini-2.0-flash",
-  openrouter: "openrouter/free",
+  openrouter: "meta-llama/llama-4-maverick:free",
   huggingface: "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
 };
 
@@ -54,7 +54,7 @@ function buildRequest(provider, model, apiKey) {
       model: m,
       messages: [{ role: "user", content: "Reponds UNIQUEMENT par le mot OK." }],
       temperature: 0,
-      max_tokens: 10
+      max_tokens: 50
     }
   };
 }
