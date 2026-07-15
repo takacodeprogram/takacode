@@ -29,6 +29,7 @@ export const ADMIN_AREA_LINKS = [
   { href: "/admin/utilisateurs", icon: "lucide:users", label: "Utilisateurs" },
   { href: "/admin/parcours", icon: "lucide:route", label: "Parcours" },
   { href: "/admin/sessions", icon: "lucide:video", label: "Sessions live" },
+  { href: "/admin/revues", icon: "lucide:git-pull-request", label: "Historique des revues" },
   { href: "/admin/affiliations", icon: "lucide:link", label: "Affiliations" },
   { href: "/admin/ia", icon: "lucide:bot", label: "Review IA" }
 ];
