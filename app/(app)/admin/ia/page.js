@@ -49,9 +49,9 @@ export default async function AdminIAConfigPage() {
       icon: "lucide:git-branch",
       badge: "RECOMMANDE",
       models: [
-        "openrouter/free",
-        "google/gemini-2.0-flash-lite:free",
-        "meta-llama/llama-4-maverick:free",
+        "meta-llama/llama-3.2-3b-instruct:free",
+        "nousresearch/hermes-3-llama-3.1-405b:free",
+        "google/gemma-2-27b-it:free",
         "mistralai/mistral-small-3.1-24b-instruct:free"
       ]
     },
