@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Confetti from "./Confetti";
+import ShareButtons from "./ShareButtons";
 import { isMuted, playFail, playSuccess, setMuted } from "./sound";
 
 // Ecran modal de succes/echec avec animations, confettis et son.
@@ -14,7 +15,9 @@ export default function CelebrationOverlay({
   xp = 0,
   ctaLabel = "",
   onCta,
-  onClose
+  onClose,
+  shareText = "",
+  shareUrl = ""
 }) {
   const [confettiKey, setConfettiKey] = useState(0);
   const [muted, setMutedState] = useState(false);
@@ -98,6 +101,13 @@ export default function CelebrationOverlay({
             <div className="inline-flex items-center gap-1.5 rounded-full border border-blue-400/30 bg-blue-500/10 px-3.5 py-1.5 text-[12px] font-semibold text-[#89c7ff] mb-5">
               <iconify-icon icon="lucide:zap" style={{ fontSize: "13px" }} />
               +{xp} XP
+            </div>
+          ) : null}
+
+          {isSuccess && shareText ? (
+            <div className="mb-5">
+              <div className="text-[10px] text-[#777] uppercase tracking-widest mb-2">Partage ta victoire</div>
+              <ShareButtons text={shareText} url={shareUrl} />
             </div>
           ) : null}
 

@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import CelebrationOverlay from "./effects/CelebrationOverlay";
 import { playPop } from "./effects/sound";
 
-const CLOSED_CELEBRATION = { open: false, variant: "success", title: "", message: "", xp: 0, ctaLabel: "", ctaAction: "" };
+const CLOSED_CELEBRATION = { open: false, variant: "success", title: "", message: "", xp: 0, ctaLabel: "", ctaAction: "", shareText: "" };
 
 function LessonSteps({ hasQuiz, hasProject, quizDone, projectDone, completed }) {
   const steps = [
@@ -139,7 +139,10 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
             : "Felicitations, tu as termine toutes les lecons de ce parcours !",
           xp: Number(data.xpAwarded) || 0,
           ctaLabel: nextLessonSlug ? "Lecon suivante" : "",
-          ctaAction: nextLessonSlug ? "next" : ""
+          ctaAction: nextLessonSlug ? "next" : "",
+          shareText: nextLessonSlug
+            ? `Je viens de valider la lecon "${lesson.title}" sur TakaCode ! 🚀`
+            : "J'ai termine un parcours complet sur TakaCode ! 🏆"
         });
       } else if (data.passed) {
         setCelebration({
@@ -212,7 +215,10 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
             : "Felicitations, tu as termine tout le parcours !",
           xp: Number(data.xpAwarded) || 0,
           ctaLabel: nextLessonSlug ? "Lecon suivante" : "",
-          ctaAction: nextLessonSlug ? "next" : ""
+          ctaAction: nextLessonSlug ? "next" : "",
+          shareText: nextLessonSlug
+            ? `Je viens de valider la lecon "${lesson.title}" sur TakaCode ! 🚀`
+            : "J'ai termine un parcours complet sur TakaCode ! 🏆"
         });
       } else {
         playPop();
@@ -559,6 +565,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
         message={celebration.message}
         xp={celebration.xp}
         ctaLabel={celebration.ctaLabel}
+        shareText={celebration.shareText}
         onClose={closeCelebration}
         onCta={() => {
           closeCelebration();

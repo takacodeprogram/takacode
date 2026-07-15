@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 import PageHeader from "../../../../components/app-shell/PageHeader";
 import ProfileEditor from "../../../../components/ProfileEditor";
 import GradeProgress from "../../../../components/GradeProgress";
+import ReferralLink from "../../../../components/ReferralLink";
+import ShareButtons from "../../../../components/effects/ShareButtons";
 import { resolveAvatarUrl } from "../../../../lib/avatar";
 import { getUserAccessContext } from "../../../../lib/auth";
 import { formatDisplayName } from "../../../../lib/displayName";
@@ -102,15 +104,12 @@ export default async function ProfilePage() {
 
           <GradeProgress points={points} />
 
-          {referralCode ? (
-            <article className="rounded-2xl border border-blue-500/25 bg-blue-500/10 p-5">
-              <div className="text-[10px] text-blue-200 uppercase tracking-widest mb-1">Code parrainage</div>
-              <div className="text-[15px] text-white font-semibold mb-1">{referralCode}</div>
-              <div className="text-[11px] text-blue-100/80 font-body-readable">
-                Partage ton lien: chaque inscription via ton code te fait gagner des points.
-              </div>
-            </article>
-          ) : null}
+          <div className="rounded-2xl border border-white/[0.08] bg-[#111] p-4">
+            <div className="text-[10px] text-[#777] uppercase tracking-widest mb-2">Partager ma progression</div>
+            <ShareButtons text={`Je suis ${grade} avec ${points} XP sur TakaCode ! 🚀`} />
+          </div>
+
+          {referralCode ? <ReferralLink code={referralCode} /> : null}
         </section>
 
         <ProfileEditor
