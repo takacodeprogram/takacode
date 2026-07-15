@@ -92,6 +92,7 @@ as $$
     ) as row
     from public.user_profiles
     where points > 0
+      and role <> 'admin'
     order by points desc, updated_at asc
     limit greatest(1, least(coalesce(p_limit, 50), 100))
   ) ranked;

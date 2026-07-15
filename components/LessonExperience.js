@@ -91,6 +91,8 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
   const [status, setStatus] = useState(initialProgress?.status || "in_progress");
   const [xpAwarded, setXpAwarded] = useState(Number(initialProgress?.xpAwarded) || 0);
   const [celebration, setCelebration] = useState(CLOSED_CELEBRATION);
+  // Compteur d'echecs pour afficher des messages progressifs
+  const [failCount, setFailCount] = useState(0);
 
   function closeCelebration() {
     setCelebration((current) => ({ ...current, open: false }));
@@ -163,14 +165,26 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
           ctaAction: ""
         });
       } else {
+        const newFailCount = failCount + 1;
+        setFailCount(newFailCount);
+
+        // Message progressif selon le nombre d'echecs
+        const failMessages = [
+          `Score ${data.score}/${data.total} — il te faut 70%. Relis les ressources et reessaie, tu y es presque !`,
+          `Score ${data.score}/${data.total} — Concentre-toi sur les notions clefs dans les ressources ci-dessous.`,
+          `Score ${data.score}/${data.total} — Les reponses justes sont surlignees en vert. Inspire-t-en pour le prochain essai.`
+        ];
+        const failMessage = failMessages[Math.min(newFailCount - 1, failMessages.length - 1)];
+
         setCelebration({
           open: true,
           variant: "fail",
-          title: "Presque !",
-          message: `Score ${data.score}/${data.total} — il te faut 70%. Relis les ressources et reessaie, tu y es presque !`,
+          title: newFailCount >= 3 ? "Ne lache pas !" : "Presque !",
+          message: failMessage + (lesson.resources.length ? " N'hesite pas a rouvrir les ressources." : ""),
           xp: 0,
           ctaLabel: "Reessayer",
-          ctaAction: "retry"
+          ctaAction: "retry",
+          shareText: ""
         });
       }
     } catch {
@@ -518,12 +532,14 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
 
       {hasProject ? (
         <div>
-          <div className="flex items-center gap-2.5 mb-3 flex-wrap">
-            <SectionTitle>MICRO PROJET</SectionTitle>
+          <div className="flex items-center gap-2.5 mb-3 flex-wrap">              <SectionTitle>MICRO PROJET</SectionTitle>
             {isReviewMode ? (
               <span className="text-[10px] font-semibold px-2.5 py-1 rounded-full border border-violet-500/30 bg-violet-500/10 text-violet-200 -mt-3">
                 {validationMode === "peer" ? "Revue par les pairs" : validationMode === "mentor" ? "Revue mentor" : "Validation IA"}
               </span>
+            ) : null}
+            {reviewStatus === "changes_requested" ? (
+              <span className="text-[10px] font-semibold px-2.5 py-1 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-100 -mt-3">Ameliorations demandees</span>
             ) : null}
             {reviewStatus === "approved" || isCompleted ? (
               <span className="text-[10px] font-semibold px-2.5 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-200 -mt-3">Valide</span>
@@ -583,9 +599,16 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
               rows={6}
               maxLength={5000}
               disabled={reviewStatus === "pending"}
-              placeholder="Colle ici ton livrable : code, lien, description de ce que tu as construit..."
+              placeholder="Colle ici ton livrable : code, lien GitHub, description de ce que tu as construit..."
               className="w-full rounded-lg border border-white/[0.08] bg-[#0f0f0f] px-3 py-2.5 font-body-readable text-[12px] text-[#d0d0d0] leading-relaxed placeholder:text-[#555] focus:outline-none focus:border-blue-400/40 disabled:opacity-60"
             />
+
+            {projectText.trim().length > 0 && projectText.trim().length < 50 && !projectSubmitted ? (
+              <div className="flex items-start gap-2 text-[11px] text-amber-100/80 font-body-readable">
+                <iconify-icon icon="lucide:info" style={{ fontSize: "13px", color: "#fbbf24", marginTop: "1px" }} />
+                <span>Ton livrable est assez court. Assure-toi d'avoir bien inclus tout ce qui est demande (lien, explications, etc.).</span>
+              </div>
+            ) : null}
 
             {projectError ? (
               <div className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-[12px] text-red-200">{projectError}</div>
