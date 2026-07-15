@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import logoLight4 from "../assets/logos-light-png/logo-light-4.png";
+import NavUserMenu from "./NavUserMenu";
 import { createClient } from "../utils/supabase/client";
 
 const navLinks = [
@@ -33,6 +34,7 @@ export default function Navbar() {
   const [hasScrolled, setHasScrolled] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [authState, setAuthState] = useState("loading");
+  const [sessionUser, setSessionUser] = useState(null);
 
   useEffect(() => {
     const closeOnDesktop = () => {
@@ -76,6 +78,11 @@ export default function Navbar() {
           }
 
           setAuthState(payload?.authenticated ? "authenticated" : "anonymous");
+          setSessionUser(
+            payload?.authenticated
+              ? { role: payload.role, displayName: payload.displayName, email: payload.email, avatarUrl: payload.avatarUrl }
+              : null
+          );
           return;
         }
       } catch {
@@ -110,7 +117,20 @@ export default function Navbar() {
     const {
       data: { subscription }
     } = supabase.auth.onAuthStateChange((_event, session) => {
-      setAuthState(session?.user ? "authenticated" : "anonymous");
+      if (session?.user) {
+        setAuthState("authenticated");
+        setSessionUser((prev) =>
+          prev || {
+            role: "user",
+            displayName: session.user.user_metadata?.full_name || session.user.email?.split("@")[0] || "Membre",
+            email: session.user.email || "",
+            avatarUrl: session.user.user_metadata?.avatar_url || ""
+          }
+        );
+      } else {
+        setAuthState("anonymous");
+        setSessionUser(null);
+      }
     });
 
     return () => {
@@ -158,13 +178,13 @@ export default function Navbar() {
 
         <div className="nav-desktop-actions flex items-center gap-3">
           {isAuthLoading ? (
-            <div className="h-10 w-[168px]" aria-hidden="true" />
+            <div className="h-10 w-[120px]" aria-hidden="true" />
           ) : isAuthenticated ? (
-            <Link href={ctaHref} id="nav-dashboard-link" className="btn-primary glow-btn">{ctaLabel}</Link>
+            <NavUserMenu user={sessionUser} />
           ) : (
             <>
               <Link href={authHref} id="nav-connexion-link" className="nav-link">{authLabel}</Link>
-              <Link href={ctaHref} id="nav-cta-link" className="btn-primary glow-btn">{ctaLabel}</Link>
+              <Link href="/signup" id="nav-cta-link" className="btn-primary glow-btn">Commencer</Link>
             </>
           )}
         </div>
@@ -204,14 +224,19 @@ export default function Navbar() {
 
           <div className="nav-mobile-actions">
             {isAuthLoading ? null : isAuthenticated ? (
-              <Link
-                href={ctaHref}
-                id="nav-dashboard-mobile-link"
-                className="btn-primary glow-btn nav-mobile-cta"
-                onClick={closeMobileMenu}
-              >
-                {ctaLabel}
-              </Link>
+              <>
+                <Link href="/dashboard" id="nav-dashboard-mobile-link" className="btn-primary glow-btn nav-mobile-cta" onClick={closeMobileMenu}>
+                  Dashboard
+                </Link>
+                <Link href="/dashboard/profil" className="nav-link nav-mobile-link" onClick={closeMobileMenu}>
+                  Mon profil
+                </Link>
+                <form action="/auth/signout" method="post">
+                  <button type="submit" className="nav-link nav-mobile-link text-red-400/80" style={{ background: "none", border: "none", padding: 0, cursor: "pointer" }}>
+                    Se deconnecter
+                  </button>
+                </form>
+              </>
             ) : (
               <>
                 <Link

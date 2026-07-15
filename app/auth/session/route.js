@@ -1,6 +1,8 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse } from "next/server";
+import { resolveAvatarUrl } from "../../../lib/avatar";
 import { getUserAccessContext } from "../../../lib/auth";
+import { formatDisplayName } from "../../../lib/displayName";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
@@ -41,10 +43,17 @@ export async function GET(request) {
   if (user) {
     const accessContext = await getUserAccessContext(supabase, user);
 
+    // Requete gardee (colonne avatar_url absente si 012 pas encore applique).
+    const { data: avatarRow } = await supabase.from("user_profiles").select("avatar_url").eq("id", user.id).maybeSingle();
+    const googleAvatar = typeof user?.user_metadata?.avatar_url === "string" ? user.user_metadata.avatar_url : "";
+
     payload = {
       authenticated: true,
       role: accessContext.role,
-      onboardingCompleted: user?.user_metadata?.onboarding_completed === true
+      onboardingCompleted: user?.user_metadata?.onboarding_completed === true,
+      displayName: formatDisplayName(user),
+      email: user.email ?? "",
+      avatarUrl: resolveAvatarUrl(avatarRow?.avatar_url, googleAvatar)
     };
   }
 
