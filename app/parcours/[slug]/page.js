@@ -277,7 +277,14 @@ export default async function ParcoursDetailPage({ params }) {
                                     <iconify-icon icon={ui.icon} style={{ fontSize: "11px" }} />
                                   </span>
                                   <div className="flex-1">
-                                    <div className="font-body-readable text-[11px] text-[#d0d0d0] leading-snug">{lesson.title}</div>
+                                    <div className="font-body-readable text-[11px] text-[#d0d0d0] leading-snug flex items-center gap-2">
+                                      {lesson.title}
+                                      {lesson.state === "review" ? (
+                                        <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full border border-violet-500/30 bg-violet-500/10 text-violet-200">
+                                          en revue
+                                        </span>
+                                      ) : null}
+                                    </div>
                                     <div className="text-[10px] text-[#666]">
                                       {lesson.durationMinutes} min - {lesson.xpReward} XP
                                       {lesson.quiz.length ? " - quiz" : ""}

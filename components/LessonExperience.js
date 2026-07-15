@@ -97,6 +97,8 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
   }
 
   const isCompleted = status === "completed";
+  // Micro-projet soumis en revue mais pas encore valide : le membre peut avancer.
+  const awaitingReview = isReviewMode && projectSubmitted && !isCompleted;
   const allAnswered = useMemo(() => answers.every((value) => value !== null), [answers]);
 
   function selectAnswer(questionIndex, choiceIndex) {
@@ -237,12 +239,15 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
           variant: "success",
           title: "Soumis pour revue !",
           message:
-            validationMode === "peer"
-              ? "Un autre membre va relire ton travail et te donner un retour."
-              : "Ton travail part en revue. Tu seras valide apres le retour.",
+            (validationMode === "peer"
+              ? "Un autre membre va relire ton travail et te donner un retour. "
+              : "Ton travail part en revue. ") +
+            (nextLessonSlug
+              ? "Pas besoin d'attendre : continue la suite, l'XP arrive une fois valide."
+              : "Tu recevras l'XP une fois le retour valide."),
           xp: 0,
-          ctaLabel: "",
-          ctaAction: "",
+          ctaLabel: nextLessonSlug ? "Continuer" : "",
+          ctaAction: nextLessonSlug ? "next" : "",
           shareText: ""
         });
       } else {
@@ -302,6 +307,27 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
               <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "13px" }} />
             </Link>
           )}
+        </div>
+      ) : awaitingReview ? (
+        <div className="rounded-xl border border-violet-500/30 bg-violet-500/10 px-4 py-3 flex items-center justify-between gap-3 flex-wrap">
+          <div className="flex items-center gap-2.5">
+            <iconify-icon icon="lucide:hourglass" style={{ fontSize: "18px", color: "#c4b5fd" }} />
+            <span className="font-body-readable text-[12px] text-violet-100">
+              {reviewStatus === "changes_requested"
+                ? "Des ameliorations ont ete demandees sur ce micro-projet. Tu peux continuer en attendant de le retravailler."
+                : "Micro-projet envoye en revue. Tu peux continuer : l'XP et la validation arrivent apres l'approbation."}
+            </span>
+          </div>
+          {nextLessonSlug ? (
+            <Link
+              href={`/parcours/${trackSlug}/lecon/${nextLessonSlug}`}
+              className="btn-secondary inline-flex items-center gap-2 text-[12px]"
+              style={{ padding: "9px 14px" }}
+            >
+              Continuer{nextLessonTitle ? ` : ${nextLessonTitle}` : ""}
+              <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "13px" }} />
+            </Link>
+          ) : null}
         </div>
       ) : null}
 
@@ -605,7 +631,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
           <span />
         )}
 
-        {isCompleted && nextLessonSlug ? (
+        {(isCompleted || awaitingReview) && nextLessonSlug ? (
           <Link
             href={`/parcours/${trackSlug}/lecon/${nextLessonSlug}`}
             className="btn-secondary inline-flex items-center gap-2 text-[12px]"
