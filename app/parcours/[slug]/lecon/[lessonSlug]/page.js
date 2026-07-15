@@ -111,6 +111,19 @@ export default async function LessonPage({ params }) {
                     <p className="font-body-readable text-[12px] text-[#7a7a7a]">
                       Lecon {position}/{total} - {lesson.durationMinutes} min - {lesson.xpReward} XP
                     </p>
+                    {curriculum.totalLessons > 0 ? (
+                      <div className="flex items-center gap-2.5 mt-2">
+                        <div className="flex-1 h-1.5 rounded bg-white/[0.06] overflow-hidden max-w-[180px]">
+                          <div
+                            className="h-full rounded bg-gradient-to-r from-[#4F8EF7] to-[#9B6DFF]"
+                            style={{ width: `${curriculum.progressPercent}%` }}
+                          />
+                        </div>
+                        <span className="text-[10px] text-[#89c7ff] font-semibold">
+                          {curriculum.completedLessons}/{curriculum.totalLessons} lecons ({curriculum.progressPercent}%)
+                        </span>
+                      </div>
+                    ) : null}
                   </div>
                 </div>
 

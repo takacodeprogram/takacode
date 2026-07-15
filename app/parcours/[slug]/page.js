@@ -143,17 +143,22 @@ export default async function ParcoursDetailPage({ params }) {
                       {track.levelLabel}
                     </span>
                     {isMine ? (
-                      <div className="min-w-[128px] rounded-full border border-white/[0.08] bg-white/[0.02] px-3 py-1.5">
+                      <div className="min-w-[140px] rounded-full border border-white/[0.08] bg-white/[0.02] px-3 py-1.5">
                         <div className="flex items-center justify-between text-[10px] text-[#89c7ff] font-semibold mb-1">
                           <span>Progression</span>
                           <span>{progress}%</span>
                         </div>
-                        <div className="h-1 rounded bg-white/[0.07] overflow-hidden">
+                        <div className="h-1 rounded bg-white/[0.07] overflow-hidden mb-1">
                           <div
                             className="h-full rounded bg-gradient-to-r from-[#4F8EF7] to-[#9B6DFF]"
                             style={{ width: `${progress}%` }}
                           />
                         </div>
+                        {curriculum.totalLessons > 0 ? (
+                          <div className="text-[9px] text-[#666] text-center">
+                            {curriculum.completedLessons}/{curriculum.totalLessons} lecons
+                          </div>
+                        ) : null}
                       </div>
                     ) : null}
                   </div>
