@@ -203,7 +203,7 @@ export default function LessonForm({ trackId, modules = [], lesson = null, defau
         <textarea className={AREA} value={form.quiz} onChange={(e) => setField("quiz", e.target.value)} placeholder={QUIZ_PLACEHOLDER} />
       </Field>
 
-      <Field label="Micro-projet (JSON)" hint="Objet title/brief/steps/deliverable">
+      <Field label="Micro-projet (JSON)" hint="title/brief/steps/deliverable + validation: auto|ai|peer|mentor (defaut auto). Option requires_link: true">
         <textarea className={AREA} value={form.micro_project} onChange={(e) => setField("micro_project", e.target.value)} placeholder={PROJECT_PLACEHOLDER} />
       </Field>
 

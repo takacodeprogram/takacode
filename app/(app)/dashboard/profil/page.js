@@ -118,6 +118,7 @@ export default async function ProfilePage() {
           initialSkills={profileFields.skills}
           initialAvatarUrl={profileFields.avatarUrl}
           initialPublicName={profileFields.publicName}
+          realName={displayName}
           seedBase={profileFields.publicName || displayName}
         />
       </div>

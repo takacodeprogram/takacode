@@ -5,6 +5,7 @@ export const MEMBER_LINKS = [
   { href: "/dashboard", icon: "lucide:layout-grid", label: "Dashboard", exact: true },
   { href: "/dashboard/parcours", icon: "lucide:map", label: "Mes parcours" },
   { href: "/dashboard/projets", icon: "lucide:folder-code", label: "Mes projets" },
+  { href: "/dashboard/reviews", icon: "lucide:git-pull-request", label: "Revues" },
   { href: "/dashboard/ressources", icon: "lucide:book-open", label: "Ressources" },
   { href: "/dashboard/sessions", icon: "lucide:video", label: "Sessions live", live: true },
   { href: "/dashboard/communaute", icon: "lucide:users", label: "Communaute" },

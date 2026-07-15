@@ -81,6 +81,11 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
   const [projectSubmitted, setProjectSubmitted] = useState(Boolean(initialProgress?.projectSubmittedAt));
   const [projectError, setProjectError] = useState("");
   const [projectSubmitting, setProjectSubmitting] = useState(false);
+  const [reviewStatus, setReviewStatus] = useState(initialProgress?.reviewStatus || "none");
+  const [reviewFeedback, setReviewFeedback] = useState(initialProgress?.reviewFeedback || "");
+
+  const validationMode = lesson.microProject?.validation || "auto";
+  const isReviewMode = ["peer", "mentor", "ai"].includes(validationMode);
 
   const [status, setStatus] = useState(initialProgress?.status || "in_progress");
   const [xpAwarded, setXpAwarded] = useState(Number(initialProgress?.xpAwarded) || 0);
@@ -201,9 +206,13 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
       }
 
       setProjectSubmitted(true);
+      if (data.reviewStatus) {
+        setReviewStatus(data.reviewStatus);
+      }
 
       if (data.status === "completed") {
         setStatus("completed");
+        setReviewStatus("approved");
         setXpAwarded(Number(data.xpAwarded) || 0);
         router.refresh();
         setCelebration({
@@ -220,6 +229,21 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
             ? `Je viens de valider la lecon "${lesson.title}" sur TakaCode ! 🚀`
             : "J'ai termine un parcours complet sur TakaCode ! 🏆"
         });
+      } else if (data.reviewStatus === "pending") {
+        playPop();
+        setCelebration({
+          open: true,
+          variant: "success",
+          title: "Soumis pour revue !",
+          message:
+            validationMode === "peer"
+              ? "Un autre membre va relire ton travail et te donner un retour."
+              : "Ton travail part en revue. Tu seras valide apres le retour.",
+          xp: 0,
+          ctaLabel: "",
+          ctaAction: "",
+          shareText: ""
+        });
       } else {
         playPop();
         setCelebration({
@@ -229,7 +253,8 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
           message: hasQuiz && !quizPassed ? "Valide le quiz pour terminer la lecon." : "Beau travail, c'est enregistre.",
           xp: 0,
           ctaLabel: "",
-          ctaAction: ""
+          ctaAction: "",
+          shareText: ""
         });
       }
     } catch {
@@ -466,12 +491,17 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
 
       {hasProject ? (
         <div>
-          <div className="flex items-center gap-2.5 mb-3">
+          <div className="flex items-center gap-2.5 mb-3 flex-wrap">
             <SectionTitle>MICRO PROJET</SectionTitle>
-            {projectSubmitted ? (
-              <span className="text-[10px] font-semibold px-2.5 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-200 -mt-3">
-                Soumis
+            {isReviewMode ? (
+              <span className="text-[10px] font-semibold px-2.5 py-1 rounded-full border border-violet-500/30 bg-violet-500/10 text-violet-200 -mt-3">
+                {validationMode === "peer" ? "Revue par les pairs" : validationMode === "mentor" ? "Revue mentor" : "Validation IA"}
               </span>
+            ) : null}
+            {reviewStatus === "approved" || isCompleted ? (
+              <span className="text-[10px] font-semibold px-2.5 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-200 -mt-3">Valide</span>
+            ) : projectSubmitted && !isReviewMode ? (
+              <span className="text-[10px] font-semibold px-2.5 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-200 -mt-3">Soumis</span>
             ) : null}
           </div>
 
@@ -503,31 +533,59 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
               </p>
             ) : null}
 
+            {isReviewMode && reviewStatus === "pending" ? (
+              <div className="rounded-lg border border-amber-500/25 bg-amber-500/10 px-3.5 py-2.5 text-[12px] text-amber-100 font-body-readable inline-flex items-center gap-2">
+                <iconify-icon icon="lucide:clock" style={{ fontSize: "14px" }} />
+                {validationMode === "peer" ? "En attente d'une revue par les pairs." : "En attente d'une revue mentor."}
+              </div>
+            ) : null}
+
+            {reviewStatus === "changes_requested" && reviewFeedback ? (
+              <div className="rounded-lg border border-blue-500/25 bg-blue-500/10 px-3.5 py-2.5">
+                <div className="text-[10px] text-blue-200 uppercase tracking-widest font-semibold mb-1 inline-flex items-center gap-1.5">
+                  <iconify-icon icon="lucide:message-square" style={{ fontSize: "12px" }} />
+                  Ameliorations demandees
+                </div>
+                <p className="font-body-readable text-[12px] text-blue-100/90 leading-relaxed">{reviewFeedback}</p>
+              </div>
+            ) : null}
+
             <textarea
               value={projectText}
               onChange={(event) => setProjectText(event.target.value)}
               rows={6}
               maxLength={5000}
+              disabled={reviewStatus === "pending"}
               placeholder="Colle ici ton livrable : code, lien, description de ce que tu as construit..."
-              className="w-full rounded-lg border border-white/[0.08] bg-[#0f0f0f] px-3 py-2.5 font-body-readable text-[12px] text-[#d0d0d0] leading-relaxed placeholder:text-[#555] focus:outline-none focus:border-blue-400/40"
+              className="w-full rounded-lg border border-white/[0.08] bg-[#0f0f0f] px-3 py-2.5 font-body-readable text-[12px] text-[#d0d0d0] leading-relaxed placeholder:text-[#555] focus:outline-none focus:border-blue-400/40 disabled:opacity-60"
             />
 
             {projectError ? (
               <div className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-[12px] text-red-200">{projectError}</div>
             ) : null}
 
-            <button
-              type="button"
-              onClick={submitProject}
-              disabled={projectSubmitting || projectText.trim().length < 20}
-              className={`btn-secondary inline-flex items-center gap-2 text-[12px] ${
-                projectSubmitting || projectText.trim().length < 20 ? "opacity-50 cursor-not-allowed" : ""
-              }`}
-              style={{ padding: "10px 16px" }}
-            >
-              {projectSubmitting ? "Envoi..." : projectSubmitted ? "Mettre a jour ma soumission" : "Soumettre mon micro projet"}
-              <iconify-icon icon="lucide:send" style={{ fontSize: "13px" }} />
-            </button>
+            {reviewStatus !== "pending" ? (
+              <button
+                type="button"
+                onClick={submitProject}
+                disabled={projectSubmitting || projectText.trim().length < 20}
+                className={`btn-secondary inline-flex items-center gap-2 text-[12px] ${
+                  projectSubmitting || projectText.trim().length < 20 ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+                style={{ padding: "10px 16px" }}
+              >
+                {projectSubmitting
+                  ? "Envoi..."
+                  : reviewStatus === "changes_requested"
+                    ? "Re-soumettre"
+                    : projectSubmitted
+                      ? "Mettre a jour ma soumission"
+                      : isReviewMode
+                        ? "Soumettre pour revue"
+                        : "Soumettre mon micro projet"}
+                <iconify-icon icon="lucide:send" style={{ fontSize: "13px" }} />
+              </button>
+            ) : null}
           </div>
         </div>
       ) : null}

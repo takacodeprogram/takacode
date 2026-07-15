@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { createClient } from "../utils/supabase/client";
 import { AVATAR_STYLES, dicebearUrl } from "../lib/avatar";
+import { generateUsername } from "../lib/username";
 
 const SOCIAL_FIELDS = [
   { key: "github", label: "GitHub", placeholder: "https://github.com/toi", icon: "lucide:github" },
@@ -23,12 +24,18 @@ export default function ProfileEditor({
   initialSkills = [],
   initialAvatarUrl = "",
   initialPublicName = "",
+  realName = "",
   seedBase = "takacode"
 }) {
   const supabase = useMemo(() => createClient(), []);
 
   const [avatarUrl, setAvatarUrl] = useState(initialAvatarUrl || "");
   const [publicName, setPublicName] = useState(initialPublicName || "");
+  const [nameMode, setNameMode] = useState(() => {
+    if (initialPublicName && realName && initialPublicName.trim() === realName.trim()) return "real";
+    if (initialPublicName) return "custom";
+    return "generate";
+  });
   const [shuffle, setShuffle] = useState(0);
   const [bio, setBio] = useState(initialBio || "");
   const [socials, setSocials] = useState(() => {
@@ -48,6 +55,17 @@ export default function ProfileEditor({
     () => AVATAR_STYLES.map((style) => ({ style, url: dicebearUrl(style, seed) })),
     [seed]
   );
+
+  function selectNameMode(mode) {
+    setNameMode(mode);
+    if (mode === "generate") {
+      setPublicName(generateUsername());
+    } else if (mode === "real") {
+      setPublicName((realName || "").trim());
+    } else if (mode === "custom") {
+      setPublicName("");
+    }
+  }
 
   async function handleSave() {
     setSaving(true);
@@ -124,14 +142,52 @@ export default function ProfileEditor({
       </div>
 
       <div>
-        <label className="text-[11px] text-[#8d8d8d] uppercase tracking-widest font-semibold">Pseudo public (leaderboard)</label>
-        <input
-          value={publicName}
-          onChange={(e) => setPublicName(e.target.value)}
-          maxLength={40}
-          placeholder="Ton pseudo affiche publiquement (sinon: Membre anonyme)"
-          className="mt-1.5 w-full rounded-lg border border-white/[0.08] bg-[#0f0f0f] px-3 py-2.5 font-body-readable text-[12px] text-[#d0d0d0] placeholder:text-[#555] focus:outline-none focus:border-blue-400/40"
-        />
+        <label className="text-[11px] text-[#8d8d8d] uppercase tracking-widest font-semibold">Nom public (leaderboard)</label>
+        <div className="flex flex-wrap gap-1.5 mt-1.5 mb-2">
+          {[
+            { key: "generate", label: "Generer un pseudo" },
+            { key: "custom", label: "Ecrire le mien" },
+            ...(realName ? [{ key: "real", label: "Mon vrai nom" }] : [])
+          ].map((opt) => (
+            <button
+              key={opt.key}
+              type="button"
+              onClick={() => selectNameMode(opt.key)}
+              className={`text-[11px] rounded-lg border px-2.5 py-1.5 transition-colors ${
+                nameMode === opt.key
+                  ? "border-blue-500/35 bg-blue-500/15 text-blue-100"
+                  : "border-white/[0.1] bg-white/[0.02] text-[#bbb] hover:bg-white/[0.05]"
+              }`}
+            >
+              {opt.label}
+            </button>
+          ))}
+        </div>
+
+        <div className="flex items-center gap-2">
+          <input
+            value={publicName}
+            onChange={(e) => setPublicName(e.target.value)}
+            maxLength={40}
+            disabled={nameMode === "real"}
+            placeholder={nameMode === "generate" ? "Pseudo genere" : "Ton pseudo public (sinon: Membre anonyme)"}
+            className="flex-1 rounded-lg border border-white/[0.08] bg-[#0f0f0f] px-3 py-2.5 font-body-readable text-[12px] text-[#d0d0d0] placeholder:text-[#555] focus:outline-none focus:border-blue-400/40 disabled:opacity-60"
+          />
+          {nameMode === "generate" ? (
+            <button
+              type="button"
+              onClick={() => setPublicName(generateUsername())}
+              className="btn-secondary inline-flex items-center gap-1.5 text-[12px] shrink-0"
+              style={{ padding: "9px 12px" }}
+            >
+              <iconify-icon icon="lucide:dices" style={{ fontSize: "13px" }} />
+              Regenerer
+            </button>
+          ) : null}
+        </div>
+        {nameMode === "real" ? (
+          <p className="text-[10px] text-[#777] font-body-readable mt-1.5">Ton vrai nom sera affiche publiquement sur le classement.</p>
+        ) : null}
       </div>
 
       <div>

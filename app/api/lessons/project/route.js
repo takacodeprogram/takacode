@@ -7,7 +7,8 @@ const ERROR_STATUS = {
   lesson_not_found: 404,
   module_locked: 403,
   submission_too_short: 400,
-  submission_too_long: 400
+  submission_too_long: 400,
+  link_required: 400
 };
 
 export async function POST(request) {
