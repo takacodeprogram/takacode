@@ -109,38 +109,47 @@ export default function AIReviewTestButton() {
         );
       })() : null}
 
-      {state === "error" ? (
-        <div className="rounded-xl border border-red-500/25 bg-red-500/10 px-4 py-3 flex items-start gap-3">
-          <iconify-icon icon="lucide:x-circle" style={{ fontSize: "18px", color: "#fca5a5", marginTop: "1px" }} />
-          <div>
-            <div className="font-body-readable text-[12px] text-red-200 font-semibold">Echec de la connexion</div>
-            <p className="font-body-readable text-[11px] text-red-200/80 mt-0.5">{result?.error || "Erreur inconnue"}</p>
-            {result?.detail ? (
-              <pre className="font-body-readable text-[10px] text-red-200/60 mt-1.5 bg-black/20 rounded-lg p-2 overflow-x-auto max-h-24">
-                {result.detail}
-              </pre>
-            ) : null}
-            {Array.isArray(result?.providers) && result.providers.length ? (
-              <div className="flex flex-wrap gap-1.5 mt-2">
-                {result.providers.map((p, i) => (
-                  <span key={p.provider || i}
-                    className={`text-[9px] font-semibold px-1.5 py-0.5 rounded-full ${
+      {state === "error" ? (() => {
+        const providers = Array.isArray(result?.providers) ? result.providers : [];
+        return (
+          <div className="rounded-xl border border-red-500/25 bg-red-500/10 px-4 py-3 flex items-start gap-3">
+            <iconify-icon icon="lucide:x-circle" style={{ fontSize: "18px", color: "#fca5a5", marginTop: "1px" }} />
+            <div className="flex-1 min-w-0">
+              <div className="font-body-readable text-[12px] text-red-200 font-semibold">Echec de la connexion</div>
+              <p className="font-body-readable text-[11px] text-red-200/80 mt-0.5">{result?.error || "Erreur inconnue"}</p>
+
+              {providers.map((p, i) => (
+                <div key={p.provider || i} className="mt-2 rounded-lg border border-red-500/15 bg-black/20 p-2.5">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-[10px] font-semibold text-red-200">
+                      {p.label || p.provider || "?"}
+                    </span>
+                    <span className={`text-[9px] font-semibold px-1.5 py-0.5 rounded-full ${
                       p.ok
                         ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-200"
                         : "border-red-500/25 bg-red-500/10 text-red-200"
-                    }`}
-                  >
-                    {p.label || p.provider}: {p.ok ? "OK" : (p.error || "X")}
-                  </span>
-                ))}
-              </div>
-            ) : null}
-            <p className="font-body-readable text-[10px] text-red-200/50 mt-1">
-              Verifie ta cle API et que le provider est bien accessible depuis ton reseau.
-            </p>
+                    }`}>
+                      {p.ok ? "OK" : (p.error || "X")}
+                    </span>
+                    {p.elapsedMs ? (
+                      <span className="text-[9px] text-red-200/50 ml-auto">{p.elapsedMs}ms</span>
+                    ) : null}
+                  </div>
+                  {p.detail ? (
+                    <pre className="font-body-readable text-[9px] text-red-200/60 leading-relaxed whitespace-pre-wrap break-words max-h-32 overflow-y-auto">
+                      {p.detail}
+                    </pre>
+                  ) : null}
+                </div>
+              ))}
+
+              <p className="font-body-readable text-[10px] text-red-200/50 mt-3">
+                Verifie ta cle API et que le provider est bien accessible depuis ton reseau.
+              </p>
+            </div>
           </div>
-        </div>
-      ) : null}
+        );
+      })() : null}
 
       {state === "loading" ? (
         <div className="rounded-xl border border-blue-500/25 bg-blue-500/10 px-4 py-3 flex items-center gap-3">

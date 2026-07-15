@@ -3,7 +3,7 @@ import { getAIReviewConfig } from "../../../../../lib/aiReview";
 
 const PROVIDER_DEFAULTS = {
   gemini: "gemini-2.0-flash",
-  openrouter: "google/gemini-2.0-flash-lite:free",
+  openrouter: "openrouter/free",
   huggingface: "HuggingFaceH4/zephyr-7b-beta"
 };
 
@@ -68,41 +68,50 @@ function parseResponse(provider, json) {
 }
 
 async function testSingleProvider(provider) {
-  const model = process.env.AI_REVIEW_MODEL || "";
-  // Cherche la cle specifique ou generique
-  // Supporte les formats : AI_REVIEW_OPENROUTER_API_KEY et AI_REVIEW_OPEN_ROUTER_API_KEY
-  const key = process.env[`AI_REVIEW_${provider.toUpperCase()}_API_KEY`]
-    || (provider === "openrouter" ? process.env.AI_REVIEW_OPEN_ROUTER_API_KEY : "")
-    || process.env.AI_REVIEW_API_KEY
-    || "";
+  try {
+    const model = process.env.AI_REVIEW_MODEL || "";
+    // Cherche la cle specifique ou generique
+    // Supporte les formats : AI_REVIEW_OPENROUTER_API_KEY et AI_REVIEW_OPEN_ROUTER_API_KEY
+    const key = process.env[`AI_REVIEW_${provider.toUpperCase()}_API_KEY`]
+      || (provider === "openrouter" ? process.env.AI_REVIEW_OPEN_ROUTER_API_KEY : "")
+      || process.env.AI_REVIEW_API_KEY
+      || "";
 
-  const { url, headers, body } = buildRequest(provider, model, key);
-  const startTime = Date.now();
-  const response = await fetch(url, {
-    method: "POST",
-    headers,
-    body: JSON.stringify(body)
-  });
-  const elapsedMs = Date.now() - startTime;
+    const { url, headers, body } = buildRequest(provider, model, key);
+    const startTime = Date.now();
+    const response = await fetch(url, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(body)
+    });
+    const elapsedMs = Date.now() - startTime;
 
-  if (!response.ok) {
-    let detail = "";
-    try { detail = await response.text(); } catch {}
-    return { ok: false, provider, model: model || PROVIDER_DEFAULTS[provider], elapsedMs, error: `HTTP ${response.status}`, detail: detail.slice(0, 300) };
+    if (!response.ok) {
+      let detail = "";
+      try { detail = await response.text(); } catch {}
+      return { ok: false, provider, model: model || PROVIDER_DEFAULTS[provider], elapsedMs, error: `HTTP ${response.status}`, detail: detail.slice(0, 300) };
+    }
+
+    const json = await response.json();
+    const text = parseResponse(provider, json).trim();
+    const ok = text.toLowerCase().includes("ok");
+
+    return {
+      ok,
+      provider,
+      model: model || PROVIDER_DEFAULTS[provider],
+      elapsedMs,
+      response: text.slice(0, 100),
+      label: PROVIDER_LABELS[provider] || provider
+    };
+  } catch (err) {
+    return {
+      ok: false,
+      provider,
+      error: err.message || "Erreur reseau",
+      detail: err.stack?.slice(0, 300) || ""
+    };
   }
-
-  const json = await response.json();
-  const text = parseResponse(provider, json).trim();
-  const ok = text.toLowerCase().includes("ok");
-
-  return {
-    ok,
-    provider,
-    model: model || PROVIDER_DEFAULTS[provider],
-    elapsedMs,
-    response: text.slice(0, 100),
-    label: PROVIDER_LABELS[provider] || provider
-  };
 }
 
 // Teste tous les providers configures (fallback chain).
