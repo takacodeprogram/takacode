@@ -49,7 +49,7 @@ export default async function AdminIAConfigPage() {
       icon: "lucide:git-branch",
       badge: "RECOMMANDE",
       models: [
-        "google/gemini-2.0-flash-lite-free",
+        "google/gemini-2.0-flash-lite:free",
         "google/gemma-3-27b-it:free",
         "meta-llama/llama-4-maverick:free",
         "mistralai/mistral-small-3.1-24b-instruct:free"
@@ -63,7 +63,7 @@ export default async function AdminIAConfigPage() {
       icon: "lucide:smile",
       badge: "SANS CLE",
       apiKeyOptional: true,
-      models: ["microsoft/phi-4-mini-instruct", "HuggingFaceH4/zephyr-7b-beta", "microsoft/Phi-3-mini-4k-instruct"]
+      models: ["HuggingFaceH4/zephyr-7b-beta", "mistralai/Mistral-7B-Instruct-v0.3", "TinyLlama/TinyLlama-1.1B-Chat-v1.0"]
     },
     {
       id: "gemini",

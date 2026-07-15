@@ -3,8 +3,8 @@ import { getAIReviewConfig } from "../../../../../lib/aiReview";
 
 const PROVIDER_DEFAULTS = {
   gemini: "gemini-2.0-flash",
-  openrouter: "google/gemini-2.0-flash-lite-free",
-  huggingface: "microsoft/phi-4-mini-instruct"
+  openrouter: "google/gemini-2.0-flash-lite:free",
+  huggingface: "HuggingFaceH4/zephyr-7b-beta"
 };
 
 const PROVIDER_LABELS = {
