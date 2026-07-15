@@ -3,15 +3,14 @@ import { getAIReviewConfig } from "../../../../../lib/aiReview";
 
 const PROVIDER_DEFAULTS = {
   gemini: "gemini-2.0-flash",
-  openrouter: "meta-llama/llama-3.2-3b-instruct:free",
+  openrouter: "meta-llama/llama-3.2-3b-instruct",
   huggingface: "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
 };
 
-// Modeles OpenRouter fallback (utilises dans testSingleProvider)
+// Modeles OpenRouter fallback (tres bon marche, pas de :free car rate-limited)
 const OPENROUTER_FALLBACK_MODELS = [
-  "meta-llama/llama-3.2-3b-instruct:free",
-  "nousresearch/hermes-3-llama-3.1-405b:free",
-  "google/gemma-2-27b-it:free"
+  "meta-llama/llama-3.2-3b-instruct",
+  "qwen/qwen-2.5-7b-instruct"
 ];
 
 const PROVIDER_LABELS = {
@@ -77,12 +76,16 @@ function parseResponse(provider, json) {
 }
 
 async function testSingleProvider(provider) {
+  // Supporte modeles specifiques par provider : AI_REVIEW_<PROVIDER>_MODEL
+  const providerModels = process.env[`AI_REVIEW_${provider.toUpperCase()}_MODEL`];
+  const genericModels = process.env.AI_REVIEW_MODEL;
+
   // Pour OpenRouter, on teste plusieurs modeles fallback
   const modelsToTest = provider === "openrouter"
-    ? (process.env.AI_REVIEW_MODEL
-        ? process.env.AI_REVIEW_MODEL.split(",").map((m) => m.trim()).filter(Boolean)
+    ? (providerModels
+        ? providerModels.split(",").map((m) => m.trim()).filter(Boolean)
         : OPENROUTER_FALLBACK_MODELS)
-    : [process.env.AI_REVIEW_MODEL || ""];
+    : [providerModels || genericModels || ""];
 
   const errors = [];
 

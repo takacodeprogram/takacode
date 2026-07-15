@@ -42,28 +42,26 @@ export default async function AdminIAConfigPage() {
   // Providers disponibles (tries du plus recommandé au moins)
   const providers = [
     {
-      id: "openrouter",
-      name: "OpenRouter",
-      description: "Acces a de nombreux modeles gratuits : Gemini, Llama, Mistral... ~20 req/min.",
-      docsUrl: "https://openrouter.ai/keys",
-      icon: "lucide:git-branch",
-      badge: "RECOMMANDE",
-      models: [
-        "meta-llama/llama-3.2-3b-instruct:free",
-        "nousresearch/hermes-3-llama-3.1-405b:free",
-        "google/gemma-2-27b-it:free",
-        "mistralai/mistral-small-3.1-24b-instruct:free"
-      ]
-    },
-    {
       id: "huggingface",
       name: "Hugging Face",
-      description: "Completement gratuit, sans cle API requise. Modele Phi-4 mini.",
+      description: "Completement gratuit, sans cle API requise. Modeles open-source.",
       docsUrl: "https://huggingface.co/settings/tokens",
       icon: "lucide:smile",
-      badge: "SANS CLE",
+      badge: "RECOMMANDE",
       apiKeyOptional: true,
       models: ["TinyLlama/TinyLlama-1.1B-Chat-v1.0", "HuggingFaceH4/zephyr-7b-beta"]
+    },
+    {
+      id: "openrouter",
+      name: "OpenRouter",
+      description: "Modeles tres bon marche (~20 req/min). Backup si HuggingFace echoue.",
+      docsUrl: "https://openrouter.ai/keys",
+      icon: "lucide:git-branch",
+      badge: "BACKUP",
+      models: [
+        "meta-llama/llama-3.2-3b-instruct",
+        "qwen/qwen-2.5-7b-instruct"
+      ]
     },
     {
       id: "gemini",
