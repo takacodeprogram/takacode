@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import PageHeader from "../../../../components/app-shell/PageHeader";
+import AIReviewTestButton from "../../../../components/admin/AIReviewTestButton";
 import { getUserAccessContext } from "../../../../lib/auth";
 import { buildPageMetadata } from "../../../../lib/seo";
 import { getAIReviewConfig } from "../../../../lib/aiReview";
@@ -235,20 +236,27 @@ export default async function AdminIAConfigPage() {
           </div>
         </div>
 
-        {/* Test */}
+        {/* Test interactif */}
         <div className="rounded-2xl border border-white/[0.08] bg-[#111] p-6">
           <h2 className="font-venite-italic text-[14px] text-white mb-2">
-            <iconify-icon icon="lucide:test-tube" style={{ fontSize: "16px", color: "#4F8EF7", marginRight: "8px" }} />
-            Tester la configuration
+            <iconify-icon icon="lucide:zap" style={{ fontSize: "16px", color: "#4F8EF7", marginRight: "8px" }} />
+            Tester la connexion
           </h2>
           <p className="font-body-readable text-[12px] text-[#a5a5a5] leading-relaxed mb-4">
-            Pour verifier que ta cle API fonctionne, tu peux :
+            Verifie que ta cle API est valide et que le provider IA repond correctement.
           </p>
-          <ol className="font-body-readable text-[12px] text-[#b3b3b3] leading-relaxed space-y-2 list-decimal list-inside">
-            <li>Ajouter une lecon avec validation <strong className="text-white">IA</strong> dans un parcours</li>
-            <li>Faire un test de soumission de micro-projet</li>
-            <li>Verifier dans la page <Link href="/dashboard/reviews" className="text-[#4F8EF7] hover:underline">Revues</Link> que le verdict est automatique</li>
-          </ol>
+
+          <AIReviewTestButton />
+
+          <div className="mt-4 rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3">
+            <div className="flex items-start gap-2.5">
+              <iconify-icon icon="lucide:info" style={{ fontSize: "14px", color: "#888", marginTop: "1px" }} />
+              <div className="font-body-readable text-[11px] text-[#999] leading-relaxed">
+                Ce test envoie un prompt minimal (&ldquo;Reponds OK&rdquo;) au provider configure.
+                Aucune donnee sensible n&rsquo;est transmise. Le resultat s&rsquo;affiche ci-dessus.
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </>
