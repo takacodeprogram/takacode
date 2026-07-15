@@ -168,7 +168,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
         setCelebration({
           open: true,
           variant: "success",
-          title: nextLessonSlug ? "Leçon validée !" : "Parcours terminé !",
+          title: nextLessonSlug ? "LECON VALIDEE !" : "PARCOURS TERMINE !",
           message: nextLessonSlug
             ? "Bravo, tu progresses. Continue sur ta lancée !"
             : "Félicitations, tu as terminé toutes les leçons de ce parcours !",
@@ -183,7 +183,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
         setCelebration({
           open: true,
           variant: "success",
-          title: "Quiz validé !",
+          title: "QUIZ VALIDE !",
           message: hasProject ? "Excellent. Termine le micro-projet pour valider la leçon." : "Excellent travail !",
           xp: 0,
           ctaLabel: "",
@@ -204,7 +204,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
         setCelebration({
           open: true,
           variant: "fail",
-          title: newFailCount >= 3 ? "Ne lâche pas !" : "Presque !",
+          title: newFailCount >= 3 ? "NE LACHE PAS !" : "PRESQUE !",
           message: failMessage + (lesson.resources.length ? " N'hésite pas à rouvrir les ressources." : ""),
           xp: 0,
           ctaLabel: "Réessayer",
@@ -275,7 +275,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
         setCelebration({
           open: true,
           variant: "success",
-          title: nextLessonSlug ? "Leçon validée !" : "Parcours terminé !",
+          title: nextLessonSlug ? "LECON VALIDEE !" : "PARCOURS TERMINE !",
           message: messageWithAI,
           xp: Number(data.xpAwarded) || 0,
           ctaLabel: nextLessonSlug ? "Leçon suivante" : "",
@@ -303,7 +303,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
         setCelebration({
           open: true,
           variant: "fail",
-          title: "Améliorations demandées",
+          title: "AMELIORATIONS DEMANDEES",
           message,
           xp: 0,
           ctaLabel: "",
