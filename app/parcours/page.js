@@ -5,6 +5,7 @@ import Navbar from "../../components/Navbar";
 import { buildPageMetadata } from "../../lib/seo";
 import { buildTrackCompetencies, getLevelChipClass, toProgress } from "../../lib/parcours";
 import { formatTrackMeta, listPublishedTracks, listUserTrackEnrollments } from "../../lib/tracks";
+import { getTrackGuidance, orderTracksByGuidance } from "../../lib/trackGuidance";
 import { createClient } from "../../utils/supabase/server";
 
 export const dynamic = "force-dynamic";
@@ -25,7 +26,8 @@ export default async function ParcoursPage() {
   } = await supabase.auth.getUser();
 
   const allTracksResult = await listPublishedTracks(supabase);
-  const allTracks = allTracksResult.tracks;
+  // Ordonne le catalogue selon l'ordre conseille (fondations -> IA -> web -> vibe).
+  const allTracks = orderTracksByGuidance(allTracksResult.tracks);
 
   const myEnrollmentsResult = user
     ? await listUserTrackEnrollments(supabase, user.id, { limit: 12 })
@@ -100,9 +102,17 @@ export default async function ParcoursPage() {
 
             {allTracks.length ? (
               <section className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 md:p-6">
-                <div className="flex items-center justify-between gap-3 flex-wrap mb-5">
+                <div className="flex items-center justify-between gap-3 flex-wrap mb-4">
                   <h2 className="font-venite-italic text-[16px] text-white">PARCOURS DISPONIBLES</h2>
                   <span className="text-[11px] text-[#8e8e8e] font-body-readable">{allTracks.length} parcours actifs</span>
+                </div>
+
+                <div className="rounded-xl border border-blue-500/20 bg-blue-500/[0.06] px-4 py-3 mb-5 flex items-start gap-2.5">
+                  <iconify-icon icon="lucide:route" style={{ fontSize: "16px", color: "#4F8EF7" }} />
+                  <p className="font-body-readable text-[12px] text-blue-100/90 leading-relaxed">
+                    <span className="font-semibold text-white">Ordre conseille :</span> les parcours sont ranges du plus fondamental au plus avance.
+                    Comprends d'abord l'IA, puis apprends a construire avec elle. Tu restes libre de commencer par ou tu veux.
+                  </p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -110,6 +120,7 @@ export default async function ParcoursPage() {
                     const competencies = buildTrackCompetencies(track).slice(0, 3);
                     const levelChipClass = getLevelChipClass(track.levelLabel);
                     const isMine = myTrackIds.has(track.id);
+                    const guidance = getTrackGuidance(track.slug);
 
                     return (
                       <article
@@ -117,8 +128,8 @@ export default async function ParcoursPage() {
                         className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4 card-hover project-card"
                       >
                         <div className="flex items-center justify-between gap-3 mb-3">
-                          <span className="text-[10px] px-2 py-1 rounded-full border border-white/[0.1] text-[#8a8a8a] font-semibold">
-                            {String(index + 1).padStart(2, "0")}
+                          <span className="text-[10px] px-2 py-1 rounded-full border border-blue-400/25 bg-blue-500/10 text-blue-200 font-semibold">
+                            Etape {index + 1}
                           </span>
                           <div className="flex items-center gap-2">
                             {isMine ? (
@@ -133,6 +144,9 @@ export default async function ParcoursPage() {
                         </div>
 
                         <h3 className="font-venite-italic text-[14px] text-white leading-tight mb-1.5">{track.title}</h3>
+                        {guidance.tagline ? (
+                          <p className="font-body-readable text-[11px] text-[#89c7ff] leading-snug mb-1.5">{guidance.tagline}</p>
+                        ) : null}
                         <p className="font-body-readable text-[11px] text-[#6f6f6f] mb-3">{formatTrackMeta(track)}</p>
 
                         <div className="flex flex-wrap gap-1.5 mb-4">

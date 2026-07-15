@@ -14,6 +14,7 @@ import {
 import { getTrackCurriculum } from "../../../lib/curriculum";
 import { buildPageMetadata } from "../../../lib/seo";
 import { formatTrackMeta, listPublishedTracks, listUserTrackEnrollments } from "../../../lib/tracks";
+import { missingPrerequisites } from "../../../lib/trackGuidance";
 import { createClient } from "../../../utils/supabase/server";
 
 export const dynamic = "force-dynamic";
@@ -63,6 +64,11 @@ export default async function ParcoursDetailPage({ params }) {
   const enrollment = track
     ? myEnrollmentsResult.enrollments.find((entry) => entry.trackId === track.id) || null
     : null;
+
+  // Prerequis conseilles non encore demarres (guidage, non bloquant).
+  const startedSlugs = new Set(myEnrollmentsResult.enrollments.map((entry) => entry.track?.slug).filter(Boolean));
+  const trackTitleBySlug = Object.fromEntries(allTracks.map((item) => [item.slug, item.title]));
+  const missingPrereqs = track ? missingPrerequisites(track.slug, startedSlugs, trackTitleBySlug) : [];
 
   const curriculum = track ? await getTrackCurriculum(supabase, track.id, user?.id || "") : null;
   const hasCurriculum = Boolean(curriculum?.hasCurriculum);
@@ -156,6 +162,33 @@ export default async function ParcoursDetailPage({ params }) {
                 <div className="grid grid-cols-1 xl:grid-cols-[1.15fr_0.85fr] gap-6">
                   <div className="space-y-5">
                     <p className="font-body-readable text-[13px] text-[#a5a5a5] leading-relaxed">{description}</p>
+
+                    {missingPrereqs.length ? (
+                      <div className="rounded-xl border border-amber-500/25 bg-amber-500/[0.08] p-4">
+                        <div className="flex items-center gap-2 mb-2">
+                          <iconify-icon icon="lucide:lightbulb" style={{ fontSize: "15px", color: "#fbbf24" }} />
+                          <span className="font-venite-italic text-[11px] tracking-widest text-amber-200">CONSEIL D'ORDRE</span>
+                        </div>
+                        <p className="font-body-readable text-[12px] text-amber-100/90 leading-relaxed mb-3">
+                          Pour tirer le meilleur de ce parcours, on te conseille de suivre d'abord :
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                          {missingPrereqs.map((prereq) => (
+                            <Link
+                              key={prereq.slug}
+                              href={`/parcours/${prereq.slug}`}
+                              className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-1.5 rounded-full border border-amber-400/30 bg-amber-500/10 text-amber-100 hover:bg-amber-500/20 transition-colors"
+                            >
+                              {prereq.title}
+                              <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "12px" }} />
+                            </Link>
+                          ))}
+                        </div>
+                        <p className="font-body-readable text-[10px] text-amber-200/60 mt-2.5">
+                          Ce n'est qu'un conseil : tu peux commencer ce parcours quand tu veux.
+                        </p>
+                      </div>
+                    ) : null}
 
                     <div>
                       <h2 className="font-venite-italic text-[12px] tracking-widest text-[#4F8EF7] mb-3">COMPETENCES FOURNIES</h2>

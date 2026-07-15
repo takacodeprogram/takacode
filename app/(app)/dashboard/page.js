@@ -9,6 +9,7 @@ import { formatDisplayName } from "../../../lib/displayName";
 import { getOnboardingProfile, isOnboardingCompleted } from "../../../lib/onboarding";
 import { buildPageMetadata } from "../../../lib/seo";
 import { formatTrackMeta, listPublishedTracks, listRecommendedTracksForGoal, listUserTrackEnrollments } from "../../../lib/tracks";
+import { getTrackGuidance, guidanceLevelChip, orderTracksByGuidance } from "../../../lib/trackGuidance";
 import { createClient } from "../../../utils/supabase/server";
 
 export const dynamic = "force-dynamic";
@@ -79,6 +80,16 @@ export default async function DashboardHomePage() {
 
   const points = Number.isFinite(Number(accessContext.profile?.points)) ? Number(accessContext.profile.points) : 0;
   const grade = accessContext.profile?.grade || "Starter";
+
+  // Feuille de route conseillee : tous les parcours dans l'ordre recommande,
+  // annotes de l'etat du membre (termine / en cours / a decouvrir).
+  const roadmapResult = await listPublishedTracks(supabase, { limit: 20 });
+  const enrollmentByTrackId = new Map(enrolledTracks.map((entry) => [entry.trackId, entry]));
+  const roadmap = orderTracksByGuidance(roadmapResult.tracks).map((item) => {
+    const entry = enrollmentByTrackId.get(item.id) || null;
+    const state = entry ? (entry.status === "completed" ? "done" : "active") : "todo";
+    return { track: item, guidance: getTrackGuidance(item.slug), state };
+  });
 
   const quickActions = [
     { label: "Mes parcours", href: "/dashboard/parcours", icon: "lucide:map" },
@@ -176,6 +187,56 @@ export default async function DashboardHomePage() {
           </article>
         </section>
       </div>
+
+      {roadmap.length > 1 ? (
+        <section className="rounded-2xl border border-white/[0.08] bg-[#111] p-6 mt-6 animate-fade-up-d3">
+          <div className="flex items-center justify-between gap-3 flex-wrap mb-1">
+            <h3 className="font-venite text-[12px] tracking-widest text-[#888] inline-flex items-center gap-2">
+              <iconify-icon icon="lucide:route" style={{ color: "#4F8EF7", fontSize: "14px" }} />
+              ORDRE CONSEILLE
+            </h3>
+            <Link href="/parcours" className="text-[11px] text-[#4F8EF7] hover:underline">
+              Voir tout le catalogue
+            </Link>
+          </div>
+          <p className="font-body-readable text-[12px] text-[#8d8d8d] leading-relaxed mb-4">
+            Du plus fondamental au plus avance. Comprends l'IA, puis apprends a construire avec elle.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3">
+            {roadmap.map((entry, index) => (
+              <Link
+                key={entry.track.id}
+                href={`/parcours/${entry.track.slug}`}
+                className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-3.5 card-hover block"
+              >
+                <div className="flex items-center justify-between gap-2 mb-2">
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full border border-blue-400/25 bg-blue-500/10 text-blue-200">
+                    Etape {index + 1}
+                  </span>
+                  {entry.state === "done" ? (
+                    <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-200">
+                      termine
+                    </span>
+                  ) : entry.state === "active" ? (
+                    <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full border border-blue-400/30 bg-blue-500/10 text-blue-200">
+                      en cours
+                    </span>
+                  ) : entry.guidance.level ? (
+                    <span className={`text-[9px] font-semibold px-1.5 py-0.5 rounded-full border ${guidanceLevelChip(entry.guidance.level)}`}>
+                      {entry.guidance.level}
+                    </span>
+                  ) : null}
+                </div>
+                <div className="text-[12px] text-white font-semibold leading-tight mb-1">{entry.track.title}</div>
+                {entry.guidance.tagline ? (
+                  <p className="font-body-readable text-[11px] text-[#8d8d8d] leading-snug">{entry.guidance.tagline}</p>
+                ) : null}
+              </Link>
+            ))}
+          </div>
+        </section>
+      ) : null}
     </>
   );
 }
