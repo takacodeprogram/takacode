@@ -8,8 +8,11 @@ export const MEMBER_LINKS = [
   { href: "/dashboard/ressources", icon: "lucide:book-open", label: "Ressources" },
   { href: "/dashboard/sessions", icon: "lucide:video", label: "Sessions live", live: true },
   { href: "/dashboard/communaute", icon: "lucide:users", label: "Communaute" },
+  { href: "/dashboard/outils", icon: "lucide:wrench", label: "Outils" },
   { href: "/dashboard/profil", icon: "lucide:user", label: "Profil" }
 ];
+
+export const ADMIN_AFFILIATIONS_LINK = { href: "/admin/affiliations", icon: "lucide:link", label: "Affiliations" };
 
 // Lien vers l'espace admin, ajoute a la sidebar membre pour les admins.
 export const ADMIN_ENTRY_LINK = { href: "/admin", icon: "lucide:shield-check", label: "Centre admin", exact: true };
@@ -22,7 +25,8 @@ export const ADMIN_AREA_LINKS = [
   { href: "/admin", icon: "lucide:layout-dashboard", label: "Vue globale", exact: true },
   { href: "/admin/utilisateurs", icon: "lucide:users", label: "Utilisateurs" },
   { href: "/admin/parcours", icon: "lucide:route", label: "Parcours" },
-  { href: "/admin/sessions", icon: "lucide:video", label: "Sessions live" }
+  { href: "/admin/sessions", icon: "lucide:video", label: "Sessions live" },
+  { href: "/admin/affiliations", icon: "lucide:link", label: "Affiliations" }
 ];
 
 export function isAdminAreaPath(pathname) {
