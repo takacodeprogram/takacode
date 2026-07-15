@@ -4,7 +4,7 @@ import { getAIReviewConfig } from "../../../../../lib/aiReview";
 const PROVIDER_DEFAULTS = {
   gemini: "gemini-2.0-flash",
   openrouter: "openrouter/free",
-  huggingface: "HuggingFaceH4/zephyr-7b-beta"
+  huggingface: "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
 };
 
 const PROVIDER_LABELS = {
@@ -95,13 +95,25 @@ async function testSingleProvider(provider) {
     const json = await response.json();
     const text = parseResponse(provider, json).trim();
     const ok = text.toLowerCase().includes("ok");
+    const responseText = text.slice(0, 200);
+
+    if (!ok) {
+      return {
+        ok: false,
+        provider,
+        model: model || PROVIDER_DEFAULTS[provider],
+        elapsedMs,
+        error: `Reponse inattendue: "${responseText}"`,
+        detail: JSON.stringify(json).slice(0, 400)
+      };
+    }
 
     return {
       ok,
       provider,
       model: model || PROVIDER_DEFAULTS[provider],
       elapsedMs,
-      response: text.slice(0, 100),
+      response: responseText,
       label: PROVIDER_LABELS[provider] || provider
     };
   } catch (err) {

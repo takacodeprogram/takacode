@@ -63,7 +63,7 @@ export default async function AdminIAConfigPage() {
       icon: "lucide:smile",
       badge: "SANS CLE",
       apiKeyOptional: true,
-      models: ["HuggingFaceH4/zephyr-7b-beta", "mistralai/Mistral-7B-Instruct-v0.3", "TinyLlama/TinyLlama-1.1B-Chat-v1.0"]
+      models: ["TinyLlama/TinyLlama-1.1B-Chat-v1.0", "HuggingFaceH4/zephyr-7b-beta"]
     },
     {
       id: "gemini",
