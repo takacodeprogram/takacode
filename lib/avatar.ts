@@ -1,16 +1,12 @@
-// Avatars fun generes via DiceBear (rendu en <img src>). Fallback sur les initiales
-// gere par les composants si l'URL est vide.
-
 export const AVATAR_STYLES = ["fun-emoji", "bottts", "adventurer", "thumbs", "big-smile", "micah"];
 
-export function dicebearUrl(style, seed) {
+export function dicebearUrl(style: string, seed: string): string {
   const safeStyle = AVATAR_STYLES.includes(style) ? style : "fun-emoji";
   const safeSeed = encodeURIComponent(String(seed || "takacode").slice(0, 40));
   return `https://api.dicebear.com/9.x/${safeStyle}/svg?seed=${safeSeed}`;
 }
 
-// URL d'avatar a afficher : avatar de profil choisi > photo Google > vide (initiales).
-export function resolveAvatarUrl(profileAvatarUrl, googleAvatarUrl) {
+export function resolveAvatarUrl(profileAvatarUrl: unknown, googleAvatarUrl: unknown): string {
   const fromProfile = typeof profileAvatarUrl === "string" ? profileAvatarUrl.trim() : "";
   if (/^https:\/\//i.test(fromProfile)) {
     return fromProfile;
@@ -22,7 +18,7 @@ export function resolveAvatarUrl(profileAvatarUrl, googleAvatarUrl) {
   return "";
 }
 
-export function getInitials(value) {
+export function getInitials(value: unknown): string {
   const tokens = String(value || "")
     .trim()
     .split(/\s+/)

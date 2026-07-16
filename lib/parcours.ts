@@ -1,4 +1,7 @@
-const GOAL_COMPETENCY_MAP = {
+import type { NextStep } from "./utils";
+import type { Track } from "./tracks";
+
+const GOAL_COMPETENCY_MAP: Record<string, string[]> = {
   website: [
     "Structurer une page web propre",
     "Créer un design responsive",
@@ -85,7 +88,7 @@ const GOAL_COMPETENCY_MAP = {
   ]
 };
 
-export function getLevelChipClass(levelLabel) {
+export function getLevelChipClass(levelLabel: string): string {
   const normalized = String(levelLabel || "").toLowerCase();
 
   if (normalized.includes("fondation")) {
@@ -103,7 +106,7 @@ export function getLevelChipClass(levelLabel) {
   return "level-advanced";
 }
 
-export function toProgress(value) {
+export function toProgress(value: unknown): number {
   const numeric = Number(value);
   if (!Number.isFinite(numeric)) {
     return 0;
@@ -112,7 +115,7 @@ export function toProgress(value) {
   return Math.max(0, Math.min(100, Math.round(numeric)));
 }
 
-export function toTextList(values, limit = 4) {
+export function toTextList(values: unknown, limit = 4): string[] {
   if (!Array.isArray(values)) {
     return [];
   }
@@ -123,23 +126,23 @@ export function toTextList(values, limit = 4) {
     .slice(0, limit);
 }
 
-export function buildTrackCompetencies(track) {
-  const goalKey = String(track?.goalKey || track?.goal_key || "").trim();
+export function buildTrackCompetencies(track: Track | Record<string, unknown>): string[] {
+  const goalKey = String((track as Record<string, unknown>)?.goalKey || (track as Record<string, unknown>)?.goal_key || "").trim();
 
   const mapped = toTextList(GOAL_COMPETENCY_MAP[goalKey], 4);
   if (mapped.length) {
     return mapped;
   }
 
-  const fromResources = toTextList(track?.resources, 4);
+  const fromResources = toTextList((track as Record<string, unknown>)?.resources, 4);
   if (fromResources.length) {
     return fromResources;
   }
 
-  const rawSteps = Array.isArray(track?.nextSteps)
-    ? track.nextSteps
-    : Array.isArray(track?.next_steps)
-      ? track.next_steps
+  const rawSteps = Array.isArray((track as Record<string, unknown>)?.nextSteps)
+    ? (track as Record<string, unknown>).nextSteps as NextStep[]
+    : Array.isArray((track as Record<string, unknown>)?.next_steps)
+      ? (track as Record<string, unknown>).next_steps as NextStep[]
       : [];
 
   const fromSteps = toTextList(rawSteps.map((step) => step?.label), 4);
@@ -154,7 +157,12 @@ export function buildTrackCompetencies(track) {
   ];
 }
 
-export function getStepUi(stepState) {
+interface StepUi {
+  icon: string;
+  chip: string;
+}
+
+export function getStepUi(stepState: string): StepUi {
   const state = String(stepState || "locked").toLowerCase();
 
   if (state === "done") {
@@ -177,15 +185,20 @@ export function getStepUi(stepState) {
   };
 }
 
-export function buildStepRows(track) {
-  const rawSteps = Array.isArray(track?.nextSteps)
-    ? track.nextSteps
-    : Array.isArray(track?.next_steps)
-      ? track.next_steps
+interface StepRow {
+  label: string;
+  state: string;
+}
+
+export function buildStepRows(track: Track | Record<string, unknown>): StepRow[] {
+  const rawSteps = Array.isArray((track as Record<string, unknown>)?.nextSteps)
+    ? (track as Record<string, unknown>).nextSteps as NextStep[]
+    : Array.isArray((track as Record<string, unknown>)?.next_steps)
+      ? (track as Record<string, unknown>).next_steps as NextStep[]
       : [];
 
   const fromTrack = rawSteps
-    .map((step) => {
+    .map((step: NextStep): StepRow | null => {
       const label = String(step?.label || "").trim();
       if (!label) {
         return null;
@@ -196,7 +209,7 @@ export function buildStepRows(track) {
         state: String(step?.state || "locked").trim().toLowerCase() || "locked"
       };
     })
-    .filter(Boolean);
+    .filter(Boolean) as StepRow[];
 
   if (fromTrack.length) {
     return fromTrack.slice(0, 4);

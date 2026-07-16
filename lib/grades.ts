@@ -1,6 +1,12 @@
-// Grades TakaCode (memes seuils que internal.compute_grade dans 001) + perks.
+export interface Grade {
+  key: string;
+  label: string;
+  min: number;
+  icon: string;
+  perk: string;
+}
 
-export const GRADES = [
+export const GRADES: Grade[] = [
   { key: "Starter", label: "Starter", min: 0, icon: "lucide:sprout", perk: "Bienvenue ! Tu démarres ton aventure." },
   { key: "Starter+", label: "Starter+", min: 250, icon: "lucide:trending-up", perk: "Tu prends de l'élan, continue." },
   { key: "Builder", label: "Builder", min: 700, icon: "lucide:hammer", perk: "Tu construis pour de vrai. Publie tes projets." },
@@ -8,11 +14,19 @@ export const GRADES = [
   { key: "Legend", label: "Legend", min: 3000, icon: "lucide:trophy", perk: "Statut ultime : badge Legend et vitrine communauté." }
 ];
 
-export function getGradeProgress(points) {
+export interface GradeProgress {
+  points: number;
+  current: Grade;
+  next: Grade | null;
+  percent: number;
+  pointsToNext: number;
+}
+
+export function getGradeProgress(points: number): GradeProgress {
   const p = Number.isFinite(Number(points)) ? Math.max(0, Number(points)) : 0;
 
   let current = GRADES[0];
-  let next = null;
+  let next: Grade | null = null;
   for (let i = 0; i < GRADES.length; i += 1) {
     if (p >= GRADES[i].min) {
       current = GRADES[i];

@@ -1,40 +1,29 @@
-// Service de revue automatique des micro-projets par IA avec fallback.
-//
-// Providers supportes :
-//   - openrouter  (OpenRouter - acces a de nombreux modeles gratuits) [RECOMMANDE]
-//   - gemini      (Google Gemini API - quota gratuit mais peut expirer 429)
-//   - huggingface (Hugging Face Inference API - completement gratuit, sans cle)
-//
-// Configuration :
-//   AI_REVIEW_PROVIDER  = provider principal ("openrouter" | "gemini" | "huggingface")
-//   AI_REVIEW_FALLBACK  = ordre de fallback, ex: "huggingface,gemini"
-//   AI_REVIEW_API_KEY   = cle generique (utilisee par tous les providers)
-//   AI_REVIEW_OPENROUTER_API_KEY = cle specifique OpenRouter (prioritaire)
-//   AI_REVIEW_GEMINI_API_KEY     = cle specifique Gemini (prioritaire)
-//   AI_REVIEW_OPEN_ROUTER_API_KEY = variante acceptee aussi
-//   AI_REVIEW_MODEL     = modele (defaut selon le provider)
-//
-// Free tiers 2026 :
-//   OpenRouter  → modeles 'Free' (Gemini Lite, Llama, Mistral...) ~20 req/min.
-//   Gemini      → quotas AI Studio, peut expirer (erreur 429).
-//   HuggingFace → 1000 req/5min sans cle API, modele open-source.
-
 const PROVIDER_IDS = ["openrouter", "gemini", "huggingface"];
 
-const PROVIDER_CONFIG = {
+interface ProviderConfig {
+  envKeys: string[];
+  defaultModel: string;
+  endpoint: ((model: string) => string) | string;
+  headers: (apiKey: string) => Record<string, string>;
+  parseResponse: (json: any) => { verdict?: string; feedback?: string } | null;
+  needsKey: boolean;
+}
+
+type ProviderId = (typeof PROVIDER_IDS)[number];
+
+const PROVIDER_CONFIG: Record<string, ProviderConfig> = {
   openrouter: {
     envKeys: ["AI_REVIEW_OPENROUTER_API_KEY", "AI_REVIEW_OPEN_ROUTER_API_KEY", "AI_REVIEW_API_KEY"],
     defaultModel: "meta-llama/llama-3.2-3b-instruct:free",
     endpoint: () => "https://openrouter.ai/api/v1/chat/completions",
-    headers: (apiKey) => ({
+    headers: (apiKey: string) => ({
       "Content-Type": "application/json",
       ...(apiKey ? { Authorization: `Bearer ${apiKey}` } : {}),
       "HTTP-Referer": "https://takacode.com",
       "X-Title": "TakaCode AI Review"
     }),
-    parseResponse: (json) => {
+    parseResponse: (json: any) => {
       const msg = json?.choices?.[0]?.message || {};
-      // Certains modeles (poolside, deepseek, etc.) mettent le texte dans reasoning
       const text = msg.content || msg.reasoning || "";
       return extractJson(text);
     },
@@ -43,13 +32,13 @@ const PROVIDER_CONFIG = {
   gemini: {
     envKeys: ["AI_REVIEW_GEMINI_API_KEY", "AI_REVIEW_API_KEY"],
     defaultModel: "gemini-2.0-flash",
-    endpoint: (model) =>
+    endpoint: (model: string) =>
       `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
-    headers: (apiKey) => ({
+    headers: (apiKey: string) => ({
       "Content-Type": "application/json",
       "x-goog-api-key": apiKey
     }),
-    parseResponse: (json) => {
+    parseResponse: (json: any) => {
       const text = json?.candidates?.[0]?.content?.parts?.[0]?.text || "";
       return extractJson(text);
     },
@@ -58,36 +47,53 @@ const PROVIDER_CONFIG = {
   huggingface: {
     envKeys: ["AI_REVIEW_HUGGINGFACE_API_KEY", "AI_REVIEW_API_KEY"],
     defaultModel: "TinyLlama/TinyLlama-1.1B-Chat-v1.0",
-    endpoint: (model) =>
+    endpoint: (model: string) =>
       `https://api-inference.huggingface.co/models/${model}`,
-    headers: (apiKey) => ({
+    headers: (apiKey: string) => ({
       "Content-Type": "application/json",
       ...(apiKey ? { Authorization: `Bearer ${apiKey}` } : {})
     }),
-    parseResponse: (json) => {
+    parseResponse: (json: any) => {
       const text = Array.isArray(json)
         ? (json[0]?.generated_text || "")
         : (json?.generated_text || "");
       return extractJson(text);
     },
-    needsKey: false // Pas de cle requise
+    needsKey: false
   }
 };
 
-function extractJson(text) {
+interface ReviewVerdict {
+  verdict: "approved" | "changes";
+  feedback: string;
+}
+
+interface ReviewMessages {
+  system: string;
+  prompt: string;
+}
+
+interface ReviewInput {
+  lessonTitle: string;
+  projectTitle: string;
+  brief: string;
+  deliverable: string;
+  steps: string[];
+  submission: string;
+}
+
+function extractJson(text: string): ReviewVerdict | null {
   if (!text) return null;
-  // Extrait le premier bloc JSON ```json ... ``` ou ``` ... ```
   const blockMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/);
   const raw = blockMatch ? blockMatch[1].trim() : text.trim();
 
   try {
-    return JSON.parse(raw);
+    return JSON.parse(raw) as ReviewVerdict;
   } catch {
-    // Tente de trouver un objet JSON dans le texte
     const objMatch = raw.match(/\{[\s\S]*\}/);
     if (objMatch) {
       try {
-        return JSON.parse(objMatch[0]);
+        return JSON.parse(objMatch[0]) as ReviewVerdict;
       } catch {
         return null;
       }
@@ -96,8 +102,7 @@ function extractJson(text) {
   }
 }
 
-// Construit le prompt de revue pour l'IA.
-function buildReviewPrompt({ lessonTitle, projectTitle, brief, deliverable, steps, submission }) {
+function buildReviewPrompt({ lessonTitle, projectTitle, brief, deliverable, steps, submission }: ReviewInput): ReviewMessages {
   return {
     system: `Tu es un correcteur bienveillant sur TakaCode, une plateforme d'apprentissage.
 Tu évalues les micro-projets des étudiants. Ton rôle : vérifier que le livrable répond
@@ -134,8 +139,7 @@ serieux et abouti ? Retourne un verdict JSON.`
   };
 }
 
-// Appelle le provider IA et retourne le verdict.
-async function callProvider(provider, model, apiKey, messages) {
+async function callProvider(provider: string, model: string, apiKey: string, messages: ReviewMessages): Promise<ReviewVerdict> {
   const config = PROVIDER_CONFIG[provider];
   if (!config) throw new Error(`Provider inconnu : ${provider}`);
 
@@ -186,11 +190,10 @@ async function callProvider(provider, model, apiKey, messages) {
     throw new Error(`Reponse IA invalide : ${JSON.stringify(json).slice(0, 200)}`);
   }
 
-  return result;
+  return result as ReviewVerdict;
 }
 
-// Lit la cle API pour un provider donne (cle specifique > cle generique).
-function getKeyForProvider(providerId) {
+function getKeyForProvider(providerId: string): string {
   const config = PROVIDER_CONFIG[providerId];
   if (!config) return "";
   for (const keyName of config.envKeys) {
@@ -200,27 +203,23 @@ function getKeyForProvider(providerId) {
   return "";
 }
 
-// Verifie si un provider est configurable (cle presente OU pas besoin de cle).
-function isProviderReady(providerId) {
+function isProviderReady(providerId: string): boolean {
   const config = PROVIDER_CONFIG[providerId];
   if (!config) return false;
   if (config.needsKey === false) return true;
   return Boolean(getKeyForProvider(providerId));
 }
 
-// Construit la liste des providers a essayer, dans l'ordre de fallback.
-function buildProviderChain() {
+function buildProviderChain(): string[] {
   const primary = (process.env.AI_REVIEW_PROVIDER || "openrouter").trim().toLowerCase();
   const fallbackRaw = process.env.AI_REVIEW_FALLBACK || "";
 
-  // Fallback explicit : "huggingface,gemini"
   const fallbackList = fallbackRaw
     ? fallbackRaw.split(",").map((s) => s.trim().toLowerCase()).filter(Boolean)
     : [];
 
-  // Ordre final : primary + fallback + les autres providers non encore listes
-  const seen = new Set();
-  const chain = [];
+  const seen = new Set<string>();
+  const chain: string[] = [];
 
   for (const id of [primary, ...fallbackList, ...PROVIDER_IDS]) {
     if (!seen.has(id) && PROVIDER_CONFIG[id]) {
@@ -234,35 +233,38 @@ function buildProviderChain() {
   return chain;
 }
 
-// Options de configuration.
-export function getAIReviewConfig(overrides = {}) {
-  const provider = overrides.provider || process.env.AI_REVIEW_PROVIDER || "openrouter";
+interface AIReviewConfig {
+  provider: string;
+  model: string;
+  apiKey: string;
+  enabled: boolean;
+  fallbackChain: string[];
+}
+
+export function getAIReviewConfig(overrides: Record<string, unknown> = {}): AIReviewConfig {
+  const provider = (overrides.provider as string) || process.env.AI_REVIEW_PROVIDER || "openrouter";
   const config = PROVIDER_CONFIG[provider];
 
-  const apiKey = overrides.apiKey || getKeyForProvider(provider) || "";
+  const apiKey = (overrides.apiKey as string) || getKeyForProvider(provider) || "";
   const needsKey = config?.needsKey !== false;
-  const enabled = overrides.enabled !== undefined ? overrides.enabled : isProviderReady(provider);
+  const enabled = overrides.enabled !== undefined ? Boolean(overrides.enabled) : isProviderReady(provider);
 
-  // Construit la liste des providers dispo pour le fallback
   const fallbackChain = buildProviderChain();
 
   return {
     provider,
-    model: overrides.model || process.env.AI_REVIEW_MODEL || "",
+    model: (overrides.model as string) || process.env.AI_REVIEW_MODEL || "",
     apiKey,
     enabled,
-    fallbackChain // utilise par reviewProject pour le fallback
+    fallbackChain
   };
 }
 
-// Verifie si au moins un provider est disponible.
-export function isAIReviewAvailable(config) {
+export function isAIReviewAvailable(config: AIReviewConfig): boolean {
   return config.enabled || (Array.isArray(config.fallbackChain) && config.fallbackChain.length > 0);
 }
 
-// Effectue une revue IA d'un micro-projet avec fallback automatique.
-// Si le premier provider echoue (quota, timeout), essaie le suivant.
-export async function reviewProject({ lessonTitle, projectTitle, brief, deliverable, steps, submission }, configOverrides = {}) {
+export async function reviewProject(input: ReviewInput, configOverrides: Record<string, unknown> = {}): Promise<{ verdict: string; feedback: string; usedProvider: string; usedModel: string }> {
   const config = getAIReviewConfig(configOverrides);
   const chain = config.fallbackChain?.length ? config.fallbackChain : config.enabled ? [config.provider] : [];
 
@@ -270,22 +272,13 @@ export async function reviewProject({ lessonTitle, projectTitle, brief, delivera
     throw new Error("Aucun provider IA disponible. Configure AI_REVIEW_PROVIDER et AI_REVIEW_FALLBACK dans .env.local");
   }
 
-  const messages = buildReviewPrompt({
-    lessonTitle,
-    projectTitle,
-    brief,
-    deliverable,
-    steps,
-    submission
-  });
+  const messages = buildReviewPrompt(input);
 
-  const errors = [];
+  const errors: string[] = [];
 
   for (const providerId of chain) {
     const apiKey = getKeyForProvider(providerId);
 
-    // Supporte modeles specifiques par provider : AI_REVIEW_<PROVIDER>_MODEL
-    // Fallback sur AI_REVIEW_MODEL, puis le defaultModel du provider
     const modelsRaw =
       process.env[`AI_REVIEW_${providerId.toUpperCase()}_MODEL`]
       || process.env.AI_REVIEW_MODEL
@@ -298,7 +291,6 @@ export async function reviewProject({ lessonTitle, projectTitle, brief, delivera
     for (const model of models) {
       try {
         const result = await callProvider(providerId, model, apiKey, messages);
-        // Succes ! On retourne le resultat
         return {
           verdict: result.verdict === "approved" ? "approved" : "changes",
           feedback: typeof result.feedback === "string" ? result.feedback : "Revision effectuee par l'IA.",
@@ -306,12 +298,10 @@ export async function reviewProject({ lessonTitle, projectTitle, brief, delivera
           usedModel: model || PROVIDER_CONFIG[providerId]?.defaultModel
         };
       } catch (err) {
-        errors.push(`${providerId}${model ? ` (${model})` : ""}: ${err.message}`);
-        // Continue avec le modele suivant
+        errors.push(`${providerId}${model ? ` (${model})` : ""}: ${(err as Error).message}`);
       }
     }
   }
 
-  // Tous les providers ont echoue
   throw new Error(`Tous les providers IA ont echoue : ${errors.join(" | ")}`);
 }

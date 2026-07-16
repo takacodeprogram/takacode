@@ -1,6 +1,6 @@
 const DEFAULT_MESSAGE = "Une erreur est survenue. Reessaie dans un instant.";
 
-function toLower(value) {
+function toLower(value: unknown): string {
   if (typeof value !== "string") {
     return "";
   }
@@ -8,28 +8,29 @@ function toLower(value) {
   return value.trim().toLowerCase();
 }
 
-function includesAny(text, values) {
+function includesAny(text: string, values: string[]): boolean {
   return values.some((value) => text.includes(value));
 }
 
-export function sanitizeAuthEmail(value) {
+export function sanitizeAuthEmail(value: unknown): string {
   return String(value || "").trim().toLowerCase();
 }
 
-export function isValidAuthEmail(value) {
+export function isValidAuthEmail(value: unknown): boolean {
   const normalized = sanitizeAuthEmail(value);
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalized);
 }
 
-export function toAuthErrorMessage(error, fallbackMessage = DEFAULT_MESSAGE) {
+export function toAuthErrorMessage(error: unknown, fallbackMessage = DEFAULT_MESSAGE): string {
   if (!error) {
     return "";
   }
 
-  const code = toLower(error.code);
-  const message = typeof error.message === "string" ? error.message.trim() : "";
+  const err = error as { code?: string; message?: string; status?: number };
+  const code = toLower(err.code);
+  const message = typeof err.message === "string" ? err.message.trim() : "";
   const lowerMessage = toLower(message);
-  const status = Number(error.status) || 0;
+  const status = Number(err.status) || 0;
 
   if (status === 429 || includesAny(lowerMessage, ["rate limit", "too many requests", "security purposes"])) {
     return "Trop de tentatives. Patiente quelques minutes puis reessaie.";

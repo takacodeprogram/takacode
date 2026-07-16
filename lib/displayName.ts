@@ -1,5 +1,6 @@
-// Nom d'affichage d'un utilisateur Supabase, sans jamais exposer d'info sensible.
-export function formatDisplayName(user) {
+import type { User } from "@supabase/supabase-js";
+
+export function formatDisplayName(user: User | null | undefined): string {
   const fullName = typeof user?.user_metadata?.full_name === "string" ? user.user_metadata.full_name.trim() : "";
   if (fullName) {
     return fullName;

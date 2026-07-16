@@ -1,15 +1,11 @@
-// Ordre conseillé des parcours TakaCode.
-//
-// Le but : guider le membre sur QUEL parcours suivre et DANS QUEL ORDRE, par ex.
-// comprendre l'IA avant d'attaquer les parcours qui s'appuient dessus. Rien n'est
-// bloquant (le déblocage réel reste au niveau des modules) : ce sont des conseils.
-//
-// order  : plus petit = à suivre en premier (tri du catalogue).
-// level  : étiquette de niveau affichée.
-// prereq : slugs de parcours conseillés avant celui-ci.
-// tagline: une phrase d'accroche sur la place du parcours dans le parcours global.
+interface TrackGuidance {
+  order: number;
+  level: string;
+  prereq: string[];
+  tagline: string;
+}
 
-const GUIDANCE = {
+const GUIDANCE: Record<string, TrackGuidance> = {
   "bases-internet": {
     order: 0,
     level: "Fondations",
@@ -36,18 +32,22 @@ const GUIDANCE = {
   }
 };
 
-const DEFAULT_GUIDANCE = { order: 50, level: "", prereq: [], tagline: "" };
+const DEFAULT_GUIDANCE: TrackGuidance = { order: 50, level: "", prereq: [], tagline: "" };
 
-export function getTrackGuidance(slug) {
+export function getTrackGuidance(slug: string): TrackGuidance {
   const key = typeof slug === "string" ? slug.trim().toLowerCase() : "";
   return GUIDANCE[key] || DEFAULT_GUIDANCE;
 }
 
-// Trie une liste de parcours (objets avec .slug) selon l'ordre conseille, puis titre.
-export function orderTracksByGuidance(tracks) {
+interface TrackWithSlug {
+  slug?: string;
+  title?: string;
+}
+
+export function orderTracksByGuidance<T extends TrackWithSlug>(tracks: T[]): T[] {
   return [...(tracks || [])].sort((a, b) => {
-    const ga = getTrackGuidance(a?.slug).order;
-    const gb = getTrackGuidance(b?.slug).order;
+    const ga = getTrackGuidance(a?.slug!).order;
+    const gb = getTrackGuidance(b?.slug!).order;
     if (ga !== gb) {
       return ga - gb;
     }
@@ -55,10 +55,12 @@ export function orderTracksByGuidance(tracks) {
   });
 }
 
-// Prérequis conseillés qui ne sont pas encore démarrés/terminés par le membre.
-// startedSlugs : Set (ou tableau) des slugs déjà démarrés ou terminés.
-// trackTitleBySlug : map slug -> titre, pour afficher un libellé lisible.
-export function missingPrerequisites(slug, startedSlugs, trackTitleBySlug = {}) {
+interface PrereqInfo {
+  slug: string;
+  title: string;
+}
+
+export function missingPrerequisites(slug: string, startedSlugs: Set<string> | string[], trackTitleBySlug: Record<string, string> = {}): PrereqInfo[] {
   const started = startedSlugs instanceof Set ? startedSlugs : new Set(startedSlugs || []);
   const prereq = getTrackGuidance(slug).prereq || [];
 
@@ -70,7 +72,7 @@ export function missingPrerequisites(slug, startedSlugs, trackTitleBySlug = {}) 
     }));
 }
 
-const LEVEL_CHIP = {
+const LEVEL_CHIP: Record<string, string> = {
   Fondations: "border-sky-500/30 bg-sky-500/10 text-sky-200",
   Debutant: "border-emerald-500/30 bg-emerald-500/10 text-emerald-200",
   DebutantPlus: "border-teal-500/30 bg-teal-500/10 text-teal-100",
@@ -78,6 +80,6 @@ const LEVEL_CHIP = {
   Avance: "border-violet-500/30 bg-violet-500/10 text-violet-200"
 };
 
-export function guidanceLevelChip(level) {
+export function guidanceLevelChip(level: string): string {
   return LEVEL_CHIP[level] || "border-white/[0.1] bg-white/[0.03] text-[#9f9f9f]";
 }

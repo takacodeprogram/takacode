@@ -1,6 +1,6 @@
 const FALLBACK_SITE_URL = "https://takacode.vercel.app";
 
-function normalizeSiteUrl(rawValue) {
+function normalizeSiteUrl(rawValue: unknown): string {
   const value = typeof rawValue === "string" ? rawValue.trim() : "";
   if (!value) {
     return FALLBACK_SITE_URL;
@@ -9,7 +9,7 @@ function normalizeSiteUrl(rawValue) {
   return value.replace(/\/$/, "");
 }
 
-function normalizePath(path) {
+function normalizePath(path: unknown): string {
   const value = typeof path === "string" ? path.trim() : "";
   if (!value || value === "/") {
     return "/";
@@ -18,7 +18,15 @@ function normalizePath(path) {
   return value.startsWith("/") ? value : `/${value}`;
 }
 
-export const SEO_DEFAULTS = {
+interface SEOConfig {
+  siteName: string;
+  siteUrl: string;
+  locale: string;
+  defaultTitle: string;
+  defaultDescription: string;
+}
+
+export const SEO_DEFAULTS: SEOConfig = {
   siteName: "TakaCode",
   siteUrl: normalizeSiteUrl(process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXT_PUBLIC_APP_URL),
   locale: "fr_FR",
@@ -27,10 +35,17 @@ export const SEO_DEFAULTS = {
     "TakaCode aide les créateurs à apprendre le numérique en construisant des projets réels : web, IA, data, web3, 3D, mobile et business digital."
 };
 
-export function buildPageMetadata({ title, description = SEO_DEFAULTS.defaultDescription, path = "/", noIndex = false }) {
+interface BuildMetadataOptions {
+  title: string;
+  description?: string;
+  path?: string;
+  noIndex?: boolean;
+}
+
+export function buildPageMetadata({ title, description = SEO_DEFAULTS.defaultDescription, path = "/", noIndex = false }: BuildMetadataOptions): Record<string, unknown> {
   const canonicalPath = normalizePath(path);
 
-  const metadata = {
+  const metadata: Record<string, unknown> = {
     title,
     description,
     alternates: {
