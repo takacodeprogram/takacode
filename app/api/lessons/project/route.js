@@ -165,6 +165,19 @@ async function triggerAIReview(supabase, currentUser, lessonId) {
 
     if (!reviewError && reviewData?.ok) {
       console.log("[AI-REVIEW] Enregistre via submit_ai_review");
+      // Creer une notification pour l'auteur
+      try {
+        const verdictLabel = result.verdict === "approved" ? "approuvé par l'IA" : "demande des améliorations";
+        await supabase.rpc("create_notification", {
+          p_user_id: lessonData.user_id,
+          p_type: "review_received",
+          p_title: `Review IA : ${verdictLabel}`,
+          p_body: result.verdict === "approved"
+            ? `L'IA a validé ton travail sur "${lesson.title}".`
+            : `L'IA a demandé des améliorations sur "${lesson.title}". Retraite ton projet.`,
+          p_link: `/parcours/lecon/${lessonId}`
+        });
+      } catch (e) { /* non bloquant */ }
       return { verdict: result.verdict, feedback: result.feedback };
     }
 
@@ -183,6 +196,20 @@ async function triggerAIReview(supabase, currentUser, lessonId) {
       console.error("[AI-REVIEW] Fallback error:", fallbackError.message);
       return null;
     }
+
+    // Creer une notification pour l'auteur
+    try {
+      const verdictLabel = result.verdict === "approved" ? "approuvé par l'IA" : "demande des améliorations";
+      await supabase.rpc("create_notification", {
+        p_user_id: lessonData.user_id,
+        p_type: "review_received",
+        p_title: `Review IA : ${verdictLabel}`,
+        p_body: result.verdict === "approved"
+          ? `L'IA a validé ton travail sur "${lesson.title}".`
+          : `L'IA a demandé des améliorations sur "${lesson.title}". Retraite ton projet.`,
+        p_link: `/parcours/lecon/${lessonId}`
+      });
+    } catch (e) { /* non bloquant */ }
 
     console.log("[AI-REVIEW] Enregistre via submit_project_review (fallback)");
     return { verdict: result.verdict, feedback: result.feedback };

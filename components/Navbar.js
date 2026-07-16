@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import logoLight4 from "../assets/logos-light-png/logo-light-4.png";
 import NavUserMenu from "./NavUserMenu";
+import NotificationBell from "./NotificationBell";
 import { createClient } from "../utils/supabase/client";
 
 const navLinks = [
@@ -180,7 +181,10 @@ export default function Navbar() {
           {isAuthLoading ? (
             <div className="h-10 w-[120px]" aria-hidden="true" />
           ) : isAuthenticated ? (
-            <NavUserMenu user={sessionUser} />
+            <div className="flex items-center gap-1">
+              <NotificationBell />
+              <NavUserMenu user={sessionUser} />
+            </div>
           ) : (
             <>
               <Link href={authHref} id="nav-connexion-link" className="nav-link">{authLabel}</Link>

@@ -55,6 +55,22 @@ export default function ReviewQueue({ initialItems = [] }) {
       return;
     }
 
+    // Creer une notification pour l'auteur du projet
+    try {
+      const verdictLabel = verdict === "approved" ? "approuvé" : "demande des améliorations";
+      await supabase.rpc("create_notification", {
+        p_user_id: item.authorId,
+        p_type: "review_received",
+        p_title: `Ton micro-projet a été ${verdictLabel}`,
+        p_body: verdict === "approved"
+          ? `Bravo ! "${item.lessonTitle}" a été validé.`
+          : `Des améliorations ont été demandées sur "${item.lessonTitle}". Retraite ton travail.`,
+        p_link: `/parcours/${item.trackSlug || ""}/lecon/${item.lessonSlug || ""}`
+      });
+    } catch (e) {
+      // Non bloquant
+    }
+
     setItems((current) => current.filter((it) => keyOf(it) !== key));
     router.refresh();
   }

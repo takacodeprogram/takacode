@@ -63,8 +63,7 @@ function StatusBadge({ status, verdict }) {
 function ReviewCycleSummary({ item }) {
   const total = item.total_reviews || 0;
   const improvements = item.improvement_count || 0;
-  const approvals = item.approval_count || 0;
-  const isValidated = item.review_status === "approved" || item.last_verdict === "approved";
+  const isValidated = item.is_validated || item.review_status === "approved" || item.last_verdict === "approved";
   const isPending = item.review_status === "pending" && total === 0;
 
   if (total === 0 && !isPending) {
@@ -80,7 +79,7 @@ function ReviewCycleSummary({ item }) {
         </span>
       ) : null}
       {isValidated ? (
-        <span className="text-emerald-400/80 font-semibold">Validé{approvals > 1 ? ` (${approvals} validations)` : ""}</span>
+        <span className="text-emerald-400/80 font-semibold">Validé</span>
       ) : isPending ? (
         <span className="text-amber-400/70">En attente de revue</span>
       ) : improvements > 0 ? (
