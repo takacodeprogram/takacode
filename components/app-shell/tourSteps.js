@@ -48,7 +48,7 @@ export const TOUR_STEPS = [
   {
     id: "communaute",
     icon: "lucide:users",
-    title: "Communauté",
+    title: "Communaute",
     body: "Échange avec les autres créateurs, découvre leurs projets et partage les tiens."
   },
   {

@@ -120,7 +120,7 @@ export default async function DashboardHomePage() {
             </div>
           ) : recommendedTrack ? (
             <div className="rounded-xl border border-blue-500/25 bg-blue-500/10 p-4 mb-5">
-              <div className="text-[10px] text-blue-200 uppercase tracking-widest mb-2">Parcours recommandé pour toi</div>
+              <div className="text-[10px] text-blue-200 uppercase tracking-widest mb-2">Parcours recommande pour toi</div>
               <div className="flex items-center gap-3">
                 <div
                   className="w-11 h-11 rounded-xl border flex items-center justify-center shrink-0"

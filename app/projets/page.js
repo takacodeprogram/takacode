@@ -17,7 +17,7 @@ const PROJECT_FORMATS = [
     title: "Site web ou portfolio",
     summary: "Projet rapide pour présenter ton offre, tes services ou ton profil.",
     cadence: "1 à 2 semaines",
-    audience: "Débutant"
+    audience: "Debutant"
   },
   {
     id: "app",
@@ -26,7 +26,7 @@ const PROJECT_FORMATS = [
     title: "Application web",
     summary: "Outil SaaS, panel admin ou plateforme métier connectée à des données.",
     cadence: "2 à 5 semaines",
-    audience: "Débutant +"
+    audience: "Debutant +"
   },
   {
     id: "mobile",
@@ -35,7 +35,7 @@ const PROJECT_FORMATS = [
     title: "Application mobile",
     summary: "Prototype Android/iOS pour terrain, suivi d'équipe ou service client.",
     cadence: "3 à 6 semaines",
-    audience: "Intermédiaire"
+    audience: "Intermediaire"
   },
   {
     id: "automation",
@@ -44,7 +44,7 @@ const PROJECT_FORMATS = [
     title: "Workflow IA et automation",
     summary: "Automatiser un process répétitif avec IA, n8n ou Make.",
     cadence: "1 à 3 semaines",
-    audience: "Intermédiaire"
+    audience: "Intermediaire"
   },
   {
     id: "data",
@@ -53,7 +53,7 @@ const PROJECT_FORMATS = [
     title: "Dashboard data",
     summary: "Transformer des données brutes en décision claire via KPI et visualisations.",
     cadence: "1 à 3 semaines",
-    audience: "Débutant +"
+    audience: "Debutant +"
   },
   {
     id: "business",
@@ -62,7 +62,7 @@ const PROJECT_FORMATS = [
     title: "Projet business digital",
     summary: "Monter une offre en ligne, tunnel de vente et preuve de traction.",
     cadence: "2 à 6 semaines",
-    audience: "Intermédiaire"
+    audience: "Intermediaire"
   }
 ];
 
@@ -73,7 +73,7 @@ const PROJECT_LIBRARY = [
     domain: "Web",
     icon: "lucide:globe",
     accent: "#4F8EF7",
-    levelLabel: "Débutant",
+    levelLabel: "Debutant",
     durationLabel: "7 jours",
     objective: "Mettre en ligne une présence web claire avec page d'accueil, services et contact.",
     deliverable: "Site déployé + formulaire contact actif",
@@ -91,7 +91,7 @@ const PROJECT_LIBRARY = [
     domain: "Data",
     icon: "lucide:bar-chart-3",
     accent: "#10B981",
-    levelLabel: "Débutant +",
+    levelLabel: "Debutant +",
     durationLabel: "10 jours",
     objective: "Centraliser ventes et performance pour lire les chiffres en 1 minute.",
     deliverable: "Dashboard avec KPI, filtres et export PDF",
@@ -109,7 +109,7 @@ const PROJECT_LIBRARY = [
     domain: "IA",
     icon: "lucide:bot",
     accent: "#22D3EE",
-    levelLabel: "Intermédiaire",
+    levelLabel: "Intermediaire",
     durationLabel: "12 jours",
     objective: "Automatiser les demandes récurrentes sans perdre la qualité des réponses.",
     deliverable: "Agent IA branché à une base FAQ métier",
@@ -127,7 +127,7 @@ const PROJECT_LIBRARY = [
     domain: "Mobile",
     icon: "lucide:smartphone",
     accent: "#06B6D4",
-    levelLabel: "Intermédiaire",
+    levelLabel: "Intermediaire",
     durationLabel: "3 semaines",
     objective: "Digitaliser les relevés terrain avec synchronisation et historique.",
     deliverable: "Prototype mobile testable avec formulaires",
@@ -159,7 +159,7 @@ const PROJECT_LIBRARY = [
   },
   {
     id: "dapp-community",
-    title: "dApp communauté",
+    title: "dApp communaute",
     domain: "Web3",
     icon: "lucide:wallet",
     accent: "#38BDF8",
@@ -334,7 +334,7 @@ export default function ProjetsPage() {
                     </div>
 
                     <div>
-                      <div className="text-[10px] text-[#666] uppercase tracking-widest mb-2">Compétences acquises</div>
+                      <div className="text-[10px] text-[#666] uppercase tracking-widest mb-2">Competences acquises</div>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         {project.competencies.map((competence) => (
                           <div
@@ -349,7 +349,7 @@ export default function ProjetsPage() {
                     </div>
 
                     <div>
-                      <div className="text-[10px] text-[#666] uppercase tracking-widest mb-2">Stack recommandé</div>
+                      <div className="text-[10px] text-[#666] uppercase tracking-widest mb-2">Stack recommande</div>
                       <div className="flex flex-wrap gap-1.5">
                         {project.stack.map((tool) => (
                           <span
@@ -369,7 +369,7 @@ export default function ProjetsPage() {
                       className="btn-secondary inline-flex items-center gap-2 text-[12px]"
                       style={{ padding: "10px 16px" }}
                     >
-                      Voir le parcours associé
+                      Voir le parcours associe
                       <iconify-icon icon="lucide:route" style={{ fontSize: "13px" }} />
                     </Link>
                     <Link
@@ -377,7 +377,7 @@ export default function ProjetsPage() {
                       className="btn-secondary inline-flex items-center gap-2 text-[12px]"
                       style={{ padding: "10px 16px" }}
                     >
-                      Démarrer ce projet
+                      Demarrer ce projet
                       <iconify-icon icon="lucide:play" style={{ fontSize: "13px" }} />
                     </Link>
                   </div>

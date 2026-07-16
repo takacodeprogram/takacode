@@ -26,7 +26,7 @@ export async function generateMetadata({ params }) {
   const slug = String(resolvedParams?.slug || "").trim();
 
   return buildPageMetadata({
-    title: "Détail Parcours",
+    title: "Detail Parcours",
     description: "Détails d'un parcours TakaCode: compétences fournies, plan de progression, objectif et ressources.",
     path: slug ? `/parcours/${slug}` : "/parcours"
   });
@@ -95,7 +95,7 @@ export default async function ParcoursDetailPage({ params }) {
             <div className="flex items-center gap-3 flex-wrap">
               <Link href="/parcours" className="btn-secondary inline-flex items-center gap-2 text-[12px]" style={{ padding: "9px 14px" }}>
                 <iconify-icon icon="lucide:arrow-left" style={{ fontSize: "13px" }} />
-                Retour à la liste
+                Retour a la liste
               </Link>
               {track ? (
                 <span className="text-[11px] text-[#7d7d7d] font-body-readable">/{track.slug}</span>
@@ -236,7 +236,7 @@ export default async function ParcoursDetailPage({ params }) {
                               </span>
                               <div className="flex-1">
                                 <div className="font-body-readable text-[11px] text-[#d0d0d0] leading-snug">{step.label}</div>
-                                <div className="text-[10px] text-[#666]">Étape {index + 1}</div>
+                                <div className="text-[10px] text-[#666]">Etape {index + 1}</div>
                               </div>
                             </div>
                           );
@@ -263,7 +263,7 @@ export default async function ParcoursDetailPage({ params }) {
                     <div className="flex items-center justify-between gap-3 flex-wrap mb-3">
                       <h2 className="font-venite-italic text-[12px] tracking-widest text-[#4F8EF7]">PROGRAMME DU PARCOURS</h2>
                       <span className="text-[10px] text-[#7a7a7a] font-body-readable">
-                        {curriculum.totalLessons} leçons - quiz et micro projet à chaque étape
+                        {curriculum.totalLessons} lecons - quiz et micro projet a chaque etape
                       </span>
                     </div>
 
@@ -360,7 +360,7 @@ export default async function ParcoursDetailPage({ params }) {
                     <>
                       <Link href={continueHref} className="btn-primary glow-btn inline-flex items-center gap-2 text-[13px]" style={{ padding: "12px 22px" }}>
                         <iconify-icon icon={isMine || (hasCurriculum && curriculum.completedLessons > 0) ? "lucide:play-circle" : "lucide:play"} style={{ fontSize: "15px" }} />
-                        {isMine || (hasCurriculum && curriculum.completedLessons > 0) ? "Continuer le parcours" : "Démarrer le parcours"}
+                        {isMine || (hasCurriculum && curriculum.completedLessons > 0) ? "Continuer le parcours" : "Demarrer le parcours"}
                       </Link>
                       <Link href="/projets" className="inline-flex items-center gap-1.5 text-[12px] text-[#888] hover:text-white transition-colors">
                         <iconify-icon icon="lucide:folder-code" style={{ fontSize: "13px" }} />

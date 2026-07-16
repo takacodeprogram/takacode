@@ -30,7 +30,7 @@ export default function AdminOverview({ users = [], tracks = [], platformStats =
       value: listTracks.filter((entry) => entry?.is_active !== false && entry?.isActive !== false).length
     },
     {
-      label: "Publiés",
+      label: "Publies",
       value: listTracks.filter((entry) => entry?.is_published === true || entry?.isPublished === true).length
     }
   ];
@@ -39,7 +39,7 @@ export default function AdminOverview({ users = [], tracks = [], platformStats =
     ? [
         { label: "Modules", value: platformStats.totalModules },
         { label: "Lecons", value: platformStats.totalLessons },
-        { label: "Leçons validées", value: platformStats.completedLessons },
+        { label: "Lecons validees", value: platformStats.completedLessons },
         { label: "Micro-projets soumis", value: platformStats.submittedProjects }
       ]
     : [];

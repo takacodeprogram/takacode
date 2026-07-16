@@ -31,7 +31,7 @@ const STEP_META = {
   4: { label: "Projet", icon: "lucide:lightbulb", accent: "#F59E0B" },
   5: { label: "Outils", icon: "lucide:wrench", accent: "#10B981" },
   6: { label: "Rythme", icon: "lucide:clock-3", accent: "#38BDF8" },
-  7: { label: "R\u00E9sultat", icon: "lucide:rocket", accent: "#4F8EF7" }
+  7:   { label: "Resultat", icon: "lucide:rocket", accent: "#4F8EF7" }
 };
 
 const LEVEL_VISUALS = {
@@ -418,7 +418,7 @@ export default function OnboardingExperiencePage({ user }) {
                     <div className="w-9 h-9 rounded-lg bg-blue-500/20 border border-blue-400/30 inline-flex items-center justify-center mb-3">
                       <iconify-icon icon="lucide:route" style={{ color: "#4F8EF7", fontSize: "16px" }} />
                     </div>
-                    <h3 className="font-venite-italic text-[13px] text-white mb-1">{"Parcours cibl\u00E9"}</h3>
+                    <h3 className="font-venite-italic text-[13px] text-white mb-1">{"Parcours cible"}</h3>
                     <p className="text-[12px] text-blue-100/80 font-body-readable">{"Ton plan s'adapte \u00E0 ton objectif r\u00E9el."}</p>
                   </article>
 
@@ -426,7 +426,7 @@ export default function OnboardingExperiencePage({ user }) {
                     <div className="w-9 h-9 rounded-lg bg-violet-500/20 border border-violet-400/30 inline-flex items-center justify-center mb-3">
                       <iconify-icon icon="lucide:users" style={{ color: "#9B6DFF", fontSize: "16px" }} />
                     </div>
-                    <h3 className="font-venite-italic text-[13px] text-white mb-1">{"Communaut\u00E9 active"}</h3>
+                    <h3 className="font-venite-italic text-[13px] text-white mb-1">{"Communaute active"}</h3>
                     <p className="text-[12px] text-violet-100/80 font-body-readable">{"Sessions live, \u00E9changes et feedback concrets."}</p>
                   </article>
 
@@ -609,7 +609,7 @@ export default function OnboardingExperiencePage({ user }) {
 
                 {projectClarityKey !== "explore" ? (
                   <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-4">
-                    <label className="text-[12px] text-[#9d9d9d] block mb-2">{"D\u00E9cris ton projet en quelques mots"}</label>
+                    <label className="text-[12px] text-[#9d9d9d] block mb-2">{"Decris ton projet en quelques mots"}</label>
                     <textarea
                       className="auth-input min-h-[110px] resize-y"
                       value={projectIdea}
@@ -706,7 +706,7 @@ export default function OnboardingExperiencePage({ user }) {
             {step === 7 ? (
               <section className="space-y-7">
                 <div>
-                  <div className="section-label font-venite-italic mb-3">{"R\u00E9sultat"}</div>
+                  <div className="section-label font-venite-italic mb-3">{"Resultat"}</div>
                   <h2 className="font-valorax text-[clamp(30px,3.4vw,44px)] leading-[0.9] gradient-text-blue">{"TON ESPACE EST PRET"}</h2>
                   <p className="font-body-readable text-[14px] text-[#8f8f8f] mt-3 max-w-[680px]">
                     {"On t'a pr\u00E9par\u00E9 une premi\u00E8re trajectoire selon ton objectif: "}{selectedGoal.label.toLowerCase()}.
@@ -716,13 +716,13 @@ export default function OnboardingExperiencePage({ user }) {
                 <div className="grid lg:grid-cols-[1.35fr_1fr] gap-5">
                   <article className="rounded-2xl border border-blue-500/20 bg-gradient-to-br from-blue-500/10 via-[#15162a] to-violet-500/10 p-5 space-y-5">
                     <div>
-                      <div className="font-venite-italic text-[11px] text-[#7a8fd8] uppercase tracking-widest mb-2">{"Parcours recommand\u00E9"}</div>
+                      <div className="font-venite-italic text-[11px] text-[#7a8fd8] uppercase tracking-widest mb-2">{"Parcours recommande"}</div>
                       <h3 className="font-venite-italic text-[24px] leading-[0.95] text-white">{recommendation.parcoursTitle}</h3>
                       <p className="text-[12px] text-[#a2b2d9] mt-1 font-body-readable">{recommendation.parcoursMeta}</p>
                     </div>
 
                     <div>
-                      <div className="font-venite-italic text-[12px] text-white mb-2">{"Premi\u00E8res ressources"}</div>
+                      <div className="font-venite-italic text-[12px] text-white mb-2">{"Premieres ressources"}</div>
                       <div className="space-y-2">
                         {recommendation.resources.map((resource) => (
                           <div key={resource} className="flex items-center gap-2 text-[12px] text-[#c1d1ff] font-body-readable">
@@ -755,7 +755,7 @@ export default function OnboardingExperiencePage({ user }) {
                     </div>
 
                     <div>
-                      <div className="font-venite-italic text-[12px] text-white mb-2">{"Prochaines \u00E9tapes"}</div>
+                      <div className="font-venite-italic text-[12px] text-white mb-2">{"Prochaines etapes"}</div>
                       <div className="space-y-2">
                         {recommendation.nextSteps.map((stepItem) => {
                           const ui = getStepStateUi(stepItem.state);

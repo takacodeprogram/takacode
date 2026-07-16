@@ -9,7 +9,7 @@ export const PARCOURS_PAGE_STEPS = [
   {
     id: "parcours-ordering",
     icon: "lucide:route",
-    title: "Ordre conseillé",
+    title: "Ordre conseille",
     body: "Les parcours sont rangés du plus fondamental au plus avancé. Il est conseillé de commencer par les bases avant de passer à la suite, mais tu es libre de choisir.",
     center: true
   },
@@ -33,14 +33,14 @@ export const PARCOURS_DETAIL_STEPS = [
   {
     id: "detail-welcome",
     icon: "lucide:info",
-    title: "Fiche détaillée du parcours",
+    title: "Fiche detaillee du parcours",
     body: "Tu es sur la page détail d'un parcours. Tu y trouveras les compétences, le plan de cours, et les ressources associées.",
     center: true
   },
   {
     id: "detail-prereqs",
     icon: "lucide:git-branch",
-    title: "Prérequis conseillés",
+    title: "Prerequis conseilles",
     body: "Les prérequis te montrent les parcours à connaître avant d'attaquer celui-ci. Ce n'est pas bloquant mais fortement conseillé.",
     center: true
   },
@@ -57,7 +57,7 @@ export const LECON_STEPS = [
   {
     id: "lecon-welcome",
     icon: "lucide:book-open-text",
-    title: "Bienvenue dans la leçon",
+    title: "Bienvenue dans la lecon",
     body: "Chaque leçon contient des ressources sélectionnées, un quiz de validation et un micro-projet pratique.",
     center: true
   },
@@ -95,7 +95,7 @@ export const GUIDE_STEPS = [
   {
     id: "guide-welcome",
     icon: "lucide:sparkles",
-    title: "Guide de démarrage",
+    title: "Guide de demarrage",
     body: "Voici un tour rapide des sections de ton espace TakaCode. Explore chaque section pour découvrir tout ce que tu peux faire.",
     center: true
   },
@@ -109,7 +109,7 @@ export const GUIDE_STEPS = [
   {
     id: "guide-done",
     icon: "lucide:rocket",
-    title: "Prêt à créer",
+    title: "Pret a creer",
     body: "Tu connais maintenant les sections clés. Explore, apprends et construis ton projet. Ce guide reste accessible depuis ton Tableau de bord.",
     center: true
   }

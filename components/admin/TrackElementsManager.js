@@ -144,7 +144,7 @@ export default function TrackElementsManager({ trackId, trackSlug, initialModule
   return (
     <section className="space-y-4">
       <div className="flex items-center justify-between gap-3">
-        <h2 className="font-venite text-[13px] tracking-widest text-[#888]">MODULES ET LEÇONS</h2>
+        <h2 className="font-venite text-[13px] tracking-widest text-[#888]">MODULES ET LECONS</h2>
         <span className="text-[11px] text-[#6d6d6d]">{modules.length} module(s)</span>
       </div>
 

@@ -4,7 +4,7 @@ import FooterSection from "../../components/FooterSection";
 import { buildPageMetadata } from "../../lib/seo";
 
 export const metadata = buildPageMetadata({
-  title: "Politique de confidentialité",
+  title: "Politique de confidentialite",
   description: "Consulte la politique de confidentialité TakaCode : données collectées, utilisation, protection et droits utilisateur.",
   path: "/privacy"
 });
@@ -28,7 +28,7 @@ export default function PrivacyPage() {
 
             <div className="space-y-8 font-body-readable">
               <section className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6">
-                <h2 className="text-[16px] font-semibold text-white mb-3">1. Données collectées</h2>
+                <h2 className="text-[16px] font-semibold text-white mb-3">1. Donnees collectees</h2>
                 <p className="text-[14px] leading-relaxed text-[#9A9A9A]">
                   Nous pouvons collecter des informations de compte (nom, email), des données d'usage (pages consultées, progression),
                   et des données techniques (navigateur, appareil, logs de sécurité).
@@ -36,7 +36,7 @@ export default function PrivacyPage() {
               </section>
 
               <section className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6">
-                <h2 className="text-[16px] font-semibold text-white mb-3">2. Utilisation des données</h2>
+                <h2 className="text-[16px] font-semibold text-white mb-3">2. Utilisation des donnees</h2>
                 <p className="text-[14px] leading-relaxed text-[#9A9A9A]">
                   Ces données sont utilisées pour fournir le service, améliorer l'expérience, personnaliser les contenus,
                   assurer la sécurité de la plateforme et communiquer des informations importantes.

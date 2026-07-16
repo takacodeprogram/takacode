@@ -22,7 +22,7 @@ export default function CompetencesSection() {
             <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:mic" /> Podcasts</span>
             <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:youtube" /> Chaines YouTube</span>
             <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:video" /> Videos avec IA</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:bar-chart-3" /> Analyse de données</span>
+            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:bar-chart-3" /> Analyse de donnees</span>
           </div>
           <div className="flex gap-3 ml-3" aria-hidden="true">
             <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:globe" /> Sites web</span>
@@ -35,7 +35,7 @@ export default function CompetencesSection() {
             <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:mic" /> Podcasts</span>
             <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:youtube" /> Chaines YouTube</span>
             <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:video" /> Videos avec IA</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:bar-chart-3" /> Analyse de données</span>
+            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:bar-chart-3" /> Analyse de donnees</span>
           </div>
         </div>
       </div>
@@ -46,24 +46,24 @@ export default function CompetencesSection() {
           <div className="flex gap-3">
             <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:pie-chart" /> Tableaux de bord</span>
             <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:wallet" /> Web3 et blockchain</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:box" /> 3D et expériences immersives</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:package" /> Produits numériques</span>
+            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:box" /> 3D et experiences immersives</span>
+            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:package" /> Produits numeriques</span>
             <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:trending-up" /> Business digitaux</span>
             <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:wrench" /> Outils SaaS</span>
             <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:message-square" /> Chatbots</span>
             <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:smartphone" /> Applications mobiles</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:cpu" /> IA générative</span>
+            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:cpu" /> IA generative</span>
           </div>
           <div className="flex gap-3 ml-3" aria-hidden="true">
             <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:pie-chart" /> Tableaux de bord</span>
             <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:wallet" /> Web3 et blockchain</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:box" /> 3D et expériences immersives</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:package" /> Produits numériques</span>
+            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:box" /> 3D et experiences immersives</span>
+            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:package" /> Produits numeriques</span>
             <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:trending-up" /> Business digitaux</span>
             <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:wrench" /> Outils SaaS</span>
             <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:message-square" /> Chatbots</span>
             <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:smartphone" /> Applications mobiles</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:cpu" /> IA générative</span>
+            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:cpu" /> IA generative</span>
           </div>
         </div>
       </div>

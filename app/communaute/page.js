@@ -14,7 +14,7 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export const metadata = buildPageMetadata({
-  title: "Communauté",
+  title: "Communaute",
   description: "La communauté TakaCode: membres actifs, projets publiés et sessions live à venir.",
   path: "/communaute"
 });
@@ -54,7 +54,7 @@ export default async function CommunautePage() {
 
   const statCards = [
     { label: "Membres", value: stats.members, icon: "lucide:users" },
-    { label: "Leçons validées", value: stats.completedLessons, icon: "lucide:check-circle" },
+    { label: "Lecons validees", value: stats.completedLessons, icon: "lucide:check-circle" },
     { label: "Micro-projets", value: stats.submittedProjects, icon: "lucide:folder-code" },
     { label: "Parcours", value: stats.publishedTracks, icon: "lucide:route" }
   ];

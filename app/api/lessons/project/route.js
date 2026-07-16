@@ -167,7 +167,7 @@ async function triggerAIReview(supabase, currentUser, lessonId) {
       console.log("[AI-REVIEW] Enregistre via submit_ai_review");
       // Creer une notification pour l'auteur
       try {
-        const verdictLabel = result.verdict === "approved" ? "approuvé par l'IA" : "demande des améliorations";
+        const verdictLabel = result.verdict === "approved" ? "approuve par l'IA" : "demande des ameliorations";
         await supabase.rpc("create_notification", {
           p_user_id: lessonData.user_id,
           p_type: "review_received",
@@ -199,7 +199,7 @@ async function triggerAIReview(supabase, currentUser, lessonId) {
 
     // Creer une notification pour l'auteur
     try {
-      const verdictLabel = result.verdict === "approved" ? "approuvé par l'IA" : "demande des améliorations";
+      const verdictLabel = result.verdict === "approved" ? "approuve par l'IA" : "demande des ameliorations";
       await supabase.rpc("create_notification", {
         p_user_id: lessonData.user_id,
         p_type: "review_received",

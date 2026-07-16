@@ -46,7 +46,7 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
     goal_key: track?.goal_key || "other",
     title: track?.title || "",
     summary: track?.summary || "",
-    level_label: track?.level_label || "Débutant",
+    level_label: track?.level_label || "Debutant",
     duration_weeks: String(track?.duration_weeks ?? 8),
     sort_order: String(track?.sort_order ?? 100),
     accent_color: track?.accent_color || "#4F8EF7",
@@ -72,7 +72,7 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
       title: form.title.trim() || "Parcours",
       summary: summary || "Parcours en préparation.",
       description: summary || "Parcours en préparation.",
-      level_label: form.level_label.trim() || "Débutant",
+      level_label: form.level_label.trim() || "Debutant",
       duration_weeks: Math.max(1, Number.parseInt(form.duration_weeks, 10) || 8),
       sort_order: Math.max(1, Number.parseInt(form.sort_order, 10) || 100),
       accent_color: form.accent_color.trim() || "#4F8EF7",
@@ -117,7 +117,7 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
       return;
     }
 
-    const insertPayload = { slug, ...buildPayload(), next_steps: [{ label: "Démarrer le parcours", state: "current" }] };
+    const insertPayload = { slug, ...buildPayload(), next_steps: [{ label: "Demarrer le parcours", state: "current" }] };
     if (proposal) {
       insertPayload.created_by = userId;
       insertPayload.is_pending = true;

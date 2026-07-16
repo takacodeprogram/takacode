@@ -99,7 +99,7 @@ export default function LessonForm({ trackId, modules = [], lesson = null, defau
 
     return {
       module_id: form.module_id,
-      title: form.title.trim() || "Leçon",
+      title: form.title.trim() || "Lecon",
       intro: form.intro.trim(),
       why_important: form.why_important.trim(),
       how_to_use: form.how_to_use.trim(),

@@ -4,7 +4,7 @@ import FooterSection from "../../components/FooterSection";
 import { buildPageMetadata } from "../../lib/seo";
 
 export const metadata = buildPageMetadata({
-  title: "Compétences et projets",
+  title: "Competences et projets",
   description: "Découvre les types de projets que tu peux construire avec TakaCode : web, IA, data, web3, 3D, mobile, contenu et business digital.",
   path: "/competences"
 });

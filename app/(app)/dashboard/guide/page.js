@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export const metadata = buildPageMetadata({
-  title: "Guide de démarrage",
+  title: "Guide de demarrage",
   description: "Découvre les sections de ton espace TakaCode.",
   path: "/dashboard/guide",
   noIndex: true
@@ -31,7 +31,7 @@ export default function GuidePage() {
 
   return (
     <>
-      <PageHeader title="GUIDE DE DÉMARRAGE" subtitle="Les sections de ton espace" />
+      <PageHeader title="GUIDE DE DEMARRAGE" subtitle="Les sections de ton espace" />
 
       <div className="rounded-xl border border-blue-500/20 bg-blue-500/[0.06] px-4 py-3 text-[12px] text-blue-100/90 font-body-readable mb-5">
         Bienvenue ! Voici un tour rapide de ton espace. Clique sur une section pour t'y rendre.
@@ -70,7 +70,7 @@ export default function GuidePage() {
       <div className="mt-6">
         <Link href="/dashboard" className="btn-primary inline-flex items-center gap-2 text-[12px]" style={{ padding: "10px 18px" }}>
           <iconify-icon icon="lucide:rocket" style={{ fontSize: "14px" }} />
-          Commencer à construire
+          Commencer a construire
         </Link>
       </div>
 

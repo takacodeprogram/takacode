@@ -111,7 +111,7 @@ export default async function ParcoursPage() {
                 <div className="rounded-xl border border-blue-500/20 bg-blue-500/[0.06] px-4 py-3 mb-5 flex items-start gap-2.5">
                   <iconify-icon icon="lucide:route" style={{ fontSize: "16px", color: "#4F8EF7" }} />
                   <p className="font-body-readable text-[12px] text-blue-100/90 leading-relaxed">
-                    <span className="font-semibold text-white">Ordre conseillé :</span> les parcours sont rangés du plus fondamental au plus avancé.
+                    <span className="font-semibold text-white">Ordre conseille :</span> les parcours sont rangés du plus fondamental au plus avancé.
                     Comprends d'abord l'IA, puis apprends à construire avec elle. Tu restes libre de commencer par où tu veux.
                   </p>
                 </div>

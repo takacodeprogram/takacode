@@ -33,7 +33,7 @@ const AUTH_MODE_COPY = {
         icon: "lucide:users",
         iconColor: "#9B6DFF",
         shellClass: "bg-violet-500/10 border-violet-500/20",
-        title: "Construis avec la communauté",
+        title: "Construis avec la communaute",
         text: "Participe aux sessions live, échange avec d'autres créateurs et avance ensemble."
       },
       {
@@ -62,7 +62,7 @@ const AUTH_MODE_COPY = {
         icon: "lucide:users",
         iconColor: "#9B6DFF",
         shellClass: "bg-violet-500/10 border-violet-500/20",
-        title: "Retrouve la communauté",
+        title: "Retrouve la communaute",
         text: "Échange avec d'autres créateurs et participe aux prochaines sessions."
       },
       {

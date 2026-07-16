@@ -220,7 +220,7 @@ export default function ProfileEditor({
       </div>
 
       <div>
-        <label className="text-[11px] text-[#8d8d8d] uppercase tracking-widest font-semibold">Compétences</label>
+        <label className="text-[11px] text-[#8d8d8d] uppercase tracking-widest font-semibold">Competences</label>
         <input
           value={skillsInput}
           onChange={(e) => setSkillsInput(e.target.value)}

@@ -70,7 +70,7 @@ export default function Hero({ stats = null }) {
 
             <div className="animate-fade-up-d4 grid grid-cols-3 gap-4 sm:gap-8 pt-8 border-t border-white/[0.06] max-w-[520px]">
               <HeroStat value={stats?.members} label="Membres inscrits" />
-              <HeroStat value={stats?.submittedProjects} label="Micro-projets réalisés" />
+              <HeroStat value={stats?.submittedProjects} label="Micro-projets realises" />
               <HeroStat value={stats?.publishedTracks} label="Parcours disponibles" />
             </div>
           </div>

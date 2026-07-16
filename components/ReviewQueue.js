@@ -57,11 +57,11 @@ export default function ReviewQueue({ initialItems = [] }) {
 
     // Creer une notification pour l'auteur du projet
     try {
-      const verdictLabel = verdict === "approved" ? "approuvé" : "demande des améliorations";
+      const verdictLabel = verdict === "approved" ? "approuve" : "demande des ameliorations";
       await supabase.rpc("create_notification", {
         p_user_id: item.authorId,
         p_type: "review_received",
-        p_title: `Ton micro-projet a été ${verdictLabel}`,
+        p_title: `Ton micro-projet a ete ${verdictLabel}`,
         p_body: verdict === "approved"
           ? `Bravo ! "${item.lessonTitle}" a été validé.`
           : `Des améliorations ont été demandées sur "${item.lessonTitle}". Retraite ton travail.`,
