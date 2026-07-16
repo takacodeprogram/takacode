@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { cookies } from "next/headers";
 import FooterSection from "../../components/FooterSection";
 import Navbar from "../../components/Navbar";
@@ -14,7 +14,7 @@ export const revalidate = 0;
 
 export const metadata = buildPageMetadata({
   title: "Parcours",
-  description: "Catalogue des parcours TakaCode. Choisis un parcours dans la liste puis ouvre sa page détail pour voir compétences, plan et ressources.",
+  description: "Catalogue des parcours TakaCode. Choisis un parcours dans la liste puis ouvre sa page detail pour voir competences, plan et ressources.",
   path: "/parcours"
 });
 
@@ -49,7 +49,7 @@ export default async function ParcoursPage() {
               <div className="section-label mb-4">CATALOGUE</div>
               <h1 className="font-valorax gradient-text text-[clamp(34px,4vw,56px)] leading-[0.92]">LISTE COMPLETE DES PARCOURS</h1>
               <p className="font-body-readable text-[15px] text-[#8d8d8d] mt-4">
-                Cette page affiche uniquement la liste des parcours. Clique sur un parcours pour ouvrir sa fiche détaillée.
+                Cette page affiche uniquement la liste des parcours. Clique sur un parcours pour ouvrir sa fiche detaillee.
               </p>
             </div>
 
@@ -75,7 +75,7 @@ export default async function ParcoursPage() {
                           </div>
                           <p className="text-[11px] text-[#777] font-body-readable mb-3">{formatTrackMeta(enrollment.track)}</p>
                           <Link href={`/parcours/${enrollment.track.slug}`} className="text-[11px] text-[#4F8EF7] font-semibold hover:underline">
-                            Ouvrir la fiche détail
+                            Ouvrir la fiche detail
                           </Link>
                         </article>
                       );
@@ -91,7 +91,7 @@ export default async function ParcoursPage() {
 
             {!schemaReady ? (
               <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-[12px] text-amber-100">
-                Tables parcours non détectées. Execute `supabase/sql/003_learning_tracks.sql` pour activer le catalogue BDD.
+                Tables parcours non detectees. Execute `supabase/sql/003_learning_tracks.sql` pour activer le catalogue BDD.
               </div>
             ) : null}
 
@@ -111,8 +111,8 @@ export default async function ParcoursPage() {
                 <div className="rounded-xl border border-blue-500/20 bg-blue-500/[0.06] px-4 py-3 mb-5 flex items-start gap-2.5">
                   <iconify-icon icon="lucide:route" style={{ fontSize: "16px", color: "#4F8EF7" }} />
                   <p className="font-body-readable text-[12px] text-blue-100/90 leading-relaxed">
-                    <span className="font-semibold text-white">Ordre conseillé :</span> les parcours sont rangés du plus fondamental au plus avancé.
-                    Comprends d'abord l'IA, puis apprends à construire avec elle. Tu restes libre de commencer par où tu veux.
+                    <span className="font-semibold text-white">Ordre conseille :</span> les parcours sont ranges du plus fondamental au plus avance.
+                    Comprends d'abord l'IA, puis apprends a construire avec elle. Tu restes libre de commencer par ou tu veux.
                   </p>
                 </div>
 
@@ -130,7 +130,7 @@ export default async function ParcoursPage() {
                       >
                         <div className="flex items-center justify-between gap-3 mb-3">
                           <span className="text-[10px] px-2 py-1 rounded-full border border-blue-400/25 bg-blue-500/10 text-blue-200 font-semibold">
-                            Étape {index + 1}
+                            Etape {index + 1}
                           </span>
                           <div className="flex items-center gap-2">
                             {isMine ? (
@@ -165,7 +165,7 @@ export default async function ParcoursPage() {
                           href={`/parcours/${track.slug}`}
                           className="inline-flex items-center gap-2 text-[11px] text-[#4F8EF7] font-semibold hover:underline"
                         >
-                          Voir les détails
+                          Voir les details
                           <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "12px" }} />
                         </Link>
                       </article>
@@ -177,7 +177,7 @@ export default async function ParcoursPage() {
 
             {!allTracks.length && schemaReady && !hasError ? (
               <div className="rounded-2xl border border-white/[0.08] bg-[#111] p-6 text-[13px] text-[#888] font-body-readable">
-                Aucun parcours publié pour le moment.
+                Aucun parcours publie pour le moment.
               </div>
             ) : null}
           </div>

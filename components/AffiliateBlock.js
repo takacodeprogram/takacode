@@ -1,6 +1,6 @@
-import { categoryLabel } from "../lib/affiliate";
+﻿import { categoryLabel } from "../lib/affiliate";
 
-// Bloc "Fournisseurs recommandés" réutilisable (leçons, page outils, communauté).
+// Bloc "Fournisseurs recommandes" reutilisable (lecons, page outils, communaute).
 // Les liens portent rel="sponsored" (transparence affiliation).
 export default function AffiliateBlock({ links = [], heading = "Fournisseurs recommandes", grouped = false }) {
   if (!Array.isArray(links) || links.length === 0) {

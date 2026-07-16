@@ -1,4 +1,4 @@
-// Configuration des liens de l'espace applicatif (dashboard membre + admin).
+﻿// Configuration des liens de l'espace applicatif (dashboard membre + admin).
 // Tous les liens sont INTERNES (aucun renvoi vers le site public).
 
 // Identifiants pour le guide interactif (GuidedTour).
@@ -10,7 +10,7 @@ export const MEMBER_LINKS = [
   { href: "/dashboard/reviews", icon: "lucide:git-pull-request", label: "Revues", tour: "reviews" },
   { href: "/dashboard/ressources", icon: "lucide:book-open", label: "Ressources", tour: "ressources" },
   { href: "/dashboard/sessions", icon: "lucide:video", label: "Sessions live", live: true, tour: "sessions" },
-  { href: "/dashboard/communaute", icon: "lucide:users", label: "Communauté", tour: "communaute" },
+  { href: "/dashboard/communaute", icon: "lucide:users", label: "Communaute", tour: "communaute" },
   { href: "/dashboard/outils", icon: "lucide:wrench", label: "Outils", tour: "outils" },
   { href: "/dashboard/profil", icon: "lucide:user", label: "Profil", tour: "profil" }
 ];

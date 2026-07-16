@@ -1,4 +1,4 @@
-import { cookies } from "next/headers";
+﻿import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import PageHeader from "../../../../components/app-shell/PageHeader";
 import ProfileEditor from "../../../../components/ProfileEditor";
@@ -16,7 +16,7 @@ export const revalidate = 0;
 
 export const metadata = buildPageMetadata({
   title: "Profil",
-  description: "Ton profil TakaCode : bio, réseaux, compétences et parrainage.",
+  description: "Ton profil TakaCode : bio, reseaux, competences et parrainage.",
   path: "/dashboard/profil",
   noIndex: true
 });

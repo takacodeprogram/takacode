@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
@@ -38,7 +38,7 @@ export default function ForgotPasswordPageClient() {
       setEmail(normalizedEmail);
       setEmailSent(true);
     } catch {
-      setErrorMessage("Problème réseau. Vérifie ta connexion puis réessaie.");
+      setErrorMessage("Probleme reseau. Verifie ta connexion puis reessaie.");
     } finally {
       setLoading(false);
     }
@@ -53,20 +53,20 @@ export default function ForgotPasswordPageClient() {
         {emailSent ? (
           <>
             <p className="font-body-readable text-[14px] text-[#888] leading-relaxed mb-3">
-              Un lien de réinitialisation a été envoyé à <span className="text-white">{email}</span>.
+              Un lien de reinitialisation a ete envoye a <span className="text-white">{email}</span>.
             </p>
             <p className="font-body-readable text-[14px] text-[#888] leading-relaxed mb-8">
-              Regarde aussi dans les dossiers spam, promotions ou social puis ouvre le lien reçu.
+              Regarde aussi dans les dossiers spam, promotions ou social puis ouvre le lien recu.
             </p>
           </>
         ) : (
           <>
             <p className="font-body-readable text-[14px] text-[#888] leading-relaxed mb-6">
-              Pas d'inquiétude. Indique ton adresse email et nous t'enverrons un lien pour retrouver ton espace TakaCode.
+              Pas d'inquietude. Indique ton adresse email et nous t'enverrons un lien pour retrouver ton espace TakaCode.
             </p>
             <div className="mb-8 rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-3">
               <div className="text-[12px] text-white font-medium mb-1">Tes projets t'attendent</div>
-              <p className="text-[12px] text-[#777] font-body-readable">Reviens continuer ce que tu as commencé.</p>
+              <p className="text-[12px] text-[#777] font-body-readable">Reviens continuer ce que tu as commence.</p>
             </div>
           </>
         )}
@@ -99,7 +99,7 @@ export default function ForgotPasswordPageClient() {
 
         <div className="mt-8 pt-6 border-t border-white/[0.05] flex items-center justify-between text-[13px]">
           <Link href="/signin" className="text-[#888] hover:text-white transition-colors">
-            Retour à la connexion
+            Retour a la connexion
           </Link>
 
           {emailSent ? (
@@ -115,7 +115,7 @@ export default function ForgotPasswordPageClient() {
             </button>
           ) : (
             <Link href="/signup" className="text-[#4F8EF7] hover:underline">
-              Créer un compte
+              Creer un compte
             </Link>
           )}
         </div>

@@ -1,4 +1,4 @@
-// Etapes du guide (partagees entre le tour interactif desktop et la page guide dediee).
+﻿// Etapes du guide (partagees entre le tour interactif desktop et la page guide dediee).
 
 export const TOUR_STEPS = [
   {
@@ -12,19 +12,19 @@ export const TOUR_STEPS = [
     id: "dashboard",
     icon: "lucide:layout-grid",
     title: "Tableau de bord",
-    body: "Ta vue d'ensemble : progression dans tes parcours, statistiques (points, grade) et accès rapide vers l'essentiel."
+    body: "Ta vue d'ensemble : progression dans tes parcours, statistiques (points, grade) et acces rapide vers l'essentiel."
   },
   {
     id: "parcours",
     icon: "lucide:map",
     title: "Mes parcours",
-    body: "Les parcours que tu suis, avec leurs modules, leçons, quiz et micro-projets à valider pour progresser."
+    body: "Les parcours que tu suis, avec leurs modules, lecons, quiz et micro-projets a valider pour progresser."
   },
   {
     id: "projets",
     icon: "lucide:folder-code",
     title: "Mes projets",
-    body: "Crée tes projets personnels et partage-les avec la communauté pour montrer ton travail."
+    body: "Cree tes projets personnels et partage-les avec la communaute pour montrer ton travail."
   },
   {
     id: "reviews",
@@ -36,32 +36,32 @@ export const TOUR_STEPS = [
     id: "ressources",
     icon: "lucide:book-open",
     title: "Ressources",
-    body: "Bibliothèque de ressources externes recommandées pour approfondir chaque sujet."
+    body: "Bibliotheque de ressources externes recommandees pour approfondir chaque sujet."
   },
   {
     id: "sessions",
     icon: "lucide:video",
     title: "Sessions live",
-    body: "Rejoins les sessions en direct : coding sessions, Q&A, ateliers avec la communauté.",
+    body: "Rejoins les sessions en direct : coding sessions, Q&A, ateliers avec la communaute.",
     live: true
   },
   {
     id: "communaute",
     icon: "lucide:users",
-    title: "Communauté",
-    body: "Échange avec les autres créateurs, découvre leurs projets et partage les tiens."
+    title: "Communaute",
+    body: "Echange avec les autres createurs, decouvre leurs projets et partage les tiens."
   },
   {
     id: "outils",
     icon: "lucide:wrench",
     title: "Outils",
-    body: "Les services et outils recommandés par TakaCode : hébergement, IA, noms de domaine, déploiement..."
+    body: "Les services et outils recommandes par TakaCode : hebergement, IA, noms de domaine, deploiement..."
   },
   {
     id: "profil",
     icon: "lucide:user",
     title: "Profil",
-    body: "Gère ton identité, ton avatar DiceBear, tes informations et tes préférences."
+    body: "Gere ton identite, ton avatar DiceBear, tes informations et tes preferences."
   },
   {
     id: "done",

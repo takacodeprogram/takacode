@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import FooterSection from "../../../components/FooterSection";
@@ -26,8 +26,8 @@ export async function generateMetadata({ params }) {
   const slug = String(resolvedParams?.slug || "").trim();
 
   return buildPageMetadata({
-    title: "Détail Parcours",
-    description: "Détails d'un parcours TakaCode: compétences fournies, plan de progression, objectif et ressources.",
+    title: "Detail Parcours",
+    description: "Details d'un parcours TakaCode: competences fournies, plan de progression, objectif et ressources.",
     path: slug ? `/parcours/${slug}` : "/parcours"
   });
 }
@@ -66,7 +66,7 @@ export default async function ParcoursDetailPage({ params }) {
     ? myEnrollmentsResult.enrollments.find((entry) => entry.trackId === track.id) || null
     : null;
 
-  // Prérequis conseillés non encore démarrés (guidage, non bloquant).
+  // Prerequis conseilles non encore demarres (guidage, non bloquant).
   const startedSlugs = new Set(myEnrollmentsResult.enrollments.map((entry) => entry.track?.slug).filter(Boolean));
   const trackTitleBySlug = Object.fromEntries(allTracks.map((item) => [item.slug, item.title]));
   const missingPrereqs = track ? missingPrerequisites(track.slug, startedSlugs, trackTitleBySlug) : [];
@@ -95,7 +95,7 @@ export default async function ParcoursDetailPage({ params }) {
             <div className="flex items-center gap-3 flex-wrap">
               <Link href="/parcours" className="btn-secondary inline-flex items-center gap-2 text-[12px]" style={{ padding: "9px 14px" }}>
                 <iconify-icon icon="lucide:arrow-left" style={{ fontSize: "13px" }} />
-                Retour à la liste
+                Retour a la liste
               </Link>
               {track ? (
                 <span className="text-[11px] text-[#7d7d7d] font-body-readable">/{track.slug}</span>
@@ -104,7 +104,7 @@ export default async function ParcoursDetailPage({ params }) {
 
             {!schemaReady ? (
               <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-[12px] text-amber-100">
-                Tables parcours non détectées. Execute `supabase/sql/003_learning_tracks.sql` pour activer le catalogue BDD.
+                Tables parcours non detectees. Execute `supabase/sql/003_learning_tracks.sql` pour activer le catalogue BDD.
               </div>
             ) : null}
 
@@ -236,7 +236,7 @@ export default async function ParcoursDetailPage({ params }) {
                               </span>
                               <div className="flex-1">
                                 <div className="font-body-readable text-[11px] text-[#d0d0d0] leading-snug">{step.label}</div>
-                                <div className="text-[10px] text-[#666]">Étape {index + 1}</div>
+                                <div className="text-[10px] text-[#666]">Etape {index + 1}</div>
                               </div>
                             </div>
                           );
@@ -247,7 +247,7 @@ export default async function ParcoursDetailPage({ params }) {
                     <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4">
                       <div className="font-venite-italic text-[11px] tracking-widest text-[#888] mb-3">RESSOURCES INCLUSES</div>
                       <div className="space-y-2">
-                        {(resources.length ? resources : ["Ressources en préparation"]).map((resource) => (
+                        {(resources.length ? resources : ["Ressources en preparation"]).map((resource) => (
                           <div key={`${track.id}-resource-${resource}`} className="flex items-center gap-2 text-[11px] text-[#9b9b9b] font-body-readable">
                             <iconify-icon icon="lucide:file-text" style={{ fontSize: "12px", color: "#7f7f7f" }} />
                             <span>{resource}</span>
@@ -263,7 +263,7 @@ export default async function ParcoursDetailPage({ params }) {
                     <div className="flex items-center justify-between gap-3 flex-wrap mb-3">
                       <h2 className="font-venite-italic text-[12px] tracking-widest text-[#4F8EF7]">PROGRAMME DU PARCOURS</h2>
                       <span className="text-[10px] text-[#7a7a7a] font-body-readable">
-                        {curriculum.totalLessons} leçons - quiz et micro projet à chaque étape
+                        {curriculum.totalLessons} lecons - quiz et micro projet a chaque etape
                       </span>
                     </div>
 
@@ -295,7 +295,7 @@ export default async function ParcoursDetailPage({ params }) {
                               </div>
                             </div>
                             <span className="text-[10px] text-[#89c7ff] font-semibold">
-                              {module.completedLessons}/{module.totalLessons} leçons
+                              {module.completedLessons}/{module.totalLessons} lecons
                             </span>
                           </div>
 
@@ -360,11 +360,11 @@ export default async function ParcoursDetailPage({ params }) {
                     <>
                       <Link href={continueHref} className="btn-primary glow-btn inline-flex items-center gap-2 text-[13px]" style={{ padding: "12px 22px" }}>
                         <iconify-icon icon={isMine || (hasCurriculum && curriculum.completedLessons > 0) ? "lucide:play-circle" : "lucide:play"} style={{ fontSize: "15px" }} />
-                        {isMine || (hasCurriculum && curriculum.completedLessons > 0) ? "Continuer le parcours" : "Démarrer le parcours"}
+                        {isMine || (hasCurriculum && curriculum.completedLessons > 0) ? "Continuer le parcours" : "Demarrer le parcours"}
                       </Link>
                       <Link href="/projets" className="inline-flex items-center gap-1.5 text-[12px] text-[#888] hover:text-white transition-colors">
                         <iconify-icon icon="lucide:folder-code" style={{ fontSize: "13px" }} />
-                        Voir les projets associés
+                        Voir les projets associes
                       </Link>
                     </>
                   ) : (
@@ -375,7 +375,7 @@ export default async function ParcoursDetailPage({ params }) {
                       </Link>
                       <Link href="/signin?next=/dashboard" className="inline-flex items-center gap-1.5 text-[12px] text-[#888] hover:text-white transition-colors">
                         <iconify-icon icon="lucide:log-in" style={{ fontSize: "13px" }} />
-                        J'ai déjà un compte
+                        J'ai deja un compte
                       </Link>
                     </>
                   )}

@@ -1,11 +1,11 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import Navbar from "../../components/Navbar";
 import FooterSection from "../../components/FooterSection";
 import { buildPageMetadata } from "../../lib/seo";
 
 export const metadata = buildPageMetadata({
   title: "Tarifs",
-  description: "Consulte les offres TakaCode et choisis le rythme qui correspond à ton objectif de projet.",
+  description: "Consulte les offres TakaCode et choisis le rythme qui correspond a ton objectif de projet.",
   path: "/tarifs"
 });
 
@@ -22,7 +22,7 @@ export default function TarifsPage() {
               CHOISIS TON RYTHME
             </h1>
             <p className="font-body-readable text-[#888] text-[15px] leading-relaxed max-w-[620px] mx-auto mb-10">
-              Les formules seront publiées ici. En attendant, démarre gratuitement et construis ton premier projet.
+              Les formules seront publiees ici. En attendant, demarre gratuitement et construis ton premier projet.
             </p>
             <div className="inline-flex items-center gap-3">
               <Link href="/parcours" className="btn-primary glow-btn">Voir les parcours</Link>

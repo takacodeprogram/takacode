@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useMemo, useState } from "react";
 import { createClient } from "../utils/supabase/client";
@@ -97,7 +97,7 @@ export default function ProfileEditor({
       return;
     }
 
-    setMessage("Profil enregistré.");
+    setMessage("Profil enregistre.");
     setSaving(false);
   }
 
@@ -197,7 +197,7 @@ export default function ProfileEditor({
           onChange={(e) => setBio(e.target.value)}
           rows={4}
           maxLength={600}
-          placeholder="Présente-toi: ton objectif, ton projet, ton parcours..."
+          placeholder="Presente-toi: ton objectif, ton projet, ton parcours..."
           className="mt-1.5 w-full rounded-lg border border-white/[0.08] bg-[#0f0f0f] px-3 py-2.5 font-body-readable text-[12px] text-[#d0d0d0] leading-relaxed placeholder:text-[#555] focus:outline-none focus:border-blue-400/40"
         />
       </div>
@@ -220,11 +220,11 @@ export default function ProfileEditor({
       </div>
 
       <div>
-        <label className="text-[11px] text-[#8d8d8d] uppercase tracking-widest font-semibold">Compétences</label>
+        <label className="text-[11px] text-[#8d8d8d] uppercase tracking-widest font-semibold">Competences</label>
         <input
           value={skillsInput}
           onChange={(e) => setSkillsInput(e.target.value)}
-          placeholder="HTML, CSS, React, Supabase (séparées par des virgules)"
+          placeholder="HTML, CSS, React, Supabase (separees par des virgules)"
           className="mt-1.5 w-full rounded-lg border border-white/[0.08] bg-[#0f0f0f] px-3 py-2.5 font-body-readable text-[12px] text-[#d0d0d0] placeholder:text-[#555] focus:outline-none focus:border-blue-400/40"
         />
       </div>

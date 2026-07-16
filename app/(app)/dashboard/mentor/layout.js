@@ -1,4 +1,4 @@
-import { cookies } from "next/headers";
+﻿import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { getUserAccessContext } from "../../../../lib/auth";
 import { createClient } from "../../../../utils/supabase/server";
@@ -6,7 +6,7 @@ import { createClient } from "../../../../utils/supabase/server";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-// Réservé aux mentors (et admins).
+// Reserve aux mentors (et admins).
 export default async function MentorLayout({ children }) {
   const cookieStore = await cookies();
   const supabase = await createClient(cookieStore);

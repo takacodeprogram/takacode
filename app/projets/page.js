@@ -1,11 +1,11 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import FooterSection from "../../components/FooterSection";
 import Navbar from "../../components/Navbar";
 import { buildPageMetadata } from "../../lib/seo";
 
 export const metadata = buildPageMetadata({
   title: "Projets",
-  description: "Catalogue clair des projets TakaCode avec objectif, livrable final, compétences et stack recommandé.",
+  description: "Catalogue clair des projets TakaCode avec objectif, livrable final, competences et stack recommande.",
   path: "/projets"
 });
 
@@ -15,45 +15,45 @@ const PROJECT_FORMATS = [
     icon: "lucide:globe",
     accent: "#4F8EF7",
     title: "Site web ou portfolio",
-    summary: "Projet rapide pour présenter ton offre, tes services ou ton profil.",
-    cadence: "1 à 2 semaines",
-    audience: "Débutant"
+    summary: "Projet rapide pour presenter ton offre, tes services ou ton profil.",
+    cadence: "1 a 2 semaines",
+    audience: "Debutant"
   },
   {
     id: "app",
     icon: "lucide:layout-dashboard",
     accent: "#9B6DFF",
     title: "Application web",
-    summary: "Outil SaaS, panel admin ou plateforme métier connectée à des données.",
-    cadence: "2 à 5 semaines",
-    audience: "Débutant +"
+    summary: "Outil SaaS, panel admin ou plateforme metier connectee a des donnees.",
+    cadence: "2 a 5 semaines",
+    audience: "Debutant +"
   },
   {
     id: "mobile",
     icon: "lucide:smartphone",
     accent: "#22D3EE",
     title: "Application mobile",
-    summary: "Prototype Android/iOS pour terrain, suivi d'équipe ou service client.",
-    cadence: "3 à 6 semaines",
-    audience: "Intermédiaire"
+    summary: "Prototype Android/iOS pour terrain, suivi d'equipe ou service client.",
+    cadence: "3 a 6 semaines",
+    audience: "Intermediaire"
   },
   {
     id: "automation",
     icon: "lucide:bot",
     accent: "#06B6D4",
     title: "Workflow IA et automation",
-    summary: "Automatiser un process répétitif avec IA, n8n ou Make.",
-    cadence: "1 à 3 semaines",
-    audience: "Intermédiaire"
+    summary: "Automatiser un process repetitif avec IA, n8n ou Make.",
+    cadence: "1 a 3 semaines",
+    audience: "Intermediaire"
   },
   {
     id: "data",
     icon: "lucide:bar-chart-3",
     accent: "#10B981",
     title: "Dashboard data",
-    summary: "Transformer des données brutes en décision claire via KPI et visualisations.",
-    cadence: "1 à 3 semaines",
-    audience: "Débutant +"
+    summary: "Transformer des donnees brutes en decision claire via KPI et visualisations.",
+    cadence: "1 a 3 semaines",
+    audience: "Debutant +"
   },
   {
     id: "business",
@@ -61,8 +61,8 @@ const PROJECT_FORMATS = [
     accent: "#F59E0B",
     title: "Projet business digital",
     summary: "Monter une offre en ligne, tunnel de vente et preuve de traction.",
-    cadence: "2 à 6 semaines",
-    audience: "Intermédiaire"
+    cadence: "2 a 6 semaines",
+    audience: "Intermediaire"
   }
 ];
 
@@ -73,10 +73,10 @@ const PROJECT_LIBRARY = [
     domain: "Web",
     icon: "lucide:globe",
     accent: "#4F8EF7",
-    levelLabel: "Débutant",
+    levelLabel: "Debutant",
     durationLabel: "7 jours",
-    objective: "Mettre en ligne une présence web claire avec page d'accueil, services et contact.",
-    deliverable: "Site déployé + formulaire contact actif",
+    objective: "Mettre en ligne une presence web claire avec page d'accueil, services et contact.",
+    deliverable: "Site deploye + formulaire contact actif",
     competencies: [
       "Structurer HTML/CSS propre",
       "Rendre le design mobile-first",
@@ -91,14 +91,14 @@ const PROJECT_LIBRARY = [
     domain: "Data",
     icon: "lucide:bar-chart-3",
     accent: "#10B981",
-    levelLabel: "Débutant +",
+    levelLabel: "Debutant +",
     durationLabel: "10 jours",
     objective: "Centraliser ventes et performance pour lire les chiffres en 1 minute.",
     deliverable: "Dashboard avec KPI, filtres et export PDF",
     competencies: [
-      "Nettoyer des données CSV",
-      "Construire des indicateurs clés",
-      "Présenter insights actionnables"
+      "Nettoyer des donnees CSV",
+      "Construire des indicateurs cles",
+      "Presenter insights actionnables"
     ],
     stack: ["Excel", "Power BI", "Looker Studio"],
     parcoursHref: "/parcours/analyse-donnees"
@@ -109,10 +109,10 @@ const PROJECT_LIBRARY = [
     domain: "IA",
     icon: "lucide:bot",
     accent: "#22D3EE",
-    levelLabel: "Intermédiaire",
+    levelLabel: "Intermediaire",
     durationLabel: "12 jours",
-    objective: "Automatiser les demandes récurrentes sans perdre la qualité des réponses.",
-    deliverable: "Agent IA branché à une base FAQ métier",
+    objective: "Automatiser les demandes recurrentes sans perdre la qualite des reponses.",
+    deliverable: "Agent IA branche a une base FAQ metier",
     competencies: [
       "Designer un workflow n8n",
       "Structurer prompts et garde-fous",
@@ -127,13 +127,13 @@ const PROJECT_LIBRARY = [
     domain: "Mobile",
     icon: "lucide:smartphone",
     accent: "#06B6D4",
-    levelLabel: "Intermédiaire",
+    levelLabel: "Intermediaire",
     durationLabel: "3 semaines",
-    objective: "Digitaliser les relevés terrain avec synchronisation et historique.",
+    objective: "Digitaliser les releves terrain avec synchronisation et historique.",
     deliverable: "Prototype mobile testable avec formulaires",
     competencies: [
-      "Concevoir écrans clairs",
-      "Gérer navigation et offline",
+      "Concevoir ecrans clairs",
+      "Gerer navigation et offline",
       "Synchroniser vers backend"
     ],
     stack: ["React Native", "Expo", "Supabase"],
@@ -147,10 +147,10 @@ const PROJECT_LIBRARY = [
     accent: "#F59E0B",
     levelLabel: "Build",
     durationLabel: "4 semaines",
-    objective: "Passer d'une idée à une offre monetizable avec premiers utilisateurs.",
+    objective: "Passer d'une idee a une offre monetizable avec premiers utilisateurs.",
     deliverable: "Landing + offre + tunnel de vente",
     competencies: [
-      "définir positionnement clair",
+      "definir positionnement clair",
       "Construire une offre vendable",
       "Mesurer conversion et revenu"
     ],
@@ -159,18 +159,18 @@ const PROJECT_LIBRARY = [
   },
   {
     id: "dapp-community",
-    title: "dApp communauté",
+    title: "dApp communaute",
     domain: "Web3",
     icon: "lucide:wallet",
     accent: "#38BDF8",
     levelLabel: "Build",
     durationLabel: "4 a 6 semaines",
-    objective: "Créer une app communautaire avec authentification wallet et badges on-chain.",
+    objective: "Creer une app communautaire avec authentification wallet et badges on-chain.",
     deliverable: "dApp MVP avec smart contract de base",
     competencies: [
       "Ecrire un smart contract simple",
       "Connecter wallet au front",
-      "déployer et tester la dApp"
+      "deployer et tester la dApp"
     ],
     stack: ["Solidity", "Ethers", "Next.js", "WalletConnect"],
     parcoursHref: "/parcours/web3-blockchain"
@@ -204,8 +204,8 @@ export default function ProjetsPage() {
                 CATALOGUE CLAIR DES PROJETS A CONSTRUIRE
               </h1>
               <p className="font-body-readable text-[15px] text-[#8d8d8d] mt-4 leading-relaxed">
-                Cette page te montre exactement quoi construire: objectif, livrable final, compétences acquises et stack recommandé.
-                Tu peux choisir un projet puis ouvrir le parcours associé pour le réaliser.
+                Cette page te montre exactement quoi construire: objectif, livrable final, competences acquises et stack recommande.
+                Tu peux choisir un projet puis ouvrir le parcours associe pour le realiser.
               </p>
             </div>
 
@@ -213,7 +213,7 @@ export default function ProjetsPage() {
               <article className="rounded-xl border border-white/[0.08] bg-[#111] px-4 py-4">
                 <div className="text-[10px] text-[#666] uppercase tracking-widest mb-1">Bibliotheque</div>
                 <div className="font-venite-italic text-[20px] text-white">{PROJECT_LIBRARY.length} PROJETS</div>
-                <p className="font-body-readable text-[11px] text-[#767676] mt-1">Des exemples concrets prêts à lancer.</p>
+                <p className="font-body-readable text-[11px] text-[#767676] mt-1">Des exemples concrets prets a lancer.</p>
               </article>
               <article className="rounded-xl border border-white/[0.08] bg-[#111] px-4 py-4">
                 <div className="text-[10px] text-[#666] uppercase tracking-widest mb-1">Formats</div>
@@ -223,7 +223,7 @@ export default function ProjetsPage() {
               <article className="rounded-xl border border-white/[0.08] bg-[#111] px-4 py-4">
                 <div className="text-[10px] text-[#666] uppercase tracking-widest mb-1">Lecture rapide</div>
                 <div className="font-venite-italic text-[20px] text-white">4 INFOS CLEFS</div>
-                <p className="font-body-readable text-[11px] text-[#767676] mt-1">Objectif, livrable, compétences, stack.</p>
+                <p className="font-body-readable text-[11px] text-[#767676] mt-1">Objectif, livrable, competences, stack.</p>
               </article>
             </div>
 
@@ -232,15 +232,15 @@ export default function ProjetsPage() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                 <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4">
                   <div className="text-[10px] text-[#4F8EF7] font-semibold mb-2">ETAPE 1</div>
-                  <div className="font-body-readable text-[12px] text-[#cdcdcd]">Choisis le domaine qui correspond à ton objectif actuel.</div>
+                  <div className="font-body-readable text-[12px] text-[#cdcdcd]">Choisis le domaine qui correspond a ton objectif actuel.</div>
                 </div>
                 <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4">
                   <div className="text-[10px] text-[#4F8EF7] font-semibold mb-2">ETAPE 2</div>
-                  <div className="font-body-readable text-[12px] text-[#cdcdcd]">Lis le livrable final pour vérifier ce que tu vas vraiment sortir.</div>
+                  <div className="font-body-readable text-[12px] text-[#cdcdcd]">Lis le livrable final pour verifier ce que tu vas vraiment sortir.</div>
                 </div>
                 <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4">
                   <div className="text-[10px] text-[#4F8EF7] font-semibold mb-2">ETAPE 3</div>
-                  <div className="font-body-readable text-[12px] text-[#cdcdcd]">Ouvre le parcours associé et lance ton exécution depuis le dashboard.</div>
+                  <div className="font-body-readable text-[12px] text-[#cdcdcd]">Ouvre le parcours associe et lance ton execution depuis le dashboard.</div>
                 </div>
               </div>
             </section>
@@ -286,7 +286,7 @@ export default function ProjetsPage() {
             <div className="flex items-center justify-between gap-4 flex-wrap mb-6">
               <div>
                 <h2 className="font-venite-italic text-[16px] text-white mb-1">PROJETS DETAILLES</h2>
-                <p className="font-body-readable text-[12px] text-[#727272]">Chaque carte décrit clairement le résultat attendu et les compétences que tu vas gagner.</p>
+                <p className="font-body-readable text-[12px] text-[#727272]">Chaque carte decrit clairement le resultat attendu et les competences que tu vas gagner.</p>
               </div>
               <Link href="/dashboard" className="btn-secondary inline-flex items-center gap-2 text-[12px]" style={{ padding: "10px 16px" }}>
                 Lancer depuis mon dashboard
@@ -334,7 +334,7 @@ export default function ProjetsPage() {
                     </div>
 
                     <div>
-                      <div className="text-[10px] text-[#666] uppercase tracking-widest mb-2">Compétences acquises</div>
+                      <div className="text-[10px] text-[#666] uppercase tracking-widest mb-2">Competences acquises</div>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         {project.competencies.map((competence) => (
                           <div
@@ -349,7 +349,7 @@ export default function ProjetsPage() {
                     </div>
 
                     <div>
-                      <div className="text-[10px] text-[#666] uppercase tracking-widest mb-2">Stack recommandé</div>
+                      <div className="text-[10px] text-[#666] uppercase tracking-widest mb-2">Stack recommande</div>
                       <div className="flex flex-wrap gap-1.5">
                         {project.stack.map((tool) => (
                           <span
@@ -369,7 +369,7 @@ export default function ProjetsPage() {
                       className="btn-secondary inline-flex items-center gap-2 text-[12px]"
                       style={{ padding: "10px 16px" }}
                     >
-                      Voir le parcours associé
+                      Voir le parcours associe
                       <iconify-icon icon="lucide:route" style={{ fontSize: "13px" }} />
                     </Link>
                     <Link
@@ -377,7 +377,7 @@ export default function ProjetsPage() {
                       className="btn-secondary inline-flex items-center gap-2 text-[12px]"
                       style={{ padding: "10px 16px" }}
                     >
-                      Démarrer ce projet
+                      Demarrer ce projet
                       <iconify-icon icon="lucide:play" style={{ fontSize: "13px" }} />
                     </Link>
                   </div>

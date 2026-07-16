@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 
 export default function FinalCtaSection() {
   return (
@@ -24,9 +24,9 @@ export default function FinalCtaSection() {
             COMMENCE ICI
           </span>
         </h2>
-        <p className="font-body-readable text-[#666] text-[15px] leading-relaxed mb-4 max-w-[500px] mx-auto">Tu n'as pas besoin d'être expert.</p>
+        <p className="font-body-readable text-[#666] text-[15px] leading-relaxed mb-4 max-w-[500px] mx-auto">Tu n'as pas besoin d'etre expert.</p>
         <p className="font-body-readable text-[#888] text-[15px] leading-relaxed mb-3">Tu as besoin d'un parcours clair et de pratique.</p>
-        <p className="font-body-readable text-[#666] text-[14px] mb-12">TakaCode t'accompagne pour transformer tes idées en projets réels.</p>
+        <p className="font-body-readable text-[#666] text-[14px] mb-12">TakaCode t'accompagne pour transformer tes idees en projets reels.</p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link href="/projets" id="final-cta-primary" className="btn-primary glow-btn flex items-center gap-2" style={{ fontSize: "15px", padding: "16px 36px" }}>

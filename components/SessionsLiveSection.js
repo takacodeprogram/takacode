@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 
 export default function SessionsLiveSection() {
   return (
@@ -19,7 +19,7 @@ export default function SessionsLiveSection() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           <div>
             <p className="font-body-readable text-[#666] text-[15px] leading-relaxed mb-8">
-              Participe à des sessions de pratique en direct avec la communauté. Pose des questions, construis avec d'autres, avance plus vite.
+              Participe a des sessions de pratique en direct avec la communaute. Pose des questions, construis avec d'autres, avance plus vite.
             </p>
             <div className="space-y-3">
               <div className="flex items-center gap-3">
@@ -82,7 +82,7 @@ export default function SessionsLiveSection() {
               </div>
               <div className="flex-1 min-w-0">
                 <div className="font-venite text-[13px] text-white mb-1">MASTERCLASS WEB3</div>
-                <div className="font-body-readable text-[11px] text-[#555]">Créer ta première dApp avec wallet connecté</div>
+                <div className="font-body-readable text-[11px] text-[#555]">Creer ta premiere dApp avec wallet connecte</div>
               </div>
               <div className="text-right flex-shrink-0">
                 <div className="flex items-center justify-end gap-1.5 mb-1">

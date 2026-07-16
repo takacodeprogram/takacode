@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -11,9 +11,9 @@ import { createClient } from "../utils/supabase/client";
 const navLinks = [
   { href: "/", id: "nav-accueil-link", label: "Accueil", match: ["/"] },
   { href: "/parcours", id: "nav-parcours-link", label: "Parcours", match: ["/parcours"] },
-  { href: "/competences", id: "nav-competences-link", label: "Compétences", match: ["/competences"] },
+  { href: "/competences", id: "nav-competences-link", label: "Competences", match: ["/competences"] },
   { href: "/projets", id: "nav-projets-link", label: "Projets", match: ["/projets"] },
-  { href: "/communaute", id: "nav-communaute-link", label: "Communauté", match: ["/communaute"] },
+  { href: "/communaute", id: "nav-communaute-link", label: "Communaute", match: ["/communaute"] },
   { href: "/classement", id: "nav-classement-link", label: "Classement", match: ["/classement"] },
   { href: "/tarifs", id: "nav-tarifs-link", label: "Tarifs", match: ["/tarifs"] }
 ];

@@ -1,4 +1,4 @@
-import { cookies } from "next/headers";
+﻿import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import PageHeader from "../../../../../components/app-shell/PageHeader";
 import TrackForm from "../../../../../components/admin/TrackForm";
@@ -47,8 +47,8 @@ export default async function MentorEditTrackPage({ params }) {
       ) : (
         <div className="rounded-xl border border-white/[0.08] bg-[#111] px-4 py-4 text-[12px] text-[#a5a5a5] font-body-readable">
           {track.is_published
-            ? "Cette proposition a été validée et publiée. Merci pour ta contribution !"
-            : "Cette proposition n'a pas été retenue. Tu peux en proposer une nouvelle."}
+            ? "Cette proposition a ete validee et publiee. Merci pour ta contribution !"
+            : "Cette proposition n'a pas ete retenue. Tu peux en proposer une nouvelle."}
         </div>
       )}
     </>
