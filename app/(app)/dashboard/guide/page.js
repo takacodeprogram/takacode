@@ -1,5 +1,6 @@
 import Link from "next/link";
 import PageHeader from "../../../../components/app-shell/PageHeader";
+import PublicTour from "../../../../components/public-tour/PublicTour";
 import { TOUR_STEPS } from "../../../../components/app-shell/tourSteps";
 import { buildPageMetadata } from "../../../../lib/seo";
 
@@ -72,6 +73,8 @@ export default function GuidePage() {
           Commencer à construire
         </Link>
       </div>
+
+      <PublicTour />
     </>
   );
 }

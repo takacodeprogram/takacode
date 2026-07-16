@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
-import { LECON_STEPS, PARCOURS_DETAIL_STEPS, PARCOURS_PAGE_STEPS } from "./steps";
+import { GUIDE_STEPS, LECON_STEPS, PARCOURS_DETAIL_STEPS, PARCOURS_PAGE_STEPS } from "./steps";
 
 const STORAGE_KEY_PREFIX = "tk_tour_";
 const TOUR_DELAY_MS = 800;
@@ -11,6 +11,7 @@ function getTourKey(pathname) {
   if (pathname.startsWith("/parcours/") && pathname.includes("/lecon/")) return "lecon";
   if (pathname.startsWith("/parcours/") && pathname !== "/parcours") return "detail";
   if (pathname === "/parcours") return "parcours";
+  if (pathname === "/dashboard/guide") return "guide";
   return null;
 }
 
@@ -18,6 +19,7 @@ function getSteps(tourKey) {
   if (tourKey === "parcours") return PARCOURS_PAGE_STEPS;
   if (tourKey === "detail") return PARCOURS_DETAIL_STEPS;
   if (tourKey === "lecon") return LECON_STEPS;
+  if (tourKey === "guide") return GUIDE_STEPS;
   return [];
 }
 

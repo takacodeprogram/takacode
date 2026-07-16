@@ -90,3 +90,27 @@ export const LECON_STEPS = [
     center: true
   }
 ];
+
+export const GUIDE_STEPS = [
+  {
+    id: "guide-welcome",
+    icon: "lucide:sparkles",
+    title: "Guide de démarrage",
+    body: "Voici un tour rapide des sections de ton espace TakaCode. Explore chaque section pour découvrir tout ce que tu peux faire.",
+    center: true
+  },
+  {
+    id: "guide-navigate",
+    icon: "lucide:mouse-pointer-click",
+    title: "Navigation",
+    body: "Clique sur une section dans la liste ci-dessous pour t'y rendre directement. Tu peux aussi utiliser la sidebar à gauche.",
+    center: true
+  },
+  {
+    id: "guide-done",
+    icon: "lucide:rocket",
+    title: "Prêt à créer",
+    body: "Tu connais maintenant les sections clés. Explore, apprends et construis ton projet. Ce guide reste accessible depuis ton Tableau de bord.",
+    center: true
+  }
+];
