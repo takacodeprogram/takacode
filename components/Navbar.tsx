@@ -176,7 +176,7 @@ export default function Navbar() {
     >
       <div className="max-w-[1320px] mx-auto px-8 nav-shell flex items-center justify-between">
         <Link href="/" id="nav-logo-link" className="flex items-center gap-2 flex-shrink-0" onClick={closeMobileMenu}>
-           <img src={logoLight4} alt="TakaCode" width="130" height="130" className="nav-logo-image" />
+           <img src={logoLight4.src} alt="TakaCode" width="130" height="130" className="nav-logo-image" />
         </Link>
 
         <div className="nav-desktop-links flex items-center gap-7">

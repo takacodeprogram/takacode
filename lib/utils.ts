@@ -49,7 +49,7 @@ export function normalizeNextSteps(value: unknown): NextStep[] {
       const state = normalizeText((step as Record<string, unknown>).state, "locked");
       return { label, state };
     })
-    .filter(Boolean);
+    .filter((s): s is NextStep => s !== null);
 }
 
 export function parseCount(value: unknown): number | null {

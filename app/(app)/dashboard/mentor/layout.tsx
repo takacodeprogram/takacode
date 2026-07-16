@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 // Réservé aux mentors (et admins).
-export default async function MentorLayout({ children }) {
+export default async function MentorLayout({ children }: { children: React.ReactNode }) {
   const cookieStore = await cookies();
   const supabase = await createClient(cookieStore);
 

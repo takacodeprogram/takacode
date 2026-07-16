@@ -16,7 +16,7 @@ export const metadata = buildPageMetadata({
   noIndex: true
 });
 
-export default async function EditLessonPage({ params }) {
+export default async function EditLessonPage({ params }: { params: Promise<Record<string, string>> }) {
   const resolvedParams = await Promise.resolve(params);
   const trackId = String(resolvedParams?.trackId || "").trim();
   const lessonId = String(resolvedParams?.lessonId || "").trim();

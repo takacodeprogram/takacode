@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { reviewProject, getAIReviewConfig, isAIReviewAvailable } from "../../../../lib/aiReview";
 import { createClient } from "../../../../utils/supabase/server";
@@ -12,7 +12,7 @@ const ERROR_STATUS = {
   link_required: 400
 };
 
-export async function POST(request) {
+export async function POST(request: NextRequest) {
   let payload = null;
 
   try {
@@ -55,7 +55,7 @@ export async function POST(request) {
 
   if (rpcError) {
     console.error("[PROJECT] RPC business error:", rpcError);
-    return NextResponse.json({ error: rpcError }, { status: ERROR_STATUS[rpcError] || 400 });
+    return NextResponse.json({ error: rpcError }, { status: ERROR_STATUS[rpcError as keyof typeof ERROR_STATUS] || 400 });
   }
 
   console.log(`[PROJECT] RPC ok: validation=${data?.validation} reviewStatus=${data?.reviewStatus} status=${data?.status}`);
@@ -118,7 +118,7 @@ export async function POST(request) {
 }
 
 // Declenche une review IA et enregistre le verdict.
-async function triggerAIReview(supabase, currentUser, lessonId) {
+async function triggerAIReview(supabase: Awaited<ReturnType<typeof createClient>>, currentUser: { id: string }, lessonId: string) {
   const { data: lessonData, error: lessonError } = await supabase
     .from("user_lesson_progress")
     .select(`
@@ -215,7 +215,7 @@ async function triggerAIReview(supabase, currentUser, lessonId) {
     console.log("[AI-REVIEW] Enregistre via submit_project_review (fallback)");
     return { verdict: result.verdict, feedback: result.feedback };
   } catch (err) {
-    console.error("[AI-REVIEW] Exception:", err.message);
+    console.error("[AI-REVIEW] Exception:", err instanceof Error ? err.message : String(err));
     return null;
   }
 }

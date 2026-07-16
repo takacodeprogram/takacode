@@ -5,6 +5,7 @@ import { buildAuthUsersLookup, mergeProfilesWithAuthUsers } from "../../../lib/a
 import { getPlatformStats } from "../../../lib/platformStats";
 import { buildPageMetadata } from "../../../lib/seo";
 import { listPublishedTracks } from "../../../lib/tracks";
+import { isMissingSchemaError } from "../../../lib/utils";
 import { createClient } from "../../../utils/supabase/server";
 
 export const dynamic = "force-dynamic";
@@ -20,10 +21,8 @@ export const metadata = buildPageMetadata({
   noIndex: true
 });
 
-function isMissingTableError(error, table) {
-  const code = typeof error?.code === "string" ? error.code : "";
-  const message = typeof error?.message === "string" ? error.message.toLowerCase() : "";
-  return code === "PGRST205" || code === "42P01" || message.includes(table) || message.includes("schema cache");
+function isMissingTableError(error: unknown, table: string) {
+  return isMissingSchemaError(error, [table]);
 }
 
 export default async function AdminOverviewPage() {

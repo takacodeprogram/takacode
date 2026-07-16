@@ -9,7 +9,7 @@ import { createClient } from "../../utils/supabase/server";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-export default async function AppLayout({ children }) {
+export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const cookieStore = await cookies();
   const supabase = await createClient(cookieStore);
 

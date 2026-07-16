@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { createClient } from "../../../../utils/supabase/server";
 
@@ -9,7 +9,7 @@ const ERROR_STATUS = {
   invalid_answers: 400
 };
 
-export async function POST(request) {
+export async function POST(request: NextRequest) {
   let payload = null;
 
   try {
@@ -48,7 +48,7 @@ export async function POST(request) {
   const rpcError = typeof data?.error === "string" ? data.error : "";
 
   if (rpcError) {
-    return NextResponse.json({ error: rpcError }, { status: ERROR_STATUS[rpcError] || 400 });
+    return NextResponse.json({ error: rpcError }, { status: ERROR_STATUS[rpcError as keyof typeof ERROR_STATUS] || 400 });
   }
 
   return NextResponse.json(data, {

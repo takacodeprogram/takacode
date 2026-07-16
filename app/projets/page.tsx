@@ -177,7 +177,7 @@ const PROJECT_LIBRARY = [
   }
 ];
 
-function getLevelChipClass(levelLabel) {
+function getLevelChipClass(levelLabel: string) {
   const normalized = String(levelLabel || "").toLowerCase();
 
   if (normalized.includes("debutant")) {

@@ -1,10 +1,10 @@
 import { createServerClient } from "@supabase/ssr";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
-function sanitizeNextPath(value) {
+function sanitizeNextPath(value: string | null) {
   if (typeof value !== "string") {
     return "/dashboard";
   }
@@ -24,7 +24,7 @@ function getConfig() {
   return { supabaseUrl, supabaseKey };
 }
 
-export async function GET(request) {
+export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get("code");
   const oauthError = requestUrl.searchParams.get("error");

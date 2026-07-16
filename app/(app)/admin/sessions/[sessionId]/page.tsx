@@ -17,7 +17,7 @@ export const metadata = buildPageMetadata({
   noIndex: true
 });
 
-export default async function EditSessionPage({ params }) {
+export default async function EditSessionPage({ params }: { params: Promise<Record<string, string>> }) {
   const resolvedParams = await Promise.resolve(params);
   const sessionId = String(resolvedParams?.sessionId || "").trim();
 

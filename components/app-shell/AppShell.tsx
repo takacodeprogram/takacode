@@ -113,7 +113,7 @@ export default function AppShell({ user, children }: AppShellProps) {
       <>
         <div className="mb-10 pl-2">
           <Link href="/dashboard" onClick={onNavigate}>
-             <img src={logoLight4} alt="TakaCode" className="nav-logo-image" />
+             <img src={logoLight4.src} alt="TakaCode" className="nav-logo-image" />
           </Link>
         </div>
 

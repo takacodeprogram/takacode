@@ -1,5 +1,5 @@
 import { createServerClient } from "@supabase/ssr";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { resolveAvatarUrl } from "../../../lib/avatar";
 import { getUserAccessContext } from "../../../lib/auth";
 import { formatDisplayName } from "../../../lib/displayName";
@@ -15,9 +15,9 @@ function getConfig() {
   return { supabaseUrl, supabaseKey };
 }
 
-export async function GET(request) {
+export async function GET(request: NextRequest) {
   const { supabaseUrl: url, supabaseKey: key } = getConfig();
-  const cookiesToSet = [];
+  const cookiesToSet: Array<{name: string; value: string; options?: Record<string, unknown>}> = [];
 
   const supabase = createServerClient(url, key, {
     cookies: {

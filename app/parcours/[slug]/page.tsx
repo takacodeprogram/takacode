@@ -21,8 +21,12 @@ import { createClient } from "../../../utils/supabase/server";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-export async function generateMetadata({ params }) {
-  const resolvedParams = await Promise.resolve(params);
+interface ParcoursPageProps {
+  params: Promise<{ slug: string }>;
+}
+
+export async function generateMetadata({ params }: ParcoursPageProps) {
+  const resolvedParams = await params;
   const slug = String(resolvedParams?.slug || "").trim();
 
   return buildPageMetadata({
@@ -32,8 +36,8 @@ export async function generateMetadata({ params }) {
   });
 }
 
-export default async function ParcoursDetailPage({ params }) {
-  const resolvedParams = await Promise.resolve(params);
+export default async function ParcoursDetailPage({ params }: ParcoursPageProps) {
+  const resolvedParams = await params;
   const slug = String(resolvedParams?.slug || "").trim().toLowerCase();
 
   if (!slug) {
@@ -74,10 +78,10 @@ export default async function ParcoursDetailPage({ params }) {
   const curriculum = track ? await getTrackCurriculum(supabase, track.id, user?.id || "") : null;
   const hasCurriculum = Boolean(curriculum?.hasCurriculum);
 
-  const progress = user && hasCurriculum ? toProgress(curriculum.progressPercent) : toProgress(enrollment?.progress);
+  const progress = user && hasCurriculum ? toProgress(curriculum!.progressPercent) : toProgress(enrollment?.progress);
   const isMine = Boolean(enrollment);
 
-  const continueHref = hasCurriculum && curriculum.nextLesson
+  const continueHref = track && curriculum?.nextLesson
     ? `/parcours/${track.slug}/lecon/${curriculum.nextLesson.lessonSlug}`
     : "/dashboard";
 
@@ -155,9 +159,9 @@ export default async function ParcoursDetailPage({ params }) {
                             style={{ width: `${progress}%` }}
                           />
                         </div>
-                        {curriculum.totalLessons > 0 ? (
+                        {curriculum!.totalLessons > 0 ? (
                           <div className="text-[9px] text-[#666] text-center">
-                            {curriculum.completedLessons}/{curriculum.totalLessons} lecons
+                            {curriculum!.completedLessons}/{curriculum!.totalLessons} lecons
                           </div>
                         ) : null}
                       </div>
@@ -263,12 +267,12 @@ export default async function ParcoursDetailPage({ params }) {
                     <div className="flex items-center justify-between gap-3 flex-wrap mb-3">
                       <h2 className="font-venite-italic text-[12px] tracking-widest text-[#4F8EF7]">PROGRAMME DU PARCOURS</h2>
                       <span className="text-[10px] text-[#7a7a7a] font-body-readable">
-                        {curriculum.totalLessons} lecons - quiz et micro projet a chaque etape
+                        {curriculum!.totalLessons} lecons - quiz et micro projet a chaque etape
                       </span>
                     </div>
 
                     <div className="space-y-3">
-                      {curriculum.modules.map((module, moduleIndex) => (
+                      {curriculum!.modules.map((module, moduleIndex) => (
                         <div key={`${track.id}-module-${module.id}`} className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4">
                           <div className="flex items-center justify-between gap-3 flex-wrap mb-3">
                             <div className="flex items-center gap-3">
@@ -359,8 +363,8 @@ export default async function ParcoursDetailPage({ params }) {
                   {user ? (
                     <>
                       <Link href={continueHref} className="btn-primary glow-btn inline-flex items-center gap-2 text-[13px]" style={{ padding: "12px 22px" }}>
-                        <iconify-icon icon={isMine || (hasCurriculum && curriculum.completedLessons > 0) ? "lucide:play-circle" : "lucide:play"} style={{ fontSize: "15px" }} />
-                        {isMine || (hasCurriculum && curriculum.completedLessons > 0) ? "Continuer le parcours" : "Demarrer le parcours"}
+                        <iconify-icon icon={isMine || (hasCurriculum && curriculum!.completedLessons > 0) ? "lucide:play-circle" : "lucide:play"} style={{ fontSize: "15px" }} />
+                        {isMine || (hasCurriculum && curriculum!.completedLessons > 0) ? "Continuer le parcours" : "Demarrer le parcours"}
                       </Link>
                       <Link href="/projets" className="inline-flex items-center gap-1.5 text-[12px] text-[#888] hover:text-white transition-colors">
                         <iconify-icon icon="lucide:folder-code" style={{ fontSize: "13px" }} />

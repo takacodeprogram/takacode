@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 // Garde de role: tout /admin/* exige le role admin.
-export default async function AdminLayout({ children }) {
+export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const cookieStore = await cookies();
   const supabase = await createClient(cookieStore);
 

@@ -19,8 +19,8 @@ const PROVIDER_LABELS = {
   huggingface: "Hugging Face"
 };
 
-function buildRequest(provider, model, apiKey) {
-  const m = model || PROVIDER_DEFAULTS[provider] || "";
+function buildRequest(provider: string, model: string, apiKey: string) {
+  const m = model || (PROVIDER_DEFAULTS as Record<string, string>)[provider] || "";
 
   if (provider === "gemini") {
     return {
@@ -65,7 +65,7 @@ function buildRequest(provider, model, apiKey) {
   };
 }
 
-function parseResponse(provider, json) {
+function parseResponse(provider: string, json: any) {
   if (provider === "gemini") return json?.candidates?.[0]?.content?.parts?.[0]?.text || "";
   if (provider === "huggingface") {
     return Array.isArray(json) ? (json[0]?.generated_text || "") : (json?.generated_text || "");
@@ -75,7 +75,7 @@ function parseResponse(provider, json) {
   return msg.content || msg.reasoning || "";
 }
 
-async function testSingleProvider(provider) {
+async function testSingleProvider(provider: string) {
   // Supporte modeles specifiques par provider : AI_REVIEW_<PROVIDER>_MODEL
   const providerModels = process.env[`AI_REVIEW_${provider.toUpperCase()}_MODEL`];
   const genericModels = process.env.AI_REVIEW_MODEL;
@@ -101,7 +101,7 @@ async function testSingleProvider(provider) {
       const startTime = Date.now();
       const response = await fetch(url, {
         method: "POST",
-        headers,
+        headers: headers as Record<string, string>,
         body: JSON.stringify(body)
       });
       const elapsedMs = Date.now() - startTime;
@@ -129,10 +129,10 @@ async function testSingleProvider(provider) {
         model,
         elapsedMs,
         response: responseText,
-        label: PROVIDER_LABELS[provider] || provider
+        label: (PROVIDER_LABELS as Record<string, string>)[provider] || provider
       };
     } catch (err) {
-      errors.push(`${model}: ${err.message || "Erreur reseau"}`);
+      errors.push(`${model}: ${(err instanceof Error ? err.message : String(err)) || "Erreur reseau"}`);
     }
   }
 
@@ -182,8 +182,8 @@ export async function GET() {
       ok: false,
       providers: [],
       chain: [],
-      error: err?.message || "Erreur interne du serveur",
-      detail: err?.stack ? err.stack.slice(0, 300) : ""
+      error: (err instanceof Error ? err.message : String(err)) || "Erreur interne du serveur",
+      detail: err instanceof Error ? err.stack?.slice(0, 300) : ""
     }, { status: 200 });
   }
 }

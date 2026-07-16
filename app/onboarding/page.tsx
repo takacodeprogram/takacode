@@ -5,6 +5,7 @@ import { userHasRole } from "../../lib/auth";
 import { isOnboardingCompleted } from "../../lib/onboarding";
 import { createClient } from "../../utils/supabase/server";
 import { buildPageMetadata } from "../../lib/seo";
+import type { User } from "@supabase/supabase-js";
 
 export const metadata = buildPageMetadata({
   title: "Onboarding",
@@ -13,7 +14,7 @@ export const metadata = buildPageMetadata({
   noIndex: true
 });
 
-function formatDisplayName(user) {
+function formatDisplayName(user: User) {
   const fullName = typeof user?.user_metadata?.full_name === "string" ? user.user_metadata.full_name.trim() : "";
   if (fullName) {
     return fullName;

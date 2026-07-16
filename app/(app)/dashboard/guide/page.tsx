@@ -14,7 +14,7 @@ export const metadata = buildPageMetadata({
   noIndex: true
 });
 
-const LINKS = {
+const LINKS: Record<string, string> = {
   dashboard: "/dashboard",
   parcours: "/dashboard/parcours",
   projets: "/dashboard/projets",

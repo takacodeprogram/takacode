@@ -16,7 +16,7 @@ export const metadata = buildPageMetadata({
   noIndex: true
 });
 
-export default async function EditAffiliatePage({ params }) {
+export default async function EditAffiliatePage({ params }: { params: Promise<Record<string, string>> }) {
   const resolvedParams = await Promise.resolve(params);
   const affiliateId = String(resolvedParams?.affiliateId || "").trim();
 

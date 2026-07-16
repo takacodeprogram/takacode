@@ -1,5 +1,5 @@
 import { createServerClient } from "@supabase/ssr";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
@@ -12,7 +12,7 @@ function getConfig() {
   return { supabaseUrl, supabaseKey };
 }
 
-async function signOutAndRedirect(request) {
+async function signOutAndRedirect(request: NextRequest) {
   const { supabaseUrl: url, supabaseKey: key } = getConfig();
   const requestUrl = new URL(request.url);
 
@@ -36,11 +36,11 @@ async function signOutAndRedirect(request) {
   return response;
 }
 
-export async function GET(request) {
+export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url);
   return NextResponse.redirect(new URL("/signin", requestUrl.origin));
 }
 
-export async function POST(request) {
+export async function POST(request: NextRequest) {
   return signOutAndRedirect(request);
 }

@@ -17,14 +17,14 @@ export const metadata = buildPageMetadata({
   noIndex: true
 });
 
-function formatDate(value) {
+function formatDate(value: string | null | undefined) {
   if (!value) return "";
   const parsed = new Date(value);
   if (Number.isNaN(parsed.getTime())) return "";
   return parsed.toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit", year: "numeric" });
 }
 
-function statusChipClass(status) {
+function statusChipClass(status: string) {
   if (status === "published") return "border-emerald-500/30 bg-emerald-500/10 text-emerald-200";
   if (status === "archived") return "border-white/[0.12] bg-white/[0.03] text-[#888]";
   if (status === "idea") return "border-violet-500/30 bg-violet-500/10 text-violet-200";

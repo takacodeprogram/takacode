@@ -27,20 +27,20 @@ export const metadata = {
     description: SEO_DEFAULTS.defaultDescription
   },
   icons: {
-    icon: logoLight2,
-    shortcut: logoLight2,
-    apple: logoLight2
+    icon: logoLight2.src,
+    shortcut: logoLight2.src,
+    apple: logoLight2.src
   }
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     // Browser extensions can inject attributes into <html>/<body> before hydration.
     // Keep hydration warnings muted for those external mutations.
     <html lang="fr" suppressHydrationWarning>
       <head>
         {/* Preload the same image used for startup loader and favicon. */}
-        <link rel="preload" as="image" href={logoLight2} />
+        <link rel="preload" as="image" href={logoLight2.src} />
       </head>
       <body suppressHydrationWarning>
         <StartupLoader />

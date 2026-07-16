@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { PlatformStatsData } from "../../lib/platformStats";
 
 interface User {
   id?: string;
@@ -13,18 +14,10 @@ interface User {
   isPublished?: boolean;
 }
 
-interface PlatformStats {
-  ready?: boolean;
-  totalModules?: number;
-  totalLessons?: number;
-  completedLessons?: number;
-  submittedProjects?: number;
-}
-
 interface Props {
   users?: User[];
   tracks?: User[];
-  platformStats?: PlatformStats | null;
+  platformStats?: PlatformStatsData | null;
   systemIssues?: string[];
 }
 

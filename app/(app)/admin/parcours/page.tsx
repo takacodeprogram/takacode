@@ -16,7 +16,7 @@ export const metadata = buildPageMetadata({
   noIndex: true
 });
 
-function StatusBadge({ ok, labelOn, labelOff }) {
+function StatusBadge({ ok, labelOn, labelOff }: { ok: boolean; labelOn: string; labelOff: string }) {
   return (
     <span
       className={[

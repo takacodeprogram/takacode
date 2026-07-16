@@ -18,7 +18,7 @@ export const metadata = buildPageMetadata({
   noIndex: true
 });
 
-export default async function AdminTrackDetailPage({ params }) {
+export default async function AdminTrackDetailPage({ params }: { params: Promise<Record<string, string>> }) {
   const resolvedParams = await Promise.resolve(params);
   const trackId = String(resolvedParams?.trackId || "").trim();
 

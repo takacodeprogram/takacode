@@ -1,11 +1,11 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { reviewProject, getAIReviewConfig, isAIReviewAvailable } from "../../../../lib/aiReview";
 import { createClient } from "../../../../utils/supabase/server";
 
 // Declenche une revue IA sur un micro-projet soumis.
 // Post-condition : le verdict est enregistre via submit_project_review RPC.
-export async function POST(request) {
+export async function POST(request: NextRequest) {
   let payload = null;
 
   try {
@@ -114,7 +114,7 @@ export async function POST(request) {
   } catch (err) {
     console.error("AI review error:", err);
     return NextResponse.json(
-      { error: "ai_review_failed", message: err.message || "Erreur lors de la revue IA" },
+      { error: "ai_review_failed", message: (err instanceof Error ? err.message : String(err)) || "Erreur lors de la revue IA" },
       { status: 500 }
     );
   }

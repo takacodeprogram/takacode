@@ -15,7 +15,7 @@ export const metadata = buildPageMetadata({
   noIndex: true
 });
 
-function formatWhen(value) {
+function formatWhen(value: string | null | undefined) {
   if (!value) return "Date a confirmer";
   const parsed = new Date(value);
   if (Number.isNaN(parsed.getTime())) return "Date a confirmer";

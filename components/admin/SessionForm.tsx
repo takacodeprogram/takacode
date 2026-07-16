@@ -14,7 +14,7 @@ interface SessionData {
   title?: string;
   description?: string;
   trackId?: string;
-  scheduledAt?: string;
+  scheduledAt?: string | null;
   durationMinutes?: number;
   joinUrl?: string;
   replayUrl?: string;
@@ -28,7 +28,7 @@ interface SessionFormProps {
 
 const INPUT = "auth-input text-[12px] w-full";
 
-function toLocalInput(value: string | undefined): string {
+function toLocalInput(value: string | null | undefined): string {
   if (!value) return "";
   const parsed = new Date(value);
   if (Number.isNaN(parsed.getTime())) return "";

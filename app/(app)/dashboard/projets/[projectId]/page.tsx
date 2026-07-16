@@ -17,7 +17,7 @@ export const metadata = buildPageMetadata({
   noIndex: true
 });
 
-export default async function EditProjectPage({ params }) {
+export default async function EditProjectPage({ params }: { params: Promise<Record<string, string>> }) {
   const resolvedParams = await Promise.resolve(params);
   const projectId = String(resolvedParams?.projectId || "").trim();
 

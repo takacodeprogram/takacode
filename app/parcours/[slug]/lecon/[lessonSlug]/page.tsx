@@ -13,8 +13,12 @@ import { createClient } from "../../../../../utils/supabase/server";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-export async function generateMetadata({ params }) {
-  const resolvedParams = await Promise.resolve(params);
+interface LessonPageProps {
+  params: Promise<{ slug: string; lessonSlug: string }>;
+}
+
+export async function generateMetadata({ params }: LessonPageProps) {
+  const resolvedParams = await params;
   const slug = String(resolvedParams?.slug || "").trim();
   const lessonSlug = String(resolvedParams?.lessonSlug || "").trim();
 
@@ -26,8 +30,8 @@ export async function generateMetadata({ params }) {
   });
 }
 
-export default async function LessonPage({ params }) {
-  const resolvedParams = await Promise.resolve(params);
+export default async function LessonPage({ params }: LessonPageProps) {
+  const resolvedParams = await params;
   const slug = String(resolvedParams?.slug || "").trim().toLowerCase();
   const lessonSlug = String(resolvedParams?.lessonSlug || "").trim().toLowerCase();
 

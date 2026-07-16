@@ -15,7 +15,7 @@ export const metadata = buildPageMetadata({
   noIndex: true
 });
 
-function statusOf(track) {
+function statusOf(track: Record<string, unknown>) {
   if (track.is_pending) return { label: "En attente de validation", cls: "border-amber-500/30 bg-amber-500/10 text-amber-100" };
   if (track.is_published) return { label: "Publie", cls: "border-emerald-500/30 bg-emerald-500/10 text-emerald-200" };
   return { label: "Refuse", cls: "border-red-500/30 bg-red-500/10 text-red-200" };

@@ -1,7 +1,7 @@
 import { parseCount } from "./utils";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
-interface PlatformStatsData {
+export interface PlatformStatsData {
   members: number | null;
   publishedTracks: number | null;
   totalModules: number | null;

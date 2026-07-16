@@ -3,6 +3,7 @@ import PageHeader from "../../../../components/app-shell/PageHeader";
 import AdminUsersManager from "../../../../components/AdminUsersManager";
 import { buildAuthUsersLookup, mergeProfilesWithAuthUsers } from "../../../../lib/adminUsers";
 import { buildPageMetadata } from "../../../../lib/seo";
+import { isMissingSchemaError } from "../../../../lib/utils";
 import { createClient } from "../../../../utils/supabase/server";
 
 export const dynamic = "force-dynamic";
@@ -17,10 +18,8 @@ export const metadata = buildPageMetadata({
   noIndex: true
 });
 
-function isMissingProfilesTableError(error) {
-  const code = typeof error?.code === "string" ? error.code : "";
-  const message = typeof error?.message === "string" ? error.message.toLowerCase() : "";
-  return code === "PGRST205" || code === "42P01" || message.includes("user_profiles") || message.includes("schema cache");
+function isMissingProfilesTableError(error: unknown) {
+  return isMissingSchemaError(error, ["user_profiles"]);
 }
 
 export default async function AdminUsersPage() {

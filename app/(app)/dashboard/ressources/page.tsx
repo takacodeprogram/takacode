@@ -16,7 +16,7 @@ export const metadata = buildPageMetadata({
   noIndex: true
 });
 
-function resourceIcon(kind) {
+function resourceIcon(kind: string) {
   if (kind === "video") return "lucide:play-circle";
   if (kind === "tool") return "lucide:wrench";
   if (kind === "repo") return "lucide:github";

@@ -17,7 +17,7 @@ export const metadata = buildPageMetadata({
 
 const MEDALS = ["#F5C542", "#C0C7D0", "#CD8B4A"];
 
-function Avatar({ url, name, size = 40 }) {
+function Avatar({ url, name, size = 40 }: { url: string; name: string; size?: number }) {
   if (url) {
     return <img src={url} alt="" className="rounded-full border border-white/10 object-cover bg-white/[0.03]" style={{ width: size, height: size }} />;
   }

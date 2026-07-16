@@ -7,7 +7,7 @@ export default function FooterSection() {
     <footer className="py-16">
       <div className="max-w-[1320px] mx-auto px-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-12">
-           <img src={logoLight4} alt="TakaCode" width="130" height="130" className="nav-logo-image opacity-80" />
+           <img src={logoLight4.src} alt="TakaCode" width="130" height="130" className="nav-logo-image opacity-80" />
           <p className="font-body-readable text-[12px] text-[#444]">L'atelier numerique ou l'on apprend en construisant.</p>
         </div>
 

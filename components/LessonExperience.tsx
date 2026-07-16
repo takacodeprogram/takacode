@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import type { Lesson } from "../lib/curriculum";
 import CelebrationOverlay from "./effects/CelebrationOverlay";
 import { GlossaryText } from "./GlossaryTooltip";
 import { playPop } from "./effects/sound";
@@ -54,7 +55,7 @@ interface LessonData {
 }
 
 interface Props {
-  lesson: LessonData;
+  lesson: Lesson;
   trackSlug: string;
   previousLessonSlug: string;
   nextLessonSlug: string;

@@ -78,7 +78,7 @@ export default async function DashboardHomePage() {
       ? `/parcours/${recommendedTrack.slug}`
       : "/parcours";
 
-  const points = Number.isFinite(Number(accessContext.profile?.points)) ? Number(accessContext.profile.points) : 0;
+  const points = Number.isFinite(Number(accessContext.profile?.points)) ? Number(accessContext.profile!.points) : 0;
   const grade = accessContext.profile?.grade || "Starter";
 
   // Feuille de route conseillée : tous les parcours dans l'ordre recommandé,

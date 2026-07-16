@@ -19,14 +19,14 @@ export const metadata = buildPageMetadata({
   path: "/communaute"
 });
 
-function formatWhen(value) {
+function formatWhen(value: string | null) {
   if (!value) return "Date à confirmer";
   const parsed = new Date(value);
   if (Number.isNaN(parsed.getTime())) return "Date à confirmer";
   return parsed.toLocaleString("fr-FR", { weekday: "long", day: "2-digit", month: "long", hour: "2-digit", minute: "2-digit" });
 }
 
-function Avatar({ url, name, size = 36 }) {
+function Avatar({ url, name, size = 36 }: { url: string; name: string; size?: number }) {
   if (url) {
     return <img src={url} alt="" className="rounded-full border border-white/10 object-cover bg-white/[0.03]" style={{ width: size, height: size }} />;
   }

@@ -9,6 +9,7 @@ import { resolveAvatarUrl } from "../../../../lib/avatar";
 import { getUserAccessContext } from "../../../../lib/auth";
 import { formatDisplayName } from "../../../../lib/displayName";
 import { buildPageMetadata } from "../../../../lib/seo";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { createClient } from "../../../../utils/supabase/server";
 
 export const dynamic = "force-dynamic";
@@ -21,7 +22,7 @@ export const metadata = buildPageMetadata({
   noIndex: true
 });
 
-async function getProfileFields(supabase, userId) {
+async function getProfileFields(supabase: SupabaseClient, userId: string) {
   const { data, error } = await supabase
     .from("user_profiles")
     .select("bio, socials, skills, avatar_url, public_name")
@@ -56,11 +57,11 @@ export default async function ProfilePage() {
   const accessContext = await getUserAccessContext(supabase, user);
   const displayName = formatDisplayName(user);
   const email = user.email ?? "";
-  const points = Number.isFinite(Number(accessContext.profile?.points)) ? Number(accessContext.profile.points) : 0;
+  const points = Number.isFinite(Number(accessContext.profile?.points)) ? Number(accessContext.profile!.points) : 0;
   const grade = accessContext.profile?.grade || "Starter";
   const roleLabel = (accessContext.role || "user").toUpperCase();
   const referralCode = typeof accessContext.profile?.referral_code === "string"
-    ? accessContext.profile.referral_code.trim().toUpperCase()
+    ? accessContext.profile!.referral_code.trim().toUpperCase()
     : "";
 
   const profileFields = await getProfileFields(supabase, user.id);
