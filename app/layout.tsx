@@ -27,9 +27,9 @@ export const metadata = {
     description: SEO_DEFAULTS.defaultDescription
   },
   icons: {
-    icon: logoLight2.src,
-    shortcut: logoLight2.src,
-    apple: logoLight2.src
+    icon: logoLight2,
+    shortcut: logoLight2,
+    apple: logoLight2
   }
 };
 
@@ -40,7 +40,7 @@ export default function RootLayout({ children }) {
     <html lang="fr" suppressHydrationWarning>
       <head>
         {/* Preload the same image used for startup loader and favicon. */}
-        <link rel="preload" as="image" href={logoLight2.src} />
+        <link rel="preload" as="image" href={logoLight2} />
       </head>
       <body suppressHydrationWarning>
         <StartupLoader />

@@ -26,6 +26,7 @@ interface AdminTrackResult {
   schemaReady: boolean;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 interface AdminTrackDetailResult {
   track: Record<string, unknown> | null;
   error: Error | null;

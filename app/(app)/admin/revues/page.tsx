@@ -40,7 +40,7 @@ export default async function AdminReviewsPage() {
           Impossible de charger l&apos;historique. Execute supabase/sql/021_ai_review_support.sql pour activer cette fonctionnalite.
         </div>
       ) : (
-        <ReviewHistory items={items} />
+        <ReviewHistory reviews={items} />
       )}
     </>
   );

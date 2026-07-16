@@ -15,6 +15,8 @@ import type { Option } from "../lib/onboarding";
 import { createClient } from "../utils/supabase/client";
 
 interface User {
+  displayName?: string;
+  email?: string;
   metadata?: Record<string, unknown>;
 }
 

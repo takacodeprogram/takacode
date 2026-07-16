@@ -24,25 +24,28 @@ export default async function EditLessonPage({ params }) {
   const cookieStore = await cookies();
   const supabase = await createClient(cookieStore);
 
-  const [{ track }, { lesson }, { modules }] = await Promise.all([
+  const [{ track: rawTrack }, { lesson: rawLesson }, { modules }] = await Promise.all([
     getAdminTrack(supabase, trackId),
     getAdminLesson(supabase, lessonId),
     getAdminTrackCurriculum(supabase, trackId)
   ]);
 
-  if (!track || !lesson) {
+  if (!rawTrack || !rawLesson) {
     notFound();
   }
+
+  const track = rawTrack as Record<string, unknown>;
+  const lesson = rawLesson as Record<string, unknown>;
 
   return (
     <>
       <PageHeader
         title="EDITER LA LECON"
-        subtitle={`${track.title} · ${lesson.title}`}
+        subtitle={`${String(track.title || "")} · ${String(lesson.title || "")}`}
         backHref={`/admin/parcours/${trackId}`}
         backLabel="Retour au parcours"
       />
-      <LessonForm trackId={trackId} modules={modules} lesson={lesson} />
+      <LessonForm trackId={trackId} modules={modules} lesson={rawLesson as never} />
     </>
   );
 }

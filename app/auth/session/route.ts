@@ -30,7 +30,7 @@ export async function GET(request) {
     }
   });
 
-  let payload = {
+  let payload: Record<string, unknown> = {
     authenticated: false,
     role: null,
     onboardingCompleted: false

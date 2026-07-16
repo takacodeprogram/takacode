@@ -43,16 +43,17 @@ export default async function AdminTrackDetailPage({ params }) {
   }
 
   const { modules } = await getAdminTrackCurriculum(supabase, trackId);
+  const t = track as Record<string, unknown>;
 
   return (
     <>
       <PageHeader
-        title={track.title}
-        subtitle={`/${track.slug}`}
+        title={String(t.title || "")}
+        subtitle={`/${String(t.slug || "")}`}
         backHref="/admin/parcours"
         backLabel="Parcours"
         actions={
-          <Link href={`/parcours/${track.slug}`} className="btn-secondary inline-flex items-center gap-2 text-[12px]">
+          <Link href={`/parcours/${String(t.slug || "")}`} className="btn-secondary inline-flex items-center gap-2 text-[12px]">
             <iconify-icon icon="lucide:external-link" style={{ fontSize: "13px" }} />
             Voir en public
           </Link>
@@ -62,10 +63,10 @@ export default async function AdminTrackDetailPage({ params }) {
       <div className="space-y-6">
         <section>
           <h2 className="font-venite text-[13px] tracking-widest text-[#888] mb-3">INFORMATIONS DU PARCOURS</h2>
-          <TrackForm mode="edit" track={track} />
+          <TrackForm mode="edit" track={track as never} />
         </section>
 
-        <TrackElementsManager trackId={track.id} trackSlug={track.slug} initialModules={modules} />
+        <TrackElementsManager trackId={String(t.id || "")} trackSlug={String(t.slug || "")} initialModules={modules} />
       </div>
     </>
   );

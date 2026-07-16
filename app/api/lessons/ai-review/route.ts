@@ -70,10 +70,11 @@ export async function POST(request) {
       return NextResponse.json({ error: "submission_not_found" }, { status: 404 });
     }
 
-    const lesson = lessonData.lesson;
+    const lessonArr = Array.isArray(lessonData.lesson) ? lessonData.lesson : [lessonData.lesson];
+    const lesson = lessonArr[0] || {};
     const submission = lessonData.project_submission || "";
-    const microProject = lesson.micro_project || {};
-    const steps = Array.isArray(microProject.steps) ? microProject.steps : [];
+    const microProject = (lesson as Record<string, unknown>)?.micro_project || ({} as Record<string, unknown>);
+    const steps = Array.isArray((microProject as Record<string, unknown>).steps) ? (microProject as Record<string, unknown>).steps as string[] : [];
 
     if (!submission) {
       return NextResponse.json({ error: "no_submission" }, { status: 400 });
@@ -81,10 +82,10 @@ export async function POST(request) {
 
     // Lancer la review IA
     const result = await reviewProject({
-      lessonTitle: lesson.title || "",
-      projectTitle: microProject.title || "",
-      brief: microProject.brief || "",
-      deliverable: microProject.deliverable || "",
+      lessonTitle: (lesson as Record<string, unknown>).title as string || "",
+      projectTitle: (microProject as Record<string, unknown>).title as string || "",
+      brief: (microProject as Record<string, unknown>).brief as string || "",
+      deliverable: (microProject as Record<string, unknown>).deliverable as string || "",
       steps,
       submission
     });

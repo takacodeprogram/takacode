@@ -137,18 +137,19 @@ async function triggerAIReview(supabase, currentUser, lessonId) {
     return null;
   }
 
-  const lesson = lessonData.lesson;
-  const microProject = lesson.micro_project || {};
-  const steps = Array.isArray(microProject.steps) ? microProject.steps : [];
+  const lessonArr = Array.isArray(lessonData.lesson) ? lessonData.lesson : [lessonData.lesson];
+  const lesson = (lessonArr[0] || {}) as Record<string, unknown>;
+  const microProject = (lesson.micro_project || {}) as Record<string, unknown>;
+  const steps = Array.isArray(microProject.steps) ? microProject.steps as string[] : [];
 
-  console.log(`[AI-REVIEW] Lecon: "${lesson.title}" submission=${(lessonData.project_submission || "").substring(0, 50)}...`);
+  console.log(`[AI-REVIEW] Lecon: "${String(lesson.title || "")}" submission=${(lessonData.project_submission || "").substring(0, 50)}...`);
 
   try {
     const result = await reviewProject({
-      lessonTitle: lesson.title || "",
-      projectTitle: microProject.title || "",
-      brief: microProject.brief || "",
-      deliverable: microProject.deliverable || "",
+      lessonTitle: String(lesson.title || ""),
+      projectTitle: String((microProject as Record<string, unknown>).title || ""),
+      brief: String((microProject as Record<string, unknown>).brief || ""),
+      deliverable: String((microProject as Record<string, unknown>).deliverable || ""),
       steps,
       submission: lessonData.project_submission || ""
     });
@@ -173,15 +174,15 @@ async function triggerAIReview(supabase, currentUser, lessonId) {
           p_type: "review_received",
           p_title: `Review IA : ${verdictLabel}`,
           p_body: result.verdict === "approved"
-            ? `L'IA a validé ton travail sur "${lesson.title}".`
-            : `L'IA a demandé des améliorations sur "${lesson.title}". Retraite ton projet.`,
-          p_link: `/parcours/lecon/${lessonId}`
-        });
-      } catch (e) { /* non bloquant */ }
-      return { verdict: result.verdict, feedback: result.feedback };
-    }
+          ? `L'IA a validé ton travail sur "${String(lesson.title || "")}".`
+          : `L'IA a demandé des améliorations sur "${String(lesson.title || "")}". Retraite ton projet.`,
+        p_link: `/parcours/lecon/${lessonId}`
+      });
+    } catch (e) { /* non bloquant */ }
+    return { verdict: result.verdict, feedback: result.feedback };
+  }
 
-    console.log("[AI-REVIEW] submit_ai_review echoue, fallback sur submit_project_review");
+  console.log("[AI-REVIEW] submit_ai_review echoue, fallback sur submit_project_review");
     const aiPrefix = "[IA automatique] ";
     const prefixedComment = aiPrefix + (result.feedback || "");
 
@@ -205,8 +206,8 @@ async function triggerAIReview(supabase, currentUser, lessonId) {
         p_type: "review_received",
         p_title: `Review IA : ${verdictLabel}`,
         p_body: result.verdict === "approved"
-          ? `L'IA a validé ton travail sur "${lesson.title}".`
-          : `L'IA a demandé des améliorations sur "${lesson.title}". Retraite ton projet.`,
+          ? `L'IA a validé ton travail sur "${String(lesson.title || "")}".`
+          : `L'IA a demandé des améliorations sur "${String(lesson.title || "")}". Retraite ton projet.`,
         p_link: `/parcours/lecon/${lessonId}`
       });
     } catch (e) { /* non bloquant */ }

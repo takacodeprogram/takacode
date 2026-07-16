@@ -25,10 +25,12 @@ export default async function NewLessonPage({ params, searchParams }) {
   const cookieStore = await cookies();
   const supabase = await createClient(cookieStore);
 
-  const { track } = await getAdminTrack(supabase, trackId);
-  if (!track) {
+  const { track: rawTrack } = await getAdminTrack(supabase, trackId);
+  if (!rawTrack) {
     notFound();
   }
+
+  const track = rawTrack as Record<string, unknown>;
 
   const { modules } = await getAdminTrackCurriculum(supabase, trackId);
 
@@ -36,7 +38,7 @@ export default async function NewLessonPage({ params, searchParams }) {
     <>
       <PageHeader
         title="NOUVELLE LECON"
-        subtitle={track.title}
+        subtitle={String(track.title || "")}
         backHref={`/admin/parcours/${trackId}`}
         backLabel="Retour au parcours"
       />

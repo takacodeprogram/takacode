@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import type { RequestCookies } from "next/dist/compiled/@edge-runtime/cookies";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
@@ -12,7 +13,7 @@ function getConfig() {
   return { supabaseUrl, supabaseKey };
 }
 
-export async function createClient(cookieStore) {
+export async function createClient(cookieStore?: Awaited<ReturnType<typeof cookies>>) {
   const store = cookieStore ?? (await cookies());
   const { supabaseUrl: url, supabaseKey: key } = getConfig();
 
@@ -27,7 +28,6 @@ export async function createClient(cookieStore) {
             store.set(name, value, options);
           });
         } catch {
-          // Called from a Server Component; middleware handles session refresh.
         }
       }
     }
