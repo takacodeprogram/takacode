@@ -17,7 +17,9 @@ export const PRODUCT_RELEASES: ProductRelease[] = [
     highlights: [
       "Migration complete vers TypeScript strict",
       "Journal des nouveautes accessible depuis l'espace membre",
-      "Loader de marque reserve a la homepage et skeletons sur les autres pages",
+      "Loader de marque reserve a la homepage et skeletons adaptes a chaque type de page",
+      "Choix des quiz melanges par utilisateur avec correction preservee cote serveur",
+      "Controle qualite admin et equilibrage automatique des bonnes reponses",
       "Feuille de route des quiz, du studio admin, du projet principal et de l'IA"
     ]
   },
@@ -37,4 +39,3 @@ export const PRODUCT_RELEASES: ProductRelease[] = [
 ];
 
 export const LATEST_PRODUCT_VERSION = PRODUCT_RELEASES[0].version;
-

@@ -19,9 +19,9 @@ export async function POST(request: NextRequest) {
   }
 
   const lessonId = typeof payload?.lessonId === "string" ? payload.lessonId.trim() : "";
-  const answers = Array.isArray(payload?.answers) ? payload.answers : null;
+  const answerTexts = Array.isArray(payload?.answers) ? payload.answers : null;
 
-  if (!lessonId || !answers) {
+  if (!lessonId || !answerTexts || !answerTexts.every((answer: unknown) => typeof answer === "string")) {
     return NextResponse.json({ error: "invalid_payload" }, { status: 400 });
   }
 
@@ -34,6 +34,29 @@ export async function POST(request: NextRequest) {
 
   if (!user) {
     return NextResponse.json({ error: "not_authenticated" }, { status: 401 });
+  }
+
+  const { data: lesson, error: lessonError } = await supabase
+    .from("track_lessons")
+    .select("quiz")
+    .eq("id", lessonId)
+    .maybeSingle();
+
+  const quiz = Array.isArray(lesson?.quiz) ? lesson.quiz : [];
+  if (lessonError || !lesson || quiz.length !== answerTexts.length) {
+    return NextResponse.json({ error: lessonError ? "lesson_not_found" : "invalid_answers" }, { status: lessonError ? 404 : 400 });
+  }
+
+  const answers = quiz.map((question: unknown, questionIndex: number) => {
+    if (!question || typeof question !== "object") return -1;
+    const choices = Array.isArray((question as Record<string, unknown>).choices)
+      ? (question as Record<string, unknown>).choices as unknown[]
+      : [];
+    return choices.findIndex((choice) => choice === answerTexts[questionIndex]);
+  });
+
+  if (answers.some((answer) => answer < 0)) {
+    return NextResponse.json({ error: "invalid_answers" }, { status: 400 });
   }
 
   const { data, error } = await supabase.rpc("submit_lesson_quiz", {
@@ -51,7 +74,24 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: rpcError }, { status: ERROR_STATUS[rpcError as keyof typeof ERROR_STATUS] || 400 });
   }
 
-  return NextResponse.json(data, {
+  const feedback = Array.isArray(data?.feedback)
+    ? data.feedback.map((item: unknown, questionIndex: number) => {
+        const source = item && typeof item === "object" ? item as Record<string, unknown> : {};
+        const question = quiz[questionIndex] && typeof quiz[questionIndex] === "object"
+          ? quiz[questionIndex] as Record<string, unknown>
+          : {};
+        const choices = Array.isArray(question.choices) ? question.choices : [];
+        const correctIndex = Number(source.answer);
+
+        return {
+          correct: source.correct === true,
+          explanation: typeof source.explanation === "string" ? source.explanation : "",
+          correctChoice: typeof choices[correctIndex] === "string" ? choices[correctIndex] : ""
+        };
+      })
+    : [];
+
+  return NextResponse.json({ ...data, feedback }, {
     status: 200,
     headers: {
       "Cache-Control": "no-store, max-age=0"

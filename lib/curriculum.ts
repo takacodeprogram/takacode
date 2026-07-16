@@ -27,6 +27,37 @@ interface QuizItem {
   choices: string[];
 }
 
+function hashSeed(value: string): number {
+  let hash = 2166136261;
+  for (let index = 0; index < value.length; index += 1) {
+    hash ^= value.charCodeAt(index);
+    hash = Math.imul(hash, 16777619);
+  }
+  return hash >>> 0;
+}
+
+function seededRandom(seed: number): () => number {
+  let state = seed || 1;
+  return () => {
+    state = (Math.imul(state, 1664525) + 1013904223) >>> 0;
+    return state / 4294967296;
+  };
+}
+
+function shuffleQuizChoices(quiz: QuizItem[], seedKey: string): QuizItem[] {
+  return quiz.map((item, questionIndex) => {
+    const choices = [...item.choices];
+    const random = seededRandom(hashSeed(`${seedKey}:${questionIndex}:${item.question}`));
+
+    for (let index = choices.length - 1; index > 0; index -= 1) {
+      const target = Math.floor(random() * (index + 1));
+      [choices[index], choices[target]] = [choices[target], choices[index]];
+    }
+
+    return { ...item, choices };
+  });
+}
+
 interface MicroProject {
   title: string;
   brief: string;
@@ -371,6 +402,9 @@ export async function getTrackCurriculum(supabase: SupabaseClient, trackId: stri
       const lessonItems = (row.track_lessons || [])
         .map((lessonRow) => normalizeLessonRow(lessonRow))
         .filter(Boolean) as Lesson[];
+      for (const lesson of lessonItems) {
+        lesson.quiz = shuffleQuizChoices(lesson.quiz, `${userId || "public"}:${lesson.id}`);
+      }
       const lessons = lessonItems.sort(bySortOrder);
 
       return {

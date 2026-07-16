@@ -19,7 +19,7 @@ Objectif : rendre les changements visibles et preparer une experience de chargem
 - [x] Page membre « Nouveautes » avec versions numerotees.
 - [x] Loader de marque reserve a la homepage.
 - [x] Skeleton generique pour les autres routes.
-- [ ] Skeletons contextuels : dashboard, listes, formulaires et lecons.
+- [x] Skeletons contextuels : dashboard, listes, formulaires, authentification, pages publiques et lecons.
 - [ ] Protection des routes IA de test/debug et durcissement Supabase.
 - [ ] CI : typecheck, build, tests et audit des dependances.
 
@@ -27,17 +27,17 @@ Objectif : rendre les changements visibles et preparer une experience de chargem
 
 Objectif : evaluer la comprehension plutot que la memorisation de la position des reponses.
 
-- [ ] Melanger deterministiquement les choix pour chaque tentative.
-- [ ] Recalculer l'index de la bonne reponse uniquement cote serveur.
-- [ ] Equilibrer automatiquement la position A/B/C/D dans les quiz existants.
-- [ ] Ajouter un validateur admin : doublons, reponse absente, position dominante, explication vide.
+- [x] Melanger deterministiquement les choix pour chaque utilisateur.
+- [x] Recalculer l'index de la bonne reponse uniquement cote serveur.
+- [x] Equilibrer automatiquement la position A/B/C/D lors de l'enregistrement des quiz.
+- [x] Ajouter un validateur admin : doublons, reponse absente, position dominante, explication vide.
 - [ ] Ajouter une banque de questions par objectif pedagogique et niveau.
 - [ ] Tirer un sous-ensemble different par utilisateur/tentative avec historique anti-repetition.
 - [ ] Separer la vue publique des questions et les corrections privees.
 
 ### Quiz dynamiques par IA - evolution progressive
 
-1. **V1.2A, sans IA** : permutation serveur des choix et tirage dans une banque validee.
+1. **V1.2A, sans IA** : permutation serveur des choix par utilisateur, puis tirage dans une banque validee.
 2. **V1.2B, IA assistee** : l'IA propose des variantes, un admin les valide avant publication.
 3. **V1.2C, personnalisation** : generation asynchrone par niveau et erreurs precedentes, avec cache, quotas et controle qualite.
 
@@ -104,4 +104,3 @@ Une version est terminee lorsque :
 4. le typecheck et le build passent ;
 5. les regles RLS/API concernees sont testees ;
 6. la page « Nouveautes » explique le changement en langage utilisateur.
-

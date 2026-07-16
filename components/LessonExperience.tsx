@@ -63,7 +63,7 @@ interface Props {
 }
 
 interface QuizFeedbackItem {
-  answer: number;
+  correctChoice?: string;
   correct: boolean;
   explanation?: string;
 }
@@ -242,7 +242,12 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
       const response = await fetch("/api/lessons/quiz", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ lessonId: lesson.id, answers })
+        body: JSON.stringify({
+          lessonId: lesson.id,
+          answers: answers.map((choiceIndex, questionIndex) =>
+            choiceIndex === null ? null : lesson.quiz[questionIndex]?.choices[choiceIndex] || null
+          )
+        })
       });
 
       const data: QuizApiResponse | null = await response.json().catch(() => null);
@@ -659,7 +664,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
                     <div className="space-y-2">
                       {question.choices.map((choice, choiceIndex) => {
                         const isSelected = answers[questionIndex] === choiceIndex;
-                        const isCorrectChoice = feedback && feedback.answer === choiceIndex;
+                        const isCorrectChoice = feedback && feedback.correctChoice === choice;
                         const isWrongSelection = feedback && isSelected && !feedback.correct;
 
                         return (

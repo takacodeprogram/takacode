@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "../../utils/supabase/client";
+import { analyzeQuiz, balanceQuizAnswers } from "../../lib/quizQuality";
 
 interface Module {
   id: string;
@@ -95,6 +96,14 @@ export default function LessonForm({ trackId, modules = [], lesson = null, defau
   const [error, setError] = useState<string>("");
   const [message, setMessage] = useState<string>("");
 
+  const quizQuality = useMemo(() => {
+    try {
+      return analyzeQuiz(JSON.parse(form.quiz || "[]"));
+    } catch {
+      return analyzeQuiz(null);
+    }
+  }, [form.quiz]);
+
   function setField(key: string, value: string) {
     setForm((current) => ({ ...current, [key]: value }));
   }
@@ -115,8 +124,7 @@ export default function LessonForm({ trackId, modules = [], lesson = null, defau
       throw new Error(`Ressources JSON invalide: ${(e as Error).message}`);
     }
     try {
-      quiz = JSON.parse(form.quiz || "[]");
-      if (!Array.isArray(quiz)) throw new Error("quiz doit être un tableau");
+      quiz = balanceQuizAnswers(JSON.parse(form.quiz || "[]"));
     } catch (e) {
       throw new Error(`Quiz JSON invalide: ${(e as Error).message}`);
     }
@@ -232,6 +240,40 @@ export default function LessonForm({ trackId, modules = [], lesson = null, defau
       <Field label="Quiz (JSON)" hint="answer = index de la bonne réponse (commence à 0)">
         <textarea className={AREA} value={form.quiz} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setField("quiz", e.target.value)} placeholder={QUIZ_PLACEHOLDER} />
       </Field>
+
+      <div className={`rounded-xl border px-4 py-3 ${quizQuality.valid ? "border-blue-500/20 bg-blue-500/[0.06]" : "border-red-500/25 bg-red-500/10"}`} aria-live="polite">
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+          <div className="flex items-center gap-2">
+            <iconify-icon icon={quizQuality.valid ? "lucide:badge-check" : "lucide:circle-alert"} style={{ fontSize: "14px", color: quizQuality.valid ? "#6ec3ff" : "#fca5a5" }} />
+            <span className="font-venite-italic text-[11px] text-white">QUALITE DU QUIZ</span>
+          </div>
+          <span className="text-[10px] text-[#8d8d8d] font-body-readable">
+            {quizQuality.questionCount} question{quizQuality.questionCount > 1 ? "s" : ""}
+          </span>
+        </div>
+
+        {quizQuality.answerDistribution.length ? (
+          <div className="flex flex-wrap gap-1.5 mb-2.5">
+            {quizQuality.answerDistribution.map((count, index) => (
+              <span key={`answer-position-${index}`} className="rounded-full border border-white/[0.08] bg-white/[0.03] px-2 py-1 text-[10px] text-[#a5a5a5] font-body-readable">
+                Position {index + 1} : {count || 0}
+              </span>
+            ))}
+          </div>
+        ) : null}
+
+        {quizQuality.issues.length ? (
+          <div className="space-y-1.5">
+            {quizQuality.issues.slice(0, 6).map((issue, index) => (
+              <p key={`${issue.message}-${index}`} className={`text-[11px] leading-relaxed font-body-readable ${issue.level === "error" ? "text-red-200" : "text-amber-100"}`}>
+                {issue.level === "error" ? "A corriger" : "Conseil"} : {issue.message}
+              </p>
+            ))}
+          </div>
+        ) : (
+          <p className="text-[11px] text-blue-100 font-body-readable">Structure valide. Les bonnes reponses seront reparties automatiquement entre les positions.</p>
+        )}
+      </div>
 
       <Field label="Micro-projet (JSON)" hint="title/brief/steps/deliverable + validation: auto|ai|peer|mentor (défaut auto). Option requires_link: true">
         <textarea className={AREA} value={form.micro_project} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setField("micro_project", e.target.value)} placeholder={PROJECT_PLACEHOLDER} />
