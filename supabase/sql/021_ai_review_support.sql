@@ -86,7 +86,9 @@ update public.project_reviews set review_method = 'peer'
 where review_method = 'peer' and reviewer_id <> internal.ai_reviewer_id();
 
 -- 5. RPC pour l'historique des revues (admin only)
--- Monte TOUS les projets soumis (revus OU en attente) avec leurs details.
+-- Monte TOUS les projets soumis avec la boucle complete de reviews :
+-- chaque soumission avec toutes ses reviews (IA, pairs, mentor),
+-- le nombre de demandes d'amelioration, et le statut final.
 create or replace function public.list_review_history(p_limit integer default 50)
 returns jsonb
 language sql
@@ -94,40 +96,105 @@ stable
 security definer
 set search_path = public, internal, pg_temp
 as $$
+  with submissions as (
+    -- 1. Tous les projets soumis (une ligne par soumission)
+    select
+      p.user_id as author_id,
+      p.lesson_id,
+      p.project_submission,
+      p.review_status,
+      p.review_feedback,
+      p.project_submitted_at
+    from public.user_lesson_progress p
+    where p.project_submitted_at is not null
+  ),
+  reviews_agg as (
+    -- 2. Aggregate les reviews pour chaque soumission
+    select
+      s.author_id,
+      s.lesson_id,
+      s.project_submission,
+      s.review_status,
+      s.review_feedback,
+      s.project_submitted_at,
+      -- Compter les reviews et les ameliorations
+      coalesce(r_agg.total_reviews, 0) as total_reviews,
+      coalesce(r_agg.improvement_count, 0) as improvement_count,
+      coalesce(r_agg.approval_count, 0) as approval_count,
+      -- Derniere review
+      r_agg.last_verdict,
+      r_agg.last_comment,
+      r_agg.last_review_method,
+      r_agg.last_reviewer_name,
+      r_agg.last_reviewed_at,
+      -- Toutes les reviews (tableau JSON)
+      coalesce(r_agg.all_reviews, '[]'::jsonb) as all_reviews
+    from submissions s
+    left join (
+      select
+        r.author_id,
+        r.lesson_id,
+        count(*) as total_reviews,
+        count(*) filter (where r.verdict = 'changes') as improvement_count,
+        count(*) filter (where r.verdict = 'approved') as approval_count,
+        (array_agg(r.verdict order by r.created_at desc))[1] as last_verdict,
+        (array_agg(r.comment order by r.created_at desc))[1] as last_comment,
+        (array_agg(r.review_method order by r.created_at desc))[1] as last_review_method,
+        (array_agg(
+          case
+            when r.reviewer_id = internal.ai_reviewer_id() then 'IA automatique'
+            else coalesce(nullif(btrim((select up2.public_name from public.user_profiles up2 where up2.id = r.reviewer_id)), ''), 'Membre anonyme')
+          end
+          order by r.created_at desc
+        ))[1] as last_reviewer_name,
+        (array_agg(r.created_at order by r.created_at desc))[1] as last_reviewed_at,
+        -- Construire le tableau de toutes les reviews
+        coalesce(jsonb_agg(
+          jsonb_build_object(
+            'verdict', r.verdict,
+            'comment', r.comment,
+            'review_method', r.review_method,
+            'reviewer_name', case
+              when r.reviewer_id = internal.ai_reviewer_id() then 'IA automatique'
+              else coalesce(nullif(btrim((select up2.public_name from public.user_profiles up2 where up2.id = r.reviewer_id)), ''), 'Membre anonyme')
+            end,
+            'created_at', r.created_at
+          ) order by r.created_at asc
+        ), '[]'::jsonb) as all_reviews
+      from public.project_reviews r
+      group by r.author_id, r.lesson_id
+    ) r_agg on r_agg.author_id = s.author_id and r_agg.lesson_id = s.lesson_id
+  )
   select coalesce(jsonb_agg(item), '[]'::jsonb)
   from (
     select
       jsonb_build_object(
-        'author_id', p.user_id,
+        'author_id', ra.author_id,
         'author', case when btrim(up.public_name) = '' then 'Membre anonyme' else up.public_name end,
         'avatar_url', up.avatar_url,
-        'lesson_id', p.lesson_id,
+        'lesson_id', ra.lesson_id,
         'lesson_title', l.title,
         'track_title', t.title,
-        'submission', p.project_submission,
-        'review_status', p.review_status,
-        'review_feedback', p.review_feedback,
-        'verdict', r.verdict,
-        'comment', r.comment,
-        'review_method', coalesce(r.review_method, 'peer'),
-        'reviewer_name', case
-          when r.reviewer_id is null then null
-          when r.reviewer_id = internal.ai_reviewer_id() then 'IA automatique'
-          else case when btrim(rup.public_name) = '' then 'Membre anonyme' else rup.public_name end
-        end,
-        'reviewed_at', r.created_at,
-        'submitted_at', p.project_submitted_at
+        'submission', ra.project_submission,
+        'review_status', ra.review_status,
+        'review_feedback', ra.review_feedback,
+        'total_reviews', ra.total_reviews,
+        'improvement_count', ra.improvement_count,
+        'approval_count', ra.approval_count,
+        'last_verdict', ra.last_verdict,
+        'last_comment', ra.last_comment,
+        'last_review_method', ra.last_review_method,
+        'last_reviewer_name', ra.last_reviewer_name,
+        'last_reviewed_at', ra.last_reviewed_at,
+        'all_reviews', ra.all_reviews,
+        'submitted_at', ra.project_submitted_at
       ) as item
-    from public.user_lesson_progress p
-    join public.user_profiles up on up.id = p.user_id
-    join public.track_lessons l on l.id = p.lesson_id
+    from reviews_agg ra
+    join public.user_profiles up on up.id = ra.author_id
+    join public.track_lessons l on l.id = ra.lesson_id
     join public.track_modules m on m.id = l.module_id
     join public.learning_tracks t on t.id = m.track_id
-    left join public.project_reviews r
-      on r.author_id = p.user_id and r.lesson_id = p.lesson_id
-    left join public.user_profiles rup on rup.id = r.reviewer_id
-    where p.project_submitted_at is not null
-    order by p.project_submitted_at desc
+    order by ra.project_submitted_at desc
     limit greatest(1, least(coalesce(p_limit, 50), 200))
   ) ranked;
 $$;
