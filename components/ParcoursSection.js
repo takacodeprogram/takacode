@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { formatTrackMeta } from "../lib/tracks";
 
 export default function ParcoursSection({ tracks = [] }) {
@@ -45,7 +45,7 @@ export default function ParcoursSection({ tracks = [] }) {
                     <span className="flex items-center gap-1.5"><iconify-icon icon="lucide:book" /> {formatTrackMeta(track)}</span>
                   </div>
                   <Link href="/parcours" className="w-full btn-secondary flex items-center justify-center gap-2 text-[12px]" style={{ padding: "10px 20px" }}>
-                    Decouvrir <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "13px" }} />
+                    Découvrir <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "13px" }} />
                   </Link>
                 </article>
               ))}
@@ -71,7 +71,7 @@ export default function ParcoursSection({ tracks = [] }) {
                       <span className="level-intermediate text-[10px] font-medium px-2 py-0.5 rounded-full">{track.levelLabel}</span>
                     </div>
                     <Link href="/parcours" className="text-[11px] text-[#4F8EF7] font-medium flex items-center gap-1 hover:gap-2 transition-all">
-                      Decouvrir <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "12px" }} />
+                      Découvrir <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "12px" }} />
                     </Link>
                   </article>
                 ))}
@@ -80,7 +80,7 @@ export default function ParcoursSection({ tracks = [] }) {
           </>
         ) : (
           <div className="rounded-2xl border border-white/[0.08] bg-[#111] p-6 text-[13px] text-[#888] font-body-readable">
-            Le catalogue parcours sera visible ici des que les donnees BDD sont actives.
+            Le catalogue parcours sera visible ici dès que les données BDD sont actives.
           </div>
         )}
       </div>

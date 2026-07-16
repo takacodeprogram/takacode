@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { getInitials } from "../../lib/avatar";
 import { useState } from "react";
@@ -34,20 +34,20 @@ function StatusBadge({ status, verdict }) {
   if (verdict === "approved") {
     return (
       <span className="text-[9px] font-semibold px-2 py-0.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-200">
-        Valide
+        Validé
       </span>
     );
   }
   if (verdict === "changes") {
     return (
       <span className="text-[9px] font-semibold px-2 py-0.5 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-100">
-        Ameliorations
+        Améliorations
       </span>
     );
   }
 
   const statusConfig = {
-    approved: { label: "Valide", cls: "border-emerald-500/30 bg-emerald-500/10 text-emerald-200" },
+    approved: { label: "Validé", cls: "border-emerald-500/30 bg-emerald-500/10 text-emerald-200" },
     pending: { label: "En attente", cls: "border-amber-500/30 bg-amber-500/10 text-amber-100" },
     changes_requested: { label: "En cours", cls: "border-blue-500/30 bg-blue-500/10 text-blue-200" },
     none: { label: "Soumis", cls: "border-white/[0.15] bg-white/[0.03] text-[#999]" }
@@ -75,11 +75,11 @@ function ReviewCycleSummary({ item }) {
       {total > 0 ? (
         <span className="text-[#888]">
           {total} revue{total > 1 ? "s" : ""}
-          {improvements > 0 ? ` · ${improvements} amelioration${improvements > 1 ? "s" : ""}` : ""}
+          {improvements > 0 ? ` · ${improvements} amélioration${improvements > 1 ? "s" : ""}` : ""}
         </span>
       ) : null}
       {isValidated ? (
-        <span className="text-emerald-400/80 font-semibold">Valide</span>
+        <span className="text-emerald-400/80 font-semibold">Validé</span>
       ) : isPending ? (
         <span className="text-amber-400/70">En attente de revue</span>
       ) : improvements > 0 ? (
@@ -111,7 +111,7 @@ function ReviewTimeline({ reviews }) {
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
                 <span className={`text-[10px] font-semibold ${review.verdict === "approved" ? "text-emerald-300" : "text-amber-300"}`}>
-                  {review.verdict === "approved" ? "Valide" : "Ameliorations demandees"}
+                  {review.verdict === "approved" ? "Validé" : "Améliorations demandées"}
                 </span>
                 <MethodBadge method={review.review_method} comment={review.comment} />
                 <span className="text-[9px] text-[#555]">{review.reviewer_name}</span>

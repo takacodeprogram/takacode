@@ -1,4 +1,4 @@
-﻿export default function ValuesSection() {
+export default function ValuesSection() {
   return (
     <section className="py-28 relative overflow-hidden" id="valeurs">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-violet-900/[0.02] to-transparent pointer-events-none" />
@@ -18,7 +18,7 @@
             </div>
             <div className="font-venite text-[13px] text-white mb-3">PARCOURS GUIDES</div>
             <p className="font-body-readable text-[12px] text-[#666] leading-relaxed">
-              Un chemin clair pour savoir quoi apprendre, quoi pratiquer et comment progresser, meme en partant de zero.
+              Un chemin clair pour savoir quoi apprendre, quoi pratiquer et comment progresser, même en partant de zéro.
             </p>
           </div>
 
@@ -28,7 +28,7 @@
             </div>
             <div className="font-venite text-[13px] text-white mb-3">IA COMME ACCELERATEUR</div>
             <p className="font-body-readable text-[12px] text-[#666] leading-relaxed">
-              Utilise l'intelligence artificielle pour aller plus vite, mieux comprendre et transformer tes idees en actions concretes.
+              Utilise l'intelligence artificielle pour aller plus vite, mieux comprendre et transformer tes idées en actions concrètes.
             </p>
           </div>
 
@@ -38,7 +38,7 @@
             </div>
             <div className="font-venite text-[13px] text-white mb-3">APPRENDRE EN CONSTRUISANT</div>
             <p className="font-body-readable text-[12px] text-[#666] leading-relaxed">
-              Progresse grace aux ressources, exercices, projets et sessions pratiques, pas seulement avec de la theorie.
+              Progresse grâce aux ressources, exercices, projets et sessions pratiques, pas seulement avec de la théorie.
             </p>
           </div>
 
@@ -48,7 +48,7 @@
             </div>
             <div className="font-venite text-[13px] text-white mb-3">PROJETS REELS</div>
             <p className="font-body-readable text-[12px] text-[#666] leading-relaxed">
-              Construis des realisations concretes que tu peux utiliser, partager ou developper davantage.
+              Construis des réalisations concrètes que tu peux utiliser, partager ou développer davantage.
             </p>
           </div>
 
@@ -58,7 +58,7 @@
             </div>
             <div className="font-venite text-[13px] text-white mb-3">COMMUNAUTE ACTIVE</div>
             <p className="font-body-readable text-[12px] text-[#666] leading-relaxed">
-              Ne construis plus seul. Echange, collabore et progresse avec d'autres createurs.
+              Ne construis plus seul. Échange, collabore et progresse avec d'autres créateurs.
             </p>
           </div>
 
@@ -68,7 +68,7 @@
             </div>
             <div className="font-venite text-[13px] text-white mb-3">RESSOURCES SELECTIONNEES</div>
             <p className="font-body-readable text-[12px] text-[#666] leading-relaxed">
-              Guides, videos, outils et templates soigneusement choisis pour t'aider a avancer plus vite.
+              Guides, vidéos, outils et templates soigneusement choisis pour t'aider à avancer plus vite.
             </p>
           </div>
         </div>

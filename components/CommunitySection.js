@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 
 export default function CommunitySection() {
   return (
@@ -18,11 +18,11 @@ export default function CommunitySection() {
                 QUI CONSTRUIT
               </h2>
               <p className="font-body-readable text-[#666] text-[15px] leading-relaxed mb-8">
-                Avance avec d'autres createurs et partage tes progres. Seul on va vite, ensemble on va loin.
+                Avance avec d'autres créateurs et partage tes progrès. Seul on va vite, ensemble on va loin.
               </p>
               <Link href="/communaute" id="communaute-cta-link" className="btn-primary glow-btn inline-flex items-center gap-2" style={{ fontSize: "14px", padding: "14px 28px" }}>
                 <iconify-icon icon="lucide:users" style={{ fontSize: "16px" }} />
-                Rejoindre la communaute
+                Rejoindre la communauté
               </Link>
             </div>
 
@@ -31,22 +31,22 @@ export default function CommunitySection() {
               <div className="bg-[#0D0D0D] border border-white/[0.06] rounded-xl p-4 card-hover">
                 <iconify-icon icon="lucide:trophy" className="text-yellow-400 mb-3" style={{ fontSize: "20px" }} />
                 <div className="font-venite text-[12px] text-white mb-1">CHALLENGES</div>
-                <p className="font-body-readable text-[11px] text-[#555]">Defis hebdomadaires et mensuels pour progresser.</p>
+                <p className="font-body-readable text-[11px] text-[#555]">Défis hebdomadaires et mensuels pour progresser.</p>
               </div>
               <div className="bg-[#0D0D0D] border border-white/[0.06] rounded-xl p-4 card-hover">
                 <iconify-icon icon="lucide:users-2" className="text-[#4F8EF7] mb-3" style={{ fontSize: "20px" }} />
                 <div className="font-venite text-[12px] text-white mb-1">GROUPES D'ETUDE</div>
-                <p className="font-body-readable text-[11px] text-[#555]">Etudie et construis avec d'autres membres.</p>
+                <p className="font-body-readable text-[11px] text-[#555]">Étudie et construis avec d'autres membres.</p>
               </div>
               <div className="bg-[#0D0D0D] border border-white/[0.06] rounded-xl p-4 card-hover">
                 <iconify-icon icon="lucide:share-2" className="text-[#9B6DFF] mb-3" style={{ fontSize: "20px" }} />
                 <div className="font-venite text-[12px] text-white mb-1">PARTAGE DE PROJETS</div>
-                <p className="font-body-readable text-[11px] text-[#555]">Publication et mise en avant de tes creations.</p>
+                <p className="font-body-readable text-[11px] text-[#555]">Publication et mise en avant de tes créations.</p>
               </div>
               <div className="bg-[#0D0D0D] border border-white/[0.06] rounded-xl p-4 card-hover">
                 <iconify-icon icon="lucide:bar-chart-2" className="text-green-400 mb-3" style={{ fontSize: "20px" }} />
                 <div className="font-venite text-[12px] text-white mb-1">CLASSEMENTS</div>
-                <p className="font-body-readable text-[11px] text-[#555]">Suis ta progression et tes succes.</p>
+                <p className="font-body-readable text-[11px] text-[#555]">Suis ta progression et tes succès.</p>
               </div>
             </div>
           </div>

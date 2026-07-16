@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -9,8 +9,8 @@ const ERRORS = {
   not_authenticated: "Reconnecte-toi.",
   cannot_review_self: "Tu ne peux pas revoir ton propre travail.",
   invalid_verdict: "Verdict invalide.",
-  comment_required: "Ajoute un commentaire pour demander des ameliorations.",
-  forbidden: "Ce niveau de revue est reserve aux mentors.",
+  comment_required: "Ajoute un commentaire pour demander des améliorations.",
+  forbidden: "Ce niveau de revue est réservé aux mentors.",
   not_pending: "Cette soumission n'est plus en attente.",
   not_reviewable: "Ce projet n'est pas en revue."
 };
@@ -57,14 +57,14 @@ export default function ReviewQueue({ initialItems = [] }) {
 
     // Creer une notification pour l'auteur du projet
     try {
-      const verdictLabel = verdict === "approved" ? "approuve" : "demande des ameliorations";
+      const verdictLabel = verdict === "approved" ? "approuvé" : "demande des améliorations";
       await supabase.rpc("create_notification", {
         p_user_id: item.authorId,
         p_type: "review_received",
-        p_title: `Ton micro-projet a ete ${verdictLabel}`,
+        p_title: `Ton micro-projet a été ${verdictLabel}`,
         p_body: verdict === "approved"
-          ? `Bravo ! "${item.lessonTitle}" a ete valide.`
-          : `Des ameliorations ont ete demandees sur "${item.lessonTitle}". Retraite ton travail.`,
+          ? `Bravo ! "${item.lessonTitle}" a été validé.`
+          : `Des améliorations ont été demandées sur "${item.lessonTitle}". Retraite ton travail.`,
         p_link: `/parcours/${item.trackSlug || ""}/lecon/${item.lessonSlug || ""}`
       });
     } catch (e) {
@@ -139,7 +139,7 @@ export default function ReviewQueue({ initialItems = [] }) {
                 style={{ padding: "9px 14px" }}
               >
                 <iconify-icon icon="lucide:rotate-ccw" style={{ fontSize: "13px" }} />
-                Demander des ameliorations
+                Demander des améliorations
               </button>
             </div>
           </article>

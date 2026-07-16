@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import CountUpStat from "./CountUpStat.js";
 
 function HeroStat({ value, suffix = "", label }) {
@@ -45,8 +45,8 @@ export default function Hero({ stats = null }) {
             </h1>
 
             <p className="animate-fade-up-d2 font-body-readable text-[#9A9A9A] text-[15px] leading-relaxed mb-9 max-w-[460px]">
-              TakaCode t'aide a transformer tes idees en projets reels grace a des parcours guides,
-              des ressources selectionnees, des sessions pratiques et les meilleurs outils d'intelligence artificielle pour aller plus vite.
+              TakaCode t'aide à transformer tes idées en projets réels grâce à des parcours guidés,
+              des ressources sélectionnées, des sessions pratiques et les meilleurs outils d'intelligence artificielle pour aller plus vite.
             </p>
 
             <div className="animate-fade-up-d3 flex flex-col sm:flex-row sm:items-center gap-4 mb-12">
@@ -70,7 +70,7 @@ export default function Hero({ stats = null }) {
 
             <div className="animate-fade-up-d4 grid grid-cols-3 gap-4 sm:gap-8 pt-8 border-t border-white/[0.06] max-w-[520px]">
               <HeroStat value={stats?.members} label="Membres inscrits" />
-              <HeroStat value={stats?.submittedProjects} label="Micro-projets realises" />
+              <HeroStat value={stats?.submittedProjects} label="Micro-projets réalisés" />
               <HeroStat value={stats?.publishedTracks} label="Parcours disponibles" />
             </div>
           </div>

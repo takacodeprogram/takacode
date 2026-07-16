@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useMemo, useState } from "react";
 import { createClient } from "../utils/supabase/client";
@@ -8,12 +8,12 @@ const ROLE_OPTIONS = ["user", "mentor", "admin"];
 const ROLE_INFO = {
   user: { label: "Membre", desc: "Apprend, suit les parcours, publie ses projets." },
   mentor: { label: "Mentor", desc: "Membre + anime des sessions live et accompagne les autres." },
-  admin: { label: "Admin", desc: "Acces complet : utilisateurs, parcours, lecons, sessions, parametres." }
+  admin: { label: "Admin", desc: "Accès complet : utilisateurs, parcours, leçons, sessions, paramètres." }
 };
 
 const ROLE_ERROR = {
   not_authenticated: "Session expiree, reconnecte-toi.",
-  forbidden: "Action reservee aux admins.",
+  forbidden: "Action réservée aux admins.",
   invalid_role: "Role invalide.",
   cannot_change_self: "Tu ne peux pas modifier ton propre role.",
   user_not_found: "Utilisateur introuvable.",

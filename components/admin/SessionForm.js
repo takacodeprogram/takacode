@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -80,7 +80,7 @@ export default function SessionForm({ tracks = [], session = null }) {
         setError(updateError.message);
         return;
       }
-      setMessage("Session enregistree.");
+      setMessage("Session enregistrée.");
       router.refresh();
       return;
     }
@@ -95,7 +95,7 @@ export default function SessionForm({ tracks = [], session = null }) {
   }
 
   async function handleDelete() {
-    if (!window.confirm("Supprimer cette session ? Cette action est irreversible.")) {
+    if (!window.confirm("Supprimer cette session ? Cette action est irréversible.")) {
       return;
     }
     setDeleting(true);
@@ -132,7 +132,7 @@ export default function SessionForm({ tracks = [], session = null }) {
       </div>
 
       <label className="text-[11px] text-[#9b9b9b] flex items-center gap-1.5">
-        <input type="checkbox" checked={form.is_published} onChange={(e) => setField("is_published", e.target.checked)} /> Publiee (visible par les membres)
+        <input type="checkbox" checked={form.is_published} onChange={(e) => setField("is_published", e.target.checked)} /> Publiée (visible par les membres)
       </label>
 
       {error ? <div className="rounded-xl border border-red-500/25 bg-red-500/10 px-4 py-3 text-[12px] text-red-200">{error}</div> : null}
@@ -140,7 +140,7 @@ export default function SessionForm({ tracks = [], session = null }) {
 
       <div className="flex items-center gap-3 flex-wrap">
         <button type="submit" disabled={saving} className={`btn-primary inline-flex items-center gap-2 text-[12px] ${saving ? "opacity-50 cursor-not-allowed" : ""}`} style={{ padding: "10px 18px" }}>
-          {saving ? "Enregistrement..." : isEdit ? "Enregistrer" : "Creer la session"}
+          {saving ? "Enregistrement..." : isEdit ? "Enregistrer" : "Créer la session"}
           <iconify-icon icon="lucide:save" style={{ fontSize: "13px" }} />
         </button>
         {isEdit ? (

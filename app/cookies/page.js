@@ -1,4 +1,4 @@
-﻿import Navbar from "../../components/Navbar";
+import Navbar from "../../components/Navbar";
 import FooterSection from "../../components/FooterSection";
 import { buildPageMetadata } from "../../lib/seo";
 
@@ -11,23 +11,23 @@ export const metadata = buildPageMetadata({
 const SECTIONS = [
   {
     title: "Cookies essentiels",
-    body: "Ils sont necessaires au fonctionnement du site : garder ta session ouverte apres connexion et memoriser tes preferences (ex : consentement cookies, avatar). Sans eux, tu ne pourrais pas rester connecte."
+    body: "Ils sont nécessaires au fonctionnement du site : garder ta session ouverte après connexion et mémoriser tes préférences (ex : consentement cookies, avatar). Sans eux, tu ne pourrais pas rester connecté."
   },
   {
     title: "Aucune publicite, aucun traceur tiers",
-    body: "TakaCode n'utilise pas de cookies publicitaires ni de traceurs marketing tiers. Nous ne revendons pas tes donnees."
+    body: "TakaCode n'utilise pas de cookies publicitaires ni de traceurs marketing tiers. Nous ne revendons pas tes données."
   },
   {
     title: "Stockage local",
-    body: "Certaines preferences (consentement, guide vu, son active/coupe) sont conservees dans le stockage local de ton navigateur, pas dans un cookie envoye au serveur."
+    body: "Certaines préférences (consentement, guide vu, son activé/coupé) sont conservées dans le stockage local de ton navigateur, pas dans un cookie envoyé au serveur."
   },
   {
     title: "Liens d'affiliation",
-    body: "Certains liens vers des outils recommandes sont affilies : si tu passes par eux, TakaCode peut percevoir une commission sans cout supplementaire pour toi. Ces liens peuvent deposer leurs propres cookies sur le site du partenaire, selon leur propre politique."
+    body: "Certains liens vers des outils recommandés sont affiliés : si tu passes par eux, TakaCode peut percevoir une commission sans coût supplémentaire pour toi. Ces liens peuvent déposer leurs propres cookies sur le site du partenaire, selon leur propre politique."
   },
   {
     title: "Gerer tes choix",
-    body: "Tu peux effacer les cookies et le stockage local a tout moment depuis les parametres de ton navigateur. La banniere de consentement reapparaitra apres effacement."
+    body: "Tu peux effacer les cookies et le stockage local à tout moment depuis les paramètres de ton navigateur. La bannière de consentement réapparaîtra après effacement."
   }
 ];
 

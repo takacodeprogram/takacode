@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 
 function resolveUserLabel(user) {
   const name = typeof user?.display_name === "string" ? user.display_name.trim() : "";
@@ -30,7 +30,7 @@ export default function AdminOverview({ users = [], tracks = [], platformStats =
       value: listTracks.filter((entry) => entry?.is_active !== false && entry?.isActive !== false).length
     },
     {
-      label: "Publies",
+      label: "Publiés",
       value: listTracks.filter((entry) => entry?.is_published === true || entry?.isPublished === true).length
     }
   ];
@@ -39,7 +39,7 @@ export default function AdminOverview({ users = [], tracks = [], platformStats =
     ? [
         { label: "Modules", value: platformStats.totalModules },
         { label: "Lecons", value: platformStats.totalLessons },
-        { label: "Lecons validees", value: platformStats.completedLessons },
+        { label: "Leçons validées", value: platformStats.completedLessons },
         { label: "Micro-projets soumis", value: platformStats.submittedProjects }
       ]
     : [];
@@ -117,11 +117,11 @@ export default function AdminOverview({ users = [], tracks = [], platformStats =
           <div className="space-y-2.5">
             <Link href="/admin/utilisateurs" className="w-full rounded-xl border border-white/[0.08] bg-white/[0.02] px-3.5 py-3 text-[12px] font-semibold text-[#d1d1d1] hover:bg-white/[0.05] transition-colors inline-flex items-center gap-2">
               <iconify-icon icon="lucide:users" style={{ color: "#4F8EF7", fontSize: "14px" }} />
-              Gerer les utilisateurs
+              Gérer les utilisateurs
             </Link>
             <Link href="/admin/parcours" className="w-full rounded-xl border border-white/[0.08] bg-white/[0.02] px-3.5 py-3 text-[12px] font-semibold text-[#d1d1d1] hover:bg-white/[0.05] transition-colors inline-flex items-center gap-2">
               <iconify-icon icon="lucide:route" style={{ color: "#4F8EF7", fontSize: "14px" }} />
-              Gerer les parcours et leurs lecons
+              Gérer les parcours et leurs leçons
             </Link>
             <Link href="/admin/revues" className="w-full rounded-xl border border-white/[0.08] bg-white/[0.02] px-3.5 py-3 text-[12px] font-semibold text-[#d1d1d1] hover:bg-white/[0.05] transition-colors inline-flex items-center gap-2">
               <iconify-icon icon="lucide:git-pull-request" style={{ color: "#9B6DFF", fontSize: "14px" }} />

@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import PageHeader from "../../../../components/app-shell/PageHeader";
 import { buildPageMetadata } from "../../../../lib/seo";
 
@@ -6,8 +6,8 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export const metadata = buildPageMetadata({
-  title: "Communaute",
-  description: "Le fil de la communaute TakaCode: projets publies, entraide et partages.",
+  title: "Communauté",
+  description: "Le fil de la communauté TakaCode: projets publiés, entraide et partages.",
   path: "/dashboard/communaute",
   noIndex: true
 });
@@ -24,7 +24,7 @@ export default function CommunityFeedPage() {
         <div>
           <div className="font-venite text-[15px] text-white mb-1.5">LE FIL DEMARRE BIENTOT</div>
           <p className="font-body-readable text-[13px] text-[#777] max-w-[460px]">
-            Le fil de la communaute affichera les projets publies par les membres, avec likes, commentaires et entraide.
+            Le fil de la communauté affichera les projets publiés par les membres, avec likes, commentaires et entraide.
             Termine un parcours et publie ton projet pour l'alimenter.
           </p>
         </div>

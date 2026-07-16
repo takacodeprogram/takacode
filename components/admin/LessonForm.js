@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -80,26 +80,26 @@ export default function LessonForm({ trackId, modules = [], lesson = null, defau
     let microProject;
     try {
       resources = JSON.parse(form.resources || "[]");
-      if (!Array.isArray(resources)) throw new Error("resources doit etre un tableau");
+      if (!Array.isArray(resources)) throw new Error("resources doit être un tableau");
     } catch (e) {
       throw new Error(`Ressources JSON invalide: ${e.message}`);
     }
     try {
       quiz = JSON.parse(form.quiz || "[]");
-      if (!Array.isArray(quiz)) throw new Error("quiz doit etre un tableau");
+      if (!Array.isArray(quiz)) throw new Error("quiz doit être un tableau");
     } catch (e) {
       throw new Error(`Quiz JSON invalide: ${e.message}`);
     }
     try {
       microProject = JSON.parse(form.micro_project || "{}");
-      if (typeof microProject !== "object" || Array.isArray(microProject)) throw new Error("micro_project doit etre un objet");
+      if (typeof microProject !== "object" || Array.isArray(microProject)) throw new Error("micro_project doit être un objet");
     } catch (e) {
       throw new Error(`Micro-projet JSON invalide: ${e.message}`);
     }
 
     return {
       module_id: form.module_id,
-      title: form.title.trim() || "Lecon",
+      title: form.title.trim() || "Leçon",
       intro: form.intro.trim(),
       why_important: form.why_important.trim(),
       how_to_use: form.how_to_use.trim(),
@@ -145,14 +145,14 @@ export default function LessonForm({ trackId, modules = [], lesson = null, defau
         setError(updateError.message);
         return;
       }
-      setMessage("Lecon enregistree.");
+      setMessage("Leçon enregistrée.");
       router.refresh();
       return;
     }
 
     const slug = form.slug.trim().toLowerCase();
     if (!slugIsValid(slug)) {
-      setError("Slug de lecon invalide (minuscules, chiffres, tirets).");
+      setError("Slug de leçon invalide (minuscules, chiffres, tirets).");
       setSaving(false);
       return;
     }
@@ -199,11 +199,11 @@ export default function LessonForm({ trackId, modules = [], lesson = null, defau
         <textarea className={AREA} value={form.resources} onChange={(e) => setField("resources", e.target.value)} placeholder={RESOURCES_PLACEHOLDER} />
       </Field>
 
-      <Field label="Quiz (JSON)" hint="answer = index de la bonne reponse (commence a 0)">
+      <Field label="Quiz (JSON)" hint="answer = index de la bonne réponse (commence à 0)">
         <textarea className={AREA} value={form.quiz} onChange={(e) => setField("quiz", e.target.value)} placeholder={QUIZ_PLACEHOLDER} />
       </Field>
 
-      <Field label="Micro-projet (JSON)" hint="title/brief/steps/deliverable + validation: auto|ai|peer|mentor (defaut auto). Option requires_link: true">
+      <Field label="Micro-projet (JSON)" hint="title/brief/steps/deliverable + validation: auto|ai|peer|mentor (défaut auto). Option requires_link: true">
         <textarea className={AREA} value={form.micro_project} onChange={(e) => setField("micro_project", e.target.value)} placeholder={PROJECT_PLACEHOLDER} />
       </Field>
 
@@ -214,14 +214,14 @@ export default function LessonForm({ trackId, modules = [], lesson = null, defau
       </div>
 
       <label className="text-[11px] text-[#9b9b9b] flex items-center gap-1.5">
-        <input type="checkbox" checked={form.is_published} onChange={(e) => setField("is_published", e.target.checked)} /> Publiee
+        <input type="checkbox" checked={form.is_published} onChange={(e) => setField("is_published", e.target.checked)} /> Publiée
       </label>
 
       {error ? <div className="rounded-xl border border-red-500/25 bg-red-500/10 px-4 py-3 text-[12px] text-red-200">{error}</div> : null}
       {message ? <div className="rounded-xl border border-emerald-500/25 bg-emerald-500/10 px-4 py-3 text-[12px] text-emerald-200">{message}</div> : null}
 
       <button type="submit" disabled={saving} className={`btn-primary inline-flex items-center gap-2 text-[12px] ${saving ? "opacity-50 cursor-not-allowed" : ""}`} style={{ padding: "10px 18px" }}>
-        {saving ? "Enregistrement..." : isEdit ? "Enregistrer la lecon" : "Creer la lecon"}
+        {saving ? "Enregistrement..." : isEdit ? "Enregistrer la leçon" : "Créer la leçon"}
         <iconify-icon icon="lucide:save" style={{ fontSize: "13px" }} />
       </button>
     </form>

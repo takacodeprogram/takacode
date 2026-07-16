@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -78,7 +78,7 @@ export default function ProjectForm({ userId, tracks = [], project = null }) {
         setError(updateError.message);
         return;
       }
-      setMessage("Projet enregistre.");
+      setMessage("Projet enregistré.");
       router.refresh();
       return;
     }
@@ -93,7 +93,7 @@ export default function ProjectForm({ userId, tracks = [], project = null }) {
   }
 
   async function handleDelete() {
-    if (!window.confirm("Supprimer ce projet ? Cette action est irreversible.")) {
+    if (!window.confirm("Supprimer ce projet ? Cette action est irréversible.")) {
       return;
     }
     setDeleting(true);
@@ -110,7 +110,7 @@ export default function ProjectForm({ userId, tracks = [], project = null }) {
     <form onSubmit={handleSubmit} className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 space-y-4">
       <Field label="Titre du projet"><input className={INPUT} value={form.title} onChange={(e) => setField("title", e.target.value)} placeholder="Ex: Ma boutique en ligne" /></Field>
       <Field label="Objectif"><input className={INPUT} value={form.objective} onChange={(e) => setField("objective", e.target.value)} placeholder="Ce que tu veux accomplir" /></Field>
-      <Field label="Description"><textarea className={`${INPUT} min-h-[90px]`} value={form.description} onChange={(e) => setField("description", e.target.value)} placeholder="Decris ton projet, ses fonctionnalites, son public..." /></Field>
+      <Field label="Description"><textarea className={`${INPUT} min-h-[90px]`} value={form.description} onChange={(e) => setField("description", e.target.value)} placeholder="Décris ton projet, ses fonctionnalités, son public..." /></Field>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
         <Field label="Statut">
@@ -141,7 +141,7 @@ export default function ProjectForm({ userId, tracks = [], project = null }) {
 
       <div className="flex items-center gap-3 flex-wrap">
         <button type="submit" disabled={saving} className={`btn-primary inline-flex items-center gap-2 text-[12px] ${saving ? "opacity-50 cursor-not-allowed" : ""}`} style={{ padding: "10px 18px" }}>
-          {saving ? "Enregistrement..." : isEdit ? "Enregistrer" : "Creer le projet"}
+          {saving ? "Enregistrement..." : isEdit ? "Enregistrer" : "Créer le projet"}
           <iconify-icon icon="lucide:save" style={{ fontSize: "13px" }} />
         </button>
         {isEdit ? (

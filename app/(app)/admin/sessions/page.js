@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { cookies } from "next/headers";
 import PageHeader from "../../../../components/app-shell/PageHeader";
 import { listAllSessions } from "../../../../lib/liveSessions";
@@ -59,7 +59,7 @@ export default async function AdminSessionsPage() {
               </div>
               <div className="flex items-center gap-2 shrink-0">
                 <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${session.isPublished ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-200" : "border-white/[0.12] bg-white/[0.03] text-[#888]"}`}>
-                  {session.isPublished ? " Publiee" : "Brouillon"}
+                  {session.isPublished ? " Publiée" : "Brouillon"}
                 </span>
                 <iconify-icon icon="lucide:chevron-right" style={{ fontSize: "16px", color: "#666" }} />
               </div>

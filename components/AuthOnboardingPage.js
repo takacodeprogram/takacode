@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
@@ -7,12 +7,12 @@ import { sanitizeAuthEmail, toAuthErrorMessage } from "../lib/authErrors";
 import { createClient } from "../utils/supabase/client";
 
 const AUTH_ERROR_MESSAGES = {
-  forbidden: "Ton compte ne dispose pas du role requis pour acceder au dashboard.",
-  oauth_callback_failed: "La connexion n'a pas abouti. Reessaie.",
-  oauth_code_missing: "La connexion a ete interrompue. Reessaie.",
-  oauth_denied: "Connexion annulee ou refusee.",
+  forbidden: "Ton compte ne dispose pas du rôle requis pour accéder au dashboard.",
+  oauth_callback_failed: "La connexion n'a pas abouti. Réessaie.",
+  oauth_code_missing: "La connexion a été interrompue. Réessaie.",
+  oauth_denied: "Connexion annulée ou refusée.",
   auth_config_missing: "Configuration auth manquante. Contacte l'administrateur.",
-  auth_network: "Probleme reseau pendant la connexion OAuth. Reessaie."
+  auth_network: "Problème réseau pendant la connexion OAuth. Réessaie."
 };
 
 const AUTH_MODE_COPY = {
@@ -20,28 +20,28 @@ const AUTH_MODE_COPY = {
     badge: "COMMUNAUTE TAKACODE",
     titleLines: ["COMMENCE TON", "PROCHAIN PROJET"],
     description:
-      "Cree ton compte et accede aux parcours, ressources, sessions live et a une communaute qui apprend en construisant.",
+      "Crée ton compte et accède aux parcours, ressources, sessions live et à une communauté qui apprend en construisant.",
     highlights: [
       {
         icon: "lucide:book-open",
         iconColor: "#4F8EF7",
         shellClass: "bg-blue-500/10 border-blue-500/20",
         title: "Apprends avec methode",
-        text: "Parcours guides, ressources selectionnees et exercices pratiques pour progresser a ton rythme."
+        text: "Parcours guidés, ressources sélectionnées et exercices pratiques pour progresser à ton rythme."
       },
       {
         icon: "lucide:users",
         iconColor: "#9B6DFF",
         shellClass: "bg-violet-500/10 border-violet-500/20",
-        title: "Construis avec la communaute",
-        text: "Participe aux sessions live, echange avec d'autres createurs et avance ensemble."
+        title: "Construis avec la communauté",
+        text: "Participe aux sessions live, échange avec d'autres créateurs et avance ensemble."
       },
       {
         icon: "lucide:zap",
         iconColor: "#22D3EE",
         shellClass: "bg-cyan-500/10 border-cyan-500/20",
         title: "Accelere avec l'IA",
-        text: "Profite des meilleurs outils d'IA pour comprendre plus vite et transformer tes idees en projets concrets."
+        text: "Profite des meilleurs outils d'IA pour comprendre plus vite et transformer tes idées en projets concrets."
       }
     ]
   },
@@ -49,7 +49,7 @@ const AUTH_MODE_COPY = {
     badge: "BON RETOUR",
     titleLines: ["RETROUVE TES PROJETS", "ET CONTINUE A AVANCER"],
     description:
-      "Reconnecte-toi pour reprendre ton parcours, participer aux sessions live et poursuivre tes realisations.",
+      "Reconnecte-toi pour reprendre ton parcours, participer aux sessions live et poursuivre tes réalisations.",
     highlights: [
       {
         icon: "lucide:rocket",
@@ -62,15 +62,15 @@ const AUTH_MODE_COPY = {
         icon: "lucide:users",
         iconColor: "#9B6DFF",
         shellClass: "bg-violet-500/10 border-violet-500/20",
-        title: "Retrouve la communaute",
-        text: "Echange avec d'autres createurs et participe aux prochaines sessions."
+        title: "Retrouve la communauté",
+        text: "Échange avec d'autres créateurs et participe aux prochaines sessions."
       },
       {
         icon: "lucide:chart-column-increasing",
         iconColor: "#22D3EE",
         shellClass: "bg-cyan-500/10 border-cyan-500/20",
         title: "Continue a progresser",
-        text: "Chaque etape te rapproche un peu plus de ton prochain projet."
+        text: "Chaque étape te rapproche un peu plus de ton prochain projet."
       }
     ]
   }
@@ -211,7 +211,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }) {
     };
   }, [router, supabase]);
 
-  const activeErrorMessage = errorMessage || (queryError ? AUTH_ERROR_MESSAGES[queryError] ?? "La connexion n'a pas abouti. Reessaie." : "");
+  const activeErrorMessage = errorMessage || (queryError ? AUTH_ERROR_MESSAGES[queryError] ?? "La connexion n'a pas abouti. Réessaie." : "");
   const activeInfoMessage = infoMessage;
   const showResetSuccessState = mode === "signin" && resetSuccess && !infoMessage;
 
@@ -229,14 +229,14 @@ export default function AuthOnboardingPage({ initialMode = "signin" }) {
       });
 
       if (error) {
-        setErrorMessage(toAuthErrorMessage(error, "Impossible de demarrer la connexion OAuth."));
+        setErrorMessage(toAuthErrorMessage(error, "Impossible de démarrer la connexion OAuth."));
         setLoading(false);
         return;
       }
 
       // Browser is redirected by Supabase for OAuth.
     } catch {
-      setErrorMessage("Probleme reseau. Reessaie dans un instant.");
+      setErrorMessage("Problème réseau. Réessaie dans un instant.");
       setLoading(false);
     }
   }
@@ -249,7 +249,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }) {
     try {
       const { error } = await supabase.auth.signInWithWeb3({
         chain: "ethereum",
-        statement: "Connexion a TakaCode"
+        statement: "Connexion à TakaCode"
       });
 
       if (error) {
@@ -261,7 +261,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }) {
       router.push(nextPath);
       router.refresh();
     } catch {
-      setErrorMessage("Probleme reseau. Reessaie dans un instant.");
+      setErrorMessage("Problème réseau. Réessaie dans un instant.");
       setLoading(false);
     }
   }
@@ -294,7 +294,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }) {
       router.push(nextPath);
       router.refresh();
     } catch {
-      setErrorMessage("Probleme reseau. Reessaie dans un instant.");
+      setErrorMessage("Problème réseau. Réessaie dans un instant.");
       setLoading(false);
     }
   }
@@ -314,7 +314,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }) {
     }
 
     if (passwordStrength < 75) {
-      setErrorMessage("Utilise un mot de passe plus solide (min 10 caracteres, majuscule, chiffre, symbole).");
+      setErrorMessage("Utilise un mot de passe plus solide (min 10 caractères, majuscule, chiffre, symbole).");
       return;
     }
 
@@ -351,10 +351,10 @@ export default function AuthOnboardingPage({ initialMode = "signin" }) {
         return;
       }
 
-      setInfoMessage("Compte cree. Verifie ton email pour confirmer ton inscription.");
+      setInfoMessage("Compte créé. Vérifie ton email pour confirmer ton inscription.");
       setLoading(false);
     } catch {
-      setErrorMessage("Probleme reseau. Reessaie dans un instant.");
+      setErrorMessage("Problème réseau. Réessaie dans un instant.");
       setLoading(false);
     }
   }
@@ -469,7 +469,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }) {
                 <div className="mb-4 rounded-xl border border-emerald-500/25 bg-emerald-500/10 px-4 py-4 text-emerald-100">
                   <div className="text-[10px] font-semibold tracking-[0.16em] uppercase text-emerald-300 mb-1">C'EST BON !</div>
                   <div className="text-[14px] font-semibold mb-1">TON MOT DE PASSE A ETE MIS A JOUR</div>
-                  <p className="text-[12px] text-emerald-100/80 mb-2">Tu peux maintenant te reconnecter et reprendre la ou tu t'etais arrete.</p>
+                  <p className="text-[12px] text-emerald-100/80 mb-2">Tu peux maintenant te reconnecter et reprendre là où tu t'étais arrêté.</p>
                   <Link href="/signin?next=/dashboard" className="text-[12px] font-semibold text-emerald-200 hover:text-white transition-colors">
                     Continuer mon parcours
                   </Link>
@@ -484,7 +484,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }) {
 
               {mode === "signup" && referralCode ? (
                 <div className="mb-4 rounded-xl border border-emerald-500/25 bg-emerald-500/10 px-4 py-3 text-[12px] text-emerald-200">
-                  Code parrainage detecte: <span className="font-semibold">{referralCode}</span>
+                  Code parrainage détecté: <span className="font-semibold">{referralCode}</span>
                 </div>
               ) : null}
 
@@ -595,13 +595,13 @@ export default function AuthOnboardingPage({ initialMode = "signin" }) {
                 {mode === "signin" ? (
                   <div className="flex items-center justify-end">
                     <Link href="/forgot-password" className="text-[12px] text-[#4F8EF7] hover:underline">
-                      Mot de passe oublie ?
+                      Mot de passe oublié ?
                     </Link>
                   </div>
                 ) : null}
 
                 <button type="submit" className="btn-primary w-full h-[48px]" disabled={loading}>
-                  {loading ? "Chargement..." : mode === "signin" ? "Se connecter" : "Creer mon compte"}
+                  {loading ? "Chargement..." : mode === "signin" ? "Se connecter" : "Créer mon compte"}
                 </button>
               </form>
 
@@ -618,12 +618,12 @@ export default function AuthOnboardingPage({ initialMode = "signin" }) {
                         setInfoMessage("");
                       }}
                     >
-                      Creer un compte
+                      Créer un compte
                     </button>
                   </>
                 ) : (
                   <>
-                    Deja membre ?{" "}
+                    Déjà membre ?{" "}
                     <button
                       type="button"
                       className="text-white font-medium hover:underline"

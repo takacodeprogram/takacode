@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { reviewProject, getAIReviewConfig, isAIReviewAvailable } from "../../../../lib/aiReview";
 import { createClient } from "../../../../utils/supabase/server";
@@ -167,14 +167,14 @@ async function triggerAIReview(supabase, currentUser, lessonId) {
       console.log("[AI-REVIEW] Enregistre via submit_ai_review");
       // Creer une notification pour l'auteur
       try {
-        const verdictLabel = result.verdict === "approved" ? "approuve par l'IA" : "demande des ameliorations";
+        const verdictLabel = result.verdict === "approved" ? "approuvé par l'IA" : "demande des améliorations";
         await supabase.rpc("create_notification", {
           p_user_id: lessonData.user_id,
           p_type: "review_received",
           p_title: `Review IA : ${verdictLabel}`,
           p_body: result.verdict === "approved"
-            ? `L'IA a valide ton travail sur "${lesson.title}".`
-            : `L'IA a demande des ameliorations sur "${lesson.title}". Retraite ton projet.`,
+            ? `L'IA a validé ton travail sur "${lesson.title}".`
+            : `L'IA a demandé des améliorations sur "${lesson.title}". Retraite ton projet.`,
           p_link: `/parcours/lecon/${lessonId}`
         });
       } catch (e) { /* non bloquant */ }
@@ -199,14 +199,14 @@ async function triggerAIReview(supabase, currentUser, lessonId) {
 
     // Creer une notification pour l'auteur
     try {
-      const verdictLabel = result.verdict === "approved" ? "approuve par l'IA" : "demande des ameliorations";
+      const verdictLabel = result.verdict === "approved" ? "approuvé par l'IA" : "demande des améliorations";
       await supabase.rpc("create_notification", {
         p_user_id: lessonData.user_id,
         p_type: "review_received",
         p_title: `Review IA : ${verdictLabel}`,
         p_body: result.verdict === "approved"
-          ? `L'IA a valide ton travail sur "${lesson.title}".`
-          : `L'IA a demande des ameliorations sur "${lesson.title}". Retraite ton projet.`,
+          ? `L'IA a validé ton travail sur "${lesson.title}".`
+          : `L'IA a demandé des améliorations sur "${lesson.title}". Retraite ton projet.`,
         p_link: `/parcours/lecon/${lessonId}`
       });
     } catch (e) { /* non bloquant */ }
