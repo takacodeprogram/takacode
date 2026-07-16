@@ -1,20 +1,39 @@
 import { isMissingSchemaError } from "./utils";
+import type { SupabaseClient, User } from "@supabase/supabase-js";
 
 const AUTH_TABLES = ["user_profiles"];
 
 const DEFAULT_ROLE = "user";
 const PROFILE_SELECT = "id, role, points, grade, referral_code, referred_by, created_at, updated_at";
 
-function parseBootstrapAdminEmails() {
+interface UserProfile {
+  id: string;
+  role: string | null;
+  points: number | null;
+  grade: string | null;
+  referral_code: string | null;
+  referred_by: string | null;
+  created_at: string | null;
+  updated_at: string | null;
+}
+
+interface AccessContext {
+  role: string;
+  profile: UserProfile | null;
+  profileError: Error | null;
+  hasRole: (allowedRoles?: string[]) => boolean;
+}
+
+function parseBootstrapAdminEmails(): string[] {
   const source = process.env.TAKACODE_ADMIN_EMAILS || process.env.NEXT_PUBLIC_TAKACODE_ADMIN_EMAILS || "";
 
   return source
     .split(",")
-    .map((value) => value.trim().toLowerCase())
+    .map((value: string) => value.trim().toLowerCase())
     .filter(Boolean);
 }
 
-function normalizeEmail(value) {
+function normalizeEmail(value: unknown): string {
   if (typeof value !== "string") {
     return "";
   }
@@ -22,7 +41,7 @@ function normalizeEmail(value) {
   return value.trim().toLowerCase();
 }
 
-export function normalizeRole(value) {
+export function normalizeRole(value: unknown): string {
   if (typeof value !== "string") {
     return "";
   }
@@ -30,7 +49,7 @@ export function normalizeRole(value) {
   return value.trim().toLowerCase();
 }
 
-export function hasRole(role, allowedRoles = [DEFAULT_ROLE]) {
+export function hasRole(role: unknown, allowedRoles: string[] = [DEFAULT_ROLE]): boolean {
   const normalizedRole = normalizeRole(role) || DEFAULT_ROLE;
   const normalizedAllowedRoles = allowedRoles
     .map((value) => normalizeRole(value))
@@ -43,7 +62,7 @@ export function hasRole(role, allowedRoles = [DEFAULT_ROLE]) {
   return normalizedAllowedRoles.includes(normalizedRole);
 }
 
-export function isBootstrapAdminEmail(email) {
+export function isBootstrapAdminEmail(email: unknown): boolean {
   const normalizedEmail = normalizeEmail(email);
 
   if (!normalizedEmail) {
@@ -53,13 +72,12 @@ export function isBootstrapAdminEmail(email) {
   return parseBootstrapAdminEmails().includes(normalizedEmail);
 }
 
-export function getUserRole(user, profileRole = "") {
+export function getUserRole(user: User | null, profileRole: unknown = ""): string {
   const tableRole = normalizeRole(profileRole);
   if (tableRole) {
     return tableRole;
   }
 
-  // Never trust user_metadata for authorization decisions.
   const appRole = normalizeRole(user?.app_metadata?.role);
   if (appRole) {
     return appRole;
@@ -72,7 +90,7 @@ export function getUserRole(user, profileRole = "") {
   return DEFAULT_ROLE;
 }
 
-export function userHasRole(user, allowedRoles = [DEFAULT_ROLE], profileRole = "") {
+export function userHasRole(user: User | null, allowedRoles: string[] = [DEFAULT_ROLE], profileRole: unknown = ""): boolean {
   if (!user) {
     return false;
   }
@@ -81,7 +99,7 @@ export function userHasRole(user, allowedRoles = [DEFAULT_ROLE], profileRole = "
   return hasRole(role, allowedRoles);
 }
 
-export async function getUserProfile(supabase, userId) {
+export async function getUserProfile(supabase: SupabaseClient, userId: string | null): Promise<{ profile: UserProfile | null; error: Error | null }> {
   if (!supabase || !userId) {
     return { profile: null, error: null };
   }
@@ -103,7 +121,7 @@ export async function getUserProfile(supabase, userId) {
   return { profile: data ?? null, error: null };
 }
 
-export async function getUserAccessContext(supabase, user) {
+export async function getUserAccessContext(supabase: SupabaseClient, user: User | null): Promise<AccessContext> {
   if (!user) {
     return {
       role: DEFAULT_ROLE,
@@ -120,6 +138,6 @@ export async function getUserAccessContext(supabase, user) {
     role,
     profile,
     profileError,
-    hasRole: (allowedRoles = [DEFAULT_ROLE]) => hasRole(role, allowedRoles)
+    hasRole: (allowedRoles: string[] = [DEFAULT_ROLE]) => hasRole(role, allowedRoles)
   };
 }

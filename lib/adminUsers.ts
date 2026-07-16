@@ -1,10 +1,17 @@
-import { createClient as createSupabaseAdminClient } from "@supabase/supabase-js";
+import { createClient as createSupabaseAdminClient, User } from "@supabase/supabase-js";
 import { normalizeText } from "./utils";
 
 const LIST_USERS_PER_PAGE = 200;
 const LIST_USERS_MAX_PAGES = 5;
 
-function resolveDisplayNameFromAuthUser(authUser) {
+interface AuthUserEntry {
+  email: string;
+  displayName: string;
+}
+
+type AuthUsersById = Record<string, AuthUserEntry>;
+
+function resolveDisplayNameFromAuthUser(authUser: User): string {
   const fullName = normalizeText(authUser?.user_metadata?.full_name);
   if (fullName) {
     return fullName;
@@ -25,7 +32,7 @@ function resolveDisplayNameFromAuthUser(authUser) {
   return "";
 }
 
-export async function buildAuthUsersLookup() {
+export async function buildAuthUsersLookup(): Promise<AuthUsersById> {
   const supabaseUrl = normalizeText(process.env.NEXT_PUBLIC_SUPABASE_URL);
   const serviceRoleKey = normalizeText(process.env.SUPABASE_SERVICE_ROLE_KEY);
 
@@ -40,7 +47,7 @@ export async function buildAuthUsersLookup() {
     }
   });
 
-  const usersById = {};
+  const usersById: AuthUsersById = {};
 
   for (let page = 1; page <= LIST_USERS_MAX_PAGES; page += 1) {
     const { data, error } = await adminClient.auth.admin.listUsers({
@@ -74,13 +81,13 @@ export async function buildAuthUsersLookup() {
   return usersById;
 }
 
-export function mergeProfilesWithAuthUsers(profiles, usersById) {
+export function mergeProfilesWithAuthUsers<T extends Record<string, unknown>>(profiles: T[], usersById: AuthUsersById): (T & { email: string; display_name: string })[] {
   const list = Array.isArray(profiles) ? profiles : [];
   const lookup = usersById && typeof usersById === "object" ? usersById : {};
 
   return list.map((profile) => {
     const userId = normalizeText(profile?.id);
-    const authData = lookup[userId] || {};
+    const authData: AuthUserEntry = lookup[userId] || { email: "", displayName: "" };
 
     return {
       ...profile,

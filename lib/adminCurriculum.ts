@@ -1,5 +1,5 @@
-// Chargement des données curriculum côté admin (inclut le non-publié).
 import { normalizeText, isMissingSchemaError } from "./utils";
+import type { SupabaseClient } from "@supabase/supabase-js";
 
 export const ADMIN_TRACK_COLUMNS =
   "id, slug, goal_key, title, summary, description, level_label, duration_weeks, accent_color, icon, objective, resources, next_session, next_steps, is_published, is_active, sort_order, created_at, updated_at";
@@ -9,7 +9,63 @@ export const ADMIN_LESSON_COLUMNS =
 
 const ADMIN_TABLES = ["learning_tracks", "track_modules", "track_lessons"];
 
-export async function listAdminTracks(supabase) {
+interface AdminTrack {
+  id: string;
+  slug: string;
+  title: string;
+  level_label: string;
+  is_published: boolean;
+  is_active: boolean;
+  sort_order: number;
+  updated_at: string;
+}
+
+interface AdminTrackResult {
+  tracks: AdminTrack[];
+  error: Error | null;
+  schemaReady: boolean;
+}
+
+interface AdminTrackDetailResult {
+  track: Record<string, unknown> | null;
+  error: Error | null;
+  schemaReady: boolean;
+}
+
+interface AdminModuleRow {
+  id: string;
+  slug: string;
+  title: string;
+  summary: string;
+  sort_order: number;
+  is_published: boolean;
+  created_at: string;
+}
+
+interface AdminLessonRow {
+  id: string;
+  module_id: string;
+  slug: string;
+  title: string;
+  xp_reward: number;
+  duration_minutes: number;
+  sort_order: number;
+  is_published: boolean;
+}
+
+interface AdminCurriculumResult {
+  modules: (AdminModuleRow & { lessons: AdminLessonRow[] })[];
+  error: Error | null;
+  schemaReady: boolean;
+}
+
+interface AdminLessonResult {
+  lesson: Record<string, unknown> | null;
+  error: Error | null;
+  schemaReady: boolean;
+}
+
+export async function listAdminTracks(supabase: SupabaseClient): Promise<AdminTrackResult> {
   const { data, error } = await supabase
     .from("learning_tracks")
     .select("id, slug, title, level_label, is_published, is_active, sort_order, updated_at")
@@ -24,10 +80,10 @@ export async function listAdminTracks(supabase) {
     return { tracks: [], error, schemaReady: true };
   }
 
-  return { tracks: data || [], error: null, schemaReady: true };
+  return { tracks: (data as AdminTrack[]) || [], error: null, schemaReady: true };
 }
 
-export async function getAdminTrack(supabase, trackId) {
+export async function getAdminTrack(supabase: SupabaseClient, trackId: string | null): Promise<AdminTrackDetailResult> {
   if (!trackId) {
     return { track: null, error: null, schemaReady: true };
   }
@@ -41,11 +97,10 @@ export async function getAdminTrack(supabase, trackId) {
     return { track: null, error, schemaReady: true };
   }
 
-  return { track: data || null, error: null, schemaReady: true };
+  return { track: (data as Record<string, unknown>) || null, error: null, schemaReady: true };
 }
 
-// Modules (tous) + leurs lecons (toutes) d'un parcours, ordonnes.
-export async function getAdminTrackCurriculum(supabase, trackId) {
+export async function getAdminTrackCurriculum(supabase: SupabaseClient, trackId: string | null): Promise<AdminCurriculumResult> {
   if (!trackId) {
     return { modules: [], error: null, schemaReady: true };
   }
@@ -64,8 +119,8 @@ export async function getAdminTrackCurriculum(supabase, trackId) {
     return { modules: [], error: modulesError, schemaReady: true };
   }
 
-  const moduleIds = (modules || []).map((module) => module.id);
-  let lessonsByModule = {};
+  const moduleIds = ((modules as AdminModuleRow[]) || []).map((mod) => mod.id);
+  let lessonsByModule: Record<string, AdminLessonRow[]> = {};
 
   if (moduleIds.length) {
     const { data: lessons, error: lessonsError } = await supabase
@@ -82,7 +137,7 @@ export async function getAdminTrackCurriculum(supabase, trackId) {
       return { modules: [], error: lessonsError, schemaReady: true };
     }
 
-    for (const lesson of lessons || []) {
+    for (const lesson of (lessons as AdminLessonRow[]) || []) {
       if (!lessonsByModule[lesson.module_id]) {
         lessonsByModule[lesson.module_id] = [];
       }
@@ -90,15 +145,15 @@ export async function getAdminTrackCurriculum(supabase, trackId) {
     }
   }
 
-  const enriched = (modules || []).map((module) => ({
-    ...module,
-    lessons: lessonsByModule[module.id] || []
+  const enriched = ((modules as AdminModuleRow[]) || []).map((mod) => ({
+    ...mod,
+    lessons: lessonsByModule[mod.id] || []
   }));
 
   return { modules: enriched, error: null, schemaReady: true };
 }
 
-export async function getAdminLesson(supabase, lessonId) {
+export async function getAdminLesson(supabase: SupabaseClient, lessonId: string | null): Promise<AdminLessonResult> {
   if (!lessonId) {
     return { lesson: null, error: null, schemaReady: true };
   }
@@ -112,5 +167,5 @@ export async function getAdminLesson(supabase, lessonId) {
     return { lesson: null, error, schemaReady: true };
   }
 
-  return { lesson: data || null, error: null, schemaReady: true };
+  return { lesson: (data as Record<string, unknown>) || null, error: null, schemaReady: true };
 }

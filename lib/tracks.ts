@@ -1,4 +1,5 @@
-import { normalizeText, normalizeArray, normalizeNextSteps, isMissingSchemaError } from "./utils";
+import { normalizeText, normalizeArray, normalizeNextSteps, isMissingSchemaError, NextStep } from "./utils";
+import type { SupabaseClient } from "@supabase/supabase-js";
 
 const TRACK_SELECT = [
   "id",
@@ -38,19 +39,112 @@ const DEFAULT_TRACK_ICON = "lucide:route";
 
 const TRACK_TABLES = ["learning_tracks", "user_track_enrollments"];
 
-export function formatTrackMeta(track) {
+export interface Track {
+  id: string;
+  slug: string;
+  goalKey: string;
+  title: string;
+  summary: string;
+  description: string;
+  levelLabel: string;
+  durationWeeks: number;
+  accentColor: string;
+  icon: string;
+  objective: string;
+  resources: string[];
+  nextSession: string;
+  nextSteps: NextStep[];
+  isPublished: boolean;
+  isActive: boolean;
+  sortOrder: number;
+}
+
+interface TrackRow {
+  id: string;
+  slug: string;
+  goal_key: string;
+  title: string;
+  summary: string;
+  description: string;
+  level_label: string;
+  duration_weeks: number;
+  accent_color: string;
+  icon: string;
+  objective: string;
+  resources: string[];
+  next_session: string;
+  next_steps: NextStep[];
+  is_published: boolean;
+  is_active: boolean;
+  sort_order: number;
+}
+
+export interface Enrollment {
+  id: string;
+  userId: string;
+  trackId: string;
+  status: string;
+  progress: number;
+  startedAt: string;
+  completedAt: string;
+  createdAt: string;
+  updatedAt: string;
+  track: Track;
+}
+
+interface EnrollmentRow {
+  id: string;
+  user_id: string;
+  track_id: string;
+  status: string;
+  progress: number;
+  started_at: string;
+  completed_at: string;
+  created_at: string;
+  updated_at: string;
+  track: TrackRow[];
+}
+
+export interface Recommendation {
+  parcoursTitle: string;
+  parcoursMeta: string;
+  resources: string[];
+  objective: string;
+  nextSession: string;
+  nextSteps: NextStep[];
+}
+
+interface TracksResult {
+  tracks: Track[];
+  error: Error | null;
+  schemaReady: boolean;
+}
+
+interface EnrollmentResult {
+  enrollments: Enrollment[];
+  error: Error | null;
+  schemaReady: boolean;
+}
+
+interface InsertResult {
+  inserted: boolean;
+  error: Error | null;
+  schemaReady: boolean;
+}
+
+export function formatTrackMeta(track: Track | null | undefined): string {
   if (!track) {
     return "Parcours";
   }
 
   const duration = Number.isFinite(Number(track.durationWeeks)) ? Number(track.durationWeeks) : 0;
   const durationLabel = duration > 0 ? String(duration) + " semaines" : "Progressif";
-  const levelLabel = normalizeText(track.levelLabel || track.level_label, "Tous niveaux");
+  const levelLabel = normalizeText(track.levelLabel, "Tous niveaux");
 
   return durationLabel + " - " + levelLabel;
 }
 
-export function mapTrackToRecommendation(track, fallbackTitle = "Parcours personnalise") {
+export function mapTrackToRecommendation(track: Track | null | undefined, fallbackTitle = "Parcours personnalise"): Recommendation {
   if (!track) {
     return {
       parcoursTitle: fallbackTitle,
@@ -65,18 +159,18 @@ export function mapTrackToRecommendation(track, fallbackTitle = "Parcours person
     };
   }
 
-  const resources = normalizeArray(track.resources)
+  const resources = normalizeArray<unknown>(track.resources)
     .map((item) => normalizeText(item))
     .filter(Boolean);
 
-  const nextSteps = normalizeNextSteps(track.nextSteps || track.next_steps);
+  const nextSteps = normalizeNextSteps(track.nextSteps);
 
   return {
     parcoursTitle: normalizeText(track.title, fallbackTitle),
     parcoursMeta: formatTrackMeta(track),
     resources: resources.length ? resources : ["Ressources en préparation"],
     objective: normalizeText(track.objective, "Construire un projet concret."),
-    nextSession: normalizeText(track.nextSession || track.next_session, "Session annoncée bientôt"),
+    nextSession: normalizeText(track.nextSession, "Session annoncée bientôt"),
     nextSteps: nextSteps.length
       ? nextSteps
       : [
@@ -86,45 +180,51 @@ export function mapTrackToRecommendation(track, fallbackTitle = "Parcours person
   };
 }
 
-export function normalizeTrackRow(row) {
+export function normalizeTrackRow(row: unknown): Track | null {
   if (!row || typeof row !== "object") {
     return null;
   }
 
-  const id = normalizeText(row.id);
+  const r = row as Record<string, unknown>;
+
+  const id = normalizeText(r.id);
   if (!id) {
     return null;
   }
 
-  const resources = normalizeArray(row.resources)
+  const resources = normalizeArray<unknown>(r.resources)
     .map((item) => normalizeText(item))
     .filter(Boolean)
     .slice(0, 6);
 
-  const nextSteps = normalizeNextSteps(row.next_steps).slice(0, 6);
+  const nextSteps = normalizeNextSteps(r.next_steps).slice(0, 6);
 
   return {
     id,
-    slug: normalizeText(row.slug),
-    goalKey: normalizeText(row.goal_key),
-    title: normalizeText(row.title, "Parcours"),
-    summary: normalizeText(row.summary, "Parcours en préparation."),
-    description: normalizeText(row.description, ""),
-    levelLabel: normalizeText(row.level_label, "Tous niveaux"),
-    durationWeeks: Number.isFinite(Number(row.duration_weeks)) ? Number(row.duration_weeks) : 0,
-    accentColor: normalizeText(row.accent_color, DEFAULT_TRACK_COLOR),
-    icon: normalizeText(row.icon, DEFAULT_TRACK_ICON),
-    objective: normalizeText(row.objective, "Construire un projet concret."),
+    slug: normalizeText(r.slug),
+    goalKey: normalizeText(r.goal_key),
+    title: normalizeText(r.title, "Parcours"),
+    summary: normalizeText(r.summary, "Parcours en préparation."),
+    description: normalizeText(r.description, ""),
+    levelLabel: normalizeText(r.level_label, "Tous niveaux"),
+    durationWeeks: Number.isFinite(Number(r.duration_weeks)) ? Number(r.duration_weeks) : 0,
+    accentColor: normalizeText(r.accent_color, DEFAULT_TRACK_COLOR),
+    icon: normalizeText(r.icon, DEFAULT_TRACK_ICON),
+    objective: normalizeText(r.objective, "Construire un projet concret."),
     resources,
-    nextSession: normalizeText(row.next_session, "Session annoncée bientôt"),
+    nextSession: normalizeText(r.next_session, "Session annoncée bientôt"),
     nextSteps,
-    isPublished: row.is_published === true,
-    isActive: row.is_active !== false,
-    sortOrder: Number.isFinite(Number(row.sort_order)) ? Number(row.sort_order) : 100
+    isPublished: r.is_published === true,
+    isActive: r.is_active !== false,
+    sortOrder: Number.isFinite(Number(r.sort_order)) ? Number(r.sort_order) : 100
   };
 }
 
-export async function listPublishedTracks(supabase, options = {}) {
+interface ListTracksOptions {
+  limit?: number | null;
+}
+
+export async function listPublishedTracks(supabase: SupabaseClient, options: ListTracksOptions = {}): Promise<TracksResult> {
   const limit = Number.isFinite(Number(options.limit)) ? Number(options.limit) : null;
 
   let query = supabase
@@ -149,14 +249,19 @@ export async function listPublishedTracks(supabase, options = {}) {
     return { tracks: [], error, schemaReady: true };
   }
 
-  const tracks = (data || [])
+  const tracks = ((data as unknown as TrackRow[]) || [])
     .map((row) => normalizeTrackRow(row))
-    .filter(Boolean);
+    .filter(Boolean) as Track[];
 
   return { tracks, error: null, schemaReady: true };
 }
 
-export async function listRecommendedTracksForGoal(supabase, goalKey, options = {}) {
+interface RecommendedTracksOptions {
+  limit?: number;
+  excludedTrackIds?: string[];
+}
+
+export async function listRecommendedTracksForGoal(supabase: SupabaseClient, goalKey: string, options: RecommendedTracksOptions = {}): Promise<TracksResult> {
   const limit = Number.isFinite(Number(options.limit)) ? Number(options.limit) : 3;
   const excludedTrackIds = Array.isArray(options.excludedTrackIds)
     ? options.excludedTrackIds.filter((value) => typeof value === "string" && value.trim())
@@ -191,14 +296,18 @@ export async function listRecommendedTracksForGoal(supabase, goalKey, options = 
     return { tracks: [], error, schemaReady: true };
   }
 
-  const tracks = (data || [])
+  const tracks = ((data as unknown as TrackRow[]) || [])
     .map((row) => normalizeTrackRow(row))
-    .filter(Boolean);
+    .filter(Boolean) as Track[];
 
   return { tracks, error: null, schemaReady: true };
 }
 
-export async function listUserTrackEnrollments(supabase, userId, options = {}) {
+interface ListEnrollmentsOptions {
+  limit?: number;
+}
+
+export async function listUserTrackEnrollments(supabase: SupabaseClient, userId: string | null, options: ListEnrollmentsOptions = {}): Promise<EnrollmentResult> {
   const limit = Number.isFinite(Number(options.limit)) ? Number(options.limit) : 6;
 
   if (!userId) {
@@ -225,9 +334,10 @@ export async function listUserTrackEnrollments(supabase, userId, options = {}) {
     return { enrollments: [], error, schemaReady: true };
   }
 
-  const enrollments = (data || [])
-    .map((row) => {
-      const track = normalizeTrackRow(row.track);
+  const enrollments = ((data as unknown as EnrollmentRow[]) || [])
+    .map((row: EnrollmentRow): Enrollment | null => {
+      const trackRow = Array.isArray(row.track) ? row.track[0] : row.track;
+      const track = normalizeTrackRow(trackRow);
       if (!track) {
         return null;
       }
@@ -245,15 +355,12 @@ export async function listUserTrackEnrollments(supabase, userId, options = {}) {
         track
       };
     })
-    .filter(Boolean);
+    .filter(Boolean) as Enrollment[];
 
   return { enrollments, error: null, schemaReady: true };
 }
 
-// Inscrit le membre à un parcours précis s'il ne l'est pas déjà (idempotent).
-// Utilisé quand l'utilisateur ouvre une leçon ou démarre un parcours, pour que
-// le parcours apparaisse immédiatement dans son dashboard.
-export async function ensureUserTrackEnrollment(supabase, userId, trackId) {
+export async function ensureUserTrackEnrollment(supabase: SupabaseClient, userId: string, trackId: string): Promise<InsertResult> {
   const normalizedUserId = normalizeText(userId);
   const normalizedTrackId = normalizeText(trackId);
 
@@ -284,7 +391,7 @@ export async function ensureUserTrackEnrollment(supabase, userId, trackId) {
   return { inserted: true, error: null, schemaReady: true };
 }
 
-export async function ensureUserPrimaryEnrollment(supabase, userId, goalKey) {
+export async function ensureUserPrimaryEnrollment(supabase: SupabaseClient, userId: string, goalKey: string): Promise<InsertResult> {
   const normalizedUserId = normalizeText(userId);
   const normalizedGoalKey = normalizeText(goalKey);
 
@@ -316,7 +423,7 @@ export async function ensureUserPrimaryEnrollment(supabase, userId, goalKey) {
     );
 
   if (insertError) {
-    if (isMissingTrackSchemaError(insertError)) {
+    if (isMissingSchemaError(insertError, TRACK_TABLES)) {
       return { inserted: false, error: null, schemaReady: false };
     }
 

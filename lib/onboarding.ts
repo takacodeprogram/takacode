@@ -1,16 +1,23 @@
-import { normalizeText as readString, normalizeArray as readArray } from "./utils";
+import { normalizeText as readString, normalizeArray as readArray, NextStep } from "./utils";
 
 const DEFAULT_GOAL_KEY = "website";
 const DEFAULT_LEVEL_KEY = "beginner";
 const DEFAULT_CLARITY_KEY = "explore";
 const DEFAULT_WEEKLY_COMMITMENT_KEY = "2_to_5";
 
-const LEGACY_GOAL_KEY_MAP = {
+const LEGACY_GOAL_KEY_MAP: Record<string, string> = {
   data_collection: "data_analysis",
   agritech: "custom_projects"
 };
 
-export const GOAL_OPTIONS = [
+export interface Option {
+  key: string;
+  label: string;
+  icon?: string;
+  accent?: string;
+}
+
+export const GOAL_OPTIONS: Option[] = [
   { key: "website", label: "Site web", icon: "lucide:globe", accent: "#4F8EF7" },
   { key: "web_app", label: "Application web", icon: "lucide:monitor-smartphone", accent: "#9B6DFF" },
   { key: "mobile_app", label: "Application mobile", icon: "lucide:smartphone", accent: "#06B6D4" },
@@ -27,20 +34,20 @@ export const GOAL_OPTIONS = [
   { key: "other", label: "Autre", icon: "lucide:sparkles", accent: "#A78BFA" }
 ];
 
-export const LEVEL_OPTIONS = [
+export const LEVEL_OPTIONS: Option[] = [
   { key: "beginner", label: "Je debute completement" },
   { key: "basics", label: "J'ai deja quelques bases" },
   { key: "projects", label: "J'ai deja realise quelques projets" },
   { key: "advanced", label: "Je veux surtout me perfectionner" }
 ];
 
-export const PROJECT_CLARITY_OPTIONS = [
+export const PROJECT_CLARITY_OPTIONS: Option[] = [
   { key: "clear_idea", label: "Oui, je sais exactement ce que je veux faire" },
   { key: "some_ideas", label: "J'ai quelques idees" },
   { key: "explore", label: "Pas encore, je veux explorer" }
 ];
 
-export const TOOL_OPTIONS = [
+export const TOOL_OPTIONS: string[] = [
   "ChatGPT",
   "Claude",
   "Gemini",
@@ -73,14 +80,23 @@ export const TOOL_OPTIONS = [
   "Autre"
 ];
 
-export const WEEKLY_COMMITMENT_OPTIONS = [
+export const WEEKLY_COMMITMENT_OPTIONS: Option[] = [
   { key: "lt_2", label: "Moins de 2h" },
   { key: "2_to_5", label: "2 a 5h" },
   { key: "5_to_10", label: "5 a 10h" },
   { key: "gt_10", label: "Plus de 10h" }
 ];
 
-const RECOMMENDATION_PRESETS = {
+interface RecommendationPreset {
+  parcoursTitle: string;
+  parcoursMeta: string;
+  resources: string[];
+  objective: string;
+  nextSession: string;
+  nextSteps: { label: string; state: string }[];
+}
+
+const RECOMMENDATION_PRESETS: Record<string, RecommendationPreset> = {
   website: {
     parcoursTitle: "Parcours Site Web",
     parcoursMeta: "12 semaines - Debutant",
@@ -133,7 +149,7 @@ const RECOMMENDATION_PRESETS = {
     parcoursTitle: "Parcours Automatisation et IA",
     parcoursMeta: "10 semaines - Pratique",
     resources: ["Guide n8n", "Prompts robustes", "Projet : assistant metier"],
-    objective: "Automatiser un workflow m\u00E9tier avec IA.",
+    objective: "Automatiser un workflow metier avec IA.",
     nextSession: "Mardi 20h30",
     nextSteps: [
       { label: "Map des taches a automatiser", state: "done" },
@@ -251,7 +267,38 @@ const RECOMMENDATION_PRESETS = {
   }
 };
 
-function findOption(options, key, fallbackKey) {
+export interface GoalOption extends Option {
+  icon: string;
+  accent: string;
+}
+
+export interface OnboardingRecommendation {
+  goalKey?: string;
+  goalLabel?: string;
+  parcoursTitle: string;
+  parcoursMeta: string;
+  resources: string[];
+  objective: string;
+  nextSession: string;
+  nextSteps: NextStep[];
+}
+
+export interface OnboardingProfile {
+  goalKey: string;
+  goalLabel: string;
+  levelKey: string;
+  levelLabel: string;
+  projectClarityKey: string;
+  projectClarityLabel: string;
+  projectIdea: string;
+  tools: string[];
+  weeklyCommitmentKey: string;
+  weeklyCommitmentLabel: string;
+  progress: number;
+  recommendation: OnboardingRecommendation;
+}
+
+function findOption(options: Option[], key: string | undefined, fallbackKey: string): Option {
   const normalizedKey = readString(key);
   const direct = options.find((option) => option.key === normalizedKey);
   if (direct) {
@@ -262,19 +309,20 @@ function findOption(options, key, fallbackKey) {
   return fallback || options[0];
 }
 
-export function findGoalOption(goalKey) {
+export function findGoalOption(goalKey: string): GoalOption | undefined {
   const normalizedKey = readString(goalKey);
   const mappedKey = LEGACY_GOAL_KEY_MAP[normalizedKey] || normalizedKey;
-  return findOption(GOAL_OPTIONS, mappedKey, DEFAULT_GOAL_KEY);
+  const found = findOption(GOAL_OPTIONS, mappedKey, DEFAULT_GOAL_KEY);
+  return GOAL_OPTIONS.find((o) => o.key === found.key) as GoalOption | undefined;
 }
 
-export function buildOnboardingRecommendation(goalKey = DEFAULT_GOAL_KEY) {
+export function buildOnboardingRecommendation(goalKey = DEFAULT_GOAL_KEY): OnboardingRecommendation {
   const goal = findGoalOption(goalKey);
-  const preset = RECOMMENDATION_PRESETS[goal.key] || RECOMMENDATION_PRESETS[DEFAULT_GOAL_KEY];
+  const preset = RECOMMENDATION_PRESETS[goal!.key] || RECOMMENDATION_PRESETS[DEFAULT_GOAL_KEY];
 
   return {
-    goalKey: goal.key,
-    goalLabel: goal.label,
+    goalKey: goal!.key,
+    goalLabel: goal!.label,
     parcoursTitle: preset.parcoursTitle,
     parcoursMeta: preset.parcoursMeta,
     resources: [...preset.resources],
@@ -284,47 +332,48 @@ export function buildOnboardingRecommendation(goalKey = DEFAULT_GOAL_KEY) {
   };
 }
 
-export function isOnboardingCompleted(user) {
+export function isOnboardingCompleted(user: { user_metadata?: Record<string, unknown> } | null | undefined): boolean {
   return user?.user_metadata?.onboarding_completed === true;
 }
 
-export function getOnboardingProfile(user) {
+export function getOnboardingProfile(user: { user_metadata?: Record<string, unknown> } | null | undefined): OnboardingProfile {
   const metadata = user?.user_metadata ?? {};
-  const profile = typeof metadata.onboarding_profile === "object" && metadata.onboarding_profile !== null
+  const profile = (typeof metadata.onboarding_profile === "object" && metadata.onboarding_profile !== null
     ? metadata.onboarding_profile
-    : {};
+    : {}) as Record<string, unknown>;
 
-  const goal = findGoalOption(profile.goal_key);
-  const level = findOption(LEVEL_OPTIONS, profile.level_key, DEFAULT_LEVEL_KEY);
-  const clarity = findOption(PROJECT_CLARITY_OPTIONS, profile.project_clarity, DEFAULT_CLARITY_KEY);
-  const weeklyCommitment = findOption(WEEKLY_COMMITMENT_OPTIONS, profile.weekly_commitment, DEFAULT_WEEKLY_COMMITMENT_KEY);
+  const goal = findGoalOption(profile.goal_key as string);
+  const level = findOption(LEVEL_OPTIONS, profile.level_key as string, DEFAULT_LEVEL_KEY);
+  const clarity = findOption(PROJECT_CLARITY_OPTIONS, profile.project_clarity as string, DEFAULT_CLARITY_KEY);
+  const weeklyCommitment = findOption(WEEKLY_COMMITMENT_OPTIONS, profile.weekly_commitment as string, DEFAULT_WEEKLY_COMMITMENT_KEY);
 
-  const fallbackRecommendation = buildOnboardingRecommendation(goal.key);
-  const rawRecommendation = typeof profile.recommendation === "object" && profile.recommendation !== null
+  const fallbackRecommendation = buildOnboardingRecommendation(goal!.key);
+  const rawRecommendation = (typeof profile.recommendation === "object" && profile.recommendation !== null
     ? profile.recommendation
-    : {};
+    : {}) as Record<string, unknown>;
 
-  const normalizedResources = readArray(rawRecommendation.resources)
+  const normalizedResources = readArray<string>(rawRecommendation.resources)
     .map((item) => readString(item))
     .filter(Boolean);
 
-  const normalizedNextSteps = readArray(rawRecommendation.next_steps)
-    .map((step) => {
+  const normalizedNextSteps = readArray<unknown>(rawRecommendation.next_steps)
+    .map((step: unknown): NextStep | null => {
       if (typeof step !== "object" || step === null) {
         return null;
       }
 
-      const label = readString(step.label);
+      const s = step as Record<string, unknown>;
+      const label = readString(s.label);
       if (!label) {
         return null;
       }
 
-      const state = readString(step.state) || "locked";
+      const state = readString(s.state) || "locked";
       return { label, state };
     })
-    .filter(Boolean);
+    .filter(Boolean) as NextStep[];
 
-  const normalizedTools = readArray(profile.tools)
+  const normalizedTools = readArray<string>(profile.tools)
     .map((item) => readString(item))
     .filter(Boolean)
     .slice(0, 12);
@@ -335,8 +384,8 @@ export function getOnboardingProfile(user) {
     : 8;
 
   return {
-    goalKey: goal.key,
-    goalLabel: readString(profile.goal_label) || goal.label,
+    goalKey: goal!.key,
+    goalLabel: readString(profile.goal_label) || goal!.label,
     levelKey: level.key,
     levelLabel: readString(profile.level_label) || level.label,
     projectClarityKey: clarity.key,

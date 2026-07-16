@@ -1,6 +1,6 @@
-// Données réelles de l'espace membre : micro-projets soumis et ressources agrégées.
-import { listUserTrackEnrollments } from "./tracks";
+import { listUserTrackEnrollments, Track } from "./tracks";
 import { normalizeText, isMissingSchemaError } from "./utils";
+import type { SupabaseClient } from "@supabase/supabase-js";
 
 const MEMBER_TABLES = ["user_lesson_progress", "track_lessons", "track_modules"];
 
@@ -14,8 +14,65 @@ const PROJECT_SELECT = [
   "lesson:track_lessons(title, slug, module:track_modules(title, track:learning_tracks(title, slug)))"
 ].join(", ");
 
-// Micro-projets soumis par le membre (avec parcours/lecon d'origine).
-export async function listUserProjects(supabase, userId, options = {}) {
+interface MemberProject {
+  lessonId: string;
+  lessonTitle: string;
+  lessonSlug: string;
+  trackTitle: string;
+  trackSlug: string;
+  submission: string;
+  submittedAt: string;
+  status: string;
+  quizPassed: boolean;
+}
+
+interface MemberProjectRow {
+  lesson_id: string;
+  project_submission: string;
+  project_submitted_at: string;
+  status: string;
+  quiz_passed: boolean;
+  lesson: {
+    title: string;
+    slug: string;
+    module: {
+      title: string;
+      track: {
+        title: string;
+        slug: string;
+      };
+    };
+  } | null;
+}
+
+interface MemberProjectsResult {
+  projects: MemberProject[];
+  error: Error | null;
+  schemaReady: boolean;
+}
+
+interface MemberResource {
+  label: string;
+  url: string;
+  kind: string;
+  why: string;
+  lessonTitle: string;
+  trackTitle: string;
+  trackSlug: string;
+}
+
+interface MemberResourcesResult {
+  resources: MemberResource[];
+  tracks: Track[];
+  error: Error | null;
+  schemaReady: boolean;
+}
+
+interface ListOptions {
+  limit?: number;
+}
+
+export async function listUserProjects(supabase: SupabaseClient, userId: string | null, options: ListOptions = {}): Promise<MemberProjectsResult> {
   const limit = Number.isFinite(Number(options.limit)) ? Number(options.limit) : 50;
 
   if (!userId) {
@@ -37,16 +94,19 @@ export async function listUserProjects(supabase, userId, options = {}) {
     return { projects: [], error, schemaReady: true };
   }
 
-  const projects = (data || [])
-    .map((row) => {
+  const projects: MemberProject[] = ((data as unknown as MemberProjectRow[]) || [])
+    .map((row: MemberProjectRow): MemberProject | null => {
       const lesson = row.lesson || null;
-      const module = lesson?.module || null;
-      const track = module?.track || null;
+      const mod = lesson?.module || null;
+      const track = mod?.track || null;
+
+      const lessonSlug = normalizeText(lesson?.slug);
+      if (!lessonSlug) return null;
 
       return {
         lessonId: row.lesson_id,
         lessonTitle: normalizeText(lesson?.title, "Lecon"),
-        lessonSlug: normalizeText(lesson?.slug),
+        lessonSlug,
         trackTitle: normalizeText(track?.title, "Parcours"),
         trackSlug: normalizeText(track?.slug),
         submission: normalizeText(row.project_submission),
@@ -55,13 +115,12 @@ export async function listUserProjects(supabase, userId, options = {}) {
         quizPassed: row.quiz_passed === true
       };
     })
-    .filter((entry) => entry.lessonSlug);
+    .filter(Boolean) as MemberProject[];
 
   return { projects, error: null, schemaReady: true };
 }
 
-// Ressources agregees depuis les lecons des parcours ou le membre est inscrit.
-export async function listUserResources(supabase, userId, options = {}) {
+export async function listUserResources(supabase: SupabaseClient, userId: string | null, options: ListOptions = {}): Promise<MemberResourcesResult> {
   const limit = Number.isFinite(Number(options.limit)) ? Number(options.limit) : 60;
 
   if (!userId) {
@@ -73,8 +132,8 @@ export async function listUserResources(supabase, userId, options = {}) {
     return { resources: [], tracks: [], error: null, schemaReady: false };
   }
 
-  const trackById = new Map();
-  const trackIds = [];
+  const trackById = new Map<string, Track>();
+  const trackIds: string[] = [];
   for (const entry of enrollmentResult.enrollments) {
     if (entry.trackId && !trackById.has(entry.trackId)) {
       trackById.set(entry.trackId, entry.track);
@@ -99,11 +158,11 @@ export async function listUserResources(supabase, userId, options = {}) {
     return { resources: [], tracks: [], error: modulesError, schemaReady: true };
   }
 
-  const moduleToTrack = new Map();
-  const moduleIds = [];
-  for (const module of modules || []) {
-    moduleToTrack.set(module.id, module.track_id);
-    moduleIds.push(module.id);
+  const moduleToTrack = new Map<string, string>();
+  const moduleIds: string[] = [];
+  for (const mod of (modules as { id: string; track_id: string }[]) || []) {
+    moduleToTrack.set(mod.id, mod.track_id);
+    moduleIds.push(mod.id);
   }
 
   if (!moduleIds.length) {
@@ -123,12 +182,12 @@ export async function listUserResources(supabase, userId, options = {}) {
     return { resources: [], tracks: [], error: lessonsError, schemaReady: true };
   }
 
-  const seen = new Set();
-  const resources = [];
+  const seen = new Set<string>();
+  const resources: MemberResource[] = [];
 
-  for (const lesson of lessons || []) {
+  for (const lesson of (lessons as { title: string; resources: unknown[]; module_id: string }[]) || []) {
     const trackId = moduleToTrack.get(lesson.module_id);
-    const track = trackById.get(trackId) || null;
+    const track = trackById.get(trackId!) || null;
     const list = Array.isArray(lesson.resources) ? lesson.resources : [];
 
     for (const item of list) {
@@ -136,8 +195,9 @@ export async function listUserResources(supabase, userId, options = {}) {
         continue;
       }
 
-      const url = normalizeText(item.url);
-      const label = normalizeText(item.label);
+      const obj = item as Record<string, unknown>;
+      const url = normalizeText(obj.url);
+      const label = normalizeText(obj.label);
       if (!label || !/^https:\/\//.test(url) || seen.has(url)) {
         continue;
       }
@@ -146,8 +206,8 @@ export async function listUserResources(supabase, userId, options = {}) {
       resources.push({
         label,
         url,
-        kind: normalizeText(item.kind, "doc"),
-        why: normalizeText(item.why),
+        kind: normalizeText(obj.kind, "doc"),
+        why: normalizeText(obj.why),
         lessonTitle: normalizeText(lesson.title, "Lecon"),
         trackTitle: normalizeText(track?.title, "Parcours"),
         trackSlug: normalizeText(track?.slug)
@@ -163,7 +223,7 @@ export async function listUserResources(supabase, userId, options = {}) {
     }
   }
 
-  const tracks = trackIds.map((id) => trackById.get(id)).filter(Boolean);
+  const tracks = trackIds.map((id) => trackById.get(id)).filter(Boolean) as Track[];
 
   return { resources, tracks, error: null, schemaReady: true };
 }
