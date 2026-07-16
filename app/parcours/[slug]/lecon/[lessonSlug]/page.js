@@ -4,6 +4,7 @@ import { notFound, redirect } from "next/navigation";
 import FooterSection from "../../../../../components/FooterSection";
 import LessonExperience from "../../../../../components/LessonExperience";
 import Navbar from "../../../../../components/Navbar";
+import PublicTour from "../../../../../components/public-tour/PublicTour";
 import { findLessonInCurriculum, getTrackCurriculum } from "../../../../../lib/curriculum";
 import { buildPageMetadata } from "../../../../../lib/seo";
 import { ensureUserTrackEnrollment, listPublishedTracks } from "../../../../../lib/tracks";
@@ -151,6 +152,7 @@ export default async function LessonPage({ params }) {
       </main>
       <hr className="section-divider" />
       <FooterSection />
+      <PublicTour />
     </div>
   );
 }

@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import FooterSection from "../../../components/FooterSection";
 import Navbar from "../../../components/Navbar";
+import PublicTour from "../../../components/public-tour/PublicTour";
 import {
   buildStepRows,
   buildTrackCompetencies,
@@ -386,6 +387,7 @@ export default async function ParcoursDetailPage({ params }) {
       </main>
       <hr className="section-divider" />
       <FooterSection />
+      <PublicTour />
     </div>
   );
 }

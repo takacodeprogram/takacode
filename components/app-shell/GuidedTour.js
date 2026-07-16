@@ -24,7 +24,7 @@ export default function GuidedTour() {
   // Le tour cible des elements de la sidebar (caches sur mobile) -> desktop uniquement.
   // Sur mobile, on renvoie vers la page guide dediee /dashboard/guide.
   useEffect(() => {
-    if (pathname !== "/dashboard" || !isDesktop()) {
+    if (!["/dashboard", "/dashboard/guide"].includes(pathname) || !isDesktop()) {
       setActive(false);
       return;
     }

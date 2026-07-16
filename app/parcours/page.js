@@ -2,6 +2,7 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import FooterSection from "../../components/FooterSection";
 import Navbar from "../../components/Navbar";
+import PublicTour from "../../components/public-tour/PublicTour";
 import { buildPageMetadata } from "../../lib/seo";
 import { buildTrackCompetencies, getLevelChipClass, toProgress } from "../../lib/parcours";
 import { formatTrackMeta, listPublishedTracks, listUserTrackEnrollments } from "../../lib/tracks";
@@ -184,6 +185,7 @@ export default async function ParcoursPage() {
       </main>
       <hr className="section-divider" />
       <FooterSection />
+      <PublicTour />
     </div>
   );
 }
