@@ -120,7 +120,7 @@ as $$
       -- Compter les reviews et les ameliorations
       coalesce(r_agg.total_reviews, 0) as total_reviews,
       coalesce(r_agg.improvement_count, 0) as improvement_count,
-      coalesce(r_agg.is_validated, false) as is_validated,
+      coalesce(r_agg.review_validated, false) as review_validated,
       -- Derniere review
       r_agg.last_verdict,
       r_agg.last_comment,
