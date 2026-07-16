@@ -165,11 +165,11 @@ export default function AppShell({ user, children }) {
           >
             <iconify-icon icon="lucide:menu" style={{ fontSize: "18px" }} />
           </button>
-          <div className="hidden lg:block" />
 
-          <NotificationBell />
+          <div className="flex items-center gap-1">
+            <NotificationBell />
 
-          <div className="relative" ref={menuRef}>
+            <div className="relative" ref={menuRef}>
             <button
               type="button"
               onClick={() => setMenuOpen((open) => !open)}
@@ -238,6 +238,7 @@ export default function AppShell({ user, children }) {
                 </form>
               </div>
             ) : null}
+          </div>
           </div>
         </div>
 
