@@ -128,7 +128,7 @@ as $$
       r_agg.last_reviewer_name,
       r_agg.last_reviewed_at,
       -- Est-ce valide (une seule validation suffit)
-      r_agg.is_validated,
+      r_agg.review_validated,
       -- Toutes les reviews (tableau JSON)
       coalesce(r_agg.all_reviews, '[]'::jsonb) as all_reviews
     from submissions s
@@ -139,7 +139,7 @@ as $$
         count(*) as total_reviews,
         count(*) filter (where r.verdict = 'changes') as improvement_count,
         -- Une seule validation suffit : si au moins un verdict = 'approved', c'est valide
-        (count(*) filter (where r.verdict = 'approved') > 0) as is_validated,
+        (count(*) filter (where r.verdict = 'approved') > 0) as review_validated,
         (array_agg(r.verdict order by r.created_at desc))[1] as last_verdict,
         (array_agg(r.comment order by r.created_at desc))[1] as last_comment,
         (array_agg(r.review_method order by r.created_at desc))[1] as last_review_method,
@@ -183,7 +183,7 @@ as $$
         'review_feedback', ra.review_feedback,
         'total_reviews', ra.total_reviews,
         'improvement_count', ra.improvement_count,
-        'is_validated', ra.is_validated,
+        'is_validated', ra.review_validated,
         'last_verdict', ra.last_verdict,
         'last_comment', ra.last_comment,
         'last_review_method', ra.last_review_method,
