@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { getAIReviewConfig, isAIReviewAvailable } from "../../../../../lib/aiReview";
-import { createClient } from "../../../../../utils/supabase/server";
+import { getAIReviewConfig, isAIReviewAvailable } from "../../../../lib/aiReview";
+import { createClient } from "../../../../utils/supabase/server";
 import { cookies } from "next/headers";
 
 export async function GET() {
