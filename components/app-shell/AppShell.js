@@ -166,7 +166,7 @@ export default function AppShell({ user, children }) {
             <iconify-icon icon="lucide:menu" style={{ fontSize: "18px" }} />
           </button>
 
-          <div className="flex items-center gap-1">
+          <div className="ml-auto flex items-center gap-1">
             <NotificationBell />
 
             <div className="relative" ref={menuRef}>
