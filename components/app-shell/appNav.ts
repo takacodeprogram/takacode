@@ -5,6 +5,7 @@ export interface NavLink {
   exact?: boolean;
   tour?: string;
   live?: boolean;
+  badge?: string;
 }
 
 export const MEMBER_LINKS: NavLink[] = [
@@ -16,6 +17,7 @@ export const MEMBER_LINKS: NavLink[] = [
   { href: "/dashboard/sessions", icon: "lucide:video", label: "Sessions live", live: true, tour: "sessions" },
   { href: "/dashboard/communaute", icon: "lucide:users", label: "Communaute", tour: "communaute" },
   { href: "/dashboard/outils", icon: "lucide:wrench", label: "Outils", tour: "outils" },
+  { href: "/dashboard/nouveautes", icon: "lucide:sparkles", label: "Nouveautes", badge: "V1.1" },
   { href: "/dashboard/profil", icon: "lucide:user", label: "Profil", tour: "profil" }
 ];
 

@@ -29,6 +29,7 @@ interface LinkConfig {
   exact?: boolean;
   tour?: string;
   live?: boolean;
+  badge?: string;
 }
 
 function getInitials(value: string | undefined): string {
@@ -64,7 +65,12 @@ function SidebarLink({ link, pathname, onNavigate }: { link: LinkConfig; pathnam
         <iconify-icon icon={link.icon} />
         {link.label}
       </span>
-      {link.live ? <span className="h-2 w-2 rounded-full bg-red-500" /> : null}
+      {link.live ? <span className="h-2 w-2 rounded-full bg-red-500" aria-label="En direct" /> : null}
+      {link.badge ? (
+        <span className="rounded-full border border-blue-400/25 bg-blue-500/10 px-2 py-0.5 text-[9px] font-semibold text-blue-200">
+          {link.badge}
+        </span>
+      ) : null}
     </Link>
   );
 }

@@ -1,9 +1,5 @@
-import LoaderVisual from "../components/LoaderVisual";
+import RouteLoading from "../components/RouteLoading";
 
 export default function Loading() {
-  return (
-    <div className="startup-loader startup-loader-static" role="status" aria-live="polite">
-      <LoaderVisual />
-    </div>
-  );
+  return <RouteLoading />;
 }

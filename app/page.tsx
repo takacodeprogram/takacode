@@ -11,6 +11,7 @@ import ParcoursSection from "../components/ParcoursSection";
 import ProjectsSection from "../components/ProjectsSection";
 import RessourcesSection from "../components/RessourcesSection";
 import SessionsLiveSection from "../components/SessionsLiveSection";
+import StartupLoader from "../components/StartupLoader";
 import ValuesSection from "../components/ValuesSection";
 import { getPlatformStats } from "../lib/platformStats";
 import { buildPageMetadata } from "../lib/seo";
@@ -37,6 +38,7 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-white">
+      <StartupLoader />
       <Navbar />
       <main>
         <Hero stats={stats} />
