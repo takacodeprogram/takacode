@@ -4,6 +4,16 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useSessionTracker } from "../../hooks/useSessionTracker";
+
+const TOUR_STORAGE_KEY = "tk_tour_done_v1";
+const TOUR_SESSION_KEY = "tk_tour_session_v1";
+
+function resetTour() {
+  try {
+    localStorage.removeItem(TOUR_STORAGE_KEY);
+    sessionStorage.removeItem(TOUR_SESSION_KEY);
+  } catch {}
+}
 import type { StaticImageData } from "next/image";
 import type { ReactNode } from "react";
 import logoLight4 from "../../assets/logos-light-png/logo-light-4.png";
@@ -244,6 +254,14 @@ export default function AppShell({ user, children }: AppShellProps) {
                   <iconify-icon icon="lucide:compass" style={{ fontSize: "15px", color: "#89c7ff" }} />
                   Guide de demarrage
                 </Link>
+                <button
+                  type="button"
+                  onClick={() => { resetTour(); setMenuOpen(false); }}
+                  className="w-full flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[#d1d1d1] hover:bg-white/[0.05] transition-colors"
+                >
+                  <iconify-icon icon="lucide:rotate-ccw" style={{ fontSize: "15px", color: "#89c7ff" }} />
+                  Rejouer le guide
+                </button>
                 {isAdmin ? (
                   <Link
                     href="/admin"
