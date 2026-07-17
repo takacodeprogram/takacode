@@ -38,11 +38,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     // Keep hydration warnings muted for those external mutations.
     <html lang="fr" suppressHydrationWarning>
       <head>
-        {/* Preload the same image used for startup loader and favicon. */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" />
+        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" />
         <link rel="preload" as="image" href={logoLight2.src} />
       </head>
       <body suppressHydrationWarning>
-        <Script src="https://cdn.tailwindcss.com" strategy="beforeInteractive" />
         <Script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js" strategy="beforeInteractive" />
         {children}
         <CookieNotice />

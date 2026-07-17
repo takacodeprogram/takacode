@@ -451,7 +451,7 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
         </button>
         {showPreview && (
           <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="text-[10px] text-[#555] uppercase tracking-widest font-semibold self-end">Tel qu affiche dans le catalogue</div>
+            <div className="text-[10px] text-[#555] uppercase tracking-widest font-semibold self-end">Tel qu'affiché dans le catalogue</div>
             <TrackLivePreview
               data={{
                 title: form.title || "",
