@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "../../utils/supabase/client";
 
@@ -30,7 +30,24 @@ interface TrackFormProps {
   redirectBase?: string;
 }
 
+interface ValidationErrors {
+  [key: string]: string;
+}
+
 const TRACK_SELECT = "id, slug, title, is_published, is_active";
+
+const TABS = [
+  { id: "identite", label: "Identite" },
+  { id: "cible", label: "Cible" },
+  { id: "promesse", label: "Promesse" },
+  { id: "structure", label: "Structure" },
+  { id: "publication", label: "Publication" },
+] as const;
+
+type TabId = (typeof TABS)[number]["id"];
+
+const REQUIRED_FIELDS = ["title", "summary"];
+const CREATE_REQUIRED = ["slug", ...REQUIRED_FIELDS];
 
 function slugIsValid(slug: string): boolean {
   return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug);
@@ -45,22 +62,27 @@ function parseResources(value: string): string[] {
 }
 
 function toResourcesInput(resources: string[] | undefined): string {
-  if (!Array.isArray(resources)) {
-    return "";
-  }
+  if (!Array.isArray(resources)) return "";
   return resources.map((item) => String(item || "").trim()).filter(Boolean).join(", ");
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({ label, children, error }: { label: string; children: React.ReactNode; error?: string }) {
   return (
     <label className="block">
       <span className="text-[10px] text-[#8d8d8d] uppercase tracking-widest font-semibold">{label}</span>
       <div className="mt-1">{children}</div>
+      {error && <p className="mt-1 text-[10px] text-red-400">{error}</p>}
     </label>
   );
 }
 
 const INPUT_CLASS = "auth-input text-[12px] w-full";
+const ACTIVE_TAB_CLASS = "bg-white/[0.08] text-white border-white/20";
+const INACTIVE_TAB_CLASS = "text-[#6d6d6d] hover:text-[#aaa] border-transparent";
+
+function TabDot({ filled }: { filled: boolean }) {
+  return <span className={`inline-block w-1.5 h-1.5 rounded-full ${filled ? "bg-emerald-400" : "bg-[#444]"}`} />;
+}
 
 export default function TrackForm({ mode = "create", track = null, proposal = false, userId = "", redirectBase = "/admin/parcours" }: TrackFormProps) {
   const router = useRouter();
@@ -79,25 +101,91 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
     icon: track?.icon || "lucide:route",
     objective: track?.objective || "Construire un projet concret.",
     resources: toResourcesInput(track?.resources),
-    next_session: track?.next_session || "Session annoncée bientôt",
+    next_session: track?.next_session || "Session annoncee bientot",
     is_published: track ? String(track.is_published === true) : "true",
     is_active: track ? String(track.is_active !== false) : "true"
   }));
-  const [saving, setSaving] = useState<boolean>(false);
-  const [error, setError] = useState<string>("");
-  const [message, setMessage] = useState<string>("");
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
+  const [activeTab, setActiveTab] = useState<TabId>("identite");
+  const [dirty, setDirty] = useState(false);
+  const [errors, setErrors] = useState<ValidationErrors>({});
+
+  const requiredFields = isEdit ? REQUIRED_FIELDS : CREATE_REQUIRED;
+  const filledCount = requiredFields.filter((f) => form[f]?.trim()).length;
+
+  useEffect(() => {
+    if (!dirty) return;
+    const handler = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = "";
+    };
+    addEventListener("beforeunload", handler);
+    return () => removeEventListener("beforeunload", handler);
+  }, [dirty]);
 
   function setField(key: string, value: string) {
     setForm((current) => ({ ...current, [key]: value }));
+    setDirty(true);
+    if (errors[key]) {
+      setErrors((prev) => {
+        const next = { ...prev };
+        delete next[key];
+        return next;
+      });
+    }
   }
+
+  function validate(): ValidationErrors {
+    const errs: ValidationErrors = {};
+    for (const field of requiredFields) {
+      if (!form[field]?.trim()) {
+        errs[field] = "Ce champ est obligatoire.";
+      }
+    }
+    if (!isEdit) {
+      const slug = form.slug?.trim().toLowerCase() || "";
+      if (!slug) {
+        errs.slug = "Le slug est obligatoire.";
+      } else if (!slugIsValid(slug)) {
+        errs.slug = "Lettres minuscules, chiffres et tirets uniquement.";
+      }
+    }
+    return errs;
+  }
+
+  function tabHasErrors(tabId: TabId): boolean {
+    const tabFields = fieldMap[tabId];
+    return tabFields.some((f) => !!errors[f]);
+  }
+
+  function completeness(tabId: TabId): number {
+    const tabFields = fieldMap[tabId];
+    const required = tabFields.filter((f) => requiredFields.includes(f));
+    if (required.length === 0) return 1;
+    return required.filter((f) => form[f]?.trim()).length / required.length;
+  }
+
+  function fieldMapForTab(tabId: TabId): string[] {
+    return fieldMap[tabId];
+  }
+
+  const fieldMap: Record<TabId, string[]> = {
+    identite: isEdit ? ["title", "summary", "objective", "icon"] : ["slug", "title", "summary", "objective", "icon"],
+    cible: ["goal_key", "level_label", "resources", "next_session"],
+    promesse: ["objective"],
+    structure: ["duration_weeks", "sort_order", "accent_color"],
+    publication: ["is_published", "is_active"],
+  };
 
   function buildPayload() {
     const summary = form.summary.trim();
     return {
       goal_key: form.goal_key.trim().toLowerCase() || "other",
       title: form.title.trim() || "Parcours",
-      summary: summary || "Parcours en préparation.",
-      description: summary || "Parcours en préparation.",
+      summary: summary || "Parcours en preparation.",
+      description: summary || "Parcours en preparation.",
       level_label: form.level_label.trim() || "Debutant",
       duration_weeks: Math.max(1, Number.parseInt(form.duration_weeks, 10) || 8),
       sort_order: Math.max(1, Number.parseInt(form.sort_order, 10) || 100),
@@ -105,7 +193,7 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
       icon: form.icon.trim() || "lucide:route",
       objective: form.objective.trim() || "Construire un projet concret.",
       resources: parseResources(form.resources),
-      next_session: form.next_session.trim() || "Session annoncée bientôt",
+      next_session: form.next_session.trim() || "Session annoncee bientot",
       is_published: proposal ? false : form.is_published === "true",
       is_active: proposal ? false : form.is_active === "true"
     };
@@ -116,13 +204,16 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
     setError("");
     setMessage("");
 
-    if (!form.title.trim() || !form.summary.trim()) {
-      setError("Titre et résumé sont obligatoires.");
+    const errs = validate();
+    setErrors(errs);
+    if (Object.keys(errs).length > 0) {
+      const firstErrorField = Object.keys(errs)[0];
+      const tab = Object.entries(fieldMap).find(([, fields]) => fields.includes(firstErrorField));
+      if (tab) setActiveTab(tab[0] as TabId);
       return;
     }
 
     setSaving(true);
-
     if (isEdit) {
       const { error: updateError } = await supabase.from("learning_tracks").update(buildPayload()).eq("id", track!.id).select(TRACK_SELECT).single();
       if (updateError) {
@@ -130,19 +221,14 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
         setSaving(false);
         return;
       }
-      setMessage("Parcours mis à jour.");
+      setMessage("Parcours mis a jour.");
+      setDirty(false);
       setSaving(false);
       router.refresh();
       return;
     }
 
     const slug = form.slug.trim().toLowerCase();
-    if (!slugIsValid(slug)) {
-      setError("Le slug doit utiliser uniquement des lettres minuscules, chiffres et tirets.");
-      setSaving(false);
-      return;
-    }
-
     const insertPayload: Record<string, unknown> = { slug, ...buildPayload(), next_steps: [{ label: "Demarrer le parcours", state: "current" }] };
     if (proposal) {
       insertPayload.created_by = userId;
@@ -150,70 +236,206 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
     }
 
     const { data, error: insertError } = await supabase.from("learning_tracks").insert(insertPayload).select(TRACK_SELECT).single();
-
     if (insertError) {
       setError(insertError.message);
       setSaving(false);
       return;
     }
-
+    setDirty(false);
     router.push(`${redirectBase}/${(data as { id: string }).id}`);
   }
 
+  function renderSectionFields(tabId: TabId) {
+    switch (tabId) {
+      case "identite":
+        return (
+          <>
+            {!isEdit && (
+              <Field label="Slug (url)" error={errors.slug}>
+                <input className={INPUT_CLASS} placeholder="ex: automatisation-ia" value={form.slug} onChange={(e) => setField("slug", e.target.value)} />
+              </Field>
+            )}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <Field label="Titre" error={errors.title}>
+                <input className={INPUT_CLASS} value={form.title} onChange={(e) => setField("title", e.target.value)} />
+              </Field>
+              <Field label="Icone">
+                <input className={INPUT_CLASS} value={form.icon} onChange={(e) => setField("icon", e.target.value)} />
+              </Field>
+            </div>
+            <Field label="Resume" error={errors.summary}>
+              <textarea className={`${INPUT_CLASS} min-h-[64px]`} value={form.summary} onChange={(e) => setField("summary", e.target.value)} />
+            </Field>
+            <Field label="Objectif">
+              <textarea className={`${INPUT_CLASS} min-h-[64px]`} value={form.objective} onChange={(e) => setField("objective", e.target.value)} />
+            </Field>
+          </>
+        );
+      case "cible":
+        return (
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <Field label="goal_key">
+                <input className={INPUT_CLASS} value={form.goal_key} onChange={(e) => setField("goal_key", e.target.value)} />
+              </Field>
+              <Field label="Niveau">
+                <input className={INPUT_CLASS} value={form.level_label} onChange={(e) => setField("level_label", e.target.value)} />
+              </Field>
+            </div>
+            <Field label="Session suivante">
+              <input className={INPUT_CLASS} value={form.next_session} onChange={(e) => setField("next_session", e.target.value)} />
+            </Field>
+            <Field label="Ressources (separees par virgule)">
+              <input className={INPUT_CLASS} value={form.resources} onChange={(e) => setField("resources", e.target.value)} />
+            </Field>
+          </>
+        );
+      case "promesse":
+        return (
+          <div className="space-y-3">
+            <p className="text-[11px] text-[#6d6d6d] font-body-readable">
+              Explique pourquoi ce parcours existe et ce que l'apprenant va construire.
+            </p>
+            <Field label="Objectif / Promesse">
+              <textarea className={`${INPUT_CLASS} min-h-[100px]`} value={form.objective} onChange={(e) => setField("objective", e.target.value)} />
+            </Field>
+            {!isEdit && (
+              <div className="rounded-xl border border-blue-500/25 bg-blue-500/10 px-3.5 py-2.5 text-[12px] text-blue-100 font-body-readable">
+                Cette promesse sera affichee sur la carte du parcours dans le catalogue.
+              </div>
+            )}
+          </div>
+        );
+      case "structure":
+        return (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <Field label="Duree (sem.)">
+              <input type="number" min="1" className={INPUT_CLASS} value={form.duration_weeks} onChange={(e) => setField("duration_weeks", e.target.value)} />
+            </Field>
+            <Field label="Ordre">
+              <input type="number" min="1" className={INPUT_CLASS} value={form.sort_order} onChange={(e) => setField("sort_order", e.target.value)} />
+            </Field>
+            <Field label="Couleur">
+              <input className={INPUT_CLASS} value={form.accent_color} onChange={(e) => setField("accent_color", e.target.value)} />
+            </Field>
+            {isEdit && (
+              <Field label="Slug">
+                <div className="text-[11px] text-[#6d6d6d] h-[36px] flex items-center">/{track?.slug}</div>
+              </Field>
+            )}
+          </div>
+        );
+      case "publication":
+        if (proposal) {
+          return (
+            <div className="rounded-xl border border-blue-500/25 bg-blue-500/10 px-3.5 py-2.5 text-[12px] text-blue-100 font-body-readable">
+              Cette proposition sera <span className="font-semibold">validee par un admin</span> avant d etre publiee.
+            </div>
+          );
+        }
+        return (
+          <div className="space-y-4">
+            <div className="flex items-center gap-5">
+              <label className="text-[11px] text-[#9b9b9b] flex items-center gap-1.5">
+                <input type="checkbox" checked={form.is_published === "true"} onChange={(e) => setField("is_published", e.target.checked ? "true" : "false")} /> Publie
+              </label>
+              <label className="text-[11px] text-[#9b9b9b] flex items-center gap-1.5">
+                <input type="checkbox" checked={form.is_active === "true"} onChange={(e) => setField("is_active", e.target.checked ? "true" : "false")} /> Actif
+              </label>
+            </div>
+            {isEdit && track?.slug && (
+              <div className="flex items-center gap-2">
+                <a href={`/parcours/${track.slug}`} target="_blank" rel="noopener noreferrer" className="text-[11px] text-[#4F8EF7] hover:underline inline-flex items-center gap-1">
+                  <iconify-icon icon="lucide:external-link" style={{ fontSize: "12px" }} />
+                  Voir en public
+                </a>
+              </div>
+            )}
+          </div>
+        );
+    }
+  }
+
   return (
-    <form onSubmit={handleSubmit} className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 space-y-4">
-      {!isEdit ? (
-        <Field label="Slug (url)">
-          <input className={INPUT_CLASS} placeholder="ex: automatisation-ia" value={form.slug} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("slug", e.target.value)} />
-        </Field>
-      ) : (
-        <div className="text-[11px] text-[#6d6d6d]">/{track?.slug}</div>
-      )}
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        <Field label="Titre"><input className={INPUT_CLASS} value={form.title} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("title", e.target.value)} /></Field>
-        <Field label="goal_key"><input className={INPUT_CLASS} value={form.goal_key} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("goal_key", e.target.value)} /></Field>
-      </div>
-
-      <Field label="Resume"><textarea className={`${INPUT_CLASS} min-h-[64px]`} value={form.summary} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setField("summary", e.target.value)} /></Field>
-      <Field label="Objectif"><textarea className={`${INPUT_CLASS} min-h-[64px]`} value={form.objective} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setField("objective", e.target.value)} /></Field>
-
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <Field label="Niveau"><input className={INPUT_CLASS} value={form.level_label} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("level_label", e.target.value)} /></Field>
-        <Field label="Duree (sem.)"><input type="number" min="1" className={INPUT_CLASS} value={form.duration_weeks} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("duration_weeks", e.target.value)} /></Field>
-        <Field label="Ordre"><input type="number" min="1" className={INPUT_CLASS} value={form.sort_order} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("sort_order", e.target.value)} /></Field>
-        <Field label="Couleur"><input className={INPUT_CLASS} value={form.accent_color} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("accent_color", e.target.value)} /></Field>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        <Field label="Icone"><input className={INPUT_CLASS} value={form.icon} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("icon", e.target.value)} /></Field>
-        <Field label="Session suivante"><input className={INPUT_CLASS} value={form.next_session} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("next_session", e.target.value)} /></Field>
-      </div>
-
-      <Field label="Ressources (separees par virgule)"><input className={INPUT_CLASS} value={form.resources} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("resources", e.target.value)} /></Field>
-
-      {proposal ? (
-        <div className="rounded-xl border border-blue-500/25 bg-blue-500/10 px-3.5 py-2.5 text-[12px] text-blue-100 font-body-readable">
-          Cette proposition sera <span className="font-semibold">validée par un admin</span> avant d'être publiée.
+    <form onSubmit={handleSubmit} className="rounded-2xl border border-white/[0.08] bg-[#111]">
+      {/* Completeness bar */}
+      <div className="px-5 pt-4 pb-2">
+        <div className="flex items-center gap-2 mb-2">
+          <span className="text-[10px] text-[#6d6d6d] uppercase tracking-widest">
+            Completeur : {filledCount}/{requiredFields.length}
+          </span>
+          <div className="flex-1 h-1 rounded-full bg-[#222] overflow-hidden">
+            <div
+              className="h-full rounded-full transition-all duration-300"
+              style={{
+                width: `${(filledCount / requiredFields.length) * 100}%`,
+                backgroundColor: filledCount === requiredFields.length ? "#34d399" : "#4F8EF7"
+              }}
+            />
+          </div>
         </div>
-      ) : (
-        <div className="flex items-center gap-5">
-          <label className="text-[11px] text-[#9b9b9b] flex items-center gap-1.5">
-            <input type="checkbox" checked={form.is_published === "true"} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("is_published", e.target.checked ? "true" : "false")} /> Publie
-          </label>
-          <label className="text-[11px] text-[#9b9b9b] flex items-center gap-1.5">
-            <input type="checkbox" checked={form.is_active === "true"} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("is_active", e.target.checked ? "true" : "false")} /> Actif
-          </label>
+      </div>
+
+      {/* Tab bar */}
+      <div className="flex border-b border-white/[0.06] px-5 overflow-x-auto">
+        {TABS.map((tab) => {
+          const complete = completeness(tab.id);
+          const hasErr = tabHasErrors(tab.id);
+          return (
+            <button
+              key={tab.id}
+              type="button"
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex items-center gap-2 px-3.5 py-2.5 text-[11px] font-medium border-b-2 transition-colors shrink-0 ${
+                activeTab === tab.id ? ACTIVE_TAB_CLASS : INACTIVE_TAB_CLASS
+              }`}
+            >
+              {hasErr ? (
+                <span className="text-red-400" style={{ fontSize: "10px" }}>&#x26A0;</span>
+              ) : (
+                <TabDot filled={complete === 1} />
+              )}
+              {tab.label}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Active section */}
+      <div className="p-5 space-y-4">
+        {renderSectionFields(activeTab)}
+      </div>
+
+      {/* Error / success messages */}
+      <div className="px-5 pb-4">
+        {error ? <div className="rounded-xl border border-red-500/25 bg-red-500/10 px-4 py-3 text-[12px] text-red-200 mb-3">{error}</div> : null}
+        {message ? <div className="rounded-xl border border-emerald-500/25 bg-emerald-500/10 px-4 py-3 text-[12px] text-emerald-200 mb-3">{message}</div> : null}
+      </div>
+
+      {/* Footer with actions */}
+      <div className="flex items-center justify-between gap-3 border-t border-white/[0.06] px-5 py-4">
+        <div className="flex items-center gap-3">
+          {dirty && <span className="text-[10px] text-amber-400">Modifications non enregistrees</span>}
         </div>
-      )}
-
-      {error ? <div className="rounded-xl border border-red-500/25 bg-red-500/10 px-4 py-3 text-[12px] text-red-200">{error}</div> : null}
-      {message ? <div className="rounded-xl border border-emerald-500/25 bg-emerald-500/10 px-4 py-3 text-[12px] text-emerald-200">{message}</div> : null}
-
-      <button type="submit" disabled={saving} className={`btn-primary inline-flex items-center gap-2 text-[12px] ${saving ? "opacity-50 cursor-not-allowed" : ""}`} style={{ padding: "10px 18px" }}>
-        {saving ? "Enregistrement..." : isEdit ? "Enregistrer" : "Créer le parcours"}
-        <iconify-icon icon="lucide:save" style={{ fontSize: "13px" }} />
-      </button>
+        <div className="flex items-center gap-2">
+          {isEdit && (
+            <button
+              type="button"
+              onClick={() => {
+                setDirty(false);
+                router.push(redirectBase);
+              }}
+              className="text-[11px] text-[#888] hover:text-white px-3 py-2"
+            >
+              Annuler
+            </button>
+          )}
+          <button type="submit" disabled={saving} className={`btn-primary inline-flex items-center gap-2 text-[12px] ${saving ? "opacity-50 cursor-not-allowed" : ""}`} style={{ padding: "10px 18px" }}>
+            {saving ? "Enregistrement..." : isEdit ? "Enregistrer" : "Creer le parcours"}
+            <iconify-icon icon="lucide:save" style={{ fontSize: "13px" }} />
+          </button>
+        </div>
+      </div>
     </form>
   );
 }
