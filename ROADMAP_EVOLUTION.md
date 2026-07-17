@@ -31,7 +31,8 @@ Objectif : evaluer la comprehension plutot que la memorisation de la position de
 - [x] Recalculer l'index de la bonne reponse uniquement cote serveur.
 - [x] Equilibrer automatiquement la position A/B/C/D lors de l'enregistrement des quiz.
 - [x] Ajouter un validateur admin : doublons, reponse absente, position dominante, explication vide.
-- [ ] Ajouter une banque de questions par objectif pedagogique et niveau.
+- [x] Ajouter une banque de questions privee par objectif, ressource et niveau de difficulte.
+- [x] Permettre a l'admin et au mentor proprietaire d'editer modules, lecons et questions.
 - [ ] Tirer un sous-ensemble different par utilisateur/tentative avec historique anti-repetition.
 - [ ] Separer la vue publique des questions et les corrections privees.
 

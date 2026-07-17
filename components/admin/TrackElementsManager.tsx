@@ -31,6 +31,7 @@ interface TrackElementsManagerProps {
   trackId: string;
   trackSlug: string;
   initialModules?: ModuleEntry[];
+  basePath?: string;
 }
 
 const MODULE_SELECT = "id, slug, title, summary, sort_order, is_published, created_at";
@@ -42,7 +43,7 @@ function slugIsValid(slug: string): boolean {
 const INPUT = "auth-input text-[12px] w-full";
 const EMPTY_MODULE = { slug: "", title: "", summary: "", sort_order: "100" };
 
-export default function TrackElementsManager({ trackId, trackSlug, initialModules = [] }: TrackElementsManagerProps) {
+export default function TrackElementsManager({ trackId, trackSlug, initialModules = [], basePath = `/admin/parcours/${trackId}` }: TrackElementsManagerProps) {
   const router = useRouter();
   const supabase = useMemo(() => createClient(), []);
 
@@ -226,7 +227,7 @@ export default function TrackElementsManager({ trackId, trackSlug, initialModule
                   </div>
                 </div>
                 <div className="flex items-center gap-1.5 shrink-0">
-                  <Link href={`/admin/parcours/${trackId}/lecons/${lesson.id}`} className="text-[#888] hover:text-white p-1" title="Éditer la leçon">
+                  <Link href={`${basePath}/lecons/${lesson.id}`} className="text-[#888] hover:text-white p-1" title="Éditer la leçon">
                     <iconify-icon icon="lucide:pencil" style={{ fontSize: "13px" }} />
                   </Link>
                   <button type="button" onClick={() => handleDeleteLesson(lesson.id)} className="text-red-400/70 hover:text-red-400 p-1" title="Supprimer la leçon">
@@ -237,7 +238,7 @@ export default function TrackElementsManager({ trackId, trackSlug, initialModule
             ))}
 
             <Link
-              href={`/admin/parcours/${trackId}/lecons/nouveau?module=${module.id}`}
+              href={`${basePath}/lecons/nouveau?module=${module.id}`}
               className="inline-flex items-center gap-1.5 text-[11px] text-[#4F8EF7] hover:underline mt-1"
             >
               <iconify-icon icon="lucide:plus" style={{ fontSize: "12px" }} />

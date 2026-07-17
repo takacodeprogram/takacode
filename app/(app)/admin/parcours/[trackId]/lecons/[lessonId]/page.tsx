@@ -24,6 +24,10 @@ export default async function EditLessonPage({ params }: { params: Promise<Recor
   const cookieStore = await cookies();
   const supabase = await createClient(cookieStore);
 
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
+
   const [{ track: rawTrack }, { lesson: rawLesson }, { modules }] = await Promise.all([
     getAdminTrack(supabase, trackId),
     getAdminLesson(supabase, lessonId),
@@ -45,7 +49,7 @@ export default async function EditLessonPage({ params }: { params: Promise<Recor
         backHref={`/admin/parcours/${trackId}`}
         backLabel="Retour au parcours"
       />
-      <LessonForm trackId={trackId} modules={modules} lesson={rawLesson as never} />
+      <LessonForm trackId={trackId} modules={modules} lesson={rawLesson as never} userId={user?.id || ""} />
     </>
   );
 }

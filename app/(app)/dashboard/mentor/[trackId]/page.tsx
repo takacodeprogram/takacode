@@ -2,6 +2,8 @@ import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import PageHeader from "../../../../../components/app-shell/PageHeader";
 import TrackForm from "../../../../../components/admin/TrackForm";
+import TrackElementsManager from "../../../../../components/admin/TrackElementsManager";
+import { getAdminTrackCurriculum } from "../../../../../lib/adminCurriculum";
 import { buildPageMetadata } from "../../../../../lib/seo";
 import { createClient } from "../../../../../utils/supabase/server";
 
@@ -38,6 +40,8 @@ export default async function MentorEditTrackPage({ params }: { params: Promise<
     notFound();
   }
 
+  const { modules } = await getAdminTrackCurriculum(supabase, trackId);
+
   return (
     <>
       <PageHeader title={track.title} subtitle="Ma proposition" backHref="/dashboard/mentor" backLabel="Mes propositions" />
@@ -51,6 +55,15 @@ export default async function MentorEditTrackPage({ params }: { params: Promise<
             : "Cette proposition n'a pas été retenue. Tu peux en proposer une nouvelle."}
         </div>
       )}
+
+      <div className="mt-6">
+        <TrackElementsManager
+          trackId={trackId}
+          trackSlug={track.slug}
+          initialModules={modules}
+          basePath={`/dashboard/mentor/${trackId}`}
+        />
+      </div>
     </>
   );
 }

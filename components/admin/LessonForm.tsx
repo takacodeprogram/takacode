@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "../../utils/supabase/client";
 import { analyzeQuiz, balanceQuizAnswers } from "../../lib/quizQuality";
+import QuestionBankEditor from "./QuestionBankEditor";
 
 interface Module {
   id: string;
@@ -33,6 +34,7 @@ interface LessonFormProps {
   modules?: Module[];
   lesson?: LessonData | null;
   defaultModuleId?: string;
+  userId?: string;
 }
 
 const INPUT = "auth-input text-[12px] w-full";
@@ -71,7 +73,7 @@ function Field({ label, hint, children }: { label: string; hint?: string; childr
   );
 }
 
-export default function LessonForm({ trackId, modules = [], lesson = null, defaultModuleId = "" }: LessonFormProps) {
+export default function LessonForm({ trackId, modules = [], lesson = null, defaultModuleId = "", userId = "" }: LessonFormProps) {
   const router = useRouter();
   const supabase = useMemo(() => createClient(), []);
   const isEdit = Boolean(lesson);
@@ -205,6 +207,7 @@ export default function LessonForm({ trackId, modules = [], lesson = null, defau
   }
 
   return (
+    <div className="space-y-6">
     <form onSubmit={handleSubmit} className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <Field label="Module">
@@ -297,5 +300,19 @@ export default function LessonForm({ trackId, modules = [], lesson = null, defau
         <iconify-icon icon="lucide:save" style={{ fontSize: "13px" }} />
       </button>
     </form>
+    {isEdit && userId ? (
+      <QuestionBankEditor
+        lessonId={lesson!.id}
+        userId={userId}
+        objectives={lesson?.objectives || []}
+        resources={Array.isArray(lesson?.resources) ? lesson.resources as ResourceOption[] : []}
+      />
+    ) : null}
+    </div>
   );
+}
+
+interface ResourceOption {
+  label?: string;
+  url?: string;
 }

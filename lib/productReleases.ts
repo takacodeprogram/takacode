@@ -20,6 +20,7 @@ export const PRODUCT_RELEASES: ProductRelease[] = [
       "Loader de marque reserve a la homepage et skeletons adaptes a chaque type de page",
       "Choix des quiz melanges par utilisateur avec correction preservee cote serveur",
       "Controle qualite admin et equilibrage automatique des bonnes reponses",
+      "Banque de 282 questions rattachees aux objectifs et ressources, editable par les auteurs autorises",
       "Feuille de route des quiz, du studio admin, du projet principal et de l'IA"
     ]
   },

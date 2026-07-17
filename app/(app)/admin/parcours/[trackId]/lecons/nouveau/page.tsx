@@ -25,6 +25,10 @@ export default async function NewLessonPage({ params, searchParams }: { params: 
   const cookieStore = await cookies();
   const supabase = await createClient(cookieStore);
 
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
+
   const { track: rawTrack } = await getAdminTrack(supabase, trackId);
   if (!rawTrack) {
     notFound();
@@ -44,7 +48,7 @@ export default async function NewLessonPage({ params, searchParams }: { params: 
       />
 
       {modules.length ? (
-        <LessonForm trackId={trackId} modules={modules} defaultModuleId={defaultModuleId} />
+        <LessonForm trackId={trackId} modules={modules} defaultModuleId={defaultModuleId} userId={user?.id || ""} />
       ) : (
         <div className="rounded-xl border border-amber-500/25 bg-amber-500/10 px-4 py-3 text-[12px] text-amber-100 font-body-readable">
           Cree d'abord un module dans ce parcours avant d'ajouter une lecon.
