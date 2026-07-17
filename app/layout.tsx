@@ -2,6 +2,7 @@ import "./globals.css";
 import Script from "next/script";
 import logoLight2 from "../assets/logos-light-png/logo-light-2.png";
 import CookieNotice from "../components/CookieNotice";
+import LiveRefreshWrapper from "../components/LiveRefreshWrapper";
 import { SEO_DEFAULTS } from "../lib/seo";
 
 export const metadata = {
@@ -48,7 +49,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body suppressHydrationWarning>
         <Script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js" strategy="beforeInteractive" />
-        {children}
+        <LiveRefreshWrapper>{children}</LiveRefreshWrapper>
         <CookieNotice />
       </body>
     </html>

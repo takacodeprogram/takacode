@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { createClient } from "../../utils/supabase/client";
 import TrackLivePreview from "./TrackLivePreview";
 import TrackVersionHistory from "./TrackVersionHistory";
@@ -378,10 +379,10 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
             </div>
             {isEdit && track?.slug && (
               <div className="flex items-center gap-2">
-                <a href={`/parcours/${track.slug}`} target="_blank" rel="noopener noreferrer" className="text-[11px] text-[#4F8EF7] hover:underline inline-flex items-center gap-1">
+                <Link href={`/parcours/${track.slug}`} target="_blank" rel="noopener noreferrer" className="text-[11px] text-[#4F8EF7] hover:underline inline-flex items-center gap-1">
                   <iconify-icon icon="lucide:external-link" style={{ fontSize: "12px" }} />
                   Voir en public
-                </a>
+                </Link>
               </div>
             )}
           </div>

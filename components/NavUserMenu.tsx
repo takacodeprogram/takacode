@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { getInitials } from "../lib/avatar";
+import SignOutButton from "./SignOutButton";
 
 interface User {
   displayName?: string;
@@ -89,12 +90,10 @@ export default function NavUserMenu({ user, onNavigate }: Props) {
               Centre admin
             </Link>
           ) : null}
-          <form action="/auth/signout" method="post" className="mt-1 pt-1 border-t border-white/[0.06]">
-            <button type="submit" className="w-full flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-red-400/80 hover:text-red-400 hover:bg-red-400/5 transition-colors" role="menuitem">
-              <iconify-icon icon="lucide:log-out" style={{ fontSize: "15px" }} />
-              Se deconnecter
-            </button>
-          </form>
+          <SignOutButton className="w-full flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-red-400/80 hover:text-red-400 hover:bg-red-400/5 transition-colors mt-1 pt-1 border-t border-white/[0.06]">
+            <iconify-icon icon="lucide:log-out" style={{ fontSize: "15px" }} />
+            Se deconnecter
+          </SignOutButton>
         </div>
       ) : null}
     </div>

@@ -43,7 +43,8 @@ const COUNTRY_FLAGS: Record<string, string> = {
   tw: "🇹🇼", tj: "🇹🇯", tz: "🇹🇿", th: "🇹🇭", tl: "🇹🇱", tg: "🇹🇬", to: "🇹🇴",
   tt: "🇹🇹", tn: "🇹🇳", tr: "🇹🇷", tm: "🇹🇲", tv: "🇹🇻", ug: "🇺🇬", ua: "🇺🇦",
   ae: "🇦🇪", gb: "🇬🇧", us: "🇺🇸", uy: "🇺🇾", uz: "🇺🇿", vu: "🇻🇺", va: "🇻🇦",
-  ve: "🇻🇪", vn: "🇻🇳", ye: "🇾🇪", zm: "🇿🇲", zw: "🇿🇼"
+  ve: "🇻🇪", vn: "🇻🇳", ye: "🇾🇪", zm: "🇿🇲", zw: "🇿🇼",
+  re: "🇷🇪", gf: "🇬🇫", mq: "🇲🇶", gp: "🇬🇵", nc: "🇳🇨", pf: "🇵🇫"
 };
 
 export function getCountryFlag(code: string): string {
@@ -143,6 +144,5 @@ export const COUNTRY_OPTIONS = [
   { code: "KE", label: "Kenya" },
   { code: "MG", label: "Madagascar" },
   { code: "MU", label: "Maurice" },
-  { code: "SC", label: "Seychelles" },
-  { code: "CI", label: "Cote d'Ivoire" }
+  { code: "SC", label: "Seychelles" }
 ];

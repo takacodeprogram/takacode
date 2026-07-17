@@ -6,6 +6,7 @@ import { AVATAR_STYLES, dicebearUrl } from "../lib/avatar";
 import { COUNTRY_OPTIONS } from "../lib/leaderboard";
 import { generateUsername } from "../lib/username";
 import { playPop } from "../components/effects/sound";
+import { useToast } from "./Toast";
 
 interface ProfileEditorProps {
   initialBio?: string;
@@ -42,6 +43,7 @@ export default function ProfileEditor({
   seedBase = "takacode"
 }: ProfileEditorProps) {
   const supabase = useMemo(() => createClient(), []);
+  const { toast } = useToast();
 
   const [avatarUrl, setAvatarUrl] = useState<string>(initialAvatarUrl || "");
   const [publicName, setPublicName] = useState<string>(initialPublicName || "");
@@ -104,16 +106,17 @@ export default function ProfileEditor({
     });
 
     if (rpcError || (data && typeof data === "object" && "error" in data && data.error)) {
-      setError(
-        rpcError?.message?.includes("function")
+      const msg = rpcError?.message?.includes("function")
           ? "Fonction de profil absente. Lance supabase/sql/012_profile_public.sql."
-          : rpcError?.message || "Impossible d'enregistrer le profil."
-      );
+          : rpcError?.message || "Impossible d'enregistrer le profil.";
+      setError(msg);
+      toast(msg, "error");
       setSaving(false);
       return;
     }
 
     setMessage("Profil enregistré.");
+    toast("Profil enregistré.", "success");
     playPop();
     setSaving(false);
   }

@@ -37,7 +37,6 @@ export default function FooterSection() {
             <div className="space-y-2.5 font-body-readable">
               <div><Link href="/signin" id="footer-connexion-link" className="text-[12px] text-[#555] hover:text-white transition-colors">Connexion</Link></div>
               <div><Link href="/signup" id="footer-inscription-link" className="text-[12px] text-[#555] hover:text-white transition-colors">S'inscrire</Link></div>
-              <div><Link href="/tarifs" id="footer-tarifs-link" className="text-[12px] text-[#555] hover:text-white transition-colors">Tarifs</Link></div>
               <div><Link href="/dashboard" id="footer-profil-link" className="text-[12px] text-[#555] hover:text-white transition-colors">Mon dashboard</Link></div>
             </div>
           </div>

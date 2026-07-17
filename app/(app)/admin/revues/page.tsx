@@ -20,7 +20,18 @@ export default async function AdminReviewsPage() {
 
   const { data, error } = await supabase.rpc("list_review_history", { p_limit: 100 });
 
-  const items = Array.isArray(data) ? data : [];
+  const raw = Array.isArray(data) ? data : [];
+  const items = raw.map((row: Record<string, unknown>) => ({
+    id: (row.lesson_id as string) || (row.id as string) || crypto.randomUUID(),
+    reviewer_name: (row.last_reviewer_name as string) || "Examinateur",
+    reviewer_avatar: (row.avatar_url as string) || "",
+    status: (row.review_status as string) || "pending",
+    notes: (row.review_feedback as string) || "",
+    created_at: (row.last_reviewed_at as string) || "",
+    project_title: (row.lesson_title as string) || "",
+    ai_feedback: (row.ai_feedback as string) || "",
+    score: typeof row.score === "number" ? row.score : undefined
+  }));
 
   return (
     <>

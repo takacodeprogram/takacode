@@ -6,6 +6,7 @@ import { createClient } from "../utils/supabase/client";
 import { PROJECT_STATUS } from "../lib/userProjects";
 import { STARTER_TEMPLATES, getTemplateById } from "../lib/starterTemplates";
 import { playSuccess, playPop } from "../components/effects/sound";
+import { useToast } from "./Toast";
 import type { ProjectStatus } from "../lib/userProjects";
 import type { StarterTemplate } from "../lib/starterTemplates";
 
@@ -56,6 +57,7 @@ function iconify(icon: string) {
 export default function ProjectForm({ userId, tracks = [], project = null }: ProjectFormProps) {
   const router = useRouter();
   const supabase = useMemo(() => createClient(), []);
+  const { toast } = useToast();
   const isEdit = Boolean(project);
 
   const [showTemplates, setShowTemplates] = useState<boolean>(!isEdit);
@@ -118,6 +120,7 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
 
     if (!form.title.trim()) {
       setError("Le titre du projet est obligatoire.");
+      toast("Le titre du projet est obligatoire.", "error");
       return;
     }
 
@@ -128,9 +131,11 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
       setSaving(false);
       if (updateError) {
         setError(updateError.message);
+        toast(updateError.message, "error");
         return;
       }
       setMessage("Projet enregistre.");
+      toast("Projet enregistre.", "success");
       playSuccess();
       router.refresh();
       return;
@@ -139,7 +144,9 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
     const { error: insertError } = await supabase.from("user_projects").insert({ user_id: userId, ...buildPayload() });
     setSaving(false);
     if (insertError) {
-      setError(insertError.message.includes("user_projects") ? "Table projets absente. Lance supabase/sql/008_user_projects.sql." : insertError.message);
+      const msg = insertError.message.includes("user_projects") ? "Table projets absente. Lance supabase/sql/008_user_projects.sql." : insertError.message;
+      setError(msg);
+      toast(msg, "error");
       return;
     }
     playSuccess();
@@ -155,8 +162,10 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
     setDeleting(false);
     if (deleteError) {
       setError(deleteError.message);
+      toast(deleteError.message, "error");
       return;
     }
+    toast("Projet supprime.", "success");
     router.push("/dashboard/projets");
   }
 

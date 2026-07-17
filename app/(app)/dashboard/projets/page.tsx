@@ -13,7 +13,7 @@ export const revalidate = 0;
 
 export const metadata = buildPageMetadata({
   title: "Mes projets",
-  description: "Les projets que tu construis et tes micro-projets soumis.",
+  description: "Les projets publies.",
   path: "/dashboard/projets",
   noIndex: true
 });
@@ -55,10 +55,9 @@ export default async function MyProjectsPage(props: { searchParams: Promise<{ pa
     listUserProjects(supabase, user.id, { limit: 50 })
   ]);
 
-  const rawProjects = ownResult.projects;
+  const rawProjects = ownResult.projects.filter((p) => p.status === "published");
   const hasNextPage = rawProjects.length > PER_PAGE;
   const projects = hasNextPage ? rawProjects.slice(0, PER_PAGE) : rawProjects;
-  const micros = microResult.projects;
 
   return (
     <>
@@ -122,11 +121,11 @@ export default async function MyProjectsPage(props: { searchParams: Promise<{ pa
         </div>
       ) : null}
 
-      {micros.length ? (
+      {microResult.projects.length ? (
         <section>
           <h2 className="font-venite text-[13px] tracking-widest text-[#888] mb-3">MICRO-PROJETS REALISES</h2>
           <div className="space-y-2.5">
-            {micros.map((project) => (
+            {microResult.projects.map((project) => (
               <article key={project.lessonId} className="rounded-xl border border-white/[0.08] bg-[#111] p-4">
                 <div className="flex items-start justify-between gap-3 flex-wrap">
                   <div className="min-w-0">

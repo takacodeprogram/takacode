@@ -4,6 +4,7 @@ import CompetencesSection from "../components/CompetencesSection";
 import FAQSection from "../components/FAQSection";
 import FinalCtaSection from "../components/FinalCtaSection";
 import FooterSection from "../components/FooterSection";
+import GlobeSection from "../components/GlobeSection";
 import Hero from "../components/Hero";
 import HowItWorksSection from "../components/HowItWorksSection";
 import Navbar from "../components/Navbar";
@@ -15,6 +16,7 @@ import StartupLoader from "../components/StartupLoader";
 import ValuesSection from "../components/ValuesSection";
 import { getPlatformStats } from "../lib/platformStats";
 import { buildPageMetadata } from "../lib/seo";
+import { getPublicLeaderboard } from "../lib/leaderboard";
 import { listPublishedTracks } from "../lib/tracks";
 import { createClient } from "../utils/supabase/server";
 
@@ -35,6 +37,17 @@ export default async function Home() {
     listPublishedTracks(supabase, { limit: 7 }),
     getPlatformStats(supabase)
   ]);
+
+  const { entries } = await getPublicLeaderboard(supabase, 200);
+  const countryCount = new Map<string, number>();
+  for (const e of entries) {
+    if (e.countryCode) {
+      countryCount.set(e.countryCode, (countryCount.get(e.countryCode) || 0) + 1);
+    }
+  }
+  const globeMarkers = Array.from(countryCount.entries())
+    .filter(([, count]) => count > 0)
+    .map(([countryCode, count]) => ({ countryCode, count }));
 
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-white">
@@ -57,6 +70,8 @@ export default async function Home() {
         <ProjectsSection />
         <hr className="section-divider" />
         <CommunitySection />
+        <hr className="section-divider" />
+        <GlobeSection markers={globeMarkers} />
         <hr className="section-divider" />
         <FAQSection />
         <hr className="section-divider" />

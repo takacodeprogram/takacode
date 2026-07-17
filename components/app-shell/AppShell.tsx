@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useSessionTracker } from "../../hooks/useSessionTracker";
+import { useLiveRefresh } from "../../hooks/useLiveRefresh";
 
 import type { ReactNode } from "react";
 import logoLight4 from "../../assets/logos-light-png/logo-light-4.png";
@@ -12,6 +13,8 @@ import NotificationBell from "../NotificationBell";
 import ReleaseBanner from "../ReleaseBanner";
 import { ADMIN_AREA_LINKS, ADMIN_ENTRY_LINK, MEMBER_NAV, MENTOR_LINK, isAdminAreaPath, isSidebarLinkActive, isNavGroup } from "./appNav";
 import type { NavItem, NavLink } from "./appNav";
+import SignOutButton from "../SignOutButton";
+import { ToastProvider } from "../Toast";
 
 interface User {
   displayName?: string;
@@ -76,6 +79,7 @@ export default function AppShell({ user, children }: AppShellProps) {
   const menuRef = useRef<HTMLDivElement | null>(null);
 
   useSessionTracker();
+  useLiveRefresh();
 
   const displayName = user?.displayName || "Membre";
   const email = user?.email || "membre@takacode.app";
@@ -183,21 +187,17 @@ export default function AppShell({ user, children }: AppShellProps) {
               Espace membre
             </Link>
           ) : null}
-          <form action="/auth/signout" method="post">
-            <button
-              type="submit"
-              className="w-full flex items-center gap-3 rounded-xl px-4 py-3 text-[14px] font-medium text-red-400/70 hover:text-red-400 hover:bg-red-400/5 transition-all"
-            >
-              <iconify-icon icon="lucide:log-out" />
-              Deconnexion
-            </button>
-          </form>
+          <SignOutButton className="w-full flex items-center gap-3 rounded-xl px-4 py-3 text-[14px] font-medium text-red-400/70 hover:text-red-400 hover:bg-red-400/5 transition-all">
+            <iconify-icon icon="lucide:log-out" />
+            Deconnexion
+          </SignOutButton>
         </div>
       </>
     );
   }
 
   return (
+    <ToastProvider>
     <div className="min-h-screen bg-[#0A0A0A] flex text-white">
       <aside className="w-[280px] border-r border-white/[0.05] bg-[#0A0A0A] sticky top-0 h-screen z-40 p-6 hidden lg:flex lg:flex-col">
         {sidebarInner()}
@@ -304,16 +304,10 @@ export default function AppShell({ user, children }: AppShellProps) {
                     Centre admin
                   </Link>
                 ) : null}
-                <form action="/auth/signout" method="post" className="mt-1 pt-1 border-t border-white/[0.06]">
-                  <button
-                    type="submit"
-                    className="w-full flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-red-400/80 hover:text-red-400 hover:bg-red-400/5 transition-colors"
-                    role="menuitem"
-                  >
-                    <iconify-icon icon="lucide:log-out" style={{ fontSize: "15px" }} />
-                    Se deconnecter
-                  </button>
-                </form>
+                <SignOutButton className="w-full flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-red-400/80 hover:text-red-400 hover:bg-red-400/5 transition-colors mt-1 pt-1 border-t border-white/[0.06]">
+                  <iconify-icon icon="lucide:log-out" style={{ fontSize: "15px" }} />
+                  Se deconnecter
+                </SignOutButton>
               </div>
             ) : null}
           </div>
@@ -323,5 +317,6 @@ export default function AppShell({ user, children }: AppShellProps) {
         <main className="flex-1 overflow-y-auto p-6 md:p-8 pt-6 md:pt-7">{children}</main>
       </div>
     </div>
+    </ToastProvider>
   );
 }

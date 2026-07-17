@@ -7,6 +7,7 @@ import type { StaticImageData } from "next/image";
 import logoLight4 from "../assets/logos-light-png/logo-light-4.png";
 import NavUserMenu from "./NavUserMenu";
 import NotificationBell from "./NotificationBell";
+import SignOutButton from "./SignOutButton";
 import { createClient } from "../utils/supabase/client";
 
 interface NavLink {
@@ -29,8 +30,7 @@ const navLinks: NavLink[] = [
   { href: "/competences", id: "nav-competences-link", label: "Competences", match: ["/competences"] },
   { href: "/projets", id: "nav-projets-link", label: "Projets", match: ["/projets"] },
   { href: "/communaute", id: "nav-communaute-link", label: "Communaute", match: ["/communaute"] },
-  { href: "/classement", id: "nav-classement-link", label: "Classement", match: ["/classement"] },
-  { href: "/tarifs", id: "nav-tarifs-link", label: "Tarifs", match: ["/tarifs"] }
+  { href: "/classement", id: "nav-classement-link", label: "Classement", match: ["/classement"] }
 ];
 
 function isLinkActive(pathname: string, link: NavLink): boolean {
@@ -250,11 +250,9 @@ export default function Navbar() {
                 <Link href="/dashboard/profil" className="nav-link nav-mobile-link" onClick={closeMobileMenu}>
                   Mon profil
                 </Link>
-                <form action="/auth/signout" method="post">
-                  <button type="submit" className="nav-link nav-mobile-link text-red-400/80" style={{ background: "none", border: "none", padding: 0, cursor: "pointer" }}>
-                    Se deconnecter
-                  </button>
-                </form>
+                <SignOutButton className="nav-link nav-mobile-link text-red-400/80" style={{ background: "none", border: "none", padding: 0, cursor: "pointer" }}>
+                  Se deconnecter
+                </SignOutButton>
               </>
             ) : (
               <>
