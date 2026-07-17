@@ -9,94 +9,105 @@ Ce document est la source de verite produit et technique. Chaque livraison visib
 - Livrer une version testable a la fois, avec typecheck, build et tests adaptes.
 - Ne jamais exposer les reponses des quiz ni les cles IA au navigateur.
 - Mesurer l'impact avant d'ajouter de nouveaux parcours ou des fonctions secondaires.
+- La page Nouveautes ne montre que les changements visibles par l'utilisateur.
 
-## V1.1 - Fondations de l'evolution (en cours)
+## V1.0 — MVP pedagogique (livree)
 
-Objectif : rendre les changements visibles et preparer une experience de chargement adaptee.
+Objectif : premier parcours complet, de la lecon au micro-projet valide.
 
-- [x] Migration TypeScript stricte et build de production.
-- [x] Journal de versions centralise.
-- [x] Page membre « Nouveautes » avec versions numerotees.
-- [x] Loader de marque reserve a la homepage.
-- [x] Skeleton generique pour les autres routes.
-- [x] Skeletons contextuels : dashboard, listes, formulaires, authentification, pages publiques et lecons.
-- [x] Routes IA de test/debug reservees aux admins.
-- [x] RPC privees interdites a `anon`, verdicts IA reserves au serveur et `search_path` durcis.
-- [x] Activer la protection Supabase contre les mots de passe compromis et documenter les RPC publiques intentionnelles.
-- [x] Documentation utilisateur et mentor : guide de la plateforme, suivi de progression, edition de contenu, quiz et projets.
-- [x] CI : typecheck, build, lint et audit des dependances.
+- [x] Parcours, modules, lecons, ressources et quiz
+- [x] Micro-projets avec validation auto, IA, pair ou mentor
+- [x] Progression, XP, grades et classement
+- [x] Dashboard membre, administration, sessions et affiliations
 
-## V1.2 - Lecons et quiz moins previsibles
+## V1.1 — Fondations et securite (livree)
 
-Objectif : evaluer la comprehension plutot que la memorisation de la position des reponses.
+Objectif : base fiable, mots de passe renforces, documentation, performances et acces proteges.
 
-- [x] Melanger deterministiquement les choix pour chaque utilisateur.
-- [x] Recalculer l'index de la bonne reponse uniquement cote serveur.
-- [x] Equilibrer automatiquement la position A/B/C/D lors de l'enregistrement des quiz.
-- [x] Ajouter un validateur admin : doublons, reponse absente, position dominante, explication vide.
-- [x] Ajouter une banque de questions privee par objectif, ressource et niveau de difficulte.
-- [x] Permettre a l'admin et au mentor proprietaire d'editer modules, lecons et questions.
-- [x] Tirer un sous-ensemble different par utilisateur/tentative avec historique anti-repetition.
-- [x] Separer la vue publique des questions et les corrections privees.
+- [x] Migration TypeScript stricte et build de production
+- [x] Journal de versions centralise + page Nouveautes
+- [x] Loader de marque + skeletons contextuels
+- [x] Routes IA et RPC privees reservees aux admins
+- [x] Mots de passe : 8 caracteres, minuscules/majuscules/chiffres/symboles
+- [x] Documentation utilisateur (5 pages), mentor (4 pages), admin (3 pages)
+- [x] CI : typecheck, build, lint, audit dependances
+- [x] Protection mots de passe compromis documentee
 
-### Quiz dynamiques par IA - evolution progressive
+## V1.2 — Quiz moins previsibles (livree)
 
-1. **V1.2A, sans IA** : permutation serveur des choix par utilisateur, puis tirage dans une banque validee.
+Objectif : evaluer la comprehension plutot que la memorisation.
+
+- [x] Melange deterministe des choix par utilisateur
+- [x] Correction preservee cote serveur
+- [x] Equilibrage automatique des positions A/B/C/D
+- [x] Validateur admin : doublons, reponse absente, position dominante, explication vide
+- [x] Banque de questions privee par objectif, ressource et niveau de difficulte
+- [x] Edition par admin et mentor proprietaire
+- [x] Tirage d'un sous-ensemble different par utilisateur/tentative
+- [x] Historique anti-repetition (user_seen_questions)
+- [x] Separation vue publique (prompt+choix) / corrections privees (reponse+explication)
+
+### Quiz dynamiques par IA — evolution progressive
+
+1. **V1.2A, sans IA** : permutation serveur des choix par utilisateur, puis tirage dans une banque validee. ✅
 2. **V1.2B, IA assistee** : l'IA propose des variantes, un admin les valide avant publication.
 3. **V1.2C, personnalisation** : generation asynchrone par niveau et erreurs precedentes, avec cache, quotas et controle qualite.
 
 Une question generee doit etre versionnee avec son modele, son prompt, sa reponse attendue et son statut de validation. L'IA ne doit jamais attribuer seule une recompense ou modifier directement la progression.
 
-## V1.3 - Studio de creation de parcours et lecons
+## V1.3 — Studio de creation de parcours (en cours)
 
 Objectif : remplacer l'edition JSON par une interface editoriale sure.
 
-- [x] Constructeur de micro-projet visuel avec validation auto/IA/pair/mentor (MicroProjectBuilder).
-- [x] Editeur de ressources visuel avec lignes label/URL/type/pourquoi/comment (ResourcesEditor).
-- [x] Banque de questions comme editeur principal des quiz (QuestionBankEditor integre a l'edition de lecon).
-- [ ] Formulaire parcours par sections : identite, cible, promesse, structure, publication.
-- [ ] Apercu public en direct et indicateur de completude.
-- [ ] Modules et lecons ordonnables, duplication et sauvegarde brouillon.
-- [ ] Validation inline, autosave, avertissement avant de quitter et historique des versions.
-- [ ] Generation IA assistee d'un plan ou d'un quiz, toujours confirmee par l'editeur.
+### Livre
+- [x] Constructeur de micro-projet visuel (MicroProjectBuilder)
+- [x] Editeur de ressources visuel (ResourcesEditor)
+- [x] Banque de questions comme editeur principal des quiz (QuestionBankEditor)
 
-## V1.4 - Projet principal et prochaine action
+### Restant
+- [ ] Formulaire parcours par sections : identite, cible, promesse, structure, publication
+- [ ] Apercu public en direct et indicateur de completude
+- [ ] Modules et lecons ordonnables par glisser-deposer, duplication et sauvegarde brouillon
+- [ ] Validation inline, autosave, avertissement avant de quitter et historique des versions
+- [ ] Generation IA assistee d'un plan ou d'un quiz, toujours confirmee par l'editeur
+
+## V1.4 — Projet principal et prochaine action
 
 Objectif : faire du dashboard le GPS quotidien du createur.
 
-- [ ] Creation automatique du projet principal a la fin de l'onboarding.
-- [ ] Jalons, taches, checklist, deadline et historique.
-- [ ] Connexion entre taches, lecons, soumissions et deploiement.
-- [ ] Bloc unique « Prochaine action » sur le dashboard.
-- [ ] Sauvegarde des brouillons et historique des soumissions.
-- [ ] Publication guidee : depot, hebergement, domaine, verification finale.
+- [ ] Creation automatique du projet principal a la fin de l'onboarding
+- [ ] Jalons, taches, checklist, deadline et historique
+- [ ] Connexion entre taches, lecons, soumissions et deploiement
+- [ ] Bloc unique « Prochaine action » sur le dashboard
+- [ ] Sauvegarde des brouillons et historique des soumissions
+- [ ] Publication guidee : depot, hebergement, domaine, verification finale
 
-## V1.5 - Feedback IA robuste
+## V1.5 — Feedback IA robuste
 
-- [ ] Grille d'evaluation versionnee par micro-projet.
-- [ ] Feedback par critere et suggestions actionnables.
-- [ ] Protection contre la prompt injection et anonymisation des donnees.
-- [ ] Jobs asynchrones, timeouts, retries limites, quotas et fallback.
-- [ ] Mesure de l'accord IA/mentor et possibilite de contestation.
-- [ ] Journal du modele, du prompt, du cout et de la latence.
+- [ ] Grille d'evaluation versionnee par micro-projet
+- [ ] Feedback par critere et suggestions actionnables
+- [ ] Protection contre la prompt injection et anonymisation des donnees
+- [ ] Jobs asynchrones, timeouts, retries limites, quotas et fallback
+- [ ] Mesure de l'accord IA/mentor et possibilite de contestation
+- [ ] Journal du modele, du prompt, du cout et de la latence
 
-## V1.6 - Integrations et automatisation
+## V1.6 — Integrations et automatisation
 
-- [ ] GitHub : depot, commits, README et preuve d'activite.
-- [ ] Vercel/Netlify : statut du deploiement et URL publique.
-- [ ] Supabase Storage : captures et livrables.
-- [ ] Emails transactionnels : bienvenue, rappel, revue, live.
-- [ ] Cron/Queues : rappels et travaux IA.
-- [ ] Realtime : notifications et resultats de revue.
-- [ ] Calendrier ICS/Google Calendar pour deadlines et sessions.
+- [ ] GitHub : depot, commits, README et preuve d'activite
+- [ ] Vercel/Netlify : statut du deploiement et URL publique
+- [ ] Supabase Storage : captures et livrables
+- [ ] Emails transactionnels : bienvenue, rappel, revue, live
+- [ ] Cron/Queues : rappels et travaux IA
+- [ ] Realtime : notifications et resultats de revue
+- [ ] Calendrier ICS/Google Calendar pour deadlines et sessions
 
-## V1.7 - Communaute et collaboration
+## V1.7 — Communaute et collaboration
 
-- [ ] Publication moderee des projets termines.
-- [ ] Likes, commentaires, questions et signalements.
-- [ ] Profils publics et portfolio.
-- [ ] Equipes, invitations, roles et attribution des taches.
-- [ ] Badges fondes sur des realisations verifiables.
+- [ ] Publication moderee des projets termines
+- [ ] Likes, commentaires, questions et signalements
+- [ ] Profils publics et portfolio
+- [ ] Equipes, invitations, roles et attribution des taches
+- [ ] Badges fondes sur des realisations verifiables
 
 ## Definition de termine
 
