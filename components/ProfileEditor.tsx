@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { createClient } from "../utils/supabase/client";
 import { AVATAR_STYLES, dicebearUrl } from "../lib/avatar";
+import { COUNTRY_OPTIONS } from "../lib/leaderboard";
 import { generateUsername } from "../lib/username";
 
 interface ProfileEditorProps {
@@ -11,6 +12,7 @@ interface ProfileEditorProps {
   initialSkills?: string[];
   initialAvatarUrl?: string;
   initialPublicName?: string;
+  initialCountryCode?: string;
   realName?: string;
   seedBase?: string;
 }
@@ -34,6 +36,7 @@ export default function ProfileEditor({
   initialSkills = [],
   initialAvatarUrl = "",
   initialPublicName = "",
+  initialCountryCode = "",
   realName = "",
   seedBase = "takacode"
 }: ProfileEditorProps) {
@@ -55,6 +58,7 @@ export default function ProfileEditor({
     }
     return base;
   });
+  const [countryCode, setCountryCode] = useState<string>(initialCountryCode || "");
   const [skillsInput, setSkillsInput] = useState<string>(Array.isArray(initialSkills) ? initialSkills.join(", ") : "");
   const [saving, setSaving] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
@@ -94,7 +98,8 @@ export default function ProfileEditor({
       p_socials: cleanedSocials,
       p_skills: skills,
       p_avatar_url: avatarUrl,
-      p_public_name: publicName.trim()
+      p_public_name: publicName.trim(),
+      p_country_code: countryCode
     });
 
     if (rpcError || (data && typeof data === "object" && "error" in data && data.error)) {
@@ -210,6 +215,19 @@ export default function ProfileEditor({
           placeholder="Présente-toi: ton objectif, ton projet, ton parcours..."
           className="mt-1.5 w-full rounded-lg border border-white/[0.08] bg-[#0f0f0f] px-3 py-2.5 font-body-readable text-[12px] text-[#d0d0d0] leading-relaxed placeholder:text-[#555] focus:outline-none focus:border-blue-400/40"
         />
+      </div>
+
+      <div>
+        <label className="text-[11px] text-[#8d8d8d] uppercase tracking-widest font-semibold">Pays (leaderboard)</label>
+        <select
+          value={countryCode}
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setCountryCode(e.target.value)}
+          className="mt-1.5 w-full rounded-lg border border-white/[0.08] bg-[#0f0f0f] px-3 py-2.5 font-body-readable text-[12px] text-[#d0d0d0] focus:outline-none focus:border-blue-400/40"
+        >
+          {COUNTRY_OPTIONS.map((opt: { code: string; label: string }) => (
+            <option key={opt.code} value={opt.code}>{opt.label}</option>
+          ))}
+        </select>
       </div>
 
       <div>

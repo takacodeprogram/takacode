@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import AccountSecurity from "../../../../components/AccountSecurity";
 import PageHeader from "../../../../components/app-shell/PageHeader";
 import ProfileEditor from "../../../../components/ProfileEditor";
 import GradeProgress from "../../../../components/GradeProgress";
@@ -25,12 +26,12 @@ export const metadata = buildPageMetadata({
 async function getProfileFields(supabase: SupabaseClient, userId: string) {
   const { data, error } = await supabase
     .from("user_profiles")
-    .select("bio, socials, skills, avatar_url, public_name")
+    .select("bio, socials, skills, avatar_url, public_name, country_code")
     .eq("id", userId)
     .maybeSingle();
 
   if (error || !data) {
-    return { bio: "", socials: {}, skills: [], avatarUrl: "", publicName: "" };
+    return { bio: "", socials: {}, skills: [], avatarUrl: "", publicName: "", countryCode: "" };
   }
 
   return {
@@ -38,7 +39,8 @@ async function getProfileFields(supabase: SupabaseClient, userId: string) {
     socials: data.socials && typeof data.socials === "object" ? data.socials : {},
     skills: Array.isArray(data.skills) ? data.skills : [],
     avatarUrl: typeof data.avatar_url === "string" ? data.avatar_url : "",
-    publicName: typeof data.public_name === "string" ? data.public_name : ""
+    publicName: typeof data.public_name === "string" ? data.public_name : "",
+    countryCode: typeof data.country_code === "string" ? data.country_code : ""
   };
 }
 
@@ -67,6 +69,7 @@ export default async function ProfilePage() {
   const profileFields = await getProfileFields(supabase, user.id);
   const googleAvatar = typeof user.user_metadata?.avatar_url === "string" ? user.user_metadata.avatar_url : "";
   const avatarUrl = resolveAvatarUrl(profileFields.avatarUrl, googleAvatar);
+  const lastSignInAt = typeof user.last_sign_in_at === "string" ? user.last_sign_in_at : null;
 
   return (
     <>
@@ -107,21 +110,26 @@ export default async function ProfilePage() {
 
           <div className="rounded-2xl border border-white/[0.08] bg-[#111] p-4">
             <div className="text-[10px] text-[#777] uppercase tracking-widest mb-2">Partager ma progression</div>
-            <ShareButtons text={`Je suis ${grade} avec ${points} XP sur TakaCode ! 🚀`} />
+            <ShareButtons text={`Je suis ${grade} avec ${points} XP sur TakaCode !`} />
           </div>
 
           {referralCode ? <ReferralLink code={referralCode} /> : null}
+
+          <AccountSecurity userId={user.id} lastSignInAt={lastSignInAt} />
         </section>
 
-        <ProfileEditor
-          initialBio={profileFields.bio}
-          initialSocials={profileFields.socials}
-          initialSkills={profileFields.skills}
-          initialAvatarUrl={profileFields.avatarUrl}
-          initialPublicName={profileFields.publicName}
-          realName={displayName}
-          seedBase={profileFields.publicName || displayName}
-        />
+        <div className="space-y-4">
+          <ProfileEditor
+            initialBio={profileFields.bio}
+            initialSocials={profileFields.socials}
+            initialSkills={profileFields.skills}
+            initialAvatarUrl={profileFields.avatarUrl}
+            initialPublicName={profileFields.publicName}
+            initialCountryCode={profileFields.countryCode}
+            realName={displayName}
+            seedBase={profileFields.publicName || displayName}
+          />
+        </div>
       </div>
     </>
   );

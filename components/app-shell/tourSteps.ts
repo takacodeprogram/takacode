@@ -31,7 +31,7 @@ export const TOUR_STEPS: TourStep[] = [
     id: "projets",
     icon: "lucide:folder-code",
     title: "Mes projets",
-    body: "Crée tes projets personnels et partage-les avec la communauté pour montrer ton travail."
+    body: "Crée tes projets personnels, choisis un starter kit (site vitrine, SaaS, dashboard...) et suis les étapes de déploiement guidé GitHub → Vercel → domaine."
   },
   {
     id: "reviews",
@@ -57,6 +57,12 @@ export const TOUR_STEPS: TourStep[] = [
     icon: "lucide:users",
     title: "Communaute",
     body: "Échange avec les autres créateurs, découvre leurs projets et partage les tiens."
+  },
+  {
+    id: "prochaine-action",
+    icon: "lucide:sparkles",
+    title: "Prochaine action",
+    body: "Un bloc intelligent sur le dashboard te guide étape par étape : crée ton projet, connecte GitHub, déploie en ligne, puis partage-le."
   },
   {
     id: "outils",

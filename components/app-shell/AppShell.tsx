@@ -8,6 +8,7 @@ import type { ReactNode } from "react";
 import logoLight4 from "../../assets/logos-light-png/logo-light-4.png";
 import GuidedTour from "./GuidedTour";
 import NotificationBell from "../NotificationBell";
+import ReleaseBanner from "../ReleaseBanner";
 import { ADMIN_AREA_LINKS, ADMIN_ENTRY_LINK, MEMBER_LINKS, MENTOR_LINK, isAdminAreaPath, isSidebarLinkActive } from "./appNav";
 
 interface User {
@@ -178,6 +179,7 @@ export default function AppShell({ user, children }: AppShellProps) {
       ) : null}
 
       <GuidedTour />
+      <ReleaseBanner />
 
       <div className="flex-1 flex flex-col min-w-0">
         <div className="flex items-center justify-between gap-3 px-6 md:px-8 pt-6 md:pt-7">

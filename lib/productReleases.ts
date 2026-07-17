@@ -9,29 +9,16 @@ export interface ProductRelease {
 
 export const PRODUCT_RELEASES: ProductRelease[] = [
   {
-    version: "1.5",
-    date: "en cours",
-    title: "Monetisation et valeur",
-    summary: "Construis un projet qui peut te rapporter. Kits de demarrage, revisions illimitees, mentorat et guides monetisation.",
-    status: "planifiee",
-    highlights: [
-      "Offre Premium : revisions IA illimitees, kits de demarrage premium, guides deploiement et monetisation",
-      "Offre Launch : mentorat 1:1, portfolio, mise en relation freelance",
-      "Parcours « Build to Earn » : creer un produit digital rentable de A a Z",
-      "Paiements Stripe recurrents et gestion d'abonnement"
-    ]
-  },
-  {
     version: "1.4",
-    date: "en cours",
+    date: "17 juillet 2026",
     title: "Constructeur de projet et deploiement",
     summary: "Du code a la publication : templates, deploiement guide, GitHub et domaine.",
-    status: "planifiee",
+    status: "livree",
     highlights: [
-      "Creation automatique du projet principal apres l'onboarding",
-      "Selection de templates et starter kits (gratuits et premium)",
-      "Publication guidee : GitHub -> Vercel/Netlify -> domaine",
-      "Bloc Prochaine action intelligent sur le dashboard"
+      "Projet cree automatiquement apres l'onboarding, plus besoin de le faire a la main",
+      "8 Starter kits prets a deployer : site vitrine, SaaS, dashboard, IA, e-commerce...",
+      "Publication guidee avec etapes : GitHub, Vercel/Netlify, domaine personnalise",
+      "Prochaine action intelligente sur le dashboard qui s'adapte a ta progression"
     ]
   },
   {

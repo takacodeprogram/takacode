@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import FooterSection from "../../components/FooterSection";
 import Navbar from "../../components/Navbar";
 import { getInitials } from "../../lib/avatar";
-import { getPublicLeaderboard } from "../../lib/leaderboard";
+import { getPublicLeaderboard, getCountryFlag } from "../../lib/leaderboard";
 import { buildPageMetadata } from "../../lib/seo";
 import { createClient } from "../../utils/supabase/server";
 
@@ -79,7 +79,10 @@ export default async function LeaderboardPage() {
                             {entry.rank}
                           </span>
                         </div>
-                        <div className="text-[13px] text-white font-semibold truncate">{entry.publicName}</div>
+                        <div className="text-[13px] text-white font-semibold truncate">
+                          {getCountryFlag(entry.countryCode) ? <span className="mr-1.5">{getCountryFlag(entry.countryCode)}</span> : null}
+                          {entry.publicName}
+                        </div>
                         <div className="text-[11px] text-[#89c7ff]">{entry.grade}</div>
                         <div className="text-[15px] font-bold mt-1">{entry.points} <span className="text-[10px] text-[#888] font-normal">XP</span></div>
                       </div>
@@ -94,7 +97,10 @@ export default async function LeaderboardPage() {
                         <span className="w-7 text-center text-[12px] text-[#888] font-semibold">{entry.rank}</span>
                         <Avatar url={entry.avatarUrl} name={entry.publicName} size={36} />
                         <div className="flex-1 min-w-0">
-                          <div className="text-[13px] text-white font-semibold truncate">{entry.publicName}</div>
+                          <div className="text-[13px] text-white font-semibold truncate">
+                            {getCountryFlag(entry.countryCode) ? <span className="mr-1.5">{getCountryFlag(entry.countryCode)}</span> : null}
+                            {entry.publicName}
+                          </div>
                           <div className="text-[10px] text-[#777]">{entry.grade}</div>
                         </div>
                         <div className="text-[13px] text-[#6ec3ff] font-semibold shrink-0">{entry.points} XP</div>
