@@ -10,6 +10,7 @@ Ce document est la source de verite produit et technique. Chaque livraison visib
 - Ne jamais exposer les reponses des quiz ni les cles IA au navigateur.
 - Mesurer l'impact avant d'ajouter de nouveaux parcours ou des fonctions secondaires.
 - La page Nouveautes ne montre que les changements visibles par l'utilisateur.
+- Tout plan tarifaire doit apporter de la valeur mesurable (temps gagne, projet lance, revenu genere).
 
 ## V1.0 — MVP pedagogique (livree)
 
@@ -55,34 +56,43 @@ Objectif : evaluer la comprehension plutot que la memorisation.
 
 Une question generee doit etre versionnee avec son modele, son prompt, sa reponse attendue et son statut de validation. L'IA ne doit jamais attribuer seule une recompense ou modifier directement la progression.
 
-## V1.3 — Studio de creation de parcours (en cours)
+## V1.3 — Studio de creation de parcours (livree)
 
 Objectif : remplacer l'edition JSON par une interface editoriale sure.
 
-### Livre
 - [x] Constructeur de micro-projet visuel (MicroProjectBuilder)
 - [x] Editeur de ressources visuel (ResourcesEditor)
 - [x] Banque de questions comme editeur principal des quiz (QuestionBankEditor)
+- [x] Formulaire parcours par sections (5 onglets : identite, cible, promesse, structure, publication)
+- [x] Apercu public en direct et indicateur de completude
+- [x] Modules et lecons ordonnables par glisser-deposer, duplication et brouillon
+- [x] Validation inline, autosave, avertissement avant de quitter et historique des versions
+- [ ] Generation IA assistee d'un plan ou d'un quiz, toujours confirmee par l'editeur (reportee)
 
-### Restant
-- [ ] Formulaire parcours par sections : identite, cible, promesse, structure, publication
-- [ ] Apercu public en direct et indicateur de completude
-- [ ] Modules et lecons ordonnables par glisser-deposer, duplication et sauvegarde brouillon
-- [ ] Validation inline, autosave, avertissement avant de quitter et historique des versions
-- [ ] Generation IA assistee d'un plan ou d'un quiz, toujours confirmee par l'editeur
+## V1.4 — Constructeur de projet et deploiement
 
-## V1.4 — Projet principal et prochaine action
-
-Objectif : faire du dashboard le GPS quotidien du createur.
+Objectif : du code a la publication, tout-en-un.
 
 - [ ] Creation automatique du projet principal a la fin de l'onboarding
-- [ ] Jalons, taches, checklist, deadline et historique
-- [ ] Connexion entre taches, lecons, soumissions et deploiement
-- [ ] Bloc unique « Prochaine action » sur le dashboard
+- [ ] Editeur de projet : description, stack, objectifs, deadline
+- [ ] Selection de template/starter kit (gratuit ou premium)
+- [ ] Publication guidee : GitHub → Vercel/Netlify → domaine
+- [ ] Bloc « Prochaine action » intelligent sur le dashboard
 - [ ] Sauvegarde des brouillons et historique des soumissions
-- [ ] Publication guidee : depot, hebergement, domaine, verification finale
 
-## V1.5 — Feedback IA robuste
+## V1.5 — Monetisation et valeur
+
+Objectif : l'utilisateur construit un projet qui peut generer des revenus.
+
+- [ ] Offre Premium : revisions IA illimitees, kits de demarrage, guides monetisation
+- [ ] Offre Launch : mentorat 1:1, portfolio, mise en relation freelance
+- [ ] Parcours « Build to Earn » : construire un produit digital rentable
+- [ ] Integration Stripe pour les projets utilisateurs
+- [ ] Guides pratiques : pubs, abonnements, produits digitaux, affiliation
+- [ ] Page Tarifs dynamique (Free / Premium / Launch)
+- [ ] Abonnements Stripe recurrents
+
+## V1.6 — Feedback IA robuste
 
 - [ ] Grille d'evaluation versionnee par micro-projet
 - [ ] Feedback par critere et suggestions actionnables
@@ -91,7 +101,7 @@ Objectif : faire du dashboard le GPS quotidien du createur.
 - [ ] Mesure de l'accord IA/mentor et possibilite de contestation
 - [ ] Journal du modele, du prompt, du cout et de la latence
 
-## V1.6 — Integrations et automatisation
+## V1.7 — Integrations et automatisation
 
 - [ ] GitHub : depot, commits, README et preuve d'activite
 - [ ] Vercel/Netlify : statut du deploiement et URL publique
@@ -101,7 +111,7 @@ Objectif : faire du dashboard le GPS quotidien du createur.
 - [ ] Realtime : notifications et resultats de revue
 - [ ] Calendrier ICS/Google Calendar pour deadlines et sessions
 
-## V1.7 — Communaute et collaboration
+## V1.8 — Communaute et collaboration
 
 - [ ] Publication moderee des projets termines
 - [ ] Likes, commentaires, questions et signalements

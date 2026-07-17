@@ -9,15 +9,43 @@ export interface ProductRelease {
 
 export const PRODUCT_RELEASES: ProductRelease[] = [
   {
+    version: "1.5",
+    date: "en cours",
+    title: "Monetisation et valeur",
+    summary: "Construis un projet qui peut te rapporter. Kits de demarrage, revisions illimitees, mentorat et guides monetisation.",
+    status: "planifiee",
+    highlights: [
+      "Offre Premium : revisions IA illimitees, kits de demarrage premium, guides deploiement et monetisation",
+      "Offre Launch : mentorat 1:1, portfolio, mise en relation freelance",
+      "Parcours « Build to Earn » : creer un produit digital rentable de A a Z",
+      "Paiements Stripe recurrents et gestion d'abonnement"
+    ]
+  },
+  {
+    version: "1.4",
+    date: "en cours",
+    title: "Constructeur de projet et deploiement",
+    summary: "Du code a la publication : templates, deploiement guide, GitHub et domaine.",
+    status: "planifiee",
+    highlights: [
+      "Creation automatique du projet principal apres l'onboarding",
+      "Selection de templates et starter kits (gratuits et premium)",
+      "Publication guidee : GitHub -> Vercel/Netlify -> domaine",
+      "Bloc Prochaine action intelligent sur le dashboard"
+    ]
+  },
+  {
     version: "1.3",
     date: "17 juillet 2026",
     title: "Studio de creation de parcours",
-    summary: "Cree et edite tes parcours sans toucher au JSON : les micro-projets, ressources et quiz ont leur propre constructeur visuel.",
+    summary: "Cree et edite tes parcours sans toucher au JSON. Interface editoriale complete avec sections, glisser-deposer et autosave.",
     status: "livree",
     highlights: [
-      "Micro-projet : titre, consigne, etapes, livrable et mode de validation (auto/IA/pair/mentor) dans un formulaire dedie",
-      "Ressources : ajoute et supprime des lignes label/URL/type avec pourquoi et comment",
-      "Quiz : la banque de questions est maintenant accessible directement depuis l'editeur de lecon"
+      "Formulaire parcours en 5 sections (identite, cible, promesse, structure, publication) avec barre de completude",
+      "Glisser-deposer des modules et lecons, duplication et etat brouillon",
+      "Validation inline et avertissement avant de quitter",
+      "Autosave et historique des versions (restauration possible)",
+      "Apercu public en direct du parcours"
     ]
   },
   {
