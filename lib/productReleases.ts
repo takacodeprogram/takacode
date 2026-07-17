@@ -11,26 +11,24 @@ export const PRODUCT_RELEASES: ProductRelease[] = [
   {
     version: "1.4",
     date: "17 juillet 2026",
-    title: "Constructeur de projet et deploiement",
-    summary: "Du code a la publication : templates, deploiement guide, GitHub et domaine.",
+    title: "Tracking et monitoring projet",
+    summary: "Suis l'avancement de ton projet, tes sessions et ta progression dans la communaute.",
     status: "livree",
     highlights: [
-      "Projet cree automatiquement apres l'onboarding, plus besoin de le faire a la main",
-      "8 Starter kits prets a deployer : site vitrine, SaaS, dashboard, IA, e-commerce...",
-      "Publication guidee avec etapes : GitHub, Vercel/Netlify, domaine personnalise",
-      "Prochaine action intelligente sur le dashboard qui s'adapte a ta progression",
       "Drapeau pays affiche dans le classement, selectionnable depuis le profil",
       "Derniere connexion et appareils connectes visibles dans la page profil",
       "Suppression ou desactivation de compte depuis la zone securite du profil",
       "Son et animations sur les notifications, la creation de projet et les sauvegardes",
-      "Bandeau d'annonce automatique a chaque nouvelle version majeure"
+      "Bandeau d'annonce automatique a chaque nouvelle version majeure",
+      "Pagination sur les listes de projets et parcours",
+      "Globe 3D interactif : vois ou sont les builders dans le monde"
     ]
   },
   {
     version: "1.3",
     date: "17 juillet 2026",
-    title: "Studio de creation de parcours",
-    summary: "Cree et edite tes parcours sans toucher au JSON. Interface editoriale complete avec sections, glisser-deposer et autosave.",
+    title: "Studio de creation de parcours projets",
+    summary: "Cree et edite des parcours lies a des archetypes de projet sans toucher au JSON.",
     status: "livree",
     highlights: [
       "Formulaire parcours en 5 sections (identite, cible, promesse, structure, publication) avec barre de completude",
@@ -43,41 +41,41 @@ export const PRODUCT_RELEASES: ProductRelease[] = [
   {
     version: "1.2",
     date: "17 juillet 2026",
-    title: "Quiz moins previsibles",
-    summary: "Les questions des quiz sont desormais tirees au sort dans une banque, differentes a chaque tentative, sans repetition.",
+    title: "Parcours projets par archetype",
+    summary: "Parcours reorganises par type de projet (site vitrine, SaaS, e-commerce...), chaque lecon te rapproche de la mise en ligne.",
     status: "livree",
     highlights: [
-      "Chaque tentative te propose un sous-ensemble different de questions",
-      "Les questions deja vues sont mises de cote, les nouvelles sont privilegiees",
-      "Seul le texte de la question et les choix sont affiches : la correction reste privee cote serveur",
-      "Un badge Banque de questions apparait dans les lecons concernees"
+      "Parcours classes par archetype de projet : trouve celui qui correspond a ton idee",
+      "Contenu oriente livraison : chaque module aboutit a un livrable concret",
+      "Quiz non predictibles avec banque de questions liees aux objectifs projet",
+      "Editeur parcours visuel pour les createurs de contenu"
     ]
   },
   {
     version: "1.1",
     date: "16 juillet 2026",
-    title: "Fondations et securite",
-    summary: "Mots de passe renforces, documentation, performances et acces mieux proteges.",
+    title: "Selection et deploiement de projet",
+    summary: "Choisis un starter kit adapte a ton idee et deploie ton projet en quelques clics.",
     status: "livree",
     highlights: [
-      "Mots de passe : 8 caracteres minimum avec minuscules, majuscules, chiffres et symboles",
-      "Documentation utilisateur, mentor et admin accessible depuis le menu",
-      "Diagnostics et verdicts IA reserves aux administrateurs",
-      "Notifications visibles uniquement par leur destinataire",
-      "Quiz melange par utilisateur avec correction preservee cote serveur",
-      "Banque de 282 questions liees aux objectifs, editable par les auteurs",
-      "Controle qualite admin et equilibrage automatique des bonnes reponses"
+      "8 Starter kits prets a deployer : site vitrine, SaaS, dashboard KPI, IA chatbot, e-commerce...",
+      "Publication guidee : GitHub → Vercel/Netlify → domaine personnalise",
+      "Bloc Prochaine action intelligent sur le dashboard (s'adapte a ton avancement)",
+      "Documentation projet : guides deploiement, templates et publication",
+      "Mots de passe renforces (8 car, minuscules, majuscules, chiffres, symboles)",
+      "Notifications visibles uniquement par leur destinataire"
     ]
   },
   {
     version: "1.0",
     date: "14 juillet 2026",
-    title: "MVP pedagogique",
-    summary: "Le premier parcours complet, de la lecon au micro-projet valide.",
+    title: "Fondations projet",
+    summary: "Cree ton projet digital, suis des parcours pour le construire et valide tes livrables.",
     status: "livree",
     highlights: [
-      "Parcours, modules, lecons, ressources et quiz",
-      "Micro-projets avec validation auto, IA, pair ou mentor",
+      "Premier projet cree automatiquement a la fin de l'onboarding",
+      "Parcours, modules, lecons et quiz pour t'aider a construire ton projet",
+      "Micro-projets : soumets tes livrables et recois du feedback",
       "Progression, XP, grades et classement",
       "Dashboard membre, administration, sessions et affiliations"
     ]

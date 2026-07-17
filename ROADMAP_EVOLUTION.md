@@ -1,94 +1,85 @@
-# Feuille de route d'evolution TakaCode
+# Feuille de route TakaCode — Projet & Monetisation
 
 Ce document est la source de verite produit et technique. Chaque livraison visible recoit un numero de version, une entree dans `lib/productReleases.ts` et une mise a jour de la page `/dashboard/nouveautes`.
 
+## Mission
+
+**Aider chaque membre a creer un projet digital et a le monetiser.**
+
+Tout ce qui est construit — parcours, outils, templates, communaute — converge vers ce seul objectif. Le projet est l'entite centrale de la plateforme. Les parcours ne sont que des acccelerateurs pour concevoir, lancer et rentabiliser un projet.
+
 ## Principes
 
-- Conserver le design system, les couleurs, les composants et les typographies existants.
-- Privilegier la boucle `idee -> plan -> apprentissage -> production -> feedback -> publication`.
-- Livrer une version testable a la fois, avec typecheck, build et tests adaptes.
+- Le projet est le point de depart et d'arrivee : tout utilisateur cree son projet avant (ou en parallele) de suivre un parcours.
+- Les parcours sont lies a un type de projet concret (site vitrine, SaaS, e-commerce, application mobile, blog monétise...). Pas de parcours « generaux ».
+- La publication et la monetisation sont des etapes obligatoires du cycle de vie d'un projet sur TakaCode.
+- Un projet n'est pas un exercice : il doit pouvoir etre mis en ligne et generer des revenus.
+- Les templates, quiz, ressources et revues sont au service du projet, pas l'inverse.
+- Privilegier la boucle `idee -> projet -> construction -> publication -> monetisation -> iteration`.
 - Ne jamais exposer les reponses des quiz ni les cles IA au navigateur.
-- Mesurer l'impact avant d'ajouter de nouveaux parcours ou des fonctions secondaires.
 - La page Nouveautes ne montre que les changements visibles par l'utilisateur.
 - Tout plan tarifaire doit apporter de la valeur mesurable (temps gagne, projet lance, revenu genere).
 
-## V1.0 — MVP pedagogique (livree)
+## V1.0 — Fondations projet (livree)
 
-Objectif : premier parcours complet, de la lecon au micro-projet valide.
+Objectif : poser la base technique pour qu'un membre puisse creer, suivre et valider des etapes autour d'un projet.
 
-- [x] Parcours, modules, lecons, ressources et quiz
-- [x] Micro-projets avec validation auto, IA, pair ou mentor
+- [x] Inscription, connexion, profil membre
+- [x] Premier projet cree automatiquement a la fin de l'onboarding
+- [x] Parcours, modules, lecons, quiz (support a la construction du projet)
+- [x] Micro-projets (soumissions de livrables)
 - [x] Progression, XP, grades et classement
 - [x] Dashboard membre, administration, sessions et affiliations
 
-## V1.1 — Fondations et securite (livree)
+## V1.1 — Selection et deploiement (livree)
 
-Objectif : base fiable, mots de passe renforces, documentation, performances et acces proteges.
+Objectif : donner au membre les outils pour choisir le bon type de projet et le mettre en ligne.
 
+- [x] 8 Starter kits prets a deployer (site vitrine, SaaS, dashboard, IA, e-commerce, blog, mobile PWA, chatbot)
+- [x] Publication guidee : GitHub → Vercel/Netlify → domaine personnalise
+- [x] Bloc Prochaine action intelligent sur le dashboard (adapte a l'etat du projet)
 - [x] Migration TypeScript stricte et build de production
-- [x] Journal de versions centralise + page Nouveautes
-- [x] Loader de marque + skeletons contextuels
-- [x] Routes IA et RPC privees reservees aux admins
-- [x] Mots de passe : 8 caracteres, minuscules/majuscules/chiffres/symboles
-- [x] Documentation utilisateur (5 pages), mentor (4 pages), admin (3 pages)
-- [x] CI : typecheck, build, lint, audit dependances
-- [x] Protection mots de passe compromis documentee
+- [x] Documentation projet (guides deploiement, templates, publication)
+- [x] Mots de passe renforces et securite des acces
+- [x] Loader de marque et skeletons contextuels
 
-## V1.2 — Quiz moins previsibles (livree)
+## V1.2 — Parcours projets (livree)
 
-Objectif : evaluer la comprehension plutot que la memorisation.
+Objectif : chaque parcours est lie a un archetype de projet et guide sa realisation complete.
 
-- [x] Melange deterministe des choix par utilisateur
-- [x] Correction preservee cote serveur
-- [x] Equilibrage automatique des positions A/B/C/D
-- [x] Validateur admin : doublons, reponse absente, position dominante, explication vide
-- [x] Banque de questions privee par objectif, ressource et niveau de difficulte
-- [x] Edition par admin et mentor proprietaire
-- [x] Tirage d'un sous-ensemble different par utilisateur/tentative
-- [x] Historique anti-repetition (user_seen_questions)
-- [x] Separation vue publique (prompt+choix) / corrections privees (reponse+explication)
+- [x] Parcours reorganises par type de projet (site vitrine, SaaS, e-commerce, blog, app, IA, API, dashboard)
+- [x] Contenu des parcours oriente livraison (pas de theorie sans application directe)
+- [x] Banque de questions liees aux objectifs du projet
+- [x] Quiz melanges et non predictibles
+- [x] Editeur parcours pour les createurs de contenu
+- [x] Constructeur de micro-projet visuel
 
-### Quiz dynamiques par IA — evolution progressive
+## V1.3 — Studio de creation (livree)
 
-1. **V1.2A, sans IA** : permutation serveur des choix par utilisateur, puis tirage dans une banque validee. ✅
-2. **V1.2B, IA assistee** : l'IA propose des variantes, un admin les valide avant publication.
-3. **V1.2C, personnalisation** : generation asynchrone par niveau et erreurs precedentes, avec cache, quotas et controle qualite.
+Objectif : permettre aux mentors et admins de creer facilement des parcours projets.
 
-Une question generee doit etre versionnee avec son modele, son prompt, sa reponse attendue et son statut de validation. L'IA ne doit jamais attribuer seule une recompense ou modifier directement la progression.
-
-## V1.3 — Studio de creation de parcours (livree)
-
-Objectif : remplacer l'edition JSON par une interface editoriale sure.
-
-- [x] Constructeur de micro-projet visuel (MicroProjectBuilder)
-- [x] Editeur de ressources visuel (ResourcesEditor)
-- [x] Banque de questions comme editeur principal des quiz (QuestionBankEditor)
-- [x] Formulaire parcours par sections (5 onglets : identite, cible, promesse, structure, publication)
+- [x] Formulaire parcours en 5 sections (identite, cible, promesse, structure, publication)
+- [x] Glisser-deposer des modules et lecons, duplication et brouillon
+- [x] Validation inline, autosave, historique des versions
 - [x] Apercu public en direct et indicateur de completude
-- [x] Modules et lecons ordonnables par glisser-deposer, duplication et brouillon
-- [x] Validation inline, autosave, avertissement avant de quitter et historique des versions
-- [ ] Generation IA assistee d'un plan ou d'un quiz, toujours confirmee par l'editeur (reportee)
+- [x] Editeur de ressources et banque de questions
+- [x] Generation IA assistee d'un plan de parcours (admin seulement)
 
-## V1.4 — Constructeur de projet et deploiement (livree)
+## V1.4 — Tracking et monitoring projet (livree)
 
-Objectif : du code a la publication, tout-en-un.
+Objectif : le membre voit l'avancement de son projet et son impact.
 
-- [x] Creation automatique du projet principal a la fin de l'onboarding
-- [x] Editeur de projet : description, stack, objectifs, deadline
-- [x] Selection de template/starter kit (8 kits : site vitrine, SaaS, dashboard, IA, e-commerce...)
-- [x] Publication guidee : GitHub → Vercel/Netlify → domaine
-- [x] Bloc « Prochaine action » intelligent sur le dashboard
-- [x] Bandeau d'annonce des nouveautes a chaque version majeure
 - [x] Drapeau pays sur le leaderboard + selection dans le profil
-- [x] Derniere connexion et appareils connectes visibles sur le profil
+- [x] Derniere connexion et appareils connectes visibles
+- [x] Tracking IP et session
 - [x] Suppression et desactivation de compte
-- [x] Tracking IP et session a la connexion
-- [x] Sons et animations sur les actions cles (notifications, creation projet, sauvegardes)
-- [x] Tour guide mis a jour avec les nouvelles sections
+- [x] Sons et animations sur les actions cles
+- [x] Bandeau d'annonce des nouveautes
+- [x] Tour guide mis a jour
 
-## V1.5 — Monetisation
+## V1.5 — Monetisation (a livrer)
 
-Objectif : l'utilisateur construit un projet qui peut generer des revenus.
+Objectif : le membre peut generer des revenus avec son projet.
 
 - [ ] Offre Premium : revisions IA illimitees, kits de demarrage, guides monetisation
 - [ ] Offre Launch : mentorat 1:1, portfolio, mise en relation freelance
@@ -97,39 +88,47 @@ Objectif : l'utilisateur construit un projet qui peut generer des revenus.
 - [ ] Guides pratiques : pubs, abonnements, produits digitaux, affiliation
 - [ ] Page Tarifs dynamique (Free / Premium / Launch)
 - [ ] Abonnements Stripe recurrents
+- [ ] Calcul du potentiel de revenu par type de projet
 
-## V1.6 — Feedback IA robuste
+## V1.6 — Marketing & acquisition
 
-- [ ] Grille d'evaluation versionnee par micro-projet
-- [ ] Feedback par critere et suggestions actionnables
-- [ ] Protection contre la prompt injection et anonymisation des donnees
-- [ ] Jobs asynchrones, timeouts, retries limites, quotas et fallback
-- [ ] Mesure de l'accord IA/mentor et possibilite de contestation
-- [ ] Journal du modele, du prompt, du cout et de la latence
+Objectif : le membre sait comment attirer des visiteurs et clients vers son projet.
 
-## V1.7 — Integrations et automatisation
+- [ ] Parcours SEO : referencement naturel pour son projet
+- [ ] Parcours Reseaux sociaux : strategies de publication par plateforme
+- [ ] Landing page builder : page d'accueil pour son projet
+- [ ] Guides email marketing : newsletter, sequences, conversion
+- [ ] Analytics embarqué : vue des visites sur le projet publie
+- [ ] A/B testing de pages et d'offres
 
-- [ ] GitHub : depot, commits, README et preuve d'activite
-- [ ] Vercel/Netlify : statut du deploiement et URL publique
-- [ ] Supabase Storage : captures et livrables
-- [ ] Emails transactionnels : bienvenue, rappel, revue, live
-- [ ] Cron/Queues : rappels et travaux IA
-- [ ] Realtime : notifications et resultats de revue
-- [ ] Calendrier ICS/Google Calendar pour deadlines et sessions
+## V1.7 — Revenus recurrents & scaling
 
-## V1.8 — Communaute et collaboration
+Objectif : le membre transforme son projet en source de revenus stable.
+
+- [ ] Parcours Abonnements : Stripe, factures, metering
+- [ ] Parcours Produits digitaux : ebooks, formations, templates
+- [ ] Parcours Affiliation : programmes partenaires, tracking
+- [ ] Dashboard revenus : MRR, conversions, couts d'acquisition
+- [ ] Templates de factures et conditions de vente
+- [ ] Export comptable et declarations
+
+## V1.8 — Communaute & marketplace
+
+Objectif : les membres echangent, collaborent et se recommandent.
 
 - [ ] Publication moderee des projets termines
 - [ ] Likes, commentaires, questions et signalements
-- [ ] Profils publics et portfolio
+- [ ] Profils publics et portfolio (lien vers le projet en ligne)
 - [ ] Equipes, invitations, roles et attribution des taches
-- [ ] Badges fondes sur des realisations verifiables
+- [ ] Badges fondes sur des realisations verifiables (projet lance, premier revenu...)
+- [ ] Marketplace de services : dev, design, redaction, SEO
+- [ ] Systeme de recommandation et reviews
 
 ## Definition de termine
 
 Une version est terminee lorsque :
 
-1. les parcours principaux fonctionnent sur mobile et desktop ;
+1. le cycle projet (idee → monetisation) est operationnel pour la cible visee ;
 2. les erreurs et etats vides sont traites ;
 3. l'accessibilite clavier est verifiee ;
 4. le typecheck et le build passent ;

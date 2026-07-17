@@ -3,8 +3,8 @@ import DocContent from "../../DocContent";
 import { buildPageMetadata } from "../../../../../../lib/seo";
 
 export const metadata = buildPageMetadata({
-  title: "Realiser un micro-projet",
-  description: "Guide pour realiser et soumettre un micro-projet sur TakaCode.",
+  title: "Construire et publier son projet",
+  description: "Guide pour creer, construire et publier ton projet digital sur TakaCode.",
   path: "/dashboard/documentation/utilisateur/projets",
   noIndex: true
 });
@@ -12,38 +12,69 @@ export const metadata = buildPageMetadata({
 export default function ProjetsDocPage() {
   return (
     <>
-      <PageHeader title="REALISER UN MICRO-PROJET" subtitle="Guide utilisateur" backHref="/dashboard/documentation" />
+      <PageHeader title="CONSTRUIRE ET PUBLIER TON PROJET" subtitle="Guide utilisateur" backHref="/dashboard/documentation" />
       <DocContent>
-        <h2>Micro-projets : mettre en pratique</h2>
+        <h2>Le projet est au coeur de TakaCode</h2>
         <p>
-          Les micro-projets sont des mises en situation concretes qui te permettent d'appliquer ce que tu as appris.
-          Chaque projet est valide selon differents modes selon la lecon.
+          Tout commence par un projet. Pas un exercice, pas un devoir : un vrai projet digital que tu vas construire,
+          mettre en ligne et monetiser. Les parcours, les ressources et les mentors sont la pour t'y aider.
         </p>
 
-        <h3>Soumettre un projet</h3>
+        <h3>1. Creer ton projet</h3>
+        <p>
+          Apres ton inscription, un premier projet est cree automatiquement. Tu peux le modifier ou en creer d'autres
+          depuis la section <strong>Mes projets</strong>.
+        </p>
+        <ul>
+          <li>Choisis un nom et un objectif clair pour ton projet.</li>
+          <li>Selectionne un starter kit (site vitrine, SaaS, e-commerce, blog, app mobile, API, IA chatbot, dashboard).</li>
+          <li>Definis une deadline pour te fixer un rythme.</li>
+        </ul>
+
+        <h3>2. Suivre les parcours lies a ton projet</h3>
+        <p>
+          Chaque parcours correspond a un archetype de projet. Quand tu choisis un starter kit, les parcours
+          recommandes te sont proposes. Chaque lecon te rapproche de la mise en ligne.
+        </p>
+        <ul>
+          <li>Les modules et lecons sont concus pour produire des livrables concrets.</li>
+          <li>Les quiz verifient ta comprehension avant de passer a la suite.</li>
+          <li>Les micro-projets sont des etapes de ton projet principal.</li>
+        </ul>
+
+        <h3>3. Publier ton projet</h3>
+        <p>
+          Une fois construit, suis le guide de deploiement pour mettre ton projet en ligne :
+        </p>
         <ol>
-          <li>Après avoir terminé une lecon, rends-toi dans la section projet.</li>
-          <li>Realise le travail demande (code, design, redaction, etc.).</li>
-          <li>Depose le lien vers ton travail (URL de depot, site, ou fichier heberge).</li>
-          <li>Soumets ton projet pour evaluation.</li>
+          <li>Pousse ton code sur GitHub (un depot est cree automatiquement).</li>
+          <li>Connecte-le a Vercel ou Netlify pour le deploiement.</li>
+          <li>Attache un domaine personnalise si tu en as un.</li>
+          <li>Active les analytics pour suivre tes visiteurs.</li>
         </ol>
 
-        <h3>Modes de validation</h3>
+        <h3>4. Monetiser ton projet</h3>
+        <p>
+          Un projet en ligne peut generer des revenus. Selon le type de projet, plusieurs voies s'offrent a toi :
+        </p>
+        <ul>
+          <li><strong>Abonnements</strong> : Stripe, factures recurrentes, metering.</li>
+          <li><strong>Produits digitaux</strong> : ebooks, formations, templates, presets.</li>
+          <li><strong>Publicite et affiliation</strong> : audiences, partenariats.</li>
+          <li><strong>Freelance / prestation</strong> : utilise ton projet comme portfolio.</li>
+        </ul>
+        <p>
+          Les guides de monetisation t'accompagnent pas a pas dans chaque approche.
+        </p>
+
+        <h3>Modes de validation des etapes</h3>
         <ul>
           <li><strong>Automatique :</strong> verification par des criteres predefinis.</li>
           <li><strong>Par l'IA :</strong> analyse et feedback generes automatiquement.</li>
-          <li><strong>Par un pair :</strong> un autre apprenant evalue ton travail.</li>
+          <li><strong>Par un pair :</strong> un autre membre evalue ton livrable.</li>
           <li><strong>Par un mentor :</strong> evaluation personnalisee par un encadrant.</li>
         </ul>
-
-        <h3>Après la soumission</h3>
-        <p>
-          Tu recois un feedback avec une note et des suggestions d'amelioration.
-          Si le projet est valide, tu gagnes des XP et tu debloques la suite du parcours.
-          Tu peux toujours retravailler et resoumettre ton projet si nécessaire.
-        </p>
       </DocContent>
     </>
   );
 }
-

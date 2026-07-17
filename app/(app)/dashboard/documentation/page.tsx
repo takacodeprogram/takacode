@@ -7,7 +7,7 @@ export const revalidate = 0;
 
 export const metadata = buildPageMetadata({
   title: "Documentation",
-  description: "Guides utilisateur et mentor pour maitriser TakaCode.",
+  description: "Guides pour creer, lancer et monetiser ton projet digital sur TakaCode.",
   path: "/dashboard/documentation",
   noIndex: true
 });
@@ -15,12 +15,12 @@ export const metadata = buildPageMetadata({
 const SECTIONS = [
   {
     title: "Guide utilisateur",
-    icon: "lucide:graduation-cap",
-    description: "Apprends a naviguer sur la plateforme, suivre des parcours, passer des quiz et gerer tes projets.",
+    icon: "lucide:rocket",
+    description: "Cree ton projet, suis les parcours associes, passe les quiz et publie en ligne.",
     links: [
-      { href: "/dashboard/documentation/utilisateur/parcours", label: "Suivre un parcours" },
+      { href: "/dashboard/documentation/utilisateur/projets", label: "Construire et publier ton projet" },
+      { href: "/dashboard/documentation/utilisateur/parcours", label: "Suivre un parcours lie a ton projet" },
       { href: "/dashboard/documentation/utilisateur/quiz", label: "Passer un quiz" },
-      { href: "/dashboard/documentation/utilisateur/projets", label: "Realiser un micro-projet" },
       { href: "/dashboard/documentation/utilisateur/progression", label: "Comprendre la progression et les points" },
       { href: "/dashboard/documentation/utilisateur/mentorat", label: "Travailler avec un mentor" }
     ]
@@ -28,9 +28,9 @@ const SECTIONS = [
   {
     title: "Guide mentor",
     icon: "lucide:users",
-    description: "Cree et edite du contenu pédagogique, gere les questions et suis la progression des apprenants.",
+    description: "Cree des parcours projets, edite du contenu et accompagne les membres vers le lancement.",
     links: [
-      { href: "/dashboard/documentation/mentor/parcours", label: "Créer et gerer un parcours" },
+      { href: "/dashboard/documentation/mentor/parcours", label: "Créer et gerer un parcours projet" },
       { href: "/dashboard/documentation/mentor/edition", label: "Editer modules, lecons et ressources" },
       { href: "/dashboard/documentation/mentor/questions", label: "Gerer la banque de questions" },
       { href: "/dashboard/documentation/mentor/reviews", label: "Reviewer les projets" }
@@ -51,10 +51,10 @@ const SECTIONS = [
 export default function DocumentationPage() {
   return (
     <>
-      <PageHeader title="DOCUMENTATION" subtitle="Tout pour maitriser TakaCode" />
+      <PageHeader title="DOCUMENTATION" subtitle="Tout pour lancer ton projet" />
 
       <div className="rounded-xl border border-blue-500/20 bg-blue-500/[0.06] px-4 py-3 text-[12px] text-blue-100/90 font-body-readable mb-6">
-        Bienvenue dans la documentation. Choisis une section ci-dessous pour commencer.
+        TakaCode t'aide a creer un projet digital et a le monetiser. Choisis un guide ci-dessous.
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">

@@ -3,8 +3,8 @@ import DocContent from "../../DocContent";
 import { buildPageMetadata } from "../../../../../../lib/seo";
 
 export const metadata = buildPageMetadata({
-  title: "Suivre un parcours",
-  description: "Guide pour suivre un parcours sur TakaCode.",
+  title: "Suivre un parcours lie a son projet",
+  description: "Guide pour suivre les parcours qui t'aident a construire ton projet digital sur TakaCode.",
   path: "/dashboard/documentation/utilisateur/parcours",
   noIndex: true
 });
@@ -12,41 +12,48 @@ export const metadata = buildPageMetadata({
 export default function ParcoursDocPage() {
   return (
     <>
-      <PageHeader title="SUIVRE UN PARCOURS" subtitle="Guide utilisateur" backHref="/dashboard/documentation" />
+      <PageHeader title="SUIVRE UN PARCOURS PROJET" subtitle="Guide utilisateur" backHref="/dashboard/documentation" />
       <DocContent>
-        <h2>Découvrir les parcours</h2>
+        <h2>Les parcours sont au service de ton projet</h2>
         <p>
-          Les parcours sont des sequences pedagogiques composees de modules, de lecons, de quiz et de micro-projets.
-          Chaque parcours est conçu pour te faire passer de la decouverte à la maitrise d'un sujet.
+          Sur TakaCode, chaque parcours est lie a un archetype de projet (site vitrine, SaaS, e-commerce, blog, app mobile, API, etc.).
+          Tu ne suis pas un parcours « pour apprendre » : tu le suis <strong>pour construire ton projet</strong>.
         </p>
 
-        <h3>Commencer un parcours</h3>
+        <h3>Choisir un parcours</h3>
         <ol>
-          <li>Rends-toi dans <strong>Mes parcours</strong> depuis le menu de navigation.</li>
-          <li>Parcours la liste des formations disponibles et choisis celle qui correspond a ton objectif.</li>
-          <li>Clique sur le parcours pour voir son contenu : modules, lecons, ressources et quiz.</li>
-          <li>Le premier module se déroule automatiquement. Les modules suivants se decomptent au fur et à mesure.</li>
+          <li>Va dans <strong>Mes parcours</strong> depuis le menu.</li>
+          <li>Chaque parcours indique le type de projet auquel il est lie.</li>
+          <li>Selectionne celui qui correspond a ton projet ou a l'etape que tu veux franchir.</li>
+          <li>Le premier module se lance automatiquement.</li>
         </ol>
+
+        <h3>Comment ca marche</h3>
+        <p>
+          Un parcours est compose de modules, de lecons, de quiz et de micro-projets.
+          Chaque element est concu pour produire un livrable concret qui fait avancer ton projet.
+        </p>
+        <ul>
+          <li><strong>Modules :</strong> grandes etapes du projet (conception, developpement, deploiement, marketing).</li>
+          <li><strong>Lecons :</strong> actions concretes a realiser (ecrire du code, configurer un outil, rediger une page).</li>
+          <li><strong>Quiz :</strong> valider ta comprehension avant de passer a l'etape suivante.</li>
+          <li><strong>Ressources :</strong> documentation, outils, exemples pour t'aider.</li>
+        </ul>
 
         <h3>Progression</h3>
         <p>
-          Chaque lecon completee, chaque quiz reussi et chaque projet valide te rapporte des points d'experience (XP).
-          Accumule assez de points pour monter en grade et debloquer de nouveaux niveaux.
+          Chaque lecon completee, chaque quiz reussi et chaque micro-projet valide te rapporte des XP.
+          Accumule assez de points pour monter en grade. Mais le vrai objectif, c'est ton projet en ligne.
         </p>
-        <ul>
-          <li><strong>Quiz :</strong> 70% de bonnes reponses requises pour valider. Tu peux retenter si tu echoues.</li>
-          <li><strong>Micro-projets :</strong> valides automatiquement, par un pair, un mentor ou l'IA.</li>
-          <li><strong>Ressources :</strong> chaque lecon propose des liens pour approfondir.</li>
-        </ul>
 
         <h3>Conseils</h3>
         <ul>
-          <li>Consulte les ressources liées à chaque lecon pour approfondir.</li>
-          <li>Pose tes questions dans la communauté si tu es bloque.</li>
-          <li>Utilise les sessions live pour echanger en direct avec un mentor.</li>
+          <li>Commence par creer ou definir ton projet avant de choisir un parcours.</li>
+          <li>Ne saute pas les etapes : chaque lecon produit un livrable utile pour la suite.</li>
+          <li>Pose tes questions dans la communaute si tu es bloque sur une etape.</li>
+          <li>Une fois le parcours termine, pense a la publication et a la monetisation.</li>
         </ul>
       </DocContent>
     </>
   );
 }
-
