@@ -67,7 +67,8 @@ export default function GuidedTour() {
     if (el) {
       const rect = el.getBoundingClientRect();
       setTargetRect(rect);
-      el.scrollIntoView({ block: "center", behavior: "smooth" });
+      // Ne pas scrollIntoView sur sidebar fixe - ca decale le layout
+      // const sidebarScroll = document.querySelector('aside.flex-col')?.scrollIntoView({ block: "center" });
     } else {
       // Fallback: element not in DOM (collapsed sidebar, role filter, etc.) -> skip
       setTargetRect(null);

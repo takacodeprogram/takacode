@@ -2,6 +2,7 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import PageHeader from "../../../../components/app-shell/PageHeader";
+import Pagination from "../../../../components/Pagination";
 import { listUserProjects } from "../../../../lib/memberSpace";
 import { buildPageMetadata } from "../../../../lib/seo";
 import { listOwnProjects, statusLabel } from "../../../../lib/userProjects";
@@ -31,7 +32,13 @@ function statusChipClass(status: string) {
   return "border-blue-400/35 bg-blue-500/15 text-blue-200";
 }
 
-export default async function MyProjectsPage() {
+const PER_PAGE = 12;
+
+export default async function MyProjectsPage(props: { searchParams: Promise<{ page?: string }> }) {
+  const searchParams = await props.searchParams;
+  const currentPage = Math.max(1, parseInt(searchParams.page || "1", 10) || 1);
+  const offset = (currentPage - 1) * PER_PAGE;
+
   const cookieStore = await cookies();
   const supabase = await createClient(cookieStore);
 
@@ -44,11 +51,13 @@ export default async function MyProjectsPage() {
   }
 
   const [ownResult, microResult] = await Promise.all([
-    listOwnProjects(supabase, user.id),
+    listOwnProjects(supabase, user.id, { limit: PER_PAGE + 1, offset }),
     listUserProjects(supabase, user.id, { limit: 50 })
   ]);
 
-  const projects = ownResult.projects;
+  const rawProjects = ownResult.projects;
+  const hasNextPage = rawProjects.length > PER_PAGE;
+  const projects = hasNextPage ? rawProjects.slice(0, PER_PAGE) : rawProjects;
   const micros = microResult.projects;
 
   return (
@@ -71,27 +80,30 @@ export default async function MyProjectsPage() {
       ) : null}
 
       {projects.length ? (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-8">
-          {projects.map((project) => (
-            <Link
-              key={project.id}
-              href={`/dashboard/projets/${project.id}`}
-              className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 card-hover block"
-            >
-              <div className="flex items-start justify-between gap-3 mb-2">
-                <div className="text-[14px] text-white font-semibold leading-tight">{project.title}</div>
-                <span className={`text-[10px] font-semibold px-2.5 py-1 rounded-full border shrink-0 ${statusChipClass(project.status)}`}>
-                  {statusLabel(project.status)}
-                </span>
-              </div>
-              {project.objective ? <p className="font-body-readable text-[12px] text-[#a5a5a5] leading-snug mb-2">{project.objective}</p> : null}
-              <div className="flex items-center gap-3 text-[10px] text-[#666] font-body-readable">
-                {project.trackTitle ? <span>{project.trackTitle}</span> : null}
-                {project.deadline ? <span>Deadline {formatDate(project.deadline)}</span> : null}
-              </div>
-            </Link>
-          ))}
-        </div>
+        <>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-8">
+            {projects.map((project) => (
+              <Link
+                key={project.id}
+                href={`/dashboard/projets/${project.id}`}
+                className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 card-hover block"
+              >
+                <div className="flex items-start justify-between gap-3 mb-2">
+                  <div className="text-[14px] text-white font-semibold leading-tight">{project.title}</div>
+                  <span className={`text-[10px] font-semibold px-2.5 py-1 rounded-full border shrink-0 ${statusChipClass(project.status)}`}>
+                    {statusLabel(project.status)}
+                  </span>
+                </div>
+                {project.objective ? <p className="font-body-readable text-[12px] text-[#a5a5a5] leading-snug mb-2">{project.objective}</p> : null}
+                <div className="flex items-center gap-3 text-[10px] text-[#666] font-body-readable">
+                  {project.trackTitle ? <span>{project.trackTitle}</span> : null}
+                  {project.deadline ? <span>Deadline {formatDate(project.deadline)}</span> : null}
+                </div>
+              </Link>
+            ))}
+          </div>
+          {projects.length > 0 ? <Pagination currentPage={currentPage} hasNextPage={hasNextPage} baseUrl="/dashboard/projets" /> : null}
+        </>
       ) : ownResult.schemaReady ? (
         <div className="rounded-2xl border border-white/[0.07] bg-[#111] p-10 flex flex-col items-center text-center gap-4 mb-8">
           <div className="w-14 h-14 rounded-2xl border border-white/[0.08] bg-white/[0.02] flex items-center justify-center">

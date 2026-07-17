@@ -70,22 +70,31 @@ interface MemberResourcesResult {
 
 interface ListOptions {
   limit?: number;
+  offset?: number;
 }
 
 export async function listUserProjects(supabase: SupabaseClient, userId: string | null, options: ListOptions = {}): Promise<MemberProjectsResult> {
   const limit = Number.isFinite(Number(options.limit)) ? Number(options.limit) : 50;
+  const offset = Number.isFinite(Number(options.offset)) ? Number(options.offset) : 0;
 
   if (!userId) {
     return { projects: [], error: null, schemaReady: true };
   }
 
-  const { data, error } = await supabase
+  let query = supabase
     .from("user_lesson_progress")
     .select(PROJECT_SELECT)
     .eq("user_id", userId)
     .not("project_submitted_at", "is", null)
-    .order("project_submitted_at", { ascending: false })
-    .limit(limit);
+    .order("project_submitted_at", { ascending: false });
+
+  if (offset > 0) {
+    query = query.range(offset, offset + limit - 1);
+  } else {
+    query = query.limit(limit);
+  }
+
+  const { data, error } = await query;
 
   if (error) {
     if (isMissingSchemaError(error, MEMBER_TABLES)) {

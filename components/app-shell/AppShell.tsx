@@ -5,22 +5,13 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useSessionTracker } from "../../hooks/useSessionTracker";
 
-const TOUR_STORAGE_KEY = "tk_tour_done_v1";
-const TOUR_SESSION_KEY = "tk_tour_session_v1";
-
-function resetTour() {
-  try {
-    localStorage.removeItem(TOUR_STORAGE_KEY);
-    sessionStorage.removeItem(TOUR_SESSION_KEY);
-  } catch {}
-}
-import type { StaticImageData } from "next/image";
 import type { ReactNode } from "react";
 import logoLight4 from "../../assets/logos-light-png/logo-light-4.png";
 import GuidedTour from "./GuidedTour";
 import NotificationBell from "../NotificationBell";
 import ReleaseBanner from "../ReleaseBanner";
-import { ADMIN_AREA_LINKS, ADMIN_ENTRY_LINK, MEMBER_LINKS, MENTOR_LINK, isAdminAreaPath, isSidebarLinkActive } from "./appNav";
+import { ADMIN_AREA_LINKS, ADMIN_ENTRY_LINK, MEMBER_NAV, MENTOR_LINK, isAdminAreaPath, isSidebarLinkActive, isNavGroup } from "./appNav";
+import type { NavItem, NavLink } from "./appNav";
 
 interface User {
   displayName?: string;
@@ -34,15 +25,6 @@ interface AppShellProps {
   children: ReactNode;
 }
 
-interface LinkConfig {
-  href: string;
-  icon: string;
-  label: string;
-  exact?: boolean;
-  tour?: string;
-  live?: boolean;
-  badge?: string;
-}
 
 function getInitials(value: string | undefined): string {
   const tokens = String(value || "")
@@ -59,7 +41,7 @@ function getInitials(value: string | undefined): string {
   return `${tokens[0][0]}${tokens[tokens.length - 1][0]}`.toUpperCase();
 }
 
-function SidebarLink({ link, pathname, onNavigate }: { link: LinkConfig; pathname: string; onNavigate?: () => void }) {
+function SidebarLink({ link, pathname, onNavigate }: { link: NavLink; pathname: string; onNavigate?: () => void }) {
   const active = isSidebarLinkActive(pathname, link);
   return (
     <Link
@@ -103,14 +85,25 @@ export default function AppShell({ user, children }: AppShellProps) {
   const initials = getInitials(displayName);
   const avatarUrl = typeof user?.avatarUrl === "string" ? user.avatarUrl : "";
 
+  const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>(() => {
+    const initial: Record<string, boolean> = {};
+    for (const item of MEMBER_NAV) {
+      if (isNavGroup(item)) initial[item.label] = true;
+    }
+    return initial;
+  });
+
+  const toggleGroup = (label: string) => {
+    setExpandedGroups(prev => ({ ...prev, [label]: !prev[label] }));
+  };
+
   const adminArea = isAdmin && isAdminAreaPath(pathname);
-  const links = adminArea
-    ? ADMIN_AREA_LINKS
-    : isAdmin
-      ? [...MEMBER_LINKS, ADMIN_ENTRY_LINK]
-      : role === "mentor"
-        ? [...MEMBER_LINKS, MENTOR_LINK]
-        : MEMBER_LINKS;
+  const navItems: NavItem[] = adminArea ? ADMIN_AREA_LINKS : MEMBER_NAV;
+  const extraLinks: NavLink[] = [];
+  if (!adminArea) {
+    if (isAdmin) extraLinks.push(ADMIN_ENTRY_LINK);
+    if (role === "mentor") extraLinks.push(MENTOR_LINK);
+  }
 
   useEffect(() => {
     setDrawerOpen(false);
@@ -137,10 +130,46 @@ export default function AppShell({ user, children }: AppShellProps) {
           </Link>
         </div>
 
-        <nav className="space-y-2 flex-1 overflow-y-auto">
-          {links.map((link: LinkConfig) => (
-            <SidebarLink key={link.href} link={link} pathname={pathname} onNavigate={onNavigate} />
-          ))}
+        <nav className="flex-1 overflow-y-auto">
+          {navItems.map((item: NavItem) => {
+            if (isNavGroup(item)) {
+              const expanded = expandedGroups[item.label];
+              return (
+                <div key={item.label} className="mb-1">
+                  <button
+                    type="button"
+                    data-tour={item.tour || undefined}
+                    onClick={() => toggleGroup(item.label)}
+                    className="flex items-center justify-between w-full rounded-xl px-4 py-2.5 text-[12px] font-semibold text-[#555] hover:text-white hover:bg-white/[0.04] transition-all uppercase tracking-wider"
+                  >
+                    <span className="flex items-center gap-2.5">
+                      <iconify-icon icon={item.icon} style={{ fontSize: "13px" }} />
+                      {item.label}
+                    </span>
+                    <iconify-icon
+                      icon={expanded ? "lucide:chevron-down" : "lucide:chevron-right"}
+                      style={{ fontSize: "13px" }}
+                    />
+                  </button>
+                  {expanded ? (
+                    <div className="ml-2 space-y-0.5 mb-1">
+                      {item.children.map((child: NavLink) => (
+                        <SidebarLink key={child.href} link={child} pathname={pathname} onNavigate={onNavigate} />
+                      ))}
+                    </div>
+                  ) : null}
+                </div>
+              );
+            }
+            return <SidebarLink key={(item as NavLink).href} link={item as NavLink} pathname={pathname} onNavigate={onNavigate} />;
+          })}
+          {extraLinks.length > 0 ? (
+            <div className="pt-3 mt-3 border-t border-white/[0.05] space-y-0.5">
+              {extraLinks.map((link: NavLink) => (
+                <SidebarLink key={link.href} link={link} pathname={pathname} onNavigate={onNavigate} />
+              ))}
+            </div>
+          ) : null}
         </nav>
 
         <div className="pt-6 border-t border-white/[0.05] space-y-2">
@@ -230,53 +259,55 @@ export default function AppShell({ user, children }: AppShellProps) {
               <iconify-icon icon="lucide:chevron-down" style={{ fontSize: "14px", color: "#888" }} />
             </button>
 
-            {menuOpen ? (
-              <div className="menu-in absolute right-0 mt-2 w-60 rounded-xl border border-white/[0.1] bg-[#111] p-1.5 z-[70]" style={{ boxShadow: "0 16px 40px rgba(0,0,0,0.5)" } as React.CSSProperties} role="menu">
-                <div className="px-3 py-2 border-b border-white/[0.06] mb-1">
-                  <div className="text-[12px] text-white font-semibold truncate">{displayName}</div>
-                  <div className="text-[10px] text-[#777] truncate">{email}</div>
-                </div>
-                <Link
-                  href="/dashboard/profil"
-                  onClick={() => setMenuOpen(false)}
-                  className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[#d1d1d1] hover:bg-white/[0.05] transition-colors"
-                  role="menuitem"
-                >
-                  <iconify-icon icon="lucide:user" style={{ fontSize: "15px", color: "#89c7ff" }} />
-                  Mon profil
-                </Link>
-                <Link
-                  href="/dashboard/guide"
-                  onClick={() => setMenuOpen(false)}
-                  className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[#d1d1d1] hover:bg-white/[0.05] transition-colors"
-                  role="menuitem"
-                >
-                  <iconify-icon icon="lucide:compass" style={{ fontSize: "15px", color: "#89c7ff" }} />
-                  Guide de demarrage
-                </Link>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setMenuOpen(false);
-                    try {
-                      localStorage.removeItem("tk_tour_done_v1");
-                      sessionStorage.removeItem("tk_tour_session_v1");
-                    } catch {}
-                    window.location.reload();
-                  }}
-                  className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[#d1d1d1] hover:bg-white/[0.05] transition-colors w-full"
-                >
-                  <iconify-icon icon="lucide:rotate-ccw" style={{ fontSize: "15px", color: "#89c7ff" }} />
-                  Rejouer le guide
-                </button>
-                <button
-                  type="button"
-                  onClick={() => { resetTour(); setMenuOpen(false); }}
-                  className="w-full flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[#d1d1d1] hover:bg-white/[0.05] transition-colors"
-                >
-                  <iconify-icon icon="lucide:rotate-ccw" style={{ fontSize: "15px", color: "#89c7ff" }} />
-                  Rejouer le guide
-                </button>
+{menuOpen ? (
+                <div className="menu-in absolute right-0 mt-2 w-60 rounded-xl border border-white/[0.1] bg-[#111] p-1.5 z-[70]" style={{ boxShadow: "0 16px 40px rgba(0,0,0,0.5)" } as React.CSSProperties} role="menu">
+                  <div className="px-3 py-2 border-b border-white/[0.06] mb-1">
+                    <div className="text-[12px] text-white font-semibold truncate">{displayName}</div>
+                    <div className="text-[10px] text-[#777] truncate">{email}</div>
+                  </div>
+                  <Link
+                    href="/dashboard/profil"
+                    onClick={() => setMenuOpen(false)}
+                    className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[#d1d1d1] hover:bg-white/[0.05] transition-colors"
+                    role="menuitem"
+                  >
+                    <iconify-icon icon="lucide:user" style={{ fontSize: "15px", color: "#89c7ff" }} />
+                    Mon profil
+                  </Link>
+                  <div className="border-t border-white/[0.06] my-1" />
+                  <Link
+                    href="/dashboard/guide"
+                    onClick={() => setMenuOpen(false)}
+                    className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[#d1d1d1] hover:bg-white/[0.05] transition-colors"
+                    role="menuitem"
+                  >
+                    <iconify-icon icon="lucide:compass" style={{ fontSize: "15px", color: "#89c7ff" }} />
+                    Guide de demarrage
+                  </Link>
+                  <Link
+                    href="/dashboard/documentation"
+                    onClick={() => setMenuOpen(false)}
+                    className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[#d1d1d1] hover:bg-white/[0.05] transition-colors"
+                    role="menuitem"
+                  >
+                    <iconify-icon icon="lucide:book-open" style={{ fontSize: "15px", color: "#89c7ff" }} />
+                    Documentation
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMenuOpen(false);
+                      try {
+                        localStorage.removeItem("tk_tour_done_v1");
+                        sessionStorage.removeItem("tk_tour_session_v1");
+                      } catch {}
+                      window.location.reload();
+                    }}
+                    className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[#d1d1d1] hover:bg-white/[0.05] transition-colors w-full"
+                  >
+                    <iconify-icon icon="lucide:rotate-ccw" style={{ fontSize: "15px", color: "#89c7ff" }} />
+                    Rejouer le guide
+                  </button>
                 {isAdmin ? (
                   <Link
                     href="/admin"

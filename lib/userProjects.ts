@@ -89,17 +89,27 @@ export function statusLabel(value: string): string {
   return found ? found.label : "En cours";
 }
 
-export async function listOwnProjects(supabase: SupabaseClient, userId: string | null): Promise<ProjectListResult> {
+export async function listOwnProjects(supabase: SupabaseClient, userId: string | null, options: { limit?: number; offset?: number } = {}): Promise<ProjectListResult> {
   if (!userId) {
     return { projects: [], error: null, schemaReady: true };
   }
 
-  const { data, error } = await supabase
+  const limit = Number.isFinite(Number(options.limit)) ? Number(options.limit) : 50;
+  const offset = Number.isFinite(Number(options.offset)) ? Number(options.offset) : 0;
+
+  let query = supabase
     .from("user_projects")
     .select(PROJECT_SELECT)
     .eq("user_id", userId)
-    .order("updated_at", { ascending: false })
-    .limit(50);
+    .order("updated_at", { ascending: false });
+
+  if (offset > 0) {
+    query = query.range(offset, offset + limit - 1);
+  } else {
+    query = query.limit(limit);
+  }
+
+  const { data, error } = await query;
 
   if (error) {
     if (isMissingSchemaError(error, PROJECT_TABLES)) {

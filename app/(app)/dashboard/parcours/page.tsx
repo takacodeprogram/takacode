@@ -2,6 +2,7 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import PageHeader from "../../../../components/app-shell/PageHeader";
+import Pagination from "../../../../components/Pagination";
 import { getTrackCurriculum } from "../../../../lib/curriculum";
 import { buildPageMetadata } from "../../../../lib/seo";
 import { formatTrackMeta, listUserTrackEnrollments } from "../../../../lib/tracks";
@@ -17,7 +18,13 @@ export const metadata = buildPageMetadata({
   noIndex: true
 });
 
-export default async function MyTracksPage() {
+const PER_PAGE = 12;
+
+export default async function MyTracksPage(props: { searchParams: Promise<{ page?: string }> }) {
+  const searchParams = await props.searchParams;
+  const currentPage = Math.max(1, parseInt(searchParams.page || "1", 10) || 1);
+  const offset = (currentPage - 1) * PER_PAGE;
+
   const cookieStore = await cookies();
   const supabase = await createClient(cookieStore);
 
@@ -29,8 +36,10 @@ export default async function MyTracksPage() {
     redirect("/signin?next=/dashboard/parcours");
   }
 
-  const enrollmentResult = await listUserTrackEnrollments(supabase, user.id, { limit: 12 });
-  const enrollments = enrollmentResult.enrollments;
+  const enrollmentResult = await listUserTrackEnrollments(supabase, user.id, { limit: PER_PAGE + 1, offset });
+  const rawEnrollments = enrollmentResult.enrollments;
+  const hasNextPage = rawEnrollments.length > PER_PAGE;
+  const enrollments = hasNextPage ? rawEnrollments.slice(0, PER_PAGE) : rawEnrollments;
 
   const cards = [];
   for (const enrollment of enrollments) {
@@ -65,44 +74,47 @@ export default async function MyTracksPage() {
       />
 
       {cards.length ? (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          {cards.map(({ track, progress, completedLessons, totalLessons, nextHref, started }) => (
-            <article key={track.id} className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 card-hover project-card">
-              <div className="flex items-start gap-4 mb-4">
-                <div
-                  className="w-11 h-11 rounded-xl border flex items-center justify-center shrink-0"
-                  style={{ borderColor: `${track.accentColor}55`, background: `${track.accentColor}1f` }}
-                >
-                  <iconify-icon icon={track.icon} style={{ color: track.accentColor, fontSize: "20px" }} />
+        <>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {cards.map(({ track, progress, completedLessons, totalLessons, nextHref, started }) => (
+              <article key={track.id} className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 card-hover project-card">
+                <div className="flex items-start gap-4 mb-4">
+                  <div
+                    className="w-11 h-11 rounded-xl border flex items-center justify-center shrink-0"
+                    style={{ borderColor: `${track.accentColor}55`, background: `${track.accentColor}1f` }}
+                  >
+                    <iconify-icon icon={track.icon} style={{ color: track.accentColor, fontSize: "20px" }} />
+                  </div>
+                  <div className="min-w-0">
+                    <h2 className="font-venite-italic text-[16px] text-white leading-tight">{track.title}</h2>
+                    <p className="font-body-readable text-[11px] text-[#7a7a7a]">{formatTrackMeta(track)}</p>
+                  </div>
                 </div>
-                <div className="min-w-0">
-                  <h2 className="font-venite-italic text-[16px] text-white leading-tight">{track.title}</h2>
-                  <p className="font-body-readable text-[11px] text-[#7a7a7a]">{formatTrackMeta(track)}</p>
+
+                <div className="flex items-center justify-between text-[11px] mb-1.5">
+                  <span className="text-[#888]">Progression</span>
+                  <span className="text-[#89c7ff] font-semibold">
+                    {progress}%{totalLessons ? ` · ${completedLessons}/${totalLessons} lecons` : ""}
+                  </span>
                 </div>
-              </div>
+                <div className="h-1.5 rounded bg-white/[0.06] overflow-hidden mb-4">
+                  <div className="h-full rounded bg-gradient-to-r from-[#4F8EF7] to-[#9B6DFF]" style={{ width: `${progress}%` }} />
+                </div>
 
-              <div className="flex items-center justify-between text-[11px] mb-1.5">
-                <span className="text-[#888]">Progression</span>
-                <span className="text-[#89c7ff] font-semibold">
-                  {progress}%{totalLessons ? ` · ${completedLessons}/${totalLessons} lecons` : ""}
-                </span>
-              </div>
-              <div className="h-1.5 rounded bg-white/[0.06] overflow-hidden mb-4">
-                <div className="h-full rounded bg-gradient-to-r from-[#4F8EF7] to-[#9B6DFF]" style={{ width: `${progress}%` }} />
-              </div>
-
-              <div className="flex flex-wrap gap-2.5">
-                <Link href={nextHref} className="btn-primary inline-flex items-center gap-2 text-[12px]" style={{ padding: "10px 16px" }}>
-                  {started ? "Continuer" : "Démarrer"}
-                  <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "13px" }} />
-                </Link>
-                <Link href={`/parcours/${track.slug}`} className="btn-secondary inline-flex items-center gap-2 text-[12px]" style={{ padding: "10px 16px" }}>
-                  Programme
-                </Link>
-              </div>
-            </article>
-          ))}
-        </div>
+                <div className="flex flex-wrap gap-2.5">
+                  <Link href={nextHref} className="btn-primary inline-flex items-center gap-2 text-[12px]" style={{ padding: "10px 16px" }}>
+                    {started ? "Continuer" : "Demarrer"}
+                    <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "13px" }} />
+                  </Link>
+                  <Link href={`/parcours/${track.slug}`} className="btn-secondary inline-flex items-center gap-2 text-[12px]" style={{ padding: "10px 16px" }}>
+                    Programme
+                  </Link>
+                </div>
+              </article>
+            ))}
+          </div>
+          <Pagination currentPage={currentPage} hasNextPage={hasNextPage} baseUrl="/dashboard/parcours" />
+        </>
       ) : (
         <div className="rounded-2xl border border-white/[0.07] bg-[#111] p-10 flex flex-col items-center text-center gap-4">
           <div className="w-14 h-14 rounded-2xl border border-white/[0.08] bg-white/[0.02] flex items-center justify-center">

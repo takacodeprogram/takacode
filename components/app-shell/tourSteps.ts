@@ -22,6 +22,12 @@ export const TOUR_STEPS: TourStep[] = [
     body: "Ta vue d'ensemble : progression dans tes parcours, statistiques (points, grade) et acces rapide vers l'essentiel."
   },
   {
+    id: "formation",
+    icon: "lucide:graduation-cap",
+    title: "Formation",
+    body: "Tous les outils pour apprendre et progresser : parcours, projets, revues et ressources."
+  },
+  {
     id: "parcours",
     icon: "lucide:map",
     title: "Mes parcours",
@@ -32,12 +38,6 @@ export const TOUR_STEPS: TourStep[] = [
     icon: "lucide:folder-code",
     title: "Mes projets",
     body: "Cree tes projets personnels, choisis un starter kit (site vitrine, SaaS, dashboard...) et suis les etapes de deploiement guide GitHub -> Vercel -> domaine."
-  },
-  {
-    id: "prochaine-action",
-    icon: "lucide:sparkles",
-    title: "Prochaine action",
-    body: "Un bloc intelligent sur le dashboard te guide etape par etape : cree ton projet, connecte GitHub, deploie en ligne, puis partage-le."
   },
   {
     id: "reviews",
@@ -52,6 +52,12 @@ export const TOUR_STEPS: TourStep[] = [
     body: "Bibliotheque de ressources externes recommandees pour approfondir chaque sujet."
   },
   {
+    id: "communaute-group",
+    icon: "lucide:globe",
+    title: "Communaute",
+    body: "Echange avec les autres createurs, participe aux sessions live et decouvre leurs projets."
+  },
+  {
     id: "sessions",
     icon: "lucide:video",
     title: "Sessions live",
@@ -63,6 +69,12 @@ export const TOUR_STEPS: TourStep[] = [
     icon: "lucide:users",
     title: "Communaute",
     body: "Echange avec les autres createurs, decouvre leurs projets et partage les tiens."
+  },
+  {
+    id: "personnel",
+    icon: "lucide:settings",
+    title: "Espace personnel",
+    body: "Tes outils, nouveautes et reglages pour personnaliser ton experience."
   },
   {
     id: "outils",

@@ -305,10 +305,12 @@ export async function listRecommendedTracksForGoal(supabase: SupabaseClient, goa
 
 interface ListEnrollmentsOptions {
   limit?: number;
+  offset?: number;
 }
 
 export async function listUserTrackEnrollments(supabase: SupabaseClient, userId: string | null, options: ListEnrollmentsOptions = {}): Promise<EnrollmentResult> {
   const limit = Number.isFinite(Number(options.limit)) ? Number(options.limit) : 6;
+  const offset = Number.isFinite(Number(options.offset)) ? Number(options.offset) : 0;
 
   if (!userId) {
     return { enrollments: [], error: null, schemaReady: true };
@@ -321,7 +323,11 @@ export async function listUserTrackEnrollments(supabase: SupabaseClient, userId:
     .order("created_at", { ascending: true });
 
   if (limit > 0) {
-    query = query.limit(limit);
+    if (offset > 0) {
+      query = query.range(offset, offset + limit - 1);
+    } else {
+      query = query.limit(limit);
+    }
   }
 
   const { data, error } = await query;
