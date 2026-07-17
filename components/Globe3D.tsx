@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef, useMemo, useState, useCallback } from "react";
+import { useRef, useMemo, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
+import { OrbitControls, useTexture } from "@react-three/drei";
 import * as THREE from "three";
 import { COUNTRY_COORDS } from "../lib/countryCoords";
 
@@ -117,76 +117,7 @@ function GlobeScene({ markers, onSelectCountry, selectedCountry }: {
   onSelectCountry: (code: string | null) => void;
   selectedCountry: string | null;
 }) {
-  const earthTexture = useMemo(() => {
-    if (typeof document === "undefined") return new THREE.DataTexture(new Uint8Array([5, 8, 15]), 1, 1);
-    const canvas = document.createElement("canvas");
-    canvas.width = 1024;
-    canvas.height = 512;
-    const ctx = canvas.getContext("2d")!;
-
-    const gradient = ctx.createLinearGradient(0, 0, 0, 512);
-    gradient.addColorStop(0, "#0a1628");
-    gradient.addColorStop(0.3, "#0d1f3d");
-    gradient.addColorStop(0.5, "#0f2847");
-    gradient.addColorStop(0.7, "#0d1f3d");
-    gradient.addColorStop(1, "#0a1628");
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, 1024, 512);
-
-    const continents = [
-      { x: 520, y: 170, w: 60, h: 40 }, { x: 530, y: 210, w: 30, h: 50 },
-      { x: 490, y: 230, w: 20, h: 60 }, { x: 300, y: 110, w: 70, h: 50 },
-      { x: 310, y: 160, w: 80, h: 70 }, { x: 290, y: 230, w: 30, h: 40 },
-      { x: 750, y: 90, w: 40, h: 30 }, { x: 750, y: 120, w: 30, h: 40 },
-      { x: 770, y: 160, w: 20, h: 70 }, { x: 200, y: 290, w: 30, h: 30 },
-      { x: 230, y: 320, w: 40, h: 40 }, { x: 210, y: 360, w: 20, h: 30 },
-      { x: 860, y: 280, w: 50, h: 40 }, { x: 870, y: 320, w: 30, h: 30 },
-      { x: 810, y: 370, w: 25, h: 25 }, { x: 650, y: 130, w: 20, h: 15 },
-      { x: 640, y: 150, w: 15, h: 10 }, { x: 410, y: 340, w: 20, h: 15 },
-      { x: 430, y: 350, w: 25, h: 20 },
-    ];
-
-    for (const c of continents) {
-      ctx.beginPath();
-      const rx = c.w / 2;
-      const ry = c.h / 2;
-      for (let i = 0; i <= 20; i++) {
-        const angle = (i / 20) * Math.PI * 2;
-        const px = c.x + rx * Math.cos(angle) + (Math.random() - 0.5) * rx * 0.3;
-        const py = c.y + ry * Math.sin(angle) + (Math.random() - 0.5) * ry * 0.3;
-        i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
-      }
-      ctx.closePath();
-      ctx.fillStyle = "#1a3555";
-      ctx.fill();
-      ctx.strokeStyle = "#2a4a7f";
-      ctx.lineWidth = 1;
-      ctx.stroke();
-    }
-
-    ctx.strokeStyle = "rgba(79, 142, 247, 0.06)";
-    ctx.lineWidth = 0.5;
-    for (let i = 0; i < 24; i++) {
-      const y = (i / 24) * 512;
-      ctx.beginPath();
-      ctx.moveTo(0, y);
-      ctx.lineTo(1024, y);
-      ctx.stroke();
-    }
-    for (let i = 0; i < 48; i++) {
-      const x = (i / 48) * 1024;
-      ctx.beginPath();
-      ctx.moveTo(x, 0);
-      ctx.lineTo(x, 512);
-      ctx.stroke();
-    }
-
-    const texture = new THREE.CanvasTexture(canvas);
-    texture.wrapS = THREE.RepeatWrapping;
-    texture.wrapT = THREE.ClampToEdgeWrapping;
-    texture.repeat.set(1, 1);
-    return texture;
-  }, []);
+  const earthMap = useTexture("https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg");
 
   const markerData = useMemo(() => {
     return markers
@@ -208,7 +139,7 @@ function GlobeScene({ markers, onSelectCountry, selectedCountry }: {
 
         <mesh>
           <sphereGeometry args={[2, 64, 64]} />
-          <meshStandardMaterial map={earthTexture} roughness={0.8} metalness={0.1} />
+          <meshStandardMaterial map={earthMap} roughness={0.6} metalness={0.05} />
         </mesh>
 
         {markerData.map((m) => (
