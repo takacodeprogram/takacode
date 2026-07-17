@@ -11,6 +11,20 @@ export async function GET() {
     data: { user }
   } = await supabase.auth.getUser();
 
+  if (!user) {
+    return NextResponse.json({ error: "not_authenticated" }, { status: 401 });
+  }
+
+  const { data: profile } = await supabase
+    .from("user_profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single();
+
+  if (profile?.role !== "admin") {
+    return NextResponse.json({ error: "forbidden" }, { status: 403 });
+  }
+
   // 1. Config IA
   const aiConfig = getAIReviewConfig();
   const aiAvailable = isAIReviewAvailable(aiConfig);
@@ -85,7 +99,7 @@ export async function GET() {
   }
 
   return NextResponse.json({
-    authenticated: Boolean(user),
+    authenticated: true,
     aiConfig: {
       provider: aiConfig?.provider || "none",
       available: aiAvailable,
@@ -105,5 +119,5 @@ export async function GET() {
       AI_REVIEW_API_KEY: process.env.AI_REVIEW_API_KEY ? "(set)" : "(not set)",
       AI_REVIEW_OPENROUTER_API_KEY: process.env.AI_REVIEW_OPENROUTER_API_KEY ? "(set)" : "(not set)"
     }
-  });
+  }, { headers: { "Cache-Control": "no-store" } });
 }

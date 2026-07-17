@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { reviewProject, getAIReviewConfig, isAIReviewAvailable } from "../../../../lib/aiReview";
 import { createClient } from "../../../../utils/supabase/server";
+import { createAdminClient } from "../../../../utils/supabase/admin";
 
 const ERROR_STATUS = {
   not_authenticated: 401,
@@ -156,9 +157,10 @@ async function triggerAIReview(supabase: Awaited<ReturnType<typeof createClient>
 
     console.log(`[AI-REVIEW] IA verdict: ${result.verdict} feedback=${(result.feedback || "").substring(0, 80)}...`);
 
-    // Essayer submit_ai_review d'abord
-    const { data: reviewData, error: reviewError } = await supabase.rpc("submit_ai_review", {
-      p_author: lessonData.user_id,
+    // Un verdict IA ne peut etre enregistre qu'avec la cle serveur.
+    const adminSupabase = createAdminClient();
+    const { data: reviewData, error: reviewError } = await adminSupabase.rpc("submit_ai_review", {
+      p_author: lessonData!.user_id,
       p_lesson: lessonId,
       p_verdict: result.verdict,
       p_comment: result.feedback
@@ -169,7 +171,7 @@ async function triggerAIReview(supabase: Awaited<ReturnType<typeof createClient>
       // Creer une notification pour l'auteur
       try {
         const verdictLabel = result.verdict === "approved" ? "approuve par l'IA" : "demande des ameliorations";
-        await supabase.rpc("create_notification", {
+        await adminSupabase.rpc("create_notification", {
           p_user_id: lessonData.user_id,
           p_type: "review_received",
           p_title: `Review IA : ${verdictLabel}`,
@@ -182,19 +184,23 @@ async function triggerAIReview(supabase: Awaited<ReturnType<typeof createClient>
     return { verdict: result.verdict, feedback: result.feedback };
   }
 
-  console.log("[AI-REVIEW] submit_ai_review echoue, fallback sur submit_project_review");
+  console.error("[AI-REVIEW] Echec d'enregistrement securise:", reviewError?.message || reviewData?.error);
+    return null;
+
+    // Ancien fallback conserve temporairement hors d'atteinte pour faciliter
+    // la verification de non-regression avant son retrait definitif.
     const aiPrefix = "[IA automatique] ";
     const prefixedComment = aiPrefix + (result.feedback || "");
 
     const { error: fallbackError } = await supabase.rpc("submit_project_review", {
-      p_author: lessonData.user_id,
+      p_author: lessonData!.user_id,
       p_lesson: lessonId,
       p_verdict: result.verdict,
       p_comment: prefixedComment
     });
 
     if (fallbackError) {
-      console.error("[AI-REVIEW] Fallback error:", fallbackError.message);
+      console.error("[AI-REVIEW] Fallback error:", fallbackError?.message);
       return null;
     }
 
@@ -202,7 +208,7 @@ async function triggerAIReview(supabase: Awaited<ReturnType<typeof createClient>
     try {
       const verdictLabel = result.verdict === "approved" ? "approuve par l'IA" : "demande des ameliorations";
       await supabase.rpc("create_notification", {
-        p_user_id: lessonData.user_id,
+        p_user_id: lessonData!.user_id,
         p_type: "review_received",
         p_title: `Review IA : ${verdictLabel}`,
         p_body: result.verdict === "approved"

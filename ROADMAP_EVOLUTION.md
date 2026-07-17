@@ -20,8 +20,11 @@ Objectif : rendre les changements visibles et preparer une experience de chargem
 - [x] Loader de marque reserve a la homepage.
 - [x] Skeleton generique pour les autres routes.
 - [x] Skeletons contextuels : dashboard, listes, formulaires, authentification, pages publiques et lecons.
-- [ ] Protection des routes IA de test/debug et durcissement Supabase.
-- [ ] CI : typecheck, build, tests et audit des dependances.
+- [x] Routes IA de test/debug reservees aux admins.
+- [x] RPC privees interdites a `anon`, verdicts IA reserves au serveur et `search_path` durcis.
+- [x] Activer la protection Supabase contre les mots de passe compromis et documenter les RPC publiques intentionnelles.
+- [x] Documentation utilisateur et mentor : guide de la plateforme, suivi de progression, edition de contenu, quiz et projets.
+- [x] CI : typecheck, build, lint et audit des dependances.
 
 ## V1.2 - Lecons et quiz moins previsibles
 
@@ -33,8 +36,8 @@ Objectif : evaluer la comprehension plutot que la memorisation de la position de
 - [x] Ajouter un validateur admin : doublons, reponse absente, position dominante, explication vide.
 - [x] Ajouter une banque de questions privee par objectif, ressource et niveau de difficulte.
 - [x] Permettre a l'admin et au mentor proprietaire d'editer modules, lecons et questions.
-- [ ] Tirer un sous-ensemble different par utilisateur/tentative avec historique anti-repetition.
-- [ ] Separer la vue publique des questions et les corrections privees.
+- [x] Tirer un sous-ensemble different par utilisateur/tentative avec historique anti-repetition.
+- [x] Separer la vue publique des questions et les corrections privees.
 
 ### Quiz dynamiques par IA - evolution progressive
 
@@ -48,12 +51,12 @@ Une question generee doit etre versionnee avec son modele, son prompt, sa repons
 
 Objectif : remplacer l'edition JSON par une interface editoriale sure.
 
+- [x] Constructeur de micro-projet visuel avec validation auto/IA/pair/mentor (MicroProjectBuilder).
+- [x] Editeur de ressources visuel avec lignes label/URL/type/pourquoi/comment (ResourcesEditor).
+- [x] Banque de questions comme editeur principal des quiz (QuestionBankEditor integre a l'edition de lecon).
 - [ ] Formulaire parcours par sections : identite, cible, promesse, structure, publication.
 - [ ] Apercu public en direct et indicateur de completude.
 - [ ] Modules et lecons ordonnables, duplication et sauvegarde brouillon.
-- [ ] Editeur de ressources avec lignes label/URL/type/pourquoi/comment.
-- [ ] Constructeur de quiz visuel avec ajout, suppression et reorganisation des choix.
-- [ ] Constructeur de micro-projet avec validation auto/IA/pair/mentor.
 - [ ] Validation inline, autosave, avertissement avant de quitter et historique des versions.
 - [ ] Generation IA assistee d'un plan ou d'un quiz, toujours confirmee par l'editeur.
 

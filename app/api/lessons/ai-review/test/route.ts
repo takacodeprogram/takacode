@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import { getAIReviewConfig } from "../../../../../lib/aiReview";
+import { createClient } from "../../../../../utils/supabase/server";
 
 const PROVIDER_DEFAULTS = {
   gemini: "gemini-2.0-flash",
@@ -149,6 +151,23 @@ async function testSingleProvider(provider: string) {
 // Teste tous les providers configures (fallback chain).
 export async function GET() {
   try {
+    const supabase = await createClient(await cookies());
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      return NextResponse.json({ error: "not_authenticated" }, { status: 401 });
+    }
+
+    const { data: profile } = await supabase
+      .from("user_profiles")
+      .select("role")
+      .eq("id", user.id)
+      .single();
+
+    if (profile?.role !== "admin") {
+      return NextResponse.json({ error: "forbidden" }, { status: 403 });
+    }
+
     const config = getAIReviewConfig();
     const chain = config.fallbackChain?.length ? config.fallbackChain : [config.provider];
 
@@ -166,7 +185,7 @@ export async function GET() {
         error: reason?.message || "Erreur inconnue",
         detail: reason?.stack ? reason.stack.slice(0, 200) : ""
       };
-    });
+    }, { headers: { "Cache-Control": "no-store" } });
 
     const anyOk = providers.some((p) => p.ok);
     const allFailed = providers.length > 0 && !anyOk;
@@ -183,7 +202,6 @@ export async function GET() {
       providers: [],
       chain: [],
       error: (err instanceof Error ? err.message : String(err)) || "Erreur interne du serveur",
-      detail: err instanceof Error ? err.stack?.slice(0, 300) : ""
-    }, { status: 200 });
+    }, { status: 500, headers: { "Cache-Control": "no-store" } });
   }
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Lesson } from "../lib/curriculum";
 import CelebrationOverlay from "./effects/CelebrationOverlay";
@@ -191,6 +191,44 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
   const [xpAwarded, setXpAwarded] = useState<number>(Number(initialProgress?.xpAwarded) || 0);
   const [celebration, setCelebration] = useState<CelebrationState>(CLOSED_CELEBRATION);
   const [failCount, setFailCount] = useState<number>(0);
+  const [bankQuestions, setBankQuestions] = useState<{ id: string; prompt: string; choices: string[] }[] | null>(null);
+  const [bankQuestionsLoading, setBankQuestionsLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    if (!hasQuiz) {
+      setBankQuestionsLoading(false);
+      return;
+    }
+    let cancelled = false;
+    async function loadQuestions() {
+      try {
+        const res = await fetch(`/api/lessons/quiz-questions?lessonId=${lesson.id}`);
+        const data = await res.json();
+        if (!cancelled && data.questions && data.questions.length > 0) {
+          setBankQuestions(data.questions);
+        }
+      } catch {
+        // Fall back to legacy quiz JSON
+      } finally {
+        if (!cancelled) setBankQuestionsLoading(false);
+      }
+    }
+    loadQuestions();
+    return () => { cancelled = true; };
+  }, [lesson.id, hasQuiz]);
+
+  const displayQuestions = useMemo(() => {
+    if (bankQuestions && bankQuestions.length > 0) return bankQuestions;
+    if (lesson.quiz && lesson.quiz.length > 0) return lesson.quiz;
+    return null;
+  }, [bankQuestions, lesson.quiz]);
+
+  // Reset answers when displayQuestions changes
+  useEffect(() => {
+    if (displayQuestions && displayQuestions.length !== answers.length) {
+      setAnswers(new Array(displayQuestions.length).fill(null));
+    }
+  }, [displayQuestions?.length]);
 
   function parseWhyImportant(text: string): WhyImportantItem[] {
     if (!text) return [];
@@ -220,7 +258,10 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
 
   const isCompleted = status === "completed";
   const awaitingReview = isReviewMode && projectSubmitted && !isCompleted;
-  const allAnswered = useMemo(() => answers.every((value) => value !== null), [answers]);
+  const allAnswered = useMemo(() => {
+    if (!displayQuestions) return false;
+    return answers.every((value) => value !== null);
+  }, [answers, displayQuestions]);
 
   function selectAnswer(questionIndex: number, choiceIndex: number) {
     setAnswers((current) => {
@@ -239,14 +280,22 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
     setQuizError("");
 
     try {
+      const useBank = bankQuestions && bankQuestions.length > 0;
       const response = await fetch("/api/lessons/quiz", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           lessonId: lesson.id,
-          answers: answers.map((choiceIndex, questionIndex) =>
-            choiceIndex === null ? null : lesson.quiz[questionIndex]?.choices[choiceIndex] || null
-          )
+          answers: useBank
+            ? answers.map((choiceIndex, questionIndex) => {
+                const q = bankQuestions[questionIndex];
+                return choiceIndex === null
+                  ? { questionId: q.id, choice: "" }
+                  : { questionId: q.id, choice: q.choices[choiceIndex] };
+              })
+            : answers.map((choiceIndex, questionIndex) =>
+                choiceIndex === null ? null : lesson.quiz[questionIndex]?.choices[choiceIndex] || null
+              )
         })
       });
 
@@ -321,7 +370,9 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
   function retryQuiz() {
     setQuizResult(null);
     setQuizError("");
-    setAnswers(new Array(lesson.quiz!.length).fill(null));
+    if (displayQuestions) {
+      setAnswers(new Array(displayQuestions.length).fill(null));
+    }
   }
 
   async function submitProject() {
@@ -635,10 +686,15 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
         </div>
       ) : null}
 
-      {hasQuiz ? (
+      {hasQuiz && displayQuestions ? (
         <div>
           <div className="flex items-center gap-2.5 mb-3">
             <SectionTitle>MINI QUIZ</SectionTitle>
+            {bankQuestions ? (
+              <span className="text-[10px] font-semibold px-2.5 py-1 rounded-full border border-cyan-400/30 bg-cyan-500/10 text-cyan-200 -mt-3">
+                Banque de questions
+              </span>
+            ) : null}
             {quizPassed ? (
               <span className="text-[10px] font-semibold px-2.5 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-200 -mt-3">
                 Quiz valide
@@ -646,23 +702,36 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
             ) : null}
           </div>
 
-          {quizPassed && !quizResult ? (
+          {bankQuestionsLoading ? (
+            <div className="space-y-3">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4 animate-pulse">
+                  <div className="h-3 w-3/4 bg-white/[0.06] rounded mb-3" />
+                  <div className="space-y-2">
+                    <div className="h-8 bg-white/[0.04] rounded-lg" />
+                    <div className="h-8 bg-white/[0.04] rounded-lg w-3/4" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : quizPassed && !quizResult ? (
             <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-3 font-body-readable text-[12px] text-[#b3b3b3]">
               Tu as déjà validé ce quiz
               {initialProgress?.quizTotal ? ` (${initialProgress.quizScore}/${initialProgress.quizTotal})` : ""}.
             </div>
           ) : (
             <div className="space-y-3">
-              {lesson.quiz!.map((question, questionIndex) => {
+              {displayQuestions.map((question, questionIndex) => {
                 const feedback = quizResult?.feedback?.[questionIndex] || null;
+                const prompt = (question as { prompt?: string; question?: string }).prompt || (question as { question?: string }).question || "";
 
                 return (
                   <div key={`quiz-${questionIndex}`} className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4">
                     <div className="font-body-readable text-[12px] text-white mb-3">
-                      {questionIndex + 1}. {question.question}
+                      {questionIndex + 1}. {prompt}
                     </div>
                     <div className="space-y-2">
-                      {question.choices.map((choice, choiceIndex) => {
+                      {question.choices.map((choice: string, choiceIndex: number) => {
                         const isSelected = answers[questionIndex] === choiceIndex;
                         const isCorrectChoice = feedback && feedback.correctChoice === choice;
                         const isWrongSelection = feedback && isSelected && !feedback.correct;

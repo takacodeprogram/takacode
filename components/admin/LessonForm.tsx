@@ -4,7 +4,9 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "../../utils/supabase/client";
 import { analyzeQuiz, balanceQuizAnswers } from "../../lib/quizQuality";
+import MicroProjectBuilder from "./MicroProjectBuilder";
 import QuestionBankEditor from "./QuestionBankEditor";
+import ResourcesEditor from "./ResourcesEditor";
 
 interface Module {
   id: string;
@@ -59,9 +61,7 @@ function toJsonText(value: unknown, fallback: string): string {
   }
 }
 
-const RESOURCES_PLACEHOLDER = '[\n  { "label": "Titre", "url": "https://...", "kind": "doc", "why": "...", "how": "..." }\n]';
 const QUIZ_PLACEHOLDER = '[\n  { "q": "Question ?", "choices": ["A", "B", "C"], "answer": 1, "explanation": "..." }\n]';
-const PROJECT_PLACEHOLDER = '{\n  "title": "...",\n  "brief": "...",\n  "steps": ["..."],\n  "deliverable": "..."\n}';
 
 function Field({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) {
   return (
@@ -236,9 +236,7 @@ export default function LessonForm({ trackId, modules = [], lesson = null, defau
 
       <Field label="Objectifs" hint="Un objectif par ligne"><textarea className={`${INPUT} min-h-[80px]`} value={form.objectives} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setField("objectives", e.target.value)} /></Field>
 
-      <Field label="Ressources (JSON)" hint="Tableau d'objets label/url/kind/why/how">
-        <textarea className={AREA} value={form.resources} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setField("resources", e.target.value)} placeholder={RESOURCES_PLACEHOLDER} />
-      </Field>
+      <ResourcesEditor value={form.resources} onChange={(val: string) => setField("resources", val)} />
 
       <Field label="Quiz (JSON)" hint="answer = index de la bonne réponse (commence à 0)">
         <textarea className={AREA} value={form.quiz} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setField("quiz", e.target.value)} placeholder={QUIZ_PLACEHOLDER} />
@@ -278,9 +276,7 @@ export default function LessonForm({ trackId, modules = [], lesson = null, defau
         )}
       </div>
 
-      <Field label="Micro-projet (JSON)" hint="title/brief/steps/deliverable + validation: auto|ai|peer|mentor (défaut auto). Option requires_link: true">
-        <textarea className={AREA} value={form.micro_project} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setField("micro_project", e.target.value)} placeholder={PROJECT_PLACEHOLDER} />
-      </Field>
+      <MicroProjectBuilder value={form.micro_project} onChange={(val: string) => setField("micro_project", val)} />
 
       <div className="grid grid-cols-3 gap-3">
         <Field label="XP"><input type="number" min="0" className={INPUT} value={form.xp_reward} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("xp_reward", e.target.value)} /></Field>

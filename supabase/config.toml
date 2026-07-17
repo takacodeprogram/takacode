@@ -179,10 +179,23 @@ enable_anonymous_sign_ins = false
 # Allow/disallow testing manual linking of accounts
 enable_manual_linking = false
 # Passwords shorter than this value will be rejected as weak. Minimum 6, recommended 8 or more.
-minimum_password_length = 6
+minimum_password_length = 8
 # Passwords that do not meet the following requirements will be rejected as weak. Supported values
 # are: `letters_digits`, `lower_upper_letters_digits`, `lower_upper_letters_digits_symbols`
-password_requirements = ""
+password_requirements = "lower_upper_letters_digits_symbols"
+# Enable compromised-password protection (Supabase Dashboard > Authentication > Settings).
+# Checks passwords against known breached passwords via haveibeenpwned.
+# This is a hosted-project setting; enable manually in production.
+
+# ──────────────────────────────────────────────
+# RPCs publiques intentionnelles (appelables par anon)
+# ──────────────────────────────────────────────
+# public.platform_stats()      — anon: afficher les stats publiques (classement, compteurs)
+# public.public_leaderboard()  — anon: classement public
+# public.community_projects()  — anon: vitrine des projets termines
+# Toutes les autres RPCs necessitent authenticated ou service_role.
+# Les RPCs internal.* ne sont jamais exposees via l'API Supabase.
+# ──────────────────────────────────────────────
 
 # Configure passkey sign-ins.
 # [auth.passkey]

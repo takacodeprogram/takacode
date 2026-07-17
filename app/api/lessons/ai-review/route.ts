@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { reviewProject, getAIReviewConfig, isAIReviewAvailable } from "../../../../lib/aiReview";
 import { createClient } from "../../../../utils/supabase/server";
+import { createAdminClient } from "../../../../utils/supabase/admin";
 
 // Declenche une revue IA sur un micro-projet soumis.
 // Post-condition : le verdict est enregistre via submit_project_review RPC.
@@ -91,7 +92,8 @@ export async function POST(request: NextRequest) {
     });
 
     // Enregistrer le verdict via la RPC existante
-    const { data: reviewResult, error: reviewError } = await supabase.rpc("submit_project_review", {
+    const adminSupabase = createAdminClient();
+    const { data: reviewResult, error: reviewError } = await adminSupabase.rpc("submit_ai_review", {
       p_author: userId,
       p_lesson: lessonId,
       p_verdict: result.verdict,
