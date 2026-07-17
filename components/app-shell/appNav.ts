@@ -1,4 +1,4 @@
-import { LATEST_PRODUCT_VERSION } from "../../lib/productReleases";
+import { PRODUCT_RELEASES } from "../../lib/productReleases";
 
 export interface NavLink {
   href: string;
@@ -8,6 +8,12 @@ export interface NavLink {
   tour?: string;
   live?: boolean;
   badge?: string;
+}
+
+function getLatestReleaseVersion(): string {
+  const latest = PRODUCT_RELEASES[0];
+  if (!latest) return "1.0";
+  return latest.version;
 }
 
 export const MEMBER_LINKS: NavLink[] = [
@@ -20,7 +26,7 @@ export const MEMBER_LINKS: NavLink[] = [
   { href: "/dashboard/sessions", icon: "lucide:video", label: "Sessions live", live: true, tour: "sessions" },
   { href: "/dashboard/communaute", icon: "lucide:users", label: "Communaute", tour: "communaute" },
   { href: "/dashboard/outils", icon: "lucide:wrench", label: "Outils", tour: "outils" },
-  { href: "/dashboard/nouveautes", icon: "lucide:sparkles", label: "Nouveautes", badge: `V${LATEST_PRODUCT_VERSION.split(".")[1] || LATEST_PRODUCT_VERSION}` },
+  { href: "/dashboard/nouveautes", icon: "lucide:sparkles", label: "Nouveautes", badge: `V${getLatestReleaseVersion()}` },
   { href: "/dashboard/documentation", icon: "lucide:book-open", label: "Documentation", exact: true },
   { href: "/dashboard/profil", icon: "lucide:user", label: "Profil", tour: "profil" }
 ];
