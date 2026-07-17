@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import { playPop } from "../components/effects/sound";
 import { PRODUCT_RELEASES, LATEST_PRODUCT_VERSION } from "../lib/productReleases";
 
 const DISMISSED_KEY = "tk_release_dismissed";
@@ -11,6 +12,8 @@ export default function ReleaseBanner() {
   const [dismissed, setDismissed] = useState<boolean>(true);
 
   const latest = useMemo(() => PRODUCT_RELEASES[0], []);
+
+  const soundPlayedRef = useRef(false);
 
   useEffect(() => {
     const stored = localStorage.getItem(DISMISSED_KEY);
@@ -22,7 +25,13 @@ export default function ReleaseBanner() {
       setDismissed(true);
       return;
     }
-    const timer = setTimeout(() => setVisible(true), 1200);
+    const timer = setTimeout(() => {
+      setVisible(true);
+      if (!soundPlayedRef.current) {
+        soundPlayedRef.current = true;
+        playPop();
+      }
+    }, 1200);
     setDismissed(false);
     return () => clearTimeout(timer);
   }, [latest.status]);

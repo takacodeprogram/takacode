@@ -5,6 +5,7 @@ import { createClient } from "../utils/supabase/client";
 import { AVATAR_STYLES, dicebearUrl } from "../lib/avatar";
 import { COUNTRY_OPTIONS } from "../lib/leaderboard";
 import { generateUsername } from "../lib/username";
+import { playPop } from "../components/effects/sound";
 
 interface ProfileEditorProps {
   initialBio?: string;
@@ -113,6 +114,7 @@ export default function ProfileEditor({
     }
 
     setMessage("Profil enregistré.");
+    playPop();
     setSaving(false);
   }
 

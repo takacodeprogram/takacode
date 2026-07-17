@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { createClient } from "../utils/supabase/client";
 import { PROJECT_STATUS } from "../lib/userProjects";
 import { STARTER_TEMPLATES, getTemplateById } from "../lib/starterTemplates";
+import { playSuccess, playPop } from "../components/effects/sound";
 import type { ProjectStatus } from "../lib/userProjects";
 import type { StarterTemplate } from "../lib/starterTemplates";
 
@@ -88,11 +89,13 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
     }));
     setSelectedTemplateId(template.id);
     setShowTemplates(false);
+    playPop();
   }
 
   function startFromScratch() {
     setSelectedTemplateId("_scratch");
     setShowTemplates(false);
+    playPop();
   }
 
   function buildPayload() {
@@ -128,6 +131,7 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
         return;
       }
       setMessage("Projet enregistre.");
+      playSuccess();
       router.refresh();
       return;
     }
@@ -138,6 +142,7 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
       setError(insertError.message.includes("user_projects") ? "Table projets absente. Lance supabase/sql/008_user_projects.sql." : insertError.message);
       return;
     }
+    playSuccess();
     router.push("/dashboard/projets");
   }
 

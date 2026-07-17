@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "../utils/supabase/client";
+import { playNotification } from "../components/effects/sound";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 interface Notification {
@@ -49,6 +50,7 @@ export default function NotificationBell() {
   const [unreadCount, setUnreadCount] = useState<number>(0);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const prevUnreadRef = useRef<number>(0);
 
   const fetchNotifications = useCallback(async () => {
     try {
@@ -71,6 +73,13 @@ export default function NotificationBell() {
     const interval = setInterval(fetchNotifications, 30000);
     return () => clearInterval(interval);
   }, [fetchNotifications]);
+
+  useEffect(() => {
+    if (unreadCount > prevUnreadRef.current && prevUnreadRef.current > 0) {
+      playNotification();
+    }
+    prevUnreadRef.current = unreadCount;
+  }, [unreadCount]);
 
   async function markAsRead(id: string) {
     try {

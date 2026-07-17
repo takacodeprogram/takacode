@@ -76,3 +76,10 @@ export function playPop(): void {
   if (!ctx) return;
   tone(ctx, 880, 0, 0.09, "square", 0.045);
 }
+
+export function playNotification(): void {
+  const ctx = prepare();
+  if (!ctx) return;
+  tone(ctx, 1046.5, 0, 0.1, "sine", 0.07);
+  tone(ctx, 1318.5, 0.08, 0.12, "sine", 0.06);
+}

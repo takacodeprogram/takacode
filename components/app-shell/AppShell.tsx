@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { useSessionTracker } from "../../hooks/useSessionTracker";
 import type { StaticImageData } from "next/image";
 import type { ReactNode } from "react";
 import logoLight4 from "../../assets/logos-light-png/logo-light-4.png";
@@ -81,6 +82,8 @@ export default function AppShell({ user, children }: AppShellProps) {
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
+
+  useSessionTracker();
 
   const displayName = user?.displayName || "Membre";
   const email = user?.email || "membre@takacode.app";
