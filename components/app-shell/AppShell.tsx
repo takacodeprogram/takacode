@@ -293,21 +293,6 @@ export default function AppShell({ user, children }: AppShellProps) {
                     <iconify-icon icon="lucide:book-open" style={{ fontSize: "15px", color: "#89c7ff" }} />
                     Documentation
                   </Link>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setMenuOpen(false);
-                      try {
-                        localStorage.removeItem("tk_tour_done_v1");
-                        sessionStorage.removeItem("tk_tour_session_v1");
-                      } catch {}
-                      window.location.reload();
-                    }}
-                    className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[#d1d1d1] hover:bg-white/[0.05] transition-colors w-full"
-                  >
-                    <iconify-icon icon="lucide:rotate-ccw" style={{ fontSize: "15px", color: "#89c7ff" }} />
-                    Rejouer le guide
-                  </button>
                 {isAdmin ? (
                   <Link
                     href="/admin"
