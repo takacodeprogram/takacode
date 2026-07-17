@@ -2,6 +2,7 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import GradeProgress from "../../../components/GradeProgress";
+import NextActionBlock from "../../../components/NextActionBlock";
 import PageHeader from "../../../components/app-shell/PageHeader";
 import { getUserAccessContext } from "../../../lib/auth";
 import { getTrackCurriculum } from "../../../lib/curriculum";
@@ -10,6 +11,7 @@ import { getOnboardingProfile, isOnboardingCompleted } from "../../../lib/onboar
 import { buildPageMetadata } from "../../../lib/seo";
 import { formatTrackMeta, listPublishedTracks, listRecommendedTracksForGoal, listUserTrackEnrollments } from "../../../lib/tracks";
 import { getTrackGuidance, guidanceLevelChip, orderTracksByGuidance } from "../../../lib/trackGuidance";
+import { listOwnProjects } from "../../../lib/userProjects";
 import { createClient } from "../../../utils/supabase/server";
 
 export const dynamic = "force-dynamic";
@@ -46,6 +48,8 @@ export default async function DashboardHomePage() {
 
   const enrollmentResult = await listUserTrackEnrollments(supabase, user.id, { limit: 8 });
   const enrolledTracks = enrollmentResult.enrollments;
+  const ownProjectsResult = await listOwnProjects(supabase, user.id);
+  const mainProject = ownProjectsResult.projects?.[0] || null;
   const primaryEnrollment = enrolledTracks[0] || null;
 
   const curriculum = primaryEnrollment
@@ -170,21 +174,17 @@ export default async function DashboardHomePage() {
             </div>
           </article>
 
-          <article className="rounded-2xl border border-white/[0.08] bg-[#111] p-5">
-            <h3 className="font-venite text-[12px] tracking-widest text-[#888] mb-3">ACCES RAPIDE</h3>
-            <div className="space-y-2.5">
-              {quickActions.map((action) => (
-                <Link
-                  key={action.href}
-                  href={action.href}
-                  className="w-full rounded-xl border border-white/[0.08] bg-white/[0.02] px-3.5 py-3 text-[12px] font-semibold text-[#d1d1d1] hover:bg-white/[0.05] transition-colors inline-flex items-center gap-2"
-                >
-                  <iconify-icon icon={action.icon} style={{ color: "#4F8EF7", fontSize: "14px" }} />
-                  {action.label}
-                </Link>
-              ))}
-            </div>
-          </article>
+          <NextActionBlock
+            project={mainProject ? {
+              id: mainProject.id,
+              title: mainProject.title,
+              status: mainProject.status,
+              repoUrl: mainProject.repoUrl,
+              liveUrl: mainProject.liveUrl
+            } : null}
+            hasEnrollment={enrolledTracks.length > 0}
+            hasOnboarding={true}
+          />
         </section>
       </div>
 

@@ -375,6 +375,14 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
       return;
     }
 
+    const projectTitle = cleanIdea ? cleanIdea.slice(0, 120) : `Mon ${selectedGoal.label.toLowerCase()}`;
+    await supabase.from("user_projects").insert({
+      user_id: (await supabase.auth.getUser()).data.user?.id,
+      title: projectTitle,
+      objective: recommendation.objective.slice(0, 300),
+      status: "idea"
+    }).then(() => {});
+
     router.push(targetPath);
     router.refresh();
   }
