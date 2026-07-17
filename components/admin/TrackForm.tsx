@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "../../utils/supabase/client";
+import TrackLivePreview from "./TrackLivePreview";
 
 interface TrackData {
   id: string;
@@ -111,6 +112,7 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
   const [activeTab, setActiveTab] = useState<TabId>("identite");
   const [dirty, setDirty] = useState(false);
   const [errors, setErrors] = useState<ValidationErrors>({});
+  const [showPreview, setShowPreview] = useState(false);
 
   const requiredFields = isEdit ? REQUIRED_FIELDS : CREATE_REQUIRED;
   const filledCount = requiredFields.filter((f) => form[f]?.trim()).length;
@@ -404,6 +406,35 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
       {/* Active section */}
       <div className="p-5 space-y-4">
         {renderSectionFields(activeTab)}
+      </div>
+
+      {/* Live preview collapsible */}
+      <div className="px-5">
+        <button
+          type="button"
+          onClick={() => setShowPreview(!showPreview)}
+          className="flex items-center gap-2 text-[10px] text-[#6d6d6d] uppercase tracking-widest hover:text-[#aaa] transition-colors"
+        >
+          <iconify-icon icon={showPreview ? "lucide:eye-off" : "lucide:eye"} style={{ fontSize: "12px" }} />
+          Apercu public {showPreview ? "— masquer" : "— montrer"}
+        </button>
+        {showPreview && (
+          <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="text-[10px] text-[#555] uppercase tracking-widest font-semibold self-end">Tel qu affiche dans le catalogue</div>
+            <TrackLivePreview
+              data={{
+                title: form.title || "",
+                summary: form.summary || "",
+                objective: form.objective || "",
+                level_label: form.level_label || "",
+                duration_weeks: form.duration_weeks || "",
+                accent_color: form.accent_color || "#4F8EF7",
+                icon: form.icon || "lucide:route",
+                slug: track?.slug || form.slug || "",
+              }}
+            />
+          </div>
+        )}
       </div>
 
       {/* Error / success messages */}
