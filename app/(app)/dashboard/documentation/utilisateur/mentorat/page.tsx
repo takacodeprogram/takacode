@@ -16,7 +16,7 @@ export default function MentoratDocPage() {
       <DocContent>
         <h2>Accompagnement mentor</h2>
         <p>
-          Les mentors t'accompagnent dans ton apprentissage. Ils peuvent repondre a tes questions,
+          Les mentors t'accompagnent dans ton apprentissage. Ils peuvent repondre à tes questions,
           review tes projets et t'aider a progresser plus rapidement.
         </p>
 

@@ -21,7 +21,7 @@ export default function AdminRolesDocPage() {
         <ul>
           <li><strong>user :</strong> apprenant standard, accès aux parcours et quiz.</li>
           <li><strong>mentor :</strong> peut créer des parcours, editer du contenu et reviewer les projets.</li>
-          <li><strong>admin :</strong> accès complèt a toutes les fonctionnalites et a l'administration.</li>
+          <li><strong>admin :</strong> accès complèt à toutes les fonctionnalites et à l'administration.</li>
         </ul>
 
         <h3>Gerer les roles</h3>

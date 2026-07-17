@@ -32,7 +32,7 @@ export default function QuizDocPage() {
         <ul>
           <li>Il faut au moins <strong>70% de bonnes reponses</strong> pour valider le quiz.</li>
           <li>Si tu echoues, tu peux retenter immédiatement.</li>
-          <li>Les questions peuvent varier d'une tentative a l'autre (tirage depuis la banque de questions).</li>
+          <li>Les questions peuvent varier d'une tentative à l'autre (tirage depuis la banque de questions).</li>
           <li>Ton meilleur score est conserve.</li>
         </ul>
 

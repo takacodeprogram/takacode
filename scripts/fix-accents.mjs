@@ -104,11 +104,23 @@ const REPLACEMENTS = [
   ["interet", "intérêt"],
   ["Complet", "Complèt"],
   ["complet", "complèt"],
+  // Preposition "a" → "à" (multi-word patterns only to avoid verb "avoir")
+  ["a l'autre", "à l'autre"],
+  ["a la fois", "à la fois"],
+  ["a l'", "à l'"],
+  ["a mesure", "à mesure"],
+  ["a chaque", "à chaque"],
+  ["a toutes", "à toutes"],
+  ["a tes", "à tes"],
+  ["a la", "à la"],
 ];
 
 function applyReplacements(text) {
   for (const [pattern, replacement] of REPLACEMENTS) {
-    const regex = new RegExp(`(?<![a-zA-Z])${pattern}(?![a-zA-Z])`, "g");
+    // Leading boundary prevents matching inside words (e.g. "ala" won't match "a la")
+    // Trailing boundary only for patterns that end with a letter (to handle "l'word")
+    const trailing = /[a-zA-Z]$/.test(pattern) ? "(?![a-zA-Z])" : "";
+    const regex = new RegExp(`(?<![a-zA-Z])${pattern}${trailing}`, "g");
     text = text.replace(regex, replacement);
   }
   return text;
