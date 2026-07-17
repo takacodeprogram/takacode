@@ -6,12 +6,28 @@ import { TOUR_STEPS as STEPS } from "./tourSteps";
 import type { TourStep } from "./tourSteps";
 
 const STORAGE_KEY = "tk_tour_done_v1";
+const SESSION_KEY = "tk_tour_session_v1";
 
 const STEP_DESKTOP_IDS: string[] = STEPS.filter((s: TourStep) => !s.center).map((s: TourStep) => s.id);
 
 function isDesktop(): boolean {
   if (typeof window === "undefined") return false;
   return window.matchMedia("(min-width: 1024px)").matches;
+}
+
+function alreadySeen(): boolean {
+  try {
+    if (localStorage.getItem(STORAGE_KEY)) return true;
+    if (sessionStorage.getItem(SESSION_KEY)) return true;
+  } catch {}
+  return false;
+}
+
+function markSeen(): void {
+  try {
+    localStorage.setItem(STORAGE_KEY, "1");
+    sessionStorage.setItem(SESSION_KEY, "1");
+  } catch {}
 }
 
 export default function GuidedTour() {
@@ -21,17 +37,22 @@ export default function GuidedTour() {
   const [targetRect, setTargetRect] = useState<DOMRect | null>(null);
   const tooltipRef = useRef<HTMLDivElement | null>(null);
   const highlightRef = useRef<HTMLDivElement | null>(null);
+  const initializedRef = useRef<boolean>(false);
 
   useEffect(() => {
+    if (initializedRef.current) return;
+    initializedRef.current = true;
+
     if (pathname !== "/dashboard" || !isDesktop()) {
       setActive(false);
       return;
     }
-    const done = localStorage.getItem(STORAGE_KEY);
-    if (!done) {
-      const timer = setTimeout(() => setActive(true), 600);
-      return () => clearTimeout(timer);
+    if (alreadySeen()) {
+      setActive(false);
+      return;
     }
+    const timer = setTimeout(() => setActive(true), 600);
+    return () => clearTimeout(timer);
   }, [pathname]);
 
   useEffect(() => {
@@ -70,7 +91,7 @@ export default function GuidedTour() {
     setActive(false);
     setCurrent(0);
     setTargetRect(null);
-    localStorage.setItem(STORAGE_KEY, "1");
+    markSeen();
   }, []);
 
   const skip = useCallback(() => finish(), [finish]);
@@ -114,9 +135,11 @@ export default function GuidedTour() {
   const tooltipStyleDesktop = targetRect
     ? {
         position: "fixed" as const,
-        top: Math.max(20, Math.min(targetRect.top + targetRect.height / 2 - 80, window.innerHeight - 220)),
+        top: Math.max(20, Math.min(targetRect.top + targetRect.height / 2 - 120, window.innerHeight - 280)),
         left: targetRect.right + 20,
         maxWidth: 320,
+        maxHeight: 260,
+        overflow: "auto" as const,
         zIndex: 201
       }
     : null;
