@@ -28,9 +28,9 @@ const SECTIONS = [
   {
     title: "Guide mentor",
     icon: "lucide:users",
-    description: "Cree et edite du contenu pedagogique, gere les questions et suis la progression des apprenants.",
+    description: "Cree et edite du contenu pédagogique, gere les questions et suis la progression des apprenants.",
     links: [
-      { href: "/dashboard/documentation/mentor/parcours", label: "Creer et gerer un parcours" },
+      { href: "/dashboard/documentation/mentor/parcours", label: "Créer et gerer un parcours" },
       { href: "/dashboard/documentation/mentor/edition", label: "Editer modules, lecons et ressources" },
       { href: "/dashboard/documentation/mentor/questions", label: "Gerer la banque de questions" },
       { href: "/dashboard/documentation/mentor/reviews", label: "Reviewer les projets" }

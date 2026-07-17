@@ -4,7 +4,7 @@ import { buildPageMetadata } from "../../../../../../lib/seo";
 
 export const metadata = buildPageMetadata({
   title: "Editer modules, lecons et ressources",
-  description: "Guide mentor pour editer le contenu pedagogique sur TakaCode.",
+  description: "Guide mentor pour editer le contenu pédagogique sur TakaCode.",
   path: "/dashboard/documentation/mentor/edition",
   noIndex: true
 });
@@ -22,7 +22,7 @@ export default function MentorEditionDocPage() {
           <li><strong>Titre et description :</strong> le nom de la lecon et son resume.</li>
           <li><strong>Contenu :</strong> le corps de la lecon au format texte.</li>
           <li><strong>Ressources :</strong> ajoute ou retire des liens (label, URL, type).</li>
-          <li><strong>Objectifs :</strong> les competences visees par la lecon.</li>
+          <li><strong>Objectifs :</strong> les compétences visees par la lecon.</li>
           <li><strong>Mode de validation :</strong> auto, IA, pair ou mentor pour le projet.</li>
         </ul>
 

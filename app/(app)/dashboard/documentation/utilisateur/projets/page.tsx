@@ -22,7 +22,7 @@ export default function ProjetsDocPage() {
 
         <h3>Soumettre un projet</h3>
         <ol>
-          <li>Après avoir termine une lecon, rends-toi dans la section projet.</li>
+          <li>Après avoir terminé une lecon, rends-toi dans la section projet.</li>
           <li>Realise le travail demande (code, design, redaction, etc.).</li>
           <li>Depose le lien vers ton travail (URL de depot, site, ou fichier heberge).</li>
           <li>Soumets ton projet pour evaluation.</li>
@@ -36,11 +36,11 @@ export default function ProjetsDocPage() {
           <li><strong>Par un mentor :</strong> evaluation personnalisee par un encadrant.</li>
         </ul>
 
-        <h3>Apres la soumission</h3>
+        <h3>Après la soumission</h3>
         <p>
           Tu recois un feedback avec une note et des suggestions d'amelioration.
           Si le projet est valide, tu gagnes des XP et tu debloques la suite du parcours.
-          Tu peux toujours retravailler et resoumettre ton projet si necessaire.
+          Tu peux toujours retravailler et resoumettre ton projet si nécessaire.
         </p>
       </DocContent>
     </>

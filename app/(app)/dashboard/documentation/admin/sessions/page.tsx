@@ -20,7 +20,7 @@ export default function AdminSessionsDocPage() {
           Elles peuvent etre programmees et gerees depuis l'interface d'administration.
         </p>
 
-        <h3>Creer une session</h3>
+        <h3>Créer une session</h3>
         <ul>
           <li>Choisis un titre et une description pour la session.</li>
           <li>Definis la date, l'heure et la duree.</li>
@@ -32,7 +32,7 @@ export default function AdminSessionsDocPage() {
         <p>
           Les apprenants peuvent s'inscrire aux sessions. Tu vois le nombre de places
           restantes et la liste des inscrits. Tu peux annuler ou reporter une session
-          si necessaire.
+          si nécessaire.
         </p>
 
         <h3>Notifications</h3>

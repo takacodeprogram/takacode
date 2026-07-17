@@ -3,8 +3,8 @@ import DocContent from "../../DocContent";
 import { buildPageMetadata } from "../../../../../../lib/seo";
 
 export const metadata = buildPageMetadata({
-  title: "Creer et gerer un parcours",
-  description: "Guide mentor pour creer et gerer des parcours sur TakaCode.",
+  title: "Créer et gerer un parcours",
+  description: "Guide mentor pour créer et gerer des parcours sur TakaCode.",
   path: "/dashboard/documentation/mentor/parcours",
   noIndex: true
 });
@@ -16,7 +16,7 @@ export default function MentorParcoursDocPage() {
       <DocContent>
         <h2>Proposer un parcours</h2>
         <p>
-          En tant que mentor, tu peux creer des parcours de formation. Rends-toi dans
+          En tant que mentor, tu peux créer des parcours de formation. Rends-toi dans
           <strong> Proposer un parcours</strong> depuis le menu pour commencer.
         </p>
 
@@ -32,14 +32,14 @@ export default function MentorParcoursDocPage() {
         <h3>Validation et publication</h3>
         <p>
           Après avoir cree un parcours, tu peux le soumettre pour validation.
-          Un administrateur verifie le contenu avant publication. Une fois approuve,
+          Un administrateur verifie le contenu avant publication. Une fois approuvé,
           le parcours est visible par tous les apprenants.
         </p>
 
         <h3>Modifier un parcours existant</h3>
         <p>
           Tu peux modifier les parcours dont tu es l'auteur. Les modifications sont
-          visibles immediatement pour les apprenants (sauf si le parcours est en cours
+          visibles immédiatement pour les apprenants (sauf si le parcours est en cours
           de validation).
         </p>
       </DocContent>

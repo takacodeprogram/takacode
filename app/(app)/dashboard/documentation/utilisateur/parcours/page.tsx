@@ -14,10 +14,10 @@ export default function ParcoursDocPage() {
     <>
       <PageHeader title="SUIVRE UN PARCOURS" subtitle="Guide utilisateur" backHref="/dashboard/documentation" />
       <DocContent>
-        <h2>Decouvrir les parcours</h2>
+        <h2>Découvrir les parcours</h2>
         <p>
           Les parcours sont des sequences pedagogiques composees de modules, de lecons, de quiz et de micro-projets.
-          Chaque parcours est concu pour te faire passer de la decouverte a la maitrise d'un sujet.
+          Chaque parcours est conçu pour te faire passer de la decouverte a la maitrise d'un sujet.
         </p>
 
         <h3>Commencer un parcours</h3>
@@ -25,7 +25,7 @@ export default function ParcoursDocPage() {
           <li>Rends-toi dans <strong>Mes parcours</strong> depuis le menu de navigation.</li>
           <li>Parcours la liste des formations disponibles et choisis celle qui correspond a ton objectif.</li>
           <li>Clique sur le parcours pour voir son contenu : modules, lecons, ressources et quiz.</li>
-          <li>Le premier module se deroule automatiquement. Les modules suivants se decomptent au fur et a mesure.</li>
+          <li>Le premier module se déroule automatiquement. Les modules suivants se decomptent au fur et a mesure.</li>
         </ol>
 
         <h3>Progression</h3>
@@ -41,8 +41,8 @@ export default function ParcoursDocPage() {
 
         <h3>Conseils</h3>
         <ul>
-          <li>Consulte les ressources liees a chaque lecon pour approfondir.</li>
-          <li>Pose tes questions dans la communaute si tu es bloque.</li>
+          <li>Consulte les ressources liées a chaque lecon pour approfondir.</li>
+          <li>Pose tes questions dans la communauté si tu es bloque.</li>
           <li>Utilise les sessions live pour echanger en direct avec un mentor.</li>
         </ul>
       </DocContent>

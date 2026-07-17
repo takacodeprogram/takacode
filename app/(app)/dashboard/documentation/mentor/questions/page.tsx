@@ -26,7 +26,7 @@ export default function MentorQuestionsDocPage() {
           <li>Ajoute entre <strong>2 et 6 choix</strong> possibles.</li>
           <li>Indique l'<strong>index de la bonne reponse</strong> (commence a 0).</li>
           <li>Ajoute une <strong>explication</strong> pour justifier la reponse.</li>
-          <li>Choisis un <strong>objectif pedagogique</strong> parmi ceux de la lecon.</li>
+          <li>Choisis un <strong>objectif pédagogique</strong> parmi ceux de la lecon.</li>
           <li>Definis la <strong>difficulte</strong> : fondation, standard ou defi.</li>
           <li>Ajoute eventuellement une <strong>URL de ressource</strong> liee.</li>
         </ul>

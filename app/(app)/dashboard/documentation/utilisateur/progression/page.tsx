@@ -34,7 +34,7 @@ export default function ProgressionDocPage() {
         </p>
         <ul>
           <li><strong>Apprenti</strong> — niveau depart</li>
-          <li><strong>Compagnon</strong> — apres les premiers parcours</li>
+          <li><strong>Compagnon</strong> — après les premiers parcours</li>
           <li><strong>Expert</strong> — maitrise avancee</li>
           <li><strong>Maitre</strong> — le plus haut grade</li>
         </ul>

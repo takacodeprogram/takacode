@@ -23,7 +23,7 @@ export default function MentoratDocPage() {
         <h3>Trouver un mentor</h3>
         <ul>
           <li>Consulte la section <strong>Sessions live</strong> pour les creneaux disponibles.</li>
-          <li>Rejoins la communaute pour echanger avec les mentors.</li>
+          <li>Rejoins la communauté pour echanger avec les mentors.</li>
           <li>Certains parcours sont encadres par des mentors dedies.</li>
         </ul>
 

@@ -40,7 +40,7 @@ export default function MentorReviewsDocPage() {
         <h3>Notifications</h3>
         <p>
           Quand tu reviews un projet, l'apprenant recoit une notification.
-          Il peut voir ton feedback et retravailler son projet si necessaire.
+          Il peut voir ton feedback et retravailler son projet si nécessaire.
         </p>
       </DocContent>
     </>

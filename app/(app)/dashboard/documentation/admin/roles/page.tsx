@@ -19,9 +19,9 @@ export default function AdminRolesDocPage() {
           La plateforme definit plusieurs roles avec des permissions croissantes :
         </p>
         <ul>
-          <li><strong>user :</strong> apprenant standard, acces aux parcours et quiz.</li>
-          <li><strong>mentor :</strong> peut creer des parcours, editer du contenu et reviewer les projets.</li>
-          <li><strong>admin :</strong> acces complet a toutes les fonctionnalites et a l'administration.</li>
+          <li><strong>user :</strong> apprenant standard, accès aux parcours et quiz.</li>
+          <li><strong>mentor :</strong> peut créer des parcours, editer du contenu et reviewer les projets.</li>
+          <li><strong>admin :</strong> accès complèt a toutes les fonctionnalites et a l'administration.</li>
         </ul>
 
         <h3>Gerer les roles</h3>
@@ -32,10 +32,10 @@ export default function AdminRolesDocPage() {
         <ul>
           <li>Recherche un utilisateur par nom ou email.</li>
           <li>Consulte son role actuel, sa date d'inscription et ses statistiques.</li>
-          <li>Change son role si necessaire (ex: promouvoir un utilisateur en mentor).</li>
+          <li>Change son role si nécessaire (ex: promouvoir un utilisateur en mentor).</li>
         </ul>
 
-        <h3>Securite</h3>
+        <h3>Sécurité</h3>
         <p>
           Les mots de passe doivent comporter au moins 8 caracteres avec minuscules,
           majuscules, chiffres et symboles. La protection contre les mots de passe
