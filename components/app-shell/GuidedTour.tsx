@@ -69,9 +69,24 @@ export default function GuidedTour() {
       setTargetRect(rect);
       el.scrollIntoView({ block: "center", behavior: "smooth" });
     } else {
+      // Fallback: element not in DOM (collapsed sidebar, role filter, etc.) -> skip
       setTargetRect(null);
+      if (current < STEPS.length - 1) {
+        setCurrent((c) => c + 1);
+      } else {
+        finish();
+      }
     }
   }, [current, active]);
+
+  const finishRef = useRef<() => void>(() => {});
+  const finish = useCallback(() => {
+    setActive(false);
+    setCurrent(0);
+    setTargetRect(null);
+    markSeen();
+  }, []);
+  finishRef.current = finish;
 
   const totalSteps = useMemo(() => STEP_DESKTOP_IDS.length, []);
 
@@ -81,18 +96,11 @@ export default function GuidedTour() {
     } else {
       finish();
     }
-  }, [current]);
+  }, [current, finish]);
 
   const prev = useCallback(() => {
     if (current > 0) setCurrent((c) => c - 1);
-  }, []);
-
-  const finish = useCallback(() => {
-    setActive(false);
-    setCurrent(0);
-    setTargetRect(null);
-    markSeen();
-  }, []);
+  }, [current]);
 
   const skip = useCallback(() => finish(), [finish]);
 

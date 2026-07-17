@@ -1,3 +1,5 @@
+import { LATEST_PRODUCT_VERSION } from "../../lib/productReleases";
+
 export interface NavLink {
   href: string;
   icon: string;
@@ -12,12 +14,13 @@ export const MEMBER_LINKS: NavLink[] = [
   { href: "/dashboard", icon: "lucide:layout-grid", label: "Dashboard", exact: true, tour: "dashboard" },
   { href: "/dashboard/parcours", icon: "lucide:map", label: "Mes parcours", tour: "parcours" },
   { href: "/dashboard/projets", icon: "lucide:folder-code", label: "Mes projets", tour: "projets" },
+  { href: "/dashboard/prochaine-action", icon: "lucide:sparkles", label: "Prochaine action", tour: "prochaine-action" },
   { href: "/dashboard/reviews", icon: "lucide:git-pull-request", label: "Revues", tour: "reviews" },
   { href: "/dashboard/ressources", icon: "lucide:book-open", label: "Ressources", tour: "ressources" },
   { href: "/dashboard/sessions", icon: "lucide:video", label: "Sessions live", live: true, tour: "sessions" },
   { href: "/dashboard/communaute", icon: "lucide:users", label: "Communaute", tour: "communaute" },
   { href: "/dashboard/outils", icon: "lucide:wrench", label: "Outils", tour: "outils" },
-  { href: "/dashboard/nouveautes", icon: "lucide:sparkles", label: "Nouveautes", badge: "V1.1" },
+  { href: "/dashboard/nouveautes", icon: "lucide:sparkles", label: "Nouveautes", badge: `V${LATEST_PRODUCT_VERSION.split(".")[1] || LATEST_PRODUCT_VERSION}` },
   { href: "/dashboard/documentation", icon: "lucide:book-open", label: "Documentation", exact: true },
   { href: "/dashboard/profil", icon: "lucide:user", label: "Profil", tour: "profil" }
 ];
