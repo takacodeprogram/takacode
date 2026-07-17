@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
+import DeployGuide from "../../../../../components/DeployGuide";
 import PageHeader from "../../../../../components/app-shell/PageHeader";
 import ProjectForm from "../../../../../components/ProjectForm";
 import { buildPageMetadata } from "../../../../../lib/seo";
@@ -44,7 +45,15 @@ export default async function EditProjectPage({ params }: { params: Promise<Reco
   return (
     <>
       <PageHeader title={project.title} subtitle="Editer mon projet" backHref="/dashboard/projets" backLabel="Mes projets" />
-      <ProjectForm userId={user.id} tracks={tracks} project={project} />
+      <div className="grid xl:grid-cols-[1.4fr_0.9fr] gap-6">
+        <ProjectForm userId={user.id} tracks={tracks} project={project} />
+        <DeployGuide
+          repoUrl={project.repoUrl}
+          liveUrl={project.liveUrl}
+          projectId={project.id}
+          projectTitle={project.title}
+        />
+      </div>
     </>
   );
 }
