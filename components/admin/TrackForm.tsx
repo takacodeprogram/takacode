@@ -4,6 +4,8 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "../../utils/supabase/client";
 import TrackLivePreview from "./TrackLivePreview";
+import TrackVersionHistory from "./TrackVersionHistory";
+import { useAutosave } from "../../hooks/useAutosave";
 
 interface TrackData {
   id: string;
@@ -114,6 +116,32 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
   const [errors, setErrors] = useState<ValidationErrors>({});
   const [showPreview, setShowPreview] = useState(false);
 
+  async function createVersion(label?: string) {
+    if (!isEdit || !track?.id) return;
+    await supabase.from("track_versions").insert({
+      track_id: track.id,
+      snapshot: buildPayload() as Record<string, unknown>,
+      label: label || null,
+    });
+  }
+
+  async function autosave(): Promise<boolean> {
+    if (!isEdit || !track?.id) return true;
+    const { error: saveError } = await supabase
+      .from("learning_tracks")
+      .update(buildPayload())
+      .eq("id", track.id);
+    if (saveError) return false;
+    await createVersion("Sauvegarde automatique");
+    return true;
+  }
+
+  const { status: autosaveStatus, cancel: cancelAutosave, markSaved } = useAutosave(
+    autosave,
+    [form, track?.id],
+    4000
+  );
+
   const requiredFields = isEdit ? REQUIRED_FIELDS : CREATE_REQUIRED;
   const filledCount = requiredFields.filter((f) => form[f]?.trim()).length;
 
@@ -216,6 +244,7 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
     }
 
     setSaving(true);
+    cancelAutosave();
     if (isEdit) {
       const { error: updateError } = await supabase.from("learning_tracks").update(buildPayload()).eq("id", track!.id).select(TRACK_SELECT).single();
       if (updateError) {
@@ -223,6 +252,8 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
         setSaving(false);
         return;
       }
+      await createVersion("Sauvegarde manuelle");
+      markSaved();
       setMessage("Parcours mis a jour.");
       setDirty(false);
       setSaving(false);
@@ -408,8 +439,8 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
         {renderSectionFields(activeTab)}
       </div>
 
-      {/* Live preview collapsible */}
-      <div className="px-5">
+      {/* Live preview + version history */}
+      <div className="px-5 space-y-3">
         <button
           type="button"
           onClick={() => setShowPreview(!showPreview)}
@@ -435,6 +466,32 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
             />
           </div>
         )}
+
+        {isEdit && (
+          <TrackVersionHistory
+            trackId={track?.id || ""}
+            onRestore={(snapshot) => {
+              const s = snapshot as Record<string, unknown>;
+              setForm({
+                slug: String(s.slug || track?.slug || ""),
+                goal_key: String(s.goal_key || "other"),
+                title: String(s.title || ""),
+                summary: String(s.summary || ""),
+                level_label: String(s.level_label || "Debutant"),
+                duration_weeks: String(s.duration_weeks ?? 8),
+                sort_order: String(s.sort_order ?? 100),
+                accent_color: String(s.accent_color || "#4F8EF7"),
+                icon: String(s.icon || "lucide:route"),
+                objective: String(s.objective || ""),
+                resources: toResourcesInput((s.resources || []) as string[]),
+                next_session: String(s.next_session || ""),
+                is_published: String(s.is_published === true),
+                is_active: String(s.is_active !== false),
+              });
+              setDirty(true);
+            }}
+          />
+        )}
       </div>
 
       {/* Error / success messages */}
@@ -446,7 +503,9 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
       {/* Footer with actions */}
       <div className="flex items-center justify-between gap-3 border-t border-white/[0.06] px-5 py-4">
         <div className="flex items-center gap-3">
-          {dirty && <span className="text-[10px] text-amber-400">Modifications non enregistrees</span>}
+          {autosaveStatus === "saving" && <span className="text-[10px] text-[#4F8EF7]">Enregistrement automatique...</span>}
+          {autosaveStatus === "saved" && <span className="text-[10px] text-emerald-400">Brouillon sauvegarde</span>}
+          {dirty && autosaveStatus !== "saving" && autosaveStatus !== "saved" && <span className="text-[10px] text-amber-400">Modifications non enregistrees</span>}
         </div>
         <div className="flex items-center gap-2">
           {isEdit && (
