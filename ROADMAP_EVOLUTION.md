@@ -69,18 +69,24 @@ Objectif : remplacer l'edition JSON par une interface editoriale sure.
 - [x] Validation inline, autosave, avertissement avant de quitter et historique des versions
 - [ ] Generation IA assistee d'un plan ou d'un quiz, toujours confirmee par l'editeur (reportee)
 
-## V1.4 — Constructeur de projet et deploiement
+## V1.4 — Constructeur de projet et deploiement (livree)
 
 Objectif : du code a la publication, tout-en-un.
 
-- [ ] Creation automatique du projet principal a la fin de l'onboarding
-- [ ] Editeur de projet : description, stack, objectifs, deadline
-- [ ] Selection de template/starter kit (gratuit ou premium)
-- [ ] Publication guidee : GitHub → Vercel/Netlify → domaine
-- [ ] Bloc « Prochaine action » intelligent sur le dashboard
-- [ ] Sauvegarde des brouillons et historique des soumissions
+- [x] Creation automatique du projet principal a la fin de l'onboarding
+- [x] Editeur de projet : description, stack, objectifs, deadline
+- [x] Selection de template/starter kit (8 kits : site vitrine, SaaS, dashboard, IA, e-commerce...)
+- [x] Publication guidee : GitHub → Vercel/Netlify → domaine
+- [x] Bloc « Prochaine action » intelligent sur le dashboard
+- [x] Bandeau d'annonce des nouveautes a chaque version majeure
+- [x] Drapeau pays sur le leaderboard + selection dans le profil
+- [x] Derniere connexion et appareils connectes visibles sur le profil
+- [x] Suppression et desactivation de compte
+- [x] Tracking IP et session a la connexion
+- [x] Sons et animations sur les actions cles (notifications, creation projet, sauvegardes)
+- [x] Tour guide mis a jour avec les nouvelles sections
 
-## V1.5 — Monetisation et valeur
+## V1.5 — Monetisation
 
 Objectif : l'utilisateur construit un projet qui peut generer des revenus.
 

@@ -18,7 +18,12 @@ export const PRODUCT_RELEASES: ProductRelease[] = [
       "Projet cree automatiquement apres l'onboarding, plus besoin de le faire a la main",
       "8 Starter kits prets a deployer : site vitrine, SaaS, dashboard, IA, e-commerce...",
       "Publication guidee avec etapes : GitHub, Vercel/Netlify, domaine personnalise",
-      "Prochaine action intelligente sur le dashboard qui s'adapte a ta progression"
+      "Prochaine action intelligente sur le dashboard qui s'adapte a ta progression",
+      "Drapeau pays affiche dans le classement, selectionnable depuis le profil",
+      "Derniere connexion et appareils connectes visibles dans la page profil",
+      "Suppression ou desactivation de compte depuis la zone securite du profil",
+      "Son et animations sur les notifications, la creation de projet et les sauvegardes",
+      "Bandeau d'annonce automatique a chaque nouvelle version majeure"
     ]
   },
   {
