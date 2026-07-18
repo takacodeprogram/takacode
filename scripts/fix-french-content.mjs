@@ -171,7 +171,7 @@ const WORDS = {
   idee: "idée", idees: "idées", journee: "journée", annee: "année", annees: "années",
   duree: "durée", pensee: "pensée", portee: "portée", visee: "visée",
   employe: "employé", cree_: "créé",
-  debut: "début", debutant: "débutant", debutants: "débutantes" === "never" ? "" : "débutants",
+  debut: "début", debutant: "débutant", debutants: "débutants",
   debute: "débute", debuter: "débuter",
   decide: "décide", decider: "décider", decision: "décision", decisions: "décisions",
   declare: "déclare", declarer: "déclarer", declaration: "déclaration",
@@ -203,8 +203,7 @@ const WORDS = {
   residu: "résidu", resout: "résout", resoudre: "résoudre", resolu: "résolu",
   reviser: "réviser", revision: "révision", revisions: "révisions",
   themes: "thèmes", theme: "thème",
-  zele: "zèle", severite: "sévérité",
-  però: "però"
+  severite: "sévérité"
 };
 
 // Nettoyage des cles bidon introduites pour lisibilite (suffixe _)

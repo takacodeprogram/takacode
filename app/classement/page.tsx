@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { cookies } from "next/headers";
 import FooterSection from "../../components/FooterSection";
 import Navbar from "../../components/Navbar";
