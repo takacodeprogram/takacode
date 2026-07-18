@@ -58,11 +58,10 @@ function MarkerPin({ position, count, isSelected, onClick }: {
 }) {
   const glowRef = useRef<THREE.Mesh>(null);
   const ringRef = useRef<THREE.Mesh>(null);
-  const height = 0.12 + Math.min(count * 0.02, 0.15);
+  const height = 0.06 + Math.min(count * 0.01, 0.08);
   const dir = position.clone().normalize();
-  const base = dir.clone().multiplyScalar(2.0);
   const tip = dir.clone().multiplyScalar(2.0 + height);
-  const size = Math.min(0.04 + count * 0.01, 0.1);
+  const size = Math.min(0.02 + count * 0.005, 0.05);
 
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime();
@@ -186,40 +185,7 @@ function ShootingStars() {
   );
 }
 
-function OrbitalRing() {
-  const count = 300;
-  const ringRef = useRef<THREE.Points>(null);
-  const radius = 2.6;
-  const tilt = 0.3;
 
-  const positions = useMemo(() => {
-    const pos = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      const angle = (i / count) * Math.PI * 2;
-      const x = radius * Math.cos(angle);
-      const y = radius * Math.sin(angle) * 0.08;
-      const z = radius * Math.sin(angle);
-      pos[i * 3] = x;
-      pos[i * 3 + 1] = y;
-      pos[i * 3 + 2] = z;
-    }
-    return pos;
-  }, []);
-
-  useFrame((_, delta) => {
-    if (!ringRef.current) return;
-    ringRef.current.rotation.y += delta * 0.08;
-  });
-
-  return (
-    <points ref={ringRef} rotation={[tilt, 0, 0]}>
-      <bufferGeometry>
-        <bufferAttribute args={[positions, 3]} attach="attributes-position" />
-      </bufferGeometry>
-      <pointsMaterial size={0.04} color="#4F8EF7" transparent opacity={0.3} sizeAttenuation />
-    </points>
-  );
-}
 
 function FloatingParticles() {
   const count = 150;
@@ -290,7 +256,6 @@ function GlobeScene({ markers, onSelectCountry, selectedCountry }: {
       <Stars />
       <ShootingStars />
       <FloatingParticles />
-      <OrbitalRing />
       <group>
         <ambientLight intensity={0.6} />
         <pointLight position={[5, 3, 5]} intensity={1.2} />
@@ -387,7 +352,7 @@ export default function Globe3D({ markers }: Globe3DProps) {
   return (
     <div className="relative w-full h-[450px] md:h-[550px]">
       {selectedInfo ? <InfoPanel data={selectedInfo} onClose={() => setSelectedCountry(null)} /> : null}
-      <Canvas camera={{ position: [0, 1.2, 5.5], fov: 45 }} gl={{ antialias: true, alpha: false }}>
+      <Canvas camera={{ position: [0, 1.2, 4.5], fov: 45 }} gl={{ antialias: true, alpha: false }}>
         <color attach="background" args={["#05080f"]} />
         <GlobeScene
           markers={markers}
@@ -397,8 +362,8 @@ export default function Globe3D({ markers }: Globe3DProps) {
         <OrbitControls
           enableZoom={true}
           zoomSpeed={0.8}
-          minDistance={3.5}
-          maxDistance={10}
+          minDistance={2.8}
+          maxDistance={12}
           enablePan={false}
           rotateSpeed={0.6}
           autoRotate
