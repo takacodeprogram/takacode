@@ -11,6 +11,7 @@ interface PublicProfileData {
   socials: Record<string, string>;
   skills: string[];
   memberSince: string;
+  bioFormat: string;
 }
 
 export interface ProfileProject {
@@ -25,14 +26,8 @@ export interface ProfileProject {
   createdAt: string;
 }
 
-const PUBLIC_PROFILE_SELECT = "id, public_name, avatar_url, bio, grade, points, country_code, socials, skills, created_at";
-
 export async function getPublicProfile(supabase: SupabaseClient, userId: string): Promise<PublicProfileData | null> {
-  const { data, error } = await supabase
-    .from("user_profiles")
-    .select(PUBLIC_PROFILE_SELECT)
-    .eq("id", userId)
-    .single();
+  const { data, error } = await supabase.rpc("get_public_profile", { p_user_id: userId });
 
   if (error || !data) return null;
 
@@ -52,34 +47,31 @@ export async function getPublicProfile(supabase: SupabaseClient, userId: string)
     countryCode: String(row.country_code || ""),
     socials: (row.socials as Record<string, string>) || {},
     skills: Array.isArray(row.skills) ? row.skills as string[] : [],
-    memberSince: String(row.created_at || "")
+    memberSince: String(row.created_at || ""),
+    bioFormat: String(row.bio_format || "text")
   };
 }
 
 export async function getUserPublishedProjects(supabase: SupabaseClient, userId: string): Promise<ProfileProject[]> {
-  const { data, error } = await supabase
-    .from("user_projects")
-    .select("id, title, objective, live_url, repo_url, revenue_model, has_declared_first_euro, first_euro_at, created_at, updated_at")
-    .eq("user_id", userId)
-    .eq("status", "published")
-    .order("updated_at", { ascending: false });
+  const { data, error } = await supabase.rpc("get_published_projects", { p_limit: 50 });
 
   if (error || !data) return [];
 
-  const rows = Array.isArray(data) ? data : [];
+  const allProjects = Array.isArray(data) ? data : [];
+  const userProjects = allProjects.filter((p: unknown) => (p as Record<string, unknown>)?.author_id === userId);
 
   const likeCounts = await Promise.all(
-    rows.map(async (row) => {
+    userProjects.map(async (row: unknown) => {
       try {
-        const { data } = await supabase.rpc("get_project_likes_count", { p_project_id: (row as Record<string, unknown>).id as string });
-        return typeof data === "number" ? data : 0;
+        const { data: count } = await supabase.rpc("get_project_likes_count", { p_project_id: (row as Record<string, unknown>).id as string });
+        return typeof count === "number" ? count : 0;
       } catch {
         return 0;
       }
     })
   );
 
-  return rows.map((row, i) => {
+  return userProjects.map((row: unknown, i: number) => {
     const r = row as Record<string, unknown>;
     return {
       id: String(r.id || ""),

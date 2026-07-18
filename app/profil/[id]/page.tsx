@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import FooterSection from "../../../components/FooterSection";
 import Navbar from "../../../components/Navbar";
+import RichTextRenderer from "../../../components/RichTextRenderer";
 import { buildPageMetadata } from "../../../lib/seo";
 import { getPublicProfile, getUserPublishedProjects } from "../../../lib/publicProfile";
 import { createClient } from "../../../utils/supabase/server";
@@ -90,7 +91,7 @@ export default async function PublicProfilePage({ params }: { params: Promise<Re
               {profile.bio ? (
                 <div className="mb-6">
                   <div className="text-[10px] text-[#666] uppercase tracking-widest font-semibold mb-1.5">Bio</div>
-                  <p className="font-body-readable text-[13px] text-[#b5b5b5] leading-relaxed">{profile.bio}</p>
+                  <RichTextRenderer content={profile.bio} format={profile.bioFormat as "text" | "markdown" | "html"} />
                 </div>
               ) : null}
 

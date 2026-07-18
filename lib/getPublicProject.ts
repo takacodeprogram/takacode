@@ -23,6 +23,7 @@ export interface PublicProject {
   track: string;
   trackSlug: string;
   likeCount: number;
+  descriptionFormat: string;
 }
 
 export async function getPublicProject(supabase: SupabaseClient, projectId: string): Promise<PublicProject | null> {
@@ -57,6 +58,7 @@ export async function getPublicProject(supabase: SupabaseClient, projectId: stri
     authorGrade: String(r.author_grade || "Starter"),
     track: String(r.track || ""),
     trackSlug: String(r.track_slug || ""),
-    likeCount: typeof r.like_count === "number" ? r.like_count : 0
+    likeCount: typeof r.like_count === "number" ? r.like_count : 0,
+    descriptionFormat: String(r.description_format || "text")
   };
 }

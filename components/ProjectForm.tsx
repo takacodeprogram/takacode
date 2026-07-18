@@ -6,6 +6,7 @@ import { createClient } from "../utils/supabase/client";
 import { PROJECT_STATUS } from "../lib/userProjects";
 import { ensureUserTrackEnrollment } from "../lib/tracks";
 import { STARTER_TEMPLATES, getTemplateById } from "../lib/starterTemplates";
+import FormatPicker from "../components/FormatPicker";
 import { playSuccess, playPop } from "../components/effects/sound";
 import { useToast } from "./Toast";
 import type { ProjectStatus } from "../lib/userProjects";
@@ -21,6 +22,7 @@ interface ProjectData {
   title?: string;
   objective?: string;
   description?: string;
+  descriptionFormat?: string;
   status?: string;
   deadline?: string;
   trackId?: string;
@@ -74,7 +76,8 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
     track_id: project?.trackId || "",
     repo_url: project?.repoUrl || "",
     live_url: project?.liveUrl || "",
-    revenue_model: project?.revenueModel || ""
+    revenue_model: project?.revenueModel || "",
+    description_format: ((project as unknown as Record<string, unknown>)?.descriptionFormat as string) || "text"
   }));
   const [saving, setSaving] = useState<boolean>(false);
   const [deleting, setDeleting] = useState<boolean>(false);
@@ -116,7 +119,8 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
       repo_url: cleanUrl(form.repo_url),
       live_url: cleanUrl(form.live_url),
       revenue_model: form.revenue_model,
-      template_id: selectedTemplateId
+      template_id: selectedTemplateId,
+      description_format: form.description_format || "text"
     };
   }
 
@@ -271,7 +275,12 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
 
       <Field label="Titre du projet"><input className={INPUT} value={form.title} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("title", e.target.value)} placeholder="Ex: Ma boutique en ligne" /></Field>
       <Field label="Objectif"><input className={INPUT} value={form.objective} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("objective", e.target.value)} placeholder="Ce que tu veux accomplir" /></Field>
-      <Field label="Description"><textarea className={`${INPUT} min-h-[90px]`} value={form.description} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setField("description", e.target.value)} placeholder="Decris ton projet, ses fonctionnalites, son public..." /></Field>
+      <Field label="Description">
+        <textarea className={`${INPUT} min-h-[90px]`} value={form.description} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setField("description", e.target.value)} placeholder="Decris ton projet, ses fonctionnalites, son public..." />
+        <div className="mt-2">
+          <FormatPicker value={(form.description_format || "text") as "text" | "markdown" | "html"} onChange={(fmt) => setField("description_format", fmt)} label="Format du contenu" />
+        </div>
+      </Field>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <Field label="Statut">

@@ -26,16 +26,17 @@ export const metadata = buildPageMetadata({
 async function getProfileFields(supabase: SupabaseClient, userId: string) {
   const { data, error } = await supabase
     .from("user_profiles")
-    .select("bio, socials, skills, avatar_url, public_name, country_code")
+    .select("bio, bio_format, socials, skills, avatar_url, public_name, country_code")
     .eq("id", userId)
     .maybeSingle();
 
   if (error || !data) {
-    return { bio: "", socials: {}, skills: [], avatarUrl: "", publicName: "", countryCode: "" };
+    return { bio: "", bioFormat: "text", socials: {}, skills: [], avatarUrl: "", publicName: "", countryCode: "" };
   }
 
   return {
     bio: typeof data.bio === "string" ? data.bio : "",
+    bioFormat: typeof data.bio_format === "string" ? data.bio_format : "text",
     socials: data.socials && typeof data.socials === "object" ? data.socials : {},
     skills: Array.isArray(data.skills) ? data.skills : [],
     avatarUrl: typeof data.avatar_url === "string" ? data.avatar_url : "",
@@ -121,6 +122,7 @@ export default async function ProfilePage() {
         <div className="space-y-4">
           <ProfileEditor
             initialBio={profileFields.bio}
+            initialBioFormat={profileFields.bioFormat}
             initialSocials={profileFields.socials}
             initialSkills={profileFields.skills}
             initialAvatarUrl={profileFields.avatarUrl}

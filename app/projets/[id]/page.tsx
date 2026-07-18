@@ -2,8 +2,10 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import FooterSection from "../../../components/FooterSection";
+import GitHubSourceViewer from "../../../components/GitHubSourceViewer";
 import LikeButton from "../../../components/LikeButton";
 import Navbar from "../../../components/Navbar";
+import RichTextRenderer from "../../../components/RichTextRenderer";
 import { getPublicProject } from "../../../lib/getPublicProject";
 import { buildPageMetadata } from "../../../lib/seo";
 import { getProjectLikeCount, getUserLikedProjects } from "../../../lib/projectLikes";
@@ -121,7 +123,7 @@ export default async function PublicProjectPage({ params }: { params: Promise<Re
               {project.description ? (
                 <div className="mb-5">
                   <div className="text-[10px] text-[#666] uppercase tracking-widest font-semibold mb-1">Description</div>
-                  <p className="font-body-readable text-[13px] text-[#b5b5b5] leading-relaxed whitespace-pre-line">{project.description}</p>
+                  <RichTextRenderer content={project.description} format={project.descriptionFormat as "text" | "markdown" | "html"} />
                 </div>
               ) : null}
 
@@ -146,6 +148,8 @@ export default async function PublicProjectPage({ params }: { params: Promise<Re
                 <span>Publie le {formatDate(project.createdAt)}</span>
               </div>
             </div>
+
+            {project.repoUrl ? <GitHubSourceViewer repoUrl={project.repoUrl} /> : null}
 
             <div className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 md:p-6">
               <div className="text-[10px] text-[#666] uppercase tracking-widest font-semibold mb-3">Realise par</div>

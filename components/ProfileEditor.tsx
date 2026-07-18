@@ -6,11 +6,13 @@ import { createClient } from "../utils/supabase/client";
 import { AVATAR_STYLES, dicebearUrl } from "../lib/avatar";
 import { COUNTRY_OPTIONS } from "../lib/leaderboard";
 import { generateUsername } from "../lib/username";
+import FormatPicker from "../components/FormatPicker";
 import { playPop } from "../components/effects/sound";
 import { useToast } from "./Toast";
 
 interface ProfileEditorProps {
   initialBio?: string;
+  initialBioFormat?: string;
   initialSocials?: Record<string, string>;
   initialSkills?: string[];
   initialAvatarUrl?: string;
@@ -35,6 +37,7 @@ function cleanUrl(value: string): string {
 
 export default function ProfileEditor({
   initialBio = "",
+  initialBioFormat = "text",
   initialSocials = {},
   initialSkills = [],
   initialAvatarUrl = "",
@@ -56,6 +59,7 @@ export default function ProfileEditor({
   });
   const [shuffle, setShuffle] = useState<number>(0);
   const [bio, setBio] = useState<string>(initialBio || "");
+  const [bioFormat, setBioFormat] = useState<"text" | "markdown" | "html">((initialBioFormat as "text" | "markdown" | "html") || "text");
   const [socials, setSocials] = useState<Record<string, string>>(() => {
     const base: Record<string, string> = {};
     for (const field of SOCIAL_FIELDS) {
@@ -100,7 +104,8 @@ export default function ProfileEditor({
       p_skills: skills,
       p_avatar_url: avatarUrl,
       p_public_name: publicName.trim(),
-      p_country_code: countryCode
+      p_country_code: countryCode,
+      p_bio_format: bioFormat
     });
 
     if (rpcError || (data && typeof data === "object" && "error" in data && data.error)) {
@@ -211,9 +216,12 @@ export default function ProfileEditor({
           onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setBio(e.target.value)}
           rows={4}
           maxLength={600}
-          placeholder="Présente-toi: ton objectif, ton projet, ton parcours..."
+          placeholder="Presente-toi: ton objectif, ton projet, ton parcours..."
           className="mt-1.5 w-full rounded-lg border border-white/[0.08] bg-[#0f0f0f] px-3 py-2.5 font-body-readable text-[12px] text-[#d0d0d0] leading-relaxed placeholder:text-[#555] focus:outline-none focus:border-blue-400/40"
         />
+        <div className="mt-2">
+          <FormatPicker value={bioFormat} onChange={setBioFormat} label="Format du contenu" />
+        </div>
       </div>
 
       <div>

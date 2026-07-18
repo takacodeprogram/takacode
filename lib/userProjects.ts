@@ -2,7 +2,7 @@ import { normalizeText, isMissingSchemaError, parseCount } from "./utils";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 const PROJECT_SELECT =
-  "id, track_id, title, description, objective, status, deadline, repo_url, live_url, revenue_model, template_id, first_euro_at, has_declared_first_euro, created_at, updated_at, track:learning_tracks(title, slug)";
+  "id, track_id, title, description, objective, status, deadline, repo_url, live_url, revenue_model, template_id, first_euro_at, has_declared_first_euro, description_format, created_at, updated_at, track:learning_tracks(title, slug)";
 
 export interface ProjectStatus {
   value: string;
@@ -34,6 +34,7 @@ export interface UserProject {
   templateId: string;
   firstEuroAt: string | null;
   hasDeclaredFirstEuro: boolean;
+  descriptionFormat: string;
   updatedAt: string | null;
   publishedAt: string | null;
 }
@@ -52,6 +53,7 @@ interface ProjectRow {
   template_id: string;
   first_euro_at: string;
   has_declared_first_euro: boolean;
+  description_format: string;
   track: { title: string; slug: string }[];
   updated_at: string;
 }
@@ -96,7 +98,8 @@ function normalizeProject(row: unknown): UserProject | null {
     revenueModel: (r.revenue_model as string) || "",
     templateId: (r.template_id as string) || "",
     firstEuroAt: (r.first_euro_at as string) || null,
-    hasDeclaredFirstEuro: Boolean(r.has_declared_first_euro)
+    hasDeclaredFirstEuro: Boolean(r.has_declared_first_euro),
+    descriptionFormat: (r.description_format as string) || "text"
   };
 }
 
