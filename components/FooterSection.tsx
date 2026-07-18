@@ -46,18 +46,6 @@ export default function FooterSection() {
             <div className="space-y-2.5 font-body-readable">
               <div><Link href="/" id="footer-about-link" className="text-[12px] text-[#555] hover:text-white transition-colors">A propos</Link></div>
               <div><Link href="/communaute" id="footer-contact-link" className="text-[12px] text-[#555] hover:text-white transition-colors">Contact</Link></div>
-              <div>
-                <a
-                  href="https://wa.me/33600000000"
-                  id="footer-whatsapp-link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[12px] text-[#555] hover:text-white transition-colors inline-flex items-center gap-1.5"
-                >
-                  <iconify-icon icon="lucide:message-circle" style={{ fontSize: "12px" }} />
-                  WhatsApp
-                </a>
-              </div>
             </div>
           </div>
 
