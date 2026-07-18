@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import GradeProgress from "../../../components/GradeProgress";
 import NextActionBlock from "../../../components/NextActionBlock";
+import ProjectCockpit from "../../../components/ProjectCockpit";
 import PageHeader from "../../../components/app-shell/PageHeader";
 import { getUserAccessContext } from "../../../lib/auth";
 import { getTrackCurriculum } from "../../../lib/curriculum";
@@ -106,54 +107,81 @@ export default async function DashboardHomePage() {
       <PageHeader title="DASHBOARD" subtitle={`Bienvenue ${displayName}`} />
 
       <div className="grid xl:grid-cols-[1.4fr_0.9fr] gap-6">
-        <section className="rounded-2xl border border-white/[0.08] bg-[#111] p-6 animate-fade-up-d1">
-          <div className="section-label mb-2">Mon cap</div>
-          <h2 className="font-valorax text-[clamp(24px,3.4vw,38px)] leading-[0.95] mb-2">BONJOUR {firstName.toUpperCase()}</h2>
-          <p className="font-body-readable text-[14px] text-[#a5a5a5] leading-relaxed mb-5">{onboardingProfile.goalLabel}</p>
+        <div className="space-y-6">
+          {/* Le projet est le produit central : il ouvre le dashboard. */}
+          <ProjectCockpit project={mainProject} firstName={firstName} goalLabel={onboardingProfile.goalLabel} />
 
+          {/* Le parcours est un accelerateur au service du projet, pas l'inverse. */}
           {primaryEnrollment ? (
-            <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4 mb-5">
-              <div className="flex items-center justify-between gap-3 mb-2">
-                <div className="text-[13px] text-white font-semibold">{primaryEnrollment.track.title}</div>
+            <section className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 animate-fade-up-d2">
+              <div className="flex items-center justify-between gap-3 flex-wrap mb-3">
+                <h3 className="font-venite text-[12px] tracking-widest text-[#888] inline-flex items-center gap-2">
+                  <iconify-icon icon="lucide:zap" style={{ color: "#4F8EF7", fontSize: "14px" }} />
+                  SE FORMER POUR AVANCER
+                </h3>
                 <span className="text-[11px] text-[#89c7ff] font-semibold">{progress}%</span>
               </div>
-              <div className="h-1.5 rounded bg-white/[0.06] overflow-hidden mb-2">
-                <div className="h-full rounded bg-gradient-to-r from-[#4F8EF7] to-[#9B6DFF]" style={{ width: `${progress}%` }} />
+              <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4">
+                <div className="text-[13px] text-white font-semibold mb-1">{primaryEnrollment.track.title}</div>
+                <div className="h-1.5 rounded bg-white/[0.06] overflow-hidden mb-2">
+                  <div className="h-full rounded bg-gradient-to-r from-[#4F8EF7] to-[#9B6DFF]" style={{ width: `${progress}%` }} />
+                </div>
+                <p className="font-body-readable text-[11px] text-[#8d8d8d] leading-snug mb-3">
+                  {curriculum?.nextLesson
+                    ? `Prochaine competence a debloquer pour ton projet : ${curriculum.nextLesson.title}.`
+                    : "Parcours termine — toutes les competences sont debloquees pour ton projet."}
+                </p>
+                <Link href={startHref} className="btn-secondary inline-flex items-center gap-2 text-[12px]" style={{ padding: "9px 14px" }}>
+                  {curriculum?.completedLessons ? "Continuer la lecon" : "Demarrer la formation"}
+                  <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "13px" }} />
+                </Link>
               </div>
-              <div className="text-[11px] text-[#777] font-body-readable">{formatTrackMeta(primaryEnrollment.track)}</div>
-            </div>
+            </section>
           ) : recommendedTrack ? (
-            <div className="rounded-xl border border-blue-500/25 bg-blue-500/10 p-4 mb-5">
-              <div className="text-[10px] text-blue-200 uppercase tracking-widest mb-2">Parcours recommande pour toi</div>
-              <div className="flex items-center gap-3">
-                <div
-                  className="w-11 h-11 rounded-xl border flex items-center justify-center shrink-0"
-                  style={{ borderColor: `${recommendedTrack.accentColor}55`, background: `${recommendedTrack.accentColor}1f` }}
-                >
-                  <iconify-icon icon={recommendedTrack.icon} style={{ color: recommendedTrack.accentColor, fontSize: "20px" }} />
+            <section className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 animate-fade-up-d2">
+              <h3 className="font-venite text-[12px] tracking-widest text-[#888] inline-flex items-center gap-2 mb-3">
+                <iconify-icon icon="lucide:zap" style={{ color: "#4F8EF7", fontSize: "14px" }} />
+                SE FORMER POUR AVANCER
+              </h3>
+              <div className="rounded-xl border border-blue-500/25 bg-blue-500/10 p-4">
+                <div className="flex items-center gap-3 mb-3">
+                  <div
+                    className="w-11 h-11 rounded-xl border flex items-center justify-center shrink-0"
+                    style={{ borderColor: `${recommendedTrack.accentColor}55`, background: `${recommendedTrack.accentColor}1f` }}
+                  >
+                    <iconify-icon icon={recommendedTrack.icon} style={{ color: recommendedTrack.accentColor, fontSize: "20px" }} />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="text-[13px] text-white font-semibold leading-tight">{recommendedTrack.title}</div>
+                    <div className="text-[11px] text-blue-100/80 font-body-readable">{formatTrackMeta(recommendedTrack)}</div>
+                  </div>
                 </div>
-                <div className="min-w-0">
-                  <div className="text-[13px] text-white font-semibold leading-tight">{recommendedTrack.title}</div>
-                  <div className="text-[11px] text-blue-100/80 font-body-readable">{formatTrackMeta(recommendedTrack)}</div>
-                </div>
+                <p className="font-body-readable text-[11px] text-blue-100/70 leading-snug mb-3">
+                  Ce parcours debloque les competences dont ton projet a besoin, sprint par sprint.
+                </p>
+                <Link href={startHref} className="btn-secondary inline-flex items-center gap-2 text-[12px]" style={{ padding: "9px 14px" }}>
+                  Demarrer ce parcours
+                  <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "13px" }} />
+                </Link>
               </div>
-            </div>
-          ) : (
-            <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4 mb-5 text-[12px] text-[#888] font-body-readable">
-              Tu n'as pas encore de parcours actif. Choisis-en un pour démarrer.
-            </div>
-          )}
-
-          <div className="flex flex-wrap gap-3">
-            <Link href={startHref} className="btn-primary inline-flex items-center gap-2">
-              {primaryEnrollment ? (curriculum?.completedLessons ? "Continuer" : "Démarrer") : recommendedTrack ? "Démarrer ce parcours" : "Choisir un parcours"}
-              <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "14px" }} />
-            </Link>
-            <Link href="/dashboard/parcours" className="btn-secondary">Voir mes parcours</Link>
-          </div>
-        </section>
+            </section>
+          ) : null}
+        </div>
 
         <section className="space-y-4 animate-fade-up-d2">
+          {/* La prochaine action projet mene la colonne : c'est elle qui rapproche du cash. */}
+          <NextActionBlock
+            project={mainProject ? {
+              id: mainProject.id,
+              title: mainProject.title,
+              status: mainProject.status,
+              repoUrl: mainProject.repoUrl,
+              liveUrl: mainProject.liveUrl
+            } : null}
+            hasEnrollment={enrolledTracks.length > 0}
+            hasOnboarding={true}
+          />
+
           <GradeProgress points={points} compact />
 
           <article className="rounded-2xl border border-white/[0.08] bg-[#111] p-5">
@@ -173,18 +201,6 @@ export default async function DashboardHomePage() {
               </div>
             </div>
           </article>
-
-          <NextActionBlock
-            project={mainProject ? {
-              id: mainProject.id,
-              title: mainProject.title,
-              status: mainProject.status,
-              repoUrl: mainProject.repoUrl,
-              liveUrl: mainProject.liveUrl
-            } : null}
-            hasEnrollment={enrolledTracks.length > 0}
-            hasOnboarding={true}
-          />
         </section>
       </div>
 
@@ -193,14 +209,15 @@ export default async function DashboardHomePage() {
           <div className="flex items-center justify-between gap-3 flex-wrap mb-1">
             <h3 className="font-venite text-[12px] tracking-widest text-[#888] inline-flex items-center gap-2">
               <iconify-icon icon="lucide:route" style={{ color: "#4F8EF7", fontSize: "14px" }} />
-              ORDRE CONSEILLE
+              ACCELERATEURS DE PROJET
             </h3>
             <Link href="/parcours" className="text-[11px] text-[#4F8EF7] hover:underline">
               Voir tout le catalogue
             </Link>
           </div>
           <p className="font-body-readable text-[12px] text-[#8d8d8d] leading-relaxed mb-4">
-            Du plus fondamental au plus avancé. Comprends l'IA, puis apprends à construire avec elle.
+            Chaque parcours debloque des competences dont ton projet a besoin, dans l'ordre conseille :
+            comprends l'IA, puis construis avec elle.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3">

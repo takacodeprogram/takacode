@@ -88,6 +88,21 @@ Objectif : consolider ce qui existe avant d'attaquer la monetisation.
 - [x] Echec quiz : reessais illimites (70 % requis) ; echec micro-projet : feedback + re-soumission, progression non bloquee
 - [x] Classement public : exclusion de TOUS les admins (role profil + app_metadata) et synchronisation des roles
 
+## V1.4.2 — Convergence : le projet est le produit (en cours)
+
+Objectif : chaque ecran repond a « ou en est mon projet, et quelle action le rapproche du cash ? ».
+Le produit central est la boucle Idee -> Projet -> Construction -> Publication -> Cash.
+Les parcours sont des accelerateurs injectes au bon moment de cette boucle, jamais le centre.
+
+- [x] Dashboard cockpit projet : pipeline Idee/Construction/En ligne/Cash, deadline, progression vers la mise en ligne
+- [x] Prochaine action projet en tete de colonne (l'action qui rapproche du cash)
+- [x] Parcours reframes en « accelerateurs » au service du projet (dashboard)
+- [ ] Onboarding qui debouche sur un projet nomme + modele de revenu vise (vente, abonnement, pub, affiliation, freelance)
+- [ ] Micro-projets appliques AU projet du membre (le livrable d'une lecon est une brique du vrai projet)
+- [ ] Stade Cash de premiere classe : « 0 EUR — objectif premier euro », badge premier euro
+- [ ] Vitrine des projets publies (homepage + communaute) : des liens live, pas des scores
+- [ ] Etoile du nord : % de membres avec projet en ligne, puis % avec premier euro
+
 ## V1.5 — Monetisation (a livrer)
 
 Objectif : le membre peut generer des revenus avec son projet.
