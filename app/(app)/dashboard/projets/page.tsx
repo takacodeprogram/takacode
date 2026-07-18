@@ -94,7 +94,15 @@ export default async function MyProjectsPage(props: { searchParams: Promise<{ pa
                   className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 card-hover block"
                 >
                   <div className="flex items-start justify-between gap-3 mb-2">
-                    <div className="text-[14px] text-white font-semibold leading-tight">{project.title}</div>
+                    <div className="text-[14px] text-white font-semibold leading-tight flex items-center gap-2">
+                      {project.title}
+                      {project.hasDeclaredFirstEuro ? (
+                        <span className="inline-flex items-center gap-1 text-[9px] font-semibold px-1.5 py-0.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-200">
+                          <iconify-icon icon="lucide:badge-check" style={{ fontSize: "9px" }} />
+                          1er euro
+                        </span>
+                      ) : null}
+                    </div>
                     <span className={`text-[10px] font-semibold px-2.5 py-1 rounded-full border shrink-0 ${statusChipClass(project.status)}`}>
                       {statusLabel(project.status)}
                     </span>

@@ -7,7 +7,7 @@ import ProjectForm from "../../../../../components/ProjectForm";
 import { buildPageMetadata } from "../../../../../lib/seo";
 import { getTemplateById } from "../../../../../lib/starterTemplates";
 import { listPublishedTracks } from "../../../../../lib/tracks";
-import { getOwnProject } from "../../../../../lib/userProjects";
+import { getOwnProject, listProjectDeliverables } from "../../../../../lib/userProjects";
 import { createClient } from "../../../../../utils/supabase/server";
 
 export const dynamic = "force-dynamic";
@@ -19,6 +19,13 @@ export const metadata = buildPageMetadata({
   path: "/dashboard/projets",
   noIndex: true
 });
+
+function formatDate(value: string | null | undefined) {
+  if (!value) return "";
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) return "";
+  return parsed.toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit", year: "numeric" });
+}
 
 export default async function EditProjectPage({ params }: { params: Promise<Record<string, string>> }) {
   const resolvedParams = await Promise.resolve(params);
@@ -35,9 +42,10 @@ export default async function EditProjectPage({ params }: { params: Promise<Reco
     redirect("/signin?next=/dashboard/projets");
   }
 
-  const [{ project }, { tracks }] = await Promise.all([
+  const [{ project }, { tracks }, deliverables] = await Promise.all([
     getOwnProject(supabase, user.id, projectId),
-    listPublishedTracks(supabase, { limit: 40 })
+    listPublishedTracks(supabase, { limit: 40 }),
+    listProjectDeliverables(supabase, user.id, projectId)
   ]);
 
   if (!project) {
@@ -68,7 +76,48 @@ export default async function EditProjectPage({ params }: { params: Promise<Reco
     <>
       <PageHeader title={project.title} subtitle="Editer mon projet" backHref="/dashboard/projets" backLabel="Mes projets" />
       <div className="grid xl:grid-cols-[1.4fr_0.9fr] gap-6">
-        <ProjectForm userId={user.id} tracks={tracks} project={project} />
+        <div className="space-y-5">
+          <ProjectForm userId={user.id} tracks={tracks} project={project} />
+
+          {deliverables.length > 0 ? (
+            <div className="rounded-2xl border border-white/[0.08] bg-[#111] p-5">
+              <div className="flex items-center gap-2.5 mb-4">
+                <div className="w-9 h-9 rounded-xl border border-emerald-500/30 bg-emerald-500/10 inline-flex items-center justify-center">
+                  <iconify-icon icon="lucide:package" style={{ color: "#6ee7b7", fontSize: "17px" }} />
+                </div>
+                <div>
+                  <div className="font-venite text-[10px] tracking-widest text-[#888] uppercase">Livrables</div>
+                  <h3 className="font-venite-italic text-[13px] text-white leading-tight">{deliverables.length} micro-projet{deliverables.length > 1 ? "s" : ""} realise{deliverables.length > 1 ? "s" : ""}</h3>
+                </div>
+              </div>
+              <div className="space-y-2">
+                {deliverables.map((d) => (
+                  <Link
+                    key={d.lessonId}
+                    href={`/parcours/${d.trackSlug}/lecon/${d.lessonSlug}`}
+                    className="flex items-center gap-2.5 rounded-xl border border-white/[0.06] bg-white/[0.01] px-3.5 py-2.5 hover:border-white/[0.15] transition-all"
+                  >
+                    <div className="w-7 h-7 rounded-lg border border-white/[0.06] bg-white/[0.02] flex items-center justify-center">
+                      <iconify-icon icon="lucide:file-code" style={{ color: "#9b9b9b", fontSize: "13px" }} />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="text-[12px] text-white font-semibold leading-tight truncate">{d.lessonTitle}</div>
+                      <div className="text-[10px] text-[#888] font-body-readable">{d.trackTitle} · {formatDate(d.submittedAt)}</div>
+                    </div>
+                    <span className={`shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full border ${
+                      d.status === "completed" ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-200" :
+                      d.reviewStatus === "changes_requested" ? "border-amber-500/30 bg-amber-500/10 text-amber-100" :
+                      "border-blue-400/30 bg-blue-500/10 text-blue-200"
+                    }`}>
+                      {d.status === "completed" ? "Valide" : d.reviewStatus === "changes_requested" ? "A ameliorer" : "Soumis"}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ) : null}
+        </div>
+
         <div className="space-y-5">
           <DeployGuide
             repoUrl={project.repoUrl}

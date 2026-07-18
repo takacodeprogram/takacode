@@ -62,6 +62,20 @@ export async function POST(request: NextRequest) {
 
   console.log(`[PROJECT] RPC ok: validation=${data?.validation} reviewStatus=${data?.reviewStatus} status=${data?.status}`);
 
+  // Lier la soumission au projet membre.
+  if (projectId) {
+    const { error: linkError } = await supabase
+      .from("user_lesson_progress")
+      .update({ project_id: projectId })
+      .eq("lesson_id", lessonId)
+      .eq("user_id", user.id);
+    if (linkError) {
+      console.error("[PROJECT] link project error:", linkError.message);
+    } else {
+      console.log(`[PROJECT] Lie au projet ${projectId.substring(0, 8)}...`);
+    }
+  }
+
   // Si le mode de validation est 'ai', declencher automatiquement la review IA.
   let aiReviewResult = null;
   let aiAttempted = false;

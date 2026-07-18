@@ -49,6 +49,12 @@ export default async function ProjectsSection() {
                     <div className="text-[10px] text-[#777] uppercase tracking-widest">Projet</div>
                     <h3 className="font-venite-italic text-[14px] text-white leading-tight truncate">{project.title}</h3>
                   </div>
+                  {project.hasDeclaredFirstEuro ? (
+                    <span className="ml-auto inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-200 shrink-0">
+                      <iconify-icon icon="lucide:badge-check" style={{ fontSize: "10px" }} />
+                      1er euro
+                    </span>
+                  ) : null}
                 </div>
                 {project.objective ? (
                   <p className="font-body-readable text-[11px] text-[#a5a5a5] leading-relaxed mb-3 line-clamp-2">{project.objective}</p>

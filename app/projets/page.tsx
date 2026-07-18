@@ -87,7 +87,15 @@ export default async function ProjetsPage() {
                           <h3 className="font-venite-italic text-[15px] text-white leading-tight">{project.title}</h3>
                         </div>
                       </div>
-                      <span className="level-beginner text-[10px] font-semibold px-2.5 py-1 rounded-full">{project.status}</span>
+                      <div className="flex items-center gap-2">
+                        {project.hasDeclaredFirstEuro ? (
+                          <span className="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-200">
+                            <iconify-icon icon="lucide:badge-check" style={{ fontSize: "10px" }} />
+                            1er euro
+                          </span>
+                        ) : null}
+                        <span className="level-beginner text-[10px] font-semibold px-2.5 py-1 rounded-full">{project.status}</span>
+                      </div>
                     </div>
 
                     {project.objective ? (

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { UserProject } from "../lib/userProjects";
+import DeclareFirstEuro from "./DeclareFirstEuro";
 
 // Cockpit projet : l'element central du dashboard.
 // Repond a une seule question : ou en est mon projet sur la route
@@ -179,10 +180,7 @@ export default function ProjectCockpit({ project, firstName, goalLabel }: Projec
             </span>
           ) : null}
           {isLive ? (
-            <span className="inline-flex items-center gap-1.5 text-[11px] text-amber-300 font-semibold">
-              <iconify-icon icon="lucide:banknote" style={{ fontSize: "12px" }} />
-              0 € — objectif premier euro
-            </span>
+            <DeclareFirstEuro projectId={project.id} alreadyDeclared={project.hasDeclaredFirstEuro} />
           ) : null}
         </div>
       </div>

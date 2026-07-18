@@ -2,7 +2,7 @@ import { normalizeText, isMissingSchemaError, parseCount } from "./utils";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 const PROJECT_SELECT =
-  "id, track_id, title, description, objective, status, deadline, repo_url, live_url, revenue_model, template_id, created_at, updated_at, track:learning_tracks(title, slug)";
+  "id, track_id, title, description, objective, status, deadline, repo_url, live_url, revenue_model, template_id, first_euro_at, has_declared_first_euro, created_at, updated_at, track:learning_tracks(title, slug)";
 
 export interface ProjectStatus {
   value: string;
@@ -32,6 +32,8 @@ export interface UserProject {
   trackSlug: string;
   revenueModel: string;
   templateId: string;
+  firstEuroAt: string | null;
+  hasDeclaredFirstEuro: boolean;
   updatedAt: string | null;
   publishedAt: string | null;
 }
@@ -48,6 +50,8 @@ interface ProjectRow {
   live_url: string;
   revenue_model: string;
   template_id: string;
+  first_euro_at: string;
+  has_declared_first_euro: boolean;
   track: { title: string; slug: string }[];
   updated_at: string;
 }
@@ -88,7 +92,9 @@ function normalizeProject(row: unknown): UserProject | null {
     updatedAt: (r.updated_at as string) || null,
     publishedAt: (r.created_at as string) || null,
     revenueModel: (r.revenue_model as string) || "",
-    templateId: (r.template_id as string) || ""
+    templateId: (r.template_id as string) || "",
+    firstEuroAt: (r.first_euro_at as string) || null,
+    hasDeclaredFirstEuro: Boolean(r.has_declared_first_euro)
   };
 }
 
@@ -152,7 +158,7 @@ export async function getOwnProject(supabase: SupabaseClient, userId: string | n
 }
 
 const PUBLIC_PROJECT_SELECT =
-  "id, track_id, title, description, objective, status, deadline, repo_url, live_url, revenue_model, template_id, created_at, updated_at, track:learning_tracks(title, slug)";
+  "id, track_id, title, description, objective, status, deadline, repo_url, live_url, revenue_model, template_id, first_euro_at, has_declared_first_euro, created_at, updated_at, track:learning_tracks(title, slug)";
 
 export async function listPublishedProjects(supabase: SupabaseClient, limit = 50): Promise<ProjectListResult> {
   const { data, error } = await supabase
@@ -170,4 +176,62 @@ export async function listPublishedProjects(supabase: SupabaseClient, limit = 50
   }
 
   return { projects: ((data as unknown as ProjectRow[]) || []).map(normalizeProject).filter(Boolean) as UserProject[], error: null, schemaReady: true };
+}
+
+interface ProjectDeliverable {
+  lessonId: string;
+  lessonTitle: string;
+  lessonSlug: string;
+  trackTitle: string;
+  trackSlug: string;
+  status: string;
+  submittedAt: string;
+  reviewStatus: string;
+}
+
+export async function listProjectDeliverables(supabase: SupabaseClient, userId: string, projectId: string): Promise<ProjectDeliverable[]> {
+  const { data, error } = await supabase
+    .from("user_lesson_progress")
+    .select(`
+      lesson_id,
+      status,
+      project_submitted_at,
+      review_status,
+      lesson:track_lessons!inner(
+        id, title, slug,
+        module:track_modules!inner(
+          id, title,
+          track:learning_tracks!inner(
+            id, title, slug
+          )
+        )
+      )
+    `)
+    .eq("user_id", userId)
+    .eq("project_id", projectId)
+    .order("project_submitted_at", { ascending: false });
+
+  if (error) {
+    console.error("[listProjectDeliverables]", error.message);
+    return [];
+  }
+
+  return ((data as unknown as Record<string, unknown>[]) || []).map((row) => {
+    const lessonArr = Array.isArray(row.lesson) ? row.lesson as Record<string, unknown>[] : [row.lesson as Record<string, unknown>];
+    const lesson = lessonArr[0] || {};
+    const moduleArr = Array.isArray(lesson.module) ? lesson.module as Record<string, unknown>[] : [lesson.module as Record<string, unknown>];
+    const module = moduleArr[0] || {};
+    const trackArr = Array.isArray(module.track) ? module.track as Record<string, unknown>[] : [module.track as Record<string, unknown>];
+    const track = trackArr[0] || {};
+    return {
+      lessonId: String(row.lesson_id || ""),
+      lessonTitle: String(lesson.title || ""),
+      lessonSlug: String(lesson.slug || ""),
+      trackTitle: String(track.title || ""),
+      trackSlug: String(track.slug || ""),
+      status: String(row.status || "in_progress"),
+      submittedAt: String(row.project_submitted_at || ""),
+      reviewStatus: String(row.review_status || "none")
+    };
+  });
 }
