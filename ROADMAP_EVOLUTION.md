@@ -103,7 +103,8 @@ Les parcours sont des accelerateurs injectes au bon moment de cette boucle, jama
 - [x] Stade Cash visible : « 0 EUR — objectif premier euro », declaration du premier euro + badge
 - [x] Vitrine dynamique des projets publies (homepage) + profils publics cliquables depuis le classement
 - [x] Qualite contenu : accents et apostrophes restaures dans tout le contenu parcours/quiz (scripts/fix-french-content.mjs, rejouable apres re-seed)
-- [ ] Onboarding qui debouche sur un projet NOMME + modele de revenu choisi des l'inscription (aujourd'hui le projet est cree automatiquement mais sans modele de revenu)
+- [x] Onboarding qui debouche sur un projet NOMME + modele de revenu choisi des l'inscription (etape 4 : nom du projet + piste de monetisation ; anti-doublon si l'onboarding est refait)
+- [x] Parcours "Creation de contenu avec l'IA" (YouTube faceless) : 4 modules / 10 lecons accentuees — anti-robotique (scripts, voix, regle 80/20), etude de chaines (ex. Emotion26), production, monetisation (seed : scripts/seed-creation-contenu-ia.mjs)
 - [ ] Etoile du nord mesuree (admin) : % de membres avec projet en ligne, puis % avec premier euro
 
 ## Reste a faire — priorites (audit du 2026-07-18)

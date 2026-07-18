@@ -61,6 +61,9 @@ node scripts/bootstrap-admin.mjs --email toi@exemple.com --password "MotDePasseF
 
 # Restaurer accents et apostrophes du contenu (a relancer apres tout re-seed)
 node scripts/fix-french-content.mjs --apply
+
+# Seed du parcours "Creation de contenu avec l'IA" (YouTube faceless)
+node scripts/seed-creation-contenu-ia.mjs
 ```
 
 ## Build
