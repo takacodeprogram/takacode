@@ -1,5 +1,9 @@
 # TAKACODE MVP — MASTER PROMPT
 
+> **Note (2026-07-18)** : document historique — le prompt produit qui a lance le MVP.
+> Il ne reflete plus l'etat courant de la plateforme. Sources de verite actuelles :
+> `ROADMAP_EVOLUTION.md` (produit) et `RAPPORT_OPERATIONNEL.md` (technique).
+
 ## ROLE
 
 Tu agis comme une équipe composée de :

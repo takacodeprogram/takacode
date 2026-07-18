@@ -88,7 +88,7 @@ Objectif : consolider ce qui existe avant d'attaquer la monetisation.
 - [x] Echec quiz : reessais illimites (70 % requis) ; echec micro-projet : feedback + re-soumission, progression non bloquee
 - [x] Classement public : exclusion de TOUS les admins (role profil + app_metadata) et synchronisation des roles
 
-## V1.4.2 — Convergence : le projet est le produit (en cours)
+## V1.4.2 — Convergence : le projet est le produit (quasi livree)
 
 Objectif : chaque ecran repond a « ou en est mon projet, et quelle action le rapproche du cash ? ».
 Le produit central est la boucle Idee -> Projet -> Construction -> Publication -> Cash.
@@ -97,11 +97,28 @@ Les parcours sont des accelerateurs injectes au bon moment de cette boucle, jama
 - [x] Dashboard cockpit projet : pipeline Idee/Construction/En ligne/Cash, deadline, progression vers la mise en ligne
 - [x] Prochaine action projet en tete de colonne (l'action qui rapproche du cash)
 - [x] Parcours reframes en « accelerateurs » au service du projet (dashboard)
-- [ ] Onboarding qui debouche sur un projet nomme + modele de revenu vise (vente, abonnement, pub, affiliation, freelance)
-- [ ] Micro-projets appliques AU projet du membre (le livrable d'une lecon est une brique du vrai projet)
-- [ ] Stade Cash de premiere classe : « 0 EUR — objectif premier euro », badge premier euro
-- [ ] Vitrine des projets publies (homepage + communaute) : des liens live, pas des scores
-- [ ] Etoile du nord : % de membres avec projet en ligne, puis % avec premier euro
+- [x] Relation projet <-> parcours clarifiee : lier un parcours = s'y inscrire ; sa progression et le CTA "Continuer le sprint" vivent sur la page projet ; suggestions seulement sans parcours lie
+- [x] Micro-projets lies AU projet du membre (project_id sur la progression, livrables listes sur la page projet)
+- [x] Modele de revenu vise sur le projet (vente, abonnement, pub, affiliation, freelance) + badge cockpit
+- [x] Stade Cash visible : « 0 EUR — objectif premier euro », declaration du premier euro + badge
+- [x] Vitrine dynamique des projets publies (homepage) + profils publics cliquables depuis le classement
+- [x] Qualite contenu : accents et apostrophes restaures dans tout le contenu parcours/quiz (scripts/fix-french-content.mjs, rejouable apres re-seed)
+- [ ] Onboarding qui debouche sur un projet NOMME + modele de revenu choisi des l'inscription (aujourd'hui le projet est cree automatiquement mais sans modele de revenu)
+- [ ] Etoile du nord mesuree (admin) : % de membres avec projet en ligne, puis % avec premier euro
+
+## Reste a faire — priorites (audit du 2026-07-18)
+
+Ordre conseille pour les prochaines sessions :
+
+1. **Finir V1.4.2** : etape "modele de revenu + nom du projet" dans l'onboarding ; stats etoile du nord dans l'admin (% projets en ligne, % premier euro).
+2. **V1.5 Monetisation** : page tarifs dynamique + Stripe (abonnements Premium/Launch), guides monetisation, parcours Build to Earn.
+3. **Contenu** : modules plateformes (Lovable, Bolt, v0) dans le parcours Vibe Coding ; lecons bonus optionnelles (Flexbox Froggy, Grid Garden, Tailwind) ; enrichir la banque de questions des nouveaux parcours.
+4. **Collaboration projet** (anticipe V1.8) : inviter un membre sur son projet, roles, commentaires sur livrables.
+5. **Dette technique** :
+   - `components/node_modules/` parasite (npm install lance dans le mauvais dossier — a supprimer)
+   - harmoniser les accents dans les libelles UI des composants (le contenu DB est corrige, certains libelles ecrits "sans accents" restent)
+   - INSTRUCTIONS.md est le prompt de depart historique (conserve pour memoire, ne reflete plus l'etat courant)
+   - variables `.env.example` a garder synchronisees (IA review multi-provider OK au 2026-07-18)
 
 ## V1.5 — Monetisation (a livrer)
 

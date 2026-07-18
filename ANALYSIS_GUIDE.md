@@ -1,11 +1,14 @@
 # Analyse complete du projet TakaCode
 
+Derniere mise a jour : 2026-07-18. Pour l'etat operationnel et le reste a faire,
+voir `RAPPORT_OPERATIONNEL.md` et `ROADMAP_EVOLUTION.md`.
+
 ## 1. Vue d'ensemble
 
-**Stack :** Next.js 16 (App Router) + Supabase (Postgres, Auth, RLS) + React 19 + Tailwind CSS  
+**Stack :** Next.js 16 (App Router, TypeScript strict) + Supabase (Postgres, Auth, RLS, Storage) + React 19 + Tailwind CSS  
 **Deploiement :** Vercel  
-**Langue :** Francais (sans accents dans les titres/labels, accents conserves dans le corps)  
-**Fonction principale :** Plateforme d'apprentissage par projet (construction de projets reels : web, IA, data, web3, 3D, mobile, business)
+**Langue :** Francais. Le contenu pedagogique en base est accentue (corrige via `scripts/fix-french-content.mjs`) ; certains libelles UI restent volontairement sans accents (convention historique en cours d'harmonisation)  
+**Fonction principale :** GPS des createurs de projets — le membre cree un projet digital, se forme via des parcours accelerateurs, construit de vrais livrables, publie et vise son premier euro (boucle Idee -> Projet -> Construction -> Publication -> Cash)
 
 ---
 
