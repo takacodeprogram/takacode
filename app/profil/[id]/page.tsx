@@ -1,10 +1,10 @@
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
-import FooterSection from "../../components/FooterSection";
-import Navbar from "../../components/Navbar";
-import { buildPageMetadata } from "../../lib/seo";
-import { getPublicProfile } from "../../lib/publicProfile";
-import { createClient } from "../../utils/supabase/server";
+import FooterSection from "../../../components/FooterSection";
+import Navbar from "../../../components/Navbar";
+import { buildPageMetadata } from "../../../lib/seo";
+import { getPublicProfile } from "../../../lib/publicProfile";
+import { createClient } from "../../../utils/supabase/server";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
