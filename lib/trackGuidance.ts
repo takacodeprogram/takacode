@@ -29,6 +29,12 @@ const GUIDANCE: Record<string, TrackGuidance> = {
     level: "DebutantPlus",
     prereq: ["ia-fondamentaux", "bases-internet"],
     tagline: "Apprends le développement web avec l'IA comme copilote."
+  },
+  "creation-contenu-ia": {
+    order: 4,
+    level: "Debutant",
+    prereq: ["ia-fondamentaux"],
+    tagline: "Lance une chaîne YouTube faceless rentable, sans sonner robotique."
   }
 };
 

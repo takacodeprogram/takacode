@@ -90,6 +90,16 @@ const WEEKLY_VISUALS: Record<string, Visual> = {
 
 const TOOL_SWATCHES = ["#4F8EF7", "#9B6DFF", "#22D3EE", "#10B981", "#F59E0B"];
 
+// Modèles de revenu proposés dès l'onboarding : le projet vise le cash dès le départ.
+const REVENUE_OPTIONS = [
+  { key: "", label: "Je ne sais pas encore", icon: "lucide:help-circle", accent: "#8b8b8b" },
+  { key: "vente", label: "Vente directe", icon: "lucide:shopping-bag", accent: "#F59E0B" },
+  { key: "abonnement", label: "Abonnement", icon: "lucide:refresh-ccw", accent: "#4F8EF7" },
+  { key: "publicite", label: "Publicité / audience", icon: "lucide:megaphone", accent: "#EF4444" },
+  { key: "affiliation", label: "Affiliation", icon: "lucide:link", accent: "#10B981" },
+  { key: "freelance", label: "Freelance / prestations", icon: "lucide:briefcase", accent: "#9B6DFF" }
+];
+
 function findOption(options: Option[], key: string | undefined, fallbackKey: string): Option {
   const normalized = typeof key === "string" ? key.trim() : "";
   const byKey = options.find((option) => option.key === normalized);
@@ -172,6 +182,10 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
   const [levelKey, setLevelKey] = useState<string>(findOption(LEVEL_OPTIONS, profileSeed.level_key as string | undefined, "beginner").key);
   const [projectClarityKey, setProjectClarityKey] = useState<string>(findOption(PROJECT_CLARITY_OPTIONS, profileSeed.project_clarity as string | undefined, "explore").key);
   const [projectIdea, setProjectIdea] = useState<string>(sanitizeText(profileSeed.project_idea));
+  const [projectName, setProjectName] = useState<string>(sanitizeText(profileSeed.project_name));
+  const [revenueModelKey, setRevenueModelKey] = useState<string>(
+    REVENUE_OPTIONS.some((o) => o.key === profileSeed.revenue_model) ? (profileSeed.revenue_model as string) : ""
+  );
   const [tools, setTools] = useState<string[]>(sanitizeTools(profileSeed.tools));
   const [weeklyCommitmentKey, setWeeklyCommitmentKey] = useState<string>(
     findOption(WEEKLY_COMMITMENT_OPTIONS, profileSeed.weekly_commitment as string | undefined, "2_to_5").key
@@ -197,6 +211,8 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
       level_key: selectedLevel.key,
       project_clarity: selectedProjectClarity.key,
       project_idea: selectedProjectClarity.key === "explore" ? "" : sanitizeText(projectIdea),
+      project_name: sanitizeText(projectName),
+      revenue_model: revenueModelKey,
       tools,
       weekly_commitment: selectedWeeklyCommitment.key
     };
@@ -206,6 +222,8 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
     selectedLevel.key,
     selectedProjectClarity.key,
     projectIdea,
+    projectName,
+    revenueModelKey,
     tools,
     selectedWeeklyCommitment.key
   ]);
@@ -346,6 +364,8 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
       project_clarity: selectedProjectClarity.key,
       project_clarity_label: selectedProjectClarity.label,
       project_idea: selectedProjectClarity.key === "explore" ? "" : cleanIdea,
+      project_name: sanitizeText(projectName),
+      revenue_model: revenueModelKey,
       tools,
       weekly_commitment: selectedWeeklyCommitment.key,
       weekly_commitment_label: selectedWeeklyCommitment.label,
@@ -375,13 +395,30 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
       return;
     }
 
-    const projectTitle = cleanIdea ? cleanIdea.slice(0, 120) : `Mon ${selectedGoal.label.toLowerCase()}`;
-    await supabase.from("user_projects").insert({
-      user_id: (await supabase.auth.getUser()).data.user?.id,
-      title: projectTitle,
-      objective: recommendation.objective.slice(0, 300),
-      status: "idea"
-    }).then(() => {});
+    // Le projet nait nomme et avec un cap de monetisation : c'est le produit central.
+    const cleanName = sanitizeText(projectName);
+    const projectTitle = cleanName
+      ? cleanName.slice(0, 120)
+      : cleanIdea
+        ? cleanIdea.slice(0, 120)
+        : `Mon ${selectedGoal.label.toLowerCase()}`;
+
+    const userId = (await supabase.auth.getUser()).data.user?.id;
+    // Anti-doublon : si le membre refait l'onboarding, on ne recree pas de projet.
+    const { count: existingProjects } = await supabase
+      .from("user_projects")
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", userId);
+
+    if (!existingProjects) {
+      await supabase.from("user_projects").insert({
+        user_id: userId,
+        title: projectTitle,
+        objective: cleanIdea ? cleanIdea.slice(0, 300) : recommendation.objective.slice(0, 300),
+        status: "idea",
+        revenue_model: revenueModelKey
+      }).then(() => {});
+    }
 
     router.push(targetPath);
     router.refresh();
@@ -662,6 +699,54 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
                     ) : null}
                   </div>
                 ) : null}
+
+                <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-4">
+                  <label className="text-[12px] text-[#9d9d9d] block mb-2">
+                    {"Donne un nom à ton projet"} <span className="text-[#666]">{"(modifiable plus tard)"}</span>
+                  </label>
+                  <input
+                    className="auth-input"
+                    value={projectName}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => setProjectName(event.target.value)}
+                    placeholder={"Ex : La Table de Marco, AutoWhats, Ma chaîne Histoires"}
+                    maxLength={120}
+                  />
+                </div>
+
+                <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-4">
+                  <label className="text-[12px] text-[#9d9d9d] block mb-1">{"Comment veux-tu le monétiser un jour ?"}</label>
+                  <p className="text-[11px] text-[#777] mb-3">
+                    {"Sur TakaCode, un projet vise le premier euro. Choisis une piste — tu pourras changer d'avis."}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {REVENUE_OPTIONS.map((option) => {
+                      const selected = option.key === revenueModelKey;
+                      return (
+                        <button
+                          key={option.key || "later"}
+                          type="button"
+                          onClick={() => setRevenueModelKey(option.key)}
+                          className={[
+                            "inline-flex items-center gap-2 rounded-full border px-3.5 py-2 text-[12px] font-semibold transition-all",
+                            selected ? "text-white" : "text-[#a3a3a3] border-white/[0.1] bg-white/[0.02] hover:border-white/[0.25]"
+                          ].join(" ")}
+                          style={
+                            selected
+                              ? {
+                                  borderColor: `${option.accent}77`,
+                                  background: `linear-gradient(135deg, ${option.accent}44, rgba(255,255,255,0.04))`,
+                                  boxShadow: `0 0 18px ${option.accent}26`
+                                } as React.CSSProperties
+                              : undefined
+                          }
+                        >
+                          <iconify-icon icon={option.icon} style={{ fontSize: "13px", color: selected ? "#fff" : option.accent }} />
+                          {option.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
               </section>
             ) : null}
 
