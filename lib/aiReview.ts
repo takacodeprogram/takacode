@@ -1,5 +1,16 @@
 const PROVIDER_IDS = ["openrouter", "gemini", "huggingface"];
 
+// Modeles OpenRouter essayes par defaut quand aucune variable d'env ne les fixe.
+// Les variantes payantes (tres bon marche) d'abord : les modeles ":free" sont
+// presque toujours rate-limites (429). Le ":free" reste en dernier recours.
+// Cette liste est aussi celle du bouton "Tester la connexion" (route test) :
+// le test et la vraie review doivent utiliser LES MEMES modeles.
+export const OPENROUTER_DEFAULT_MODELS = [
+  "meta-llama/llama-3.2-3b-instruct",
+  "qwen/qwen-2.5-7b-instruct",
+  "meta-llama/llama-3.2-3b-instruct:free"
+];
+
 interface ProviderConfig {
   envKeys: string[];
   defaultModel: string;
@@ -275,17 +286,25 @@ export async function reviewProject(input: ReviewInput, configOverrides: Record<
   const messages = buildReviewPrompt(input);
 
   const errors: string[] = [];
+  const primaryProvider = (process.env.AI_REVIEW_PROVIDER || "openrouter").trim().toLowerCase();
 
   for (const providerId of chain) {
     const apiKey = getKeyForProvider(providerId);
 
+    // AI_REVIEW_MODEL (generique) ne s'applique qu'au provider principal :
+    // un id de modele OpenRouter envoye a Gemini/HuggingFace donne un 404
+    // et fait echouer toute la chaine de fallback.
     const modelsRaw =
       process.env[`AI_REVIEW_${providerId.toUpperCase()}_MODEL`]
-      || process.env.AI_REVIEW_MODEL
+      || (providerId === primaryProvider ? process.env.AI_REVIEW_MODEL : "")
       || "";
-    const models = modelsRaw
+    let models = modelsRaw
       ? modelsRaw.split(",").map((m) => m.trim()).filter(Boolean)
-      : [""];
+      : [];
+    if (!models.length) {
+      // Memes modeles par defaut que la route de test connexion.
+      models = providerId === "openrouter" ? [...OPENROUTER_DEFAULT_MODELS] : [""];
+    }
 
     let success = false;
     for (const model of models) {

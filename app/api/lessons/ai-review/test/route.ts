@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { getAIReviewConfig } from "../../../../../lib/aiReview";
+import { getAIReviewConfig, OPENROUTER_DEFAULT_MODELS } from "../../../../../lib/aiReview";
 import { createClient } from "../../../../../utils/supabase/server";
 
 const PROVIDER_DEFAULTS = {
@@ -9,11 +9,9 @@ const PROVIDER_DEFAULTS = {
   huggingface: "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
 };
 
-// Modeles OpenRouter fallback (tres bon marche, pas de :free car rate-limited)
-const OPENROUTER_FALLBACK_MODELS = [
-  "meta-llama/llama-3.2-3b-instruct",
-  "qwen/qwen-2.5-7b-instruct"
-];
+// Memes modeles que la vraie review (lib/aiReview.ts) : le test doit
+// valider exactement ce que la soumission utilisera.
+const OPENROUTER_FALLBACK_MODELS = OPENROUTER_DEFAULT_MODELS;
 
 const PROVIDER_LABELS = {
   gemini: "Google Gemini",

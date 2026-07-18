@@ -89,6 +89,7 @@ interface ProjectApiResponse {
   xpAwarded?: number;
   aiReview?: {
     available?: boolean;
+    failed?: boolean;
     feedback?: string;
   };
 }
@@ -516,7 +517,9 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
         let title: string, message: string;
         if (isUnavailable) {
           title = "En attente de revue";
-          message = "L'IA n'est pas disponible. Ton projet est en attente de validation manuelle par un pair ou un mentor. " +
+          message = (data.aiReview?.failed
+            ? "La review IA n'a pas abouti (service surchargé ou momentanément indisponible). Ton projet part en revue manuelle par un pair ou un mentor. "
+            : "L'IA n'est pas disponible. Ton projet est en attente de validation manuelle par un pair ou un mentor. ") +
             (nextLessonSlug
               ? "Pas besoin d'attendre : continue la suite, l'XP arrive une fois validé."
               : "Tu recevras l'XP une fois le retour validé.");

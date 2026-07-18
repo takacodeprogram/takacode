@@ -63,12 +63,14 @@ export async function POST(request: NextRequest) {
 
   // Si le mode de validation est 'ai', declencher automatiquement la review IA.
   let aiReviewResult = null;
+  let aiAttempted = false;
   if (data?.validation === "ai" && data?.reviewStatus === "pending") {
     const aiConfig = getAIReviewConfig();
     const aiAvailable = isAIReviewAvailable(aiConfig);
     console.log(`[PROJECT] AI review: available=${aiAvailable} provider=${aiConfig?.provider || "none"}`);
 
     if (aiAvailable) {
+      aiAttempted = true;
       aiReviewResult = await triggerAIReview(supabase, user, lessonId);
       console.log(`[PROJECT] AI review result:`, aiReviewResult ? `verdict=${aiReviewResult.verdict}` : "null (echec)");
     } else {
@@ -107,7 +109,10 @@ export async function POST(request: NextRequest) {
       response.reviewFeedback = aiReviewResult.feedback;
     }
   } else if (data?.validation === "ai" && data?.reviewStatus === "pending") {
-    response.aiReview = { available: false };
+    // failed=true : l'IA a ete tentee mais a echoue (rate limit, enregistrement...).
+    // available=false seul : aucune IA configuree. Dans les deux cas la soumission
+    // reste en attente et part en revue manuelle.
+    response.aiReview = { available: false, failed: aiAttempted };
   }
 
   return NextResponse.json(response, {
