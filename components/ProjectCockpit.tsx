@@ -84,17 +84,32 @@ export default function ProjectCockpit({ project, firstName, goalLabel }: Projec
   const progress = launchProgress(project);
   const deadlineLabel = formatDeadline(project.deadline);
   const isLive = stageIndex >= 3;
+  const revenueLabels: Record<string, string> = {
+    vente: "Vente directe",
+    abonnement: "Abonnement",
+    publicite: "Publicite",
+    affiliation: "Affiliation",
+    freelance: "Freelance"
+  };
 
   return (
     <section className="rounded-2xl border border-white/[0.08] bg-[#111] p-6 animate-fade-up-d1">
       <div className="flex items-center justify-between gap-3 flex-wrap mb-2">
         <div className="section-label">Mon projet</div>
-        {deadlineLabel ? (
-          <span className="inline-flex items-center gap-1.5 text-[10px] font-semibold px-2.5 py-1 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-100">
-            <iconify-icon icon="lucide:calendar-clock" style={{ fontSize: "11px" }} />
-            {deadlineLabel}
-          </span>
-        ) : null}
+        <div className="flex items-center gap-2 flex-wrap">
+          {project.revenueModel ? (
+            <span className="inline-flex items-center gap-1.5 text-[10px] font-semibold px-2.5 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-200">
+              <iconify-icon icon="lucide:banknote" style={{ fontSize: "11px" }} />
+              {revenueLabels[project.revenueModel] || project.revenueModel}
+            </span>
+          ) : null}
+          {deadlineLabel ? (
+            <span className="inline-flex items-center gap-1.5 text-[10px] font-semibold px-2.5 py-1 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-100">
+              <iconify-icon icon="lucide:calendar-clock" style={{ fontSize: "11px" }} />
+              {deadlineLabel}
+            </span>
+          ) : null}
+        </div>
       </div>
 
       <h2 className="font-valorax text-[clamp(22px,3vw,34px)] leading-[0.95] mb-1.5">{project.title.toUpperCase()}</h2>
@@ -137,7 +152,7 @@ export default function ProjectCockpit({ project, firstName, goalLabel }: Projec
       <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4 mb-5">
         <div className="flex items-center justify-between gap-3 mb-2">
           <span className="text-[11px] text-[#9b9b9b] font-body-readable">
-            {isLive ? "Projet en ligne — prochain objectif : ton premier euro" : "Progression vers la mise en ligne"}
+            {isLive ? "Projet en ligne — objectif : ton premier euro" : "Progression vers la mise en ligne"}
           </span>
           <span className="text-[11px] text-[#89c7ff] font-semibold">{progress}%</span>
         </div>
@@ -161,6 +176,12 @@ export default function ProjectCockpit({ project, firstName, goalLabel }: Projec
             <span className="inline-flex items-center gap-1.5 text-[11px] text-[#777]">
               <iconify-icon icon="lucide:map" style={{ fontSize: "12px" }} />
               Accelere par : {project.trackTitle}
+            </span>
+          ) : null}
+          {isLive ? (
+            <span className="inline-flex items-center gap-1.5 text-[11px] text-amber-300 font-semibold">
+              <iconify-icon icon="lucide:banknote" style={{ fontSize: "12px" }} />
+              0 € — objectif premier euro
             </span>
           ) : null}
         </div>

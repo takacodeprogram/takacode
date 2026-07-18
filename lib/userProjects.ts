@@ -2,7 +2,7 @@ import { normalizeText, isMissingSchemaError, parseCount } from "./utils";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 const PROJECT_SELECT =
-  "id, track_id, title, description, objective, status, deadline, repo_url, live_url, created_at, updated_at, track:learning_tracks(title, slug)";
+  "id, track_id, title, description, objective, status, deadline, repo_url, live_url, revenue_model, created_at, updated_at, track:learning_tracks(title, slug)";
 
 export interface ProjectStatus {
   value: string;
@@ -30,6 +30,7 @@ export interface UserProject {
   liveUrl: string;
   trackTitle: string;
   trackSlug: string;
+  revenueModel: string;
   updatedAt: string | null;
   publishedAt: string | null;
 }
@@ -44,6 +45,7 @@ interface ProjectRow {
   deadline: string;
   repo_url: string;
   live_url: string;
+  revenue_model: string;
   track: { title: string; slug: string }[];
   updated_at: string;
 }
@@ -82,7 +84,8 @@ function normalizeProject(row: unknown): UserProject | null {
     trackTitle: typeof track?.title === "string" ? track.title : "",
     trackSlug: typeof track?.slug === "string" ? track.slug : "",
     updatedAt: (r.updated_at as string) || null,
-    publishedAt: (r.created_at as string) || null
+    publishedAt: (r.created_at as string) || null,
+    revenueModel: (r.revenue_model as string) || ""
   };
 }
 
@@ -146,7 +149,7 @@ export async function getOwnProject(supabase: SupabaseClient, userId: string | n
 }
 
 const PUBLIC_PROJECT_SELECT =
-  "id, track_id, title, description, objective, status, deadline, repo_url, live_url, created_at, updated_at, track:learning_tracks(title, slug)";
+  "id, track_id, title, description, objective, status, deadline, repo_url, live_url, revenue_model, created_at, updated_at, track:learning_tracks(title, slug)";
 
 export async function listPublishedProjects(supabase: SupabaseClient, limit = 50): Promise<ProjectListResult> {
   const { data, error } = await supabase

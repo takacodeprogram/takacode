@@ -25,6 +25,7 @@ interface ProjectData {
   trackId?: string;
   repoUrl?: string;
   liveUrl?: string;
+  revenueModel?: string;
 }
 
 interface ProjectFormProps {
@@ -70,7 +71,8 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
     deadline: project?.deadline || "",
     track_id: project?.trackId || "",
     repo_url: project?.repoUrl || "",
-    live_url: project?.liveUrl || ""
+    live_url: project?.liveUrl || "",
+    revenue_model: project?.revenueModel || ""
   }));
   const [saving, setSaving] = useState<boolean>(false);
   const [deleting, setDeleting] = useState<boolean>(false);
@@ -109,7 +111,8 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
       deadline: form.deadline || null,
       track_id: form.track_id || null,
       repo_url: cleanUrl(form.repo_url),
-      live_url: cleanUrl(form.live_url)
+      live_url: cleanUrl(form.live_url),
+      revenue_model: form.revenue_model
     };
   }
 
@@ -264,6 +267,17 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
           </select>
         </Field>
       </div>
+
+      <Field label="Modele de revenu vise">
+        <select className={INPUT} value={form.revenue_model} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setField("revenue_model", e.target.value)}>
+          <option value="">Pas de monetisation pour l'instant</option>
+          <option value="vente">Vente directe (produits, services)</option>
+          <option value="abonnement">Abonnement (SaaS, newsletter payante)</option>
+          <option value="publicite">Publicite (audience, trafic)</option>
+          <option value="affiliation">Affiliation (commissions)</option>
+          <option value="freelance">Freelance (prestations)</option>
+        </select>
+      </Field>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <Field label="Lien du code (GitHub)"><input className={INPUT} value={form.repo_url} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("repo_url", e.target.value)} placeholder="https://github.com/..." /></Field>
