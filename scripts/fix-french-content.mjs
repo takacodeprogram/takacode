@@ -38,8 +38,26 @@ const supabase = createClient(url, key);
 const ELISION_RE = /\b(d|l|n|j|c|s|m|t|qu|jusqu|lorsqu|puisqu|quelqu)\s+(?=[aeiouyhAEIOUYH][a-zA-Z]|[EAI][a-zA-Z]|IA\b|API\b|IDE\b|URL\b)/g;
 
 function fixElisions(text) {
-  return text.replace(ELISION_RE, (match, prefix) => `${prefix}'`);
+  return text
+    .replace(ELISION_RE, (match, prefix) => `${prefix}'`)
+    .replace(/\bJai\b/g, "J'ai")
+    .replace(/\bjai\b/g, "j'ai")
+    .replace(/\bCest\b/g, "C'est")
+    .replace(/\bcest\b/g, "c'est");
 }
+
+// "a" + infinitif => "à" (liste blanche : un infinitif exact ne peut pas etre
+// un participe sans accent, contrairement a une regle generique sur -er/-re).
+const A_INFINITIFS = [
+  "ecrire", "lire", "faire", "mettre", "prendre", "comprendre", "apprendre",
+  "suivre", "construire", "connaitre", "utiliser", "creer", "configurer",
+  "expliquer", "deployer", "publier", "modifier", "installer", "tester",
+  "verifier", "gerer", "coder", "structurer", "rediger", "formuler", "definir",
+  "choisir", "reussir", "eviter", "ajouter", "donner", "stocker", "observer",
+  "monetiser", "demarrer", "distinguer", "selectionner", "retenir", "savoir",
+  "etre", "avoir", "jouer", "copier", "coller", "envoyer", "resoudre", "chercher"
+];
+const A_INF_RE = new RegExp(`\\ba (?=(?:${A_INFINITIFS.join("|")})\\b)`, "g");
 
 // ---------------------------------------------------------------------------
 // 2. Accents : dictionnaire mot-a-mot (uniquement des mots non ambigus dans
@@ -61,7 +79,15 @@ const BIGRAMS = [
   ["au dela", "au-delà"], ["au-dela", "au-delà"], ["la ou", "là où"],
   ["a quoi", "à quoi"], ["a ne pas", "à ne pas"], ["a eviter", "à éviter"],
   ["pret a", "prêt à"], ["prete a", "prête à"], ["prets a", "prêts à"],
-  ["acces a", "accès à"], ["face aux", "face aux"]
+  ["acces a", "accès à"],
+  // Participes passes : le contexte leve l'ambiguite present/participe
+  ["assiste par", "assisté par"], ["guide par", "guidé par"], ["propulse par", "propulsé par"],
+  ["a cree", "a créé"], ["as cree", "as créé"], ["cree par", "créé par"], ["cree avec", "créé avec"],
+  ["a genere", "a généré"], ["as genere", "as généré"],
+  ["est utilise", "est utilisé"], ["sont utilises", "sont utilisés"],
+  ["et publie", "et publié"], ["est publie", "est publié"], ["projet publie", "projet publié"],
+  ["a la mise en ligne", "à la mise en ligne"],
+  ["tu apprend ", "tu apprends "]
 ];
 
 const WORDS = {
@@ -157,9 +183,7 @@ const WORDS = {
   variete: "variété", proximite: "proximité", credibilite: "crédibilité",
   propriete: "propriété", proprietes: "propriétés", societe: "société",
   moitie: "moitié", pitie: "pitié", specialite: "spécialité",
-  publie: "publié", publiee: "publiée", publier: "publier", publies: "publiés",
-  valide: "valide", validee: "validée", verifiees: "vérifiées",
-  utilise: "utilise", utilisee: "utilisée", prefere_: "préféré",
+  publiee: "publiée", validee: "validée", verifiees: "vérifiées", utilisee: "utilisée",
   connecte: "connecté", connectee: "connectée", connecter: "connecter",
   heberge_: "hébergé", partage: "partage", partagee: "partagée",
   personnalise: "personnalisé", personnalisee: "personnalisée", personnaliser: "personnaliser",
@@ -203,7 +227,42 @@ const WORDS = {
   residu: "résidu", resout: "résout", resoudre: "résoudre", resolu: "résolu",
   reviser: "réviser", revision: "révision", revisions: "révisions",
   themes: "thèmes", theme: "thème",
-  severite: "sévérité"
+  severite: "sévérité",
+  // Completions issues de l'analyse de frequence du corpus
+  depot: "dépôt", depots: "dépôts", reel: "réel", reelle: "réelle", reels: "réels",
+  reellement: "réellement", zero: "zéro", numero: "numéro",
+  semantique: "sémantique", semantiques: "sémantiques",
+  selecteur: "sélecteur", selecteurs: "sélecteurs",
+  selectionne: "sélectionne", selectionner: "sélectionner",
+  connaitre: "connaître", apparaitre: "apparaître", parait: "paraît",
+  accelerateur: "accélérateur", accelerateurs: "accélérateurs",
+  accelere: "accélère", accelerer: "accélérer", acceleration: "accélération",
+  interieur: "intérieur", exterieur: "extérieur", superieur: "supérieur",
+  superieure: "supérieure", inferieur: "inférieur", inferieure: "inférieure",
+  monetisation: "monétisation", monetiser: "monétiser", monetise: "monétise",
+  efficacite: "efficacité", complexite: "complexité", simplicite: "simplicité",
+  rentabilite: "rentabilité", accessibilite: "accessibilité",
+  compatibilite: "compatibilité", flexibilite: "flexibilité",
+  lisibilite: "lisibilité", maintenabilite: "maintenabilité",
+  parametre: "paramètre", parametres: "paramètres",
+  iteration: "itération", iterations: "itérations", itere: "itère", iterer: "itérer",
+  evenement: "événement", evenements: "événements",
+  predefini: "prédéfini", predefinie: "prédéfinie", predefinis: "prédéfinis", predefinies: "prédéfinies",
+  immediat: "immédiat", immediate: "immédiate", immediatement: "immédiatement",
+  generalement: "généralement", preferences: "préférences", preference: "préférence",
+  recuperation: "récupération", conois: "conçois", concois: "conçois",
+  experimente: "expérimenté", experimentee: "expérimentée",
+  independant: "indépendant", independante: "indépendante",
+  ingenieur: "ingénieur", ingenieurs: "ingénieurs",
+  execute: "exécute", executer: "exécuter", execution: "exécution",
+  hesite: "hésite", hesiter: "hésiter", nhesite: "n'hésite",
+  succede: "succède", precede: "précède", precedent: "précédent", precedente: "précédente",
+  suivante: "suivante", frequent: "fréquent", frequente: "fréquente", frequemment: "fréquemment",
+  redemarre: "redémarre", redemarrer: "redémarrer",
+  maitrise: "maîtrise", maitriser: "maîtriser", maitrises: "maîtrises",
+  boite: "boîte", chaine: "chaîne", chaines: "chaînes",
+  coherent: "cohérent", coherente: "cohérente", coherence: "cohérence",
+  deroule: "déroule", derouler: "dérouler", prevoir: "prévoir"
 };
 
 // Nettoyage des cles bidon introduites pour lisibilite (suffixe _)
@@ -235,6 +294,7 @@ function fixText(text) {
   if (/^https?:\/\//.test(text) || /^\//.test(text) || /^lucide:/.test(text)) return text;
   let out = fixElisions(text);
   for (const [re, to] of BIGRAM_RES) out = out.replace(re, to);
+  out = out.replace(A_INF_RE, "à ");
   for (const [re, to] of WORD_RES) out = out.replace(re, to);
   return out;
 }
