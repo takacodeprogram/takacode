@@ -87,7 +87,8 @@ const BIGRAMS = [
   ["est utilise", "est utilisé"], ["sont utilises", "sont utilisés"],
   ["et publie", "et publié"], ["est publie", "est publié"], ["projet publie", "projet publié"],
   ["a la mise en ligne", "à la mise en ligne"],
-  ["tu apprend ", "tu apprends "]
+  ["tu apprend ", "tu apprends "],
+  ["n y a", "n'y a"], ["s y ", "s'y "], ["n y ", "n'y "]
 ];
 
 const WORDS = {
@@ -262,7 +263,9 @@ const WORDS = {
   maitrise: "maîtrise", maitriser: "maîtriser", maitrises: "maîtrises",
   boite: "boîte", chaine: "chaîne", chaines: "chaînes",
   coherent: "cohérent", coherente: "cohérente", coherence: "cohérence",
-  deroule: "déroule", derouler: "dérouler", prevoir: "prévoir"
+  deroule: "déroule", derouler: "dérouler", prevoir: "prévoir",
+  facon: "façon", facons: "façons", exposee: "exposée", exposees: "exposées",
+  protegees: "protégées", proteges: "protégés"
 };
 
 // Nettoyage des cles bidon introduites pour lisibilite (suffixe _)
