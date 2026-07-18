@@ -26,6 +26,7 @@ interface ProjectData {
   repoUrl?: string;
   liveUrl?: string;
   revenueModel?: string;
+  templateId?: string;
 }
 
 interface ProjectFormProps {
@@ -62,7 +63,7 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
   const isEdit = Boolean(project);
 
   const [showTemplates, setShowTemplates] = useState<boolean>(!isEdit);
-  const [selectedTemplateId, setSelectedTemplateId] = useState<string>("");
+  const [selectedTemplateId, setSelectedTemplateId] = useState<string>(project?.templateId || "");
   const [form, setForm] = useState<Record<string, string>>(() => ({
     title: project?.title || "",
     objective: project?.objective || "",
@@ -112,7 +113,8 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
       track_id: form.track_id || null,
       repo_url: cleanUrl(form.repo_url),
       live_url: cleanUrl(form.live_url),
-      revenue_model: form.revenue_model
+      revenue_model: form.revenue_model,
+      template_id: selectedTemplateId
     };
   }
 

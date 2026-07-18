@@ -63,6 +63,8 @@ interface Props {
   previousLessonSlug: string;
   nextLessonSlug: string;
   nextLessonTitle: string;
+  projectTitle?: string;
+  projectId?: string;
 }
 
 interface QuizFeedbackItem {
@@ -168,7 +170,7 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
   return <h2 className="font-venite-italic text-[12px] tracking-widest text-[#4F8EF7] mb-3">{children}</h2>;
 }
 
-export default function LessonExperience({ lesson, trackSlug, previousLessonSlug, nextLessonSlug, nextLessonTitle }: Props) {
+export default function LessonExperience({ lesson, trackSlug, previousLessonSlug, nextLessonSlug, nextLessonTitle, projectTitle, projectId }: Props) {
   const router = useRouter();
   const supabaseClient = useMemo(() => createClient(), []);
   const { toast } = useToast();
@@ -441,7 +443,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
       const response = await fetch("/api/lessons/project", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ lessonId: lesson.id, submission: submissionPayload })
+        body: JSON.stringify({ lessonId: lesson.id, submission: submissionPayload, projectId: projectId || "" })
       });
 
       const data: ProjectApiResponse | null = await response.json().catch(() => null);
@@ -908,7 +910,9 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
 
             {lesson.microProject!.deliverable ? (
               <p className="font-body-readable text-[11px] text-[#9b9b9b] leading-snug">
-                <span className="text-[#7a7a7a]">Livrable attendu : </span>
+                <span className="text-[#7a7a7a]">
+                  {projectTitle ? `Livrable pour TON projet "${projectTitle}" : ` : "Livrable attendu : "}
+                </span>
                 {lesson.microProject!.deliverable}
               </p>
             ) : null}

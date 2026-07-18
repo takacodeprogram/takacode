@@ -6,6 +6,7 @@ import Pagination from "../../../../components/Pagination";
 import { listUserProjects } from "../../../../lib/memberSpace";
 import { buildPageMetadata } from "../../../../lib/seo";
 import { listOwnProjects, statusLabel } from "../../../../lib/userProjects";
+import { getTemplateById } from "../../../../lib/starterTemplates";
 import { createClient } from "../../../../utils/supabase/server";
 
 export const dynamic = "force-dynamic";
@@ -81,25 +82,41 @@ export default async function MyProjectsPage(props: { searchParams: Promise<{ pa
       {projects.length ? (
         <>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-8">
-            {projects.map((project) => (
-              <Link
-                key={project.id}
-                href={`/dashboard/projets/${project.id}`}
-                className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 card-hover block"
-              >
-                <div className="flex items-start justify-between gap-3 mb-2">
-                  <div className="text-[14px] text-white font-semibold leading-tight">{project.title}</div>
-                  <span className={`text-[10px] font-semibold px-2.5 py-1 rounded-full border shrink-0 ${statusChipClass(project.status)}`}>
-                    {statusLabel(project.status)}
-                  </span>
-                </div>
-                {project.objective ? <p className="font-body-readable text-[12px] text-[#a5a5a5] leading-snug mb-2">{project.objective}</p> : null}
-                <div className="flex items-center gap-3 text-[10px] text-[#666] font-body-readable">
-                  {project.trackTitle ? <span>{project.trackTitle}</span> : null}
-                  {project.deadline ? <span>Deadline {formatDate(project.deadline)}</span> : null}
-                </div>
-              </Link>
-            ))}
+            {projects.map((project) => {
+              const template = project.templateId ? getTemplateById(project.templateId) : null;
+              const revenueLabels: Record<string, string> = {
+                vente: "Vente", abonnement: "Abonnement", publicite: "Pub", affiliation: "Affiliation", freelance: "Freelance"
+              };
+              return (
+                <Link
+                  key={project.id}
+                  href={`/dashboard/projets/${project.id}`}
+                  className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 card-hover block"
+                >
+                  <div className="flex items-start justify-between gap-3 mb-2">
+                    <div className="text-[14px] text-white font-semibold leading-tight">{project.title}</div>
+                    <span className={`text-[10px] font-semibold px-2.5 py-1 rounded-full border shrink-0 ${statusChipClass(project.status)}`}>
+                      {statusLabel(project.status)}
+                    </span>
+                  </div>
+                  {project.objective ? <p className="font-body-readable text-[12px] text-[#a5a5a5] leading-snug mb-2">{project.objective}</p> : null}
+                  <div className="flex items-center gap-2 flex-wrap text-[10px] text-[#666] font-body-readable">
+                    {project.revenueModel ? (
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border border-emerald-500/20 bg-emerald-500/8 text-emerald-200/80">
+                        {revenueLabels[project.revenueModel] || project.revenueModel}
+                      </span>
+                    ) : null}
+                    {template ? (
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border border-blue-400/20 bg-blue-500/8 text-blue-200/80">
+                        {template.title}
+                      </span>
+                    ) : null}
+                    {project.trackTitle ? <span>{project.trackTitle}</span> : null}
+                    {project.deadline ? <span>Deadline {formatDate(project.deadline)}</span> : null}
+                  </div>
+                </Link>
+              );
+            })}
           </div>
           {projects.length > 0 ? <Pagination currentPage={currentPage} hasNextPage={hasNextPage} baseUrl="/dashboard/projets" /> : null}
         </>

@@ -8,6 +8,7 @@ import PublicTour from "../../../../../components/public-tour/PublicTour";
 import { findLessonInCurriculum, getTrackCurriculum } from "../../../../../lib/curriculum";
 import { buildPageMetadata } from "../../../../../lib/seo";
 import { ensureUserTrackEnrollment, listPublishedTracks } from "../../../../../lib/tracks";
+import { listOwnProjects } from "../../../../../lib/userProjects";
 import { createClient } from "../../../../../utils/supabase/server";
 
 export const dynamic = "force-dynamic";
@@ -65,6 +66,11 @@ export default async function LessonPage({ params }: LessonPageProps) {
   if (!curriculum.schemaReady) {
     redirect(`/parcours/${slug}`);
   }
+
+  const { projects: ownProjects } = await listOwnProjects(supabase, user.id, { limit: 50 });
+  const linkedProject = ownProjects.find((p) => p.trackId === track.id);
+  const projectTitle = linkedProject?.title || "";
+  const projectId = linkedProject?.id || "";
 
   const located = findLessonInCurriculum(curriculum, lessonSlug);
 
@@ -149,6 +155,8 @@ export default async function LessonPage({ params }: LessonPageProps) {
                 previousLessonSlug={previousLesson?.slug || ""}
                 nextLessonSlug={nextLesson?.slug || ""}
                 nextLessonTitle={nextLesson?.title || ""}
+                projectTitle={projectTitle}
+                projectId={projectId}
               />
             </article>
           </div>

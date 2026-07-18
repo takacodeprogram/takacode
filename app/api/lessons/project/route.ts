@@ -24,6 +24,7 @@ export async function POST(request: NextRequest) {
 
   const lessonId = typeof payload?.lessonId === "string" ? payload.lessonId.trim() : "";
   const submission = typeof payload?.submission === "string" ? payload.submission.trim() : "";
+  const projectId = typeof payload?.projectId === "string" ? payload.projectId.trim() : "";
 
   if (!lessonId || !submission) {
     return NextResponse.json({ error: "invalid_payload" }, { status: 400 });
