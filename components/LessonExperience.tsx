@@ -3,10 +3,13 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import { createClient } from "../utils/supabase/client";
 import type { Lesson } from "../lib/curriculum";
 import CelebrationOverlay from "./effects/CelebrationOverlay";
 import { GlossaryText } from "./GlossaryTooltip";
 import { playPop } from "./effects/sound";
+import CodeEditor from "./CodeEditor";
+import { useToast } from "./Toast";
 
 interface LessonQuizQuestion {
   question: string;
@@ -166,6 +169,8 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
 
 export default function LessonExperience({ lesson, trackSlug, previousLessonSlug, nextLessonSlug, nextLessonTitle }: Props) {
   const router = useRouter();
+  const supabaseClient = useMemo(() => createClient(), []);
+  const { toast } = useToast();
 
   const initialProgress = lesson.progress || null;
   const hasQuiz = Array.isArray(lesson.quiz) && lesson.quiz.length > 0;
@@ -177,10 +182,22 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
   const [quizError, setQuizError] = useState<string>("");
   const [quizSubmitting, setQuizSubmitting] = useState<boolean>(false);
 
-  const [projectText, setProjectText] = useState<string>(initialProgress?.projectSubmission || "");
+  const initialSubmission = useMemo(() => {
+    if (!initialProgress?.projectSubmission) return { code: "", link: "", fileUrl: "", fileName: "" };
+    try {
+      const parsed = JSON.parse(initialProgress.projectSubmission);
+      if (parsed && typeof parsed === "object" && "code" in parsed) return parsed;
+    } catch {}
+    return { code: initialProgress.projectSubmission, link: "", fileUrl: "", fileName: "" };
+  }, [initialProgress?.projectSubmission]);
+  const [projectText, setProjectText] = useState<string>(initialSubmission.code);
+  const [projectLink, setProjectLink] = useState<string>(initialSubmission.link);
+  const [projectFileUrl, setProjectFileUrl] = useState<string>(initialSubmission.fileUrl);
+  const [projectFileName, setProjectFileName] = useState<string>(initialSubmission.fileName);
   const [projectSubmitted, setProjectSubmitted] = useState<boolean>(Boolean(initialProgress?.projectSubmittedAt));
   const [projectError, setProjectError] = useState<string>("");
   const [projectSubmitting, setProjectSubmitting] = useState<boolean>(false);
+  const [fileUploading, setFileUploading] = useState<boolean>(false);
   const [reviewStatus, setReviewStatus] = useState<string>(initialProgress?.reviewStatus || "none");
   const [reviewFeedback, setReviewFeedback] = useState<string>(initialProgress?.reviewFeedback || "");
 
@@ -367,6 +384,35 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
     }
   }
 
+  async function handleFileUpload(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const maxSize = 5 * 1024 * 1024;
+    if (file.size > maxSize) {
+      toast("Le fichier depasse 5 Mo.", "error");
+      return;
+    }
+
+    setFileUploading(true);
+    try {
+      const userId = (await supabaseClient.auth.getUser()).data.user?.id;
+      if (!userId) throw new Error("Non connecte");
+      const ext = file.name.split(".").pop() || "";
+      const fileName = `${userId}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+      const { data, error } = await supabaseClient.storage.from("project-files").upload(fileName, file);
+      if (error) throw error;
+      const { data: { publicUrl } } = supabaseClient.storage.from("project-files").getPublicUrl(fileName);
+      setProjectFileUrl(publicUrl);
+      setProjectFileName(file.name);
+      toast("Fichier uploade.", "success");
+    } catch (err) {
+      toast("Echec de l'upload.", "error");
+    }
+    setFileUploading(false);
+    event.target.value = "";
+  }
+
   function retryQuiz() {
     setQuizResult(null);
     setQuizError("");
@@ -383,11 +429,18 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
     setProjectSubmitting(true);
     setProjectError("");
 
+    const submissionPayload = JSON.stringify({
+      code: projectText.trim(),
+      link: projectLink.trim(),
+      fileUrl: projectFileUrl,
+      fileName: projectFileName
+    });
+
     try {
       const response = await fetch("/api/lessons/project", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ lessonId: lesson.id, submission: projectText })
+        body: JSON.stringify({ lessonId: lesson.id, submission: submissionPayload })
       });
 
       const data: ProjectApiResponse | null = await response.json().catch(() => null);
@@ -878,20 +931,50 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
               </div>
             ) : null}
 
-            <textarea
+            <CodeEditor
               value={projectText}
-              onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => setProjectText(event.target.value)}
-              rows={6}
+              onChange={setProjectText}
+              language={lesson.microProject?.validation === "ai" ? "html" : "text"}
+              minHeight="150px"
+              placeholder="Colle ici ton code, ta description, ou tout livrable texte..."
+              readOnly={reviewStatus === "pending"}
               maxLength={5000}
-              disabled={reviewStatus === "pending"}
-              placeholder="Colle ici ton livrable : code, lien GitHub, description de ce que tu as construit..."
-              className="w-full rounded-lg border border-white/[0.08] bg-[#0f0f0f] px-3 py-2.5 font-body-readable text-[12px] text-[#d0d0d0] leading-relaxed placeholder:text-[#555] focus:outline-none focus:border-blue-400/40 disabled:opacity-60"
             />
+
+            <div className="flex items-center gap-2">
+              <div className="flex-1">
+                <label className="text-[10px] text-[#666] uppercase tracking-widest font-semibold">Lien (optionnel)</label>
+                <input
+                  value={projectLink}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProjectLink(e.target.value)}
+                  placeholder="https://github.com/ton-repo, https://ton-site.com..."
+                  disabled={reviewStatus === "pending"}
+                  className="w-full mt-1 rounded-lg border border-white/[0.08] bg-[#0f0f0f] px-3 py-2 font-body-readable text-[12px] text-[#d0d0d0] placeholder:text-[#555] focus:outline-none focus:border-blue-400/40 disabled:opacity-60"
+                />
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <label className="flex items-center gap-2 px-3 py-2 rounded-lg border border-white/[0.08] bg-[#0f0f0f] text-[11px] text-[#aaa] cursor-pointer hover:border-blue-400/40 transition-all disabled:opacity-60">
+                <iconify-icon icon="lucide:upload" style={{ fontSize: "13px" }} />
+                {fileUploading ? "Upload..." : "Joindre un fichier"}
+                <input type="file" onChange={handleFileUpload} disabled={reviewStatus === "pending" || fileUploading} className="hidden" accept=".png,.jpg,.jpeg,.gif,.pdf,.html,.css,.js,.zip,.gz" />
+              </label>
+              {projectFileUrl ? (
+                <div className="flex items-center gap-1.5 text-[11px] text-emerald-400">
+                  <iconify-icon icon="lucide:check-circle" style={{ fontSize: "12px" }} />
+                  <a href={projectFileUrl} target="_blank" rel="noopener noreferrer" className="hover:underline truncate max-w-[200px]">{projectFileName || "Voir le fichier"}</a>
+                  <button type="button" onClick={() => { setProjectFileUrl(""); setProjectFileName(""); }} className="text-red-400 hover:text-red-300">
+                    <iconify-icon icon="lucide:x" style={{ fontSize: "12px" }} />
+                  </button>
+                </div>
+              ) : null}
+            </div>
 
             {projectText.trim().length > 0 && projectText.trim().length < 50 && !projectSubmitted ? (
               <div className="flex items-start gap-2 text-[11px] text-amber-100/80 font-body-readable">
                 <iconify-icon icon="lucide:info" style={{ fontSize: "13px", color: "#fbbf24", marginTop: "1px" }} />
-                <span>Ton livrable est assez court. Assure-toi d'avoir bien inclus tout ce qui est demandé (lien, explications, etc.).</span>
+                <span>Ton livrable est assez court. Assure-toi d'avoir bien inclus tout ce qui est demande (lien, explications, etc.).</span>
               </div>
             ) : null}
 

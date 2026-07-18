@@ -8,6 +8,7 @@ import { analyzeQuiz, balanceQuizAnswers } from "../../lib/quizQuality";
 import MicroProjectBuilder from "./MicroProjectBuilder";
 import QuestionBankEditor from "./QuestionBankEditor";
 import ResourcesEditor from "./ResourcesEditor";
+import JsonEditor from "../JsonEditor";
 
 interface Module {
   id: string;
@@ -237,7 +238,7 @@ export default function LessonForm({ trackId, modules = [], lesson = null, defau
       <ResourcesEditor value={form.resources} onChange={(val: string) => setField("resources", val)} />
 
       <Field label="Quiz (JSON)" hint="answer = index de la bonne réponse (commence à 0)">
-        <textarea className={AREA} value={form.quiz} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setField("quiz", e.target.value)} placeholder={QUIZ_PLACEHOLDER} />
+        <JsonEditor value={form.quiz} onChange={(val: string) => setField("quiz", val)} compact />
       </Field>
 
       <div className={`rounded-xl border px-4 py-3 ${quizQuality.valid ? "border-blue-500/20 bg-blue-500/[0.06]" : "border-red-500/25 bg-red-500/10"}`} aria-live="polite">

@@ -15,13 +15,16 @@ export const PRODUCT_RELEASES: ProductRelease[] = [
     summary: "Suis l'avancement de ton projet, tes sessions et ta progression dans la communaute.",
     status: "livree",
     highlights: [
+      "Globe 3D : pins toujours visibles, zoom, etoiles filantes, particules flottantes",
+      "Parcours refondu en sprints projet : chaque module livre une version du projet",
+      "Editeur de code avec coloration syntaxique pour les micro-projets",
+      "Soumission de lien et de fichier joints aux micro-projets",
       "Drapeau pays affiche dans le classement, selectionnable depuis le profil",
       "Derniere connexion et appareils connectes visibles dans la page profil",
       "Suppression ou desactivation de compte depuis la zone securite du profil",
       "Son et animations sur les notifications, la creation de projet et les sauvegardes",
       "Bandeau d'annonce automatique a chaque nouvelle version majeure",
-      "Pagination sur les listes de projets et parcours",
-      "Globe 3D interactif : vois ou sont les builders dans le monde"
+      "Pagination sur les listes de projets et parcours"
     ]
   },
   {
