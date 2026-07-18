@@ -184,42 +184,10 @@ async function triggerAIReview(supabase: Awaited<ReturnType<typeof createClient>
     return { verdict: result.verdict, feedback: result.feedback };
   }
 
-  console.error("[AI-REVIEW] Echec d'enregistrement securise:", reviewError?.message || reviewData?.error);
+  // Echec d'enregistrement : la soumission reste "pending" et part
+    // dans la file de revue manuelle (mentor/admin) — jamais de blocage.
+    console.error("[AI-REVIEW] Echec d'enregistrement securise:", reviewError?.message || reviewData?.error);
     return null;
-
-    // Ancien fallback conserve temporairement hors d'atteinte pour faciliter
-    // la verification de non-regression avant son retrait definitif.
-    const aiPrefix = "[IA automatique] ";
-    const prefixedComment = aiPrefix + (result.feedback || "");
-
-    const { error: fallbackError } = await supabase.rpc("submit_project_review", {
-      p_author: lessonData!.user_id,
-      p_lesson: lessonId,
-      p_verdict: result.verdict,
-      p_comment: prefixedComment
-    });
-
-    if (fallbackError) {
-      console.error("[AI-REVIEW] Fallback error:", fallbackError?.message);
-      return null;
-    }
-
-    // Creer une notification pour l'auteur
-    try {
-      const verdictLabel = result.verdict === "approved" ? "approuve par l'IA" : "demande des ameliorations";
-      await supabase.rpc("create_notification", {
-        p_user_id: lessonData!.user_id,
-        p_type: "review_received",
-        p_title: `Review IA : ${verdictLabel}`,
-        p_body: result.verdict === "approved"
-          ? `L'IA a validé ton travail sur "${String(lesson.title || "")}".`
-          : `L'IA a demandé des améliorations sur "${String(lesson.title || "")}". Retraite ton projet.`,
-        p_link: `/parcours/lecon/${lessonId}`
-      });
-    } catch (e) { /* non bloquant */ }
-
-    console.log("[AI-REVIEW] Enregistre via submit_project_review (fallback)");
-    return { verdict: result.verdict, feedback: result.feedback };
   } catch (err) {
     console.error("[AI-REVIEW] Exception:", err instanceof Error ? err.message : String(err));
     return null;

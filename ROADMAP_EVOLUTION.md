@@ -77,6 +77,17 @@ Objectif : le membre voit l'avancement de son projet et son impact.
 - [x] Bandeau d'annonce des nouveautes
 - [x] Tour guide mis a jour
 
+## V1.4.1 — Fiabilite revue IA & classement (livree)
+
+Objectif : consolider ce qui existe avant d'attaquer la monetisation.
+
+- [x] Revue IA multi-provider gratuite (OpenRouter :free, Gemini, HuggingFace) avec fallback en chaine
+- [x] Declenchement automatique a la soumission : validation + XP si approuve, observations si ameliorations demandees
+- [x] Sans IA configuree : bascule automatique en revue manuelle (pairs/mentors/admins selon la complexite)
+- [x] Verdict IA applique uniquement cote serveur (service_role) — pas d'auto-approbation possible
+- [x] Echec quiz : reessais illimites (70 % requis) ; echec micro-projet : feedback + re-soumission, progression non bloquee
+- [x] Classement public : exclusion de TOUS les admins (role profil + app_metadata) et synchronisation des roles
+
 ## V1.5 — Monetisation (a livrer)
 
 Objectif : le membre peut generer des revenus avec son projet.
