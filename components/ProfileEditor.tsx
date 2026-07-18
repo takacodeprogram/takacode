@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { createClient } from "../utils/supabase/client";
 import { AVATAR_STYLES, dicebearUrl } from "../lib/avatar";
 import { COUNTRY_OPTIONS } from "../lib/leaderboard";
@@ -43,6 +44,7 @@ export default function ProfileEditor({
   seedBase = "takacode"
 }: ProfileEditorProps) {
   const supabase = useMemo(() => createClient(), []);
+  const router = useRouter();
   const { toast } = useToast();
 
   const [avatarUrl, setAvatarUrl] = useState<string>(initialAvatarUrl || "");
@@ -118,6 +120,7 @@ export default function ProfileEditor({
     setMessage("Profil enregistré.");
     toast("Profil enregistré.", "success");
     playPop();
+    router.refresh();
     setSaving(false);
   }
 

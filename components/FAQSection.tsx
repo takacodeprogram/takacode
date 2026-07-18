@@ -11,7 +11,7 @@ export default function FAQSection() {
               FREQUENTES
             </h2>
             <p className="font-body-readable text-[#666] text-[15px] leading-relaxed">
-              Tu as une question ? La réponse est sûrement ici. Si ce n'est pas le cas, la communauté est là pour t'aider.
+              Une question sur la creation de projet, la publication ou la monetisation ? La reponse est surement ici.
             </p>
           </div>
 
@@ -22,7 +22,7 @@ export default function FAQSection() {
                 <iconify-icon icon="lucide:plus" className="text-[#444] flex-shrink-0" style={{ fontSize: "16px" }} />
               </div>
               <p className="font-body-readable text-[13px] text-[#555] mt-3 leading-relaxed hidden">
-                Absolument pas. TakaCode est conçu pour les débutants complets. Nos parcours commencent depuis zéro et l'assistant IA t'accompagne à chaque étape.
+                Absolument pas. TakaCode est concu pour les debutants complets. Les parcours commencent depuis zero et l assistant IA t accompagne a chaque etape.
               </p>
             </div>
 
@@ -35,7 +35,7 @@ export default function FAQSection() {
 
             <div className="faq-item py-5">
               <div className="faq-question flex items-center justify-between">
-                <span className="font-body-readable text-[14px] text-[#CCC] font-medium">Comment fonctionnent les parcours ?</span>
+                <span className="font-body-readable text-[14px] text-[#CCC] font-medium">Comment les parcours aident a construire mon projet ?</span>
                 <iconify-icon icon="lucide:plus" className="text-[#444] flex-shrink-0" style={{ fontSize: "16px" }} />
               </div>
             </div>
@@ -56,7 +56,7 @@ export default function FAQSection() {
 
             <div className="faq-item py-5" style={{ borderBottom: "none" }}>
               <div className="faq-question flex items-center justify-between">
-                <span className="font-body-readable text-[14px] text-[#CCC] font-medium">Puis-je apprendre plusieurs domaines ?</span>
+                <span className="font-body-readable text-[14px] text-[#CCC] font-medium">Puis-je creer plusieurs projets ?</span>
                 <iconify-icon icon="lucide:plus" className="text-[#444] flex-shrink-0" style={{ fontSize: "16px" }} />
               </div>
             </div>

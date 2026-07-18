@@ -30,7 +30,7 @@ export default function CommunitySection() {
               <div className="bg-[#0D0D0D] border border-white/[0.06] rounded-xl p-4 card-hover">
                 <iconify-icon icon="lucide:trophy" className="text-yellow-400 mb-3" style={{ fontSize: "20px" }} />
                 <div className="font-venite text-[12px] text-white mb-1">CHALLENGES</div>
-                <p className="font-body-readable text-[11px] text-[#555]">Défis hebdomadaires et mensuels pour progresser.</p>
+                <p className="font-body-readable text-[11px] text-[#555]">Defis hebdomadaires et mensuels pour progresser.</p>
               </div>
               <div className="bg-[#0D0D0D] border border-white/[0.06] rounded-xl p-4 card-hover">
                 <iconify-icon icon="lucide:users-2" className="text-[#4F8EF7] mb-3" style={{ fontSize: "20px" }} />
