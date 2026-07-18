@@ -31,6 +31,7 @@ export interface UserProject {
   trackTitle: string;
   trackSlug: string;
   updatedAt: string | null;
+  publishedAt: string | null;
 }
 
 interface ProjectRow {
@@ -80,7 +81,8 @@ function normalizeProject(row: unknown): UserProject | null {
     liveUrl: typeof r.live_url === "string" ? r.live_url : "",
     trackTitle: typeof track?.title === "string" ? track.title : "",
     trackSlug: typeof track?.slug === "string" ? track.slug : "",
-    updatedAt: (r.updated_at as string) || null
+    updatedAt: (r.updated_at as string) || null,
+    publishedAt: (r.created_at as string) || null
   };
 }
 
@@ -141,4 +143,25 @@ export async function getOwnProject(supabase: SupabaseClient, userId: string | n
   }
 
   return { project: normalizeProject(data), error: null, schemaReady: true };
+}
+
+const PUBLIC_PROJECT_SELECT =
+  "id, track_id, title, description, objective, status, deadline, repo_url, live_url, created_at, updated_at, track:learning_tracks(title, slug)";
+
+export async function listPublishedProjects(supabase: SupabaseClient, limit = 50): Promise<ProjectListResult> {
+  const { data, error } = await supabase
+    .from("user_projects")
+    .select(PUBLIC_PROJECT_SELECT)
+    .eq("status", "published")
+    .order("updated_at", { ascending: false })
+    .limit(Math.min(limit, 100));
+
+  if (error) {
+    if (isMissingSchemaError(error, PROJECT_TABLES)) {
+      return { projects: [], error: null, schemaReady: false };
+    }
+    return { projects: [], error, schemaReady: true };
+  }
+
+  return { projects: ((data as unknown as ProjectRow[]) || []).map(normalizeProject).filter(Boolean) as UserProject[], error: null, schemaReady: true };
 }

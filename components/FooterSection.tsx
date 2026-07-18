@@ -8,7 +8,7 @@ export default function FooterSection() {
       <div className="max-w-[1320px] mx-auto px-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-12">
            <img src={logoLight4.src} alt="TakaCode" width="130" height="130" className="nav-logo-image opacity-80" />
-          <p className="font-body-readable text-[12px] text-[#444]">L'atelier numérique ou l'on apprend en construisant.</p>
+          <p className="font-body-readable text-[12px] text-[#444]">Cree, publie et monetise ton projet digital.</p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10 mb-14">

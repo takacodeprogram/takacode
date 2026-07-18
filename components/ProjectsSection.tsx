@@ -11,9 +11,9 @@ export default function ProjectsSection() {
               className="font-valorax gradient-text"
               style={{ fontSize: "clamp(28px, 3vw, 46px)", letterSpacing: "-0.02em", maxWidth: "600px" }}
             >
-              DES PROJETS REELS.
+              DES PROJETS PUBLIES.
               <br />
-              PAS SEULEMENT DE LA THEORIE.
+              PAS SEULEMENT DES EXERCICES.
             </h2>
           </div>
           <Link href="/projets" id="projets-all-link" className="btn-secondary inline-flex items-center gap-2 self-start lg:self-auto">
@@ -21,7 +21,7 @@ export default function ProjectsSection() {
             <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "14px" }} />
           </Link>
         </div>
-        <p className="font-body-readable text-[#666] text-[14px] mb-14">Les projets terminés par les membres seront publiés ici.</p>
+        <p className="font-body-readable text-[#666] text-[14px] mb-14">Les projets publies par les membres apparaissent ici.</p>
 
         <div className="rounded-2xl border border-white/[0.07] bg-[#111] p-10 flex flex-col items-center text-center gap-4">
           <div className="w-14 h-14 rounded-2xl border border-white/[0.08] bg-white/[0.02] flex items-center justify-center">
@@ -30,19 +30,19 @@ export default function ProjectsSection() {
           <div>
             <div className="font-venite text-[15px] text-white mb-1.5">LA GALERIE DEMARRE AVEC TOI</div>
             <p className="font-body-readable text-[13px] text-[#777] max-w-[460px]">
-              Aucun projet n'a encore été publié. Termine ton premier parcours puis publie ton projet pour ouvrir la galerie de la communauté.
+              Aucun projet publie pour l instant. Construis ton projet, publie-le et inspire la communaute.
             </p>
           </div>
-          <Link href="/parcours" id="projets-start-link" className="btn-primary inline-flex items-center gap-2" style={{ fontSize: "13px", padding: "12px 24px" }}>
+          <Link href="/projets" id="projets-start-link" className="btn-primary inline-flex items-center gap-2" style={{ fontSize: "13px", padding: "12px 24px" }}>
             <iconify-icon icon="lucide:play" style={{ fontSize: "14px" }} />
-            Commencer un parcours
+            Commencer un projet
           </Link>
         </div>
 
         <div className="flex items-center justify-center mt-10">
-          <Link href="/projets" id="projets-publish-link" className="btn-secondary flex items-center gap-2" style={{ fontSize: "13px", padding: "12px 24px" }}>
+          <Link href="/signup" id="projets-publish-link" className="btn-secondary flex items-center gap-2" style={{ fontSize: "13px", padding: "12px 24px" }}>
             <iconify-icon icon="lucide:upload" style={{ fontSize: "14px" }} />
-            Publier mon projet
+            Rejoindre et publier mon projet
           </Link>
         </div>
       </div>

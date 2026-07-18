@@ -10,7 +10,7 @@ export default function HowItWorksSection() {
             COMMENT CA MARCHE
           </h2>
           <p className="font-body-readable text-[#666] text-[15px] max-w-md mx-auto">
-            De ton idée à ton projet publié, un chemin clair et guidé.
+            De ton idee a ton projet rentable, un chemin clair et guide.
           </p>
         </div>
 
@@ -22,48 +22,48 @@ export default function HowItWorksSection() {
               <div className="w-[88px] h-[88px] rounded-2xl bg-[#111] border border-white/[0.07] flex items-center justify-center mx-auto mb-5 card-hover" style={{ borderColor: "rgba(79,142,247,0.2)", boxShadow: "0 0 30px rgba(79,142,247,0.08)" }}>
                 <iconify-icon icon="lucide:lightbulb" className="text-[#4F8EF7]" style={{ fontSize: "28px" }} />
               </div>
-              <div className="font-venite text-[12px] text-white mb-2">UNE IDEE</div>
-              <p className="font-body-readable text-[11px] text-[#555] leading-relaxed">Tu viens avec une idée, un besoin ou simplement l'envie d'apprendre.</p>
+              <div className="font-venite text-[12px] text-white mb-2">TON IDEE</div>
+              <p className="font-body-readable text-[11px] text-[#555] leading-relaxed">Tu as une idee de projet ou un probleme a resoudre. On t aide a la structurer.</p>
             </div>
 
             <div className="text-center">
               <div className="w-[88px] h-[88px] rounded-2xl bg-[#111] border border-white/[0.07] flex items-center justify-center mx-auto mb-5 card-hover">
                 <iconify-icon icon="lucide:git-branch" className="text-[#888]" style={{ fontSize: "28px" }} />
               </div>
-              <div className="font-venite text-[12px] text-white mb-2">UN PARCOURS ADAPTE</div>
-              <p className="font-body-readable text-[11px] text-[#555] leading-relaxed">Tu choisis le parcours qui correspond à ton objectif et ton niveau.</p>
+              <div className="font-venite text-[12px] text-white mb-2">LE PARCOURS LIE</div>
+              <p className="font-body-readable text-[11px] text-[#555] leading-relaxed">Choisis le parcours qui correspond a ton archetype de projet (site, SaaS, e-commerce...).</p>
             </div>
 
             <div className="text-center">
               <div className="w-[88px] h-[88px] rounded-2xl bg-[#111] border border-white/[0.07] flex items-center justify-center mx-auto mb-5 card-hover">
                 <iconify-icon icon="lucide:book-open" className="text-[#888]" style={{ fontSize: "28px" }} />
               </div>
-              <div className="font-venite text-[12px] text-white mb-2">RESSOURCES ET PRATIQUE</div>
-              <p className="font-body-readable text-[11px] text-[#555] leading-relaxed">Tu accèdes aux ressources, exercices et à l'assistance de l'IA.</p>
+              <div className="font-venite text-[12px] text-white mb-2">RESSOURCES + IA</div>
+              <p className="font-body-readable text-[11px] text-[#555] leading-relaxed">Accede aux ressources, templates, outils IA et exercices pour construire ton projet.</p>
             </div>
 
             <div className="text-center">
               <div className="w-[88px] h-[88px] rounded-2xl bg-[#111] border border-white/[0.07] flex items-center justify-center mx-auto mb-5 card-hover">
                 <iconify-icon icon="lucide:video" className="text-[#888]" style={{ fontSize: "28px" }} />
               </div>
-              <div className="font-venite text-[12px] text-white mb-2">SESSIONS LIVE</div>
-              <p className="font-body-readable text-[11px] text-[#555] leading-relaxed">Tu participes à des sessions de pratique et de co-construction.</p>
+              <div className="font-venite text-[12px] text-white mb-2">SESSIONS + MENTOR</div>
+              <p className="font-body-readable text-[11px] text-[#555] leading-relaxed">Participe a des sessions live et fais reviewer tes livrables par un mentor.</p>
             </div>
 
             <div className="text-center">
               <div className="w-[88px] h-[88px] rounded-2xl bg-[#111] border border-white/[0.07] flex items-center justify-center mx-auto mb-5 card-hover">
                 <iconify-icon icon="lucide:package" className="text-[#888]" style={{ fontSize: "28px" }} />
               </div>
-              <div className="font-venite text-[12px] text-white mb-2">PROJET REALISE</div>
-              <p className="font-body-readable text-[11px] text-[#555] leading-relaxed">Tu finalises et tu réalises un projet concret, vraiment fonctionnel.</p>
+              <div className="font-venite text-[12px] text-white mb-2">PUBLICATION</div>
+              <p className="font-body-readable text-[11px] text-[#555] leading-relaxed">Deploie ton projet en ligne : GitHub, Vercel, domaine personnalise.</p>
             </div>
 
             <div className="text-center">
               <div className="w-[88px] h-[88px] rounded-2xl bg-[#111] border border-white/[0.07] flex items-center justify-center mx-auto mb-5 card-hover" style={{ borderColor: "rgba(155,109,255,0.2)", boxShadow: "0 0 30px rgba(155,109,255,0.06)" }}>
-                <iconify-icon icon="lucide:share-2" className="text-[#9B6DFF]" style={{ fontSize: "28px" }} />
+                <iconify-icon icon="lucide:trending-up" className="text-[#9B6DFF]" style={{ fontSize: "28px" }} />
               </div>
-              <div className="font-venite text-[12px] text-white mb-2">PARTAGE</div>
-              <p className="font-body-readable text-[11px] text-[#555] leading-relaxed">Tu publies sur la galerie et partages avec toute la communauté.</p>
+              <div className="font-venite text-[12px] text-white mb-2">MONETISATION</div>
+              <p className="font-body-readable text-[11px] text-[#555] leading-relaxed">Genere des revenus : abonnements, produits digitaux, publicite, affiliation.</p>
             </div>
           </div>
         </div>
@@ -71,7 +71,7 @@ export default function HowItWorksSection() {
         <div className="text-center mt-16">
           <Link href="/projets" id="how-cta-link" className="btn-primary glow-btn inline-flex items-center gap-2" style={{ fontSize: "14px", padding: "14px 32px" }}>
             <iconify-icon icon="lucide:zap" style={{ fontSize: "16px" }} />
-            Commencer mon premier projet
+            Commencer mon projet
           </Link>
         </div>
       </div>
