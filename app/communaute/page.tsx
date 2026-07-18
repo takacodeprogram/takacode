@@ -37,150 +37,32 @@ function Avatar({ url, name, size = 36 }: { url: string; name: string; size?: nu
   );
 }
 
-export default async function CommunautePage() {
-  const cookieStore = await cookies();
-  const supabase = await createClient(cookieStore);
-
-  const [stats, sessionsResult, leaderboardResult, projectsResult] = await Promise.all([
-    getPlatformStats(supabase),
-    getMemberSessions(supabase),
-    getPublicLeaderboard(supabase, 5),
-    getCommunityProjects(supabase, 12)
-  ]);
-
-  const upcoming = sessionsResult.upcoming.slice(0, 3);
-  const topMembers = leaderboardResult.entries;
-  const projects = projectsResult.projects;
-
-  const statCards = [
-    { label: "Membres", value: stats.members, icon: "lucide:users" },
-    { label: "Lecons validees", value: stats.completedLessons, icon: "lucide:check-circle" },
-    { label: "Projets", value: stats.submittedProjects, icon: "lucide:folder-code" },
-    { label: "Likes", value: stats.totalLikes, icon: "lucide:heart", accent: "#f43f5e" }
-  ];
-
+function GuestCTA() {
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-white">
       <Navbar />
       <main className="pt-[64px]">
         <section className="py-24 md:py-28 px-8">
-          <div className="max-w-[1180px] mx-auto space-y-10">
-            <div className="text-center">
-              <div className="section-label mb-3">COMMUNAUTE</div>
-              <h1 className="font-valorax gradient-text" style={{ fontSize: "clamp(32px, 4vw, 52px)", letterSpacing: "-0.02em" }}>
-                CONSTRUIRE ENSEMBLE
-              </h1>
-              <p className="font-body-readable text-[14px] text-[#888] mt-3">Les membres, leurs projets et les prochaines sessions live.</p>
+          <div className="max-w-[600px] mx-auto text-center">
+            <div className="w-16 h-16 rounded-2xl border border-white/[0.08] bg-white/[0.02] flex items-center justify-center mx-auto mb-6">
+              <iconify-icon icon="lucide:users" className="text-[#4F8EF7]" style={{ fontSize: "30px" }} />
             </div>
-
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-              {statCards.map((tile) => (
-                <div key={tile.label} className="rounded-2xl border border-white/[0.08] bg-[#111] px-4 py-4 text-center">
-                  <iconify-icon icon={tile.icon} style={{ fontSize: "20px", color: tile.accent || "#4F8EF7" }} />
-                  <div className="text-[24px] text-white font-semibold mt-1">{tile.value !== null && Number.isFinite(Number(tile.value)) ? tile.value : "—"}</div>
-                  <div className="text-[11px] text-[#666] font-body-readable">{tile.label}</div>
-                </div>
-              ))}
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_0.9fr] gap-6">
-              <section>
-                <div className="flex items-center justify-between mb-4">
-                  <h2 className="font-venite text-[13px] tracking-widest text-[#888]">PROJETS PUBLIES</h2>
-                  <Link href="/projets" className="text-[11px] text-[#4F8EF7] hover:underline">Voir tout</Link>
-                </div>
-
-                {projects.length ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {projects.map((project) => (
-                      <Link key={project.id} href={`/projets/${project.id}`} className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 card-hover block">
-                        <div className="flex items-center justify-between gap-2 mb-1">
-                          <div className="text-[13px] text-white font-semibold leading-tight">{project.title}</div>
-                          {project.hasDeclaredFirstEuro ? (
-                            <span className="inline-flex items-center gap-1 text-[9px] font-semibold px-1.5 py-0.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-200 shrink-0">
-                              <iconify-icon icon="lucide:badge-check" style={{ fontSize: "9px" }} />
-                              1er euro
-                            </span>
-                          ) : null}
-                        </div>
-                        {project.objective ? <p className="font-body-readable text-[12px] text-[#a5a5a5] leading-snug mb-3">{project.objective}</p> : null}
-                        <div className="flex items-center justify-between gap-2 pt-3 border-t border-white/[0.05]">
-                          <div className="flex items-center gap-2 min-w-0">
-                            <Avatar url={project.avatarUrl} name={project.author} size={26} />
-                            <span className="text-[11px] text-[#888] truncate">{project.author}</span>
-                          </div>
-                          <div className="flex items-center gap-2 shrink-0">
-                            {project.likeCount > 0 ? (
-                              <span className="text-[11px] text-[#888] inline-flex items-center gap-1">
-                                <iconify-icon icon="lucide:heart" style={{ fontSize: "12px" }} />
-                                {project.likeCount}
-                              </span>
-                            ) : null}
-                            {project.liveUrl ? (
-                              <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="text-[#89c7ff] hover:text-white" title="Voir en ligne" onClick={(e) => e.stopPropagation()}>
-                                <iconify-icon icon="lucide:external-link" style={{ fontSize: "14px" }} />
-                              </a>
-                            ) : null}
-                            {project.repoUrl ? (
-                              <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" className="text-[#89c7ff] hover:text-white" title="Code" onClick={(e) => e.stopPropagation()}>
-                                <iconify-icon icon="lucide:github" style={{ fontSize: "14px" }} />
-                              </a>
-                            ) : null}
-                          </div>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="rounded-2xl border border-white/[0.07] bg-[#111] p-8 text-center font-body-readable text-[13px] text-[#777]">
-                    Aucun projet publié pour l'instant. Termine un parcours et publie ton projet pour ouvrir le bal.
-                  </div>
-                )}
-              </section>
-
-              <section className="space-y-6">
-                <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <h2 className="font-venite text-[13px] tracking-widest text-[#888]">TOP MEMBRES</h2>
-                    <Link href="/classement" className="text-[11px] text-[#4F8EF7] hover:underline">Classement</Link>
-                  </div>
-                  <div className="rounded-2xl border border-white/[0.08] bg-[#111] divide-y divide-white/[0.05]">
-                    {topMembers.length ? (
-                      topMembers.map((entry) => (
-                        <Link key={entry.rank} href={`/profil/${entry.id}`} className="flex items-center gap-3 px-4 py-2.5 hover:bg-white/[0.02] transition-colors">
-                          <span className="w-5 text-center text-[12px] text-[#888] font-semibold">{entry.rank}</span>
-                          <Avatar url={entry.avatarUrl} name={entry.publicName} size={30} />
-                          <span className="flex-1 min-w-0 text-[12px] text-white font-semibold truncate">{entry.publicName}</span>
-                          <span className="text-[11px] text-[#6ec3ff] font-semibold shrink-0">{entry.points} XP</span>
-                        </Link>
-                      ))
-                    ) : (
-                      <div className="px-4 py-4 text-[12px] text-[#777] font-body-readable">Le classement se remplira bientôt.</div>
-                    )}
-                  </div>
-                </div>
-
-                <div>
-                  <h2 className="font-venite text-[13px] tracking-widest text-[#888] mb-3">SESSIONS A VENIR</h2>
-                  <div className="space-y-2.5">
-                    {upcoming.length ? (
-                      upcoming.map((session) => (
-                        <article key={session.id} className="rounded-2xl border border-white/[0.08] bg-[#111] p-4">
-                          <div className="text-[13px] text-white font-semibold leading-tight">{session.title}</div>
-                          <div className="text-[11px] text-[#89c7ff] font-body-readable inline-flex items-center gap-1.5 mt-1">
-                            <iconify-icon icon="lucide:calendar-clock" style={{ fontSize: "12px" }} />
-                            {formatWhen(session.scheduledAt)}
-                          </div>
-                        </article>
-                      ))
-                    ) : (
-                      <div className="rounded-2xl border border-white/[0.08] bg-[#111] px-4 py-4 text-[12px] text-[#777] font-body-readable">
-                        Pas de session programmée pour le moment.
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </section>
+            <div className="section-label mb-3">COMMUNAUTE</div>
+            <h1 className="font-valorax gradient-text" style={{ fontSize: "clamp(32px, 4vw, 52px)", letterSpacing: "-0.02em" }}>
+              REJOINS LA COMMUNAUTE
+            </h1>
+            <p className="font-body-readable text-[14px] text-[#888] mt-3 mb-8 leading-relaxed">
+              Connecte-toi ou cree un compte pour decouvrir les projets, le classement et les prochaines sessions live.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <Link href="/signin" className="btn-primary inline-flex items-center gap-2" style={{ fontSize: "13px", padding: "12px 24px" }}>
+                <iconify-icon icon="lucide:log-in" style={{ fontSize: "14px" }} />
+                Se connecter
+              </Link>
+              <Link href="/signup" className="btn-secondary inline-flex items-center gap-2" style={{ fontSize: "13px", padding: "12px 24px" }}>
+                <iconify-icon icon="lucide:user-plus" style={{ fontSize: "14px" }} />
+                Creer un compte
+              </Link>
             </div>
           </div>
         </section>
@@ -189,4 +71,162 @@ export default async function CommunautePage() {
       <FooterSection />
     </div>
   );
+}
+
+export default async function CommunautePage() {
+  try {
+    const cookieStore = await cookies();
+    const supabase = await createClient(cookieStore);
+
+    const [stats, sessionsResult, leaderboardResult, projectsResult] = await Promise.all([
+      getPlatformStats(supabase),
+      getMemberSessions(supabase),
+      getPublicLeaderboard(supabase, 5),
+      getCommunityProjects(supabase, 12)
+    ]);
+
+    const upcoming = sessionsResult.upcoming.slice(0, 3);
+    const topMembers = leaderboardResult.entries;
+    const projects = projectsResult.projects;
+
+    const statCards = [
+      { label: "Membres", value: stats.members, icon: "lucide:users" },
+      { label: "Lecons validees", value: stats.completedLessons, icon: "lucide:check-circle" },
+      { label: "Projets", value: stats.submittedProjects, icon: "lucide:folder-code" },
+      { label: "Likes", value: stats.totalLikes, icon: "lucide:heart", accent: "#f43f5e" }
+    ];
+
+    return (
+      <div className="min-h-screen bg-[#0A0A0A] text-white">
+        <Navbar />
+        <main className="pt-[64px]">
+          <section className="py-24 md:py-28 px-8">
+            <div className="max-w-[1180px] mx-auto space-y-10">
+              <div className="text-center">
+                <div className="section-label mb-3">COMMUNAUTE</div>
+                <h1 className="font-valorax gradient-text" style={{ fontSize: "clamp(32px, 4vw, 52px)", letterSpacing: "-0.02em" }}>
+                  CONSTRUIRE ENSEMBLE
+                </h1>
+                <p className="font-body-readable text-[14px] text-[#888] mt-3">Les membres, leurs projets et les prochaines sessions live.</p>
+              </div>
+
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                {statCards.map((tile) => (
+                  <div key={tile.label} className="rounded-2xl border border-white/[0.08] bg-[#111] px-4 py-4 text-center">
+                    <iconify-icon icon={tile.icon} style={{ fontSize: "20px", color: tile.accent || "#4F8EF7" }} />
+                    <div className="text-[24px] text-white font-semibold mt-1">{tile.value !== null && Number.isFinite(Number(tile.value)) ? tile.value : "—"}</div>
+                    <div className="text-[11px] text-[#666] font-body-readable">{tile.label}</div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_0.9fr] gap-6">
+                <section>
+                  <div className="flex items-center justify-between mb-4">
+                    <h2 className="font-venite text-[13px] tracking-widest text-[#888]">PROJETS PUBLIES</h2>
+                    <Link href="/projets" className="text-[11px] text-[#4F8EF7] hover:underline">Voir tout</Link>
+                  </div>
+
+                  {projects.length ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {projects.map((project) => (
+                        <Link key={project.id} href={`/projets/${project.id}`} className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 card-hover block">
+                          <div className="flex items-center justify-between gap-2 mb-1">
+                            <div className="text-[13px] text-white font-semibold leading-tight">{project.title}</div>
+                            {project.hasDeclaredFirstEuro ? (
+                              <span className="inline-flex items-center gap-1 text-[9px] font-semibold px-1.5 py-0.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-200 shrink-0">
+                                <iconify-icon icon="lucide:badge-check" style={{ fontSize: "9px" }} />
+                                1er euro
+                              </span>
+                            ) : null}
+                          </div>
+                          {project.objective ? <p className="font-body-readable text-[12px] text-[#a5a5a5] leading-snug mb-3">{project.objective}</p> : null}
+                          <div className="flex items-center justify-between gap-2 pt-3 border-t border-white/[0.05]">
+                            <div className="flex items-center gap-2 min-w-0">
+                              <Avatar url={project.avatarUrl} name={project.author} size={26} />
+                              <span className="text-[11px] text-[#888] truncate">{project.author}</span>
+                            </div>
+                            <div className="flex items-center gap-2 shrink-0">
+                              {project.likeCount > 0 ? (
+                                <span className="text-[11px] text-[#888] inline-flex items-center gap-1">
+                                  <iconify-icon icon="lucide:heart" style={{ fontSize: "12px" }} />
+                                  {project.likeCount}
+                                </span>
+                              ) : null}
+                              {project.liveUrl ? (
+                                <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="text-[#89c7ff] hover:text-white" title="Voir en ligne" onClick={(e) => e.stopPropagation()}>
+                                  <iconify-icon icon="lucide:external-link" style={{ fontSize: "14px" }} />
+                                </a>
+                              ) : null}
+                              {project.repoUrl ? (
+                                <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" className="text-[#89c7ff] hover:text-white" title="Code" onClick={(e) => e.stopPropagation()}>
+                                  <iconify-icon icon="lucide:github" style={{ fontSize: "14px" }} />
+                                </a>
+                              ) : null}
+                            </div>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="rounded-2xl border border-white/[0.07] bg-[#111] p-8 text-center font-body-readable text-[13px] text-[#777]">
+                      Aucun projet publié pour l'instant. Termine un parcours et publie ton projet pour ouvrir le bal.
+                    </div>
+                  )}
+                </section>
+
+                <section className="space-y-6">
+                  <div>
+                    <div className="flex items-center justify-between mb-3">
+                      <h2 className="font-venite text-[13px] tracking-widest text-[#888]">TOP MEMBRES</h2>
+                      <Link href="/classement" className="text-[11px] text-[#4F8EF7] hover:underline">Classement</Link>
+                    </div>
+                    <div className="rounded-2xl border border-white/[0.08] bg-[#111] divide-y divide-white/[0.05]">
+                      {topMembers.length ? (
+                        topMembers.map((entry) => (
+                          <Link key={entry.rank} href={`/profil/${entry.id}`} className="flex items-center gap-3 px-4 py-2.5 hover:bg-white/[0.02] transition-colors">
+                            <span className="w-5 text-center text-[12px] text-[#888] font-semibold">{entry.rank}</span>
+                            <Avatar url={entry.avatarUrl} name={entry.publicName} size={30} />
+                            <span className="flex-1 min-w-0 text-[12px] text-white font-semibold truncate">{entry.publicName}</span>
+                            <span className="text-[11px] text-[#6ec3ff] font-semibold shrink-0">{entry.points} XP</span>
+                          </Link>
+                        ))
+                      ) : (
+                        <div className="px-4 py-4 text-[12px] text-[#777] font-body-readable">Le classement se remplira bientot.</div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h2 className="font-venite text-[13px] tracking-widest text-[#888] mb-3">SESSIONS A VENIR</h2>
+                    <div className="space-y-2.5">
+                      {upcoming.length ? (
+                        upcoming.map((session) => (
+                          <article key={session.id} className="rounded-2xl border border-white/[0.08] bg-[#111] p-4">
+                            <div className="text-[13px] text-white font-semibold leading-tight">{session.title}</div>
+                            <div className="text-[11px] text-[#89c7ff] font-body-readable inline-flex items-center gap-1.5 mt-1">
+                              <iconify-icon icon="lucide:calendar-clock" style={{ fontSize: "12px" }} />
+                              {formatWhen(session.scheduledAt)}
+                            </div>
+                          </article>
+                        ))
+                      ) : (
+                        <div className="rounded-2xl border border-white/[0.08] bg-[#111] px-4 py-4 text-[12px] text-[#777] font-body-readable">
+                          Pas de session programmee pour le moment.
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </section>
+        </main>
+        <hr className="section-divider" />
+        <FooterSection />
+      </div>
+    );
+  } catch {
+    return <GuestCTA />;
+  }
 }
