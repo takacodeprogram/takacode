@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { createClient } from "../../utils/supabase/client";
+import { useToast } from "../Toast";
 
 interface QuestionRow {
   id: string;
@@ -48,11 +49,10 @@ function normalizeRow(row: Record<string, unknown>): QuestionRow {
 
 export default function QuestionBankEditor({ lessonId, userId, objectives = [], resources = [] }: Props) {
   const supabase = useMemo(() => createClient(), []);
+  const { toast } = useToast();
   const [questions, setQuestions] = useState<QuestionRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [busyId, setBusyId] = useState("");
-  const [error, setError] = useState("");
-  const [message, setMessage] = useState("");
 
   const resourceOptions = resources.filter((resource) => typeof resource?.url === "string" && resource.url.trim());
 
@@ -66,7 +66,7 @@ export default function QuestionBankEditor({ lessonId, userId, objectives = [], 
 
     setLoading(false);
     if (loadError) {
-      setError(loadError.message);
+      toast(loadError.message, "error");
       return;
     }
     setQuestions(((data || []) as Record<string, unknown>[]).map(normalizeRow));
@@ -90,8 +90,6 @@ export default function QuestionBankEditor({ lessonId, userId, objectives = [], 
   }
 
   async function addQuestion() {
-    setError("");
-    setMessage("");
     setBusyId("new");
     const { error: insertError } = await supabase.from("lesson_quiz_questions").insert({
       lesson_id: lessonId,
@@ -109,22 +107,20 @@ export default function QuestionBankEditor({ lessonId, userId, objectives = [], 
     });
     setBusyId("");
     if (insertError) {
-      setError(insertError.message);
+      toast(insertError.message, "error");
       return;
     }
     await reload();
   }
 
   async function saveQuestion(question: QuestionRow) {
-    setError("");
-    setMessage("");
     const choices = question.choices.map((choice) => choice.trim());
     if (question.prompt.trim().length < 8 || choices.length < 2 || choices.some((choice) => !choice)) {
-      setError("Complete l'enonce et tous les choix avant d'enregistrer.");
+      toast("Complete l'enonce et tous les choix avant d'enregistrer.", "error");
       return;
     }
     if (new Set(choices.map((choice) => choice.toLowerCase())).size !== choices.length) {
-      setError("Les choix d'une question doivent etre differents.");
+      toast("Les choix d'une question doivent etre differents.", "error");
       return;
     }
 
@@ -145,10 +141,10 @@ export default function QuestionBankEditor({ lessonId, userId, objectives = [], 
       .eq("id", question.id);
     setBusyId("");
     if (updateError) {
-      setError(updateError.message);
+      toast(updateError.message, "error");
       return;
     }
-    setMessage("Question enregistree.");
+    toast("Question enregistree.", "success");
   }
 
   async function deleteQuestion(questionId: string) {
@@ -157,7 +153,7 @@ export default function QuestionBankEditor({ lessonId, userId, objectives = [], 
     const { error: deleteError } = await supabase.from("lesson_quiz_questions").delete().eq("id", questionId);
     setBusyId("");
     if (deleteError) {
-      setError(deleteError.message);
+      toast(deleteError.message, "error");
       return;
     }
     setQuestions((current) => current.filter((question) => question.id !== questionId));
@@ -175,9 +171,6 @@ export default function QuestionBankEditor({ lessonId, userId, objectives = [], 
           Ajouter une question
         </button>
       </div>
-
-      {error ? <div className="rounded-xl border border-red-500/25 bg-red-500/10 px-4 py-3 text-[12px] text-red-200" role="alert">{error}</div> : null}
-      {message ? <div className="rounded-xl border border-emerald-500/25 bg-emerald-500/10 px-4 py-3 text-[12px] text-emerald-200" aria-live="polite">{message}</div> : null}
 
       {loading ? (
         <div className="space-y-3">{[0, 1, 2].map((item) => <div key={item} className="route-skeleton h-40 rounded-xl" />)}</div>

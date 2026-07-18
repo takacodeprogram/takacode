@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { sanitizeAuthEmail, toAuthErrorMessage } from "../lib/authErrors";
 import { createClient } from "../utils/supabase/client";
+import { useToast } from "./Toast";
 
 interface AuthOnboardingPageProps {
   initialMode?: string;
@@ -146,6 +147,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
   const router = useRouter();
   const searchParams = useSearchParams();
   const supabase = useMemo(() => createClient(), []);
+  const { toast } = useToast();
 
   const nextPath = sanitizeNextPath(searchParams.get("next"));
   const queryError = searchParams.get("error");
@@ -164,8 +166,6 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>("");
-  const [infoMessage, setInfoMessage] = useState<string>("");
 
   const passwordStrength = getPasswordStrength(password);
   const strengthMeta = getStrengthMeta(passwordStrength);
@@ -235,14 +235,10 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
     };
   }, [router, supabase]);
 
-  const activeErrorMessage = errorMessage || (queryError ? AUTH_ERROR_MESSAGES[queryError] ?? "La connexion n'a pas abouti. Réessaie." : "");
-  const activeInfoMessage = infoMessage;
-  const showResetSuccessState = mode === "signin" && resetSuccess && !infoMessage;
+  const showResetSuccessState = mode === "signin" && resetSuccess;
 
   async function handleOAuth(provider: string) {
     setLoading(true);
-    setErrorMessage("");
-    setInfoMessage("");
 
     try {
       const { error } = await supabase.auth.signInWithOAuth({
@@ -253,20 +249,18 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
       });
 
       if (error) {
-        setErrorMessage(toAuthErrorMessage(error, "Impossible de démarrer la connexion OAuth."));
+        toast(toAuthErrorMessage(error, "Impossible de démarrer la connexion OAuth."), "error");
         setLoading(false);
         return;
       }
     } catch {
-      setErrorMessage("Problème réseau. Réessaie dans un instant.");
+      toast("Problème réseau. Réessaie dans un instant.", "error");
       setLoading(false);
     }
   }
 
   async function handleWalletLogin() {
     setLoading(true);
-    setErrorMessage("");
-    setInfoMessage("");
 
     try {
       const { error } = await supabase.auth.signInWithWeb3({
@@ -275,7 +269,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
       });
 
       if (error) {
-        setErrorMessage(toAuthErrorMessage(error, "Impossible de connecter le wallet."));
+        toast(toAuthErrorMessage(error, "Impossible de connecter le wallet."), "error");
         setLoading(false);
         return;
       }
@@ -283,7 +277,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
       router.push(nextPath);
       router.refresh();
     } catch {
-      setErrorMessage("Problème réseau. Réessaie dans un instant.");
+      toast("Problème réseau. Réessaie dans un instant.", "error");
       setLoading(false);
     }
   }
@@ -293,13 +287,11 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
 
     const normalizedEmail = sanitizeAuthEmail(email);
     if (!normalizedEmail) {
-      setErrorMessage("Entre ton email pour te connecter.");
+      toast("Entre ton email pour te connecter.", "error");
       return;
     }
 
     setLoading(true);
-    setErrorMessage("");
-    setInfoMessage("");
 
     try {
       const { error } = await supabase.auth.signInWithPassword({
@@ -308,7 +300,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
       });
 
       if (error) {
-        setErrorMessage(toAuthErrorMessage(error, "Connexion impossible pour le moment."));
+        toast(toAuthErrorMessage(error, "Connexion impossible pour le moment."), "error");
         setLoading(false);
         return;
       }
@@ -316,7 +308,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
       router.push(nextPath);
       router.refresh();
     } catch {
-      setErrorMessage("Problème réseau. Réessaie dans un instant.");
+      toast("Problème réseau. Réessaie dans un instant.", "error");
       setLoading(false);
     }
   }
@@ -326,23 +318,21 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
 
     const normalizedEmail = sanitizeAuthEmail(email);
     if (!normalizedEmail) {
-      setErrorMessage("Entre une adresse email valide.");
+      toast("Entre une adresse email valide.", "error");
       return;
     }
 
     if (password !== passwordConfirm) {
-      setErrorMessage("Les mots de passe ne correspondent pas.");
+      toast("Les mots de passe ne correspondent pas.", "error");
       return;
     }
 
     if (passwordStrength < 75) {
-      setErrorMessage("Utilise un mot de passe plus solide (min 10 caractères, majuscule, chiffre, symbole).");
+      toast("Utilise un mot de passe plus solide (min 10 caractères, majuscule, chiffre, symbole).", "error");
       return;
     }
 
     setLoading(true);
-    setErrorMessage("");
-    setInfoMessage("");
 
     const emailRedirectTo = buildOAuthRedirect(nextPath);
 
@@ -362,7 +352,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
       });
 
       if (error) {
-        setErrorMessage(toAuthErrorMessage(error, "Inscription impossible pour le moment."));
+        toast(toAuthErrorMessage(error, "Inscription impossible pour le moment."), "error");
         setLoading(false);
         return;
       }
@@ -373,10 +363,10 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
         return;
       }
 
-      setInfoMessage("Compte créé. Vérifie ton email pour confirmer ton inscription.");
+      toast("Compte créé. Vérifie ton email pour confirmer ton inscription.", "info");
       setLoading(false);
     } catch {
-      setErrorMessage("Problème réseau. Réessaie dans un instant.");
+      toast("Problème réseau. Réessaie dans un instant.", "error");
       setLoading(false);
     }
   }
@@ -481,12 +471,6 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
                 <div className="h-px flex-1 bg-white/[0.05]" />
               </div>
 
-              {activeErrorMessage ? (
-                <div className="mb-4 rounded-xl border border-red-500/25 bg-red-500/10 px-4 py-3 text-[12px] text-red-300">
-                  {activeErrorMessage}
-                </div>
-              ) : null}
-
               {showResetSuccessState ? (
                 <div className="mb-4 rounded-xl border border-emerald-500/25 bg-emerald-500/10 px-4 py-4 text-emerald-100">
                   <div className="text-[10px] font-semibold tracking-[0.16em] uppercase text-emerald-300 mb-1">C'EST BON !</div>
@@ -495,12 +479,6 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
                   <Link href="/signin?next=/dashboard" className="text-[12px] font-semibold text-emerald-200 hover:text-white transition-colors">
                     Continuer mon parcours
                   </Link>
-                </div>
-              ) : null}
-
-              {activeInfoMessage ? (
-                <div className="mb-4 rounded-xl border border-blue-500/25 bg-blue-500/10 px-4 py-3 text-[12px] text-blue-200">
-                  {activeInfoMessage}
                 </div>
               ) : null}
 
@@ -636,8 +614,6 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
                       className="text-white font-medium hover:underline"
                       onClick={() => {
                         setMode("signup");
-                        setErrorMessage("");
-                        setInfoMessage("");
                       }}
                     >
                       Créer un compte
@@ -651,8 +627,6 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
                       className="text-white font-medium hover:underline"
                       onClick={() => {
                         setMode("signin");
-                        setErrorMessage("");
-                        setInfoMessage("");
                       }}
                     >
                       Se connecter

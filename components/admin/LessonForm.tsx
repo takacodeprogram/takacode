@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "../../utils/supabase/client";
+import { useToast } from "../Toast";
 import { analyzeQuiz, balanceQuizAnswers } from "../../lib/quizQuality";
 import MicroProjectBuilder from "./MicroProjectBuilder";
 import QuestionBankEditor from "./QuestionBankEditor";
@@ -76,6 +77,7 @@ function Field({ label, hint, children }: { label: string; hint?: string; childr
 export default function LessonForm({ trackId, modules = [], lesson = null, defaultModuleId = "", userId = "" }: LessonFormProps) {
   const router = useRouter();
   const supabase = useMemo(() => createClient(), []);
+  const { toast } = useToast();
   const isEdit = Boolean(lesson);
 
   const [form, setForm] = useState<Record<string, string>>(() => ({
@@ -95,8 +97,6 @@ export default function LessonForm({ trackId, modules = [], lesson = null, defau
     is_published: String(lesson ? lesson.is_published === true : true)
   }));
   const [saving, setSaving] = useState<boolean>(false);
-  const [error, setError] = useState<string>("");
-  const [message, setMessage] = useState<string>("");
 
   const quizQuality = useMemo(() => {
     try {
@@ -156,15 +156,13 @@ export default function LessonForm({ trackId, modules = [], lesson = null, defau
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
-    setError("");
-    setMessage("");
 
     if (!form.module_id) {
-      setError("Choisis un module.");
+      toast("Choisis un module.", "error");
       return;
     }
     if (!form.title.trim()) {
-      setError("Le titre est obligatoire.");
+      toast("Le titre est obligatoire.", "error");
       return;
     }
 
@@ -172,7 +170,7 @@ export default function LessonForm({ trackId, modules = [], lesson = null, defau
     try {
       payload = buildPayload();
     } catch (e) {
-      setError((e as Error).message);
+      toast((e as Error).message, "error");
       return;
     }
 
@@ -182,17 +180,17 @@ export default function LessonForm({ trackId, modules = [], lesson = null, defau
       const { error: updateError } = await supabase.from("track_lessons").update(payload).eq("id", lesson!.id);
       setSaving(false);
       if (updateError) {
-        setError(updateError.message);
+        toast(updateError.message, "error");
         return;
       }
-      setMessage("Leçon enregistrée.");
+      toast("Leçon enregistrée.", "success");
       router.refresh();
       return;
     }
 
     const slug = form.slug.trim().toLowerCase();
     if (!slugIsValid(slug)) {
-      setError("Slug de leçon invalide (minuscules, chiffres, tirets).");
+      toast("Slug de leçon invalide (minuscules, chiffres, tirets).", "error");
       setSaving(false);
       return;
     }
@@ -200,7 +198,7 @@ export default function LessonForm({ trackId, modules = [], lesson = null, defau
     const { error: insertError } = await supabase.from("track_lessons").insert({ slug, ...payload });
     setSaving(false);
     if (insertError) {
-      setError(insertError.message);
+      toast(insertError.message, "error");
       return;
     }
     router.push(`/admin/parcours/${trackId}`);
@@ -287,9 +285,6 @@ export default function LessonForm({ trackId, modules = [], lesson = null, defau
       <label className="text-[11px] text-[#9b9b9b] flex items-center gap-1.5">
         <input type="checkbox" checked={form.is_published === "true"} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("is_published", e.target.checked ? "true" : "false")} /> Publiée
       </label>
-
-      {error ? <div className="rounded-xl border border-red-500/25 bg-red-500/10 px-4 py-3 text-[12px] text-red-200">{error}</div> : null}
-      {message ? <div className="rounded-xl border border-emerald-500/25 bg-emerald-500/10 px-4 py-3 text-[12px] text-emerald-200">{message}</div> : null}
 
       <button type="submit" disabled={saving} className={`btn-primary inline-flex items-center gap-2 text-[12px] ${saving ? "opacity-50 cursor-not-allowed" : ""}`} style={{ padding: "10px 18px" }}>
         {saving ? "Enregistrement..." : isEdit ? "Enregistrer la leçon" : "Créer la leçon"}

@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toAuthErrorMessage } from "../lib/authErrors";
 import { createClient } from "../utils/supabase/client";
+import { useToast } from "./Toast";
 
 function getPasswordStrength(password: string): number {
   let score = 0;
@@ -36,13 +37,12 @@ function getStrengthMeta(score: number): StrengthMeta {
 export default function ResetPasswordPageClient() {
   const router = useRouter();
   const supabase = useMemo(() => createClient(), []);
+  const { toast } = useToast();
 
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>("");
-  const [infoMessage, setInfoMessage] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
   const strength = getPasswordStrength(password);
@@ -58,11 +58,11 @@ export default function ResetPasswordPageClient() {
         } = await supabase.auth.getSession();
 
         if (!session && isMounted) {
-          setInfoMessage("Ouvre cette page depuis le lien reçu par email pour choisir ton nouveau mot de passe.");
+          toast("Ouvre cette page depuis le lien reçu par email pour choisir ton nouveau mot de passe.", "info");
         }
       } catch {
         if (isMounted) {
-          setInfoMessage("Impossible de vérifier la session. Recharge la page depuis le lien reçu par email.");
+          toast("Impossible de vérifier la session. Recharge la page depuis le lien reçu par email.", "info");
         }
       }
     }
@@ -78,24 +78,22 @@ export default function ResetPasswordPageClient() {
     event.preventDefault();
 
     if (password !== confirmPassword) {
-      setErrorMessage("Les mots de passe ne correspondent pas.");
+      toast("Les mots de passe ne correspondent pas.", "error");
       return;
     }
 
     if (strength < 75) {
-      setErrorMessage("Choisis un mot de passe plus solide (min 10 caractères, majuscule, chiffre, symbole).");
+      toast("Choisis un mot de passe plus solide (min 10 caractères, majuscule, chiffre, symbole).", "error");
       return;
     }
 
     setLoading(true);
-    setErrorMessage("");
-    setInfoMessage("");
 
     try {
       const { error } = await supabase.auth.updateUser({ password });
 
       if (error) {
-        setErrorMessage(toAuthErrorMessage(error, "Impossible de mettre à jour le mot de passe."));
+        toast(toAuthErrorMessage(error, "Impossible de mettre à jour le mot de passe."), "error");
         return;
       }
 
@@ -103,7 +101,7 @@ export default function ResetPasswordPageClient() {
       router.replace("/signin?reset=success");
       router.refresh();
     } catch {
-      setErrorMessage("Problème réseau. Réessaie dans un instant.");
+      toast("Problème réseau. Réessaie dans un instant.", "error");
     } finally {
       setLoading(false);
     }
@@ -117,18 +115,6 @@ export default function ResetPasswordPageClient() {
         <p className="font-body-readable text-[14px] text-[#888] leading-relaxed mb-8">
           Choisis un nouveau mot de passe pour retrouver ton espace et poursuivre tes projets.
         </p>
-
-        {errorMessage ? (
-          <div className="mb-4 rounded-xl border border-red-500/25 bg-red-500/10 px-4 py-3 text-[12px] text-red-300">
-            {errorMessage}
-          </div>
-        ) : null}
-
-        {infoMessage ? (
-          <div className="mb-4 rounded-xl border border-blue-500/25 bg-blue-500/10 px-4 py-3 text-[12px] text-blue-200">
-            {infoMessage}
-          </div>
-        ) : null}
 
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="space-y-1.5">

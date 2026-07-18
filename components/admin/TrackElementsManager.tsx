@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useMemo, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "../../utils/supabase/client";
+import { useToast } from "../Toast";
 import {
   DndContext,
   closestCenter,
@@ -118,12 +119,12 @@ function SortableLessonRow({
 export default function TrackElementsManager({ trackId, initialModules = [], basePath = `/admin/parcours/${trackId}` }: Props) {
   const router = useRouter();
   const supabase = useMemo(() => createClient(), []);
+  const { toast } = useToast();
   const [modules, setModules] = useState<ModuleEntry[]>(initialModules);
   const [createForm, setCreateForm] = useState<typeof EMPTY_MODULE>(EMPTY_MODULE);
   const [editingId, setEditingId] = useState("");
   const [editForm, setEditForm] = useState<typeof EMPTY_MODULE>(EMPTY_MODULE);
   const [busy, setBusy] = useState(false);
-  const [error, setError] = useState("");
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } })
@@ -215,14 +216,13 @@ export default function TrackElementsManager({ trackId, initialModules = [], bas
 
   async function handleCreateModule(event: React.FormEvent) {
     event.preventDefault();
-    setError("");
     const slug = createForm.slug.trim().toLowerCase();
     if (!slugIsValid(slug)) {
-      setError("Slug de module invalide (minuscules, chiffres, tirets).");
+      toast("Slug de module invalide (minuscules, chiffres, tirets).", "error");
       return;
     }
     if (!createForm.title.trim()) {
-      setError("Le titre du module est obligatoire.");
+      toast("Le titre du module est obligatoire.", "error");
       return;
     }
 
@@ -238,7 +238,7 @@ export default function TrackElementsManager({ trackId, initialModules = [], bas
     setBusy(false);
 
     if (insertError) {
-      setError(insertError.message);
+      toast(insertError.message, "error");
       return;
     }
     setCreateForm(EMPTY_MODULE);
@@ -256,7 +256,6 @@ export default function TrackElementsManager({ trackId, initialModules = [], bas
   }
 
   async function handleUpdateModule(moduleId: string) {
-    setError("");
     setBusy(true);
     const { error: updateError } = await supabase
       .from("track_modules")
@@ -268,7 +267,7 @@ export default function TrackElementsManager({ trackId, initialModules = [], bas
       .eq("id", moduleId);
     setBusy(false);
     if (updateError) {
-      setError(updateError.message);
+      toast(updateError.message, "error");
       return;
     }
     setEditingId("");
@@ -300,7 +299,7 @@ export default function TrackElementsManager({ trackId, initialModules = [], bas
       .single();
 
     if (insertError || !newMod) {
-      setError(insertError?.message || "Erreur duplication module");
+      toast(insertError?.message || "Erreur duplication module", "error");
       setBusy(false);
       return;
     }
@@ -344,7 +343,7 @@ export default function TrackElementsManager({ trackId, initialModules = [], bas
         sort_order: lesson.sort_order + 1,
         is_published: false
       });
-      if (insertError) setError(insertError.message);
+      if (insertError) toast(insertError.message, "error");
     }
     setBusy(false);
     await reload();
@@ -366,8 +365,6 @@ export default function TrackElementsManager({ trackId, initialModules = [], bas
         <h2 className="font-venite text-[13px] tracking-widest text-[#888]">MODULES ET LECONS</h2>
         <span className="text-[11px] text-[#6d6d6d]">{modules.length} module(s)</span>
       </div>
-
-      {error ? <div className="rounded-xl border border-red-500/25 bg-red-500/10 px-4 py-3 text-[12px] text-red-200">{error}</div> : null}
 
       <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
         <SortableContext items={moduleIds} strategy={verticalListSortingStrategy}>

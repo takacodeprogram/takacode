@@ -134,8 +134,15 @@ $$;
 
 revoke all on function public.update_my_profile(text, jsonb, jsonb, text, text, text) from public;
 grant execute on function public.update_my_profile(text, jsonb, jsonb, text, text, text) to authenticated;
-revoke all on function public.update_my_profile(text, jsonb, jsonb, text, text) from public;
-grant execute on function public.update_my_profile(text, jsonb, jsonb, text, text) to authenticated;
+-- obsolete 5-param signature is dropped above; grants are no-op if it doesn't exist
+do $$ begin
+  revoke all on function public.update_my_profile(text, jsonb, jsonb, text, text) from public;
+exception when undefined_function then null;
+end $$;
+do $$ begin
+  grant execute on function public.update_my_profile(text, jsonb, jsonb, text, text) to authenticated;
+exception when undefined_function then null;
+end $$;
 
 -- 7. RPC pour lister ses sessions
 create or replace function public.list_my_sessions()

@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { createClient } from "../utils/supabase/client";
+import { useToast } from "./Toast";
 
 interface User {
   id: string;
@@ -61,6 +62,7 @@ function formatDate(value: string | undefined): string {
 
 export default function AdminUsersManager({ initialUsers = [], currentUserId = "" }: AdminUsersManagerProps) {
   const supabase = useMemo(() => createClient(), []);
+  const { toast } = useToast();
   const [users, setUsers] = useState<User[]>(Array.isArray(initialUsers) ? initialUsers : []);
   const [pointsDraft, setPointsDraft] = useState<Record<string, string>>(() =>
     Object.fromEntries((initialUsers || []).map((u: User) => [u.id, String(Number(u.points ?? 0))]))
@@ -71,14 +73,10 @@ export default function AdminUsersManager({ initialUsers = [], currentUserId = "
   const [savingPointsId, setSavingPointsId] = useState<string>("");
   const [applyingRoleId, setApplyingRoleId] = useState<string>("");
   const [confirm, setConfirm] = useState<{ user: User; oldRole: string; newRole: string } | null>(null);
-  const [errorMessage, setErrorMessage] = useState<string>("");
-  const [successMessage, setSuccessMessage] = useState<string>("");
 
   async function handleSavePoints(userId: string) {
     const points = Math.max(0, Number.parseInt(String(pointsDraft[userId]), 10) || 0);
     setSavingPointsId(userId);
-    setErrorMessage("");
-    setSuccessMessage("");
 
     const { data, error } = await supabase
       .from("user_profiles")
@@ -88,14 +86,14 @@ export default function AdminUsersManager({ initialUsers = [], currentUserId = "
       .single();
 
     if (error) {
-      setErrorMessage(error.message);
+      toast(error.message, "error");
       setSavingPointsId("");
       return;
     }
 
     setUsers((current) => current.map((u) => (u.id === userId ? { ...u, ...(data as object) } : u)));
     setPointsDraft((current) => ({ ...current, [userId]: String((data as { points: number }).points) }));
-    setSuccessMessage("Points mis a jour.");
+    toast("Points mis a jour.", "success");
     setSavingPointsId("");
   }
 
@@ -111,14 +109,12 @@ export default function AdminUsersManager({ initialUsers = [], currentUserId = "
     if (!confirm) return;
     const { user, newRole } = confirm;
     setApplyingRoleId(user.id);
-    setErrorMessage("");
-    setSuccessMessage("");
 
     const { data, error } = await supabase.rpc("admin_set_user_role", { p_target: user.id, p_role: newRole });
 
     if (error || (data && typeof data === "object" && "error" in data && data.error)) {
       const code = (data && typeof data === "object" && "error" in data ? (data as { error: string }).error : "") || (error?.message?.includes("function") ? "rpc_missing" : "");
-      setErrorMessage(ROLE_ERROR[code] || error?.message || "Impossible de changer le role.");
+      toast(ROLE_ERROR[code] || error?.message || "Impossible de changer le role.", "error");
       setApplyingRoleId("");
       setConfirm(null);
       setRoleDraft((current) => ({ ...current, [user.id]: user.role || "user" }));
@@ -126,7 +122,7 @@ export default function AdminUsersManager({ initialUsers = [], currentUserId = "
     }
 
     setUsers((current) => current.map((u) => (u.id === user.id ? { ...u, role: newRole } : u)));
-    setSuccessMessage(`Role de ${resolveUserDisplayName(user)} : ${ROLE_INFO[newRole].label}.`);
+    toast(`Role de ${resolveUserDisplayName(user)} : ${ROLE_INFO[newRole].label}.`, "success");
     setApplyingRoleId("");
     setConfirm(null);
   }
@@ -151,9 +147,6 @@ export default function AdminUsersManager({ initialUsers = [], currentUserId = "
           </div>
         ))}
       </div>
-
-      {errorMessage ? <div className="mb-4 rounded-xl border border-red-500/25 bg-red-500/10 px-4 py-3 text-[12px] text-red-300">{errorMessage}</div> : null}
-      {successMessage ? <div className="mb-4 rounded-xl border border-emerald-500/25 bg-emerald-500/10 px-4 py-3 text-[12px] text-emerald-200">{successMessage}</div> : null}
 
       <div className="overflow-x-auto">
         <table className="w-full min-w-[900px] border-collapse">

@@ -7,6 +7,7 @@ import { createClient } from "../../utils/supabase/client";
 import TrackLivePreview from "./TrackLivePreview";
 import TrackVersionHistory from "./TrackVersionHistory";
 import { useAutosave } from "../../hooks/useAutosave";
+import { useToast } from "../Toast";
 
 interface TrackData {
   id: string;
@@ -91,6 +92,7 @@ function TabDot({ filled }: { filled: boolean }) {
 export default function TrackForm({ mode = "create", track = null, proposal = false, userId = "", redirectBase = "/admin/parcours" }: TrackFormProps) {
   const router = useRouter();
   const supabase = useMemo(() => createClient(), []);
+  const { toast } = useToast();
   const isEdit = mode === "edit";
 
   const [form, setForm] = useState<Record<string, string>>(() => ({
@@ -110,8 +112,6 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
     is_active: track ? String(track.is_active !== false) : "true"
   }));
   const [saving, setSaving] = useState(false);
-  const [error, setError] = useState("");
-  const [message, setMessage] = useState("");
   const [activeTab, setActiveTab] = useState<TabId>("identite");
   const [dirty, setDirty] = useState(false);
   const [errors, setErrors] = useState<ValidationErrors>({});
@@ -232,8 +232,6 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
-    setError("");
-    setMessage("");
 
     const errs = validate();
     setErrors(errs);
@@ -249,13 +247,13 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
     if (isEdit) {
       const { error: updateError } = await supabase.from("learning_tracks").update(buildPayload()).eq("id", track!.id).select(TRACK_SELECT).single();
       if (updateError) {
-        setError(updateError.message);
+        toast(updateError.message, "error");
         setSaving(false);
         return;
       }
       await createVersion("Sauvegarde manuelle");
       markSaved();
-      setMessage("Parcours mis a jour.");
+      toast("Parcours mis a jour.", "success");
       setDirty(false);
       setSaving(false);
       router.refresh();
@@ -271,7 +269,7 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
 
     const { data, error: insertError } = await supabase.from("learning_tracks").insert(insertPayload).select(TRACK_SELECT).single();
     if (insertError) {
-      setError(insertError.message);
+      toast(insertError.message, "error");
       setSaving(false);
       return;
     }
@@ -493,12 +491,6 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
             }}
           />
         )}
-      </div>
-
-      {/* Error / success messages */}
-      <div className="px-5 pb-4">
-        {error ? <div className="rounded-xl border border-red-500/25 bg-red-500/10 px-4 py-3 text-[12px] text-red-200 mb-3">{error}</div> : null}
-        {message ? <div className="rounded-xl border border-emerald-500/25 bg-emerald-500/10 px-4 py-3 text-[12px] text-emerald-200 mb-3">{message}</div> : null}
       </div>
 
       {/* Footer with actions */}

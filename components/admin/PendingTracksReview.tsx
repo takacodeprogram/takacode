@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "../../utils/supabase/client";
+import { useToast } from "../Toast";
 
 interface PendingTrack {
   id: string;
@@ -18,18 +19,17 @@ interface PendingTracksReviewProps {
 export default function PendingTracksReview({ initialPending = [] }: PendingTracksReviewProps) {
   const router = useRouter();
   const supabase = useMemo(() => createClient(), []);
+  const { toast } = useToast();
   const [pending, setPending] = useState<PendingTrack[]>(initialPending);
   const [busyId, setBusyId] = useState<string>("");
-  const [error, setError] = useState<string>("");
 
   async function decide(trackId: string, approve: boolean) {
     setBusyId(trackId);
-    setError("");
     const { data, error: rpcError } = await supabase.rpc("admin_validate_track", { p_track: trackId, p_approve: approve });
     setBusyId("");
 
     if (rpcError || (data && typeof data === "object" && "error" in data && data.error)) {
-      setError(rpcError?.message || (data && typeof data === "object" && "error" in data ? (data as { error: string }).error : "") || "Action impossible.");
+      toast(rpcError?.message || (data && typeof data === "object" && "error" in data ? (data as { error: string }).error : "") || "Action impossible.", "error");
       return;
     }
 
@@ -47,8 +47,6 @@ export default function PendingTracksReview({ initialPending = [] }: PendingTrac
         <iconify-icon icon="lucide:inbox" style={{ fontSize: "16px", color: "#F59E0B" }} />
         <h2 className="font-venite text-[13px] tracking-widest text-amber-100">PROPOSITIONS A VALIDER ({pending.length})</h2>
       </div>
-
-      {error ? <div className="rounded-xl border border-red-500/25 bg-red-500/10 px-4 py-2.5 text-[12px] text-red-200 mb-3">{error}</div> : null}
 
       <div className="space-y-2.5">
         {pending.map((track) => (

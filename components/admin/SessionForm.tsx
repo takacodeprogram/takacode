@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "../../utils/supabase/client";
+import { useToast } from "../Toast";
 
 interface Track {
   id: string;
@@ -49,6 +50,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 export default function SessionForm({ tracks = [], session = null }: SessionFormProps) {
   const router = useRouter();
   const supabase = useMemo(() => createClient(), []);
+  const { toast } = useToast();
   const isEdit = Boolean(session);
 
   const [form, setForm] = useState<Record<string, string | boolean>>(() => ({
@@ -63,8 +65,6 @@ export default function SessionForm({ tracks = [], session = null }: SessionForm
   }));
   const [saving, setSaving] = useState<boolean>(false);
   const [deleting, setDeleting] = useState<boolean>(false);
-  const [error, setError] = useState<string>("");
-  const [message, setMessage] = useState<string>("");
 
   function setField(key: string, value: string | boolean) {
     setForm((current) => ({ ...current, [key]: value }));
@@ -85,11 +85,9 @@ export default function SessionForm({ tracks = [], session = null }: SessionForm
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
-    setError("");
-    setMessage("");
 
     if (!String(form.title).trim()) {
-      setError("Le titre est obligatoire.");
+      toast("Le titre est obligatoire.", "error");
       return;
     }
 
@@ -99,10 +97,10 @@ export default function SessionForm({ tracks = [], session = null }: SessionForm
       const { error: updateError } = await supabase.from("live_sessions").update(buildPayload()).eq("id", session!.id);
       setSaving(false);
       if (updateError) {
-        setError(updateError.message);
+        toast(updateError.message, "error");
         return;
       }
-      setMessage("Session enregistrée.");
+      toast("Session enregistrée.", "success");
       router.refresh();
       return;
     }
@@ -110,7 +108,7 @@ export default function SessionForm({ tracks = [], session = null }: SessionForm
     const { error: insertError } = await supabase.from("live_sessions").insert(buildPayload());
     setSaving(false);
     if (insertError) {
-      setError(insertError.message.includes("live_sessions") ? "Table sessions absente. Lance supabase/sql/010_live_sessions.sql." : insertError.message);
+      toast(insertError.message.includes("live_sessions") ? "Table sessions absente. Lance supabase/sql/010_live_sessions.sql." : insertError.message, "error");
       return;
     }
     router.push("/admin/sessions");
@@ -124,7 +122,7 @@ export default function SessionForm({ tracks = [], session = null }: SessionForm
     const { error: deleteError } = await supabase.from("live_sessions").delete().eq("id", session!.id);
     setDeleting(false);
     if (deleteError) {
-      setError(deleteError.message);
+      toast(deleteError.message, "error");
       return;
     }
     router.push("/admin/sessions");
@@ -156,9 +154,6 @@ export default function SessionForm({ tracks = [], session = null }: SessionForm
       <label className="text-[11px] text-[#9b9b9b] flex items-center gap-1.5">
         <input type="checkbox" checked={form.is_published === true} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("is_published", e.target.checked)} /> Publiée (visible par les membres)
       </label>
-
-      {error ? <div className="rounded-xl border border-red-500/25 bg-red-500/10 px-4 py-3 text-[12px] text-red-200">{error}</div> : null}
-      {message ? <div className="rounded-xl border border-emerald-500/25 bg-emerald-500/10 px-4 py-3 text-[12px] text-emerald-200">{message}</div> : null}
 
       <div className="flex items-center gap-3 flex-wrap">
         <button type="submit" disabled={saving} className={`btn-primary inline-flex items-center gap-2 text-[12px] ${saving ? "opacity-50 cursor-not-allowed" : ""}`} style={{ padding: "10px 18px" }}>

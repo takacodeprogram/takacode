@@ -66,8 +66,6 @@ export default function ProfileEditor({
   const [countryCode, setCountryCode] = useState<string>(initialCountryCode || "");
   const [skillsInput, setSkillsInput] = useState<string>(Array.isArray(initialSkills) ? initialSkills.join(", ") : "");
   const [saving, setSaving] = useState<boolean>(false);
-  const [message, setMessage] = useState<string>("");
-  const [error, setError] = useState<string>("");
 
   const seed = `${(publicName || seedBase || "takacode").trim()}-${shuffle}`;
   const avatarOptions = useMemo(
@@ -88,8 +86,6 @@ export default function ProfileEditor({
 
   async function handleSave() {
     setSaving(true);
-    setMessage("");
-    setError("");
 
     const cleanedSocials: Record<string, string> = {};
     for (const field of SOCIAL_FIELDS) {
@@ -108,16 +104,11 @@ export default function ProfileEditor({
     });
 
     if (rpcError || (data && typeof data === "object" && "error" in data && data.error)) {
-      const msg = rpcError?.message?.includes("function")
-          ? "Fonction de profil absente. Lance supabase/sql/012_profile_public.sql."
-          : rpcError?.message || "Impossible d'enregistrer le profil.";
-      setError(msg);
-      toast(msg, "error");
+      toast(rpcError?.message || "Impossible d'enregistrer le profil.", "error");
       setSaving(false);
       return;
     }
 
-    setMessage("Profil enregistré.");
     toast("Profil enregistré.", "success");
     playPop();
     router.refresh();
@@ -264,9 +255,6 @@ export default function ProfileEditor({
           className="mt-1.5 w-full rounded-lg border border-white/[0.08] bg-[#0f0f0f] px-3 py-2.5 font-body-readable text-[12px] text-[#d0d0d0] placeholder:text-[#555] focus:outline-none focus:border-blue-400/40"
         />
       </div>
-
-      {error ? <div className="rounded-xl border border-red-500/25 bg-red-500/10 px-4 py-3 text-[12px] text-red-200">{error}</div> : null}
-      {message ? <div className="rounded-xl border border-emerald-500/25 bg-emerald-500/10 px-4 py-3 text-[12px] text-emerald-200">{message}</div> : null}
 
       <button
         type="button"

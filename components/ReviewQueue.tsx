@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "../utils/supabase/client";
 import { getInitials } from "../lib/avatar";
+import { useToast } from "./Toast";
 
 interface ReviewItem {
   authorId: string;
@@ -45,10 +46,10 @@ function Avatar({ url, name }: { url?: string; name?: string }) {
 export default function ReviewQueue({ initialItems = [] }: ReviewQueueProps) {
   const router = useRouter();
   const supabase = useMemo(() => createClient(), []);
+  const { toast } = useToast();
   const [items, setItems] = useState<ReviewItem[]>(initialItems);
   const [comments, setComments] = useState<Record<string, string>>({});
   const [busyKey, setBusyKey] = useState<string>("");
-  const [error, setError] = useState<string>("");
 
   function keyOf(item: ReviewItem): string {
     return `${item.authorId}-${item.lessonId}`;
@@ -57,7 +58,6 @@ export default function ReviewQueue({ initialItems = [] }: ReviewQueueProps) {
   async function review(item: ReviewItem, verdict: string) {
     const key = keyOf(item);
     setBusyKey(key);
-    setError("");
 
     const { data, error: rpcError } = await supabase.rpc("submit_project_review", {
       p_author: item.authorId,
@@ -70,7 +70,7 @@ export default function ReviewQueue({ initialItems = [] }: ReviewQueueProps) {
 
     if (rpcError || (data && typeof data === "object" && "error" in data && data.error)) {
       const errorCode = data && typeof data === "object" && "error" in data ? (data as { error: string }).error : undefined;
-      setError(ERRORS[errorCode || ""] || rpcError?.message || "Action impossible.");
+      toast(ERRORS[errorCode || ""] || rpcError?.message || "Action impossible.", "error");
       return;
     }
 
@@ -103,8 +103,6 @@ export default function ReviewQueue({ initialItems = [] }: ReviewQueueProps) {
 
   return (
     <div className="space-y-4">
-      {error ? <div className="rounded-xl border border-red-500/25 bg-red-500/10 px-4 py-3 text-[12px] text-red-200">{error}</div> : null}
-
       {items.map((item) => {
         const key = keyOf(item);
         const busy = busyKey === key;
