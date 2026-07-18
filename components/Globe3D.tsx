@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useMemo, useState } from "react";
+import { useRef, useMemo, useState, useCallback } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, useTexture } from "@react-three/drei";
 import * as THREE from "three";
@@ -50,39 +50,54 @@ function latLngToVector3(lat: number, lng: number, radius: number): THREE.Vector
   );
 }
 
-function MarkerPulse({ position, count, isSelected, onClick }: {
+function MarkerPin({ position, count, isSelected, onClick }: {
   position: THREE.Vector3;
   count: number;
   isSelected: boolean;
   onClick: () => void;
 }) {
-  const meshRef = useRef<THREE.Mesh>(null);
   const glowRef = useRef<THREE.Mesh>(null);
+  const ringRef = useRef<THREE.Mesh>(null);
+  const height = 0.12 + Math.min(count * 0.02, 0.15);
+  const dir = position.clone().normalize();
+  const base = dir.clone().multiplyScalar(2.0);
+  const tip = dir.clone().multiplyScalar(2.0 + height);
+  const size = Math.min(0.04 + count * 0.01, 0.1);
 
   useFrame(({ clock }) => {
+    const t = clock.getElapsedTime();
     if (glowRef.current) {
-      const pulse = 1 + 0.3 * Math.sin(clock.getElapsedTime() * 2 + position.x);
+      const pulse = 1 + 0.4 * Math.sin(t * 2.5 + position.x);
       glowRef.current.scale.setScalar(pulse);
-      (glowRef.current.material as THREE.MeshBasicMaterial).opacity = 0.2 + 0.15 * Math.sin(clock.getElapsedTime() * 2 + position.x);
+      (glowRef.current.material as THREE.MeshBasicMaterial).opacity = 0.15 + 0.12 * Math.sin(t * 2.5 + position.x);
     }
-    if (meshRef.current) {
-      meshRef.current.scale.setScalar(1 + 0.1 * Math.sin(clock.getElapsedTime() * 1.5 + position.y));
+    if (ringRef.current) {
+      ringRef.current.rotation.x = t * 0.8;
+      ringRef.current.rotation.z = t * 0.5;
     }
   });
 
-  const size = Math.min(0.06 + count * 0.015, 0.15);
+  const color = isSelected ? "#89c7ff" : "#4F8EF7";
 
   return (
-    <group position={position}>
-      <mesh ref={glowRef}>
-        <circleGeometry args={[size * 3, 16]} />
-        <meshBasicMaterial color="#4F8EF7" transparent opacity={0.2} depthWrite={false} />
-      </mesh>
-      <mesh ref={meshRef} onClick={onClick}
+    <group>
+      <mesh position={tip} onClick={onClick}
         onPointerOver={() => { document.body.style.cursor = "pointer"; }}
         onPointerOut={() => { document.body.style.cursor = "default"; }}>
-        <circleGeometry args={[size, 16]} />
-        <meshBasicMaterial color={isSelected ? "#89c7ff" : "#4F8EF7"} transparent opacity={0.95} depthWrite={false} />
+        <sphereGeometry args={[size, 12, 12]} />
+        <meshBasicMaterial color={color} transparent opacity={0.95} depthTest={true} />
+      </mesh>
+      <mesh ref={glowRef} position={tip}>
+        <sphereGeometry args={[size * 3, 12, 12]} />
+        <meshBasicMaterial color={color} transparent opacity={0.15} depthWrite={false} />
+      </mesh>
+      <mesh ref={ringRef} position={tip} rotation={[Math.random(), Math.random(), Math.random()]}>
+        <ringGeometry args={[size * 2.5, size * 3.5, 24]} />
+        <meshBasicMaterial color={color} transparent opacity={0.2} depthWrite={false} side={THREE.DoubleSide} />
+      </mesh>
+      <mesh>
+        <cylinderGeometry args={[0.004, 0.004, height, 4]} />
+        <meshBasicMaterial color={color} transparent opacity={0.4} depthWrite={false} />
       </mesh>
     </group>
   );
@@ -112,19 +127,160 @@ function Stars() {
   );
 }
 
+function ShootingStars() {
+  const count = 5;
+  const trails = useMemo(() =>
+    Array.from({ length: count }, () => makeStar())
+  , []);
+
+  const pointsRef = useRef<THREE.Points>(null);
+
+  useFrame((_, delta) => {
+    if (!pointsRef.current) return;
+    const pos = pointsRef.current.geometry.attributes.position;
+    const array = pos.array as Float32Array;
+    for (let i = 0; i < count; i++) {
+      const t = trails[i];
+      t.life += delta;
+      if (t.life >= t.maxLife) {
+        const reset = makeStar();
+        trails[i] = reset;
+        array[i * 3] = reset.start.x;
+        array[i * 3 + 1] = reset.start.y;
+        array[i * 3 + 2] = reset.start.z;
+        continue;
+      }
+      const progress = t.life / t.maxLife;
+      const x = t.start.x + t.dir.x * progress * 30;
+      const y = t.start.y + t.dir.y * progress * 30;
+      const z = t.start.z + t.dir.z * progress * 30;
+      array[i * 3] = x;
+      array[i * 3 + 1] = y;
+      array[i * 3 + 2] = z;
+    }
+    pos.needsUpdate = true;
+  });
+
+  function makeStar() {
+    const theta = Math.random() * Math.PI * 2;
+    const phi = Math.acos(2 * Math.random() - 1);
+    const r = 5 + Math.random() * 8;
+    const start = new THREE.Vector3(
+      r * Math.sin(phi) * Math.cos(theta),
+      r * Math.sin(phi) * Math.sin(theta),
+      r * Math.cos(phi)
+    );
+    const dir = start.clone().normalize().multiplyScalar(-1);
+    return { start, dir, speed: 2 + Math.random() * 3, life: 0, maxLife: 1 + Math.random() * 2 };
+  }
+
+  const positions = useMemo(() => new Float32Array(count * 3), [count]);
+
+  return (
+    <points ref={pointsRef}>
+      <bufferGeometry>
+        <bufferAttribute args={[positions, 3]} attach="attributes-position" />
+      </bufferGeometry>
+      <pointsMaterial size={0.3} color="#ffffff" transparent opacity={0.8} sizeAttenuation />
+    </points>
+  );
+}
+
+function OrbitalRing() {
+  const count = 300;
+  const ringRef = useRef<THREE.Points>(null);
+  const radius = 2.6;
+  const tilt = 0.3;
+
+  const positions = useMemo(() => {
+    const pos = new Float32Array(count * 3);
+    for (let i = 0; i < count; i++) {
+      const angle = (i / count) * Math.PI * 2;
+      const x = radius * Math.cos(angle);
+      const y = radius * Math.sin(angle) * 0.08;
+      const z = radius * Math.sin(angle);
+      pos[i * 3] = x;
+      pos[i * 3 + 1] = y;
+      pos[i * 3 + 2] = z;
+    }
+    return pos;
+  }, []);
+
+  useFrame((_, delta) => {
+    if (!ringRef.current) return;
+    ringRef.current.rotation.y += delta * 0.08;
+  });
+
+  return (
+    <points ref={ringRef} rotation={[tilt, 0, 0]}>
+      <bufferGeometry>
+        <bufferAttribute args={[positions, 3]} attach="attributes-position" />
+      </bufferGeometry>
+      <pointsMaterial size={0.04} color="#4F8EF7" transparent opacity={0.3} sizeAttenuation />
+    </points>
+  );
+}
+
+function FloatingParticles() {
+  const count = 150;
+  const particlesRef = useRef<THREE.Points>(null);
+  const speeds = useMemo(() => Float32Array.from({ length: count }, () => 0.01 + Math.random() * 0.03), []);
+
+  const initial = useMemo(() => {
+    const pos = new Float32Array(count * 3);
+    for (let i = 0; i < count; i++) {
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.acos(2 * Math.random() - 1);
+      const r = 2.4 + Math.random() * 1.5;
+      pos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+      pos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+      pos[i * 3 + 2] = r * Math.cos(phi);
+    }
+    return pos;
+  }, []);
+
+  useFrame((_, delta) => {
+    if (!particlesRef.current) return;
+    const pos = particlesRef.current.geometry.attributes.position;
+    const array = pos.array as Float32Array;
+    for (let i = 0; i < count; i++) {
+      array[i * 3 + 1] += speeds[i] * delta * 0.5;
+      if (array[i * 3 + 1] > 3.5) array[i * 3 + 1] = -3.5;
+    }
+    pos.needsUpdate = true;
+  });
+
+  return (
+    <points ref={particlesRef}>
+      <bufferGeometry>
+        <bufferAttribute args={[initial, 3]} attach="attributes-position" />
+      </bufferGeometry>
+      <pointsMaterial size={0.03} color="#6d9eff" transparent opacity={0.4} sizeAttenuation />
+    </points>
+  );
+}
+
 function GlobeScene({ markers, onSelectCountry, selectedCountry }: {
   markers: GlobeMarker[];
   onSelectCountry: (code: string | null) => void;
   selectedCountry: string | null;
 }) {
   const earthMap = useTexture("https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg");
+  const atmosphereRef = useRef<THREE.Mesh>(null);
+
+  useFrame(({ clock }) => {
+    if (atmosphereRef.current) {
+      const pulse = 0.03 + 0.015 * Math.sin(clock.getElapsedTime() * 0.8);
+      (atmosphereRef.current.material as THREE.MeshBasicMaterial).opacity = pulse;
+    }
+  });
 
   const markerData = useMemo(() => {
     return markers
       .map((m) => {
         const coords = COUNTRY_COORDS[m.countryCode];
         if (!coords) return null;
-        return { ...m, position: latLngToVector3(coords[0], coords[1], 2.08) };
+        return { ...m, position: latLngToVector3(coords[0], coords[1], 2.0) };
       })
       .filter(Boolean) as (GlobeMarker & { position: THREE.Vector3 })[];
   }, [markers]);
@@ -132,6 +288,9 @@ function GlobeScene({ markers, onSelectCountry, selectedCountry }: {
   return (
     <>
       <Stars />
+      <ShootingStars />
+      <FloatingParticles />
+      <OrbitalRing />
       <group>
         <ambientLight intensity={0.6} />
         <pointLight position={[5, 3, 5]} intensity={1.2} />
@@ -142,8 +301,17 @@ function GlobeScene({ markers, onSelectCountry, selectedCountry }: {
           <meshStandardMaterial map={earthMap} roughness={0.6} metalness={0.05} />
         </mesh>
 
+        <mesh>
+          <sphereGeometry args={[2.04, 48, 48]} />
+          <meshBasicMaterial color="#4F8EF7" transparent opacity={0.04} side={THREE.BackSide} />
+        </mesh>
+        <mesh ref={atmosphereRef}>
+          <sphereGeometry args={[2.12, 32, 32]} />
+          <meshBasicMaterial color="#89c7ff" transparent opacity={0.03} side={THREE.BackSide} />
+        </mesh>
+
         {markerData.map((m) => (
-          <MarkerPulse
+          <MarkerPin
             key={m.countryCode}
             position={m.position}
             count={m.count}
@@ -151,15 +319,6 @@ function GlobeScene({ markers, onSelectCountry, selectedCountry }: {
             onClick={() => onSelectCountry(selectedCountry === m.countryCode ? null : m.countryCode)}
           />
         ))}
-
-        <mesh>
-          <sphereGeometry args={[2.04, 48, 48]} />
-          <meshBasicMaterial color="#4F8EF7" transparent opacity={0.04} side={THREE.BackSide} />
-        </mesh>
-        <mesh>
-          <sphereGeometry args={[2.12, 32, 32]} />
-          <meshBasicMaterial color="#4F8EF7" transparent opacity={0.025} side={THREE.BackSide} />
-        </mesh>
       </group>
     </>
   );
@@ -221,24 +380,31 @@ export default function Globe3D({ markers }: Globe3DProps) {
     };
   }, [selectedCountry, markers]);
 
+  const handleSelectCountry = useCallback((code: string | null) => {
+    setSelectedCountry(code);
+  }, []);
+
   return (
     <div className="relative w-full h-[450px] md:h-[550px]">
       {selectedInfo ? <InfoPanel data={selectedInfo} onClose={() => setSelectedCountry(null)} /> : null}
-      <Canvas camera={{ position: [0, 0, 5.5], fov: 45 }} gl={{ antialias: true, alpha: false }}>
+      <Canvas camera={{ position: [0, 1.2, 5.5], fov: 45 }} gl={{ antialias: true, alpha: false }}>
         <color attach="background" args={["#05080f"]} />
         <GlobeScene
           markers={markers}
-          onSelectCountry={setSelectedCountry}
+          onSelectCountry={handleSelectCountry}
           selectedCountry={selectedCountry}
         />
         <OrbitControls
-          enableZoom={false}
+          enableZoom={true}
+          zoomSpeed={0.8}
+          minDistance={3.5}
+          maxDistance={10}
           enablePan={false}
           rotateSpeed={0.6}
           autoRotate
-          autoRotateSpeed={0.8}
-          minPolarAngle={Math.PI / 4}
-          maxPolarAngle={Math.PI / 1.5}
+          autoRotateSpeed={0.6}
+          minPolarAngle={0.1}
+          maxPolarAngle={Math.PI - 0.1}
         />
       </Canvas>
     </div>
