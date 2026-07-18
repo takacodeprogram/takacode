@@ -75,8 +75,8 @@ export default async function ProjetsPage() {
           <div className="max-w-[1320px] mx-auto">
             {projects.length ? (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-                {projects.map((project) => (
-                  <article key={project.id} className="bg-[#111] border border-white/[0.07] rounded-2xl p-6 card-hover">
+                  {projects.map((project) => (
+                  <Link key={project.id} href={`/projets/${project.id}`} className="bg-[#111] border border-white/[0.07] rounded-2xl p-6 card-hover block">
                     <div className="flex items-center justify-between gap-3 flex-wrap mb-4">
                       <div className="flex items-center gap-3">
                         <div className="w-11 h-11 rounded-xl border border-blue-500/30 bg-blue-500/10 flex items-center justify-center">
@@ -110,7 +110,7 @@ export default async function ProjetsPage() {
                       {project.deadline ? <span>Deadline: {formatDate(project.deadline)}</span> : null}
                       {project.publishedAt ? <span>Publie le {formatDate(project.publishedAt)}</span> : null}
                     </div>
-                  </article>
+                  </Link>
                 ))}
               </div>
             ) : (

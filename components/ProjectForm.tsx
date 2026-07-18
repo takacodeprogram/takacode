@@ -80,6 +80,7 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
   const [deleting, setDeleting] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [message, setMessage] = useState<string>("");
+  const [showPublishConfirm, setShowPublishConfirm] = useState<boolean>(false);
 
   function setField(key: string, value: string) {
     setForm((current) => ({ ...current, [key]: value }));
@@ -127,6 +128,11 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
     if (!form.title.trim()) {
       setError("Le titre du projet est obligatoire.");
       toast("Le titre du projet est obligatoire.", "error");
+      return;
+    }
+
+    if (form.status === "published" && project?.status !== "published" && !showPublishConfirm) {
+      setShowPublishConfirm(true);
       return;
     }
 
@@ -313,6 +319,29 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
         <Field label="Lien du code (GitHub)"><input className={INPUT} value={form.repo_url} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("repo_url", e.target.value)} placeholder="https://github.com/..." /></Field>
         <Field label="Lien en ligne"><input className={INPUT} value={form.live_url} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("live_url", e.target.value)} placeholder="https://mon-projet.com" /></Field>
       </div>
+
+      {showPublishConfirm ? (
+        <div className="rounded-xl border border-[#F59E0B]/30 bg-[#F59E0B]/10 px-4 py-4">
+          <div className="flex items-center gap-2.5 mb-2">
+            <iconify-icon icon="lucide:globe" style={{ fontSize: "16px", color: "#F59E0B" }} />
+            <span className="font-semibold text-[12px] text-amber-200">Publier ce projet ?</span>
+          </div>
+          <p className="font-body-readable text-[11px] text-[#d4c5a0] leading-relaxed mb-3">
+            Une fois publie, ton projet sera visible par toute la communaute TakaCode,
+            affiche sur la page d accueil et dans la galerie. Tu pourras le modifier
+            ou le retirer a tout moment depuis ton dashboard.
+          </p>
+          <div className="flex items-center gap-2">
+            <button onClick={handleSubmit} className="btn-primary inline-flex items-center gap-2 text-[12px]" style={{ padding: "8px 16px" }}>
+              <iconify-icon icon="lucide:globe" style={{ fontSize: "13px" }} />
+              Oui, publier
+            </button>
+            <button onClick={() => { setShowPublishConfirm(false); }} className="text-[12px] text-[#999] hover:text-white inline-flex items-center gap-1.5">
+              Annuler
+            </button>
+          </div>
+        </div>
+      ) : null}
 
       {error ? <div className="rounded-xl border border-red-500/25 bg-red-500/10 px-4 py-3 text-[12px] text-red-200">{error}</div> : null}
       {message ? <div className="rounded-xl border border-emerald-500/25 bg-emerald-500/10 px-4 py-3 text-[12px] text-emerald-200">{message}</div> : null}

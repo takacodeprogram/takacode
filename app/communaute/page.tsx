@@ -55,8 +55,8 @@ export default async function CommunautePage() {
   const statCards = [
     { label: "Membres", value: stats.members, icon: "lucide:users" },
     { label: "Lecons validees", value: stats.completedLessons, icon: "lucide:check-circle" },
-    { label: "Micro-projets", value: stats.submittedProjects, icon: "lucide:folder-code" },
-    { label: "Parcours", value: stats.publishedTracks, icon: "lucide:route" }
+    { label: "Projets", value: stats.submittedProjects, icon: "lucide:folder-code" },
+    { label: "Likes", value: stats.totalLikes, icon: "lucide:heart", accent: "#f43f5e" }
   ];
 
   return (
@@ -76,7 +76,7 @@ export default async function CommunautePage() {
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
               {statCards.map((tile) => (
                 <div key={tile.label} className="rounded-2xl border border-white/[0.08] bg-[#111] px-4 py-4 text-center">
-                  <iconify-icon icon={tile.icon} style={{ fontSize: "20px", color: "#4F8EF7" }} />
+                  <iconify-icon icon={tile.icon} style={{ fontSize: "20px", color: tile.accent || "#4F8EF7" }} />
                   <div className="text-[24px] text-white font-semibold mt-1">{Number.isFinite(Number(tile.value)) ? tile.value : "—"}</div>
                   <div className="text-[11px] text-[#666] font-body-readable">{tile.label}</div>
                 </div>
@@ -92,9 +92,17 @@ export default async function CommunautePage() {
 
                 {projects.length ? (
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {projects.map((project, index) => (
-                      <article key={`${project.title}-${index}`} className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 card-hover">
-                        <div className="text-[13px] text-white font-semibold leading-tight mb-1">{project.title}</div>
+                    {projects.map((project) => (
+                      <Link key={project.id} href={`/projets/${project.id}`} className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 card-hover block">
+                        <div className="flex items-center justify-between gap-2 mb-1">
+                          <div className="text-[13px] text-white font-semibold leading-tight">{project.title}</div>
+                          {project.hasDeclaredFirstEuro ? (
+                            <span className="inline-flex items-center gap-1 text-[9px] font-semibold px-1.5 py-0.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-200 shrink-0">
+                              <iconify-icon icon="lucide:badge-check" style={{ fontSize: "9px" }} />
+                              1er euro
+                            </span>
+                          ) : null}
+                        </div>
                         {project.objective ? <p className="font-body-readable text-[12px] text-[#a5a5a5] leading-snug mb-3">{project.objective}</p> : null}
                         <div className="flex items-center justify-between gap-2 pt-3 border-t border-white/[0.05]">
                           <div className="flex items-center gap-2 min-w-0">
@@ -102,19 +110,25 @@ export default async function CommunautePage() {
                             <span className="text-[11px] text-[#888] truncate">{project.author}</span>
                           </div>
                           <div className="flex items-center gap-2 shrink-0">
+                            {project.likeCount > 0 ? (
+                              <span className="text-[11px] text-[#888] inline-flex items-center gap-1">
+                                <iconify-icon icon="lucide:heart" style={{ fontSize: "12px" }} />
+                                {project.likeCount}
+                              </span>
+                            ) : null}
                             {project.liveUrl ? (
-                              <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="text-[#89c7ff] hover:text-white" title="Voir en ligne">
+                              <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="text-[#89c7ff] hover:text-white" title="Voir en ligne" onClick={(e) => e.stopPropagation()}>
                                 <iconify-icon icon="lucide:external-link" style={{ fontSize: "14px" }} />
                               </a>
                             ) : null}
                             {project.repoUrl ? (
-                              <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" className="text-[#89c7ff] hover:text-white" title="Code">
+                              <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" className="text-[#89c7ff] hover:text-white" title="Code" onClick={(e) => e.stopPropagation()}>
                                 <iconify-icon icon="lucide:github" style={{ fontSize: "14px" }} />
                               </a>
                             ) : null}
                           </div>
                         </div>
-                      </article>
+                      </Link>
                     ))}
                   </div>
                 ) : (

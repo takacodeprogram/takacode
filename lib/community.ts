@@ -1,6 +1,8 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 interface CommunityProject {
+  id: string;
+  userId: string;
   title: string;
   description: string;
   objective: string;
@@ -8,7 +10,11 @@ interface CommunityProject {
   repoUrl: string;
   author: string;
   avatarUrl: string;
+  authorId: string;
   track: string;
+  firstEuroAt: string | null;
+  hasDeclaredFirstEuro: boolean;
+  likeCount: number;
 }
 
 interface CommunityResult {
@@ -23,6 +29,8 @@ function normalizeProject(row: unknown): CommunityProject | null {
   }
   const r = row as Record<string, unknown>;
   return {
+    id: typeof r.id === "string" ? r.id : "",
+    userId: typeof r.user_id === "string" ? r.user_id : "",
     title: typeof r.title === "string" ? r.title : "Projet",
     description: typeof r.description === "string" ? r.description : "",
     objective: typeof r.objective === "string" ? r.objective : "",
@@ -30,7 +38,11 @@ function normalizeProject(row: unknown): CommunityProject | null {
     repoUrl: typeof r.repo_url === "string" ? r.repo_url : "",
     author: typeof r.author === "string" && r.author.trim() ? r.author.trim() : "Membre anonyme",
     avatarUrl: typeof r.avatar_url === "string" ? r.avatar_url : "",
-    track: typeof r.track === "string" ? r.track : ""
+    authorId: typeof r.author_id === "string" ? r.author_id : "",
+    track: typeof r.track === "string" ? r.track : "",
+    firstEuroAt: typeof r.first_euro_at === "string" ? r.first_euro_at : null,
+    hasDeclaredFirstEuro: Boolean(r.has_declared_first_euro),
+    likeCount: typeof r.like_count === "number" ? r.like_count : 0
   };
 }
 
@@ -46,3 +58,5 @@ export async function getCommunityProjects(supabase: SupabaseClient, limit = 24)
   const list = Array.isArray(data) ? data : [];
   return { projects: list.map(normalizeProject).filter(Boolean) as CommunityProject[], error: null, schemaReady: true };
 }
+
+export type { CommunityProject };

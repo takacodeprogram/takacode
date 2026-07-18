@@ -8,6 +8,7 @@ export interface PlatformStatsData {
   totalLessons: number | null;
   completedLessons: number | null;
   submittedProjects: number | null;
+  totalLikes: number | null;
   ready: boolean;
 }
 
@@ -18,6 +19,7 @@ const EMPTY_STATS: PlatformStatsData = {
   totalLessons: null,
   completedLessons: null,
   submittedProjects: null,
+  totalLikes: null,
   ready: false
 };
 
@@ -28,6 +30,7 @@ interface RpcStatsRow {
   total_lessons: unknown;
   completed_lessons: unknown;
   submitted_projects: unknown;
+  total_likes: unknown;
 }
 
 export async function getPlatformStats(supabase: SupabaseClient): Promise<PlatformStatsData> {
@@ -50,6 +53,7 @@ export async function getPlatformStats(supabase: SupabaseClient): Promise<Platfo
     totalLessons: parseCount(stats.total_lessons),
     completedLessons: parseCount(stats.completed_lessons),
     submittedProjects: parseCount(stats.submitted_projects),
+    totalLikes: parseCount(stats.total_likes),
     ready: true
   };
 }

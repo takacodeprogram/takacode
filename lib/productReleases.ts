@@ -106,10 +106,26 @@ export const PRODUCT_RELEASES: ProductRelease[] = [
   },
   {
     version: "1.6",
-    date: "Aout 2026",
-    title: "Monetisation et Stripe",
-    summary: "Connecte Stripe, cree des offres Premium/Launch, facture et suis tes revenus depuis le cockpit.",
+    date: "Juillet 2026",
+    title: "Communaute & marketplace",
+    summary: "Page projet publique, likes, profils enrichis, publication guidee et marketplace de services.",
     status: "en_cours",
+    highlights: [
+      "Page projet publique (/projets/[id]) avec description, URLs, auteur, badges",
+      "Systeme de likes sur les projets",
+      "Profil public enrichi : projets publies, statistiques, parcours suivis",
+      "Publication guidee avec confirmation avant mise en ligne",
+      "Marketplace de services : dev, design, redaction, SEO",
+      "Filtres et recherche dans la galerie projets",
+      "Page communaute enrichie : fil d'activite, tendances"
+    ]
+  },
+  {
+    version: "2.0",
+    date: "Automne 2026",
+    title: "Monetisation & revenus",
+    summary: "Connecte Stripe, cree des offres Premium/Launch et commence a generer des revenus depuis ton projet.",
+    status: "planifiee",
     highlights: [
       "Integration Stripe Connect pour les paiements",
       "Offres Premium et Launch avec abonnement",
