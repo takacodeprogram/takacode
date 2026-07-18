@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "../utils/supabase/client";
 import { PROJECT_STATUS } from "../lib/userProjects";
+import { ensureUserTrackEnrollment } from "../lib/tracks";
 import { STARTER_TEMPLATES, getTemplateById } from "../lib/starterTemplates";
 import { playSuccess, playPop } from "../components/effects/sound";
 import { useToast } from "./Toast";
@@ -131,14 +132,25 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
 
     setSaving(true);
 
+    const payload = buildPayload();
+    // Lier un parcours = s'y inscrire (idempotent : ne touche pas une
+    // inscription existante). C'est ce qui rend le lien projet-parcours reel.
+    const previousTrackId = project?.trackId || "";
+    const enrollNeeded = Boolean(payload.track_id) && payload.track_id !== previousTrackId;
+
     if (isEdit) {
-      const { error: updateError } = await supabase.from("user_projects").update(buildPayload()).eq("id", project!.id);
-      setSaving(false);
+      const { error: updateError } = await supabase.from("user_projects").update(payload).eq("id", project!.id);
       if (updateError) {
+        setSaving(false);
         setError(updateError.message);
         toast(updateError.message, "error");
         return;
       }
+      if (enrollNeeded) {
+        await ensureUserTrackEnrollment(supabase, userId, payload.track_id as string);
+        toast("Parcours accelerateur lie : tu y es inscrit.", "success");
+      }
+      setSaving(false);
       setMessage("Projet enregistre.");
       toast("Projet enregistre.", "success");
       playSuccess();
@@ -146,14 +158,18 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
       return;
     }
 
-    const { error: insertError } = await supabase.from("user_projects").insert({ user_id: userId, ...buildPayload() });
-    setSaving(false);
+    const { error: insertError } = await supabase.from("user_projects").insert({ user_id: userId, ...payload });
     if (insertError) {
+      setSaving(false);
       const msg = insertError.message.includes("user_projects") ? "Table projets absente. Lance supabase/sql/008_user_projects.sql." : insertError.message;
       setError(msg);
       toast(msg, "error");
       return;
     }
+    if (enrollNeeded) {
+      await ensureUserTrackEnrollment(supabase, userId, payload.track_id as string);
+    }
+    setSaving(false);
     playSuccess();
     router.push("/dashboard/projets");
   }
@@ -251,7 +267,7 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
       <Field label="Objectif"><input className={INPUT} value={form.objective} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("objective", e.target.value)} placeholder="Ce que tu veux accomplir" /></Field>
       <Field label="Description"><textarea className={`${INPUT} min-h-[90px]`} value={form.description} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setField("description", e.target.value)} placeholder="Decris ton projet, ses fonctionnalites, son public..." /></Field>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <Field label="Statut">
           <select className={INPUT} value={form.status} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setField("status", e.target.value)}>
             {PROJECT_STATUS.map((s: ProjectStatus) => (
@@ -260,14 +276,26 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
           </select>
         </Field>
         <Field label="Deadline"><input type="date" className={INPUT} value={form.deadline || ""} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("deadline", e.target.value)} /></Field>
-        <Field label="Parcours lie">
-          <select className={INPUT} value={form.track_id} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setField("track_id", e.target.value)}>
-            <option value="">Aucun</option>
-            {tracks.map((track: Track) => (
-              <option key={track.id} value={track.id}>{track.title}</option>
-            ))}
-          </select>
-        </Field>
+      </div>
+
+      {/* Le parcours n'est pas un simple champ : c'est l'accelerateur du projet.
+          Le choisir inscrit automatiquement le membre au parcours. */}
+      <div className="rounded-xl border border-[#4F8EF7]/20 bg-[#4F8EF7]/[0.06] p-4 space-y-2.5">
+        <div className="flex items-center gap-2">
+          <iconify-icon icon="lucide:zap" style={{ color: "#4F8EF7", fontSize: "15px" }} />
+          <span className="text-[10px] text-[#89c7ff] uppercase tracking-widest font-semibold">Parcours accelerateur</span>
+        </div>
+        <p className="font-body-readable text-[11px] text-[#a5b8d8] leading-relaxed">
+          Le parcours qui guide la construction de ce projet, sprint par sprint. En le choisissant,
+          tu y es inscrit automatiquement : ses lecons deviennent tes sprints et leurs micro-projets
+          tes livrables, visibles sur cette page.
+        </p>
+        <select className={INPUT} value={form.track_id} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setField("track_id", e.target.value)}>
+          <option value="">Aucun — je construis sans parcours</option>
+          {tracks.map((track: Track) => (
+            <option key={track.id} value={track.id}>{track.title}</option>
+          ))}
+        </select>
       </div>
 
       <Field label="Modele de revenu vise">

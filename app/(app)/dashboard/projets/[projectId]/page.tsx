@@ -4,8 +4,10 @@ import { notFound, redirect } from "next/navigation";
 import DeployGuide from "../../../../../components/DeployGuide";
 import PageHeader from "../../../../../components/app-shell/PageHeader";
 import ProjectForm from "../../../../../components/ProjectForm";
+import { getTrackCurriculum } from "../../../../../lib/curriculum";
 import { buildPageMetadata } from "../../../../../lib/seo";
 import { getTemplateById } from "../../../../../lib/starterTemplates";
+import { orderTracksByGuidance } from "../../../../../lib/trackGuidance";
 import { listPublishedTracks } from "../../../../../lib/tracks";
 import { getOwnProject, listProjectDeliverables } from "../../../../../lib/userProjects";
 import { createClient } from "../../../../../utils/supabase/server";
@@ -54,23 +56,25 @@ export default async function EditProjectPage({ params }: { params: Promise<Reco
 
   const template = project.templateId ? getTemplateById(project.templateId) : null;
 
-  const domainRevenueMap: Record<string, string[]> = {
-    Web: ["vente", "abonnement", "publicite", "affiliation"],
-    Mobile: ["vente", "abonnement", "publicite"],
-    Data: ["freelance", "abonnement"],
-    IA: ["abonnement", "freelance", "vente"]
-  };
+  // Parcours accelerateur lie au projet : sa progression vit ici.
+  const linkedTrack = project.trackId ? tracks.find((t) => t.id === project.trackId) || null : null;
+  const curriculum = project.trackId ? await getTrackCurriculum(supabase, project.trackId, user.id) : null;
+  const linkedTrackSlug = linkedTrack?.slug || project.trackSlug || "";
 
-  const suggestedDomains = template
-    ? [template.domain]
-    : (domainRevenueMap[project.revenueModel] ? ["Web", "Data"] : []);
-
-  const suggestedTracks = suggestedDomains.length
-    ? tracks.filter((t) => {
-        const trackDomain = (String((t as Record<string, unknown>).description || "") + String((t as Record<string, unknown>).title || "")).toLowerCase();
-        return suggestedDomains.some((d) => trackDomain.includes(d.toLowerCase()));
-      }).slice(0, 4)
-    : [];
+  // Suggestions uniquement quand aucun parcours n'est lie : d'abord le domaine
+  // du template, sinon l'ordre conseille du catalogue.
+  let suggestedTracks: typeof tracks = [];
+  if (!project.trackId) {
+    if (template) {
+      const domain = template.domain.toLowerCase();
+      suggestedTracks = tracks
+        .filter((t) => `${t.title} ${t.description || ""}`.toLowerCase().includes(domain))
+        .slice(0, 4);
+    }
+    if (!suggestedTracks.length) {
+      suggestedTracks = orderTracksByGuidance(tracks).slice(0, 3);
+    }
+  }
 
   return (
     <>
@@ -119,6 +123,56 @@ export default async function EditProjectPage({ params }: { params: Promise<Reco
         </div>
 
         <div className="space-y-5">
+          {project.trackId ? (
+            <div className="rounded-2xl border border-[#4F8EF7]/25 bg-[#111] p-5">
+              <div className="flex items-center gap-2.5 mb-3">
+                <div className="w-9 h-9 rounded-xl border border-[#4F8EF7]/40 bg-[#4F8EF7]/15 inline-flex items-center justify-center">
+                  <iconify-icon icon="lucide:zap" style={{ color: "#4F8EF7", fontSize: "17px" }} />
+                </div>
+                <div className="min-w-0">
+                  <div className="font-venite text-[10px] tracking-widest text-[#888] uppercase">Parcours accelerateur</div>
+                  <h3 className="font-venite-italic text-[13px] text-white leading-tight truncate">
+                    {linkedTrack?.title || project.trackTitle || "Parcours"}
+                  </h3>
+                </div>
+                {curriculum?.hasCurriculum ? (
+                  <span className="ml-auto shrink-0 text-[11px] text-[#89c7ff] font-semibold">{curriculum.progressPercent}%</span>
+                ) : null}
+              </div>
+
+              {curriculum?.hasCurriculum ? (
+                <div className="h-1.5 rounded bg-white/[0.06] overflow-hidden mb-3">
+                  <div className="h-full rounded bg-gradient-to-r from-[#4F8EF7] to-[#9B6DFF]" style={{ width: `${curriculum.progressPercent}%` }} />
+                </div>
+              ) : null}
+
+              <p className="font-body-readable text-[11px] text-[#a5b8d8] leading-relaxed mb-3">
+                Chaque lecon validee fait avancer ce projet : les micro-projets du parcours sont
+                tes livrables (listes ci-contre).
+              </p>
+
+              {curriculum?.nextLesson && linkedTrackSlug ? (
+                <Link
+                  href={`/parcours/${linkedTrackSlug}/lecon/${curriculum.nextLesson.lessonSlug}`}
+                  className="btn-primary inline-flex items-center gap-2 text-[12px] w-full justify-center"
+                  style={{ padding: "10px 14px" }}
+                >
+                  Continuer le sprint : {curriculum.nextLesson.title.length > 28 ? `${curriculum.nextLesson.title.slice(0, 28)}...` : curriculum.nextLesson.title}
+                  <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "13px" }} />
+                </Link>
+              ) : linkedTrackSlug ? (
+                <Link
+                  href={`/parcours/${linkedTrackSlug}`}
+                  className="btn-secondary inline-flex items-center gap-2 text-[12px] w-full justify-center"
+                  style={{ padding: "10px 14px" }}
+                >
+                  {curriculum?.hasCurriculum ? "Parcours termine — revoir le programme" : "Ouvrir le parcours"}
+                  <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "13px" }} />
+                </Link>
+              ) : null}
+            </div>
+          ) : null}
+
           <DeployGuide
             repoUrl={project.repoUrl}
             liveUrl={project.liveUrl}
@@ -133,12 +187,16 @@ export default async function EditProjectPage({ params }: { params: Promise<Reco
                   <iconify-icon icon="lucide:map" style={{ color: "#F59E0B", fontSize: "17px" }} />
                 </div>
                 <div>
-                  <div className="font-venite text-[10px] tracking-widest text-[#888] uppercase">Parcours suggeres</div>
+                  <div className="font-venite text-[10px] tracking-widest text-[#888] uppercase">Choisis ton accelerateur</div>
                   <h3 className="font-venite-italic text-[13px] text-white leading-tight">
-                    {template ? `Pour ton ${template.title}` : "Pour ton modele de revenu"}
+                    {template ? `Pour ton ${template.title}` : "Parcours conseilles pour ce projet"}
                   </h3>
                 </div>
               </div>
+              <p className="font-body-readable text-[11px] text-[#8d8d8d] leading-snug mb-3">
+                Ce projet n'a pas encore de parcours accelerateur. Choisis-en un dans le champ
+                "Parcours accelerateur" du formulaire : sa progression s'affichera ici.
+              </p>
               <div className="space-y-2">
                 {suggestedTracks.map((track) => (
                   <Link
@@ -149,7 +207,7 @@ export default async function EditProjectPage({ params }: { params: Promise<Reco
                     <iconify-icon icon={track.icon} style={{ color: track.accentColor, fontSize: "15px" }} />
                     <div className="min-w-0">
                       <div className="text-[12px] text-white font-semibold leading-tight truncate">{track.title}</div>
-                      <div className="text-[10px] text-[#888] font-body-readable truncate">{track.lessonCount} lecons</div>
+                      <div className="text-[10px] text-[#888] font-body-readable truncate">{track.levelLabel}{track.durationWeeks ? ` · ${track.durationWeeks} sem` : ""}</div>
                     </div>
                     <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "13px", color: "#666" }} className="ml-auto shrink-0" />
                   </Link>

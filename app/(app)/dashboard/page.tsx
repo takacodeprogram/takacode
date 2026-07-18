@@ -51,7 +51,12 @@ export default async function DashboardHomePage() {
   const enrolledTracks = enrollmentResult.enrollments;
   const ownProjectsResult = await listOwnProjects(supabase, user.id);
   const mainProject = ownProjectsResult.projects?.[0] || null;
-  const primaryEnrollment = enrolledTracks[0] || null;
+  // Coherence projet-parcours : la carte formation montre en priorite le
+  // parcours accelerateur du projet principal, pas la premiere inscription venue.
+  const projectEnrollment = mainProject?.trackId
+    ? enrolledTracks.find((entry) => entry.trackId === mainProject.trackId) || null
+    : null;
+  const primaryEnrollment = projectEnrollment || enrolledTracks[0] || null;
 
   const curriculum = primaryEnrollment
     ? await getTrackCurriculum(supabase, primaryEnrollment.trackId, user.id)
