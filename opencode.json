@@ -3,7 +3,7 @@
   "mcp": {
     "obsidian": {
       "type": "local",
-      "command": ["npx", "-y", "obsidian-mcp", "C:\\Users\\takac\\taka-vault"],
+      "command": ["npx", "-y", "obsidian-mcp", "C:\\Users\\takac\\OneDrive\\Documents\\taka-vault"],
       "enabled": true
     }
   }
