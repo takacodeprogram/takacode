@@ -15,8 +15,10 @@ import {
 import { getTrackCurriculum } from "../../../lib/curriculum";
 import { buildPageMetadata } from "../../../lib/seo";
 import { formatTrackMeta, listPublishedTracks, listUserTrackEnrollments } from "../../../lib/tracks";
+import { listOwnProjects } from "../../../lib/userProjects";
 import { missingPrerequisites } from "../../../lib/trackGuidance";
 import { createClient } from "../../../utils/supabase/server";
+import { buildSprintMilestones, computeProjectProgress, getSprintStatusChip, getSprintStatusLabel } from "../../../lib/milestones";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -31,7 +33,7 @@ export async function generateMetadata({ params }: ParcoursPageProps) {
 
   return buildPageMetadata({
     title: "Detail Parcours",
-    description: "Détails d'un parcours TakaCode: compétences fournies, plan de progression, objectif et ressources.",
+    description: "Details d'un parcours TakaCode: competences fournies, plan de progression, objectif et ressources.",
     path: slug ? `/parcours/${slug}` : "/parcours"
   });
 }
@@ -70,7 +72,6 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
     ? myEnrollmentsResult.enrollments.find((entry) => entry.trackId === track.id) || null
     : null;
 
-  // Prérequis conseillés non encore démarrés (guidage, non bloquant).
   const startedSlugs = new Set(myEnrollmentsResult.enrollments.map((entry) => entry.track?.slug).filter(Boolean));
   const trackTitleBySlug = Object.fromEntries(allTracks.map((item) => [item.slug, item.title]));
   const missingPrereqs = track ? missingPrerequisites(track.slug, startedSlugs, trackTitleBySlug) : [];
@@ -90,6 +91,13 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
   const resources = track ? toTextList(track.resources, 4) : [];
   const description = track ? String(track.description || track.summary || "").trim() : "";
 
+  const myProjects = user ? (await listOwnProjects(supabase, user.id, { limit: 10 })).projects : [];
+  const trackProject = myProjects.find((p) => p.trackId === track?.id) || null;
+  const hasProject = Boolean(trackProject);
+
+  const sprints = curriculum ? buildSprintMilestones(curriculum.modules, trackProject) : [];
+  const projectProgress = computeProjectProgress(sprints);
+
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-white">
       <Navbar />
@@ -99,7 +107,7 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
             <div className="flex items-center gap-3 flex-wrap">
               <Link href="/parcours" className="btn-secondary inline-flex items-center gap-2 text-[12px]" style={{ padding: "9px 14px" }}>
                 <iconify-icon icon="lucide:arrow-left" style={{ fontSize: "13px" }} />
-                Retour a la liste
+                Retour
               </Link>
               {track ? (
                 <span className="text-[11px] text-[#7d7d7d] font-body-readable">/{track.slug}</span>
@@ -108,7 +116,7 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
 
             {!schemaReady ? (
               <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-[12px] text-amber-100">
-                Tables parcours non détectées. Execute `supabase/sql/003_learning_tracks.sql` pour activer le catalogue BDD.
+                Tables parcours non detectees. Execute `supabase/sql/003_learning_tracks.sql` pour activer le catalogue BDD.
               </div>
             ) : null}
 
@@ -147,23 +155,21 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
                     <span className={`${getLevelChipClass(track.levelLabel)} text-[10px] font-semibold px-2.5 py-1 rounded-full`}>
                       {track.levelLabel}
                     </span>
-                    {isMine ? (
+                    {isMine && sprints.length > 0 ? (
                       <div className="min-w-[140px] rounded-full border border-white/[0.08] bg-white/[0.02] px-3 py-1.5">
                         <div className="flex items-center justify-between text-[10px] text-[#89c7ff] font-semibold mb-1">
-                          <span>Progression</span>
-                          <span>{progress}%</span>
+                          <span>Projet</span>
+                          <span>{projectProgress}%</span>
                         </div>
                         <div className="h-1 rounded bg-white/[0.07] overflow-hidden mb-1">
                           <div
                             className="h-full rounded bg-gradient-to-r from-[#4F8EF7] to-[#9B6DFF]"
-                            style={{ width: `${progress}%` }}
+                            style={{ width: `${projectProgress}%` }}
                           />
                         </div>
-                        {curriculum!.totalLessons > 0 ? (
-                          <div className="text-[9px] text-[#666] text-center">
-                            {curriculum!.completedLessons}/{curriculum!.totalLessons} lecons
-                          </div>
-                        ) : null}
+                        <div className="text-[9px] text-[#666] text-center">
+                          {sprints.filter((s) => s.cleared).length}/{sprints.length} sprints
+                        </div>
                       </div>
                     ) : null}
                   </div>
@@ -224,12 +230,60 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
                   </div>
 
                   <div className="space-y-4">
+                    {isMine ? (
+                      <div className="rounded-xl border border-blue-500/20 bg-blue-500/[0.04] p-4">
+                        <div className="flex items-center justify-between mb-3">
+                          <div className="font-venite-italic text-[11px] tracking-widest text-[#89c7ff]">MON PROJET</div>
+                          {hasProject ? (
+                            <Link href={`/dashboard/projets/${trackProject!.id}`} className="text-[10px] text-[#89c7ff] hover:underline">
+                              Modifier
+                            </Link>
+                          ) : null}
+                        </div>
+                        {hasProject ? (
+                          <div className="space-y-2">
+                            <div className="text-[13px] text-white font-semibold">{trackProject!.title}</div>
+                            <div className="text-[11px] text-[#888] font-body-readable leading-relaxed">
+                              {trackProject!.description || "Aucune description"}
+                            </div>
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span className="text-[10px] px-2 py-0.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 text-emerald-200">
+                                {trackProject!.status === "published" ? "Publie" : "En cours"}
+                              </span>
+                              {trackProject!.repoUrl ? (
+                                <a href={trackProject!.repoUrl} target="_blank" rel="noopener noreferrer" className="text-[10px] text-[#888] hover:text-blue-200 inline-flex items-center gap-1">
+                                  <iconify-icon icon="lucide:github" style={{ fontSize: "11px" }} />
+                                  Repo
+                                </a>
+                              ) : null}
+                              {trackProject!.liveUrl ? (
+                                <a href={trackProject!.liveUrl} target="_blank" rel="noopener noreferrer" className="text-[10px] text-[#888] hover:text-blue-200 inline-flex items-center gap-1">
+                                  <iconify-icon icon="lucide:external-link" style={{ fontSize: "11px" }} />
+                                  Live
+                                </a>
+                              ) : null}
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="text-[11px] text-[#666] font-body-readable mb-3">
+                            Tu n'as pas encore cree de projet pour ce parcours.
+                          </div>
+                        )}
+                        <Link
+                          href={`/dashboard/projets/${hasProject ? trackProject!.id : "new?track=" + track.id}`}
+                          className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-2 rounded-lg border border-blue-400/30 bg-blue-500/10 text-blue-200 hover:bg-blue-500/20 transition-all mt-2"
+                        >
+                          <iconify-icon icon={hasProject ? "lucide:folder-code" : "lucide:plus"} style={{ fontSize: "12px" }} />
+                          {hasProject ? "Voir mon projet" : "Creer mon projet"}
+                        </Link>
+                      </div>
+                    ) : null}
+
                     <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4">
                       <div className="font-venite-italic text-[11px] tracking-widest text-[#888] mb-3">PLAN DE PROGRESSION</div>
                       <div className="space-y-2.5">
                         {stepRows.map((step, index) => {
                           const ui = getStepUi(step.state);
-
                           return (
                             <div
                               key={`${track.id}-step-${step.label}`}
@@ -251,7 +305,7 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
                     <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4">
                       <div className="font-venite-italic text-[11px] tracking-widest text-[#888] mb-3">RESSOURCES INCLUSES</div>
                       <div className="space-y-2">
-                        {(resources.length ? resources : ["Ressources en préparation"]).map((resource) => (
+                        {(resources.length ? resources : ["Ressources en preparation"]).map((resource) => (
                           <div key={`${track.id}-resource-${resource}`} className="flex items-center gap-2 text-[11px] text-[#9b9b9b] font-body-readable">
                             <iconify-icon icon="lucide:file-text" style={{ fontSize: "12px", color: "#7f7f7f" }} />
                             <span>{resource}</span>
@@ -263,95 +317,94 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
                 </div>
 
                 {hasCurriculum ? (
-                  <div className="mt-6">
-                    <div className="flex items-center justify-between gap-3 flex-wrap mb-3">
-                      <h2 className="font-venite-italic text-[12px] tracking-widest text-[#4F8EF7]">PROGRAMME DU PARCOURS</h2>
+                  <div className="mt-8">
+                    <div className="flex items-center justify-between gap-3 flex-wrap mb-4">
+                      <div>
+                        <h2 className="font-venite-italic text-[13px] tracking-widest text-[#4F8EF7]">SPRINTS DU PROJET</h2>
+                        <p className="text-[11px] text-[#7a7a7a] font-body-readable mt-0.5">
+                          Chaque sprint livre une version fonctionnelle de ton projet
+                        </p>
+                      </div>
                       <span className="text-[10px] text-[#7a7a7a] font-body-readable">
-                        {curriculum!.totalLessons} lecons - quiz et micro projet a chaque etape
+                        {sprints.filter((s) => s.cleared).length}/{sprints.length} sprints accomplis
                       </span>
                     </div>
 
                     <div className="space-y-3">
-                      {curriculum!.modules.map((module, moduleIndex) => (
-                        <div key={`${track.id}-module-${module.id}`} className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4">
-                          <div className="flex items-center justify-between gap-3 flex-wrap mb-3">
-                            <div className="flex items-center gap-3">
-                              <span
-                                className={`inline-flex h-7 w-7 items-center justify-center rounded-full border text-[11px] font-semibold ${
-                                  module.state === "completed"
-                                    ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-200"
-                                    : module.state === "locked"
-                                      ? "border-white/[0.12] bg-white/[0.03] text-[#7a7a7a]"
-                                      : "border-blue-500/30 bg-blue-500/10 text-blue-200"
-                                }`}
-                              >
-                                {module.state === "locked" ? (
+                      {sprints.map((sprint) => (
+                        <div
+                          key={`sprint-${sprint.moduleIndex}`}
+                          className={`rounded-xl border p-4 ${
+                            sprint.state === "completed"
+                              ? "border-emerald-500/20 bg-emerald-500/[0.03]"
+                              : sprint.state === "current"
+                                ? "border-blue-500/20 bg-blue-500/[0.03]"
+                                : "border-white/[0.06] bg-white/[0.01]"
+                          }`}
+                        >
+                          <div className="flex items-start justify-between gap-3 flex-wrap">
+                            <div className="flex items-start gap-3 flex-1 min-w-0">
+                              <span className={`inline-flex h-8 w-8 items-center justify-center rounded-full border text-[12px] font-semibold shrink-0 ${
+                                sprint.state === "completed"
+                                  ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-200"
+                                  : sprint.state === "locked"
+                                    ? "border-white/[0.12] bg-white/[0.03] text-[#7a7a7a]"
+                                    : "border-blue-500/30 bg-blue-500/10 text-blue-200"
+                              }`}>
+                                {sprint.state === "locked" ? (
                                   <iconify-icon icon="lucide:lock" style={{ fontSize: "11px" }} />
+                                ) : sprint.state === "completed" ? (
+                                  <iconify-icon icon="lucide:check" style={{ fontSize: "12px" }} />
                                 ) : (
-                                  moduleIndex + 1
+                                  sprint.sprintNumber
                                 )}
                               </span>
-                              <div>
-                                <div className="font-venite-italic text-[13px] text-white leading-tight">{module.title}</div>
-                                {module.summary ? (
-                                  <div className="font-body-readable text-[11px] text-[#7a7a7a]">{module.summary}</div>
-                                ) : null}
-                              </div>
-                            </div>
-                            <span className="text-[10px] text-[#89c7ff] font-semibold">
-                              {module.completedLessons}/{module.totalLessons} leçons
-                            </span>
-                          </div>
-
-                          <div className="space-y-2">
-                            {module.lessons.map((lesson) => {
-                              const lessonUiState =
-                                lesson.state === "completed" ? "done" : lesson.state === "locked" ? "locked" : "current";
-                              const ui = getStepUi(lessonUiState);
-                              const isLocked = lesson.state === "locked" || !user;
-
-                              const lessonRow = (
-                                <div
-                                  className={`rounded-lg border border-white/[0.08] bg-[#0f0f0f] px-3 py-2.5 flex items-center gap-2.5 ${
-                                    isLocked ? "opacity-60" : "card-hover"
-                                  }`}
-                                >
-                                  <span className={`inline-flex h-6 w-6 items-center justify-center rounded-full border ${ui.chip}`}>
-                                    <iconify-icon icon={ui.icon} style={{ fontSize: "11px" }} />
+                              <div className="min-w-0">
+                                <div className="flex items-center gap-2 flex-wrap">
+                                  <span className="text-[10px] text-[#666] font-semibold">SPRINT {sprint.sprintNumber}</span>
+                                  <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${getSprintStatusChip(sprint.state)}`}>
+                                    {getSprintStatusLabel(sprint.state)}
                                   </span>
-                                  <div className="flex-1">
-                                    <div className="font-body-readable text-[11px] text-[#d0d0d0] leading-snug flex items-center gap-2">
-                                      {lesson.title}
-                                      {lesson.state === "review" ? (
-                                        <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full border border-violet-500/30 bg-violet-500/10 text-violet-200">
-                                          en revue
-                                        </span>
-                                      ) : null}
-                                    </div>
-                                    <div className="text-[10px] text-[#666]">
-                                      {lesson.durationMinutes} min - {lesson.xpReward} XP
-                                      {lesson.quiz.length ? " - quiz" : ""}
-                                      {lesson.microProject ? " - micro projet" : ""}
+                                </div>
+                                <div className="font-venite-italic text-[14px] text-white leading-tight mt-0.5">{sprint.title}</div>
+                                <div className="text-[12px] text-[#89c7ff] font-body-readable mt-1">
+                                  Livrable : {sprint.deliverable}
+                                </div>
+                                <div className="flex items-center gap-3 mt-2">
+                                  <div className="flex-1 max-w-[160px]">
+                                    <div className="h-1.5 rounded bg-white/[0.07] overflow-hidden">
+                                      <div
+                                        className="h-full rounded bg-gradient-to-r from-[#4F8EF7] to-[#9B6DFF] transition-all"
+                                        style={{ width: `${sprint.totalLessons > 0 ? Math.floor((sprint.completedLessons / sprint.totalLessons) * 100) : 0}%` }}
+                                      />
                                     </div>
                                   </div>
-                                  {!isLocked ? (
-                                    <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "13px", color: "#7f7f7f" }} />
-                                  ) : null}
+                                  <span className="text-[10px] text-[#666]">
+                                    {sprint.completedLessons}/{sprint.totalLessons} lecons
+                                  </span>
                                 </div>
-                              );
+                              </div>
+                            </div>
 
-                              return isLocked ? (
-                                <div key={`${module.id}-lesson-${lesson.id}`}>{lessonRow}</div>
-                              ) : (
-                                <Link
-                                  key={`${module.id}-lesson-${lesson.id}`}
-                                  href={`/parcours/${track.slug}/lecon/${lesson.slug}`}
-                                  className="block"
-                                >
-                                  {lessonRow}
-                                </Link>
-                              );
-                            })}
+                            {sprint.state === "current" || sprint.state === "locked" ? (
+                              <Link
+                                href={sprint.state === "current" ? `/parcours/${track.slug}/lecon/${curriculum!.modules[sprint.moduleIndex].lessons.find((l) => l.state === "current" || l.state === "available")?.slug || curriculum!.modules[sprint.moduleIndex].lessons[0]?.slug || ""}` : "#"}
+                                className={`inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-2 rounded-lg border transition-all shrink-0 ${
+                                  sprint.state === "current"
+                                    ? "border-blue-400/30 bg-blue-500/10 text-blue-200 hover:bg-blue-500/20"
+                                    : "border-white/[0.06] bg-white/[0.02] text-[#555] cursor-not-allowed"
+                                }`}
+                                onClick={sprint.state === "locked" ? (e: React.MouseEvent) => e.preventDefault() : undefined}
+                              >
+                                <iconify-icon icon={sprint.state === "current" ? "lucide:play-circle" : "lucide:lock"} style={{ fontSize: "12px" }} />
+                                {sprint.state === "current" ? "Continuer" : "Verrouille"}
+                              </Link>
+                            ) : (
+                              <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-2 rounded-lg border border-emerald-500/20 bg-emerald-500/10 text-emerald-200 shrink-0">
+                                <iconify-icon icon="lucide:check-circle" style={{ fontSize: "12px" }} />
+                                Livre
+                              </span>
+                            )}
                           </div>
                         </div>
                       ))}
@@ -364,12 +417,19 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
                     <>
                       <Link href={continueHref} className="btn-primary glow-btn inline-flex items-center gap-2 text-[13px]" style={{ padding: "12px 22px" }}>
                         <iconify-icon icon={isMine || (hasCurriculum && curriculum!.completedLessons > 0) ? "lucide:play-circle" : "lucide:play"} style={{ fontSize: "15px" }} />
-                        {isMine || (hasCurriculum && curriculum!.completedLessons > 0) ? "Continuer le parcours" : "Demarrer le parcours"}
+                        {isMine || (hasCurriculum && curriculum!.completedLessons > 0) ? "Continuer mon projet" : "Demarrer mon projet"}
                       </Link>
-                      <Link href="/projets" className="inline-flex items-center gap-1.5 text-[12px] text-[#888] hover:text-white transition-colors">
-                        <iconify-icon icon="lucide:folder-code" style={{ fontSize: "13px" }} />
-                        Voir les projets associés
-                      </Link>
+                      {hasProject ? (
+                        <Link href={`/dashboard/projets/${trackProject!.id}`} className="inline-flex items-center gap-1.5 text-[12px] text-[#888] hover:text-white transition-colors">
+                          <iconify-icon icon="lucide:folder-code" style={{ fontSize: "13px" }} />
+                          Gerer mon projet
+                        </Link>
+                      ) : (
+                        <Link href={`/dashboard/projets/new?track=${track.id}`} className="inline-flex items-center gap-1.5 text-[12px] text-[#888] hover:text-white transition-colors">
+                          <iconify-icon icon="lucide:plus" style={{ fontSize: "13px" }} />
+                          Creer mon projet
+                        </Link>
+                      )}
                     </>
                   ) : (
                     <>
@@ -379,7 +439,7 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
                       </Link>
                       <Link href="/signin?next=/dashboard" className="inline-flex items-center gap-1.5 text-[12px] text-[#888] hover:text-white transition-colors">
                         <iconify-icon icon="lucide:log-in" style={{ fontSize: "13px" }} />
-                        J'ai déjà un compte
+                        J'ai deja un compte
                       </Link>
                     </>
                   )}
