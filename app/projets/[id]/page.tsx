@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
-import { notFound } from "next/navigation";
 import FooterSection from "../../../components/FooterSection";
 import GitHubSourceViewer from "../../../components/GitHubSourceViewer";
 import LikeButton from "../../../components/LikeButton";
@@ -56,7 +55,30 @@ export default async function PublicProjectPage({ params }: { params: Promise<Re
   const supabase = await createClient(cookieStore);
   const project = await getPublicProject(supabase, id);
 
-  if (!project) notFound();
+  if (!project) {
+    return (
+      <div className="min-h-screen bg-[#0A0A0A] text-white">
+        <Navbar />
+        <main className="pt-[64px]">
+          <section className="py-24 md:py-28 px-8">
+            <div className="max-w-[930px] mx-auto text-center">
+              <div className="section-label mb-4">PROJET INTROUVABLE</div>
+              <h1 className="font-valorax gradient-text text-[clamp(34px,4vw,56px)] leading-[0.92] mb-6">
+                PROJET NON TROUVE
+              </h1>
+              <p className="font-body-readable text-[14px] text-[#888] mb-8">Ce projet n&apos;existe pas ou n&apos;a pas ete publie.</p>
+              <Link href="/projets" className="btn-primary inline-flex items-center gap-2 text-[13px]" style={{ padding: "12px 24px" }}>
+                <iconify-icon icon="lucide:arrow-left" style={{ fontSize: "14px" }} />
+                Retour aux projets
+              </Link>
+            </div>
+          </section>
+        </main>
+        <hr className="section-divider" />
+        <FooterSection />
+      </div>
+    );
+  }
 
   const {
     data: { user }
@@ -154,7 +176,7 @@ export default async function PublicProjectPage({ params }: { params: Promise<Re
               </div>
             </div>
 
-            {project.repoUrl ? <GitHubSourceViewer repoUrl={project.repoUrl} /> : null}
+            {project.repoUrl ? <div className="mb-6"><GitHubSourceViewer repoUrl={project.repoUrl} /></div> : null}
 
             <div className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 md:p-6">
               <div className="text-[10px] text-[#666] uppercase tracking-widest font-semibold mb-3">Realise par</div>

@@ -77,7 +77,7 @@ export default async function CommunautePage() {
               {statCards.map((tile) => (
                 <div key={tile.label} className="rounded-2xl border border-white/[0.08] bg-[#111] px-4 py-4 text-center">
                   <iconify-icon icon={tile.icon} style={{ fontSize: "20px", color: tile.accent || "#4F8EF7" }} />
-                  <div className="text-[24px] text-white font-semibold mt-1">{Number.isFinite(Number(tile.value)) ? tile.value : "—"}</div>
+                  <div className="text-[24px] text-white font-semibold mt-1">{tile.value !== null && Number.isFinite(Number(tile.value)) ? tile.value : "—"}</div>
                   <div className="text-[11px] text-[#666] font-body-readable">{tile.label}</div>
                 </div>
               ))}

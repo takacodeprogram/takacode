@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
-import { notFound } from "next/navigation";
 import FooterSection from "../../../components/FooterSection";
 import Navbar from "../../../components/Navbar";
 import RichTextRenderer from "../../../components/RichTextRenderer";
@@ -52,7 +51,30 @@ export default async function PublicProfilePage({ params }: { params: Promise<Re
   const supabase = await createClient(cookieStore);
   const profile = await getPublicProfile(supabase, id);
 
-  if (!profile) notFound();
+  if (!profile) {
+    return (
+      <div className="min-h-screen bg-[#0A0A0A] text-white">
+        <Navbar />
+        <main className="pt-[64px]">
+          <section className="py-24 md:py-28 px-8">
+            <div className="max-w-[800px] mx-auto text-center">
+              <div className="section-label mb-4">PROFIL INTROUVABLE</div>
+              <h1 className="font-valorax gradient-text text-[clamp(34px,4vw,56px)] leading-[0.92] mb-6">
+                MEMBRE INCONNU
+              </h1>
+              <p className="font-body-readable text-[14px] text-[#888] mb-8">Ce profil n&apos;existe pas ou n&apos;est pas accessible.</p>
+              <Link href="/communaute" className="btn-primary inline-flex items-center gap-2 text-[13px]" style={{ padding: "12px 24px" }}>
+                <iconify-icon icon="lucide:arrow-left" style={{ fontSize: "14px" }} />
+                Retour a la communaute
+              </Link>
+            </div>
+          </section>
+        </main>
+        <hr className="section-divider" />
+        <FooterSection />
+      </div>
+    );
+  }
 
   const gradeColor = getGradeColor(profile.grade);
   const projects = await getUserPublishedProjects(supabase, id);
