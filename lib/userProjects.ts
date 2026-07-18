@@ -74,8 +74,10 @@ function normalizeProject(row: unknown): UserProject | null {
   }
 
   const r = row as Record<string, unknown>;
-  const trackArr = r.track as { title?: string; slug?: string }[] | undefined;
-  const track = Array.isArray(trackArr) ? trackArr[0] : undefined;
+  const trackRaw = r.track;
+  const track = Array.isArray(trackRaw)
+    ? (trackRaw as { title?: string; slug?: string }[])[0]
+    : (trackRaw as { title?: string; slug?: string } | undefined);
 
   return {
     id: r.id as string,
@@ -157,25 +159,19 @@ export async function getOwnProject(supabase: SupabaseClient, userId: string | n
   return { project: normalizeProject(data), error: null, schemaReady: true };
 }
 
-const PUBLIC_PROJECT_SELECT =
-  "id, track_id, title, description, objective, status, deadline, repo_url, live_url, revenue_model, template_id, first_euro_at, has_declared_first_euro, created_at, updated_at, track:learning_tracks(title, slug)";
-
 export async function listPublishedProjects(supabase: SupabaseClient, limit = 50): Promise<ProjectListResult> {
-  const { data, error } = await supabase
-    .from("user_projects")
-    .select(PUBLIC_PROJECT_SELECT)
-    .eq("status", "published")
-    .order("updated_at", { ascending: false })
-    .limit(Math.min(limit, 100));
+  const { data, error } = await supabase.rpc("get_published_projects", { p_limit: Math.min(limit, 100) });
 
   if (error) {
-    if (isMissingSchemaError(error, PROJECT_TABLES)) {
+    const message = typeof error.message === "string" ? error.message.toLowerCase() : "";
+    if (message.includes("function") || message.includes("does not exist")) {
       return { projects: [], error: null, schemaReady: false };
     }
     return { projects: [], error, schemaReady: true };
   }
 
-  return { projects: ((data as unknown as ProjectRow[]) || []).map(normalizeProject).filter(Boolean) as UserProject[], error: null, schemaReady: true };
+  const list = Array.isArray(data) ? data : [];
+  return { projects: list.map(normalizeProject).filter(Boolean) as UserProject[], error: null, schemaReady: true };
 }
 
 interface ProjectDeliverable {
