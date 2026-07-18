@@ -386,19 +386,21 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
                               </div>
                             </div>
 
-                            {sprint.state === "current" || sprint.state === "locked" ? (
+                            {sprint.state === "current" ? (
                               <Link
-                                href={sprint.state === "current" ? `/parcours/${track.slug}/lecon/${curriculum!.modules[sprint.moduleIndex].lessons.find((l) => l.state === "current" || l.state === "available")?.slug || curriculum!.modules[sprint.moduleIndex].lessons[0]?.slug || ""}` : "#"}
-                                className={`inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-2 rounded-lg border transition-all shrink-0 ${
-                                  sprint.state === "current"
-                                    ? "border-blue-400/30 bg-blue-500/10 text-blue-200 hover:bg-blue-500/20"
-                                    : "border-white/[0.06] bg-white/[0.02] text-[#555] cursor-not-allowed"
-                                }`}
-                                onClick={sprint.state === "locked" ? (e: React.MouseEvent) => e.preventDefault() : undefined}
+                                href={`/parcours/${track.slug}/lecon/${curriculum!.modules[sprint.moduleIndex].lessons.find((l) => l.state === "current" || l.state === "available")?.slug || curriculum!.modules[sprint.moduleIndex].lessons[0]?.slug || ""}`}
+                                className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-2 rounded-lg border border-blue-400/30 bg-blue-500/10 text-blue-200 hover:bg-blue-500/20 transition-all shrink-0"
                               >
-                                <iconify-icon icon={sprint.state === "current" ? "lucide:play-circle" : "lucide:lock"} style={{ fontSize: "12px" }} />
-                                {sprint.state === "current" ? "Continuer" : "Verrouille"}
+                                <iconify-icon icon="lucide:play-circle" style={{ fontSize: "12px" }} />
+                                Continuer
                               </Link>
+                            ) : sprint.state === "locked" ? (
+                              // Un sprint verrouille n'est pas un lien : pas de onClick
+                              // (fonction non serialisable depuis un composant serveur).
+                              <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-2 rounded-lg border border-white/[0.06] bg-white/[0.02] text-[#555] cursor-not-allowed shrink-0">
+                                <iconify-icon icon="lucide:lock" style={{ fontSize: "12px" }} />
+                                Verrouille
+                              </span>
                             ) : (
                               <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-2 rounded-lg border border-emerald-500/20 bg-emerald-500/10 text-emerald-200 shrink-0">
                                 <iconify-icon icon="lucide:check-circle" style={{ fontSize: "12px" }} />
