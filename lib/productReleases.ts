@@ -9,6 +9,27 @@ export interface ProductRelease {
 
 export const PRODUCT_RELEASES: ProductRelease[] = [
   {
+    version: "1.5",
+    date: "18 juillet 2026",
+    title: "Projet first — micro-projets, livrables, premier euro",
+    summary: "Les micro-projets sont lies a ton projet reel. Suis tes livrables, declare ton premier euro et presente-toi sur ta page profil public.",
+    status: "livree",
+    highlights: [
+      "Micro-projets lies au projet du membre : le livrable parle de TON projet",
+      "Projets publies affiches en dynamique sur la homepage (vitrine)",
+      "Suggestion de parcours pertinents selon le template et le modele de revenu",
+      "Colonne template_id + template applique persistee dans le formulaire projet",
+      "Declaration du premier euro depuis le cockpit projet avec badge 1er euro",
+      "Badge 1er euro affiche sur la homepage, la galerie, le dashboard et les cards projets",
+      "Notifications liees aux lecons : correction du lien 404 (slug vs UUID)",
+      "Lien WhatsApp ajoute dans le footer",
+      "Page profil public (/profil/[id]) avec avatar, bio, competences, grade, XP, pays",
+      "Classement et page communaute : les membres sont cliquables vers leur profil public",
+      "Projet detail : section livrables montrant les micro-projets realises lies au projet",
+      "Migration project_id sur user_lesson_progress pour lier soumissions et projets"
+    ]
+  },
+  {
     version: "1.4",
     date: "17 juillet 2026",
     title: "Tracking et monitoring projet",
@@ -81,6 +102,21 @@ export const PRODUCT_RELEASES: ProductRelease[] = [
       "Micro-projets : soumets tes livrables et recois du feedback",
       "Progression, XP, grades et classement",
       "Dashboard membre, administration, sessions et affiliations"
+    ]
+  },
+  {
+    version: "1.6",
+    date: "Aout 2026",
+    title: "Monetisation et Stripe",
+    summary: "Connecte Stripe, cree des offres Premium/Launch, facture et suis tes revenus depuis le cockpit.",
+    status: "en_cours",
+    highlights: [
+      "Integration Stripe Connect pour les paiements",
+      "Offres Premium et Launch avec abonnement",
+      "Page tarifs dynamique",
+      "Suivi des revenus dans le cockpit projet",
+      "Badges et mise en avant des projets monetises",
+      "Guide de monetisation integre aux parcours"
     ]
   }
 ];

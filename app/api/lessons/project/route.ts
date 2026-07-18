@@ -146,7 +146,10 @@ async function triggerAIReview(supabase: Awaited<ReturnType<typeof createClient>
       user_id,
       project_submission,
       lesson:track_lessons!inner(
-        id, title, micro_project
+        id, title, slug, micro_project,
+        module:track_modules!inner(
+          track:learning_tracks!inner(slug)
+        )
       )
     `)
     .eq("lesson_id", lessonId)
@@ -160,6 +163,13 @@ async function triggerAIReview(supabase: Awaited<ReturnType<typeof createClient>
 
   const lessonArr = Array.isArray(lessonData.lesson) ? lessonData.lesson : [lessonData.lesson];
   const lesson = (lessonArr[0] || {}) as Record<string, unknown>;
+  const lessonSlug = String(lesson.slug || "");
+  const moduleArr = Array.isArray(lesson.module) ? lesson.module as Record<string, unknown>[] : [lesson.module as Record<string, unknown>];
+  const module = moduleArr[0] || {};
+  const trackArr = Array.isArray(module.track) ? module.track as Record<string, unknown>[] : [module.track as Record<string, unknown>];
+  const track = trackArr[0] || {};
+  const trackSlug = String(track.slug || "");
+  const notificationLink = trackSlug && lessonSlug ? `/parcours/${trackSlug}/lecon/${lessonSlug}` : `/parcours`;
   const microProject = (lesson.micro_project || {}) as Record<string, unknown>;
   const steps = Array.isArray(microProject.steps) ? microProject.steps as string[] : [];
 
@@ -198,7 +208,7 @@ async function triggerAIReview(supabase: Awaited<ReturnType<typeof createClient>
           p_body: result.verdict === "approved"
           ? `L'IA a validé ton travail sur "${String(lesson.title || "")}".`
           : `L'IA a demandé des améliorations sur "${String(lesson.title || "")}". Retraite ton projet.`,
-        p_link: `/parcours/lecon/${lessonId}`
+        p_link: notificationLink
       });
     } catch (e) { /* non bloquant */ }
     return { verdict: result.verdict, feedback: result.feedback };

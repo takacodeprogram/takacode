@@ -1,6 +1,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 export interface LeaderboardEntry {
+  id: string;
   rank: number;
   publicName: string;
   points: number;
@@ -58,6 +59,7 @@ function normalizeEntry(row: unknown): LeaderboardEntry | null {
   }
   const r = row as Record<string, unknown>;
   return {
+    id: typeof r.id === "string" ? r.id : "",
     rank: Number.isFinite(Number(r.rank)) ? Number(r.rank) : 0,
     publicName: typeof r.public_name === "string" && r.public_name.trim() ? r.public_name.trim() : "Membre anonyme",
     points: Number.isFinite(Number(r.points)) ? Number(r.points) : 0,

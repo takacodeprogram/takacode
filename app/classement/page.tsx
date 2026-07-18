@@ -63,12 +63,13 @@ export default async function LeaderboardPage() {
               </div>
             ) : (
               <>
-                {podium.length ? (
+                    {podium.length ? (
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
                     {podium.map((entry, index) => (
-                      <div
+                      <Link
                         key={entry.rank}
-                        className={`rounded-2xl border bg-[#111] p-5 text-center ${index === 0 ? "border-[#F5C542]/40 sm:-mt-2" : "border-white/[0.08]"}`}
+                        href={`/profil/${entry.id}`}
+                        className={`rounded-2xl border bg-[#111] p-5 text-center card-hover block ${index === 0 ? "border-[#F5C542]/40 sm:-mt-2" : "border-white/[0.08]"}`}
                       >
                         <div className="flex justify-center mb-3 relative">
                           <Avatar url={entry.avatarUrl} name={entry.publicName} size={index === 0 ? 64 : 54} />
@@ -85,7 +86,7 @@ export default async function LeaderboardPage() {
                         </div>
                         <div className="text-[11px] text-[#89c7ff]">{entry.grade}</div>
                         <div className="text-[15px] font-bold mt-1">{entry.points} <span className="text-[10px] text-[#888] font-normal">XP</span></div>
-                      </div>
+                      </Link>
                     ))}
                   </div>
                 ) : null}
@@ -93,7 +94,7 @@ export default async function LeaderboardPage() {
                 {rest.length ? (
                   <div className="rounded-2xl border border-white/[0.08] bg-[#111] divide-y divide-white/[0.05]">
                     {rest.map((entry) => (
-                      <div key={entry.rank} className="flex items-center gap-3 px-4 py-3">
+                      <Link key={entry.rank} href={`/profil/${entry.id}`} className="flex items-center gap-3 px-4 py-3 hover:bg-white/[0.02] transition-colors">
                         <span className="w-7 text-center text-[12px] text-[#888] font-semibold">{entry.rank}</span>
                         <Avatar url={entry.avatarUrl} name={entry.publicName} size={36} />
                         <div className="flex-1 min-w-0">
@@ -104,7 +105,7 @@ export default async function LeaderboardPage() {
                           <div className="text-[10px] text-[#777]">{entry.grade}</div>
                         </div>
                         <div className="text-[13px] text-[#6ec3ff] font-semibold shrink-0">{entry.points} XP</div>
-                      </div>
+                      </Link>
                     ))}
                   </div>
                 ) : null}

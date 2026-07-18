@@ -133,12 +133,12 @@ export default async function CommunautePage() {
                   <div className="rounded-2xl border border-white/[0.08] bg-[#111] divide-y divide-white/[0.05]">
                     {topMembers.length ? (
                       topMembers.map((entry) => (
-                        <div key={entry.rank} className="flex items-center gap-3 px-4 py-2.5">
+                        <Link key={entry.rank} href={`/profil/${entry.id}`} className="flex items-center gap-3 px-4 py-2.5 hover:bg-white/[0.02] transition-colors">
                           <span className="w-5 text-center text-[12px] text-[#888] font-semibold">{entry.rank}</span>
                           <Avatar url={entry.avatarUrl} name={entry.publicName} size={30} />
                           <span className="flex-1 min-w-0 text-[12px] text-white font-semibold truncate">{entry.publicName}</span>
                           <span className="text-[11px] text-[#6ec3ff] font-semibold shrink-0">{entry.points} XP</span>
-                        </div>
+                        </Link>
                       ))
                     ) : (
                       <div className="px-4 py-4 text-[12px] text-[#777] font-body-readable">Le classement se remplira bientôt.</div>
