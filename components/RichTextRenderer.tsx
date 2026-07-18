@@ -1,4 +1,4 @@
-import { renderMarkdownToReact, renderMarkdownToHtml, sanitizeHtml } from "../lib/markdown";
+import { renderMarkdownToReact, renderMarkdownToHtml, sanitizeHtml, looksLikeMarkdown } from "../lib/markdown";
 
 type Format = "text" | "markdown" | "html";
 
@@ -15,7 +15,9 @@ export default function RichTextRenderer({ content, format = "text", className =
     return null;
   }
 
-  if (format === "html") {
+  const effectiveFormat: Format = format === "text" && looksLikeMarkdown(content) ? "markdown" : format;
+
+  if (effectiveFormat === "html") {
     const sanitized = sanitizeHtml(content);
     return (
       <div
@@ -25,7 +27,7 @@ export default function RichTextRenderer({ content, format = "text", className =
     );
   }
 
-  if (format === "markdown") {
+  if (effectiveFormat === "markdown") {
     return <div className={`font-body-readable ${className}`}>{renderMarkdownToReact(content)}</div>;
   }
 

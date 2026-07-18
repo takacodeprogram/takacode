@@ -18,6 +18,12 @@ export async function getUserLikedProjects(supabase: SupabaseClient, userId: str
   return Array.isArray(data) ? data.map(String) : [];
 }
 
+export async function getVisitorLikedProjects(supabase: SupabaseClient, visitorId: string): Promise<string[]> {
+  const { data, error } = await supabase.rpc("get_visitor_liked_projects", { p_visitor_id: visitorId });
+  if (error || !data) return [];
+  return Array.isArray(data) ? data.map(String) : [];
+}
+
 export async function toggleProjectLike(supabase: SupabaseClient, userId: string, projectId: string): Promise<LikeResult> {
   const { data: existing } = await supabase
     .from("project_likes")

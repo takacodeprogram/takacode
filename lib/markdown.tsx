@@ -297,6 +297,13 @@ const ALLOWED_ATTRS = new Set([
   "icon", "width", "height"
 ]);
 
+const MARKDOWN_RE = /(?:\*\*|__|[*_]\*|[`#]|!\[|\n[*-]|\n\d+\.|\n>|<\/?\w+)/;
+
+export function looksLikeMarkdown(text: string | null | undefined): boolean {
+  if (!text) return false;
+  return MARKDOWN_RE.test(text);
+}
+
 export function sanitizeHtml(html: string): string {
   return html.replace(/<(\/?)(\w[\w-]*)([^>]*)>/gi, (_match: string, closing: string, tagName: string, attrs: string) => {
     const tag = tagName.toLowerCase();

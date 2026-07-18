@@ -8,7 +8,7 @@ import Navbar from "../../../components/Navbar";
 import RichTextRenderer from "../../../components/RichTextRenderer";
 import { getPublicProject } from "../../../lib/getPublicProject";
 import { buildPageMetadata } from "../../../lib/seo";
-import { getProjectLikeCount, getUserLikedProjects } from "../../../lib/projectLikes";
+import { getProjectLikeCount, getUserLikedProjects, getVisitorLikedProjects } from "../../../lib/projectLikes";
 import { getTemplateById } from "../../../lib/starterTemplates";
 import { createClient } from "../../../utils/supabase/server";
 
@@ -62,10 +62,15 @@ export default async function PublicProjectPage({ params }: { params: Promise<Re
     data: { user }
   } = await supabase.auth.getUser();
 
-  const [likeCount, userLikedProjects] = await Promise.all([
+  const visitorId = cookieStore.get("tk_visitor")?.value;
+
+  const [likeCount, userLikedProjects, visitorLikedProjects] = await Promise.all([
     getProjectLikeCount(supabase, id),
-    user ? getUserLikedProjects(supabase, user.id) : Promise.resolve([] as string[])
+    user ? getUserLikedProjects(supabase, user.id) : Promise.resolve([] as string[]),
+    visitorId && !user ? getVisitorLikedProjects(supabase, visitorId) : Promise.resolve([] as string[])
   ]);
+
+  const likedByVisitor = visitorId && !user ? visitorLikedProjects.includes(id) : false;
 
   const template = project.templateId ? getTemplateById(project.templateId) : null;
   const gradeColor = getGradeColor(project.authorGrade);
@@ -108,7 +113,7 @@ export default async function PublicProjectPage({ params }: { params: Promise<Re
                 <LikeButton
                   projectId={id}
                   initialCount={likeCount}
-                  initialLiked={userLikedProjects.includes(id)}
+                  initialLiked={user ? userLikedProjects.includes(id) : likedByVisitor}
                   userId={user?.id}
                 />
               </div>
