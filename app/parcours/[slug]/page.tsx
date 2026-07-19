@@ -281,7 +281,7 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
                           className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-2 rounded-lg border border-blue-400/30 bg-blue-500/10 text-blue-200 hover:bg-blue-500/20 transition-all mt-2"
                         >
                           <iconify-icon icon={hasProject ? "lucide:folder-code" : "lucide:plus"} style={{ fontSize: "12px" }} />
-                          {hasProject ? "Voir mon projet" : "Creer mon projet"}
+                          {hasProject ? "Voir mon projet" : "Créer mon projet"}
                         </Link>
                       </div>
                     ) : null}
@@ -312,7 +312,7 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
                     <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4">
                       <div className="font-venite-italic text-[11px] tracking-widest text-[#888] mb-3">RESSOURCES INCLUSES</div>
                       <div className="space-y-2">
-                        {(resources.length ? resources : ["Ressources en preparation"]).map((resource) => (
+                        {(resources.length ? resources : ["Ressources en préparation"]).map((resource) => (
                           <div key={`${track.id}-resource-${resource}`} className="flex items-center gap-2 text-[11px] text-[#9b9b9b] font-body-readable">
                             <iconify-icon icon="lucide:file-text" style={{ fontSize: "12px", color: "#7f7f7f" }} />
                             <span>{resource}</span>
@@ -426,17 +426,17 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
                     <>
                       <Link href={continueHref} className="btn-primary glow-btn inline-flex items-center gap-2 text-[13px]" style={{ padding: "12px 22px" }}>
                         <iconify-icon icon={isMine || (hasCurriculum && curriculum!.completedLessons > 0) ? "lucide:play-circle" : "lucide:play"} style={{ fontSize: "15px" }} />
-                        {isMine || (hasCurriculum && curriculum!.completedLessons > 0) ? "Continuer mon projet" : "Demarrer mon projet"}
+                        {isMine || (hasCurriculum && curriculum!.completedLessons > 0) ? "Continuer mon projet" : "Démarrer mon projet"}
                       </Link>
                       {hasProject ? (
                         <Link href={`/dashboard/projets/${trackProject!.id}`} className="inline-flex items-center gap-1.5 text-[12px] text-[#888] hover:text-white transition-colors">
                           <iconify-icon icon="lucide:folder-code" style={{ fontSize: "13px" }} />
-                          Gerer mon projet
+                          Gérer mon projet
                         </Link>
                       ) : (
                         <Link href={`/dashboard/projets/new?track=${track.id}`} className="inline-flex items-center gap-1.5 text-[12px] text-[#888] hover:text-white transition-colors">
                           <iconify-icon icon="lucide:plus" style={{ fontSize: "13px" }} />
-                          Creer mon projet
+                          Créer mon projet
                         </Link>
                       )}
                     </>
@@ -480,7 +480,7 @@ function GuestCTA() {
               ACCEDE A CE PARCOURS
             </h1>
             <p className="font-body-readable text-[14px] text-[#888] mt-3 mb-8 leading-relaxed">
-              Connecte-toi ou cree un compte pour acceder au detail de ce parcours et commencer a apprendre.
+              Connecte-toi ou crée un compte pour acceder au détail de ce parcours et commencer à apprendre.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <Link href="/signin" className="btn-primary inline-flex items-center gap-2" style={{ fontSize: "13px", padding: "12px 24px" }}>
@@ -489,7 +489,7 @@ function GuestCTA() {
               </Link>
               <Link href="/signup" className="btn-secondary inline-flex items-center gap-2" style={{ fontSize: "13px", padding: "12px 24px" }}>
                 <iconify-icon icon="lucide:user-plus" style={{ fontSize: "14px" }} />
-                Creer un compte
+                Créer un compte
               </Link>
             </div>
           </div>

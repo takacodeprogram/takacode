@@ -101,7 +101,7 @@ export default async function ProfilePage() {
                 <div className="text-[13px] text-white font-semibold">{grade}</div>
               </div>
               <div className="rounded-lg border border-white/[0.08] bg-white/[0.02] px-2.5 py-2">
-                <div className="text-[9px] text-[#666] uppercase tracking-widest">Role</div>
+                <div className="text-[9px] text-[#666] uppercase tracking-widest">Rôle</div>
                 <div className="text-[13px] text-white font-semibold">{roleLabel}</div>
               </div>
             </div>

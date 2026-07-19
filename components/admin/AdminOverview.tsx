@@ -70,8 +70,8 @@ export default function AdminOverview({ users = [], tracks = [], platformStats =
   const curriculumTiles: MetricTile[] = platformStats?.ready
     ? [
         { label: "Modules", value: platformStats.totalModules || 0 },
-        { label: "Lecons", value: platformStats.totalLessons || 0 },
-        { label: "Lecons validees", value: platformStats.completedLessons || 0 },
+        { label: "Leçons", value: platformStats.totalLessons || 0 },
+        { label: "Leçons validées", value: platformStats.completedLessons || 0 },
         { label: "Micro-projets soumis", value: platformStats.submittedProjects || 0 }
       ]
     : [];

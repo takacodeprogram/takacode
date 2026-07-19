@@ -13,7 +13,7 @@ export const revalidate = 0;
 
 export const metadata = buildPageMetadata({
   title: "Admin - Parcours",
-  description: "Gerer un parcours et ses lecons.",
+  description: "Gérer un parcours et ses leçons.",
   path: "/admin/parcours",
   noIndex: true
 });

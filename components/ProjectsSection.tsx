@@ -35,7 +35,7 @@ export default async function ProjectsSection() {
             <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "14px" }} />
           </Link>
         </div>
-        <p className="font-body-readable text-[#666] text-[14px] mb-14">Les projets publies par les membres apparaissent ici.</p>
+        <p className="font-body-readable text-[#666] text-[14px] mb-14">Les projets publiés par les membres apparaissent ici.</p>
 
         {projects.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -74,7 +74,7 @@ export default async function ProjectsSection() {
             <div>
               <div className="font-venite text-[15px] text-white mb-1.5">LA GALERIE DEMARRE AVEC TOI</div>
               <p className="font-body-readable text-[13px] text-[#777] max-w-[460px]">
-                Aucun projet publie pour l instant. Construis ton projet, publie-le et inspire la communaute.
+                Aucun projet publie pour l'instant. Construis ton projet, publie-le et inspire la communauté.
               </p>
             </div>
             <Link href="/projets" id="projets-start-link" className="btn-primary inline-flex items-center gap-2" style={{ fontSize: "13px", padding: "12px 24px" }}>

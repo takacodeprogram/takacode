@@ -71,7 +71,7 @@ export default async function AdminSessionsPage() {
           <p className="font-body-readable text-[13px] text-[#777] mb-4">Aucune session pour l'instant.</p>
           <Link href="/admin/sessions/nouveau" className="btn-primary inline-flex items-center gap-2 text-[12px]">
             <iconify-icon icon="lucide:plus" style={{ fontSize: "13px" }} />
-            Creer la premiere session
+            Créer la première session
           </Link>
         </div>
       )}

@@ -5,7 +5,7 @@ import { buildPageMetadata } from "../../lib/seo";
 
 export const metadata = buildPageMetadata({
   title: "Conditions d'utilisation",
-  description: "Lis les conditions d'utilisation de TakaCode pour comprendre les regles d'usage de la plateforme.",
+  description: "Lis les conditions d'utilisation de TakaCode pour comprendre les règles d'usage de la plateforme.",
   path: "/terms"
 });
 
@@ -29,14 +29,14 @@ export default function TermsPage() {
               <section className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6">
                 <h2 className="text-[16px] font-semibold text-white mb-3">1. Objet du service</h2>
                 <p className="text-[14px] leading-relaxed text-[#9A9A9A]">
-                  TakaCode fournit des parcours, ressources et outils de creation de projets numeriques a vocation educative.
+                  TakaCode fournit des parcours, ressources et outils de création de projets numériques a vocation educative.
                 </p>
               </section>
 
               <section className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6">
                 <h2 className="text-[16px] font-semibold text-white mb-3">2. Compte utilisateur</h2>
                 <p className="text-[14px] leading-relaxed text-[#9A9A9A]">
-                  Tu es responsable des informations de ton compte et de la confidentialite de tes acces.
+                  Tu es responsable des informations de ton compte et de la confidentialite de tes accès.
                   Toute activite effectuee depuis ton compte est presumee t'etre attribuable.
                 </p>
               </section>
@@ -52,7 +52,7 @@ export default function TermsPage() {
               <section className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6">
                 <h2 className="text-[16px] font-semibold text-white mb-3">4. Propriete intellectuelle</h2>
                 <p className="text-[14px] leading-relaxed text-[#9A9A9A]">
-                  Les contenus, marques et elements de la plateforme restent la propriete de TakaCode ou de leurs ayants droit,
+                  Les contenus, marques et éléments de la plateforme restent la propriété de TakaCode ou de leurs ayants droit,
                   sauf mention contraire explicite.
                 </p>
               </section>
@@ -60,7 +60,7 @@ export default function TermsPage() {
               <section className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6">
                 <h2 className="text-[16px] font-semibold text-white mb-3">5. Modification des conditions</h2>
                 <p className="text-[14px] leading-relaxed text-[#9A9A9A]">
-                  TakaCode peut mettre a jour ces conditions a tout moment. La version en ligne fait foi.
+                  TakaCode peut mettre à jour ces conditions a tout moment. La version en ligne fait foi.
                 </p>
               </section>
             </div>

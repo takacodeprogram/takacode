@@ -11,7 +11,7 @@ export const revalidate = 0;
 
 export const metadata = buildPageMetadata({
   title: "Admin - Editer lecon",
-  description: "Editer une lecon.",
+  description: "Éditer une leçon.",
   path: "/admin/parcours",
   noIndex: true
 });

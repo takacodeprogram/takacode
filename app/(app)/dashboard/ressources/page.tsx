@@ -11,7 +11,7 @@ export const revalidate = 0;
 
 export const metadata = buildPageMetadata({
   title: "Mes ressources",
-  description: "Toutes les ressources selectionnees dans tes parcours, au meme endroit.",
+  description: "Toutes les ressources selectionnees dans tes parcours, au même endroit.",
   path: "/dashboard/ressources",
   noIndex: true
 });
@@ -76,7 +76,7 @@ export default async function MyResourcesPage() {
           <div>
             <div className="font-venite text-[15px] text-white mb-1.5">PAS ENCORE DE RESSOURCES</div>
             <p className="font-body-readable text-[13px] text-[#777] max-w-[440px]">
-              Inscris-toi a un parcours: toutes les ressources selectionnees de ses lecons apparaitront ici.
+              Inscris-toi a un parcours: toutes les ressources selectionnees de ses leçons apparaitront ici.
             </p>
           </div>
           <Link href="/dashboard/parcours" className="btn-primary inline-flex items-center gap-2" style={{ fontSize: "13px", padding: "12px 24px" }}>

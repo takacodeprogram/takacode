@@ -40,7 +40,7 @@ export default function AIReviewTestButton() {
         const text = await response.text().catch(() => "");
         setState("error");
         setResult({
-          error: "Reponse serveur invalide",
+          error: "Réponse serveur invalide",
           detail: `HTTP ${response.status}: ${text.slice(0, 300)}`
         });
         return;
@@ -56,7 +56,7 @@ export default function AIReviewTestButton() {
     } catch (err) {
       setState("error");
       setResult({
-        error: "Erreur reseau",
+        error: "Erreur réseau",
         detail: err instanceof Error ? err.message : "Impossible de contacter le serveur"
       });
     }
@@ -92,7 +92,7 @@ export default function AIReviewTestButton() {
           <div className="rounded-xl border border-emerald-500/25 bg-emerald-500/10 px-4 py-3 flex items-start gap-3">
             <iconify-icon icon="lucide:check-circle" style={{ fontSize: "18px", color: "#6ee7b7", marginTop: "1px" }} />
             <div>
-              <div className="font-body-readable text-[12px] text-emerald-100 font-semibold">Connexion reussie !</div>
+              <div className="font-body-readable text-[12px] text-emerald-100 font-semibold">Connexion réussie !</div>
               {firstOk ? (
                 <p className="font-body-readable text-[11px] text-emerald-100/70 mt-0.5">
                   {firstOk.elapsedMs ? `Reponse en ${firstOk.elapsedMs}ms ` : ""}
@@ -134,7 +134,7 @@ export default function AIReviewTestButton() {
           <div className="rounded-xl border border-red-500/25 bg-red-500/10 px-4 py-3 flex items-start gap-3">
             <iconify-icon icon="lucide:x-circle" style={{ fontSize: "18px", color: "#fca5a5", marginTop: "1px" }} />
             <div className="flex-1 min-w-0">
-              <div className="font-body-readable text-[12px] text-red-200 font-semibold">Echec de la connexion</div>
+              <div className="font-body-readable text-[12px] text-red-200 font-semibold">Échec de la connexion</div>
               <p className="font-body-readable text-[11px] text-red-200/80 mt-0.5">{result?.error || "Erreur inconnue"}</p>
 
               {providers.map((p, i) => (
@@ -163,7 +163,7 @@ export default function AIReviewTestButton() {
               ))}
 
               <p className="font-body-readable text-[10px] text-red-200/50 mt-3">
-                Verifie ta cle API et que le provider est bien accessible depuis ton reseau.
+                Vérifie ta clé API et que le provider est bien accessible depuis ton réseau.
               </p>
             </div>
           </div>

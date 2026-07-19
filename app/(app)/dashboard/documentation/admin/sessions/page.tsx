@@ -24,7 +24,7 @@ export default function AdminSessionsDocPage() {
         <ul>
           <li>Choisis un titre et une description pour la session.</li>
           <li>Definis la date, l'heure et la duree.</li>
-          <li>Selectionne le type : Q&amp;A, atelier, revue de projet.</li>
+          <li>Sélectionne le type : Q&amp;A, atelier, revue de projet.</li>
           <li>Ajoute un lien de visioconference (Zoom, Google Meet, etc.).</li>
         </ul>
 
@@ -37,7 +37,7 @@ export default function AdminSessionsDocPage() {
 
         <h3>Notifications</h3>
         <p>
-          Les inscrits recoivent une notification avant le debut de la session.
+          Les inscrits recoivent une notification avant le début de la session.
           Un rappel est envoye automatiquement 24h et 1h avant l'evenement.
         </p>
       </DocContent>

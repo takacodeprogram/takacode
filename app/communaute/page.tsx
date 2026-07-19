@@ -54,7 +54,7 @@ function GuestCTA() {
               REJOINS LA COMMUNAUTE
             </h1>
             <p className="font-body-readable text-[14px] text-[#888] mt-3 mb-8 leading-relaxed">
-              Connecte-toi ou cree un compte pour decouvrir les projets, le classement et les prochaines sessions live.
+              Connecte-toi ou crée un compte pour découvrir les projets, le classement et les prochaines sessions live.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <Link href="/signin" className="btn-primary inline-flex items-center gap-2" style={{ fontSize: "13px", padding: "12px 24px" }}>
@@ -63,7 +63,7 @@ function GuestCTA() {
               </Link>
               <Link href="/signup" className="btn-secondary inline-flex items-center gap-2" style={{ fontSize: "13px", padding: "12px 24px" }}>
                 <iconify-icon icon="lucide:user-plus" style={{ fontSize: "14px" }} />
-                Creer un compte
+                Créer un compte
               </Link>
             </div>
           </div>

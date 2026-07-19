@@ -93,7 +93,7 @@ export default function QuestionBankEditor({ lessonId, userId, objectives = [], 
     setBusyId("new");
     const { error: insertError } = await supabase.from("lesson_quiz_questions").insert({
       lesson_id: lessonId,
-      prompt: "Nouvelle question a completer",
+      prompt: "Nouvelle question a compléter",
       choices: ["Choix A", "Choix B", "Choix C"],
       correct_answer: 0,
       explanation: "",
@@ -116,11 +116,11 @@ export default function QuestionBankEditor({ lessonId, userId, objectives = [], 
   async function saveQuestion(question: QuestionRow) {
     const choices = question.choices.map((choice) => choice.trim());
     if (question.prompt.trim().length < 8 || choices.length < 2 || choices.some((choice) => !choice)) {
-      toast("Complete l'enonce et tous les choix avant d'enregistrer.", "error");
+      toast("Complète l'énoncé et tous les choix avant d'enregistrer.", "error");
       return;
     }
     if (new Set(choices.map((choice) => choice.toLowerCase())).size !== choices.length) {
-      toast("Les choix d'une question doivent etre differents.", "error");
+      toast("Les choix d'une question doivent être différents.", "error");
       return;
     }
 
@@ -190,18 +190,18 @@ export default function QuestionBankEditor({ lessonId, userId, objectives = [], 
                   <label key={`${question.id}-choice-${choiceIndex}`} className="flex items-center gap-2.5 rounded-lg border border-white/[0.06] bg-white/[0.02] px-3 py-2">
                     <input type="radio" name={`correct-${question.id}`} checked={question.correct_answer === choiceIndex} onChange={() => updateQuestion(question.id, { correct_answer: choiceIndex })} />
                     <input className="min-w-0 flex-1 bg-transparent text-[11px] text-[#d1d1d1] outline-none" value={choice} onChange={(event) => updateChoice(question.id, choiceIndex, event.target.value)} aria-label={`Choix ${choiceIndex + 1}`} />
-                    <span className="text-[9px] text-[#666]">{question.correct_answer === choiceIndex ? "Bonne reponse" : `Choix ${choiceIndex + 1}`}</span>
+                    <span className="text-[9px] text-[#666]">{question.correct_answer === choiceIndex ? "Bonne réponse" : `Choix ${choiceIndex + 1}`}</span>
                   </label>
                 ))}
               </div>
 
-              <textarea className={`${INPUT} min-h-[64px]`} value={question.explanation} onChange={(event) => updateQuestion(question.id, { explanation: event.target.value })} placeholder="Explication pedagogique apres correction" aria-label="Explication pedagogique" />
+              <textarea className={`${INPUT} min-h-[64px]`} value={question.explanation} onChange={(event) => updateQuestion(question.id, { explanation: event.target.value })} placeholder="Explication pedagogique après correction" aria-label="Explication pedagogique" />
 
               <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-                <label className="space-y-1"><span className="text-[10px] text-[#777]">Objectif verifie</span><select className={INPUT} value={question.objective} onChange={(event) => updateQuestion(question.id, { objective: event.target.value })}><option value="">Non rattache</option>{objectives.map((objective) => <option key={objective} value={objective}>{objective}</option>)}</select></label>
-                <label className="space-y-1"><span className="text-[10px] text-[#777]">Ressource de reference</span><select className={INPUT} value={question.resource_url} onChange={(event) => updateQuestion(question.id, { resource_url: event.target.value })}><option value="">Non rattachee</option>{resourceOptions.map((resource) => <option key={resource.url} value={resource.url}>{resource.label || resource.url}</option>)}</select></label>
+                <label className="space-y-1"><span className="text-[10px] text-[#777]">Objectif vérifie</span><select className={INPUT} value={question.objective} onChange={(event) => updateQuestion(question.id, { objective: event.target.value })}><option value="">Non rattache</option>{objectives.map((objective) => <option key={objective} value={objective}>{objective}</option>)}</select></label>
+                <label className="space-y-1"><span className="text-[10px] text-[#777]">Ressource de référence</span><select className={INPUT} value={question.resource_url} onChange={(event) => updateQuestion(question.id, { resource_url: event.target.value })}><option value="">Non rattachee</option>{resourceOptions.map((resource) => <option key={resource.url} value={resource.url}>{resource.label || resource.url}</option>)}</select></label>
                 <label className="space-y-1"><span className="text-[10px] text-[#777]">Difficulte</span><select className={INPUT} value={question.difficulty} onChange={(event) => updateQuestion(question.id, { difficulty: event.target.value as QuestionRow["difficulty"] })}><option value="foundation">Fondation</option><option value="standard">Standard</option><option value="challenge">Challenge</option></select></label>
-                <label className="space-y-1"><span className="text-[10px] text-[#777]">Publication</span><select className={INPUT} value={question.status} onChange={(event) => updateQuestion(question.id, { status: event.target.value as QuestionRow["status"] })}><option value="draft">Brouillon</option><option value="approved">Validee</option><option value="archived">Archivee</option></select></label>
+                <label className="space-y-1"><span className="text-[10px] text-[#777]">Publication</span><select className={INPUT} value={question.status} onChange={(event) => updateQuestion(question.id, { status: event.target.value as QuestionRow["status"] })}><option value="draft">Brouillon</option><option value="approved">Validée</option><option value="archived">Archivee</option></select></label>
               </div>
 
               <div className="flex flex-wrap items-center gap-2">

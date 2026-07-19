@@ -56,7 +56,7 @@ export default async function AdminOverviewPage() {
     systemIssues.push("Table learning_tracks manquante. Lance supabase/sql/003_learning_tracks.sql.");
   }
   if (tracksSchemaReady && !tracksResult.error && tracks.length === 0) {
-    systemIssues.push("Aucun parcours en base. Verifie les seeds et les policies RLS admin.");
+    systemIssues.push("Aucun parcours en base. Vérifie les seeds et les policies RLS admin.");
   }
 
   return (

@@ -60,15 +60,15 @@ export default function AccountSecurity({ userId, lastSignInAt }: { userId: stri
   }, [supabase]);
 
   async function handleDeactivate() {
-    if (!window.confirm("Desactiver ton compte ? Tu pourras le reactiver en contactant l'equipe.")) return;
+    if (!window.confirm("Desactiver ton compte ? Tu pourras le reactiver en contactant l'équipe.")) return;
     setDeleting(true);
     await supabase.rpc("deactivate_my_account");
-    setMessage("Compte desactive. A bientot !");
+    setMessage("Compte désactive. A bientôt !");
     setDeleting(false);
   }
 
   async function handleDelete() {
-    if (!window.confirm("Supprimer definitivement ton compte ? Toutes tes donnees seront perdues.")) return;
+    if (!window.confirm("Supprimer definitivement ton compte ? Toutes tes données seront perdues.")) return;
     if (!window.confirm("Confirmation : es-tu sur de vouloir supprimer ton compte ?")) return;
     setDeleting(true);
     await supabase.rpc("delete_my_account");
@@ -91,7 +91,7 @@ export default function AccountSecurity({ userId, lastSignInAt }: { userId: stri
         </div>
 
         <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-3 mb-4">
-          <div className="text-[10px] text-[#777] uppercase tracking-widest mb-0.5">Derniere connexion</div>
+          <div className="text-[10px] text-[#777] uppercase tracking-widest mb-0.5">Dernière connexion</div>
           <div className="text-[13px] text-white font-semibold">
             {lastSignInAt ? formatDate(lastSignInAt) : "Non disponible"}
           </div>
@@ -144,7 +144,7 @@ export default function AccountSecurity({ userId, lastSignInAt }: { userId: stri
           </div>
         </div>
         <p className="font-body-readable text-[12px] text-[#a5a5a5] leading-relaxed mb-4">
-          Desactiver cache ton profil et desactive les notifications. Supprimer efface toutes tes donnees de maniere irreversible.
+          Desactiver cache ton profil et désactive les notifications. Supprimer efface toutes tes données de manière irreversible.
         </p>
         <div className="flex items-center gap-3 flex-wrap">
           <button

@@ -12,7 +12,7 @@ export const revalidate = 0;
 
 export const metadata = buildPageMetadata({
   title: "Admin - Session live",
-  description: "Editer une session live.",
+  description: "Éditer une session live.",
   path: "/admin/sessions",
   noIndex: true
 });

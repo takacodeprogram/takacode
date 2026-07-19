@@ -17,7 +17,7 @@ export const revalidate = 0;
 
 export const metadata = buildPageMetadata({
   title: "Mon projet",
-  description: "Edite ton projet.",
+  description: "Édite ton projet.",
   path: "/dashboard/projets",
   noIndex: true
 });
@@ -113,7 +113,7 @@ export default async function EditProjectPage({ params }: { params: Promise<Reco
                       d.reviewStatus === "changes_requested" ? "border-amber-500/30 bg-amber-500/10 text-amber-100" :
                       "border-blue-400/30 bg-blue-500/10 text-blue-200"
                     }`}>
-                      {d.status === "completed" ? "Valide" : d.reviewStatus === "changes_requested" ? "A ameliorer" : "Soumis"}
+                      {d.status === "completed" ? "Valide" : d.reviewStatus === "changes_requested" ? "A améliorer" : "Soumis"}
                     </span>
                   </Link>
                 ))}
@@ -147,7 +147,7 @@ export default async function EditProjectPage({ params }: { params: Promise<Reco
               ) : null}
 
               <p className="font-body-readable text-[11px] text-[#a5b8d8] leading-relaxed mb-3">
-                Chaque lecon validee fait avancer ce projet : les micro-projets du parcours sont
+                Chaque leçon validée fait avancer ce projet : les micro-projets du parcours sont
                 tes livrables (listes ci-contre).
               </p>
 
@@ -195,7 +195,7 @@ export default async function EditProjectPage({ params }: { params: Promise<Reco
               </div>
               <p className="font-body-readable text-[11px] text-[#8d8d8d] leading-snug mb-3">
                 Ce projet n'a pas encore de parcours accelerateur. Choisis-en un dans le champ
-                "Parcours accelerateur" du formulaire : sa progression s'affichera ici.
+                "Parcours accélérateur" du formulaire : sa progression s'affichera ici.
               </p>
               <div className="space-y-2">
                 {suggestedTracks.map((track) => (

@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
 import FooterSection from "../../../components/FooterSection";
-import GitHubSourceViewer from "../../../components/GitHubSourceViewer";
 import LikeButton from "../../../components/LikeButton";
 import Navbar from "../../../components/Navbar";
 import RichTextRenderer from "../../../components/RichTextRenderer";
@@ -66,7 +65,7 @@ export default async function PublicProjectPage({ params }: { params: Promise<Re
               <h1 className="font-valorax gradient-text text-[clamp(34px,4vw,56px)] leading-[0.92] mb-6">
                 PROJET NON TROUVE
               </h1>
-              <p className="font-body-readable text-[14px] text-[#888] mb-8">Ce projet n&apos;existe pas ou n&apos;a pas ete publie.</p>
+              <p className="font-body-readable text-[14px] text-[#888] mb-8">Ce projet n&apos;existe pas ou n&apos;a pas été publie.</p>
               <Link href="/projets" className="btn-primary inline-flex items-center gap-2 text-[13px]" style={{ padding: "12px 24px" }}>
                 <iconify-icon icon="lucide:arrow-left" style={{ fontSize: "14px" }} />
                 Retour aux projets
@@ -176,10 +175,8 @@ export default async function PublicProjectPage({ params }: { params: Promise<Re
               </div>
             </div>
 
-            {project.repoUrl ? <div className="mb-6"><GitHubSourceViewer repoUrl={project.repoUrl} /></div> : null}
-
             <div className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 md:p-6">
-              <div className="text-[10px] text-[#666] uppercase tracking-widest font-semibold mb-3">Realise par</div>
+              <div className="text-[10px] text-[#666] uppercase tracking-widest font-semibold mb-3">Réalise par</div>
               <Link href={`/profil/${project.authorId}`} className="flex items-center gap-4 group">
                 <div className="w-12 h-12 rounded-xl border-2 border-white/[0.1] overflow-hidden shrink-0">
                   <img src={project.avatarUrl} alt={project.author} className="w-full h-full object-cover" />

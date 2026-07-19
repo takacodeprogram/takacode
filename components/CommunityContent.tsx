@@ -66,7 +66,7 @@ export default function CommunityContent() {
 
   const statCards = [
     { label: "Membres", value: stats.members, icon: "lucide:users" },
-    { label: "Lecons validees", value: stats.completedLessons, icon: "lucide:check-circle" },
+    { label: "Leçons validées", value: stats.completedLessons, icon: "lucide:check-circle" },
     { label: "Projets", value: stats.submittedProjects, icon: "lucide:folder-code" },
     { label: "Likes", value: stats.totalLikes, icon: "lucide:heart", accent: "#f43f5e" }
   ];
@@ -147,7 +147,7 @@ export default function CommunityContent() {
                     </div>
                   ) : (
                     <div className="rounded-2xl border border-white/[0.07] bg-[#111] p-8 text-center font-body-readable text-[13px] text-[#777]">
-                      Aucun projet publie pour l instant. Termine un parcours et publie ton projet pour ouvrir le bal.
+                      Aucun projet publie pour l'instant. Termine un parcours et publie ton projet pour ouvrir le bal.
                     </div>
                   )}
                 </section>
@@ -169,7 +169,7 @@ export default function CommunityContent() {
                           </Link>
                         ))
                       ) : (
-                        <div className="px-4 py-4 text-[12px] text-[#777] font-body-readable">Le classement se remplira bientot.</div>
+                        <div className="px-4 py-4 text-[12px] text-[#777] font-body-readable">Le classement se remplira bientôt.</div>
                       )}
                     </div>
                   </div>

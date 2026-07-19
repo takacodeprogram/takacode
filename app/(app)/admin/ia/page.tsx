@@ -97,7 +97,7 @@ export default async function AdminIAConfigPage() {
             </div>
 
             <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-3">
-              <div className="text-[10px] text-[#777] uppercase tracking-widest mb-1">Modele</div>
+              <div className="text-[10px] text-[#777] uppercase tracking-widest mb-1">Modèle</div>
               <span className="text-[13px] text-white font-semibold">{config.model || "(défaut du provider)"}</span>
             </div>
           </div>
@@ -295,10 +295,10 @@ export default async function AdminIAConfigPage() {
               <span className="text-[#6ec3ff]"># Clé spécifique OpenRouter (détectée automatiquement)</span>
               AI_REVIEW_OPENROUTER_API_KEY=sk-or-xxx
               {`\n`}
-              <span className="text-[#6ec3ff]"># Fallback : si openrouter echoue, essaye huggingface puis gemini</span>
+              <span className="text-[#6ec3ff]"># Fallback : si openrouter échoue, essaye huggingface puis gemini</span>
               AI_REVIEW_FALLBACK=huggingface,gemini
               {`\n`}
-              <span className="text-[#6ec3ff]"># Cle pour le fallback Gemini (optionnel)</span>
+              <span className="text-[#6ec3ff]"># Clé pour le fallback Gemini (optionnel)</span>
               AI_REVIEW_GEMINI_API_KEY=ta_cle_gemini
             </pre>
           </div>

@@ -106,7 +106,7 @@ export default function MicroProjectBuilder({ value, onChange }: MicroProjectBui
       </div>
 
       <div>
-        <label className="text-[10px] text-[#6d6d6d] block mb-1">Etapes</label>
+        <label className="text-[10px] text-[#6d6d6d] block mb-1">Étapes</label>
         <div className="space-y-1.5">
           {data.steps.map((step, index) => (
             <div key={index} className="flex items-center gap-2">
@@ -132,14 +132,14 @@ export default function MicroProjectBuilder({ value, onChange }: MicroProjectBui
           ))}
           <button type="button" onClick={addStep} className="text-[11px] text-[#4F8EF7] hover:underline inline-flex items-center gap-1 mt-1">
             <iconify-icon icon="lucide:plus" style={{ fontSize: "12px" }} />
-            Ajouter une etape
+            Ajouter une étape
           </button>
         </div>
       </div>
 
       <div>
         <label className="text-[10px] text-[#6d6d6d] block mb-1">Livrable attendu</label>
-        <textarea className={AREA} value={data.deliverable} onChange={(e) => update({ deliverable: e.target.value })} placeholder="Ce qui doit etre rendu (lien, fichier, description...)" />
+        <textarea className={AREA} value={data.deliverable} onChange={(e) => update({ deliverable: e.target.value })} placeholder="Ce qui doit être rendu (lien, fichier, description...)" />
       </div>
 
       <label className="text-[11px] text-[#9b9b9b] flex items-center gap-1.5">

@@ -30,18 +30,18 @@ export default function MentoratDocPage() {
         <h3>Solliciter une revue</h3>
         <p>
           Quand tu soumets un livrable de ton projet, tu peux demander une revue par un mentor.
-          Le mentor examine ton travail, te donne un feedback detaille et valide ou non ton avancement.
+          Le mentor examine ton travail, te donne un feedback détaillé et valide ou non ton avancement.
         </p>
 
         <h3>Sessions live</h3>
         <p>
-          Les sessions live sont des rendez-vous en visio avec un mentor. Elles peuvent etre :
+          Les sessions live sont des rendez-vous en visio avec un mentor. Elles peuvent être :
         </p>
         <ul>
           <li><strong>Q&amp;A :</strong> pose toutes tes questions sur ton projet.</li>
-          <li><strong>Atelier :</strong> travaille sur une etape specifique de ton projet.</li>
-          <li><strong>Revue de projet :</strong> presente ton projet et recoit un feedback oral.</li>
-          <li><strong>Strategie :</strong> conseils sur la monetisation et le lancement.</li>
+          <li><strong>Atelier :</strong> travaille sur une étape spécifique de ton projet.</li>
+          <li><strong>Revue de projet :</strong> présente ton projet et reçoit un feedback oral.</li>
+          <li><strong>Stratégie :</strong> conseils sur la monétisation et le lancement.</li>
         </ul>
       </DocContent>
     </>

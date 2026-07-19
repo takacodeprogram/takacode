@@ -119,7 +119,7 @@ function LessonSteps({ hasQuiz, hasProject, quizDone, projectDone, completed }: 
     { label: "Ressources", done: true },
     ...(hasQuiz ? [{ label: "Quiz", done: quizDone }] : []),
     ...(hasProject ? [{ label: "Micro-projet", done: projectDone }] : []),
-    { label: "Validee", done: completed }
+    { label: "Validée", done: completed }
   ];
 
   const currentIndex = steps.findIndex((step) => !step.done);
@@ -393,7 +393,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
 
     const maxSize = 5 * 1024 * 1024;
     if (file.size > maxSize) {
-      toast("Le fichier depasse 5 Mo.", "error");
+      toast("Le fichier dépasse 5 Mo.", "error");
       return;
     }
 
@@ -410,7 +410,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
       setProjectFileName(file.name);
       toast("Fichier uploade.", "success");
     } catch (err) {
-      toast("Echec de l'upload.", "error");
+      toast("Échec de l'upload.", "error");
     }
     setFileUploading(false);
     event.target.value = "";

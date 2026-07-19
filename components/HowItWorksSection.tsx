@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 const STEPS = [
-  { icon: "lucide:lightbulb", title: "TON IDEE", desc: "Tu as une idee de projet ou un probleme a resoudre. On t aide a la structurer.", accent: "#4F8EF7" },
+  { icon: "lucide:lightbulb", title: "TON IDEE", desc: "Tu as une idée de projet ou un problème à résoudre. On t'aide a la structurer.", accent: "#4F8EF7" },
   { icon: "lucide:git-branch", title: "LE PARCOURS LIE", desc: "Choisis le parcours qui correspond a ton archetype de projet (site, SaaS, e-commerce...).", accent: "#22D3EE" },
   { icon: "lucide:book-open", title: "RESSOURCES + IA", desc: "Accede aux ressources, templates, outils IA et exercices pour construire ton projet.", accent: "#10B981" },
   { icon: "lucide:video", title: "SESSIONS + MENTOR", desc: "Participe a des sessions live et fais reviewer tes livrables par un mentor.", accent: "#F59E0B" },
@@ -101,7 +101,7 @@ export default function HowItWorksSection() {
             COMMENT CA MARCHE
           </h2>
           <p className="font-body-readable text-[#666] text-[15px] max-w-md mx-auto">
-            De ton idee a ton projet rentable, un chemin clair et guide.
+            De ton idée a ton projet rentable, un chemin clair et guide.
           </p>
         </div>
 

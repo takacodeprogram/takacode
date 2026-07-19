@@ -282,7 +282,7 @@ export default function AppShell({ user, children }: AppShellProps) {
                     role="menuitem"
                   >
                     <iconify-icon icon="lucide:compass" style={{ fontSize: "15px", color: "#89c7ff" }} />
-                    Guide de demarrage
+                    Guide de démarrage
                   </Link>
                   <Link
                     href="/dashboard/documentation"
@@ -306,7 +306,7 @@ export default function AppShell({ user, children }: AppShellProps) {
                 ) : null}
                 <SignOutButton className="w-full flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-red-400/80 hover:text-red-400 hover:bg-red-400/5 transition-colors mt-1 pt-1 border-t border-white/[0.06]">
                   <iconify-icon icon="lucide:log-out" style={{ fontSize: "15px" }} />
-                  Se deconnecter
+                  Se déconnecter
                 </SignOutButton>
               </div>
             ) : null}

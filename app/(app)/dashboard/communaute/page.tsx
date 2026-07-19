@@ -57,7 +57,7 @@ export default async function CommunityFeedPage() {
         <div className="rounded-2xl border border-white/[0.08] bg-[#111] px-4 py-4 text-center">
           <iconify-icon icon="lucide:check-circle" style={{ fontSize: "18px", color: "#4F8EF7" }} />
           <div className="text-[20px] text-white font-semibold mt-1">{stats.completedLessons ?? "—"}</div>
-          <div className="text-[10px] text-[#666] font-body-readable">Lecons validees</div>
+          <div className="text-[10px] text-[#666] font-body-readable">Leçons validées</div>
         </div>
       </div>
 
@@ -83,7 +83,7 @@ export default async function CommunityFeedPage() {
             </Link>
           ))}
           <Link href="/communaute" className="block text-center text-[12px] text-[#4F8EF7] hover:underline mt-3">
-            Voir la communaute
+            Voir la communauté
           </Link>
         </div>
       ) : (
@@ -94,8 +94,8 @@ export default async function CommunityFeedPage() {
           <div>
             <div className="font-venite text-[15px] text-white mb-1.5">LE FIL DEMARRE BIENTOT</div>
             <p className="font-body-readable text-[13px] text-[#777] max-w-[460px]">
-              Le fil de la communaute affichera les projets publies par les membres.
-              Termine un parcours et publie ton projet pour l alimenter.
+              Le fil de la communauté affichera les projets publiés par les membres.
+              Termine un parcours et publie ton projet pour l'alimenter.
             </p>
           </div>
           <Link href="/dashboard/parcours" className="btn-primary inline-flex items-center gap-2" style={{ fontSize: "13px", padding: "12px 24px" }}>

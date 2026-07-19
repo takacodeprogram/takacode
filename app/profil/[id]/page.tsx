@@ -65,7 +65,7 @@ export default async function PublicProfilePage({ params }: { params: Promise<Re
               <p className="font-body-readable text-[14px] text-[#888] mb-8">Ce profil n&apos;existe pas ou n&apos;est pas accessible.</p>
               <Link href="/communaute" className="btn-primary inline-flex items-center gap-2 text-[13px]" style={{ padding: "12px 24px" }}>
                 <iconify-icon icon="lucide:arrow-left" style={{ fontSize: "14px" }} />
-                Retour a la communaute
+                Retour a la communauté
               </Link>
             </div>
           </section>
@@ -119,7 +119,7 @@ export default async function PublicProfilePage({ params }: { params: Promise<Re
 
               {profile.skills.length > 0 ? (
                 <div className="mb-6">
-                  <div className="text-[10px] text-[#666] uppercase tracking-widest font-semibold mb-2">Competences</div>
+                  <div className="text-[10px] text-[#666] uppercase tracking-widest font-semibold mb-2">Compétences</div>
                   <div className="flex flex-wrap gap-2">
                     {profile.skills.map((skill) => (
                       <span key={skill} className="text-[11px] px-2.5 py-1 rounded-full border border-white/[0.08] bg-white/[0.02] text-[#aaa]">

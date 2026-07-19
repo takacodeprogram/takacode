@@ -24,7 +24,7 @@ export default function MentorReviewsDocPage() {
         <ol>
           <li>Consulte la liste des projets en attente de revue.</li>
           <li>Ouvre un projet pour voir le travail soumis et les consignes.</li>
-          <li>Evalue le projet selon les criteres definis dans le parcours.</li>
+          <li>Evalue le projet selon les critères definis dans le parcours.</li>
           <li>Ajoute un feedback ecrit avec des suggestions d'amelioration.</li>
           <li>Valide ou refuse le projet.</li>
         </ol>
@@ -32,7 +32,7 @@ export default function MentorReviewsDocPage() {
         <h3>Criteres d'evaluation</h3>
         <ul>
           <li>Respect des consignes</li>
-          <li>Qualite technique du travail</li>
+          <li>Qualité technique du travail</li>
           <li>Pertinence des choix effectues</li>
           <li>Effort et progression visibles</li>
         </ul>

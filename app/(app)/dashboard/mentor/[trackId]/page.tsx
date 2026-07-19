@@ -15,7 +15,7 @@ export const revalidate = 0;
 
 export const metadata = buildPageMetadata({
   title: "Ma proposition",
-  description: "Editer une proposition de parcours.",
+  description: "Éditer une proposition de parcours.",
   path: "/dashboard/mentor",
   noIndex: true
 });

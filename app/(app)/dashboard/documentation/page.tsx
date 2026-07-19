@@ -7,7 +7,7 @@ export const revalidate = 0;
 
 export const metadata = buildPageMetadata({
   title: "Documentation",
-  description: "Guides pour creer, lancer et monetiser ton projet digital sur TakaCode.",
+  description: "Guides pour créer, lancer et monétiser ton projet digital sur TakaCode.",
   path: "/dashboard/documentation",
   noIndex: true
 });
@@ -16,7 +16,7 @@ const SECTIONS = [
   {
     title: "Guide utilisateur",
     icon: "lucide:rocket",
-    description: "Cree ton projet, suis les parcours associes, passe les quiz et publie en ligne.",
+    description: "Crée ton projet, suis les parcours associes, passe les quiz et publie en ligne.",
     links: [
       { href: "/dashboard/documentation/utilisateur/projets", label: "Construire et publier ton projet" },
       { href: "/dashboard/documentation/utilisateur/parcours", label: "Suivre un parcours lie a ton projet" },
@@ -28,20 +28,20 @@ const SECTIONS = [
   {
     title: "Guide mentor",
     icon: "lucide:users",
-    description: "Cree des parcours projets, edite du contenu et accompagne les membres vers le lancement.",
+    description: "Crée des parcours projets, édite du contenu et accompagne les membres vers le lancement.",
     links: [
-      { href: "/dashboard/documentation/mentor/parcours", label: "Créer et gerer un parcours projet" },
-      { href: "/dashboard/documentation/mentor/edition", label: "Editer modules, lecons et ressources" },
-      { href: "/dashboard/documentation/mentor/questions", label: "Gerer la banque de questions" },
+      { href: "/dashboard/documentation/mentor/parcours", label: "Créer et gérer un parcours projet" },
+      { href: "/dashboard/documentation/mentor/edition", label: "Éditer modules, leçons et ressources" },
+      { href: "/dashboard/documentation/mentor/questions", label: "Gérer la banque de questions" },
       { href: "/dashboard/documentation/mentor/reviews", label: "Reviewer les projets" }
     ]
   },
   {
     title: "Guide administrateur",
     icon: "lucide:shield-check",
-    description: "Administre la plateforme, gere les utilisateurs, les roles et la configuration.",
+    description: "Administre la plateforme, gère les utilisateurs, les rôles et la configuration.",
     links: [
-      { href: "/dashboard/documentation/admin/roles", label: "Gerer les utilisateurs et roles" },
+      { href: "/dashboard/documentation/admin/roles", label: "Gérer les utilisateurs et rôles" },
       { href: "/dashboard/documentation/admin/affiliations", label: "Configurer les affiliations" },
       { href: "/dashboard/documentation/admin/sessions", label: "Organiser des sessions live" }
     ]

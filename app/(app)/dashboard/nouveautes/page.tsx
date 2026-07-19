@@ -4,7 +4,7 @@ import { buildPageMetadata } from "../../../../lib/seo";
 
 export const metadata = buildPageMetadata({
   title: "Nouveautes",
-  description: "Les evolutions de TakaCode, version apres version.",
+  description: "Les evolutions de TakaCode, version après version.",
   path: "/dashboard/nouveautes",
   noIndex: true
 });
@@ -57,7 +57,7 @@ export default function ProductUpdatesPage() {
                     <h2 className="font-venite-italic text-[15px] text-white">{release.title}</h2>
                     {index === 0 ? (
                       <span className="rounded-full border border-cyan-400/30 bg-cyan-500/10 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-cyan-100">
-                        Derniere version
+                        Dernière version
                       </span>
                     ) : null}
                   </div>

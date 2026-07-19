@@ -143,7 +143,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
 
                 {lesson.state === "completed" ? (
                   <span className="text-[10px] font-semibold px-2.5 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-200">
-                    Lecon validee
+                    Leçon validée
                   </span>
                 ) : (
                   <span className="text-[10px] font-semibold px-2.5 py-1 rounded-full border border-blue-400/35 bg-blue-500/15 text-blue-200">
@@ -187,7 +187,7 @@ function GuestCTA() {
               ACCEDE AUX LECONS
             </h1>
             <p className="font-body-readable text-[14px] text-[#888] mt-3 mb-8 leading-relaxed">
-              Connecte-toi ou cree un compte pour acceder au contenu des lecons et progresser dans tes parcours.
+              Connecte-toi ou crée un compte pour acceder au contenu des leçons et progresser dans tes parcours.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <Link href="/signin" className="btn-primary inline-flex items-center gap-2" style={{ fontSize: "13px", padding: "12px 24px" }}>
@@ -196,7 +196,7 @@ function GuestCTA() {
               </Link>
               <Link href="/signup" className="btn-secondary inline-flex items-center gap-2" style={{ fontSize: "13px", padding: "12px 24px" }}>
                 <iconify-icon icon="lucide:user-plus" style={{ fontSize: "14px" }} />
-                Creer un compte
+                Créer un compte
               </Link>
             </div>
           </div>

@@ -95,7 +95,7 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
                     <div className="font-body-readable text-[12px] text-[#555]">Progression active</div>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <div className="w-2 h-2 rounded-full bg-green-400" style={{ animation: "pulse-glow 2s ease infinite" }} />
+                    <div className="w-2 h-2 rounded-full bg-green-400" style={{ animation: "pulse-glow 2s'ease infinite" }} />
                     <span className="font-body-readable text-[11px] text-green-400">En cours</span>
                   </div>
                 </div>
@@ -104,7 +104,7 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
                   <div className="roadmap-progress-item roadmap-progress-item-1">
                     <div className="flex items-center justify-between mb-1.5">
                       <span className="font-venite-italic text-[12px] text-[#888]">IDEE</span>
-                      <span className="font-body-readable text-[11px] text-green-400">Complete</span>
+                      <span className="font-body-readable text-[11px] text-green-400">Complète</span>
                     </div>
                     <div className="h-1 bg-white/[0.05] rounded-full overflow-hidden">
                       <div
@@ -145,7 +145,7 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
 
             <div
               className="absolute bottom-4 left-2 sm:-bottom-6 sm:-left-6 bg-[#151515] border border-white/[0.07] rounded-xl p-3.5 shadow-xl w-[250px] z-0"
-              style={{ animation: "float 5s ease-in-out 1s infinite" }}
+              style={{ animation: "float 5s'ease-in-out 1s'infinite" }}
             >
               <div className="flex items-center gap-2.5">
                 <div className="w-7 h-7 rounded-lg bg-green-500/10 border border-green-500/20 flex items-center justify-center">
@@ -160,7 +160,7 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
 
             <div
               className="absolute top-4 right-2 sm:-top-6 sm:-right-4 bg-[#151515] border border-white/[0.07] rounded-xl p-3.5 shadow-xl z-0"
-              style={{ animation: "float 5s ease-in-out 0.5s infinite" }}
+              style={{ animation: "float 5s'ease-in-out 0.5s'infinite" }}
             >
               <div className="flex items-center gap-2.5">
                 <div className="w-7 h-7 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">

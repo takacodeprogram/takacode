@@ -3,7 +3,7 @@ import { buildPageMetadata } from "../../lib/seo";
 
 export const metadata = buildPageMetadata({
   title: "Mot de passe oublie",
-  description: "Recupere l'acces a ton espace TakaCode avec un lien de reinitialisation de mot de passe.",
+  description: "Récupère l'accès à ton espace TakaCode avec un lien de reinitialisation de mot de passe.",
   path: "/forgot-password",
   noIndex: true
 });

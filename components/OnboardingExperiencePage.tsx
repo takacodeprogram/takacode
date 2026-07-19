@@ -65,7 +65,7 @@ const STEP_META: Record<number, StepMeta> = {
   4: { label: "Projet", icon: "lucide:lightbulb", accent: "#F59E0B" },
   5: { label: "Outils", icon: "lucide:wrench", accent: "#10B981" },
   6: { label: "Rythme", icon: "lucide:clock-3", accent: "#38BDF8" },
-  7: { label: "Resultat", icon: "lucide:rocket", accent: "#4F8EF7" }
+  7: { label: "Résultat", icon: "lucide:rocket", accent: "#4F8EF7" }
 };
 
 const LEVEL_VISUALS: Record<string, Visual> = {
@@ -687,7 +687,7 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
 
                 {projectClarityKey !== "explore" ? (
                   <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-4">
-                    <label className="text-[12px] text-[#9d9d9d] block mb-2">{"Decris ton projet en quelques mots"}</label>
+                    <label className="text-[12px] text-[#9d9d9d] block mb-2">{"Décris ton projet en quelques mots"}</label>
                     <textarea
                       className="auth-input min-h-[110px] resize-y"
                       value={projectIdea}

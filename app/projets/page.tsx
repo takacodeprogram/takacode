@@ -11,7 +11,7 @@ export const revalidate = 0;
 
 export const metadata = buildPageMetadata({
   title: "Projets publies",
-  description: "Decouvre les projets digitaux construits et publies par la communaute TakaCode.",
+  description: "Découvre les projets digitaux construits et publiés par la communauté TakaCode.",
   path: "/projets"
 });
 
@@ -46,14 +46,14 @@ export default async function ProjetsPage() {
                 LES PROJETS DE LA COMMUNAUTE
               </h1>
               <p className="font-body-readable text-[15px] text-[#8d8d8d] mt-4 leading-relaxed">
-                Decouvre les projets digitaux construits, publies et parfois monetises par les membres TakaCode.
+                Découvre les projets digitaux construits, publies et parfois monetises par les membres TakaCode.
                 Inspire-toi, explore les stacks et lance le tien.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <article className="rounded-xl border border-white/[0.08] bg-[#111] px-4 py-4">
-                <div className="text-[10px] text-[#666] uppercase tracking-widest mb-1">Bibliotheque</div>
+                <div className="text-[10px] text-[#666] uppercase tracking-widest mb-1">Bibliothèque</div>
                 <div className="font-venite-italic text-[20px] text-white">{projects.length} PROJETS</div>
                 <p className="font-body-readable text-[11px] text-[#767676] mt-1">Des projets publics par les membres.</p>
               </article>
@@ -63,7 +63,7 @@ export default async function ProjetsPage() {
                 <p className="font-body-readable text-[11px] text-[#767676] mt-1">Chaque projet est en ligne et accessible.</p>
               </article>
               <article className="rounded-xl border border-white/[0.08] bg-[#111] px-4 py-4">
-                <div className="text-[10px] text-[#666] uppercase tracking-widest mb-1">Prochaine etape</div>
+                <div className="text-[10px] text-[#666] uppercase tracking-widest mb-1">Prochaine étape</div>
                 <div className="font-venite-italic text-[20px] text-white">MONETISER</div>
                 <p className="font-body-readable text-[11px] text-[#767676] mt-1">Transformer un projet en revenus.</p>
               </article>
@@ -120,11 +120,11 @@ export default async function ProjetsPage() {
                 </div>
                 <div className="font-venite text-[15px] text-white mb-1.5">SOIS LE PREMIER A PUBLIER</div>
                 <p className="font-body-readable text-[13px] text-[#777] max-w-[460px] mx-auto mb-6">
-                  Aucun projet publie pour l instant. La communaute attend tes realisations.
+                  Aucun projet publie pour l'instant. La communauté attend tes realisations.
                 </p>
                 <Link href="/signup" className="btn-primary inline-flex items-center gap-2" style={{ fontSize: "13px", padding: "12px 24px" }}>
                   <iconify-icon icon="lucide:plus" style={{ fontSize: "14px" }} />
-                  Rejoindre et creer mon projet
+                  Rejoindre et créer mon projet
                 </Link>
               </div>
             )}

@@ -4,7 +4,7 @@ import { buildPageMetadata } from "../../../../../../lib/seo";
 
 export const metadata = buildPageMetadata({
   title: "Suivre un parcours lie a son projet",
-  description: "Guide pour suivre les parcours qui t'aident a construire ton projet digital sur TakaCode.",
+  description: "Guide pour suivre les parcours qui t'aident à construire ton projet digital sur TakaCode.",
   path: "/dashboard/documentation/utilisateur/parcours",
   noIndex: true
 });
@@ -30,28 +30,28 @@ export default function ParcoursDocPage() {
 
         <h3>Comment ca marche</h3>
         <p>
-          Un parcours est compose de modules, de lecons, de quiz et de micro-projets.
-          Chaque element est concu pour produire un livrable concret qui fait avancer ton projet.
+          Un parcours est compose de modules, de leçons, de quiz et de micro-projets.
+          Chaque élément est concu pour produire un livrable concret qui fait avancer ton projet.
         </p>
         <ul>
-          <li><strong>Modules :</strong> grandes etapes du projet (conception, developpement, deploiement, marketing).</li>
-          <li><strong>Lecons :</strong> actions concretes a realiser (ecrire du code, configurer un outil, rediger une page).</li>
+          <li><strong>Modules :</strong> grandes étapes du projet (conception, développement, déploiement, marketing).</li>
+          <li><strong>Leçons :</strong> actions concretes a réaliser (écrire du code, configurer un outil, rédiger une page).</li>
           <li><strong>Quiz :</strong> valider ta comprehension avant de passer a l'etape suivante.</li>
           <li><strong>Ressources :</strong> documentation, outils, exemples pour t'aider.</li>
         </ul>
 
         <h3>Progression</h3>
         <p>
-          Chaque lecon completee, chaque quiz reussi et chaque micro-projet valide te rapporte des XP.
+          Chaque leçon complétée, chaque quiz réussi et chaque micro-projet valide te rapporte des XP.
           Accumule assez de points pour monter en grade. Mais le vrai objectif, c'est ton projet en ligne.
         </p>
 
         <h3>Conseils</h3>
         <ul>
-          <li>Commence par creer ou definir ton projet avant de choisir un parcours.</li>
-          <li>Ne saute pas les etapes : chaque lecon produit un livrable utile pour la suite.</li>
-          <li>Pose tes questions dans la communaute si tu es bloque sur une etape.</li>
-          <li>Une fois le parcours termine, pense a la publication et a la monetisation.</li>
+          <li>Commence par créer ou définir ton projet avant de choisir un parcours.</li>
+          <li>Ne saute pas les étapes : chaque leçon produit un livrable utile pour la suite.</li>
+          <li>Pose tes questions dans la communauté si tu es bloque sur une étape.</li>
+          <li>Une fois le parcours termine, pense a la publication et a la monétisation.</li>
         </ul>
       </DocContent>
     </>

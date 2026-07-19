@@ -20,10 +20,10 @@ interface PipelineStage {
 }
 
 const STAGES: PipelineStage[] = [
-  { key: "idea", label: "Idee", icon: "lucide:lightbulb", hint: "Cadre ton idee" },
+  { key: "idea", label: "Idée", icon: "lucide:lightbulb", hint: "Cadre ton idée" },
   { key: "build", label: "Construction", icon: "lucide:hammer", hint: "Construis brique par brique" },
   { key: "live", label: "En ligne", icon: "lucide:rocket", hint: "Publie ton projet" },
-  { key: "cash", label: "Cash", icon: "lucide:banknote", hint: "Genere ton premier euro" }
+  { key: "cash", label: "Cash", icon: "lucide:banknote", hint: "Génère ton premier euro" }
 ];
 
 // Indice du stade courant sur la route vers le cash.
@@ -72,7 +72,7 @@ export default function ProjectCockpit({ project, firstName, goalLabel }: Projec
         </p>
         <div className="flex flex-wrap gap-3">
           <Link href="/dashboard/projets/nouveau" className="btn-primary inline-flex items-center gap-2">
-            Creer mon projet
+            Créer mon projet
             <iconify-icon icon="lucide:rocket" style={{ fontSize: "14px" }} />
           </Link>
           <Link href="/dashboard/projets" className="btn-secondary">Voir des exemples</Link>

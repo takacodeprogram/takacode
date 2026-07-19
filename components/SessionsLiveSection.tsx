@@ -32,7 +32,7 @@ export default function SessionsLiveSection() {
                 <div className="w-6 h-6 rounded-lg bg-violet-500/10 flex items-center justify-center flex-shrink-0">
                   <iconify-icon icon="lucide:help-circle" className="text-[#9B6DFF]" style={{ fontSize: "12px" }} />
                 </div>
-                <span className="font-body-readable text-[13px] text-[#888]">Questions & reponses</span>
+                <span className="font-body-readable text-[13px] text-[#888]">Questions & réponses</span>
               </div>
               <div className="flex items-center gap-3">
                 <div className="w-6 h-6 rounded-lg bg-cyan-500/10 flex items-center justify-center flex-shrink-0">

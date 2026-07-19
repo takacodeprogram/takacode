@@ -31,8 +31,8 @@ const ROLE_INFO: Record<string, { label: string; desc: string }> = {
 const ROLE_ERROR: Record<string, string> = {
   not_authenticated: "Session expiree, reconnecte-toi.",
   forbidden: "Action réservée aux admins.",
-  invalid_role: "Role invalide.",
-  cannot_change_self: "Tu ne peux pas modifier ton propre role.",
+  invalid_role: "Rôle invalide.",
+  cannot_change_self: "Tu ne peux pas modifier ton propre rôle.",
   user_not_found: "Utilisateur introuvable.",
   last_admin: "Impossible : il doit rester au moins un admin.",
   rpc_missing: "Fonction de role absente. Lance supabase/sql/011_role_management.sql."
@@ -93,7 +93,7 @@ export default function AdminUsersManager({ initialUsers = [], currentUserId = "
 
     setUsers((current) => current.map((u) => (u.id === userId ? { ...u, ...(data as object) } : u)));
     setPointsDraft((current) => ({ ...current, [userId]: String((data as { points: number }).points) }));
-    toast("Points mis a jour.", "success");
+    toast("Points mis à jour.", "success");
     setSavingPointsId("");
   }
 
@@ -114,7 +114,7 @@ export default function AdminUsersManager({ initialUsers = [], currentUserId = "
 
     if (error || (data && typeof data === "object" && "error" in data && data.error)) {
       const code = (data && typeof data === "object" && "error" in data ? (data as { error: string }).error : "") || (error?.message?.includes("function") ? "rpc_missing" : "");
-      toast(ROLE_ERROR[code] || error?.message || "Impossible de changer le role.", "error");
+      toast(ROLE_ERROR[code] || error?.message || "Impossible de changer le rôle.", "error");
       setApplyingRoleId("");
       setConfirm(null);
       setRoleDraft((current) => ({ ...current, [user.id]: user.role || "user" }));
@@ -133,7 +133,7 @@ export default function AdminUsersManager({ initialUsers = [], currentUserId = "
         <div>
           <h2 className="font-valorax text-xl">UTILISATEURS ET ROLES</h2>
           <p className="text-[12px] text-[#777] font-body-readable mt-1">
-            Change les points directement. Les changements de role demandent une confirmation et sont journalises.
+            Change les points directement. Les changements de rôle demandent une confirmation et sont journalises.
           </p>
         </div>
         <div className="rounded-lg border border-white/[0.08] bg-white/[0.02] px-3 py-1.5 text-[11px] text-[#bbb]">{users.length} utilisateur(s)</div>
@@ -153,7 +153,7 @@ export default function AdminUsersManager({ initialUsers = [], currentUserId = "
           <thead>
             <tr className="text-left text-[11px] uppercase tracking-widest text-[#666] border-b border-white/[0.06]">
               <th className="py-3 pr-4">Utilisateur</th>
-              <th className="py-3 pr-4">Role</th>
+              <th className="py-3 pr-4">Rôle</th>
               <th className="py-3 pr-4">Points</th>
               <th className="py-3 pr-4">Grade</th>
               <th className="py-3 pr-4">Inscription</th>

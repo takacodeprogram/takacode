@@ -24,8 +24,8 @@ export default function FinalCtaSection() {
             COMMENCE ICI
           </span>
         </h2>
-        <p className="font-body-readable text-[#666] text-[15px] leading-relaxed mb-3 max-w-[500px] mx-auto">Tu n as pas besoin d etre expert. Tu as besoin d un plan et d execution.</p>
-        <p className="font-body-readable text-[#888] text-[15px] leading-relaxed mb-3">TakaCode te guide pour creer ton projet, le publier et le rentabiliser.</p>
+        <p className="font-body-readable text-[#666] text-[15px] leading-relaxed mb-3 max-w-[500px] mx-auto">Tu n'as pas besoin d'être expert. Tu as besoin d'un plan et d'exécution.</p>
+        <p className="font-body-readable text-[#888] text-[15px] leading-relaxed mb-3">TakaCode te guide pour créer ton projet, le publier et le rentabiliser.</p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-12">
           <Link href="/projets" id="final-cta-primary" className="btn-primary glow-btn flex items-center gap-2" style={{ fontSize: "15px", padding: "16px 36px" }}>

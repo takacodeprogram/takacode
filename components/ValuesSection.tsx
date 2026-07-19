@@ -17,7 +17,7 @@ export default function ValuesSection() {
             </div>
             <div className="font-venite text-[13px] text-white mb-3">PROJET CENTRAL</div>
             <p className="font-body-readable text-[12px] text-[#666] leading-relaxed">
-              Tout commence par ton projet. Les parcours, ressources et outils sont la pour t aider a le realiser, pas l inverse.
+              Tout commence par ton projet. Les parcours, ressources et outils sont la pour t'aider a le réaliser, pas l'inverse.
             </p>
           </div>
 
@@ -27,7 +27,7 @@ export default function ValuesSection() {
             </div>
             <div className="font-venite text-[13px] text-white mb-3">IA ACCELERATRICE</div>
             <p className="font-body-readable text-[12px] text-[#666] leading-relaxed">
-              Utilise l IA pour coder plus vite, mieux concevoir et automatiser les taches repetitives de ton projet.
+              Utilise l'IA pour coder plus vite, mieux concevoir et automatiser les tâches repetitives de ton projet.
             </p>
           </div>
 
@@ -37,7 +37,7 @@ export default function ValuesSection() {
             </div>
             <div className="font-venite text-[13px] text-white mb-3">APPRENDRE EN CONSTRUISANT</div>
             <p className="font-body-readable text-[12px] text-[#666] leading-relaxed">
-              Progresse en produisant des livrables concrets, pas seulement en accumulant de la theorie.
+              Progresse en produisant des livrables concrets, pas seulement en accumulant de la théorie.
             </p>
           </div>
 
@@ -47,7 +47,7 @@ export default function ValuesSection() {
             </div>
             <div className="font-venite text-[13px] text-white mb-3">MONETISATION</div>
             <p className="font-body-readable text-[12px] text-[#666] leading-relaxed">
-              Chaque projet est concu pour pouvoir etre monetise : abonnements, produits, pubs, affiliation.
+              Chaque projet est concu pour pouvoir être monétise : abonnements, produits, pubs, affiliation.
             </p>
           </div>
 
@@ -57,7 +57,7 @@ export default function ValuesSection() {
             </div>
             <div className="font-venite text-[13px] text-white mb-3">COMMUNAUTE ACTIVE</div>
             <p className="font-body-readable text-[12px] text-[#666] leading-relaxed">
-              Ne construis plus seul. Echange, collabore et progresse avec d autres createurs.
+              Ne construis plus seul. Échange, collabore et progresse avec d'autres créateurs.
             </p>
           </div>
 
@@ -67,7 +67,7 @@ export default function ValuesSection() {
             </div>
             <div className="font-venite text-[13px] text-white mb-3">DU DEPLOIEMENT AU REVENU</div>
             <p className="font-body-readable text-[12px] text-[#666] leading-relaxed">
-              De la premiere ligne de code a la premiere vente, on t accompagne a chaque etape.
+              De la première ligne de code a la première vente, on t'accompagne à chaque étape.
             </p>
           </div>
         </div>

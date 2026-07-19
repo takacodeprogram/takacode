@@ -11,7 +11,7 @@ export const revalidate = 0;
 
 export const metadata = buildPageMetadata({
   title: "Inscription",
-  description: "Cree ton compte TakaCode et commence a construire des projets reels avec des parcours guides.",
+  description: "Crée ton compte TakaCode et commence à construire des projets réels avec des parcours guides.",
   path: "/signup",
   noIndex: true
 });

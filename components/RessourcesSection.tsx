@@ -17,12 +17,12 @@ export default function RessourcesSection() {
             <div className="flex flex-wrap gap-3 mb-10">
               <span className="community-tag">Guides</span>
               <span className="community-tag">Tutoriels</span>
-              <span className="community-tag">Videos</span>
+              <span className="community-tag">Vidéos</span>
               <span className="community-tag">Templates</span>
               <span className="community-tag">Prompts IA</span>
               <span className="community-tag">Outils</span>
               <span className="community-tag">Cheat Sheets</span>
-              <span className="community-tag">Bibliotheque IA</span>
+              <span className="community-tag">Bibliothèque IA</span>
             </div>
 
             <Link href="/parcours" id="ressources-cta-link" className="btn-primary glow-btn inline-flex items-center gap-2" style={{ fontSize: "14px", padding: "14px 28px" }}>
@@ -37,7 +37,7 @@ export default function RessourcesSection() {
                 <iconify-icon icon="lucide:file-text" className="text-[#4F8EF7]" style={{ fontSize: "16px" }} />
               </div>
               <div className="font-venite text-[12px] text-white mb-1.5">GUIDES</div>
-              <p className="font-body-readable text-[11px] text-[#555] mb-3">Explications simples et structurees pour chaque concept cle.</p>
+              <p className="font-body-readable text-[11px] text-[#555] mb-3">Explications simples et structurees pour chaque concept clé.</p>
               <div className="font-body-readable text-[10px] text-[#444]">124 guides disponibles</div>
             </div>
 
@@ -46,8 +46,8 @@ export default function RessourcesSection() {
                 <iconify-icon icon="lucide:play-circle" className="text-red-400" style={{ fontSize: "16px" }} />
               </div>
               <div className="font-venite text-[12px] text-white mb-1.5">VIDEOS</div>
-              <p className="font-body-readable text-[11px] text-[#555] mb-3">Demonstrations et tutoriels pratiques en video.</p>
-              <div className="font-body-readable text-[10px] text-[#444]">89 videos</div>
+              <p className="font-body-readable text-[11px] text-[#555] mb-3">Demonstrations et tutoriels pratiques en vidéo.</p>
+              <div className="font-body-readable text-[10px] text-[#444]">89 vidéos</div>
             </div>
 
             <div className="bg-[#151515] border border-white/[0.07] rounded-2xl p-5 card-hover" style={{ borderColor: "rgba(79,142,247,0.12)" }}>
@@ -55,7 +55,7 @@ export default function RessourcesSection() {
                 <iconify-icon icon="lucide:layout-template" className="text-[#9B6DFF]" style={{ fontSize: "16px" }} />
               </div>
               <div className="font-venite text-[12px] text-white mb-1.5">MODELES ET TEMPLATES</div>
-              <p className="font-body-readable text-[11px] text-[#555] mb-3">Templates de prompts, documents et modeles reutilisables.</p>
+              <p className="font-body-readable text-[11px] text-[#555] mb-3">Templates de prompts, documents et modèles reutilisables.</p>
               <div className="font-body-readable text-[10px] text-[#444]">67 templates</div>
             </div>
 
@@ -65,7 +65,7 @@ export default function RessourcesSection() {
               </div>
               <div className="font-venite text-[12px] text-white mb-1.5">OUTILS</div>
               <p className="font-body-readable text-[11px] text-[#555] mb-3">Une selection d'outils pour aller plus loin rapidement.</p>
-              <div className="font-body-readable text-[10px] text-[#444]">200+ outils references</div>
+              <div className="font-body-readable text-[10px] text-[#444]">200+ outils références</div>
             </div>
           </div>
         </div>

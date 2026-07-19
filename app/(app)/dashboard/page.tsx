@@ -134,10 +134,10 @@ export default async function DashboardHomePage() {
                 <p className="font-body-readable text-[11px] text-[#8d8d8d] leading-snug mb-3">
                   {curriculum?.nextLesson
                     ? `Prochaine competence a debloquer pour ton projet : ${curriculum.nextLesson.title}.`
-                    : "Parcours termine — toutes les competences sont debloquees pour ton projet."}
+                    : "Parcours termine — toutes les compétences sont debloquees pour ton projet."}
                 </p>
                 <Link href={startHref} className="btn-secondary inline-flex items-center gap-2 text-[12px]" style={{ padding: "9px 14px" }}>
-                  {curriculum?.completedLessons ? "Continuer la lecon" : "Demarrer la formation"}
+                  {curriculum?.completedLessons ? "Continuer la leçon" : "Démarrer la formation"}
                   <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "13px" }} />
                 </Link>
               </div>
@@ -162,10 +162,10 @@ export default async function DashboardHomePage() {
                   </div>
                 </div>
                 <p className="font-body-readable text-[11px] text-blue-100/70 leading-snug mb-3">
-                  Ce parcours debloque les competences dont ton projet a besoin, sprint par sprint.
+                  Ce parcours debloque les compétences dont ton projet a besoin, sprint par sprint.
                 </p>
                 <Link href={startHref} className="btn-secondary inline-flex items-center gap-2 text-[12px]" style={{ padding: "9px 14px" }}>
-                  Demarrer ce parcours
+                  Démarrer ce parcours
                   <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "13px" }} />
                 </Link>
               </div>

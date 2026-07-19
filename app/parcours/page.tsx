@@ -13,7 +13,7 @@ export const revalidate = 0;
 
 export const metadata = buildPageMetadata({
   title: "Parcours",
-  description: "Catalogue des parcours TakaCode. Choisis un parcours dans la liste puis ouvre sa page detail.",
+  description: "Catalogue des parcours TakaCode. Choisis un parcours dans la liste puis ouvre sa page détail.",
   path: "/parcours"
 });
 
@@ -32,7 +32,7 @@ function GuestCTA() {
               ACCEDE AUX PARCOURS
             </h1>
             <p className="font-body-readable text-[14px] text-[#888] mt-3 mb-8 leading-relaxed">
-              Connecte-toi ou cree un compte pour decouvrir la liste complete des parcours et commencer a apprendre.
+              Connecte-toi ou crée un compte pour découvrir la liste complète des parcours et commencer à apprendre.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <Link href="/signin" className="btn-primary inline-flex items-center gap-2" style={{ fontSize: "13px", padding: "12px 24px" }}>
@@ -41,7 +41,7 @@ function GuestCTA() {
               </Link>
               <Link href="/signup" className="btn-secondary inline-flex items-center gap-2" style={{ fontSize: "13px", padding: "12px 24px" }}>
                 <iconify-icon icon="lucide:user-plus" style={{ fontSize: "14px" }} />
-                Creer un compte
+                Créer un compte
               </Link>
             </div>
           </div>
@@ -83,7 +83,7 @@ export default async function ParcoursPage() {
               <div className="section-label mb-4">CATALOGUE</div>
               <h1 className="font-valorax gradient-text text-[clamp(34px,4vw,56px)] leading-[0.92]">LISTE COMPLETE DES PARCOURS</h1>
               <p className="font-body-readable text-[15px] text-[#8d8d8d] mt-4">
-                Cette page affiche uniquement la liste des parcours. Clique sur un parcours pour ouvrir sa fiche detaillee.
+                Cette page affiche uniquement la liste des parcours. Clique sur un parcours pour ouvrir sa fiche détaillée.
               </p>
             </div>
 
@@ -143,7 +143,7 @@ export default async function ParcoursPage() {
                         </div>
 
                         <Link href={`/parcours/${track.slug}`} className="inline-flex items-center gap-2 text-[11px] text-[#4F8EF7] font-semibold hover:underline">
-                          Voir les details
+                          Voir les détails
                           <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "12px" }} />
                         </Link>
                       </article>

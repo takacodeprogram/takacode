@@ -27,9 +27,9 @@ interface SessionUser {
 const navLinks: NavLink[] = [
   { href: "/", id: "nav-accueil-link", label: "Accueil", match: ["/"] },
   { href: "/parcours", id: "nav-parcours-link", label: "Parcours", match: ["/parcours"] },
-  { href: "/competences", id: "nav-competences-link", label: "Competences", match: ["/competences"] },
+  { href: "/competences", id: "nav-competences-link", label: "Compétences", match: ["/competences"] },
   { href: "/projets", id: "nav-projets-link", label: "Projets", match: ["/projets"] },
-  { href: "/communaute", id: "nav-communaute-link", label: "Communaute", match: ["/communaute"] },
+  { href: "/communaute", id: "nav-communaute-link", label: "Communauté", match: ["/communaute"] },
   { href: "/classement", id: "nav-classement-link", label: "Classement", match: ["/classement"] }
 ];
 
@@ -251,7 +251,7 @@ export default function Navbar() {
                   Mon profil
                 </Link>
                 <SignOutButton className="nav-link nav-mobile-link text-red-400/80" style={{ background: "none", border: "none", padding: 0, cursor: "pointer" }}>
-                  Se deconnecter
+                  Se déconnecter
                 </SignOutButton>
               </>
             ) : (

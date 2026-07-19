@@ -11,7 +11,7 @@ export const revalidate = 0;
 
 export const metadata = buildPageMetadata({
   title: "Mentor - Editer lecon",
-  description: "Editer une lecon de mon parcours.",
+  description: "Éditer une leçon de mon parcours.",
   path: "/dashboard/mentor",
   noIndex: true
 });

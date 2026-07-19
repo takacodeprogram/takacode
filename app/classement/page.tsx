@@ -51,7 +51,7 @@ export default async function LeaderboardPage() {
               <h1 className="font-valorax gradient-text" style={{ fontSize: "clamp(32px, 4vw, 52px)", letterSpacing: "-0.02em" }}>
                 LES MEMBRES LES PLUS ACTIFS
               </h1>
-              <p className="font-body-readable text-[14px] text-[#888] mt-3">Gagne des points en validant tes lecons et micro-projets.</p>
+              <p className="font-body-readable text-[14px] text-[#888] mt-3">Gagne des points en validant tes leçons et micro-projets.</p>
             </div>
 
             {!schemaReady ? (

@@ -23,7 +23,7 @@ interface CountryData {
 
 const COUNTRY_NAMES: Record<string, string> = {
   FR: "France", BE: "Belgique", CH: "Suisse", CA: "Canada",
-  SN: "Senegal", CI: "Cote d'Ivoire", MA: "Maroc", DZ: "Algerie",
+  SN: "Senegal", CI: "Côté d'Ivoire", MA: "Maroc", DZ: "Algerie",
   TN: "Tunisie", CM: "Cameroun", CD: "RD Congo", HT: "Haiti",
   LU: "Luxembourg", MC: "Monaco", RE: "Reunion", GF: "Guyane",
   MQ: "Martinique", GP: "Guadeloupe", NC: "Nouvelle-Caledonie",

@@ -164,8 +164,8 @@ export default function ProfileEditor({
         <label className="text-[11px] text-[#8d8d8d] uppercase tracking-widest font-semibold">Nom public (leaderboard)</label>
         <div className="flex flex-wrap gap-1.5 mt-1.5 mb-2">
           {[
-            { key: "generate", label: "Generer un pseudo" },
-            { key: "custom", label: "Ecrire le mien" },
+            { key: "generate", label: "Générer un pseudo" },
+            { key: "custom", label: "Écrire le mien" },
             ...(realName ? [{ key: "real", label: "Mon vrai nom" }] : [])
           ].map((opt: { key: string; label: string }) => (
             <button
@@ -189,7 +189,7 @@ export default function ProfileEditor({
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPublicName(e.target.value)}
             maxLength={40}
             disabled={nameMode === "real"}
-            placeholder={nameMode === "generate" ? "Pseudo genere" : "Ton pseudo public (sinon: Membre anonyme)"}
+            placeholder={nameMode === "generate" ? "Pseudo génère" : "Ton pseudo public (sinon: Membre anonyme)"}
             className="flex-1 rounded-lg border border-white/[0.08] bg-[#0f0f0f] px-3 py-2.5 font-body-readable text-[12px] text-[#d0d0d0] placeholder:text-[#555] focus:outline-none focus:border-blue-400/40 disabled:opacity-60"
           />
           {nameMode === "generate" ? (
@@ -238,7 +238,7 @@ export default function ProfileEditor({
       </div>
 
       <div>
-        <label className="text-[11px] text-[#8d8d8d] uppercase tracking-widest font-semibold">Reseaux</label>
+        <label className="text-[11px] text-[#8d8d8d] uppercase tracking-widest font-semibold">Réseaux</label>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mt-1.5">
           {SOCIAL_FIELDS.map((field: { key: string; label: string; placeholder: string; icon: string }) => (
             <div key={field.key} className="flex items-center gap-2 rounded-lg border border-white/[0.08] bg-[#0f0f0f] px-2.5">
@@ -255,7 +255,7 @@ export default function ProfileEditor({
       </div>
 
       <div>
-        <label className="text-[11px] text-[#8d8d8d] uppercase tracking-widest font-semibold">Competences</label>
+        <label className="text-[11px] text-[#8d8d8d] uppercase tracking-widest font-semibold">Compétences</label>
         <input
           value={skillsInput}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSkillsInput(e.target.value)}

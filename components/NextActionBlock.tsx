@@ -25,7 +25,7 @@ export default function NextActionBlock({ project, hasEnrollment, hasOnboarding 
         icon="lucide:compass"
         accent="#22D3EE"
         title="Termine ton onboarding"
-        description="Reponds a quelques questions pour qu'on personnalise ton experience."
+        description="Réponds a quelques questions pour qu'on personnalise ton expérience."
         href="/onboarding"
         label="Continuer l'onboarding"
       />
@@ -38,7 +38,7 @@ export default function NextActionBlock({ project, hasEnrollment, hasOnboarding 
         icon="lucide:map"
         accent="#4F8EF7"
         title="Choisis ton premier parcours"
-        description="Selectionne un parcours adapte a ton objectif pour commencer a construire."
+        description="Sélectionne un parcours adapte a ton objectif pour commencer à construire."
         href="/parcours"
         label="Voir les parcours"
       />
@@ -51,9 +51,9 @@ export default function NextActionBlock({ project, hasEnrollment, hasOnboarding 
         icon="lucide:folder-code"
         accent="#9B6DFF"
         title="Cree ton projet principal"
-        description="Definit le projet que tu veux construire. Il servira de fil rouge a tes parcours."
+        description="Définit le projet que tu veux construire. Il servira de fil rouge a tes parcours."
         href="/dashboard/projets/nouveau"
-        label="Creer mon projet"
+        label="Créer mon projet"
       />
     );
   }
@@ -66,7 +66,7 @@ export default function NextActionBlock({ project, hasEnrollment, hasOnboarding 
         title="Finalise les details de ton projet"
         description="Ajoute une description, un statut et une deadline pour lancer ton projet."
         href={`/dashboard/projets/${project.id}`}
-        label="Editer mon projet"
+        label="Éditer mon projet"
       />
     );
   }
@@ -77,9 +77,9 @@ export default function NextActionBlock({ project, hasEnrollment, hasOnboarding 
         icon="lucide:github"
         accent="#22D3EE"
         title="Connecte ton depot GitHub"
-        description="Heberge ton code sur GitHub pour le deployer facilement et suivre les versions."
+        description="Héberge ton code sur GitHub pour le déployer facilement et suivre les versions."
         href={`/dashboard/projets/${project.id}`}
-        label="Ajouter le depot"
+        label="Ajouter le dépôt"
       />
     );
   }
@@ -92,7 +92,7 @@ export default function NextActionBlock({ project, hasEnrollment, hasOnboarding 
         title="Deploie ton projet en ligne"
         description="Publie ton projet avec Vercel ou Netlify pour le rendre accessible au monde entier."
         href={`/dashboard/projets/${project.id}`}
-        label="Deployer mon projet"
+        label="Déployer mon projet"
       />
     );
   }
@@ -102,7 +102,7 @@ export default function NextActionBlock({ project, hasEnrollment, hasOnboarding 
       icon="lucide:share-2"
       accent="#38BDF8"
       title="Partage ton projet"
-      description="Ton projet est en ligne ! Montre-le a la communaute et ajoute-le a ton portfolio."
+      description="Ton projet est en ligne ! Montre-le a la communauté et ajoute-le a ton portfolio."
       href={`/dashboard/projets/${project.id}`}
       label="Partager mon projet"
     />

@@ -11,9 +11,9 @@ const STEP_REPO = {
   icon: "lucide:github",
   accent: "#22D3EE",
   title: "1. Cree ton depot GitHub",
-  description: "Heberge ton code sur GitHub pour versionner et deployer automatiquement.",
+  description: "Héberge ton code sur GitHub pour versionner et déployer automatiquement.",
   docsUrl: "https://docs.github.com/fr/get-started/quickstart/create-a-repo",
-  actionLabel: "Creer le depot",
+  actionLabel: "Créer le dépôt",
   actionUrl: "https://github.com/new"
 };
 
@@ -21,9 +21,9 @@ const STEP_DEPLOY = {
   icon: "lucide:rocket",
   accent: "#10B981",
   title: "2. Deploie sur Vercel",
-  description: "Connecte ton depot GitHub a Vercel pour un deploiement automatique a chaque push.",
+  description: "Connecte ton dépôt GitHub a Vercel pour un déploiement automatique à chaque push.",
   docsUrl: "https://vercel.com/docs/deployments/git",
-  actionLabel: "Deployer sur Vercel",
+  actionLabel: "Déployer sur Vercel",
   actionUrl: "https://vercel.com/new"
 };
 
@@ -61,7 +61,7 @@ export default function DeployGuide({ repoUrl, liveUrl, projectTitle }: DeployGu
       </div>
 
       <p className="font-body-readable text-[12px] text-[#a5a5a5] leading-relaxed">
-        Suis ces etapes pour mettre ton projet en ligne. Chaque etape te rapproche d un produit accessible au monde entier.
+        Suis ces étapes pour mettre ton projet en ligne. Chaque étape te rapproche d'un produit accessible au monde entier.
       </p>
 
       <div className="space-y-3">

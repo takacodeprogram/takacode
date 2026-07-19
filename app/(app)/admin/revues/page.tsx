@@ -9,7 +9,7 @@ export const revalidate = 0;
 
 export const metadata = buildPageMetadata({
   title: "Historique des revues",
-  description: "Historique des revues de micro-projets avec methode (IA, pairs, mentor, heuristique).",
+  description: "Historique des revues de micro-projets avec méthode (IA, pairs, mentor, heuristique).",
   path: "/admin/revues",
   noIndex: true
 });

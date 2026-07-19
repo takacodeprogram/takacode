@@ -11,7 +11,7 @@ export const revalidate = 0;
 
 export const metadata = buildPageMetadata({
   title: "Nouveau projet",
-  description: "Cree ton projet.",
+  description: "Crée ton projet.",
   path: "/dashboard/projets/nouveau",
   noIndex: true
 });

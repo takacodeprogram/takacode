@@ -11,7 +11,7 @@ export const revalidate = 0;
 
 export const metadata = buildPageMetadata({
   title: "Admin - Parcours",
-  description: "Gestion des parcours et de leurs lecons.",
+  description: "Gestion des parcours et de leurs leçons.",
   path: "/admin/parcours",
   noIndex: true
 });
@@ -97,7 +97,7 @@ export default async function AdminTracksListPage() {
           <p className="font-body-readable text-[13px] text-[#777] mb-4">Aucun parcours pour l'instant.</p>
           <Link href="/admin/parcours/nouveau" className="btn-primary inline-flex items-center gap-2 text-[12px]">
             <iconify-icon icon="lucide:plus" style={{ fontSize: "13px" }} />
-            Creer le premier parcours
+            Créer le premier parcours
           </Link>
         </div>
       )}

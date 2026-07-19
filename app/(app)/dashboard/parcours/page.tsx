@@ -13,7 +13,7 @@ export const revalidate = 0;
 
 export const metadata = buildPageMetadata({
   title: "Mes parcours",
-  description: "Les parcours ou tu es inscrit et ta progression reelle.",
+  description: "Les parcours ou tu es inscrit et ta progression réelle.",
   path: "/dashboard/parcours",
   noIndex: true
 });

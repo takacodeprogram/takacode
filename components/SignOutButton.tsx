@@ -20,7 +20,7 @@ export default function SignOutButton({ className, style, children }: SignOutBut
 
   return (
     <button type="button" onClick={handleSignOut} className={className} style={style}>
-      {children || "Se deconnecter"}
+      {children || "Se déconnecter"}
     </button>
   );
 }

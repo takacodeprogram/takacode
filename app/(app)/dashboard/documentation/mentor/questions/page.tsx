@@ -4,7 +4,7 @@ import { buildPageMetadata } from "../../../../../../lib/seo";
 
 export const metadata = buildPageMetadata({
   title: "Gerer la banque de questions",
-  description: "Guide mentor pour gerer les questions de quiz sur TakaCode.",
+  description: "Guide mentor pour gérer les questions de quiz sur TakaCode.",
   path: "/dashboard/documentation/mentor/questions",
   noIndex: true
 });
@@ -22,12 +22,12 @@ export default function MentorQuestionsDocPage() {
 
         <h3>Ajouter une question</h3>
         <ul>
-          <li>Definis le <strong>prompt</strong> (8 caracteres minimum).</li>
+          <li>Definis le <strong>prompt</strong> (8 caractères minimum).</li>
           <li>Ajoute entre <strong>2 et 6 choix</strong> possibles.</li>
           <li>Indique l'<strong>index de la bonne reponse</strong> (commence a 0).</li>
-          <li>Ajoute une <strong>explication</strong> pour justifier la reponse.</li>
-          <li>Choisis un <strong>objectif pédagogique</strong> parmi ceux de la lecon.</li>
-          <li>Definis la <strong>difficulte</strong> : fondation, standard ou defi.</li>
+          <li>Ajoute une <strong>explication</strong> pour justifier la réponse.</li>
+          <li>Choisis un <strong>objectif pédagogique</strong> parmi ceux de la leçon.</li>
+          <li>Definis la <strong>difficulte</strong> : fondation, standard ou défi.</li>
           <li>Ajoute eventuellement une <strong>URL de ressource</strong> liee.</li>
         </ul>
 
@@ -50,8 +50,8 @@ export default function MentorQuestionsDocPage() {
 
         <h3>Statuts des questions</h3>
         <ul>
-          <li><strong>Brouillon :</strong> en cours de redaction, pas encore utilisable.</li>
-          <li><strong>Approuvee :</strong> prete a etre utilisee dans les quiz.</li>
+          <li><strong>Brouillon :</strong> en cours de rédaction, pas encore utilisable.</li>
+          <li><strong>Approuvee :</strong> prête à être utilisée dans les quiz.</li>
           <li><strong>Archived :</strong> retiree mais conservee pour historique.</li>
         </ul>
       </DocContent>

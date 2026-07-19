@@ -135,7 +135,7 @@ export default function SessionForm({ tracks = [], session = null }: SessionForm
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
         <Field label="Date et heure"><input type="datetime-local" className={INPUT} value={String(form.scheduled_at)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("scheduled_at", e.target.value)} /></Field>
-        <Field label="Duree (min)"><input type="number" min="1" className={INPUT} value={String(form.duration_minutes)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("duration_minutes", e.target.value)} /></Field>
+        <Field label="Durée (min)"><input type="number" min="1" className={INPUT} value={String(form.duration_minutes)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("duration_minutes", e.target.value)} /></Field>
         <Field label="Parcours lie">
           <select className={INPUT} value={String(form.track_id)} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setField("track_id", e.target.value)}>
             <option value="">Aucun</option>

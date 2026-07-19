@@ -5,7 +5,7 @@ import { buildPageMetadata } from "../../lib/seo";
 
 export const metadata = buildPageMetadata({
   title: "Tarifs",
-  description: "Les formules TakaCode seront publiees ici. En attendant, demarre gratuitement.",
+  description: "Les formules TakaCode seront publiees ici. En attendant, démarre gratuitement.",
   path: "/tarifs"
 });
 
@@ -22,8 +22,8 @@ export default function TarifsPage() {
               CONSTRUIS, LANCE, GAGNE
             </h1>
             <p className="font-body-readable text-[#888] text-[15px] leading-relaxed max-w-[620px] mx-auto mb-10">
-              Les formules seront publiees ici. En attendant, demarre gratuitement et construis ton premier projet. 
-              L idee est de t aider a realiser des projets digitaux qui peuvent un jour te rapporter.
+              Les formules seront publiees ici. En attendant, démarre gratuitement et construis ton premier projet. 
+              L idée est de t'aider a réaliser des projets digitaux qui peuvent un jour te rapporter.
             </p>
             <div className="inline-flex items-center gap-3">
               <Link href="/parcours" className="btn-primary glow-btn">Voir les parcours</Link>

@@ -37,10 +37,10 @@ export default function DeclareFirstEuro({ projectId, alreadyDeclared }: Declare
         toast(data?.error || "Erreur", "error");
         return;
       }
-      toast("Premier euro declare !", "success");
+      toast("Premier euro déclare !", "success");
       router.refresh();
     } catch {
-      toast("Erreur reseau", "error");
+      toast("Erreur réseau", "error");
     } finally {
       setDeclaring(false);
     }
@@ -54,7 +54,7 @@ export default function DeclareFirstEuro({ projectId, alreadyDeclared }: Declare
       className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-1.5 rounded-lg border border-amber-500/40 bg-amber-500/10 text-amber-200 hover:bg-amber-500/20 transition-all disabled:opacity-50"
     >
       <iconify-icon icon={declaring ? "lucide:loader-circle" : "lucide:banknote"} style={{ fontSize: "12px" }} />
-      {declaring ? "Declaration..." : "Declarer mon premier euro"}
+      {declaring ? "Declaration..." : "Déclarer mon premier euro"}
     </button>
   );
 }

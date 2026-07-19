@@ -11,7 +11,7 @@ export const revalidate = 0;
 
 export const metadata = buildPageMetadata({
   title: "Admin - Lien d'affiliation",
-  description: "Editer un lien d'affiliation.",
+  description: "Éditer un lien d'affiliation.",
   path: "/admin/affiliations",
   noIndex: true
 });

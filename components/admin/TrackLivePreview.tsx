@@ -56,7 +56,7 @@ export default function TrackLivePreview({ data }: { data: PreviewData }) {
         </span>
         <div className="flex items-center gap-2">
           <span className={`${levelChip} text-[10px] font-semibold px-2.5 py-1 rounded-full`}>
-            {data.level_label || "Non defini"}
+            {data.level_label || "Non défini"}
           </span>
         </div>
       </div>
@@ -78,7 +78,7 @@ export default function TrackLivePreview({ data }: { data: PreviewData }) {
       <p className="font-body-readable text-[11px] text-[#6f6f6f] mb-3">{meta}</p>
 
       <p className="font-body-readable text-[11px] text-[#555] leading-relaxed mb-4">
-        {(data.summary || data.objective || "Resume du parcours...").slice(0, 120)}
+        {(data.summary || data.objective || "Résumé du parcours...").slice(0, 120)}
       </p>
 
       <div className="flex flex-wrap gap-1.5 mb-4">
@@ -93,7 +93,7 @@ export default function TrackLivePreview({ data }: { data: PreviewData }) {
       </div>
 
       <div className="inline-flex items-center gap-2 text-[11px] text-[#4F8EF7] font-semibold">
-        Voir les details
+        Voir les détails
         <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "12px" }} />
       </div>
     </article>

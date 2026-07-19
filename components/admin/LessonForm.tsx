@@ -230,7 +230,7 @@ export default function LessonForm({ trackId, modules = [], lesson = null, defau
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <Field label="Pourquoi c'est important"><textarea className={`${INPUT} min-h-[64px]`} value={form.why_important} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setField("why_important", e.target.value)} /></Field>
-        <Field label="Comment travailler la lecon"><textarea className={`${INPUT} min-h-[64px]`} value={form.how_to_use} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setField("how_to_use", e.target.value)} /></Field>
+        <Field label="Comment travailler la leçon"><textarea className={`${INPUT} min-h-[64px]`} value={form.how_to_use} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setField("how_to_use", e.target.value)} /></Field>
       </div>
 
       <Field label="Objectifs" hint="Un objectif par ligne"><textarea className={`${INPUT} min-h-[80px]`} value={form.objectives} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setField("objectives", e.target.value)} /></Field>
@@ -271,7 +271,7 @@ export default function LessonForm({ trackId, modules = [], lesson = null, defau
             ))}
           </div>
         ) : (
-          <p className="text-[11px] text-blue-100 font-body-readable">Structure valide. Les bonnes reponses seront reparties automatiquement entre les positions.</p>
+          <p className="text-[11px] text-blue-100 font-body-readable">Structure valide. Les bonnes réponses seront reparties automatiquement entre les positions.</p>
         )}
       </div>
 
@@ -279,7 +279,7 @@ export default function LessonForm({ trackId, modules = [], lesson = null, defau
 
       <div className="grid grid-cols-3 gap-3">
         <Field label="XP"><input type="number" min="0" className={INPUT} value={form.xp_reward} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("xp_reward", e.target.value)} /></Field>
-        <Field label="Duree (min)"><input type="number" min="1" className={INPUT} value={form.duration_minutes} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("duration_minutes", e.target.value)} /></Field>
+        <Field label="Durée (min)"><input type="number" min="1" className={INPUT} value={form.duration_minutes} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("duration_minutes", e.target.value)} /></Field>
         <Field label="Ordre"><input type="number" min="1" className={INPUT} value={form.sort_order} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("sort_order", e.target.value)} /></Field>
       </div>
 

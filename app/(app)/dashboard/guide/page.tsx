@@ -70,7 +70,7 @@ export default function GuidePage() {
       <div className="mt-6">
         <Link href="/dashboard" className="btn-primary inline-flex items-center gap-2 text-[12px]" style={{ padding: "10px 18px" }}>
           <iconify-icon icon="lucide:rocket" style={{ fontSize: "14px" }} />
-          Commencer a construire
+          Commencer à construire
         </Link>
       </div>
 

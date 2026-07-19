@@ -24,7 +24,7 @@ export default function AdminAffiliationsDocPage() {
         <ul>
           <li>Accede à la section <strong>Affiliations</strong> du panneau d'administration.</li>
           <li>Consulte la liste des affiliés et leurs statistiques.</li>
-          <li>Configure les recompenses et les conditions de validation.</li>
+          <li>Configure les récompenses et les conditions de validation.</li>
         </ul>
 
         <h3>Suivi</h3>

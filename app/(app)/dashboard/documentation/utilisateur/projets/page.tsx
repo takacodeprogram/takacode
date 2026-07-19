@@ -4,7 +4,7 @@ import { buildPageMetadata } from "../../../../../../lib/seo";
 
 export const metadata = buildPageMetadata({
   title: "Construire et publier son projet",
-  description: "Guide pour creer, construire et publier ton projet digital sur TakaCode.",
+  description: "Guide pour créer, construire et publier ton projet digital sur TakaCode.",
   path: "/dashboard/documentation/utilisateur/projets",
   noIndex: true
 });
@@ -27,28 +27,28 @@ export default function ProjetsDocPage() {
         </p>
         <ul>
           <li>Choisis un nom et un objectif clair pour ton projet.</li>
-          <li>Selectionne un starter kit (site vitrine, SaaS, e-commerce, blog, app mobile, API, IA chatbot, dashboard).</li>
+          <li>Sélectionne un starter kit (site vitrine, SaaS, e-commerce, blog, app mobile, API, IA chatbot, dashboard).</li>
           <li>Definis une deadline pour te fixer un rythme.</li>
         </ul>
 
         <h3>2. Suivre les parcours lies a ton projet</h3>
         <p>
           Chaque parcours correspond a un archetype de projet. Quand tu choisis un starter kit, les parcours
-          recommandes te sont proposes. Chaque lecon te rapproche de la mise en ligne.
+          recommandes te sont proposes. Chaque leçon te rapproche de la mise en ligne.
         </p>
         <ul>
-          <li>Les modules et lecons sont concus pour produire des livrables concrets.</li>
+          <li>Les modules et leçons sont concus pour produire des livrables concrets.</li>
           <li>Les quiz verifient ta comprehension avant de passer a la suite.</li>
-          <li>Les micro-projets sont des etapes de ton projet principal.</li>
+          <li>Les micro-projets sont des étapes de ton projet principal.</li>
         </ul>
 
         <h3>3. Publier ton projet</h3>
         <p>
-          Une fois construit, suis le guide de deploiement pour mettre ton projet en ligne :
+          Une fois construit, suis le guide de déploiement pour mettre ton projet en ligne :
         </p>
         <ol>
-          <li>Pousse ton code sur GitHub (un depot est cree automatiquement).</li>
-          <li>Connecte-le a Vercel ou Netlify pour le deploiement.</li>
+          <li>Pousse ton code sur GitHub (un dépôt est crée automatiquement).</li>
+          <li>Connecte-le a Vercel ou Netlify pour le déploiement.</li>
           <li>Attache un domaine personnalise si tu en as un.</li>
           <li>Active les analytics pour suivre tes visiteurs.</li>
         </ol>
@@ -69,10 +69,10 @@ export default function ProjetsDocPage() {
 
         <h3>Modes de validation des etapes</h3>
         <ul>
-          <li><strong>Automatique :</strong> verification par des criteres predefinis.</li>
+          <li><strong>Automatique :</strong> vérification par des critères prédéfinis.</li>
           <li><strong>Par l'IA :</strong> analyse et feedback generes automatiquement.</li>
           <li><strong>Par un pair :</strong> un autre membre evalue ton livrable.</li>
-          <li><strong>Par un mentor :</strong> evaluation personnalisee par un encadrant.</li>
+          <li><strong>Par un mentor :</strong> evaluation personnalisée par un encadrant.</li>
         </ul>
       </DocContent>
     </>

@@ -14,7 +14,7 @@ export const revalidate = 0;
 
 export const metadata = buildPageMetadata({
   title: "Mes projets",
-  description: "Les projets publies.",
+  description: "Les projets publiés.",
   path: "/dashboard/projets",
   noIndex: true
 });
@@ -172,7 +172,7 @@ export default async function MyProjectsPage(props: { searchParams: Promise<{ pa
                 </div>
                 {project.trackSlug && project.lessonSlug ? (
                   <Link href={`/parcours/${project.trackSlug}/lecon/${project.lessonSlug}`} className="text-[11px] text-[#4F8EF7] hover:underline inline-flex items-center gap-1 mt-2">
-                    Revoir la lecon
+                    Revoir la leçon
                     <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "11px" }} />
                   </Link>
                 ) : null}

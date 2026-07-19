@@ -275,7 +275,7 @@ export default function TrackElementsManager({ trackId, initialModules = [], bas
   }
 
   async function handleDeleteModule(moduleId: string) {
-    if (!window.confirm("Supprimer ce module et toutes ses lecons ? Cette action est irreversible.")) return;
+    if (!window.confirm("Supprimer ce module et toutes ses leçons ? Cette action est irreversible.")) return;
     setBusy(true);
     await supabase.from("track_modules").delete().eq("id", moduleId);
     setBusy(false);
@@ -323,7 +323,7 @@ export default function TrackElementsManager({ trackId, initialModules = [], bas
   }
 
   async function handleDeleteLesson(lessonId: string) {
-    if (!window.confirm("Supprimer cette lecon ? Cette action est irreversible.")) return;
+    if (!window.confirm("Supprimer cette leçon ? Cette action est irreversible.")) return;
     setBusy(true);
     await supabase.from("track_lessons").delete().eq("id", lessonId);
     setBusy(false);
@@ -451,7 +451,7 @@ export default function TrackElementsManager({ trackId, initialModules = [], bas
                       className="inline-flex items-center gap-1.5 text-[11px] text-[#4F8EF7] hover:underline mt-1"
                     >
                       <iconify-icon icon="lucide:plus" style={{ fontSize: "12px" }} />
-                      Ajouter une lecon
+                      Ajouter une leçon
                     </Link>
                   </div>
                 </>
@@ -468,7 +468,7 @@ export default function TrackElementsManager({ trackId, initialModules = [], bas
           <input className={INPUT} value={createForm.slug} onChange={(e) => setCreateForm((c) => ({ ...c, slug: e.target.value }))} placeholder="slug (ex: bases-html)" />
           <input className={INPUT} type="number" min="1" value={createForm.sort_order} onChange={(e) => setCreateForm((c) => ({ ...c, sort_order: e.target.value }))} placeholder="ordre" />
         </div>
-        <input className={INPUT} value={createForm.summary} onChange={(e) => setCreateForm((c) => ({ ...c, summary: e.target.value }))} placeholder="Resume (optionnel)" />
+        <input className={INPUT} value={createForm.summary} onChange={(e) => setCreateForm((c) => ({ ...c, summary: e.target.value }))} placeholder="Résumé (optionnel)" />
         <button type="submit" disabled={busy} className="btn-secondary text-[12px] h-[36px] px-4 inline-flex items-center gap-2">
           <iconify-icon icon="lucide:plus" style={{ fontSize: "13px" }} />
           Ajouter le module

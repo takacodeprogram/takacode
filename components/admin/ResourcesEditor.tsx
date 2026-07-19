@@ -18,10 +18,10 @@ interface ResourcesEditorProps {
 const INPUT = "auth-input text-[12px] w-full";
 const KIND_OPTIONS = [
   { value: "doc", label: "Documentation" },
-  { value: "video", label: "Video" },
+  { value: "video", label: "Vidéo" },
   { value: "article", label: "Article" },
   { value: "tool", label: "Outil" },
-  { value: "repo", label: "Depot" },
+  { value: "repo", label: "Dépôt" },
   { value: "course", label: "Cours" }
 ];
 

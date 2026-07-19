@@ -214,7 +214,7 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
             </div>
           </div>
           <p className="font-body-readable text-[12px] text-[#a5a5a5] leading-relaxed mb-4">
-            Un starter kit te donne une base de code prete a deployer. Tu peux aussi partir d une page blanche.
+            Un starter kit te donne une base de code prête à déployer. Tu peux aussi partir d'une page blanche.
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
@@ -252,7 +252,7 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
             onClick={startFromScratch}
             className="w-full rounded-xl border border-dashed border-white/[0.12] bg-white/[0.01] px-4 py-3 text-[12px] text-[#888] hover:text-white hover:border-white/[0.25] transition-all text-center"
           >
-            Partir d une page blanche
+            Partir d'une page blanche
           </button>
         </div>
       </div>
@@ -276,7 +276,7 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
       <Field label="Titre du projet"><input className={INPUT} value={form.title} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("title", e.target.value)} placeholder="Ex: Ma boutique en ligne" /></Field>
       <Field label="Objectif"><input className={INPUT} value={form.objective} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("objective", e.target.value)} placeholder="Ce que tu veux accomplir" /></Field>
       <Field label="Description">
-        <textarea className={`${INPUT} min-h-[90px]`} value={form.description} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setField("description", e.target.value)} placeholder="Decris ton projet, ses fonctionnalites, son public..." />
+        <textarea className={`${INPUT} min-h-[90px]`} value={form.description} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setField("description", e.target.value)} placeholder="Décris ton projet, ses fonctionnalités, son public..." />
         <div className="mt-2">
           <FormatPicker value={(form.description_format || "text") as "text" | "markdown" | "html"} onChange={(fmt) => setField("description_format", fmt)} label="Format du contenu" />
         </div>
@@ -298,11 +298,11 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
       <div className="rounded-xl border border-[#4F8EF7]/20 bg-[#4F8EF7]/[0.06] p-4 space-y-2.5">
         <div className="flex items-center gap-2">
           <iconify-icon icon="lucide:zap" style={{ color: "#4F8EF7", fontSize: "15px" }} />
-          <span className="text-[10px] text-[#89c7ff] uppercase tracking-widest font-semibold">Parcours accelerateur</span>
+          <span className="text-[10px] text-[#89c7ff] uppercase tracking-widest font-semibold">Parcours accélérateur</span>
         </div>
         <p className="font-body-readable text-[11px] text-[#a5b8d8] leading-relaxed">
           Le parcours qui guide la construction de ce projet, sprint par sprint. En le choisissant,
-          tu y es inscrit automatiquement : ses lecons deviennent tes sprints et leurs micro-projets
+          tu y es inscrit automatiquement : ses leçons deviennent tes sprints et leurs micro-projets
           tes livrables, visibles sur cette page.
         </p>
         <select className={INPUT} value={form.track_id} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setField("track_id", e.target.value)}>
@@ -313,7 +313,7 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
         </select>
       </div>
 
-      <Field label="Modele de revenu vise">
+      <Field label="Modèle de revenu vise">
         <select className={INPUT} value={form.revenue_model} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setField("revenue_model", e.target.value)}>
           <option value="">Pas de monetisation pour l'instant</option>
           <option value="vente">Vente directe (produits, services)</option>
@@ -336,8 +336,8 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
             <span className="font-semibold text-[12px] text-amber-200">Publier ce projet ?</span>
           </div>
           <p className="font-body-readable text-[11px] text-[#d4c5a0] leading-relaxed mb-3">
-            Une fois publie, ton projet sera visible par toute la communaute TakaCode,
-            affiche sur la page d accueil et dans la galerie. Tu pourras le modifier
+            Une fois publie, ton projet sera visible par toute la communauté TakaCode,
+            affiche sur la page d'accueil et dans la galerie. Tu pourras le modifier
             ou le retirer a tout moment depuis ton dashboard.
           </p>
           <div className="flex items-center gap-2">
@@ -357,7 +357,7 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
 
       <div className="flex items-center gap-3 flex-wrap">
         <button type="submit" disabled={saving} className={`btn-primary inline-flex items-center gap-2 text-[12px] ${saving ? "opacity-50 cursor-not-allowed" : ""}`} style={{ padding: "10px 18px" }}>
-          {saving ? "Enregistrement..." : isEdit ? "Enregistrer" : "Creer le projet"}
+          {saving ? "Enregistrement..." : isEdit ? "Enregistrer" : "Créer le projet"}
           <iconify-icon icon="lucide:save" style={{ fontSize: "13px" }} />
         </button>
         {!isEdit ? (
