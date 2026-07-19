@@ -67,6 +67,12 @@ node scripts/seed-creation-contenu-ia.mjs
 
 # Seed du parcours "Produits digitaux : creer et vendre" (Build to Earn)
 node scripts/seed-produits-digitaux.mjs
+
+# Seed des parcours avances : automatisations/chatbots, web3, bot de trading
+node scripts/seed-parcours-avances.mjs
+
+# Seed des suggestions de liens d'affiliation (creees depubliees)
+node scripts/seed-affiliations-suggestions.mjs
 ```
 
 ## Build

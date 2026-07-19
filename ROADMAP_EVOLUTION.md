@@ -114,6 +114,7 @@ Ordre conseille pour les prochaines sessions :
 1. **Finir V1.4.2** : etape "modele de revenu + nom du projet" dans l'onboarding ; stats etoile du nord dans l'admin (% projets en ligne, % premier euro).
 2. **V1.5 Monetisation** : page tarifs dynamique + Stripe (abonnements Premium/Launch), guides monetisation, parcours Build to Earn.
 3. **Contenu** : modules plateformes (Lovable, Bolt, v0) dans le parcours Vibe Coding ; lecons bonus optionnelles (Flexbox Froggy, Grid Garden, Tailwind) ; enrichir la banque de questions des nouveaux parcours.
+   Livre le 2026-07-19 : parcours "Automatisations et chatbots IA" (n8n, chatbot WhatsApp/site, VPS, vente en service), "Web3 : smart contracts" (Solidity, Remix, Hardhat, deploiement Sepolia verifie, dApp) et "Bot de trading assiste par IA" (zones, strategie vers l'IA, Pine Script, ccxt, backtest, journal, monetisation honnete) — seed scripts/seed-parcours-avances.mjs. Liens d'affiliation par parcours : migration 20260719010000 (track_slug) + suggestions Hostinger (VPS/WordPress/Web/Cloud), Vercel, systeme.io, Chariow, ElevenLabs, TradingView creees depubliees (a publier avec tes liens dans /admin/affiliations).
 4. **Collaboration projet** (anticipe V1.8) : inviter un membre sur son projet, roles, commentaires sur livrables.
 5. **Dette technique** :
    - `components/node_modules/` parasite (npm install lance dans le mauvais dossier — a supprimer)

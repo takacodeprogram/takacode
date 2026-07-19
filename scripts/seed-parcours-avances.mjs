@@ -428,8 +428,8 @@ const TRACKS = [
       next_session: "Vendredi 19h00",
       next_steps: [
         { label: "Comprendre le web3", state: "current" },
-        { label: "Ecrire son smart contract", state: "locked" },
-        { label: "Deployer et valoriser", state: "locked" }
+        { label: "Écrire son smart contract", state: "locked" },
+        { label: "Déployer et valoriser", state: "locked" }
       ],
       sort_order: 8,
       is_published: true,
@@ -557,7 +557,7 @@ const TRACKS = [
       },
       {
         slug: "ecrire-son-smart-contract",
-        title: "Ecrire son smart contract",
+        title: "Écrire son smart contract",
         summary: "Remix, standards OpenZeppelin, sécurité et tests Hardhat.",
         sort_order: 20,
         lessons: [
@@ -676,7 +676,7 @@ const TRACKS = [
       },
       {
         slug: "deployer-et-valoriser",
-        title: "Deployer et valoriser",
+        title: "Déployer et valoriser",
         summary: "Déploiement testnet vérifié, frontend de dApp et monétisation prudente.",
         sort_order: 30,
         lessons: [
@@ -816,9 +816,9 @@ const TRACKS = [
       resources: ["TradingView", "Pine Script", "ccxt", "Binance Testnet"],
       next_session: "Samedi 10h00",
       next_steps: [
-        { label: "Lire le marche", state: "current" },
+        { label: "Lire le marché", state: "current" },
         { label: "Automatiser avec l'IA", state: "locked" },
-        { label: "Discipline et monetisation", state: "locked" }
+        { label: "Discipline et monétisation", state: "locked" }
       ],
       sort_order: 9,
       is_published: true,

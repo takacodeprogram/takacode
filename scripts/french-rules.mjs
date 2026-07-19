@@ -6,7 +6,9 @@
 // ---------------------------------------------------------------------------
 // Frontieres de mots conscientes des accents : le \b de JS est ASCII, donc
 // "affiliés et" voyait une frontiere apres le é et corrompait en "affiliés'et".
-const B_START = "(?<![A-Za-zÀ-ÿŒœ])";
+// Chiffres inclus dans la frontiere : "n8n assemble" ne doit pas devenir
+// "n8n'assemble" (le n final precede d'un chiffre n'est pas un mot).
+const B_START = "(?<![A-Za-zÀ-ÿŒœ0-9])";
 // B_END refuse aussi ".lettre" : protege les noms de domaines et de produits
 // ("systeme.io" ne doit jamais devenir "système.io").
 const B_END = "(?![A-Za-zÀ-ÿŒœ]|\\.[a-z])";

@@ -47,6 +47,24 @@ const GUIDANCE: Record<string, TrackGuidance> = {
     level: "Execution",
     prereq: ["ia-fondamentaux"],
     tagline: "Achète du trafic rentable : Facebook Ads, Google Ads et TikTok Ads pour générer des ventes."
+  },
+  "automatisation-ia": {
+    order: 7,
+    level: "Intermediaire",
+    prereq: ["ia-fondamentaux"],
+    tagline: "Automatise les tâches répétitives et déploie un chatbot IA — puis vends-le en service."
+  },
+  "web3-blockchain": {
+    order: 8,
+    level: "Avance",
+    prereq: ["ia-fondamentaux", "bases-internet"],
+    tagline: "Du wallet au smart contract vérifié sur testnet — des compétences rares qui se vendent."
+  },
+  "bot-trading-ia": {
+    order: 9,
+    level: "Avance",
+    prereq: ["ia-fondamentaux", "automatisation-ia"],
+    tagline: "Ta stratégie codée par l'IA, backtestée et disciplinée — l'outil avant les promesses."
   }
 };
 
