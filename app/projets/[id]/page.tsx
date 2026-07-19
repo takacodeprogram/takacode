@@ -160,7 +160,7 @@ export default async function PublicProjectPage({ params }: { params: Promise<Re
                     Voir le projet en ligne
                   </a>
                 ) : null}
-                {project.repoUrl ? (
+                {project.repoUrl && project.repoIsPublic ? (
                   <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" className="btn-secondary inline-flex items-center gap-2 text-[12px]" style={{ padding: "10px 18px" }}>
                     <iconify-icon icon="lucide:code-2" style={{ fontSize: "13px" }} />
                     Code source

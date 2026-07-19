@@ -24,6 +24,7 @@ export interface PublicProject {
   trackSlug: string;
   likeCount: number;
   descriptionFormat: string;
+  repoIsPublic: boolean;
 }
 
 export async function getPublicProject(supabase: SupabaseClient, projectId: string): Promise<PublicProject | null> {
@@ -59,6 +60,7 @@ export async function getPublicProject(supabase: SupabaseClient, projectId: stri
     track: String(r.track || ""),
     trackSlug: String(r.track_slug || ""),
     likeCount: typeof r.like_count === "number" ? r.like_count : 0,
-    descriptionFormat: String(r.description_format || "text")
+    descriptionFormat: String(r.description_format || "text"),
+    repoIsPublic: r.repo_is_public !== false
   };
 }

@@ -1,12 +1,13 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "../utils/supabase/client";
 import { PROJECT_STATUS } from "../lib/userProjects";
 import { ensureUserTrackEnrollment } from "../lib/tracks";
 import { STARTER_TEMPLATES, getTemplateById } from "../lib/starterTemplates";
 import FormatPicker from "../components/FormatPicker";
+import RichTextRenderer from "../components/RichTextRenderer";
 import { playSuccess, playPop } from "../components/effects/sound";
 import { useToast } from "./Toast";
 import type { ProjectStatus } from "../lib/userProjects";
@@ -30,6 +31,7 @@ interface ProjectData {
   liveUrl?: string;
   revenueModel?: string;
   templateId?: string;
+  repoIsPublic?: boolean;
 }
 
 interface ProjectFormProps {
@@ -67,6 +69,8 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
 
   const [showTemplates, setShowTemplates] = useState<boolean>(!isEdit);
   const [selectedTemplateId, setSelectedTemplateId] = useState<string>(project?.templateId || "");
+  const [showPreview, setShowPreview] = useState<boolean>(false);
+  const descRef = useRef<HTMLTextAreaElement>(null);
   const [form, setForm] = useState<Record<string, string>>(() => ({
     title: project?.title || "",
     objective: project?.objective || "",
@@ -77,7 +81,8 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
     repo_url: project?.repoUrl || "",
     live_url: project?.liveUrl || "",
     revenue_model: project?.revenueModel || "",
-    description_format: ((project as unknown as Record<string, unknown>)?.descriptionFormat as string) || "text"
+    description_format: ((project as unknown as Record<string, unknown>)?.descriptionFormat as string) || "text",
+    repo_is_public: project?.repoIsPublic !== false ? "true" : "false"
   }));
   const [saving, setSaving] = useState<boolean>(false);
   const [deleting, setDeleting] = useState<boolean>(false);
@@ -87,6 +92,23 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
 
   function setField(key: string, value: string) {
     setForm((current) => ({ ...current, [key]: value }));
+  }
+
+  const EMOJIS = ["😀","🎉","🔥","💡","🚀","✅","⭐","💪","🎯","❤️","👏","🙌","📱","💻","🌐","📊","🎨","📝","🔧","⚡","💎","🏆","🛠️","📈"];
+
+  function insertEmoji(emoji: string) {
+    const el = descRef.current;
+    if (!el) return;
+    const start = el.selectionStart;
+    const end = el.selectionEnd;
+    const before = form.description.substring(0, start);
+    const after = form.description.substring(end);
+    const next = before + emoji + after;
+    setField("description", next);
+    requestAnimationFrame(() => {
+      el.focus();
+      el.setSelectionRange(start + emoji.length, start + emoji.length);
+    });
   }
 
   function applyTemplate(template: StarterTemplate) {
@@ -120,7 +142,8 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
       live_url: cleanUrl(form.live_url),
       revenue_model: form.revenue_model,
       template_id: selectedTemplateId,
-      description_format: form.description_format || "text"
+      description_format: form.description_format || "text",
+      repo_is_public: form.repo_is_public === "true"
     };
   }
 
@@ -276,10 +299,26 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
       <Field label="Titre du projet"><input className={INPUT} value={form.title} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("title", e.target.value)} placeholder="Ex: Ma boutique en ligne" /></Field>
       <Field label="Objectif"><input className={INPUT} value={form.objective} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("objective", e.target.value)} placeholder="Ce que tu veux accomplir" /></Field>
       <Field label="Description">
-        <textarea className={`${INPUT} min-h-[90px]`} value={form.description} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setField("description", e.target.value)} placeholder="Décris ton projet, ses fonctionnalités, son public..." />
-        <div className="mt-2">
-          <FormatPicker value={(form.description_format || "text") as "text" | "markdown" | "html"} onChange={(fmt) => setField("description_format", fmt)} label="Format du contenu" />
+        <textarea ref={descRef} className={`${INPUT} min-h-[90px]`} value={form.description} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setField("description", e.target.value)} placeholder="Decris ton projet, ses fonctionnalites, son public..." />
+        <div className="flex items-center gap-2 mt-1.5 flex-wrap">
+          <FormatPicker value={(form.description_format || "text") as "text" | "markdown" | "html"} onChange={(fmt) => setField("description_format", fmt)} />
+          <button type="button" onClick={() => setShowPreview(!showPreview)} className={`text-[11px] px-2.5 py-1.5 rounded-lg border transition-all ${showPreview ? "bg-[#4F8EF7]/20 border-[#4F8EF7]/40 text-blue-200" : "border-white/[0.08] text-[#888] hover:text-white"}`}>
+            <iconify-icon icon={showPreview ? "lucide:eye-off" : "lucide:eye"} style={{ fontSize: "13px" }} className="inline mr-1" />
+            {showPreview ? "Editer" : "Apercu"}
+          </button>
         </div>
+        <div className="flex flex-wrap gap-1 mt-1.5">
+          {EMOJIS.map((emoji) => (
+            <button key={emoji} type="button" onClick={() => insertEmoji(emoji)} className="text-[16px] px-1 py-0.5 rounded hover:bg-white/[0.06] transition-colors leading-none">
+              {emoji}
+            </button>
+          ))}
+        </div>
+        {showPreview && form.description.trim() ? (
+          <div className="mt-2 rounded-xl border border-white/[0.06] bg-white/[0.01] p-3 min-h-[60px]">
+            <RichTextRenderer content={form.description} format={(form.description_format || "text") as "text" | "markdown" | "html"} className="text-[13px]" />
+          </div>
+        ) : null}
       </Field>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -325,7 +364,16 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
       </Field>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        <Field label="Lien du code (GitHub)"><input className={INPUT} value={form.repo_url} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("repo_url", e.target.value)} placeholder="https://github.com/..." /></Field>
+        <Field label="Lien du code (GitHub)">
+          <div className="flex gap-2">
+            <input className={`${INPUT} flex-1`} value={form.repo_url} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("repo_url", e.target.value)} placeholder="https://github.com/..." />
+            <label className="flex items-center gap-1.5 shrink-0 cursor-pointer px-2 py-1 rounded-lg border border-white/[0.08] text-[11px] text-[#888] hover:text-white hover:border-white/[0.2] transition-all">
+              <input type="checkbox" className="sr-only" checked={form.repo_is_public === "true"} onChange={(e) => setField("repo_is_public", e.target.checked ? "true" : "false")} />
+              <iconify-icon icon={form.repo_is_public === "true" ? "lucide:globe" : "lucide:lock"} style={{ fontSize: "13px", color: form.repo_is_public === "true" ? "#4F8EF7" : "#f59e0b" }} />
+              {form.repo_is_public === "true" ? "Public" : "Prive"}
+            </label>
+          </div>
+        </Field>
         <Field label="Lien en ligne"><input className={INPUT} value={form.live_url} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("live_url", e.target.value)} placeholder="https://mon-projet.com" /></Field>
       </div>
 
