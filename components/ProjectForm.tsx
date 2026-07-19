@@ -310,8 +310,11 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
           ))}
         </div>
         {form.description.trim() ? (
-          <div className="mt-2 rounded-xl border border-white/[0.06] bg-white/[0.01] p-3 min-h-[60px]">
-            <RichTextRenderer content={form.description} format={(form.description_format || "text") as "text" | "markdown" | "html"} className="text-[13px]" />
+          <div className="mt-2">
+            <div className="text-[10px] text-[#666] uppercase tracking-widest font-semibold mb-1">Apercu</div>
+            <div className="rounded-xl border border-white/[0.06] bg-white/[0.01] p-3 min-h-[60px]">
+              <RichTextRenderer content={form.description} format={(form.description_format || "text") as "text" | "markdown" | "html"} className="text-[13px]" />
+            </div>
           </div>
         ) : null}
       </Field>
