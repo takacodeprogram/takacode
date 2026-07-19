@@ -69,7 +69,6 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
 
   const [showTemplates, setShowTemplates] = useState<boolean>(!isEdit);
   const [selectedTemplateId, setSelectedTemplateId] = useState<string>(project?.templateId || "");
-  const [showPreview, setShowPreview] = useState<boolean>(false);
   const descRef = useRef<HTMLTextAreaElement>(null);
   const [form, setForm] = useState<Record<string, string>>(() => ({
     title: project?.title || "",
@@ -300,12 +299,8 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
       <Field label="Objectif"><input className={INPUT} value={form.objective} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("objective", e.target.value)} placeholder="Ce que tu veux accomplir" /></Field>
       <Field label="Description">
         <textarea ref={descRef} className={`${INPUT} min-h-[90px]`} value={form.description} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setField("description", e.target.value)} placeholder="Decris ton projet, ses fonctionnalites, son public..." />
-        <div className="flex items-center gap-2 mt-1.5 flex-wrap">
+        <div className="mt-1.5">
           <FormatPicker value={(form.description_format || "text") as "text" | "markdown" | "html"} onChange={(fmt) => setField("description_format", fmt)} />
-          <button type="button" onClick={() => setShowPreview(!showPreview)} className={`text-[11px] px-2.5 py-1.5 rounded-lg border transition-all ${showPreview ? "bg-[#4F8EF7]/20 border-[#4F8EF7]/40 text-blue-200" : "border-white/[0.08] text-[#888] hover:text-white"}`}>
-            <iconify-icon icon={showPreview ? "lucide:eye-off" : "lucide:eye"} style={{ fontSize: "13px" }} className="inline mr-1" />
-            {showPreview ? "Editer" : "Apercu"}
-          </button>
         </div>
         <div className="flex flex-wrap gap-1 mt-1.5">
           {EMOJIS.map((emoji) => (
@@ -314,7 +309,7 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
             </button>
           ))}
         </div>
-        {showPreview && form.description.trim() ? (
+        {form.description.trim() ? (
           <div className="mt-2 rounded-xl border border-white/[0.06] bg-white/[0.01] p-3 min-h-[60px]">
             <RichTextRenderer content={form.description} format={(form.description_format || "text") as "text" | "markdown" | "html"} className="text-[13px]" />
           </div>
