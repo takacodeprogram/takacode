@@ -15,6 +15,7 @@ interface CommunityProject {
   firstEuroAt: string | null;
   hasDeclaredFirstEuro: boolean;
   likeCount: number;
+  repoIsPublic: boolean;
 }
 
 interface CommunityResult {
@@ -42,7 +43,8 @@ function normalizeProject(row: unknown): CommunityProject | null {
     track: typeof r.track === "string" ? r.track : "",
     firstEuroAt: typeof r.first_euro_at === "string" ? r.first_euro_at : null,
     hasDeclaredFirstEuro: Boolean(r.has_declared_first_euro),
-    likeCount: typeof r.like_count === "number" ? r.like_count : 0
+    likeCount: typeof r.like_count === "number" ? r.like_count : 0,
+    repoIsPublic: r.repo_is_public !== false
   };
 }
 
