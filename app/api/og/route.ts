@@ -45,9 +45,9 @@ export async function GET(request: NextRequest) {
 
 function escapeXml(unsafe: string): string {
   return unsafe
-    .replace(/&/g, "&")
-    .replace(/</g, "<")
-    .replace(/>/g, ">")
-    .replace(/'/g, "&apos;")
-    .replace(/"/g, """);
+    .replace(/&/g, String.fromCharCode(38) + "amp;")
+    .replace(/</g, String.fromCharCode(38) + "lt;")
+    .replace(/>/g, String.fromCharCode(38) + "gt;")
+    .replace(/'/g, String.fromCharCode(38) + "apos;")
+    .replace(/"/g, String.fromCharCode(38) + "quot;");
 }
