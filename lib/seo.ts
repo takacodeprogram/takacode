@@ -40,9 +40,36 @@ interface BuildMetadataOptions {
   description?: string;
   path?: string;
   noIndex?: boolean;
+  openGraph?: {
+    title?: string;
+    description?: string;
+    url?: string;
+    siteName?: string;
+    locale?: string;
+    type?: string;
+    images?: Array<{
+      url: string;
+      width?: number;
+      height?: number;
+      alt?: string;
+    }>;
+  };
+  twitter?: {
+    card?: string;
+    title?: string;
+    description?: string;
+    images?: string[];
+  };
 }
 
-export function buildPageMetadata({ title, description = SEO_DEFAULTS.defaultDescription, path = "/", noIndex = false }: BuildMetadataOptions): Record<string, unknown> {
+export function buildPageMetadata({
+  title,
+  description = SEO_DEFAULTS.defaultDescription,
+  path = "/",
+  noIndex = false,
+  openGraph,
+  twitter
+}: BuildMetadataOptions): Record<string, unknown> {
   const canonicalPath = normalizePath(path);
 
   const metadata: Record<string, unknown> = {
@@ -52,17 +79,19 @@ export function buildPageMetadata({ title, description = SEO_DEFAULTS.defaultDes
       canonical: canonicalPath
     },
     openGraph: {
-      title,
-      description,
-      url: canonicalPath,
-      siteName: SEO_DEFAULTS.siteName,
-      locale: SEO_DEFAULTS.locale,
-      type: "website"
+      title: openGraph?.title || title,
+      description: openGraph?.description || description,
+      url: openGraph?.url || canonicalPath,
+      siteName: openGraph?.siteName || SEO_DEFAULTS.siteName,
+      locale: openGraph?.locale || SEO_DEFAULTS.locale,
+      type: openGraph?.type || "website",
+      images: openGraph?.images
     },
     twitter: {
-      card: "summary_large_image",
-      title,
-      description
+      card: twitter?.card || "summary_large_image",
+      title: twitter?.title || title,
+      description: twitter?.description || description,
+      images: twitter?.images
     }
   };
 

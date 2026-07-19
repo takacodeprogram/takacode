@@ -7,6 +7,38 @@ import { buildPageMetadata } from "../../../lib/seo";
 import { listPublishedTracks } from "../../../lib/tracks";
 import { isMissingSchemaError } from "../../../lib/utils";
 import { createClient } from "../../../utils/supabase/server";
+import { createAdminClient } from "../../../utils/supabase/admin";
+
+// Étoile du nord de la plateforme : % de membres avec un projet en ligne,
+// puis % avec un premier euro déclaré. Calculée en service role : les
+// policies RLS ne permettent pas de compter les projets des autres membres.
+async function getNorthStar() {
+  try {
+    const admin = createAdminClient();
+    const [{ count: members }, projectRows] = await Promise.all([
+      admin.from("user_profiles").select("id", { count: "exact", head: true }),
+      admin.from("user_projects").select("user_id, live_url, status, has_declared_first_euro").limit(10000)
+    ]);
+    const projects = projectRows.data || [];
+    const withLive = new Set(
+      projects.filter((r) => (r.live_url && r.live_url.trim()) || r.status === "published").map((r) => r.user_id)
+    ).size;
+    const withEuro = new Set(
+      projects.filter((r) => r.has_declared_first_euro === true).map((r) => r.user_id)
+    ).size;
+    const total = members || 0;
+    return {
+      ready: true,
+      members: total,
+      withLive,
+      withEuro,
+      pctLive: total ? Math.round((withLive / total) * 100) : 0,
+      pctEuro: total ? Math.round((withEuro / total) * 100) : 0
+    };
+  } catch {
+    return { ready: false, members: 0, withLive: 0, withEuro: 0, pctLive: 0, pctEuro: 0 };
+  }
+}
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -29,7 +61,7 @@ export default async function AdminOverviewPage() {
   const cookieStore = await cookies();
   const supabase = await createClient(cookieStore);
 
-  const [usersResult, tracksResult, platformStats] = await Promise.all([
+  const [usersResult, tracksResult, platformStats, northStar] = await Promise.all([
     supabase.from("user_profiles").select(ADMIN_USERS_SELECT).order("points", { ascending: false }).limit(300),
     supabase
       .from("learning_tracks")
@@ -37,7 +69,8 @@ export default async function AdminOverviewPage() {
       .order("sort_order", { ascending: true })
       .order("created_at", { ascending: true })
       .limit(300),
-    getPlatformStats(supabase)
+    getPlatformStats(supabase),
+    getNorthStar()
   ]);
 
   const usersSchemaReady = !isMissingTableError(usersResult.error, "user_profiles");
@@ -62,7 +95,7 @@ export default async function AdminOverviewPage() {
   return (
     <>
       <PageHeader title="CENTRE ADMIN" subtitle="Pilotage de la plateforme" />
-      <AdminOverview users={users} tracks={tracks} platformStats={platformStats} systemIssues={systemIssues} />
+      <AdminOverview users={users} tracks={tracks} platformStats={platformStats} systemIssues={systemIssues} northStar={northStar} />
     </>
   );
 }

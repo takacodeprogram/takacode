@@ -14,11 +14,21 @@ interface User {
   isPublished?: boolean;
 }
 
+interface NorthStar {
+  ready: boolean;
+  members: number;
+  withLive: number;
+  withEuro: number;
+  pctLive: number;
+  pctEuro: number;
+}
+
 interface Props {
   users?: User[];
   tracks?: User[];
   platformStats?: PlatformStatsData | null;
   systemIssues?: string[];
+  northStar?: NorthStar | null;
 }
 
 interface LeaderboardEntry {
@@ -50,7 +60,7 @@ interface MetricTile {
   value: number;
 }
 
-export default function AdminOverview({ users = [], tracks = [], platformStats = null, systemIssues = [] }: Props) {
+export default function AdminOverview({ users = [], tracks = [], platformStats = null, systemIssues = [], northStar = null }: Props) {
   const listUsers = Array.isArray(users) ? users : [];
   const listTracks = Array.isArray(tracks) ? tracks : [];
 
@@ -88,6 +98,38 @@ export default function AdminOverview({ users = [], tracks = [], platformStats =
 
   return (
     <div className="space-y-5">
+      {northStar?.ready ? (
+        <div className="rounded-2xl border border-[#4F8EF7]/25 bg-[#111] p-5">
+          <div className="flex items-center gap-2 mb-4">
+            <iconify-icon icon="lucide:star" style={{ color: "#F59E0B", fontSize: "15px" }} />
+            <span className="text-[11px] text-[#8d8d8d] uppercase tracking-widest font-semibold">Étoile du nord</span>
+            <span className="text-[10px] text-[#666] font-body-readable ml-auto">{northStar.members} membres</span>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <div className="flex items-end justify-between gap-2 mb-1.5">
+                <span className="font-body-readable text-[12px] text-[#a5a5a5]">Membres avec un projet en ligne</span>
+                <span className="text-[22px] text-white font-semibold leading-none">{northStar.pctLive}%</span>
+              </div>
+              <div className="h-1.5 rounded bg-white/[0.06] overflow-hidden mb-1">
+                <div className="h-full rounded bg-gradient-to-r from-[#4F8EF7] to-[#9B6DFF]" style={{ width: `${northStar.pctLive}%` }} />
+              </div>
+              <div className="text-[10px] text-[#666] font-body-readable">{northStar.withLive} membre{northStar.withLive > 1 ? "s" : ""} avec un lien live ou un projet publié</div>
+            </div>
+            <div>
+              <div className="flex items-end justify-between gap-2 mb-1.5">
+                <span className="font-body-readable text-[12px] text-[#a5a5a5]">Membres avec un premier euro</span>
+                <span className="text-[22px] text-emerald-300 font-semibold leading-none">{northStar.pctEuro}%</span>
+              </div>
+              <div className="h-1.5 rounded bg-white/[0.06] overflow-hidden mb-1">
+                <div className="h-full rounded bg-gradient-to-r from-emerald-500 to-emerald-300" style={{ width: `${northStar.pctEuro}%` }} />
+              </div>
+              <div className="text-[10px] text-[#666] font-body-readable">{northStar.withEuro} membre{northStar.withEuro > 1 ? "s" : ""} avec un premier euro déclaré</div>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
       <div className="grid grid-cols-2 xl:grid-cols-4 gap-2.5">
         {metrics.map((tile) => (
           <div key={tile.label} className="rounded-xl border border-white/[0.08] bg-[#111] px-3.5 py-3">

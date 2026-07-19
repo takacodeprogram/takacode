@@ -5,11 +5,11 @@ export default function SessionsLiveSection() {
     <section className="py-28 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-900/[0.03] to-transparent pointer-events-none" />
       <div className="max-w-[1320px] mx-auto px-8">
-        <div className="section-label mb-4">LIVE</div>
+        <div className="section-label mb-4">En direct</div>
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between mb-14">
-          <h2 className="font-valorax gradient-text" style={{ fontSize: "clamp(36px, 3.5vw, 54px)", letterSpacing: "-0.02em" }}>
-            APPRENDRE ENSEMBLE
-          </h2>
+<h2 className="font-valorax gradient-text" style={{ fontSize: "clamp(36px, 3.5vw, 54px)", letterSpacing: "-0.02em" }}>
+Apprendre ensemble
+</h2>
           <Link href="/communaute" id="sessions-all-link" className="btn-secondary inline-flex items-center gap-2 self-start lg:self-auto">
             Voir toutes les sessions
             <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "14px" }} />
@@ -62,7 +62,7 @@ export default function SessionsLiveSection() {
                 <div className="text-[18px] font-bold text-[#4F8EF7] leading-none">24</div>
               </div>
               <div className="flex-1 min-w-0">
-                <div className="font-venite text-[13px] text-white mb-1">ATELIER AGENTS IA</div>
+                <div className="font-venite text-[13px] text-white mb-1">Atelier agents IA</div>
                 <div className="font-body-readable text-[11px] text-[#555]">Construire son premier agent IA avec n8n</div>
               </div>
               <div className="text-right flex-shrink-0">
@@ -80,7 +80,7 @@ export default function SessionsLiveSection() {
                 <div className="text-[18px] font-bold text-[#9B6DFF] leading-none">27</div>
               </div>
               <div className="flex-1 min-w-0">
-                <div className="font-venite text-[13px] text-white mb-1">MASTERCLASS WEB3</div>
+                <div className="font-venite text-[13px] text-white mb-1">Masterclass Web3</div>
                 <div className="font-body-readable text-[11px] text-[#555]">Créer ta première dApp avec wallet connecté</div>
               </div>
               <div className="text-right flex-shrink-0">
@@ -98,7 +98,7 @@ export default function SessionsLiveSection() {
                 <div className="text-[18px] font-bold text-[#22D3EE] leading-none">02</div>
               </div>
               <div className="flex-1 min-w-0">
-                <div className="font-venite text-[13px] text-white mb-1">WORKSHOP 3D IMMERSIF</div>
+                <div className="font-venite text-[13px] text-white mb-1">Workshop 3D immersif</div>
                 <div className="font-body-readable text-[11px] text-[#555]">Intro Three.js et React Three Fiber en direct</div>
               </div>
               <div className="text-right flex-shrink-0">

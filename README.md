@@ -73,6 +73,9 @@ node scripts/seed-parcours-avances.mjs
 
 # Seed des suggestions de liens d'affiliation (creees depubliees)
 node scripts/seed-affiliations-suggestions.mjs
+
+# Module "Plateformes de vibe coding" (Lovable, Bolt, v0) dans full-vibe-coding
+node scripts/seed-vibe-plateformes.mjs
 ```
 
 ## Build

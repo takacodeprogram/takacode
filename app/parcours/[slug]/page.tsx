@@ -28,14 +28,61 @@ interface ParcoursPageProps {
   params: Promise<{ slug: string }>;
 }
 
+async function fetchTrackData(slug: string) {
+  const cookieStore = await cookies();
+  const supabase = await createClient(cookieStore);
+  const allTracksResult = await listPublishedTracks(supabase);
+  const allTracks = allTracksResult.tracks;
+  const track = allTracks.find((item) => String(item.slug || "").trim().toLowerCase() === slug) || null;
+  return { track, supabase };
+}
+
 export async function generateMetadata({ params }: ParcoursPageProps) {
   const resolvedParams = await params;
-  const slug = String(resolvedParams?.slug || "").trim();
+  const slug = String(resolvedParams?.slug || "").trim().toLowerCase();
+
+  const { track } = await fetchTrackData(slug);
+
+  if (!track) {
+    return buildPageMetadata({
+      title: "Parcours non trouvé - TakaCode",
+      description: "Ce parcours n'existe pas ou n'est pas encore publié.",
+      path: `/parcours/${slug}`,
+      noIndex: true
+    });
+  }
+
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://takacode.vercel.app";
+  const ogImage = track.accentColor
+    ? `${siteUrl}/api/og?title=${encodeURIComponent(track.title)}&color=${encodeURIComponent(track.accentColor)}`
+    : `${siteUrl}/og-default.png`;
 
   return buildPageMetadata({
-    title: "Detail Parcours",
-    description: "Details d'un parcours TakaCode: competences fournies, plan de progression, objectif et ressources.",
-    path: slug ? `/parcours/${slug}` : "/parcours"
+    title: `${track.title} — TakaCode`,
+    description: track.description || track.summary || "Découvre ce parcours TakaCode : compétences, plan de progression, objectif et ressources.",
+    path: `/parcours/${slug}`,
+    openGraph: {
+      title: track.title,
+      description: track.description || track.summary || "Découvre ce parcours TakaCode",
+      url: `${siteUrl}/parcours/${slug}`,
+      siteName: "TakaCode",
+      locale: "fr_FR",
+      type: "website",
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: track.title
+        }
+      ]
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: track.title,
+      description: track.description || track.summary || "Découvre ce parcours TakaCode",
+      images: [ogImage]
+    }
   });
 }
 
@@ -193,7 +240,7 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
                       <div className="rounded-xl border border-amber-500/25 bg-amber-500/[0.08] p-4">
                         <div className="flex items-center gap-2 mb-2">
                           <iconify-icon icon="lucide:lightbulb" style={{ fontSize: "15px", color: "#fbbf24" }} />
-                          <span className="font-venite-italic text-[11px] tracking-widest text-amber-200">CONSEIL D'ORDRE</span>
+                          <span className="font-venite-italic text-[11px] tracking-widest text-amber-200">Conseil d'ordre</span>
                         </div>
                         <p className="font-body-readable text-[12px] text-amber-100/90 leading-relaxed mb-3">
                           Pour tirer le meilleur de ce parcours, on te conseille de suivre d'abord :
@@ -217,7 +264,7 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
                     ) : null}
 
                     <div>
-                      <h2 className="font-venite-italic text-[12px] tracking-widest text-[#4F8EF7] mb-3">COMPETENCES FOURNIES</h2>
+                      <h2 className="font-venite-italic text-[12px] tracking-widest text-[#4F8EF7] mb-3">Compétences fournies</h2>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                         {competencies.map((competence) => (
                           <div
@@ -234,7 +281,7 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
                     </div>
 
                     <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4">
-                      <div className="font-venite-italic text-[11px] tracking-widest text-[#888] mb-2">OBJECTIF DU PARCOURS</div>
+                      <div className="font-venite-italic text-[11px] tracking-widest text-[#888] mb-2">Objectif du parcours</div>
                       <p className="font-body-readable text-[12px] text-[#b3b3b3] leading-relaxed">{track.objective}</p>
                     </div>
                   </div>
@@ -290,7 +337,7 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
                     ) : null}
 
                     <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4">
-                      <div className="font-venite-italic text-[11px] tracking-widest text-[#888] mb-3">PLAN DE PROGRESSION</div>
+                      <div className="font-venite-italic text-[11px] tracking-widest text-[#888] mb-3">Plan de progression</div>
                       <div className="space-y-2.5">
                         {stepRows.map((step, index) => {
                           const ui = getStepUi(step.state);
@@ -313,7 +360,7 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
                     </div>
 
                     <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4">
-                      <div className="font-venite-italic text-[11px] tracking-widest text-[#888] mb-3">RESSOURCES INCLUSES</div>
+                      <div className="font-venite-italic text-[11px] tracking-widest text-[#888] mb-3">Ressources incluses</div>
                       <div className="space-y-2">
                         {(resources.length ? resources : ["Ressources en préparation"]).map((resource) => (
                           <div key={`${track.id}-resource-${resource}`} className="flex items-center gap-2 text-[11px] text-[#9b9b9b] font-body-readable">
@@ -326,7 +373,7 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
 
                     {trackAffiliates.length ? (
                       <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4">
-                        <div className="font-venite-italic text-[11px] tracking-widest text-[#888] mb-3">PLATEFORMES PARTENAIRES</div>
+                        <div className="font-venite-italic text-[11px] tracking-widest text-[#888] mb-3">Plateformes partenaires</div>
                         <div className="space-y-2.5">
                           {trackAffiliates.map((aff) => (
                             <a
@@ -350,7 +397,7 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
                             </a>
                           ))}
                         </div>
-                        <p className="text-[9px] text-[#555] font-body-readable mt-2">Liens affilies : ils soutiennent TakaCode sans cout pour toi.</p>
+                        <p className="text-[9px] text-[#555] font-body-readable mt-2">Liens affiliés : ils soutiennent TakaCode sans coût pour toi.</p>
                       </div>
                     ) : null}
                   </div>
@@ -508,10 +555,10 @@ function GuestCTA() {
             <div className="w-16 h-16 rounded-2xl border border-white/[0.08] bg-white/[0.02] flex items-center justify-center mx-auto mb-6">
               <iconify-icon icon="lucide:book-open" className="text-[#4F8EF7]" style={{ fontSize: "30px" }} />
             </div>
-            <div className="section-label mb-3">PARCOURS</div>
-            <h1 className="font-valorax gradient-text" style={{ fontSize: "clamp(32px, 4vw, 52px)", letterSpacing: "-0.02em" }}>
-              ACCEDE A CE PARCOURS
-            </h1>
+            <div className="section-label mb-3">Parcours</div>
+<h1 className="font-valorax gradient-text" style={{ fontSize: "clamp(32px, 4vw, 52px)", letterSpacing: "-0.02em" }}>
+Accède à ce parcours
+</h1>
             <p className="font-body-readable text-[14px] text-[#888] mt-3 mb-8 leading-relaxed">
               Connecte-toi ou crée un compte pour acceder au détail de ce parcours et commencer à apprendre.
             </p>

@@ -37,8 +37,8 @@ const AUTH_ERROR_MESSAGES: Record<string, string> = {
 
 const AUTH_MODE_COPY: Record<string, AuthModeCopy> = {
   signup: {
-    badge: "COMMUNAUTE TAKACODE",
-    titleLines: ["COMMENCE TON", "PROCHAIN PROJET"],
+    badge: "Communauté TakaCode",
+    titleLines: ["Commence ton", "prochain projet"],
     description:
       "Crée ton compte et accède aux parcours, ressources, sessions live et à une communauté qui apprend en construisant.",
     highlights: [
@@ -66,8 +66,8 @@ const AUTH_MODE_COPY: Record<string, AuthModeCopy> = {
     ]
   },
   signin: {
-    badge: "BON RETOUR",
-    titleLines: ["RETROUVE TES PROJETS", "ET CONTINUE A AVANCER"],
+    badge: "Bon retour",
+    titleLines: ["Retrouve tes projets", "et continue à avancer"],
     description:
       "Reconnecte-toi pour reprendre ton parcours, participer aux sessions live et poursuivre tes réalisations.",
     highlights: [
@@ -473,8 +473,8 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
 
               {showResetSuccessState ? (
                 <div className="mb-4 rounded-xl border border-emerald-500/25 bg-emerald-500/10 px-4 py-4 text-emerald-100">
-                  <div className="text-[10px] font-semibold tracking-[0.16em] uppercase text-emerald-300 mb-1">C'EST BON !</div>
-                  <div className="text-[14px] font-semibold mb-1">TON MOT DE PASSE A ETE MIS A JOUR</div>
+                  <div className="text-[10px] font-semibold tracking-[0.16em] uppercase text-emerald-300 mb-1">C'est bon !</div>
+                  <div className="text-[14px] font-semibold mb-1">Ton mot de passe a été mis à jour</div>
                   <p className="text-[12px] text-emerald-100/80 mb-2">Tu peux maintenant te reconnecter et reprendre là où tu t'étais arrêté.</p>
                   <Link href="/signin?next=/dashboard" className="text-[12px] font-semibold text-emerald-200 hover:text-white transition-colors">
                     Continuer mon parcours

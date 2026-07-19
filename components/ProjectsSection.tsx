@@ -20,14 +20,14 @@ export default async function ProjectsSection() {
       <div className="max-w-[1320px] mx-auto px-8">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between mb-5">
           <div>
-            <div className="section-label mb-4">GALERIE</div>
+            <div className="section-label mb-4">Galerie</div>
             <h2
               className="font-valorax gradient-text"
               style={{ fontSize: "clamp(28px, 3vw, 46px)", letterSpacing: "-0.02em", maxWidth: "600px" }}
             >
-              DES PROJETS PUBLIES.
+              Des projets publiés.
               <br />
-              PAS SEULEMENT DES EXERCICES.
+              Pas seulement des exercices.
             </h2>
           </div>
           <Link href="/projets" id="projets-all-link" className="btn-secondary inline-flex items-center gap-2 self-start lg:self-auto">
@@ -72,7 +72,7 @@ export default async function ProjectsSection() {
               <iconify-icon icon="lucide:rocket" className="text-[#4F8EF7]" style={{ fontSize: "26px" }} />
             </div>
             <div>
-              <div className="font-venite text-[15px] text-white mb-1.5">LA GALERIE DEMARRE AVEC TOI</div>
+              <div className="font-venite text-[15px] text-white mb-1.5">La galerie démarre avec toi</div>
               <p className="font-body-readable text-[13px] text-[#777] max-w-[460px]">
                 Aucun projet publie pour l'instant. Construis ton projet, publie-le et inspire la communauté.
               </p>

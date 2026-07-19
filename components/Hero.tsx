@@ -44,7 +44,7 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
                   className="w-1.5 h-1.5 rounded-full bg-green-400 inline-block"
                   style={{ animation: "pulse-glow 2s ease-in-out infinite" }}
                 />
-                PLATEFORME DE CREATION DE PROJETS
+                Plateforme de création de projets
               </span>
             </div>
 
@@ -116,7 +116,7 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
 
                   <div className="roadmap-progress-item roadmap-progress-item-2">
                     <div className="flex items-center justify-between mb-1.5">
-                      <span className="font-venite-italic text-[12px] text-[#888]">PARCOURS</span>
+                      <span className="font-venite-italic text-[12px] text-[#888]">Parcours</span>
                       <span className="font-body-readable text-[11px] text-[#4F8EF7]">En cours</span>
                     </div>
                     <div className="h-1 bg-white/[0.05] rounded-full overflow-hidden">
@@ -129,7 +129,7 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
 
                   <div className="roadmap-progress-item roadmap-progress-item-3">
                     <div className="flex items-center justify-between mb-1.5">
-                      <span className="font-venite-italic text-[12px] text-[#555]">MONETISATION</span>
+                      <span className="font-venite-italic text-[12px] text-[#555]">Monétisation</span>
                       <span className="font-body-readable text-[11px] text-[#555]">A venir</span>
                     </div>
                     <div className="h-1 bg-white/[0.05] rounded-full overflow-hidden">

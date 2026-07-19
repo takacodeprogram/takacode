@@ -41,10 +41,10 @@ export default async function ProjetsPage() {
         <section className="py-24 md:py-28 px-8">
           <div className="max-w-[1320px] mx-auto space-y-10">
             <div className="max-w-[930px]">
-              <div className="section-label mb-4">PROJETS</div>
-              <h1 className="font-valorax gradient-text text-[clamp(34px,4vw,56px)] leading-[0.92]">
-                LES PROJETS DE LA COMMUNAUTE
-              </h1>
+              <div className="section-label mb-4">Projets</div>
+<h1 className="font-valorax gradient-text text-[clamp(34px,4vw,56px)] leading-[0.92]">
+Les projets de la communauté
+</h1>
               <p className="font-body-readable text-[15px] text-[#8d8d8d] mt-4 leading-relaxed">
                 Découvre les projets digitaux construits, publies et parfois monetises par les membres TakaCode.
                 Inspire-toi, explore les stacks et lance le tien.
@@ -54,17 +54,17 @@ export default async function ProjetsPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <article className="rounded-xl border border-white/[0.08] bg-[#111] px-4 py-4">
                 <div className="text-[10px] text-[#666] uppercase tracking-widest mb-1">Bibliothèque</div>
-                <div className="font-venite-italic text-[20px] text-white">{projects.length} PROJETS</div>
+                <div className="font-venite-italic text-[20px] text-white">{projects.length} projets</div>
                 <p className="font-body-readable text-[11px] text-[#767676] mt-1">Des projets publics par les membres.</p>
               </article>
               <article className="rounded-xl border border-white/[0.08] bg-[#111] px-4 py-4">
                 <div className="text-[10px] text-[#666] uppercase tracking-widest mb-1">Objectif</div>
-                <div className="font-venite-italic text-[20px] text-white">PUBLIER</div>
+                <div className="font-venite-italic text-[20px] text-white">Publier</div>
                 <p className="font-body-readable text-[11px] text-[#767676] mt-1">Chaque projet est en ligne et accessible.</p>
               </article>
               <article className="rounded-xl border border-white/[0.08] bg-[#111] px-4 py-4">
                 <div className="text-[10px] text-[#666] uppercase tracking-widest mb-1">Prochaine étape</div>
-                <div className="font-venite-italic text-[20px] text-white">MONETISER</div>
+                <div className="font-venite-italic text-[20px] text-white">Monétiser</div>
                 <p className="font-body-readable text-[11px] text-[#767676] mt-1">Transformer un projet en revenus.</p>
               </article>
             </div>
@@ -118,7 +118,7 @@ export default async function ProjetsPage() {
                 <div className="w-14 h-14 rounded-2xl border border-white/[0.08] bg-white/[0.02] flex items-center justify-center mx-auto mb-4">
                   <iconify-icon icon="lucide:rocket" className="text-[#4F8EF7]" style={{ fontSize: "26px" }} />
                 </div>
-                <div className="font-venite text-[15px] text-white mb-1.5">SOIS LE PREMIER A PUBLIER</div>
+                <div className="font-venite text-[15px] text-white mb-1.5">Sois le premier à publier</div>
                 <p className="font-body-readable text-[13px] text-[#777] max-w-[460px] mx-auto mb-6">
                   Aucun projet publie pour l'instant. La communauté attend tes realisations.
                 </p>

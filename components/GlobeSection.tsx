@@ -14,10 +14,10 @@ export default function GlobeSection({ markers }: GlobeSectionProps) {
     <section className="py-24 md:py-28 px-8">
       <div className="max-w-[900px] mx-auto">
         <div className="text-center mb-10">
-          <div className="section-label mb-3">COMMUNAUTE MONDIALE</div>
-          <h2 className="font-valorax gradient-text" style={{ fontSize: "clamp(28px, 3.5vw, 44px)", letterSpacing: "-0.02em" }}>
-            DES BUILDERS PARTOUT DANS LE MONDE
-          </h2>
+          <div className="section-label mb-3">Communauté mondiale</div>
+<h2 className="font-valorax gradient-text" style={{ fontSize: "clamp(28px, 3.5vw, 44px)", letterSpacing: "-0.02em" }}>
+Des builders partout dans le monde
+</h2>
           <p className="font-body-readable text-[14px] text-[#888] mt-3">
             {markers.length} pays representes — explore le globe pour voir ou sont les membres.
           </p>

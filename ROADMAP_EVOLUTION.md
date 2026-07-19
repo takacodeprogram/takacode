@@ -88,7 +88,7 @@ Objectif : consolider ce qui existe avant d'attaquer la monetisation.
 - [x] Echec quiz : reessais illimites (70 % requis) ; echec micro-projet : feedback + re-soumission, progression non bloquee
 - [x] Classement public : exclusion de TOUS les admins (role profil + app_metadata) et synchronisation des roles
 
-## V1.4.2 — Convergence : le projet est le produit (quasi livree)
+## V1.4.2 — Convergence : le projet est le produit (livree)
 
 Objectif : chaque ecran repond a « ou en est mon projet, et quelle action le rapproche du cash ? ».
 Le produit central est la boucle Idee -> Projet -> Construction -> Publication -> Cash.
@@ -105,72 +105,40 @@ Les parcours sont des accelerateurs injectes au bon moment de cette boucle, jama
 - [x] Qualite contenu : accents et apostrophes restaures dans tout le contenu parcours/quiz (scripts/fix-french-content.mjs, rejouable apres re-seed)
 - [x] Onboarding qui debouche sur un projet NOMME + modele de revenu choisi des l'inscription (etape 4 : nom du projet + piste de monetisation ; anti-doublon si l'onboarding est refait)
 - [x] Parcours "Creation de contenu avec l'IA" (YouTube faceless) : 4 modules / 10 lecons accentuees — anti-robotique (scripts, voix, regle 80/20), etude de chaines (ex. Emotion26), production, monetisation (seed : scripts/seed-creation-contenu-ia.mjs)
-- [ ] Etoile du nord mesuree (admin) : % de membres avec projet en ligne, puis % avec premier euro
+- [x] Etoile du nord mesuree (admin) : carte en tete du centre admin — % de membres avec projet en ligne et % avec premier euro declare (calcul service role, jauges + valeurs absolues)
 
-## Reste a faire — priorites (audit du 2026-07-18)
+## Reste a faire — priorites (mise a jour 2026-07-19)
 
 Ordre conseille pour les prochaines sessions :
 
-1. **Finir V1.4.2** : etape "modele de revenu + nom du projet" dans l'onboarding ; stats etoile du nord dans l'admin (% projets en ligne, % premier euro).
-2. **V1.5 Monetisation** : page tarifs dynamique + Stripe (abonnements Premium/Launch), guides monetisation, parcours Build to Earn.
-3. **Contenu** : modules plateformes (Lovable, Bolt, v0) dans le parcours Vibe Coding ; lecons bonus optionnelles (Flexbox Froggy, Grid Garden, Tailwind) ; enrichir la banque de questions des nouveaux parcours.
-   Livre le 2026-07-19 : parcours "Automatisations et chatbots IA" (n8n, chatbot WhatsApp/site, VPS, vente en service), "Web3 : smart contracts" (Solidity, Remix, Hardhat, deploiement Sepolia verifie, dApp) et "Bot de trading assiste par IA" (zones, strategie vers l'IA, Pine Script, ccxt, backtest, journal, monetisation honnete) — seed scripts/seed-parcours-avances.mjs. Liens d'affiliation par parcours : migration 20260719010000 (track_slug) + suggestions Hostinger (VPS/WordPress/Web/Cloud), Vercel, systeme.io, Chariow, ElevenLabs, TradingView creees depubliees (a publier avec tes liens dans /admin/affiliations).
-4. **Collaboration projet** (anticipe V1.8) : inviter un membre sur son projet, roles, commentaires sur livrables.
-5. **Dette technique** :
-   - `components/node_modules/` parasite (npm install lance dans le mauvais dossier — a supprimer)
+1. ~~Finir V1.4.2~~ — fait (onboarding revenu + etoile du nord admin). V1.4.2 est livree.
+2. **V1.8 Communaute** (priorite nouvelle) : fil d'activite, filtres projets, commentaires, badges, profils enrichis, invitations collaboration. Cree de la retention AVANT la monetisation.
+3. **V1.5 Monetisation** : page tarifs dynamique + Stripe (abonnements Premium/Launch), guides monetisation.
+4. **Contenu** : modules plateformes (Lovable, Bolt, v0) dans le parcours Vibe Coding ; lecons bonus optionnelles (Flexbox Froggy, Grid Garden, Tailwind) ; enrichir la banque de questions des nouveaux parcours.
+5. **Collaboration projet** (inclus dans V1.8) : inviter un membre sur son projet, roles, commentaires sur livrables.
+6. **Dette technique** :
    - harmoniser les accents dans les libelles UI des composants (le contenu DB est corrige, certains libelles ecrits "sans accents" restent)
    - INSTRUCTIONS.md est le prompt de depart historique (conserve pour memoire, ne reflete plus l'etat courant)
    - variables `.env.example` a garder synchronisees (IA review multi-provider OK au 2026-07-18)
 
-## V1.5 — Monetisation (a livrer)
+## V1.8 — Communaute & marketplace (PRIORITE #2 — avant monetisation)
 
-Objectif : le membre peut generer des revenus avec son projet.
+Objectif : les membres echangent, collaborent et se recommandent. Cree de la retention et de la preuve sociale AVANT de demander un paiement.
 
-- [ ] Offre Premium : revisions IA illimitees, kits de demarrage, guides monetisation
-- [ ] Offre Launch : mentorat 1:1, portfolio, mise en relation freelance
-- [x] Parcours « Build to Earn » : livre sous le nom "Produits digitaux : créer et vendre" — fusionné en 8 modules / 24 leçons (seed master : scripts/seed-produits-digitaux-master.mjs). Modules 5-8 ajoutés : vente et copywriting, création de contenu qui vend, publicité payante, constance et scaling
-- [x] Parcours « Media Buyer » : nouveau parcours paid_ads (4 modules / 15 leçons — fondations Facebook Ads, créas & copy, Google Ads & Shopping, pilier Andromeda & scaling ; seed : scripts/seed-media-buyer.mjs)
-- [x] Enrichissement Media Buyer : leçons Google Shopping Ads, évitement des blocages comptes, Meta Andromeda (seed : scripts/seed-media-buyer-enrich.mjs)
-- [x] Intégration paid_ads : goal_key dans l'onboarding (GOAL_OPTIONS, RECOMMENDATION_PRESETS) et guidance niveau Execution
-- [ ] Integration Stripe pour les projets utilisateurs
-- [ ] Guides pratiques : pubs, abonnements, produits digitaux, affiliation
-- [ ] Page Tarifs dynamique (Free / Premium / Launch)
-- [ ] Abonnements Stripe recurrents
-- [ ] Calcul du potentiel de revenu par type de projet
-
-## V1.6 — Marketing & acquisition
-
-Objectif : le membre sait comment attirer des visiteurs et clients vers son projet.
-
-- [ ] Parcours SEO : referencement naturel pour son projet
-- [ ] Parcours Reseaux sociaux : strategies de publication par plateforme
-- [ ] Landing page builder : page d'accueil pour son projet
-- [ ] Guides email marketing : newsletter, sequences, conversion
-- [ ] Analytics embarqué : vue des visites sur le projet publie
-- [ ] A/B testing de pages et d'offres
-
-## V1.7 — Revenus recurrents & scaling
-
-Objectif : le membre transforme son projet en source de revenus stable.
-
-- [ ] Parcours Abonnements : Stripe, factures, metering
-- [ ] Parcours Produits digitaux : ebooks, formations, templates
-- [ ] Parcours Affiliation : programmes partenaires, tracking
-- [ ] Dashboard revenus : MRR, conversions, couts d'acquisition
-- [ ] Templates de factures et conditions de vente
-- [ ] Export comptable et declarations
-
-## V1.8 — Communaute & marketplace
-
-Objectif : les membres echangent, collaborent et se recommandent.
-
-- [ ] Publication moderee des projets termines
-- [ ] Likes, commentaires, questions et signalements
-- [ ] Profils publics et portfolio (lien vers le projet en ligne)
+- [ ] Fil d'activite sur /communaute (nouveaux projets, projets publies, jalons, premier euro)
+- [ ] Filtres "Projets publies" / "En cours" + tri (recent, popularite)
+- [ ] Commentaires sur projets publies (RLS + RPC create_comment, list_comments)
+- [ ] Badge "Projet en ligne" affiche sur la carte projet + profil
+- [ ] Profil public enrichi : bio, skills, projets publies, badges, lien portfolio
+- [ ] Invitation a collaborer sur son projet (email/in-app)
+- [ ] Publication moderee des projets termines (workflow soumettre -> moderer -> publier)
+- [ ] Likes, questions et signalements
 - [ ] Equipes, invitations, roles et attribution des taches
 - [ ] Badges fondes sur des realisations verifiables (projet lance, premier revenu...)
 - [ ] Marketplace de services : dev, design, redaction, SEO
 - [ ] Systeme de recommandation et reviews
+- [ ] Notifications temps reel (Supabase Realtime) pour commentaires, likes, mentions
+- [ ] Recherche full-text sur projets publies (pg_trgm / pgvector)
 
 ## Definition de termine
 
