@@ -6,7 +6,9 @@ interface ReviewItem {
   avatarUrl: string;
   lessonId: string;
   lessonTitle: string;
+  lessonSlug: string;
   trackTitle: string;
+  trackSlug: string;
   submission: string;
   brief: string;
   validation: string;
@@ -28,7 +30,9 @@ function normalize(row: unknown): ReviewItem | null {
     avatarUrl: typeof r.avatar_url === "string" ? r.avatar_url : "",
     lessonId: r.lesson_id as string,
     lessonTitle: typeof r.lesson_title === "string" ? r.lesson_title : "Lecon",
+    lessonSlug: typeof r.lesson_slug === "string" ? r.lesson_slug : "",
     trackTitle: typeof r.track_title === "string" ? r.track_title : "",
+    trackSlug: typeof r.track_slug === "string" ? r.track_slug : "",
     submission: typeof r.submission === "string" ? r.submission : "",
     brief: typeof r.brief === "string" ? r.brief : "",
     validation: typeof r.validation === "string" ? r.validation : "peer",

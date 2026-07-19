@@ -75,7 +75,7 @@ export default function ReviewQueue({ initialItems = [] }: ReviewQueueProps) {
     }
 
     try {
-      const verdictLabel = verdict === "approved" ? "approuve" : "demande des ameliorations";
+      const verdictLabel = verdict === "approved" ? "approuve" : "demande des améliorations";
       await supabase.rpc("create_notification", {
         p_user_id: item.authorId,
         p_type: "review_received",
@@ -83,7 +83,9 @@ export default function ReviewQueue({ initialItems = [] }: ReviewQueueProps) {
         p_body: verdict === "approved"
           ? `Bravo ! "${item.lessonTitle}" a été validé.`
           : `Des améliorations ont été demandées sur "${item.lessonTitle}". Retraite ton travail.`,
-        p_link: `/parcours/${item.trackSlug || ""}/lecon/${item.lessonSlug || ""}`
+        // Lien seulement si les slugs sont connus : un lien vide n'ouvre rien
+        // (mieux qu'un /parcours//lecon/ qui menait sur une 404).
+        p_link: item.trackSlug && item.lessonSlug ? `/parcours/${item.trackSlug}/lecon/${item.lessonSlug}` : ""
       });
     } catch (e) {
       // Non bloquant
