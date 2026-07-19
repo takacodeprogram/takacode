@@ -29,7 +29,14 @@ export default async function CommunautePage() {
 
   if (!user) return <GuestCTA />;
 
-  return <CommunityContent />;
+  return (
+    <div className="min-h-screen bg-[#0A0A0A] text-white">
+      <Navbar />
+      <CommunityContent />
+      <hr className="section-divider" />
+      <FooterSection />
+    </div>
+  );
 }
 
 function GuestCTA() {
