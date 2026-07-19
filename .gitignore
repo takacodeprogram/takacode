@@ -9,3 +9,4 @@ out
 .mimocode
 *.log
 .vercel
+tsconfig.tsbuildinfo

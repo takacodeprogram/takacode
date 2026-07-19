@@ -80,6 +80,12 @@ const GOAL_COMPETENCY_MAP: Record<string, string[]> = {
     "Construire un mini-projet guidé",
     "Choisir ton prochain cap"
   ],
+  paid_ads: [
+    "Configurer des campagnes Facebook/Instagram Ads rentables",
+    "Maîtriser le tracking et l'optimisation des pixels",
+    "Analyser et optimiser le CPA et le ROAS",
+    "Scale: des campagnes sans exploser le budget"
+  ],
   other: [
     "Transformer une idée en plan",
     "Prioriser les étapes critiques",

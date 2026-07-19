@@ -41,6 +41,12 @@ const GUIDANCE: Record<string, TrackGuidance> = {
     level: "Debutant",
     prereq: ["ia-fondamentaux"],
     tagline: "Crée et vends ton premier produit digital — la voie directe vers le premier euro."
+  },
+  "media-buyer": {
+    order: 6,
+    level: "Execution",
+    prereq: ["ia-fondamentaux"],
+    tagline: "Achète du trafic rentable : Facebook Ads, Google Ads et TikTok Ads pour générer des ventes."
   }
 };
 
@@ -88,6 +94,7 @@ const LEVEL_CHIP: Record<string, string> = {
   Fondations: "border-sky-500/30 bg-sky-500/10 text-sky-200",
   Debutant: "border-emerald-500/30 bg-emerald-500/10 text-emerald-200",
   DebutantPlus: "border-teal-500/30 bg-teal-500/10 text-teal-100",
+  Execution: "border-red-500/30 bg-red-500/10 text-red-200",
   Intermediaire: "border-amber-500/30 bg-amber-500/10 text-amber-100",
   Avance: "border-violet-500/30 bg-violet-500/10 text-violet-200"
 };

@@ -28,17 +28,21 @@ const TRACK = {
   description:
     "Le parcours Build to Earn de TakaCode : tu choisis un produit digital adapté à tes compétences (ebook, template Notion ou Canva, mini-formation, micro-outil), tu valides la demande AVANT de créer, tu le produis avec l'IA comme assistant, puis tu montes ta boutique sur une plateforme adaptée à TON marché — Chariow ou systeme.io pour encaisser en mobile money (Orange Money, MTN MoMo, Wave) si ton audience est africaine, Gumroad ou Lemon Squeezy pour l'international. Tu écris une page de vente qui convertit et tu lances là où ton audience vit vraiment (WhatsApp, Facebook, YouTube). Chaque micro-projet est une brique de ton vrai produit : à la fin, ta boutique est en ligne et ton plan premier euro est actif dans ton cockpit projet.",
   level_label: "Débutant",
-  duration_weeks: 4,
+  duration_weeks: 8,
   accent_color: "#F59E0B",
   icon: "lucide:package",
   objective: "Mettre en vente ton premier produit digital et encaisser ton premier euro.",
-  resources: ["Chariow", "systeme.io", "Gumroad", "Canva"],
+  resources: ["Chariow", "systeme.io", "Gumroad", "Canva", "Maketou", "Stripe", "Claude", "CapCut"],
   next_session: "Mardi 19h00",
   next_steps: [
-    { label: "Choisir son produit", state: "current" },
-    { label: "Créer avec l'IA", state: "locked" },
-    { label: "Construire sa boutique", state: "locked" },
-    { label: "Lancer et encaisser", state: "locked" }
+    { label: "Choisir son produit", state: "done" },
+    { label: "Créer avec l'IA", state: "done" },
+    { label: "Construire sa boutique", state: "done" },
+    { label: "Lancer et encaisser", state: "done" },
+    { label: "Vente et copywriting", state: "current" },
+    { label: "Contenu qui vend", state: "locked" },
+    { label: "Publicité payante", state: "locked" },
+    { label: "Constance et passage à l'échelle", state: "locked" }
   ],
   sort_order: 6,
   is_published: true,

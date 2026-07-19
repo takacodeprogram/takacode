@@ -127,7 +127,10 @@ Objectif : le membre peut generer des revenus avec son projet.
 
 - [ ] Offre Premium : revisions IA illimitees, kits de demarrage, guides monetisation
 - [ ] Offre Launch : mentorat 1:1, portfolio, mise en relation freelance
-- [x] Parcours « Build to Earn » : livre sous le nom "Produits digitaux : créer et vendre" (4 modules / 12 leçons — choix et validation du produit, création avec l'IA, boutique Gumroad/Ko-fi/Lemon Squeezy, page de vente, prix, lancement, premier euro relié au cockpit ; seed : scripts/seed-produits-digitaux.mjs)
+- [x] Parcours « Build to Earn » : livre sous le nom "Produits digitaux : créer et vendre" — fusionné en 8 modules / 24 leçons (seed master : scripts/seed-produits-digitaux-master.mjs). Modules 5-8 ajoutés : vente et copywriting, création de contenu qui vend, publicité payante, constance et scaling
+- [x] Parcours « Media Buyer » : nouveau parcours paid_ads (4 modules / 15 leçons — fondations Facebook Ads, créas & copy, Google Ads & Shopping, pilier Andromeda & scaling ; seed : scripts/seed-media-buyer.mjs)
+- [x] Enrichissement Media Buyer : leçons Google Shopping Ads, évitement des blocages comptes, Meta Andromeda (seed : scripts/seed-media-buyer-enrich.mjs)
+- [x] Intégration paid_ads : goal_key dans l'onboarding (GOAL_OPTIONS, RECOMMENDATION_PRESETS) et guidance niveau Execution
 - [ ] Integration Stripe pour les projets utilisateurs
 - [ ] Guides pratiques : pubs, abonnements, produits digitaux, affiliation
 - [ ] Page Tarifs dynamique (Free / Premium / Launch)

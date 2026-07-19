@@ -30,6 +30,7 @@ export const GOAL_OPTIONS: Option[] = [
   { key: "web3", label: "Web3 et blockchain", icon: "lucide:wallet", accent: "#38BDF8" },
   { key: "three_d", label: "3D et experiences immersives", icon: "lucide:box", accent: "#8B5CF6" },
   { key: "custom_projects", label: "Outils et projets personnalises", icon: "lucide:wrench", accent: "#14B8A6" },
+  { key: "paid_ads", label: "Publicite payante et media buying", icon: "lucide:target", accent: "#EF4444" },
   { key: "learn_explore", label: "Apprendre et explorer", icon: "lucide:graduation-cap", accent: "#A78BFA" },
   { key: "other", label: "Autre", icon: "lucide:sparkles", accent: "#A78BFA" }
 ];
@@ -239,6 +240,19 @@ const RECOMMENDATION_PRESETS: Record<string, RecommendationPreset> = {
       { label: "Definir le resultat cible", state: "done" },
       { label: "Decouper le projet en sprints", state: "current" },
       { label: "Construire une premiere version", state: "locked" }
+    ]
+  },
+  paid_ads: {
+    parcoursTitle: "Parcours Media Buyer",
+    parcoursMeta: "6 semaines - Execution",
+    resources: ["Meta Business Suite", "Google Ads", "TikTok Ads", "Google Analytics", "Pixel"],
+    objective: "Gerer un budget publicitaire de 1000 euros avec un ROAS positif et des campagnes optimisees.",
+    nextSession: "Mercredi 20h00",
+    nextSteps: [
+      { label: "Fondamentaux du media buying", state: "done" },
+      { label: "Facebook et Instagram Ads", state: "current" },
+      { label: "Google Ads et tracking", state: "locked" },
+      { label: "Scaling et optimisation", state: "locked" }
     ]
   },
   learn_explore: {
