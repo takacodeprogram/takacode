@@ -7,7 +7,9 @@
 // Frontieres de mots conscientes des accents : le \b de JS est ASCII, donc
 // "affiliés et" voyait une frontiere apres le é et corrompait en "affiliés'et".
 const B_START = "(?<![A-Za-zÀ-ÿŒœ])";
-const B_END = "(?![A-Za-zÀ-ÿŒœ])";
+// B_END refuse aussi ".lettre" : protege les noms de domaines et de produits
+// ("systeme.io" ne doit jamais devenir "système.io").
+const B_END = "(?![A-Za-zÀ-ÿŒœ]|\\.[a-z])";
 const ELISION_RE = new RegExp(`${B_START}(d|l|n|j|c|s|m|t|qu|jusqu|lorsqu|puisqu|quelqu)\\s+(?=[aeiouyhAEIOUYH][a-zA-Z]|[EAI][a-zA-Z]|IA${B_END}|API${B_END}|IDE${B_END}|URL${B_END})`, "g");
 
 function fixElisions(text) {
@@ -269,13 +271,25 @@ const BIGRAM_RES = BIGRAMS.flatMap(([from, to]) => {
   ];
 });
 
+// Marques et noms propres anglais contenant des mots francais corrigeables
+// ("Think Media" ne doit jamais devenir "Think Média").
+const PROTECTED = ["Think Media", "Social Media", "Media Query", "media query", "media queries"];
+
 export function fixText(text) {
   if (typeof text !== "string" || !text) return text;
   // Jamais les URLs / chemins
   if (/^https?:\/\//.test(text) || /^\//.test(text) || /^lucide:/.test(text)) return text;
-  let out = fixElisions(text);
+  // Met de cote les phrases protegees avant le pipeline, restaure apres.
+  let out = text;
+  PROTECTED.forEach((phrase, i) => {
+    out = out.split(phrase).join(`${i}`);
+  });
+  out = fixElisions(out);
   for (const [re, to] of BIGRAM_RES) out = out.replace(re, to);
   out = out.replace(A_INF_RE, "à ");
   for (const [re, to] of WORD_RES) out = out.replace(re, to);
+  PROTECTED.forEach((phrase, i) => {
+    out = out.split(`${i}`).join(phrase);
+  });
   return out;
 }

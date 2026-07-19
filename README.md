@@ -64,6 +64,9 @@ node scripts/fix-french-content.mjs --apply
 
 # Seed du parcours "Creation de contenu avec l'IA" (YouTube faceless)
 node scripts/seed-creation-contenu-ia.mjs
+
+# Seed du parcours "Produits digitaux : creer et vendre" (Build to Earn)
+node scripts/seed-produits-digitaux.mjs
 ```
 
 ## Build

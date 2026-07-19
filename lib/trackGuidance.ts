@@ -35,6 +35,12 @@ const GUIDANCE: Record<string, TrackGuidance> = {
     level: "Debutant",
     prereq: ["ia-fondamentaux"],
     tagline: "Lance une chaîne YouTube faceless rentable, sans sonner robotique."
+  },
+  "produits-digitaux": {
+    order: 5,
+    level: "Debutant",
+    prereq: ["ia-fondamentaux"],
+    tagline: "Crée et vends ton premier produit digital — la voie directe vers le premier euro."
   }
 };
 

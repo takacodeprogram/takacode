@@ -59,6 +59,12 @@ Le moteur de règles est partagé : `scripts/french-rules.mjs` (élisions déter
   le script les ignore (convertir la chaîne en guillemets doubles d'abord si besoin).
 - **Mots indécidables** (`publie`, `ou`, `sur`, `des`, `resume` isolés) : on ne les
   corrige pas automatiquement — bigrammes contextuels uniquement.
+- **Noms de produits et domaines** : `systeme.io` ne doit jamais devenir `système.io`.
+  `B_END` refuse « .lettre » pour ça ; en écrivant du contenu, garder les noms de
+  marques tels quels même s'ils ressemblent à des mots français.
+- **Marques anglaises** : « Think Media » ne doit jamais devenir « Think Média ».
+  Liste `PROTECTED` dans `french-rules.mjs` (placeholder avant pipeline, restauration
+  après) — y ajouter toute nouvelle marque contenant un mot corrigeable.
 
 ## Étendre le dictionnaire
 

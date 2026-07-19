@@ -127,7 +127,7 @@ Objectif : le membre peut generer des revenus avec son projet.
 
 - [ ] Offre Premium : revisions IA illimitees, kits de demarrage, guides monetisation
 - [ ] Offre Launch : mentorat 1:1, portfolio, mise en relation freelance
-- [ ] Parcours « Build to Earn » : construire un produit digital rentable
+- [x] Parcours « Build to Earn » : livre sous le nom "Produits digitaux : créer et vendre" (4 modules / 12 leçons — choix et validation du produit, création avec l'IA, boutique Gumroad/Ko-fi/Lemon Squeezy, page de vente, prix, lancement, premier euro relié au cockpit ; seed : scripts/seed-produits-digitaux.mjs)
 - [ ] Integration Stripe pour les projets utilisateurs
 - [ ] Guides pratiques : pubs, abonnements, produits digitaux, affiliation
 - [ ] Page Tarifs dynamique (Free / Premium / Launch)
