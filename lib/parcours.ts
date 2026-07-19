@@ -8,6 +8,12 @@ const GOAL_COMPETENCY_MAP: Record<string, string[]> = {
     "Optimiser SEO et performance",
     "Mettre en ligne sur Vercel"
   ],
+  wordpress_nocode: [
+    "Installer et configurer WordPress + Elementor",
+    "Maîtriser l'éditeur visuel Elementor (sections, colonnes, widgets)",
+    "Créer header, footer et templates dynamiques (Theme Builder)",
+    "Gérer le responsive et publier son site"
+  ],
   web_app: [
     "Concevoir une architecture front claire",
     "Construire des composants React réutilisables",
@@ -95,7 +101,10 @@ const GOAL_COMPETENCY_MAP: Record<string, string[]> = {
 };
 
 export function getLevelChipClass(levelLabel: string): string {
-  const normalized = String(levelLabel || "").toLowerCase();
+  const normalized = String(levelLabel || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
 
   if (normalized.includes("fondation")) {
     return "level-foundations";
@@ -105,8 +114,12 @@ export function getLevelChipClass(levelLabel: string): string {
     return "level-beginner";
   }
 
-  if (normalized.includes("inter") || normalized.includes("build") || normalized.includes("execution") || normalized.includes("pratique")) {
+  if (normalized.includes("inter")) {
     return "level-intermediate";
+  }
+
+  if (normalized.includes("expert")) {
+    return "level-expert";
   }
 
   return "level-advanced";

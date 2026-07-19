@@ -19,6 +19,7 @@ export interface Option {
 
 export const GOAL_OPTIONS: Option[] = [
   { key: "website", label: "Site web", icon: "lucide:globe", accent: "#4F8EF7" },
+  { key: "wordpress_nocode", label: "WordPress No-Code Elementor", icon: "lucide:layout", accent: "#9C59D6" },
   { key: "web_app", label: "Application web", icon: "lucide:monitor-smartphone", accent: "#9B6DFF" },
   { key: "mobile_app", label: "Application mobile", icon: "lucide:smartphone", accent: "#06B6D4" },
   { key: "automation_ai", label: "Automatisation et IA", icon: "lucide:bot", accent: "#22D3EE" },
@@ -100,7 +101,7 @@ interface RecommendationPreset {
 const RECOMMENDATION_PRESETS: Record<string, RecommendationPreset> = {
   website: {
     parcoursTitle: "Parcours Site Web",
-    parcoursMeta: "12 semaines - Debutant",
+    parcoursMeta: "12 semaines - Débutant",
     resources: ["Guide HTML/CSS", "Introduction a JavaScript", "Projet : Site vitrine"],
     objective: "Construire ton premier site web.",
     nextSession: "Mercredi 20h00",
@@ -110,9 +111,21 @@ const RECOMMENDATION_PRESETS: Record<string, RecommendationPreset> = {
       { label: "Construire le header", state: "locked" }
     ]
   },
+  wordpress_nocode: {
+    parcoursTitle: "Parcours WordPress No-Code Elementor",
+    parcoursMeta: "8 semaines - Débutant",
+    resources: ["WP Addict : Elementor complet", "Elementor Academy", "Hello Theme + Templates"],
+    objective: "Creer et publier un site WordPress pro sans coder avec Elementor.",
+    nextSession: "Mardi 19h00",
+    nextSteps: [
+      { label: "Installer WordPress + Elementor", state: "done" },
+      { label: "Construire la page d'accueil", state: "current" },
+      { label: "Publier et connecter domaine", state: "locked" }
+    ]
+  },
   web_app: {
     parcoursTitle: "Parcours Application Web",
-    parcoursMeta: "14 semaines - Debutant +",
+    parcoursMeta: "14 semaines - Débutant",
     resources: ["Bases JavaScript", "Introduction React", "Projet : outil web complet"],
     objective: "Publier ta premiere application web complete.",
     nextSession: "Jeudi 20h00",
@@ -124,7 +137,7 @@ const RECOMMENDATION_PRESETS: Record<string, RecommendationPreset> = {
   },
   mobile_app: {
     parcoursTitle: "Parcours Application Mobile",
-    parcoursMeta: "14 semaines - Debutant +",
+    parcoursMeta: "14 semaines - Débutant",
     resources: ["UI mobile", "React Native bases", "Projet : app mobile MVP"],
     objective: "Publier ta premiere application mobile.",
     nextSession: "Lundi 19h30",

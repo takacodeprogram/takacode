@@ -152,6 +152,22 @@ values
     10
   ),
   (
+    'wordpress-elementor',
+    'wordpress_nocode',
+    'Parcours WordPress No-Code : Elementor',
+    'Creer un site pro sans coder avec WordPress et Elementor.',
+    'Tu apprends a installer WordPress, choisir un theme, maitriser Elementor (Free + Pro), creer des templates, gerer le responsive et publier ton site. Ideal pour freelances, entrepreneurs et creatifs.',
+    'Debutant',
+    8,
+    '#9C59D6',
+    'lucide:pen-tool',
+    'Creer et publier un site WordPress pro avec Elementor, sans ecrire une ligne de code.',
+    '["WP Addict : Elementor de A a Z", "Elementor Pro : Theme Builder", "Projet: site vitrine complet"]'::jsonb,
+    'Mardi 19h00',
+    '[{"label":"Installer WordPress + Elementor", "state":"done"}, {"label":"Creer la page d\'accueil avec Elementor", "state":"current"}, {"label":"Construire header, footer et templates", "state":"locked"}]'::jsonb,
+    15
+  ),
+  (
     'application-web',
     'web_app',
     'Parcours Application Web',
