@@ -244,6 +244,8 @@ const WORDS = {
   facon: "façon", facons: "façons", exposee: "exposée", exposees: "exposées",
   protegees: "protégées", proteges: "protégés",
   validees: "validées", terminees: "terminées", editer: "éditer", edite: "édite",
+  payee: "payée", payees: "payées", ciblee: "ciblée", ciblees: "ciblées",
+  metrique: "métrique", metriques: "métriques", irresistible: "irrésistible",
   edition: "édition", deconnexion: "déconnexion", deconnecter: "déconnecter",
   reglage: "réglage", reglages: "réglages"
 };
@@ -273,7 +275,10 @@ const BIGRAM_RES = BIGRAMS.flatMap(([from, to]) => {
 
 // Marques et noms propres anglais contenant des mots francais corrigeables
 // ("Think Media" ne doit jamais devenir "Think Média").
-const PROTECTED = ["Think Media", "Social Media", "Media Query", "media query", "media queries"];
+const PROTECTED = [
+  "Think Media", "Social Media", "Media Query", "media query", "media queries",
+  "Media Buyer", "media buyer", "Media Buying", "media buying", "media buyers"
+];
 
 export function fixText(text) {
   if (typeof text !== "string" || !text) return text;

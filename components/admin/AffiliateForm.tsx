@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "../../utils/supabase/client";
 import { AFFILIATE_CATEGORIES } from "../../lib/affiliate";
@@ -16,6 +16,7 @@ interface AffiliateLinkData {
   logoUrl?: string;
   sortOrder?: number;
   isPublished?: boolean;
+  trackSlug?: string;
 }
 
 interface AffiliateFormProps {
@@ -52,6 +53,7 @@ export default function AffiliateForm({ link = null }: AffiliateFormProps) {
     url: link?.url || "",
     logo_url: link?.logoUrl || "",
     sort_order: String(link?.sortOrder ?? 100),
+    track_slug: link?.trackSlug || "",
     is_published: link ? link.isPublished === true : true
   }));
   const [saving, setSaving] = useState<boolean>(false);
@@ -72,6 +74,7 @@ export default function AffiliateForm({ link = null }: AffiliateFormProps) {
       url: cleanUrl(String(form.url)),
       logo_url: cleanUrl(String(form.logo_url)),
       sort_order: Math.max(1, Number.parseInt(String(form.sort_order), 10) || 100),
+      track_slug: String(form.track_slug || "").trim() || null,
       is_published: form.is_published === true
     };
   }
@@ -140,12 +143,15 @@ export default function AffiliateForm({ link = null }: AffiliateFormProps) {
         <Field label="Logo (URL, optionnel)"><input className={INPUT} value={String(form.logo_url)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("logo_url", e.target.value)} placeholder="https://.../logo.png" /></Field>
       </div>
 
-      <div className="flex items-center gap-5">
-        <label className="text-[11px] text-[#9b9b9b] flex items-center gap-1.5" style={{ maxWidth: 140 }}>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <Field label="Parcours associé (slug, optionnel)">
+          <input className={INPUT} value={String(form.track_slug)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("track_slug", e.target.value)} placeholder="Ex: media-buyer, produits-digitaux" />
+        </Field>
+        <label className="text-[11px] text-[#9b9b9b] flex items-center gap-1.5" style={{ maxWidth: 140, alignSelf: "end", paddingBottom: "4px" }}>
           Ordre
           <input type="number" min="1" className="auth-input text-[12px] w-[80px]" value={String(form.sort_order)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("sort_order", e.target.value)} />
         </label>
-        <label className="text-[11px] text-[#9b9b9b] flex items-center gap-1.5">
+        <label className="text-[11px] text-[#9b9b9b] flex items-center gap-1.5" style={{ alignSelf: "end", paddingBottom: "4px" }}>
           <input type="checkbox" checked={form.is_published === true} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("is_published", e.target.checked)} /> Publie
         </label>
       </div>

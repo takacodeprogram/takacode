@@ -14,9 +14,10 @@ interface VersionEntry {
 interface TrackVersionHistoryProps {
   trackId: string;
   onRestore: (snapshot: Record<string, unknown>) => void;
+  onCompare?: (version: VersionEntry) => void;
 }
 
-export default function TrackVersionHistory({ trackId, onRestore }: TrackVersionHistoryProps) {
+export default function TrackVersionHistory({ trackId, onRestore, onCompare }: TrackVersionHistoryProps) {
   const supabase = createClient();
   const [versions, setVersions] = useState<VersionEntry[]>([]);
   const [open, setOpen] = useState(false);
@@ -89,6 +90,15 @@ export default function TrackVersionHistory({ trackId, onRestore }: TrackVersion
                   >
                     Restaurer
                   </button>
+                  {onCompare && (
+                    <button
+                      type="button"
+                      onClick={() => onCompare(version)}
+                      className="text-[10px] text-[#89c7ff] hover:underline"
+                    >
+                      Comparer
+                    </button>
+                  )}
                   <button
                     type="button"
                     onClick={() => handleDelete(version.id)}

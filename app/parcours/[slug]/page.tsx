@@ -19,6 +19,7 @@ import { listOwnProjects } from "../../../lib/userProjects";
 import { missingPrerequisites } from "../../../lib/trackGuidance";
 import { createClient } from "../../../utils/supabase/server";
 import { buildSprintMilestones, computeProjectProgress, getSprintStatusChip, getSprintStatusLabel } from "../../../lib/milestones";
+import { listAffiliatesByTrack, categoryLabel } from "../../../lib/affiliate";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -97,6 +98,8 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
   const stepRows = track ? buildStepRows(track) : [];
   const resources = track ? toTextList(track.resources, 4) : [];
   const description = track ? String(track.description || track.summary || "").trim() : "";
+
+  const trackAffiliates = track ? (await listAffiliatesByTrack(supabase, track.slug)).links : [];
 
   const myProjects = user ? (await listOwnProjects(supabase, user.id, { limit: 10 })).projects : [];
   const trackProject = myProjects.find((p) => p.trackId === track?.id) || null;
@@ -320,6 +323,36 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
                         ))}
                       </div>
                     </div>
+
+                    {trackAffiliates.length ? (
+                      <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4">
+                        <div className="font-venite-italic text-[11px] tracking-widest text-[#888] mb-3">PLATEFORMES PARTENAIRES</div>
+                        <div className="space-y-2.5">
+                          {trackAffiliates.map((aff) => (
+                            <a
+                              key={aff.id}
+                              href={aff.url}
+                              target="_blank"
+                              rel="sponsored noopener noreferrer"
+                              className="flex items-start gap-3 rounded-lg border border-white/[0.06] bg-white/[0.01] p-3 card-hover"
+                            >
+                              <div className="w-8 h-8 rounded-lg border border-white/[0.08] bg-white/[0.03] flex items-center justify-center shrink-0 overflow-hidden">
+                                {aff.logoUrl ? (
+                                  <img src={aff.logoUrl} alt="" className="w-full h-full object-contain" />
+                                ) : (
+                                  <iconify-icon icon="lucide:external-link" style={{ fontSize: "14px", color: "#89c7ff" }} />
+                                )}
+                              </div>
+                              <div className="min-w-0">
+                                <div className="text-[12px] text-white font-semibold leading-tight">{aff.title || aff.provider}</div>
+                                {aff.description ? <p className="font-body-readable text-[10px] text-[#9b9b9b] leading-snug mt-0.5">{aff.description}</p> : null}
+                              </div>
+                            </a>
+                          ))}
+                        </div>
+                        <p className="text-[9px] text-[#555] font-body-readable mt-2">Liens affilies : ils soutiennent TakaCode sans cout pour toi.</p>
+                      </div>
+                    ) : null}
                   </div>
                 </div>
 

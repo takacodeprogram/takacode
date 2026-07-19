@@ -163,7 +163,7 @@ export default function Navbar() {
   const authHref = "/signin";
   const authLabel = "Connexion";
   const ctaHref = isAuthenticated ? "/dashboard" : "/signup";
-  const ctaLabel = isAuthenticated ? "Dashboard" : "Commencer";
+  const ctaLabel = isAuthenticated ? "Tableau de bord" : "Commencer";
 
   return (
     <nav
@@ -245,7 +245,7 @@ export default function Navbar() {
             {isAuthLoading ? null : isAuthenticated ? (
               <>
                 <Link href="/dashboard" id="nav-dashboard-mobile-link" className="btn-primary glow-btn nav-mobile-cta" onClick={closeMobileMenu}>
-                  Dashboard
+                  Tableau de bord
                 </Link>
                 <Link href="/dashboard/profil" className="nav-link nav-mobile-link" onClick={closeMobileMenu}>
                   Mon profil

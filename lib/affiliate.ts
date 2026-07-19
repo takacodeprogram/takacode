@@ -15,7 +15,7 @@ export const AFFILIATE_CATEGORIES: AffiliateCategory[] = [
   { value: "outil", label: "Outil" }
 ];
 
-const SELECT = "id, provider, category, title, description, url, logo_url, is_published, sort_order, updated_at";
+const SELECT = "id, provider, category, title, description, url, logo_url, is_published, sort_order, track_slug, updated_at";
 
 const AFFILIATE_TABLES = ["affiliate_links"];
 
@@ -29,6 +29,7 @@ export interface AffiliateLink {
   logoUrl: string;
   isPublished: boolean;
   sortOrder: number;
+  trackSlug: string;
 }
 
 interface AffiliateRow {
@@ -41,6 +42,7 @@ interface AffiliateRow {
   logo_url: string;
   is_published: boolean;
   sort_order: number;
+  track_slug: string;
 }
 
 function normalize(row: unknown): AffiliateLink | null {
@@ -55,7 +57,8 @@ function normalize(row: unknown): AffiliateLink | null {
     url: typeof r.url === "string" ? r.url : "",
     logoUrl: typeof r.logo_url === "string" ? r.logo_url : "",
     isPublished: r.is_published === true,
-    sortOrder: Number.isFinite(Number(r.sort_order)) ? Number(r.sort_order) : 100
+    sortOrder: Number.isFinite(Number(r.sort_order)) ? Number(r.sort_order) : 100,
+    trackSlug: typeof r.track_slug === "string" ? r.track_slug : ""
   };
 }
 
@@ -66,6 +69,7 @@ export function categoryLabel(value: string): string {
 
 interface AffiliateQueryOptions {
   category?: string;
+  trackSlug?: string;
 }
 
 interface AffiliateListResult {
@@ -92,6 +96,10 @@ export async function listPublishedAffiliates(supabase: SupabaseClient, options:
     query = query.eq("category", options.category);
   }
 
+  if (options.trackSlug) {
+    query = query.eq("track_slug", options.trackSlug);
+  }
+
   const { data, error } = await query;
 
   if (error) {
@@ -102,6 +110,10 @@ export async function listPublishedAffiliates(supabase: SupabaseClient, options:
   }
 
   return { links: ((data as AffiliateRow[]) || []).map(normalize).filter(Boolean) as AffiliateLink[], schemaReady: true, error: null };
+}
+
+export async function listAffiliatesByTrack(supabase: SupabaseClient, trackSlug: string): Promise<AffiliateListResult> {
+  return listPublishedAffiliates(supabase, { trackSlug });
 }
 
 export async function listAllAffiliates(supabase: SupabaseClient): Promise<AffiliateListResult> {

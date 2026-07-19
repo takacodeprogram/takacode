@@ -27,6 +27,14 @@ interface TrackData {
   is_active?: boolean;
 }
 
+interface VersionEntry {
+  id: string;
+  track_id: string;
+  snapshot: Record<string, unknown>;
+  label: string | null;
+  created_at: string;
+}
+
 interface TrackFormProps {
   mode?: "create" | "edit";
   track?: TrackData | null;
@@ -116,14 +124,36 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
   const [dirty, setDirty] = useState(false);
   const [errors, setErrors] = useState<ValidationErrors>({});
   const [showPreview, setShowPreview] = useState(false);
+  const [showVersionPrompt, setShowVersionPrompt] = useState(false);
+  const [versionLabel, setVersionLabel] = useState("");
+  const [comparingVersionId, setComparingVersionId] = useState<string | null>(null);
+  const [comparisonSnapshot, setComparisonSnapshot] = useState<Record<string, unknown> | null>(null);
 
   async function createVersion(label?: string) {
-    if (!isEdit || !track?.id) return;
+    if (!track?.id) return;
     await supabase.from("track_versions").insert({
       track_id: track.id,
       snapshot: buildPayload() as Record<string, unknown>,
       label: label || null,
     });
+  }
+
+  async function handleCreateManualVersion() {
+    if (!track?.id || !versionLabel.trim()) return;
+    await createVersion(versionLabel.trim());
+    setShowVersionPrompt(false);
+    setVersionLabel("");
+    toast("Version créée avec succès", "success");
+  }
+
+  async function handleCompareVersion(version: VersionEntry) {
+    setComparingVersionId(version.id);
+    setComparisonSnapshot(version.snapshot as Record<string, unknown>);
+  }
+
+  function closeComparison() {
+    setComparingVersionId(null);
+    setComparisonSnapshot(null);
   }
 
   async function autosave(): Promise<boolean> {
@@ -466,30 +496,100 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
           </div>
         )}
 
-        {isEdit && (
-          <TrackVersionHistory
-            trackId={track?.id || ""}
-            onRestore={(snapshot) => {
-              const s = snapshot as Record<string, unknown>;
-              setForm({
-                slug: String(s.slug || track?.slug || ""),
-                goal_key: String(s.goal_key || "other"),
-                title: String(s.title || ""),
-                summary: String(s.summary || ""),
-                level_label: String(s.level_label || "Debutant"),
-                duration_weeks: String(s.duration_weeks ?? 8),
-                sort_order: String(s.sort_order ?? 100),
-                accent_color: String(s.accent_color || "#4F8EF7"),
-                icon: String(s.icon || "lucide:route"),
-                objective: String(s.objective || ""),
-                resources: toResourcesInput((s.resources || []) as string[]),
-                next_session: String(s.next_session || ""),
-                is_published: String(s.is_published === true),
-                is_active: String(s.is_active !== false),
-              });
-              setDirty(true);
-            }}
-          />
+        {track?.id && (
+          <div className="space-y-3 border-t border-white/[0.06] pt-3">
+            <div className="flex items-center justify-between gap-2">
+              <button
+                type="button"
+                onClick={() => setShowVersionPrompt(true)}
+                className="flex items-center gap-2 text-[10px] text-[#6d6d6d] uppercase tracking-widest hover:text-[#aaa] transition-colors"
+              >
+                <iconify-icon icon="lucide:plus-circle" style={{ fontSize: "12px" }} />
+                Créer une version manuelle
+              </button>
+              {showVersionPrompt && (
+                <div className="flex items-center gap-2 ml-auto">
+                  <input
+                    type="text"
+                    value={versionLabel}
+                    onChange={(e) => setVersionLabel(e.target.value)}
+                    placeholder="Label (ex: Avant refonte design)"
+                    className="auth-input text-[11px] w-[200px]"
+                    onKeyDown={(e) => e.key === "Enter" && handleCreateManualVersion()}
+                    autoFocus
+                  />
+                  <button
+                    type="button"
+                    onClick={handleCreateManualVersion}
+                    className="btn-primary text-[11px] px-3 py-1.5"
+                  >
+                    Créer
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => { setShowVersionPrompt(false); setVersionLabel(""); }}
+                    className="text-[11px] text-[#888] hover:text-white px-2 py-1.5"
+                  >
+                    Annuler
+                  </button>
+                </div>
+              )}
+            </div>
+
+            <TrackVersionHistory
+              trackId={track.id}
+              onRestore={(snapshot) => {
+                const s = snapshot as Record<string, unknown>;
+                setForm({
+                  slug: String(s.slug || track?.slug || ""),
+                  goal_key: String(s.goal_key || "other"),
+                  title: String(s.title || ""),
+                  summary: String(s.summary || ""),
+                  level_label: String(s.level_label || "Debutant"),
+                  duration_weeks: String(s.duration_weeks ?? 8),
+                  sort_order: String(s.sort_order ?? 100),
+                  accent_color: String(s.accent_color || "#4F8EF7"),
+                  icon: String(s.icon || "lucide:route"),
+                  objective: String(s.objective || ""),
+                  resources: toResourcesInput((s.resources || []) as string[]),
+                  next_session: String(s.next_session || ""),
+                  is_published: String(s.is_published === true),
+                  is_active: String(s.is_active !== false),
+                });
+                setDirty(true);
+              }}
+              onCompare={handleCompareVersion}
+            />
+
+            {comparingVersionId && comparisonSnapshot && (
+              <div className="rounded-xl border border-blue-500/30 bg-blue-500/10 p-3">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-[10px] text-blue-100 uppercase tracking-widest font-semibold">Comparaison avec la version actuelle</span>
+                  <button type="button" onClick={closeComparison} className="text-blue-300 hover:text-white text-[14px]">✕</button>
+                </div>
+                <div className="grid grid-cols-2 gap-4 text-[11px]">
+                  {(() => {
+                    const current = buildPayload();
+                    const keys = new Set([...Object.keys(current), ...Object.keys(comparisonSnapshot)]);
+                    return Array.from(keys).map((key) => {
+                      const currentVal = current[key as keyof typeof current];
+                      const oldVal = comparisonSnapshot[key];
+                      const changed = JSON.stringify(currentVal) !== JSON.stringify(oldVal);
+                      return (
+                        <div key={key} className={`flex flex-col gap-1 ${changed ? "text-amber-300" : "text-[#666]"}`}>
+                          <span className="uppercase tracking-widest font-semibold text-[9px]">{key}</span>
+                          <div className="flex gap-2">
+                            <span className="text-green-400">Actuel: {JSON.stringify(currentVal)}</span>
+                            <span className="text-amber-400">Version: {JSON.stringify(oldVal)}</span>
+                          </div>
+                        </div>
+                      );
+                    });
+                  })()}
+                </div>
+              </div>
+            )}
+          </div>
         )}
       </div>
 
