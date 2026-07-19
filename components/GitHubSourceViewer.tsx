@@ -43,6 +43,7 @@ export default function GitHubSourceViewer({ repoUrl }: GitHubSourceViewerProps)
   const [codePath, setCodePath] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [inputPath, setInputPath] = useState("");
 
   const fetchFiles = useCallback(async (path: string) => {
     if (!repo) return;
@@ -55,11 +56,7 @@ export default function GitHubSourceViewer({ repoUrl }: GitHubSourceViewerProps)
       const res = await fetch(`https://api.github.com/repos/${repo.owner}/${repo.repo}/contents/${path}`, {
         headers: { Accept: "application/vnd.github.v3+json" }
       });
-      if (!res.ok) {
-        setError("Impossible de lister les fichiers.");
-        setFiles([]);
-        return;
-      }
+      if (!res.ok) return;
       const data = await res.json();
       const list: RepoFile[] = Array.isArray(data) ? data
         .filter((f: { name: string; type: string }) => !IGNORE_DIRS.has(f.name))
@@ -75,8 +72,7 @@ export default function GitHubSourceViewer({ repoUrl }: GitHubSourceViewerProps)
         }) : [];
       setFiles(list);
     } catch {
-      setError("Erreur reseau. Verifie que le repo est public.");
-      setFiles([]);
+      // API rate limite ou erreur reseau -> on ignore, on utilise l input manuel
     }
 
     setLoading(false);
@@ -97,7 +93,7 @@ export default function GitHubSourceViewer({ repoUrl }: GitHubSourceViewerProps)
 
     for (const branch of branches) {
       try {
-        const res = await fetch(`https://raw.githubusercontent.com/${repo.owner}/${repo.repo}/${branch}/${filePath}`);
+        const res = await fetch(`https://raw.githubusercontent.com/${repo.owner}/${repo.repo}/${branch}/${filePath.replace(/^\//, "")}`);
         if (res.ok) {
           const text = await res.text();
           setCode(text);
@@ -132,6 +128,11 @@ export default function GitHubSourceViewer({ repoUrl }: GitHubSourceViewerProps)
     setCodePath(null);
   };
 
+  const handleManualFetch = () => {
+    if (!inputPath.trim()) return;
+    fetchCode(inputPath.trim());
+  };
+
   return (
     <div className="rounded-2xl border border-white/[0.08] bg-[#111] p-5">
       <a href={repoUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 mb-4 hover:opacity-80">
@@ -161,35 +162,50 @@ export default function GitHubSourceViewer({ repoUrl }: GitHubSourceViewerProps)
             <code className="text-[12px] font-mono text-[#e0e0e0] leading-relaxed whitespace-pre">{code}</code>
           </pre>
         </div>
-      ) : files.length > 0 ? (
+      ) : (
         <div>
-          {currentPath ? (
-            <button onClick={handleGoBack} className="text-[11px] text-[#4F8EF7] hover:underline inline-flex items-center gap-1 mb-2">
-              <iconify-icon icon="lucide:arrow-left" style={{ fontSize: "11px" }} />
-              ../
-            </button>
+          {files.length > 0 ? (
+            <div>
+              {currentPath ? (
+                <button onClick={handleGoBack} className="text-[11px] text-[#4F8EF7] hover:underline inline-flex items-center gap-1 mb-2">
+                  <iconify-icon icon="lucide:arrow-left" style={{ fontSize: "11px" }} />
+                  ../
+                </button>
+              ) : null}
+              <div className="space-y-0.5 max-h-[300px] overflow-y-auto mb-4">
+                {files.map((file) => (
+                  <button
+                    key={file.path}
+                    onClick={() => file.type === "dir" ? handleDirClick(file.path) : fetchCode(file.path)}
+                    className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-left hover:bg-white/[0.04] transition-colors"
+                  >
+                    <iconify-icon
+                      icon={file.type === "dir" ? "lucide:folder" : "lucide:file-code"}
+                      style={{ fontSize: "14px", color: file.type === "dir" ? "#F59E0B" : "#4F8EF7" }}
+                    />
+                    <span className="text-[12px] text-[#ccc] font-mono truncate">{file.name}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : !loading ? (
+            <p className="text-[11px] text-[#666] font-body-readable mb-3">Saisis le chemin d un fichier pour voir son code :</p>
           ) : null}
-          <div className="space-y-0.5 max-h-[300px] overflow-y-auto">
-            {files.map((file) => (
-              <button
-                key={file.path}
-                onClick={() => file.type === "dir" ? handleDirClick(file.path) : fetchCode(file.path)}
-                className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-left hover:bg-white/[0.04] transition-colors"
-              >
-                <iconify-icon
-                  icon={file.type === "dir" ? "lucide:folder" : "lucide:file-code"}
-                  style={{ fontSize: "14px", color: file.type === "dir" ? "#F59E0B" : "#4F8EF7" }}
-                />
-                <span className="text-[12px] text-[#ccc] font-mono truncate">{file.name}</span>
-              </button>
-            ))}
+
+          <div className="flex gap-2">
+            <input
+              className="auth-input text-[12px] flex-1"
+              placeholder="src/app/page.tsx"
+              value={inputPath}
+              onChange={(e) => setInputPath(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleManualFetch()}
+            />
+            <button onClick={handleManualFetch} disabled={loading || !inputPath.trim()} className="btn-primary text-[12px] px-3 py-2">
+              {loading ? "..." : "Voir"}
+            </button>
           </div>
         </div>
-      ) : !loading && !error ? (
-        <div className="text-[12px] text-[#666] font-body-readable text-center py-4">
-          Aucun fichier source trouve.
-        </div>
-      ) : null}
+      )}
     </div>
   );
 }
