@@ -3,6 +3,8 @@ import { cookies } from "next/headers";
 import { reviewProject, getAIReviewConfig, isAIReviewAvailable } from "../../../../lib/aiReview";
 import { createClient } from "../../../../utils/supabase/server";
 import { createAdminClient } from "../../../../utils/supabase/admin";
+import { apiRateLimit, buildRateLimitKey } from "../../../../lib/rateLimit";
+import { projectSubmissionSchema, parseAndValidateBody } from "../../../../lib/validation";
 
 const ERROR_STATUS = {
   not_authenticated: 401,
@@ -14,21 +16,10 @@ const ERROR_STATUS = {
 };
 
 export async function POST(request: NextRequest) {
-  let payload = null;
+  const parsed = await parseAndValidateBody(projectSubmissionSchema, request);
+  if (!parsed.success) return parsed.response;
 
-  try {
-    payload = await request.json();
-  } catch {
-    return NextResponse.json({ error: "invalid_payload" }, { status: 400 });
-  }
-
-  const lessonId = typeof payload?.lessonId === "string" ? payload.lessonId.trim() : "";
-  const submission = typeof payload?.submission === "string" ? payload.submission.trim() : "";
-  const projectId = typeof payload?.projectId === "string" ? payload.projectId.trim() : "";
-
-  if (!lessonId || !submission) {
-    return NextResponse.json({ error: "invalid_payload" }, { status: 400 });
-  }
+  const { lessonId, submission, projectId } = parsed.data;
 
   const cookieStore = await cookies();
   const supabase = await createClient(cookieStore);
@@ -39,6 +30,26 @@ export async function POST(request: NextRequest) {
 
   if (!user) {
     return NextResponse.json({ error: "not_authenticated" }, { status: 401 });
+  }
+
+  // Rate limiting : 20 soumissions/min par utilisateur
+  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim()
+    || request.headers.get("x-real-ip")
+    || "unknown";
+  const rateKey = buildRateLimitKey(user.id, ip);
+  const rateResult = apiRateLimit.projectSubmission.check(rateKey);
+
+  if (!rateResult.allowed) {
+    return NextResponse.json(
+      { error: "rate_limited", message: "Trop de soumissions. Patiente une minute." },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(Math.ceil((rateResult.resetAt - Date.now()) / 1000)),
+          "X-RateLimit-Remaining": "0"
+        }
+      }
+    );
   }
 
   console.log(`[PROJECT] Soumission lecon=${lessonId} user=${user.id.substring(0, 8)}...`);

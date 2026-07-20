@@ -19,9 +19,10 @@ function getLevelChipClass(level: string): string {
     debutant: "level-beginner",
     intermediaire: "level-intermediate",
     avance: "level-advanced",
-    expert: "level-advanced",
+    expert: "level-expert",
   };
-  return map[level.toLowerCase().trim()] || "level-intermediate";
+  const normalized = level.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  return map[normalized] || "level-intermediate";
 }
 
 function formatMeta(level: string, weeks: string): string {

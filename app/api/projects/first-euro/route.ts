@@ -1,19 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { createClient } from "../../../../utils/supabase/server";
+import { firstEuroSchema, parseAndValidateBody } from "../../../../lib/validation";
 
 export async function POST(request: NextRequest) {
-  let payload;
-  try {
-    payload = await request.json();
-  } catch {
-    return NextResponse.json({ error: "invalid_payload" }, { status: 400 });
-  }
+  const parsed = await parseAndValidateBody(firstEuroSchema, request);
+  if (!parsed.success) return parsed.response;
 
-  const projectId = typeof payload?.projectId === "string" ? payload.projectId.trim() : "";
-  if (!projectId) {
-    return NextResponse.json({ error: "project_id_required" }, { status: 400 });
-  }
+  const { projectId } = parsed.data;
 
   const cookieStore = await cookies();
   const supabase = await createClient(cookieStore);

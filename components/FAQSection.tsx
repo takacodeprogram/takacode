@@ -1,65 +1,37 @@
+"use client";
+
+import { useI18n } from "./I18nProvider";
+
+const FAQ_KEYS = ["q1", "q2", "q3", "q4", "q5", "q6"] as const;
+
 export default function FAQSection() {
+  const { t } = useI18n();
   return (
     <section className="py-28">
       <div className="max-w-[1320px] mx-auto px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
           <div>
-            <div className="section-label mb-4">FAQ</div>
+            <div className="section-label mb-4">{t("faq.sectionLabel")}</div>
             <h2 className="font-valorax gradient-text mb-6" style={{ fontSize: "clamp(32px, 3vw, 48px)", letterSpacing: "-0.02em" }}>
-              QUESTIONS
+              {t("faq.title1")}
               <br />
-              FREQUENTES
+              {t("faq.title2")}
             </h2>
-            <p className="font-body-readable text-[#666] text-[15px] leading-relaxed">
-              Une question sur la création de projet, la publication ou la monétisation ? La réponse est surement ici.
-            </p>
+            <p className="font-body-readable text-[#666] text-[15px] leading-relaxed">{t("faq.subtitle")}</p>
           </div>
 
           <div className="space-y-0">
-            <div className="faq-item py-5">
-              <div className="faq-question flex items-center justify-between">
-                <span className="font-body-readable text-[14px] text-[#CCC] font-medium">Dois-je savoir coder pour commencer ?</span>
-                <iconify-icon icon="lucide:plus" className="text-[#444] flex-shrink-0" style={{ fontSize: "16px" }} />
+            {FAQ_KEYS.map((key, index) => (
+              <div key={key} className="faq-item py-5" style={index === FAQ_KEYS.length - 1 ? { borderBottom: "none" } : undefined}>
+                <div className="faq-question flex items-center justify-between">
+                  <span className="font-body-readable text-[14px] text-[#CCC] font-medium">{t(`faq.questions.${key}`)}</span>
+                  <iconify-icon icon="lucide:plus" className="text-[#444] flex-shrink-0" style={{ fontSize: "16px" }} />
+                </div>
+                {key === "q1" ? (
+                  <p className="font-body-readable text-[13px] text-[#555] mt-3 leading-relaxed hidden">{t("faq.answers.q1")}</p>
+                ) : null}
               </div>
-              <p className="font-body-readable text-[13px] text-[#555] mt-3 leading-relaxed hidden">
-                Absolument pas. TakaCode est concu pour les débutants complets. Les parcours commencent depuis zéro et l'assistant IA t'accompagne à chaque étape.
-              </p>
-            </div>
-
-            <div className="faq-item py-5">
-              <div className="faq-question flex items-center justify-between">
-                <span className="font-body-readable text-[14px] text-[#CCC] font-medium">Puis-je commencer sans expérience ?</span>
-                <iconify-icon icon="lucide:plus" className="text-[#444] flex-shrink-0" style={{ fontSize: "16px" }} />
-              </div>
-            </div>
-
-            <div className="faq-item py-5">
-              <div className="faq-question flex items-center justify-between">
-                <span className="font-body-readable text-[14px] text-[#CCC] font-medium">Comment les parcours aident à construire mon projet ?</span>
-                <iconify-icon icon="lucide:plus" className="text-[#444] flex-shrink-0" style={{ fontSize: "16px" }} />
-              </div>
-            </div>
-
-            <div className="faq-item py-5">
-              <div className="faq-question flex items-center justify-between">
-                <span className="font-body-readable text-[14px] text-[#CCC] font-medium">Comment se déroulent les sessions live ?</span>
-                <iconify-icon icon="lucide:plus" className="text-[#444] flex-shrink-0" style={{ fontSize: "16px" }} />
-              </div>
-            </div>
-
-            <div className="faq-item py-5">
-              <div className="faq-question flex items-center justify-between">
-                <span className="font-body-readable text-[14px] text-[#CCC] font-medium">Comment publier mes projets ?</span>
-                <iconify-icon icon="lucide:plus" className="text-[#444] flex-shrink-0" style={{ fontSize: "16px" }} />
-              </div>
-            </div>
-
-            <div className="faq-item py-5" style={{ borderBottom: "none" }}>
-              <div className="faq-question flex items-center justify-between">
-                <span className="font-body-readable text-[14px] text-[#CCC] font-medium">Puis-je créer plusieurs projets ?</span>
-                <iconify-icon icon="lucide:plus" className="text-[#444] flex-shrink-0" style={{ fontSize: "16px" }} />
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>

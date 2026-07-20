@@ -1,6 +1,10 @@
+"use client";
+
 import Link from "next/link";
+import { useI18n } from "./I18nProvider";
 
 export default function CommunitySection() {
+  const { t } = useI18n();
   return (
     <section className="py-28" id="communaute">
       <div className="max-w-[1320px] mx-auto px-8">
@@ -11,41 +15,39 @@ export default function CommunitySection() {
 
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div>
-              <div className="section-label mb-4">Communauté</div>
-<h2 className="font-valorax gradient-text mb-6" style={{ fontSize: "clamp(32px, 3vw, 48px)", letterSpacing: "-0.02em" }}>
-Une communauté
-<br />
-qui construit
-</h2>
-              <p className="font-body-readable text-[#666] text-[15px] leading-relaxed mb-8">
-                Avance avec d'autres créateurs et partage tes progrès. Seul on va vite, ensemble on va loin.
-              </p>
+              <div className="section-label mb-4">{t("community.sectionLabel")}</div>
+              <h2 className="font-valorax gradient-text mb-6" style={{ fontSize: "clamp(32px, 3vw, 48px)", letterSpacing: "-0.02em" }}>
+                {t("community.title1")}
+              <br />
+              {t("community.title2")}
+              </h2>
+              <p className="font-body-readable text-[#666] text-[15px] leading-relaxed mb-8">{t("community.subtitle")}</p>
               <Link href="/communaute" id="communaute-cta-link" className="btn-primary glow-btn inline-flex items-center gap-2" style={{ fontSize: "14px", padding: "14px 28px" }}>
                 <iconify-icon icon="lucide:users" style={{ fontSize: "16px" }} />
-                Rejoindre la communauté
+                {t("community.cta")}
               </Link>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="bg-[#0D0D0D] border border-white/[0.06] rounded-xl p-4 card-hover">
                 <iconify-icon icon="lucide:trophy" className="text-yellow-400 mb-3" style={{ fontSize: "20px" }} />
-                <div className="font-venite text-[12px] text-white mb-1">Défis</div>
-                <p className="font-body-readable text-[11px] text-[#555]">Défis hebdomadaires et mensuels pour progresser.</p>
+                <div className="font-venite text-[12px] text-white mb-1">{t("community.features.challenges.title")}</div>
+                <p className="font-body-readable text-[11px] text-[#555]">{t("community.features.challenges.desc")}</p>
               </div>
               <div className="bg-[#0D0D0D] border border-white/[0.06] rounded-xl p-4 card-hover">
                 <iconify-icon icon="lucide:users-2" className="text-[#4F8EF7] mb-3" style={{ fontSize: "20px" }} />
-                <div className="font-venite text-[12px] text-white mb-1">Groupes d'étude</div>
-                <p className="font-body-readable text-[11px] text-[#555]">Étudie et construis avec d'autres membres.</p>
+                <div className="font-venite text-[12px] text-white mb-1">{t("community.features.studyGroups.title")}</div>
+                <p className="font-body-readable text-[11px] text-[#555]">{t("community.features.studyGroups.desc")}</p>
               </div>
               <div className="bg-[#0D0D0D] border border-white/[0.06] rounded-xl p-4 card-hover">
                 <iconify-icon icon="lucide:share-2" className="text-[#9B6DFF] mb-3" style={{ fontSize: "20px" }} />
-                <div className="font-venite text-[12px] text-white mb-1">Partage de projets</div>
-                <p className="font-body-readable text-[11px] text-[#555]">Publication et mise en avant de tes créations.</p>
+                <div className="font-venite text-[12px] text-white mb-1">{t("community.features.sharing.title")}</div>
+                <p className="font-body-readable text-[11px] text-[#555]">{t("community.features.sharing.desc")}</p>
               </div>
               <div className="bg-[#0D0D0D] border border-white/[0.06] rounded-xl p-4 card-hover">
                 <iconify-icon icon="lucide:bar-chart-2" className="text-green-400 mb-3" style={{ fontSize: "20px" }} />
-                <div className="font-venite text-[12px] text-white mb-1">Classements</div>
-                <p className="font-body-readable text-[11px] text-[#555]">Suis ta progression et tes succès.</p>
+                <div className="font-venite text-[12px] text-white mb-1">{t("community.features.leaderboard.title")}</div>
+                <p className="font-body-readable text-[11px] text-[#555]">{t("community.features.leaderboard.desc")}</p>
               </div>
             </div>
           </div>

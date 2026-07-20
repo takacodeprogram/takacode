@@ -27,7 +27,7 @@ const TRACK = {
   summary: "Ebooks, templates, mini-formations : cree un produit une fois, vends-le a l'infini - la voie la plus directe vers ton premier euro.",
   description:
     "Le parcours Build to Earn de TakaCode : tu choisis un produit digital adapte a tes competences (ebook, template Notion ou Canva, mini-formation, micro-outil), tu valides la demande AVANT de creer, tu le produis avec l'IA comme assistant, puis tu montes ta boutique sur une plateforme adaptee a TON marche - Chariow ou systeme.io pour encaisser en mobile money (Orange Money, MTN MoMo, Wave) si ton audience est africaine, Gumroad ou Lemon Squeezy pour l'international. Tu ecris une page de vente qui convertit et tu lances la ou ton audience vit vraiment (WhatsApp, Facebook, YouTube). Chaque micro-projet est une brique de ton vrai produit : a la fin, ta boutique est en ligne et ton plan premier euro est actif dans ton cockpit projet.",
-  level_label: "Debutant",
+  level_label: "Débutant",
   duration_weeks: 8,
   accent_color: "#F59E0B",
   icon: "lucide:package",

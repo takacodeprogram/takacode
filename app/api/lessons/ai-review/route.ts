@@ -3,24 +3,16 @@ import { cookies } from "next/headers";
 import { reviewProject, getAIReviewConfig, isAIReviewAvailable } from "../../../../lib/aiReview";
 import { createClient } from "../../../../utils/supabase/server";
 import { createAdminClient } from "../../../../utils/supabase/admin";
+import { apiRateLimit, buildRateLimitKey } from "../../../../lib/rateLimit";
+import { aiReviewSchema, parseAndValidateBody } from "../../../../lib/validation";
 
 // Declenche une revue IA sur un micro-projet soumis.
 // Post-condition : le verdict est enregistre via submit_project_review RPC.
 export async function POST(request: NextRequest) {
-  let payload = null;
+  const parsed = await parseAndValidateBody(aiReviewSchema, request);
+  if (!parsed.success) return parsed.response;
 
-  try {
-    payload = await request.json();
-  } catch {
-    return NextResponse.json({ error: "invalid_payload" }, { status: 400 });
-  }
-
-  const lessonId = typeof payload?.lessonId === "string" ? payload.lessonId.trim() : "";
-  const userId = typeof payload?.userId === "string" ? payload.userId.trim() : "";
-
-  if (!lessonId || !userId) {
-    return NextResponse.json({ error: "invalid_payload" }, { status: 400 });
-  }
+  const { lessonId, userId } = parsed.data;
 
   // Verifier la config IA
   const config = getAIReviewConfig();
@@ -40,6 +32,26 @@ export async function POST(request: NextRequest) {
 
   if (!user) {
     return NextResponse.json({ error: "not_authenticated" }, { status: 401 });
+  }
+
+  // Rate limiting : 10 requetes/min par utilisateur (IA review = cout API)
+  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim()
+    || request.headers.get("x-real-ip")
+    || "unknown";
+  const rateKey = buildRateLimitKey(user.id, ip);
+  const rateResult = apiRateLimit.aiReview.check(rateKey);
+
+  if (!rateResult.allowed) {
+    return NextResponse.json(
+      { error: "rate_limited", message: "Trop de requetes. Patiente une minute puis reessaie." },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(Math.ceil((rateResult.resetAt - Date.now()) / 1000)),
+          "X-RateLimit-Remaining": "0"
+        }
+      }
+    );
   }
 
   // Verifier le role (admin/mentor seulement pour declencher une review IA)

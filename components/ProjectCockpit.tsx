@@ -1,6 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import type { UserProject } from "../lib/userProjects";
-import DeclareFirstEuro from "./DeclareFirstEuro";
+import DeclareFirstRevenue from "./DeclareFirstRevenue";
+import { useI18n } from "./I18nProvider";
 
 // Cockpit projet : l'element central du dashboard.
 // Repond a une seule question : ou en est mon projet sur la route
@@ -12,19 +15,13 @@ interface ProjectCockpitProps {
   goalLabel: string;
 }
 
-interface PipelineStage {
-  key: string;
-  label: string;
-  icon: string;
-  hint: string;
-}
-
-const STAGES: PipelineStage[] = [
-  { key: "idea", label: "Idée", icon: "lucide:lightbulb", hint: "Cadre ton idée" },
-  { key: "build", label: "Construction", icon: "lucide:hammer", hint: "Construis brique par brique" },
-  { key: "live", label: "En ligne", icon: "lucide:rocket", hint: "Publie ton projet" },
-  { key: "cash", label: "Cash", icon: "lucide:banknote", hint: "Génère ton premier euro" }
-];
+const STAGE_KEYS = ["idea", "build", "live", "cash"] as const;
+const STAGE_ICONS: Record<string, string> = {
+  idea: "lucide:lightbulb",
+  build: "lucide:hammer",
+  live: "lucide:rocket",
+  cash: "lucide:banknote"
+};
 
 // Indice du stade courant sur la route vers le cash.
 function currentStageIndex(project: UserProject): number {
@@ -49,33 +46,38 @@ function launchProgress(project: UserProject): number {
   return Math.round((done / checkpoints.length) * 100);
 }
 
-function formatDeadline(deadline: string): string {
+function localeToDateLocale(locale: string): string {
+  return locale === "en" ? "en-US" : "fr-FR";
+}
+
+function formatDeadline(deadline: string, t: (key: string, fallback?: string) => string, locale: string): string {
   if (!deadline) return "";
   const date = new Date(deadline);
   if (Number.isNaN(date.getTime())) return "";
   const days = Math.ceil((date.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
-  const formatted = date.toLocaleDateString("fr-FR", { day: "numeric", month: "short" });
-  if (days < 0) return `${formatted} (depassee)`;
-  if (days === 0) return `${formatted} (aujourd'hui !)`;
-  return `${formatted} (J-${days})`;
+  const dateLocale = localeToDateLocale(locale);
+  const formatted = date.toLocaleDateString(dateLocale, { day: "numeric", month: "short" });
+  if (days < 0) return `${formatted} (${t("dashboard.deadline.overdue")})`;
+  if (days === 0) return `${formatted} (${t("dashboard.deadline.today")})`;
+  return `${formatted} (${t("dashboard.deadline.daysLeft")}${days})`;
 }
 
 export default function ProjectCockpit({ project, firstName, goalLabel }: ProjectCockpitProps) {
+  const { t, locale } = useI18n();
   if (!project) {
     return (
       <section className="rounded-2xl border border-white/[0.08] bg-[#111] p-6 animate-fade-up-d1">
-        <div className="section-label mb-2">Mon projet</div>
-        <h2 className="font-valorax text-[clamp(24px,3.4vw,38px)] leading-[0.95] mb-2">BONJOUR {firstName.toUpperCase()}</h2>
+        <div className="section-label mb-2">{t("dashboard.myProject")}</div>
+        <h2 className="font-valorax text-[clamp(24px,3.4vw,38px)] leading-[0.95] mb-2">{t("dashboard.welcome").toUpperCase()} {firstName.toUpperCase()}</h2>
         <p className="font-body-readable text-[14px] text-[#a5a5a5] leading-relaxed mb-5">
-          Tout commence par un projet. Definis ce que tu veux construire : il devient ton fil rouge,
-          et les parcours t'accompagnent jusqu'a la mise en ligne et tes premiers revenus.
+          {t("dashboard.startPrompt")}
         </p>
         <div className="flex flex-wrap gap-3">
           <Link href="/dashboard/projets/nouveau" className="btn-primary inline-flex items-center gap-2">
-            Créer mon projet
+            {t("dashboard.createProject")}
             <iconify-icon icon="lucide:rocket" style={{ fontSize: "14px" }} />
           </Link>
-          <Link href="/dashboard/projets" className="btn-secondary">Voir des exemples</Link>
+          <Link href="/dashboard/projets" className="btn-secondary">{t("dashboard.seeExamples")}</Link>
         </div>
       </section>
     );
@@ -83,25 +85,18 @@ export default function ProjectCockpit({ project, firstName, goalLabel }: Projec
 
   const stageIndex = currentStageIndex(project);
   const progress = launchProgress(project);
-  const deadlineLabel = formatDeadline(project.deadline);
+  const deadlineLabel = formatDeadline(project.deadline, t, locale);
   const isLive = stageIndex >= 3;
-  const revenueLabels: Record<string, string> = {
-    vente: "Vente directe",
-    abonnement: "Abonnement",
-    publicite: "Publicite",
-    affiliation: "Affiliation",
-    freelance: "Freelance"
-  };
 
   return (
     <section className="rounded-2xl border border-white/[0.08] bg-[#111] p-6 animate-fade-up-d1">
       <div className="flex items-center justify-between gap-3 flex-wrap mb-2">
-        <div className="section-label">Mon projet</div>
+        <div className="section-label">{t("dashboard.myProject")}</div>
         <div className="flex items-center gap-2 flex-wrap">
           {project.revenueModel ? (
             <span className="inline-flex items-center gap-1.5 text-[10px] font-semibold px-2.5 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-200">
               <iconify-icon icon="lucide:banknote" style={{ fontSize: "11px" }} />
-              {revenueLabels[project.revenueModel] || project.revenueModel}
+              {t(`dashboard.revenueLabels.${project.revenueModel}`, project.revenueModel)}
             </span>
           ) : null}
           {deadlineLabel ? (
@@ -120,12 +115,12 @@ export default function ProjectCockpit({ project, firstName, goalLabel }: Projec
 
       {/* Pipeline Idee -> Construction -> En ligne -> Cash */}
       <div className="grid grid-cols-4 gap-2 mb-5">
-        {STAGES.map((stage, index) => {
+        {STAGE_KEYS.map((key, index) => {
           const done = index < stageIndex;
           const current = index === stageIndex;
           return (
             <div
-              key={stage.key}
+              key={key}
               className={`rounded-xl border px-2.5 py-2.5 text-center transition-colors ${
                 done
                   ? "border-emerald-500/30 bg-emerald-500/10"
@@ -135,14 +130,14 @@ export default function ProjectCockpit({ project, firstName, goalLabel }: Projec
               }`}
             >
               <iconify-icon
-                icon={done ? "lucide:check-circle" : stage.icon}
+                icon={done ? "lucide:check-circle" : STAGE_ICONS[key]}
                 style={{ fontSize: "16px", color: done ? "#6ee7b7" : current ? "#89c7ff" : "#666" }}
               />
               <div className={`text-[10px] font-semibold mt-1 ${done ? "text-emerald-200" : current ? "text-blue-100" : "text-[#777]"}`}>
-                {stage.label}
+                {t(`dashboard.pipeline.${key}`)}
               </div>
               {current ? (
-                <div className="font-body-readable text-[9px] text-[#8d8d8d] leading-tight mt-0.5 hidden sm:block">{stage.hint}</div>
+                <div className="font-body-readable text-[9px] text-[#8d8d8d] leading-tight mt-0.5 hidden sm:block">{t(`dashboard.hints.${key}`)}</div>
               ) : null}
             </div>
           );
@@ -153,7 +148,7 @@ export default function ProjectCockpit({ project, firstName, goalLabel }: Projec
       <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4 mb-5">
         <div className="flex items-center justify-between gap-3 mb-2">
           <span className="text-[11px] text-[#9b9b9b] font-body-readable">
-            {isLive ? "Projet en ligne — objectif : ton premier euro" : "Progression vers la mise en ligne"}
+            {isLive ? t("dashboard.onlineGoal") : t("dashboard.progressToLaunch")}
           </span>
           <span className="text-[11px] text-[#89c7ff] font-semibold">{progress}%</span>
         </div>
@@ -164,33 +159,33 @@ export default function ProjectCockpit({ project, firstName, goalLabel }: Projec
           {project.repoUrl ? (
             <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-[11px] text-[#9b9b9b] hover:text-white transition-colors">
               <iconify-icon icon="lucide:github" style={{ fontSize: "12px" }} />
-              Depot
+              {t("dashboard.repo")}
             </a>
           ) : null}
           {project.liveUrl ? (
             <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-[11px] text-emerald-300 hover:text-emerald-200 transition-colors">
               <iconify-icon icon="lucide:globe" style={{ fontSize: "12px" }} />
-              Voir en ligne
+              {t("dashboard.viewOnline")}
             </a>
           ) : null}
           {project.trackTitle ? (
             <span className="inline-flex items-center gap-1.5 text-[11px] text-[#777]">
               <iconify-icon icon="lucide:map" style={{ fontSize: "12px" }} />
-              Accelere par : {project.trackTitle}
+              {t("dashboard.acceleratedBy")} : {project.trackTitle}
             </span>
           ) : null}
           {isLive ? (
-            <DeclareFirstEuro projectId={project.id} alreadyDeclared={project.hasDeclaredFirstEuro} />
+            <DeclareFirstRevenue projectId={project.id} alreadyDeclared={project.hasDeclaredFirstEuro} />
           ) : null}
         </div>
       </div>
 
       <div className="flex flex-wrap gap-3">
         <Link href={`/dashboard/projets/${project.id}`} className="btn-primary inline-flex items-center gap-2">
-          Ouvrir mon projet
+          {t("dashboard.openProject")}
           <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "14px" }} />
         </Link>
-        <Link href="/dashboard/projets" className="btn-secondary">Tous mes projets</Link>
+        <Link href="/dashboard/projets" className="btn-secondary">{t("dashboard.allMyProjects")}</Link>
       </div>
     </section>
   );

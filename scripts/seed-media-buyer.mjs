@@ -26,7 +26,7 @@ const TRACK = {
   summary: "Facebook Ads, Google Ads, TikTok Ads : maitrise l'art d'acheter du trafic rentable et deviens un media buyer qui genere des ventes.",
   description:
     "Le media buying est la competence la mieux payee du marketing digital. Un bon media buyer peut generer des dizaines de milliers d'euros de ventes avec un budget de 1000 euros. Ce parcours t'apprend a configurer, lancer et optimiser des campagnes publicitaires sur les 3 plus grandes plateformes : Facebook/Instagram Ads, Google Ads et TikTok Ads. Tu apprendras le tracking, l'analyse des donnees, l'optimisation du CPA et du ROAS, et les strategies de scaling. Chaque module est un palier vers la maitrise : tu passes de zero a un media buyer operationnel qui peut gerer des budgets de facon rentable.",
-  level_label: "Execution",
+  level_label: "Intermédiaire",
   duration_weeks: 6,
   accent_color: "#EF4444",
   icon: "lucide:megaphone",

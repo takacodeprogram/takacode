@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { formatTrackMeta } from "../lib/tracks";
+import { getLevelChipClass } from "../lib/parcours";
 import type { Track } from "../lib/tracks";
 
 interface Props {
@@ -41,7 +42,7 @@ export default function ParcoursSection({ tracks = [] }: Props) {
                     >
                       <iconify-icon icon={track.icon} style={{ color: track.accentColor, fontSize: "20px" }} />
                     </div>
-                    <span className="level-intermediate text-[10px] font-semibold px-2.5 py-1 rounded-full">{track.levelLabel}</span>
+                    <span className={getLevelChipClass(track.levelLabel) + " text-[10px] font-semibold px-2.5 py-1 rounded-full"}>{track.levelLabel}</span>
                   </div>
                   <div className="font-venite text-[14px] text-white mb-2">{track.title.toUpperCase()}</div>
                   <p className="font-body-readable text-[12px] text-[#666] leading-relaxed mb-5">{track.summary}</p>
@@ -73,7 +74,7 @@ export default function ParcoursSection({ tracks = [] }: Props) {
                     <p className="font-body-readable text-[11px] text-[#555] leading-relaxed mb-4">{track.summary}</p>
                     <div className="font-body-readable flex items-center gap-3 mb-4 text-[10px] text-[#444]">
                       <span className="flex items-center gap-1"><iconify-icon icon="lucide:clock" /> {track.durationWeeks} sem.</span>
-                      <span className="level-intermediate text-[10px] font-medium px-2 py-0.5 rounded-full">{track.levelLabel}</span>
+                      <span className={getLevelChipClass(track.levelLabel) + " text-[10px] font-medium px-2 py-0.5 rounded-full"}>{track.levelLabel}</span>
                     </div>
                     <Link href="/parcours" className="text-[11px] text-[#4F8EF7] font-medium flex items-center gap-1 hover:gap-2 transition-all">
                       Découvrir <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "12px" }} />

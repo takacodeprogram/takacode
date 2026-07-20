@@ -419,7 +419,7 @@ const TRACKS = [
       title: "Web3 : créer et déployer un smart contract",
       summary: "Du wallet au smart contract vérifié sur testnet : Solidity, Remix, Hardhat, OpenZeppelin — et les compétences web3 qui se vendent.",
       description: "Tu pars de zéro : blockchain, wallets et testnets d'abord (sans risquer un centime), puis tu écris tes premiers smart contracts en Solidity dans Remix, tu adoptes les standards OpenZeppelin et les réflexes de sécurité, tu testes avec Hardhat, et tu déploies un contrat vérifié sur le testnet Sepolia. Le parcours se termine côté valeur : construire un frontend de dApp et transformer ces compétences rares en revenus — en évitant les pièges et arnaques de l'écosystème.",
-      level_label: "Avancé",
+      level_label: "Expert",
       duration_weeks: 5,
       accent_color: "#38BDF8",
       icon: "lucide:wallet",

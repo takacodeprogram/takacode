@@ -51,7 +51,7 @@ interface CommentCreateResult {
   schemaReady: boolean;
 }
 
-function normalizeProject(row: unknown): CommunityProject | null {
+export function normalizeProject(row: unknown): CommunityProject | null {
   if (!row || typeof row !== "object") {
     return null;
   }
@@ -75,7 +75,7 @@ function normalizeProject(row: unknown): CommunityProject | null {
   };
 }
 
-function normalizeComment(row: unknown): ProjectComment | null {
+export function normalizeComment(row: unknown): ProjectComment | null {
   if (!row || typeof row !== "object") return null;
   const r = row as Record<string, unknown>;
   return {
@@ -136,5 +136,3 @@ export async function createProjectComment(supabase: SupabaseClient, projectId: 
 
   return { comment: normalizeComment(d) as ProjectComment, error: null, schemaReady: true };
 }
-
-export type { CommunityProject, ProjectComment };

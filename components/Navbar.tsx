@@ -9,6 +9,8 @@ import NavUserMenu from "./NavUserMenu";
 import NotificationBell from "./NotificationBell";
 import SignOutButton from "./SignOutButton";
 import { createClient } from "../utils/supabase/client";
+import { useI18n } from "./I18nProvider";
+import type { Locale } from "../lib/i18n";
 
 interface NavLink {
   href: string;
@@ -40,6 +42,28 @@ function isLinkActive(pathname: string, link: NavLink): boolean {
     }
     return pathname === prefix || pathname.startsWith(`${prefix}/`);
   });
+}
+
+function LangSwitch() {
+  const { locale, setLocale } = useI18n();
+
+  const toggle = () => {
+    const next: Locale = locale === "fr" ? "en" : "fr";
+    setLocale(next);
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={toggle}
+      className="inline-flex items-center justify-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-lg border border-white/[0.12] bg-white/[0.03] text-[#aaa] hover:text-white hover:border-white/[0.25] transition-all min-w-[44px]"
+      aria-label={`Passer en ${locale === "fr" ? "anglais" : "français"}`}
+    >
+      <span className={`${locale === "fr" ? "text-white" : "text-[#666]"}`}>FR</span>
+      <span className="text-[#444]">/</span>
+      <span className={`${locale === "en" ? "text-white" : "text-[#666]"}`}>EN</span>
+    </button>
+  );
 }
 
 export default function Navbar() {
@@ -193,6 +217,7 @@ export default function Navbar() {
         </div>
 
         <div className="nav-desktop-actions flex items-center gap-3">
+          <LangSwitch />
           {isAuthLoading ? (
             <div className="h-10 w-[120px]" aria-hidden="true" />
           ) : isAuthenticated ? (
@@ -242,6 +267,9 @@ export default function Navbar() {
           </div>
 
           <div className="nav-mobile-actions">
+            <div className="flex justify-center mb-2">
+              <LangSwitch />
+            </div>
             {isAuthLoading ? null : isAuthenticated ? (
               <>
                 <Link href="/dashboard" id="nav-dashboard-mobile-link" className="btn-primary glow-btn nav-mobile-cta" onClick={closeMobileMenu}>

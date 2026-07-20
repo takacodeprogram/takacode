@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { createClient } from "../../../../utils/supabase/server";
+import { apiRateLimit, buildRateLimitKey } from "../../../../lib/rateLimit";
+import { quizQuestionsQuerySchema, validateQueryParams } from "../../../../lib/validation";
 
 function hashSeed(value: string): number {
   let hash = 2166136261;
@@ -30,10 +32,10 @@ function shuffleArray<T>(array: T[], seedKey: string): T[] {
 }
 
 export async function GET(request: NextRequest) {
-  const lessonId = request.nextUrl.searchParams.get("lessonId")?.trim();
-  if (!lessonId) {
-    return NextResponse.json({ error: "missing_lesson_id" }, { status: 400 });
-  }
+  const parsed = validateQueryParams(quizQuestionsQuerySchema, request.nextUrl.searchParams);
+  if (!parsed.success) return parsed.response;
+
+  const { lessonId } = parsed.data;
 
   const cookieStore = await cookies();
   const supabase = await createClient(cookieStore);
@@ -44,6 +46,26 @@ export async function GET(request: NextRequest) {
 
   if (!user) {
     return NextResponse.json({ error: "not_authenticated" }, { status: 401 });
+  }
+
+  // Rate limiting : 30 requetes quiz/min par utilisateur
+  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim()
+    || request.headers.get("x-real-ip")
+    || "unknown";
+  const rateKey = buildRateLimitKey(user.id, ip);
+  const rateResult = apiRateLimit.general.check(rateKey);
+
+  if (!rateResult.allowed) {
+    return NextResponse.json(
+      { error: "rate_limited", message: "Trop de requetes. Patiente une minute." },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(Math.ceil((rateResult.resetAt - Date.now()) / 1000)),
+          "X-RateLimit-Remaining": "0"
+        }
+      }
+    );
   }
 
   // Fetch all approved questions for this lesson from the bank

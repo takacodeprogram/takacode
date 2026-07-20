@@ -111,7 +111,7 @@ export default function CommunityContent() {
     const content = newComment[projectId]?.trim();
     if (!content) return;
     const supabase = createClient();
-    const { comment, error } = await supabase.rpc("create_project_comment", { p_project_id: projectId, p_content: content });
+    const { data: comment, error } = await supabase.rpc("create_project_comment", { p_project_id: projectId, p_content: content });
     if (!error && comment) {
       setComments(prev => ({ ...prev, [projectId]: [...(prev[projectId] || []), comment] }));
       setNewComment(prev => ({ ...prev, [projectId]: "" }));
@@ -171,7 +171,7 @@ export default function CommunityContent() {
                         <div className="text-[10px] text-[#666] flex items-center gap-2">
                           <span>{project.author}</span>
                           <span>·</span>
-                          <span>{formatRelative(project.firstEuroAt || project.createdAt)}</span>
+                          <span>{formatRelative(project.firstEuroAt)}</span>
                         </div>
                       </div>
                       <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${project.liveUrl ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-200" : "border-white/[0.12] bg-white/[0.03] text-[#888]"}`}>

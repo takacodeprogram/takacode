@@ -2,17 +2,18 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { useI18n } from "./I18nProvider";
 
-const STEPS = [
-  { icon: "lucide:lightbulb", title: "TON IDEE", desc: "Tu as une idée de projet ou un problème à résoudre. On t'aide a la structurer.", accent: "#4F8EF7" },
-  { icon: "lucide:git-branch", title: "LE PARCOURS LIE", desc: "Choisis le parcours qui correspond a ton archetype de projet (site, SaaS, e-commerce...).", accent: "#22D3EE" },
-  { icon: "lucide:book-open", title: "RESSOURCES + IA", desc: "Accede aux ressources, templates, outils IA et exercices pour construire ton projet.", accent: "#10B981" },
-  { icon: "lucide:video", title: "SESSIONS + MENTOR", desc: "Participe a des sessions live et fais reviewer tes livrables par un mentor.", accent: "#F59E0B" },
-  { icon: "lucide:package", title: "PUBLICATION", desc: "Deploie ton projet en ligne : GitHub, Vercel, domaine personnalise.", accent: "#9B6DFF" },
-  { icon: "lucide:trending-up", title: "MONETISATION", desc: "Genere des revenus : abonnements, produits digitaux, publicite, affiliation.", accent: "#EF4444" }
+const STEP_KEYS: Array<{ icon: string; key: string; accent: string }> = [
+  { icon: "lucide:lightbulb", key: "idea", accent: "#4F8EF7" },
+  { icon: "lucide:git-branch", key: "track", accent: "#22D3EE" },
+  { icon: "lucide:book-open", key: "resources", accent: "#10B981" },
+  { icon: "lucide:video", key: "sessions", accent: "#F59E0B" },
+  { icon: "lucide:package", key: "publish", accent: "#9B6DFF" },
+  { icon: "lucide:trending-up", key: "monetize", accent: "#EF4444" }
 ];
 
-function StepCard({ step, index, isVisible }: { step: typeof STEPS[0]; index: number; isVisible: boolean }) {
+function StepCard({ icon, title, desc, index, isVisible, accent }: { icon: string; title: string; desc: string; index: number; isVisible: boolean; accent: string }) {
   return (
     <div
       className="text-center transition-all duration-700"
@@ -25,21 +26,22 @@ function StepCard({ step, index, isVisible }: { step: typeof STEPS[0]; index: nu
       <div
         className="w-[88px] h-[88px] rounded-2xl bg-[#111] border flex items-center justify-center mx-auto mb-5 transition-all duration-500 step-icon"
         style={{
-          borderColor: isVisible ? `${step.accent}55` : "rgba(255,255,255,0.07)",
-          boxShadow: isVisible ? `0 0 40px ${step.accent}22, 0 0 0 1px ${step.accent}22` : "none"
+          borderColor: isVisible ? `${accent}55` : "rgba(255,255,255,0.07)",
+          boxShadow: isVisible ? `0 0 40px ${accent}22, 0 0 0 1px ${accent}22` : "none"
         }}
       >
-        <iconify-icon icon={step.icon} style={{ fontSize: "28px", color: isVisible ? step.accent : "#666", transition: "color 0.5s" }} />
+        <iconify-icon icon={icon} style={{ fontSize: "28px", color: isVisible ? accent : "#666", transition: "color 0.5s" }} />
       </div>
-      <div className="font-venite text-[12px] text-white mb-2">{step.title}</div>
+      <div className="font-venite text-[12px] text-white mb-2">{title}</div>
       <p className="font-body-readable text-[11px] text-[#555] leading-relaxed transition-colors duration-500" style={{ color: isVisible ? "#888" : "#555" }}>
-        {step.desc}
+        {desc}
       </p>
     </div>
   );
 }
 
 export default function HowItWorksSection() {
+  const { t } = useI18n();
   const sectionRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 
@@ -96,12 +98,12 @@ export default function HowItWorksSection() {
 
       <div className="max-w-[1320px] mx-auto px-8">
         <div className="text-center mb-20">
-          <div className="section-label mb-4">PROCESSUS</div>
+          <div className="section-label mb-4">{t("process.sectionLabel")}</div>
           <h2 className="font-valorax gradient-text mb-5" style={{ fontSize: "clamp(36px, 3.5vw, 54px)", letterSpacing: "-0.02em" }}>
-            COMMENT CA MARCHE
+            {t("process.title")}
           </h2>
           <p className="font-body-readable text-[#666] text-[15px] max-w-md mx-auto">
-            De ton idée a ton projet rentable, un chemin clair et guide.
+            {t("process.subtitle")}
           </p>
         </div>
 
@@ -115,8 +117,16 @@ export default function HowItWorksSection() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-5 relative z-10">
-            {STEPS.map((step, index) => (
-              <StepCard key={step.title} step={step} index={index} isVisible={visible} />
+            {STEP_KEYS.map((step, index) => (
+              <StepCard
+                key={step.key}
+                icon={step.icon}
+                title={t(`process.steps.${step.key}.title`)}
+                desc={t(`process.steps.${step.key}.desc`)}
+                index={index}
+                isVisible={visible}
+                accent={step.accent}
+              />
             ))}
           </div>
         </div>
@@ -124,7 +134,7 @@ export default function HowItWorksSection() {
         <div className="text-center mt-16 transition-all duration-1000" style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(20px)" }}>
           <Link href="/projets" id="how-cta-link" className="btn-primary glow-btn inline-flex items-center gap-2" style={{ fontSize: "14px", padding: "14px 32px" }}>
             <iconify-icon icon="lucide:zap" style={{ fontSize: "16px" }} />
-            Commencer mon projet
+            {t("process.cta")}
           </Link>
         </div>
       </div>

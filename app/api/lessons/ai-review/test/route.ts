@@ -1,7 +1,8 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import { cookies } from "next/headers";
 import { getAIReviewConfig, OPENROUTER_DEFAULT_MODELS } from "../../../../../lib/aiReview";
 import { createClient } from "../../../../../utils/supabase/server";
+import { apiRateLimit, buildRateLimitKey } from "../../../../../lib/rateLimit";
 
 const PROVIDER_DEFAULTS = {
   gemini: "gemini-2.0-flash",
@@ -146,9 +147,42 @@ async function testSingleProvider(provider: string) {
   };
 }
 
+async function checkRateLimit(request: Request): Promise<Response | null> {
+  const supabase = await createClient(await cookies());
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    return NextResponse.json({ error: "not_authenticated" }, { status: 401 });
+  }
+
+  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim()
+    || request.headers.get("x-real-ip")
+    || "unknown";
+  const rateKey = buildRateLimitKey(user.id, ip);
+  const rateResult = apiRateLimit.aiTest.check(rateKey);
+
+  if (!rateResult.allowed) {
+    return NextResponse.json(
+      { error: "rate_limited", message: "Trop de tentatives de test. Patiente une minute." },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(Math.ceil((rateResult.resetAt - Date.now()) / 1000)),
+          "X-RateLimit-Remaining": "0"
+        }
+      }
+    );
+  }
+
+  return null;
+}
+
 // Teste tous les providers configures (fallback chain).
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
+    const rateLimitResponse = await checkRateLimit(request);
+    if (rateLimitResponse) return rateLimitResponse;
+
     const supabase = await createClient(await cookies());
     const { data: { user } } = await supabase.auth.getUser();
 

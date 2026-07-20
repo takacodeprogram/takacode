@@ -281,7 +281,14 @@ export async function listRecommendedTracksForGoal(supabase: SupabaseClient, goa
   }
 
   if (excludedTrackIds.length) {
-    query = query.not("id", "in", "(" + excludedTrackIds.join(",") + ")");
+    // Securise : on valide que chaque id est un UUID avant de l'utiliser
+    const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    const validIds = excludedTrackIds.filter((id) => UUID_REGEX.test(id));
+    if (validIds.length) {
+      for (const id of validIds) {
+        query = query.not("id", "eq", id);
+      }
+    }
   }
 
   query = query.limit(limit);

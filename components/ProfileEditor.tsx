@@ -9,6 +9,7 @@ import { generateUsername } from "../lib/username";
 import FormatPicker from "../components/FormatPicker";
 import { playPop } from "../components/effects/sound";
 import { useToast } from "./Toast";
+import { useI18n } from "./I18nProvider";
 
 interface ProfileEditorProps {
   initialBio?: string;
@@ -22,13 +23,6 @@ interface ProfileEditorProps {
   seedBase?: string;
 }
 
-const SOCIAL_FIELDS: { key: string; label: string; placeholder: string; icon: string }[] = [
-  { key: "github", label: "GitHub", placeholder: "https://github.com/toi", icon: "lucide:github" },
-  { key: "linkedin", label: "LinkedIn", placeholder: "https://linkedin.com/in/toi", icon: "lucide:linkedin" },
-  { key: "website", label: "Site web", placeholder: "https://ton-site.com", icon: "lucide:globe" },
-  { key: "twitter", label: "X / Twitter", placeholder: "https://x.com/toi", icon: "lucide:twitter" }
-];
-
 function cleanUrl(value: string): string {
   const trimmed = String(value || "").trim();
   if (!trimmed) return "";
@@ -36,6 +30,7 @@ function cleanUrl(value: string): string {
 }
 
 export default function ProfileEditor({
+
   initialBio = "",
   initialBioFormat = "text",
   initialSocials = {},
@@ -46,7 +41,15 @@ export default function ProfileEditor({
   realName = "",
   seedBase = "takacode"
 }: ProfileEditorProps) {
+  const { t } = useI18n();
   const supabase = useMemo(() => createClient(), []);
+
+  const SOCIAL_FIELDS: { key: string; label: string; placeholder: string; icon: string }[] = [
+    { key: "github", label: "GitHub", placeholder: "https://github.com/toi", icon: "lucide:github" },
+    { key: "linkedin", label: "LinkedIn", placeholder: "https://linkedin.com/in/toi", icon: "lucide:linkedin" },
+    { key: "website", label: t("profile.social.website"), placeholder: "https://ton-site.com", icon: "lucide:globe" },
+    { key: "twitter", label: "X / Twitter", placeholder: "https://x.com/toi", icon: "lucide:twitter" }
+  ];
   const router = useRouter();
   const { toast } = useToast();
 
@@ -109,12 +112,12 @@ export default function ProfileEditor({
     });
 
     if (rpcError || (data && typeof data === "object" && "error" in data && data.error)) {
-      toast(rpcError?.message || "Impossible d'enregistrer le profil.", "error");
+      toast(rpcError?.message || t("profile.saveError"), "error");
       setSaving(false);
       return;
     }
 
-    toast("Profil enregistré.", "success");
+    toast(t("profile.saved"), "success");
     playPop();
     router.refresh();
     setSaving(false);
@@ -122,14 +125,14 @@ export default function ProfileEditor({
 
   return (
     <section className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 space-y-5">
-      <h2 className="font-venite text-[13px] tracking-widest text-[#888]">EDITER MON PROFIL</h2>
+      <h2 className="font-venite text-[13px] tracking-widest text-[#888]">{t("profile.edit")}</h2>
 
       <div>
         <div className="flex items-center justify-between mb-2">
-          <label className="text-[11px] text-[#8d8d8d] uppercase tracking-widest font-semibold">Avatar</label>
+          <label className="text-[11px] text-[#8d8d8d] uppercase tracking-widest font-semibold">{t("profile.avatar")}</label>
           <button type="button" onClick={() => setShuffle((s) => s + 1)} className="text-[11px] text-[#4F8EF7] hover:underline inline-flex items-center gap-1">
             <iconify-icon icon="lucide:dices" style={{ fontSize: "12px" }} />
-            Autres propositions
+            {t("profile.moreSuggestions")}
           </button>
         </div>
         <div className="flex flex-wrap gap-2.5">
@@ -152,7 +155,7 @@ export default function ProfileEditor({
               type="button"
               onClick={() => setAvatarUrl("")}
               className="h-14 w-14 rounded-full border border-white/[0.1] text-[#888] hover:text-white flex items-center justify-center"
-              title="Retirer l'avatar"
+              title={t("profile.removeAvatar")}
             >
               <iconify-icon icon="lucide:user-x" style={{ fontSize: "18px" }} />
             </button>
@@ -161,12 +164,12 @@ export default function ProfileEditor({
       </div>
 
       <div>
-        <label className="text-[11px] text-[#8d8d8d] uppercase tracking-widest font-semibold">Nom public (leaderboard)</label>
+        <label className="text-[11px] text-[#8d8d8d] uppercase tracking-widest font-semibold">{t("profile.publicName")}</label>
         <div className="flex flex-wrap gap-1.5 mt-1.5 mb-2">
           {[
-            { key: "generate", label: "Générer un pseudo" },
-            { key: "custom", label: "Écrire le mien" },
-            ...(realName ? [{ key: "real", label: "Mon vrai nom" }] : [])
+            { key: "generate", label: t("profile.name.generate") },
+            { key: "custom", label: t("profile.name.custom") },
+            ...(realName ? [{ key: "real", label: t("profile.name.real") }] : [])
           ].map((opt: { key: string; label: string }) => (
             <button
               key={opt.key}
@@ -189,7 +192,7 @@ export default function ProfileEditor({
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPublicName(e.target.value)}
             maxLength={40}
             disabled={nameMode === "real"}
-            placeholder={nameMode === "generate" ? "Pseudo génère" : "Ton pseudo public (sinon: Membre anonyme)"}
+            placeholder={nameMode === "generate" ? t("profile.generatedPlaceholder") : t("profile.namePlaceholder")}
             className="flex-1 rounded-lg border border-white/[0.08] bg-[#0f0f0f] px-3 py-2.5 font-body-readable text-[12px] text-[#d0d0d0] placeholder:text-[#555] focus:outline-none focus:border-blue-400/40 disabled:opacity-60"
           />
           {nameMode === "generate" ? (
@@ -200,32 +203,32 @@ export default function ProfileEditor({
               style={{ padding: "9px 12px" }}
             >
               <iconify-icon icon="lucide:dices" style={{ fontSize: "13px" }} />
-              Regenerer
+              {t("profile.regenerate")}
             </button>
           ) : null}
         </div>
         {nameMode === "real" ? (
-          <p className="text-[10px] text-[#777] font-body-readable mt-1.5">Ton vrai nom sera affiche publiquement sur le classement.</p>
+          <p className="text-[10px] text-[#777] font-body-readable mt-1.5">{t("profile.realNameWarning")}</p>
         ) : null}
       </div>
 
       <div>
-        <label className="text-[11px] text-[#8d8d8d] uppercase tracking-widest font-semibold">Bio</label>
+        <label className="text-[11px] text-[#8d8d8d] uppercase tracking-widest font-semibold">{t("profile.bio")}</label>
         <textarea
           value={bio}
           onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setBio(e.target.value)}
           rows={4}
           maxLength={600}
-          placeholder="Presente-toi: ton objectif, ton projet, ton parcours..."
+          placeholder={t("profile.bioPlaceholder")}
           className="mt-1.5 w-full rounded-lg border border-white/[0.08] bg-[#0f0f0f] px-3 py-2.5 font-body-readable text-[12px] text-[#d0d0d0] leading-relaxed placeholder:text-[#555] focus:outline-none focus:border-blue-400/40"
         />
         <div className="mt-2">
-          <FormatPicker value={bioFormat} onChange={setBioFormat} label="Format du contenu" />
+          <FormatPicker value={bioFormat} onChange={setBioFormat} label={t("profile.contentFormat")} />
         </div>
       </div>
 
       <div>
-        <label className="text-[11px] text-[#8d8d8d] uppercase tracking-widest font-semibold">Pays (leaderboard)</label>
+        <label className="text-[11px] text-[#8d8d8d] uppercase tracking-widest font-semibold">{t("profile.country")}</label>
         <select
           value={countryCode}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setCountryCode(e.target.value)}
@@ -238,7 +241,7 @@ export default function ProfileEditor({
       </div>
 
       <div>
-        <label className="text-[11px] text-[#8d8d8d] uppercase tracking-widest font-semibold">Réseaux</label>
+        <label className="text-[11px] text-[#8d8d8d] uppercase tracking-widest font-semibold">{t("profile.social")}</label>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mt-1.5">
           {SOCIAL_FIELDS.map((field: { key: string; label: string; placeholder: string; icon: string }) => (
             <div key={field.key} className="flex items-center gap-2 rounded-lg border border-white/[0.08] bg-[#0f0f0f] px-2.5">
@@ -255,11 +258,11 @@ export default function ProfileEditor({
       </div>
 
       <div>
-        <label className="text-[11px] text-[#8d8d8d] uppercase tracking-widest font-semibold">Compétences</label>
+        <label className="text-[11px] text-[#8d8d8d] uppercase tracking-widest font-semibold">{t("profile.skills")}</label>
         <input
           value={skillsInput}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSkillsInput(e.target.value)}
-          placeholder="HTML, CSS, React, Supabase (séparées par des virgules)"
+          placeholder={t("profile.skillsPlaceholder")}
           className="mt-1.5 w-full rounded-lg border border-white/[0.08] bg-[#0f0f0f] px-3 py-2.5 font-body-readable text-[12px] text-[#d0d0d0] placeholder:text-[#555] focus:outline-none focus:border-blue-400/40"
         />
       </div>
@@ -271,7 +274,7 @@ export default function ProfileEditor({
         className={`btn-primary inline-flex items-center gap-2 text-[12px] ${saving ? "opacity-50 cursor-not-allowed" : ""}`}
         style={{ padding: "10px 18px" }}
       >
-        {saving ? "Enregistrement..." : "Enregistrer"}
+        {saving ? t("profile.saving") : t("common.save")}
         <iconify-icon icon="lucide:save" style={{ fontSize: "13px" }} />
       </button>
     </section>

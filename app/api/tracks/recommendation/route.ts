@@ -2,10 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { listRecommendedTracksForGoal, mapTrackToRecommendation } from "../../../../lib/tracks";
 import { createClient } from "../../../../utils/supabase/server";
+import { trackRecommendationQuerySchema, validateQueryParams } from "../../../../lib/validation";
 
 export async function GET(request: NextRequest) {
-  const requestUrl = new URL(request.url);
-  const goalKey = requestUrl.searchParams.get("goal_key") || "";
+  const parsed = validateQueryParams(trackRecommendationQuerySchema, request.nextUrl.searchParams);
+  if (!parsed.success) return parsed.response;
+
+  const goalKey = parsed.data.goal_key;
 
   const cookieStore = await cookies();
   const supabase = await createClient(cookieStore);

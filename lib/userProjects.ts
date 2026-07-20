@@ -72,7 +72,7 @@ interface ProjectResult {
   schemaReady: boolean;
 }
 
-function normalizeProject(row: unknown): UserProject | null {
+export function normalizeProject(row: unknown): UserProject | null {
   if (!row || typeof row !== "object") {
     return null;
   }

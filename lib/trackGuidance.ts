@@ -14,55 +14,55 @@ const GUIDANCE: Record<string, TrackGuidance> = {
   },
   "ia-fondamentaux": {
     order: 1,
-    level: "Debutant",
+    level: "Débutant",
     prereq: [],
     tagline: "Commence ici : comprends l'IA avant de la faire travailler pour toi."
   },
   "full-vibe-coding": {
     order: 2,
-    level: "Debutant",
+    level: "Débutant",
     prereq: ["ia-fondamentaux"],
     tagline: "Construis et publie ton projet avec l'IA, sans apprendre à coder."
   },
   "dev-web-assiste-ia": {
     order: 3,
-    level: "DebutantPlus",
+    level: "Débutant",
     prereq: ["ia-fondamentaux", "bases-internet"],
     tagline: "Apprends le développement web avec l'IA comme copilote."
   },
   "creation-contenu-ia": {
     order: 4,
-    level: "Debutant",
+    level: "Débutant",
     prereq: ["ia-fondamentaux"],
     tagline: "Lance une chaîne YouTube faceless rentable, sans sonner robotique."
   },
   "produits-digitaux": {
     order: 5,
-    level: "Debutant",
+    level: "Débutant",
     prereq: ["ia-fondamentaux"],
     tagline: "Crée et vends ton premier produit digital — la voie directe vers le premier euro."
   },
   "media-buyer": {
     order: 6,
-    level: "Execution",
+    level: "Intermédiaire",
     prereq: ["ia-fondamentaux"],
     tagline: "Achète du trafic rentable : Facebook Ads, Google Ads et TikTok Ads pour générer des ventes."
   },
   "automatisation-ia": {
     order: 7,
-    level: "Intermediaire",
+    level: "Intermédiaire",
     prereq: ["ia-fondamentaux"],
     tagline: "Automatise les tâches répétitives et déploie un chatbot IA — puis vends-le en service."
   },
   "web3-blockchain": {
     order: 8,
-    level: "Avance",
+    level: "Avancé",
     prereq: ["ia-fondamentaux", "bases-internet"],
     tagline: "Du wallet au smart contract vérifié sur testnet — des compétences rares qui se vendent."
   },
   "bot-trading-ia": {
     order: 9,
-    level: "Avance",
+    level: "Avancé",
     prereq: ["ia-fondamentaux", "automatisation-ia"],
     tagline: "Ta stratégie codée par l'IA, backtestée et disciplinée — l'outil avant les promesses."
   }
@@ -110,11 +110,10 @@ export function missingPrerequisites(slug: string, startedSlugs: Set<string> | s
 
 const LEVEL_CHIP: Record<string, string> = {
   Fondations: "border-sky-500/30 bg-sky-500/10 text-sky-200",
-  Debutant: "border-emerald-500/30 bg-emerald-500/10 text-emerald-200",
-  DebutantPlus: "border-teal-500/30 bg-teal-500/10 text-teal-100",
-  Execution: "border-red-500/30 bg-red-500/10 text-red-200",
-  Intermediaire: "border-amber-500/30 bg-amber-500/10 text-amber-100",
-  Avance: "border-violet-500/30 bg-violet-500/10 text-violet-200"
+  "Débutant": "border-emerald-500/30 bg-emerald-500/10 text-emerald-200",
+  "Intermédiaire": "border-amber-500/30 bg-amber-500/10 text-amber-100",
+  "Avancé": "border-violet-500/30 bg-violet-500/10 text-violet-200",
+  Expert: "border-red-500/30 bg-red-500/10 text-red-200"
 };
 
 export function guidanceLevelChip(level: string): string {

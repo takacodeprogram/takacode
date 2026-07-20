@@ -44,7 +44,7 @@ function seededRandom(seed: number): () => number {
   };
 }
 
-function shuffleQuizChoices(quiz: QuizItem[], seedKey: string): QuizItem[] {
+export function shuffleQuizChoices(quiz: QuizItem[], seedKey: string): QuizItem[] {
   return quiz.map((item, questionIndex) => {
     const choices = [...item.choices];
     const random = seededRandom(hashSeed(`${seedKey}:${questionIndex}:${item.question}`));
@@ -264,7 +264,7 @@ function normalizeMicroProject(value: unknown): MicroProject | null {
   };
 }
 
-function normalizeLessonRow(row: unknown): Lesson | null {
+export function normalizeLessonRow(row: unknown): Lesson | null {
   if (!row || typeof row !== "object") {
     return null;
   }

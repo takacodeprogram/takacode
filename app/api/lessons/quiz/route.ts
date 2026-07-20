@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { createClient } from "../../../../utils/supabase/server";
+import { apiRateLimit, buildRateLimitKey } from "../../../../lib/rateLimit";
+import { quizSubmissionSchema, parseAndValidateBody } from "../../../../lib/validation";
 
 const ERROR_STATUS: Record<string, number> = {
   not_authenticated: 401,
@@ -11,20 +13,10 @@ const ERROR_STATUS: Record<string, number> = {
 };
 
 export async function POST(request: NextRequest) {
-  let payload: Record<string, unknown> | null = null;
+  const parsed = await parseAndValidateBody(quizSubmissionSchema, request);
+  if (!parsed.success) return parsed.response;
 
-  try {
-    payload = await request.json();
-  } catch {
-    return NextResponse.json({ error: "invalid_payload" }, { status: 400 });
-  }
-
-  const lessonId = typeof payload?.lessonId === "string" ? payload.lessonId.trim() : "";
-  const answers = Array.isArray(payload?.answers) ? payload.answers : null;
-
-  if (!lessonId || !answers || !answers.every((a: unknown) => a && typeof a === "object" && typeof (a as Record<string, unknown>).questionId === "string" && typeof (a as Record<string, unknown>).choice === "string")) {
-    return NextResponse.json({ error: "invalid_payload" }, { status: 400 });
-  }
+  const { lessonId, answers } = parsed.data;
 
   const cookieStore = await cookies();
   const supabase = await createClient(cookieStore);
@@ -35,6 +27,26 @@ export async function POST(request: NextRequest) {
 
   if (!user) {
     return NextResponse.json({ error: "not_authenticated" }, { status: 401 });
+  }
+
+  // Rate limiting : 30 soumissions quiz/min par utilisateur
+  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim()
+    || request.headers.get("x-real-ip")
+    || "unknown";
+  const rateKey = buildRateLimitKey(user.id, ip);
+  const rateResult = apiRateLimit.quiz.check(rateKey);
+
+  if (!rateResult.allowed) {
+    return NextResponse.json(
+      { error: "rate_limited", message: "Trop de tentatives. Patiente une minute." },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(Math.ceil((rateResult.resetAt - Date.now()) / 1000)),
+          "X-RateLimit-Remaining": "0"
+        }
+      }
+    );
   }
 
   // Load questions from the bank to resolve correctness

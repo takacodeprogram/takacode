@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import CountUpStat from "./CountUpStat";
+import { useI18n } from "./I18nProvider";
 
 interface HeroStatProps {
   value: string | number | null | undefined;
@@ -29,6 +32,8 @@ function HeroStat({ value, suffix = "", label }: HeroStatProps) {
 }
 
 export default function Hero({ stats = null }: { stats?: Stats | null }) {
+  const { t } = useI18n();
+
   return (
     <section className="relative pt-[64px] min-h-screen flex items-center overflow-hidden" id="hero">
       <div className="hero-glow w-[700px] h-[700px] bg-blue-500/[0.06] -left-[200px] top-[50px]" />
@@ -44,18 +49,18 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
                   className="w-1.5 h-1.5 rounded-full bg-green-400 inline-block"
                   style={{ animation: "pulse-glow 2s ease-in-out infinite" }}
                 />
-                Plateforme de création de projets
+                {t("home.hero.badge")}
               </span>
             </div>
 
             <h1 className="font-valorax animate-fade-up-d1 mb-6 hero-title">
-              CREE TON PROJET.
+              {t("home.hero.title1")}
               <br />
-              <span className="gradient-text-blue">PUBLIE ET MONETISE.</span>
+              <span className="gradient-text-blue">{t("home.hero.title2")}</span>
             </h1>
 
             <p className="animate-fade-up-d2 font-body-readable text-[#9A9A9A] text-[15px] leading-relaxed mb-9 max-w-[460px]">
-              TakaCode t'aide a transformer tes idees en projets digitaux concrets, les publier en ligne et generer des revenus. Parcours guides, templates, IA et communaute pour accelerer chaque etape.
+              {t("home.hero.subtitle")}
             </p>
 
             <div className="animate-fade-up-d3 flex flex-col sm:flex-row sm:items-center gap-4 mb-12">
@@ -65,7 +70,7 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
                 className="btn-primary glow-btn flex items-center justify-center gap-2"
                 style={{ fontSize: "14px", padding: "14px 28px" }}
               >
-                Commencer un projet
+                {t("home.hero.ctaPrimary")}
               </Link>
               <Link
                 href="/parcours"
@@ -73,14 +78,14 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
                 className="btn-secondary flex items-center justify-center gap-2"
                 style={{ fontSize: "14px", padding: "14px 28px" }}
               >
-                Explorer les parcours projets
+                {t("home.hero.ctaSecondary")}
               </Link>
             </div>
 
             <div className="animate-fade-up-d4 grid grid-cols-3 gap-4 sm:gap-8 pt-8 border-t border-white/[0.06] max-w-[520px]">
-              <HeroStat value={stats?.members} label="Membres inscrits" />
-              <HeroStat value={stats?.submittedProjects} label="Projets realises" />
-              <HeroStat value={stats?.publishedTracks} label="Parcours projets" />
+              <HeroStat value={stats?.members} label={t("home.hero.statMembers")} />
+              <HeroStat value={stats?.submittedProjects} label={t("home.hero.statProjects")} />
+              <HeroStat value={stats?.publishedTracks} label={t("home.hero.statTracks")} />
             </div>
           </div>
 
@@ -91,8 +96,8 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
               <div className="relative z-10">
                 <div className="flex items-center justify-between mb-5">
                   <div>
-                    <div className="section-label font-venite-italic mb-1">ROADMAP PROJET</div>
-                    <div className="font-body-readable text-[12px] text-[#555]">Progression active</div>
+                    <div className="section-label font-venite-italic mb-1">{t("home.hero.roadmapLabel")}</div>
+                    <div className="font-body-readable text-[12px] text-[#555]">{t("home.hero.roadmapStatus")}</div>
                   </div>
                   <div className="flex items-center gap-1.5">
                     <div className="w-2 h-2 rounded-full bg-green-400" style={{ animation: "pulse-glow 2s'ease infinite" }} />
@@ -103,8 +108,8 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
                 <div className="space-y-4 roadmap-progress-list">
                   <div className="roadmap-progress-item roadmap-progress-item-1">
                     <div className="flex items-center justify-between mb-1.5">
-                      <span className="font-venite-italic text-[12px] text-[#888]">IDEE</span>
-                      <span className="font-body-readable text-[11px] text-green-400">Complète</span>
+                      <span className="font-venite-italic text-[12px] text-[#888]">{t("home.hero.roadmapIdea")}</span>
+                      <span className="font-body-readable text-[11px] text-green-400">{t("home.hero.roadmapDone")}</span>
                     </div>
                     <div className="h-1 bg-white/[0.05] rounded-full overflow-hidden">
                       <div
@@ -116,8 +121,8 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
 
                   <div className="roadmap-progress-item roadmap-progress-item-2">
                     <div className="flex items-center justify-between mb-1.5">
-                      <span className="font-venite-italic text-[12px] text-[#888]">Parcours</span>
-                      <span className="font-body-readable text-[11px] text-[#4F8EF7]">En cours</span>
+                      <span className="font-venite-italic text-[12px] text-[#888]">{t("home.hero.roadmapTrack")}</span>
+                      <span className="font-body-readable text-[11px] text-[#4F8EF7]">{t("home.hero.roadmapInProgress")}</span>
                     </div>
                     <div className="h-1 bg-white/[0.05] rounded-full overflow-hidden">
                       <div
@@ -129,8 +134,8 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
 
                   <div className="roadmap-progress-item roadmap-progress-item-3">
                     <div className="flex items-center justify-between mb-1.5">
-                      <span className="font-venite-italic text-[12px] text-[#555]">Monétisation</span>
-                      <span className="font-body-readable text-[11px] text-[#555]">A venir</span>
+                      <span className="font-venite-italic text-[12px] text-[#555]">{t("home.hero.roadmapMonetization")}</span>
+                      <span className="font-body-readable text-[11px] text-[#555]">{t("home.hero.roadmapUpcoming")}</span>
                     </div>
                     <div className="h-1 bg-white/[0.05] rounded-full overflow-hidden">
                       <div

@@ -244,7 +244,7 @@ function buildProviderChain(): string[] {
   return chain;
 }
 
-interface AIReviewConfig {
+export interface AIReviewConfig {
   provider: string;
   model: string;
   apiKey: string;

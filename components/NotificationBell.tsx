@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "../utils/supabase/client";
 import { playNotification } from "../components/effects/sound";
-import type { SupabaseClient } from "@supabase/supabase-js";
+import { useToast } from "./Toast";
 
 interface Notification {
   id: string;
@@ -51,6 +51,7 @@ export default function NotificationBell() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const prevUnreadRef = useRef<number>(0);
+  const { toast } = useToast();
 
   const fetchNotifications = useCallback(async () => {
     try {
@@ -64,7 +65,7 @@ export default function NotificationBell() {
         setUnreadCount((countData as { count: number }).count);
       }
     } catch (err) {
-      console.error("Erreur chargement notifs:", err);
+      toast("Erreur lors du chargement des notifications", "error");
     }
   }, [supabase]);
 
@@ -89,7 +90,7 @@ export default function NotificationBell() {
       );
       setUnreadCount((prev) => Math.max(0, prev - 1));
     } catch (err) {
-      console.error("Erreur mark read:", err);
+      toast("Erreur lors du marquage de la notification", "error");
     }
   }
 
@@ -101,7 +102,7 @@ export default function NotificationBell() {
       );
       setUnreadCount(0);
     } catch (err) {
-      console.error("Erreur mark all read:", err);
+      toast("Erreur lors du marquage de toutes les notifications", "error");
     }
   }
 

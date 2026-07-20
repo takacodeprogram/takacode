@@ -1,67 +1,70 @@
+"use client";
+
+import { useI18n } from "./I18nProvider";
+
+const ROW1_TAGS: Array<{ icon: string }> = [
+  { icon: "lucide:globe" },
+  { icon: "lucide:layout-dashboard" },
+  { icon: "lucide:zap" },
+  { icon: "lucide:bot" },
+  { icon: "lucide:wallet" },
+  { icon: "lucide:box" },
+  { icon: "lucide:music" },
+  { icon: "lucide:mic" },
+  { icon: "lucide:youtube" },
+  { icon: "lucide:video" },
+  { icon: "lucide:bar-chart-3" }
+];
+
+const ROW2_TAGS: Array<{ icon: string }> = [
+  { icon: "lucide:pie-chart" },
+  { icon: "lucide:wallet" },
+  { icon: "lucide:box" },
+  { icon: "lucide:package" },
+  { icon: "lucide:trending-up" },
+  { icon: "lucide:wrench" },
+  { icon: "lucide:message-square" },
+  { icon: "lucide:smartphone" },
+  { icon: "lucide:cpu" }
+];
+
+function SkillsRow({ tags, t, rowKey }: { tags: Array<{ icon: string }>; t: (key: string, fallback?: string) => string; rowKey: string }) {
+  return (
+    <>
+      {tags.map((tag, index) => (
+        <span key={index} className="community-tag flex items-center gap-2">
+          <iconify-icon icon={tag.icon} /> {t(`skills.${rowKey}.${index}`)}
+        </span>
+      ))}
+    </>
+  );
+}
+
 export default function CompetencesSection() {
+  const { t } = useI18n();
   return (
     <section className="py-28 overflow-hidden" id="competences">
       <div className="max-w-[1320px] mx-auto px-8 mb-14">
-        <div className="section-label mb-4">POSSIBILITES</div>
+        <div className="section-label mb-4">{t("skills.sectionLabel")}</div>
         <h2 className="font-valorax gradient-text" style={{ fontSize: "clamp(36px, 3.5vw, 54px)", letterSpacing: "-0.02em" }}>
-          CE QUE TU PEUX CREER
+          {t("skills.title")}
         </h2>
       </div>
 
       <div className="scroll-container overflow-hidden mb-4">
-        <div className="scroll-track">
-          <div className="flex gap-3">
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:globe" /> Sites web</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:layout-dashboard" /> Applications web</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:zap" /> Automatisations</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:bot" /> Agents IA</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:wallet" /> Web3 et blockchain</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:box" /> 3D immersif</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:music" /> Musique</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:mic" /> Podcasts</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:youtube" /> Chaînes YouTube</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:video" /> Vidéos avec IA</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:bar-chart-3" /> Analyse de données</span>
-          </div>
+        <div className="scroll-track flex gap-3">
+          <SkillsRow tags={ROW1_TAGS} t={t} rowKey="tagsRow1" />
           <div className="flex gap-3 ml-3" aria-hidden="true">
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:globe" /> Sites web</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:layout-dashboard" /> Applications web</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:zap" /> Automatisations</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:bot" /> Agents IA</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:wallet" /> Web3 et blockchain</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:box" /> 3D immersif</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:music" /> Musique</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:mic" /> Podcasts</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:youtube" /> Chaînes YouTube</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:video" /> Vidéos avec IA</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:bar-chart-3" /> Analyse de données</span>
+            <SkillsRow tags={ROW1_TAGS} t={t} rowKey="tagsRow1" />
           </div>
         </div>
       </div>
 
       <div className="scroll-container overflow-hidden">
-        <div className="scroll-track" style={{ animationDirection: "reverse", animationDuration: "25s" }}>
-          <div className="flex gap-3">
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:pie-chart" /> Tableaux de bord</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:wallet" /> Web3 et blockchain</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:box" /> 3D et expériences immersives</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:package" /> Produits numériques</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:trending-up" /> Business digitaux</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:wrench" /> Outils SaaS</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:message-square" /> Chatbots</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:smartphone" /> Applications mobiles</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:cpu" /> IA generative</span>
-          </div>
+        <div className="scroll-track flex gap-3" style={{ animationDirection: "reverse", animationDuration: "25s" }}>
+          <SkillsRow tags={ROW2_TAGS} t={t} rowKey="tagsRow2" />
           <div className="flex gap-3 ml-3" aria-hidden="true">
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:pie-chart" /> Tableaux de bord</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:wallet" /> Web3 et blockchain</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:box" /> 3D et expériences immersives</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:package" /> Produits numériques</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:trending-up" /> Business digitaux</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:wrench" /> Outils SaaS</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:message-square" /> Chatbots</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:smartphone" /> Applications mobiles</span>
-            <span className="community-tag flex items-center gap-2"><iconify-icon icon="lucide:cpu" /> IA generative</span>
+            <SkillsRow tags={ROW2_TAGS} t={t} rowKey="tagsRow2" />
           </div>
         </div>
       </div>

@@ -13,6 +13,7 @@ import {
 } from "../lib/onboarding";
 import type { Option } from "../lib/onboarding";
 import { createClient } from "../utils/supabase/client";
+import { useToast } from "./Toast";
 
 interface User {
   displayName?: string;
@@ -194,6 +195,7 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
   const [saving, setSaving] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const skipDraftSyncRef = useRef<boolean>(true);
+  const { toast } = useToast();
 
   const selectedGoal = findOption(GOAL_OPTIONS, goalKey, "website");
   const selectedLevel = findOption(LEVEL_OPTIONS, levelKey, "beginner");
@@ -249,7 +251,7 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
       });
 
       if (error) {
-        console.error("Unable to save onboarding draft", error);
+        toast("Impossible de sauvegarder le brouillon", "error");
       }
     }, 450);
 

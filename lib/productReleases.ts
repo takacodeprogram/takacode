@@ -9,8 +9,49 @@ export interface ProductRelease {
 
 export const PRODUCT_RELEASES: ProductRelease[] = [
   {
+    version: "2.0",
+    date: "Été-Automne 2026",
+    title: "Marketplace & Monétisation",
+    summary: "Vends tes produits digitaux sur TakaCode, abonne-toi aux features IA avancées, et suis tes revenus en EUR, USD ou CFA.",
+    status: "planifiee",
+    highlights: [
+      "🏪 Marketplace de produits digitaux : crée et vends des templates, formations, prompts et outils",
+      "💶 Revenus multi-devise : déclare ton premier revenu en EUR, USD, XOF, XAF, NGN, GHS, MAD et +",
+      "🤖 IA Premium (payant) : tuteur IA contextuel, parcours adaptatif, revue de code GitHub",
+      "💳 Stripe Connect + Orange Money + MTN MoMo : encaisse directement depuis la plateforme",
+      "📊 Tableau de bord revenus : total gagné, par mois, par source, avec conversion automatique"
+    ]
+  },
+  {
     version: "1.5",
-    date: "18 juillet 2026",
+    date: "Juillet 2026",
+    title: "Tests & Fondations solides",
+    summary: "328 tests unitaires, validation Zod, rate limiting, CI/CD. La plateforme est sécurisée et testée.",
+    status: "livree",
+    highlights: [
+      "328 tests unitaires pour 14 modules lib/ (grades, tracks, auth, aiReview, validation...)",
+      "Validation Zod des entrées API pour la sécurité (6 schemas déployés)",
+      "Rate limiting sur les routes critiques (IA review, quiz, soumissions)",
+      "0 erreurs TypeScript dans toute la codebase",
+      "CI/CD GitHub Actions : builds et tests automatiques à chaque push"
+    ]
+  },
+  {
+    version: "1.4.3",
+    date: "Juillet 2026",
+    title: "Fondations i18n & multi-devise",
+    summary: "Préparation à l'international : système de traduction FR/EN, support de 15 devises, et une nouvelle façon de déclarer ton premier revenu.",
+    status: "en_cours",
+    highlights: [
+      "🌍 Internationalisation : fondations i18n avec traductions FR/EN, détection de langue automatique",
+      "💶 Premier revenu multi-devise : déclare en EUR, USD, XOF, XAF, NGN, GHS, MAD, KES...",
+      "🗺️ 15 devises supportées dont 10 devises africaines (Mobile Money ready)",
+      "🔄 Préparation switch EN/FR : le site se prépare à parler anglais"
+    ]
+  },
+  {
+    version: "1.4.2",
+    date: "19 juillet 2026",
     title: "Projet first — micro-projets, livrables, premier euro",
     summary: "Les micro-projets sont lies a ton projet reel. Suis tes livrables, declare ton premier euro et presente-toi sur ta page profil public.",
     status: "livree",
@@ -102,37 +143,6 @@ export const PRODUCT_RELEASES: ProductRelease[] = [
       "Micro-projets : soumets tes livrables et recois du feedback",
       "Progression, XP, grades et classement",
       "Dashboard membre, administration, sessions et affiliations"
-    ]
-  },
-  {
-    version: "1.6",
-    date: "Juillet 2026",
-    title: "Communaute & marketplace",
-    summary: "Page projet publique, likes, profils enrichis, publication guidee et marketplace de services.",
-    status: "en_cours",
-    highlights: [
-      "Page projet publique (/projets/[id]) avec description, URLs, auteur, badges",
-      "Systeme de likes sur les projets",
-      "Profil public enrichi : projets publies, statistiques, parcours suivis",
-      "Publication guidee avec confirmation avant mise en ligne",
-      "Marketplace de services : dev, design, redaction, SEO",
-      "Filtres et recherche dans la galerie projets",
-      "Page communaute enrichie : fil d'activite, tendances"
-    ]
-  },
-  {
-    version: "2.0",
-    date: "Automne 2026",
-    title: "Monetisation & revenus",
-    summary: "Connecte Stripe, cree des offres Premium/Launch et commence a generer des revenus depuis ton projet.",
-    status: "planifiee",
-    highlights: [
-      "Integration Stripe Connect pour les paiements",
-      "Offres Premium et Launch avec abonnement",
-      "Page tarifs dynamique",
-      "Suivi des revenus dans le cockpit projet",
-      "Badges et mise en avant des projets monetises",
-      "Guide de monetisation integre aux parcours"
     ]
   }
 ];

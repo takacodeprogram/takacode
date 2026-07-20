@@ -45,7 +45,7 @@ interface AffiliateRow {
   track_slug: string;
 }
 
-function normalize(row: unknown): AffiliateLink | null {
+export function normalize(row: unknown): AffiliateLink | null {
   if (!row || typeof row !== "object") return null;
   const r = row as Record<string, unknown>;
   return {

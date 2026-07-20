@@ -16,9 +16,13 @@ export const metadata = buildPageMetadata({
 });
 
 function getLevelChipClass(levelLabel: string) {
-  const normalized = String(levelLabel || "").toLowerCase();
+  const normalized = String(levelLabel || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
   if (normalized.includes("debutant")) return "level-beginner";
-  if (normalized.includes("inter") || normalized.includes("build") || normalized.includes("execution")) return "level-intermediate";
+  if (normalized.includes("inter")) return "level-intermediate";
+  if (normalized.includes("expert")) return "level-expert";
   return "level-advanced";
 }
 
