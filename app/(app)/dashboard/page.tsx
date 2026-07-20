@@ -12,6 +12,7 @@ import { getOnboardingProfile, isOnboardingCompleted } from "../../../lib/onboar
 import { buildPageMetadata } from "../../../lib/seo";
 import { formatTrackMeta, listPublishedTracks, listRecommendedTracksForGoal, listUserTrackEnrollments } from "../../../lib/tracks";
 import { getTrackGuidance, guidanceLevelChip, orderTracksByGuidance } from "../../../lib/trackGuidance";
+import { getServerLocale } from "../../../lib/serverLocale";
 import { listOwnProjects } from "../../../lib/userProjects";
 import { createClient } from "../../../utils/supabase/server";
 
@@ -71,7 +72,7 @@ export default async function DashboardHomePage() {
     recommendedTrack = recommendedResult.tracks?.[0] || null;
 
     if (!recommendedTrack) {
-      const publishedResult = await listPublishedTracks(supabase, { limit: 1 });
+      const publishedResult = await listPublishedTracks(supabase, { limit: 1, locale: await getServerLocale() });
       recommendedTrack = publishedResult.tracks?.[0] || null;
     }
   }
@@ -93,7 +94,8 @@ export default async function DashboardHomePage() {
 
   // Feuille de route conseillée : tous les parcours dans l'ordre recommandé,
   // annotés de l'état du membre (terminé / en cours / à découvrir).
-  const roadmapResult = await listPublishedTracks(supabase, { limit: 20 });
+  const locale = await getServerLocale();
+  const roadmapResult = await listPublishedTracks(supabase, { limit: 20, locale });
   const enrollmentByTrackId = new Map(enrolledTracks.map((entry) => [entry.trackId, entry]));
   const roadmap = orderTracksByGuidance(roadmapResult.tracks).map((item) => {
     const entry = enrollmentByTrackId.get(item.id) || null;

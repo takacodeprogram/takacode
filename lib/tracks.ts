@@ -222,24 +222,49 @@ export function normalizeTrackRow(row: unknown): Track | null {
 
 interface ListTracksOptions {
   limit?: number | null;
+  /**
+   * Langue du CONTENU des parcours. Les parcours ne sont pas des traductions :
+   * un parcours "en" a ses propres ressources et son propre angle.
+   * Omettre = tous les parcours (compatibilite ascendante).
+   */
+  locale?: string | null;
+}
+
+// La colonne locale arrive avec la migration 20260720000000. Tant qu'elle n'est
+// pas poussee, on retombe sur une requete sans filtre au lieu de tout casser.
+function isMissingLocaleColumn(error: { code?: string; message?: string } | null): boolean {
+  if (!error) return false;
+  const message = typeof error.message === "string" ? error.message.toLowerCase() : "";
+  return error.code === "42703" || message.includes("locale");
 }
 
 export async function listPublishedTracks(supabase: SupabaseClient, options: ListTracksOptions = {}): Promise<TracksResult> {
   const limit = Number.isFinite(Number(options.limit)) ? Number(options.limit) : null;
+  const locale = typeof options.locale === "string" && options.locale.trim() ? options.locale.trim() : null;
 
-  let query = supabase
-    .from("learning_tracks")
-    .select(TRACK_SELECT)
-    .eq("is_published", true)
-    .eq("is_active", true)
-    .order("sort_order", { ascending: true })
-    .order("created_at", { ascending: true });
+  function buildQuery(withLocale: boolean) {
+    let q = supabase
+      .from("learning_tracks")
+      .select(TRACK_SELECT)
+      .eq("is_published", true)
+      .eq("is_active", true)
+      .order("sort_order", { ascending: true })
+      .order("created_at", { ascending: true });
 
-  if (limit && limit > 0) {
-    query = query.limit(limit);
+    if (withLocale && locale) {
+      q = q.eq("locale", locale);
+    }
+    if (limit && limit > 0) {
+      q = q.limit(limit);
+    }
+    return q;
   }
 
-  const { data, error } = await query;
+  let { data, error } = await buildQuery(Boolean(locale));
+
+  if (error && locale && isMissingLocaleColumn(error)) {
+    ({ data, error } = await buildQuery(false));
+  }
 
   if (error) {
     if (isMissingSchemaError(error, TRACK_TABLES)) {

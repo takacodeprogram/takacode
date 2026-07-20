@@ -6,6 +6,7 @@ import { buildPageMetadata } from "../../lib/seo";
 import { createClient } from "../../utils/supabase/server";
 import { listPublishedTracks } from "../../lib/tracks";
 import { orderTracksByGuidance } from "../../lib/trackGuidance";
+import { getServerLocale } from "../../lib/serverLocale";
 import { buildTrackCompetencies, getLevelChipClass } from "../../lib/parcours";
 
 export const dynamic = "force-dynamic";
@@ -68,7 +69,10 @@ export default async function ParcoursPage() {
 
   if (!user) return <GuestCTA />;
 
-  const allTracksResult = await listPublishedTracks(supabase);
+  // Le contenu des parcours est localise : un membre en anglais voit les
+  // parcours ecrits en anglais (ressources et angle propres, pas une traduction).
+  const locale = await getServerLocale();
+  const allTracksResult = await listPublishedTracks(supabase, { locale });
   const allTracks = orderTracksByGuidance(allTracksResult.tracks);
   const schemaReady = allTracksResult.schemaReady;
   const hasError = Boolean(allTracksResult.error);

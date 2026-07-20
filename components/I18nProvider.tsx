@@ -60,6 +60,23 @@ export function updateHtmlLang(locale: Locale): void {
   document.documentElement.lang = locale;
 }
 
+// ─── Lecture du cookie (set via middleware) ──────────────────────
+
+export function readCookieLocale(): Locale | null {
+  if (typeof document === "undefined") return null;
+  const match = document.cookie.match(/(?:^|;\s*)takacode_locale=([^;]*)/);
+  if (match) {
+    const val = match[1] as Locale;
+    if (SUPPORTED_LOCALES.includes(val)) return val;
+  }
+  return null;
+}
+
+export function persistCookieLocale(locale: Locale): void {
+  if (typeof document === "undefined") return;
+  document.cookie = `takacode_locale=${locale};path=/;max-age=${60 * 60 * 24 * 365};sameSite=lax`;
+}
+
 // ─── Provider ────────────────────────────────────────────────────
 
 export function I18nProvider({ children }: { children: React.ReactNode }) {
@@ -68,7 +85,8 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
 
   // Initialize locale on mount (client-side only)
   useEffect(() => {
-    const initial = readStoredLocale();
+    const fromCookie = readCookieLocale();
+    const initial = fromCookie || readStoredLocale();
     setLocaleState(initial);
     updateHtmlLang(initial);
     setIsLoaded(true);
@@ -78,6 +96,7 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
     if (!SUPPORTED_LOCALES.includes(newLocale)) return;
     setLocaleState(newLocale);
     persistLocale(newLocale);
+    persistCookieLocale(newLocale);
     updateHtmlLang(newLocale);
   }, []);
 
