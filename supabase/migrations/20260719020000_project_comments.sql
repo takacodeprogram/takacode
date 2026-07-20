@@ -106,7 +106,11 @@ as $$
         'author', case when btrim(up.public_name) = '' then 'Membre anonyme' else up.public_name end,
         'author_avatar', up.avatar_url,
         'author_grade', up.grade
-      ) as item
+      ) as item,
+      -- Expose la date au niveau superieur : l'agregat externe trie dessus.
+      -- Sans cette colonne, "order by created_at" dans jsonb_agg echoue
+      -- (42703 : la sous-requete ne renvoyait que "item").
+      c.created_at
     from public.project_comments c
     join public.user_profiles up on up.id = c.user_id
     where c.project_id = p_project_id
@@ -128,6 +132,7 @@ as $$
 declare
   v_user_id uuid := auth.uid();
   v_result jsonb;
+  v_comment public.project_comments%rowtype;
 begin
   if v_user_id is null then
     return jsonb_build_object('error', 'Non authentifié');
@@ -148,23 +153,26 @@ begin
     return jsonb_build_object('error', 'Commentaire trop long (max 5000 caractères)');
   end if;
 
+  -- En PostgreSQL, RETURNING ne voit que la ligne inseree : impossible d'y
+  -- joindre user_profiles. On insere d'abord, puis on compose le JSON.
   insert into public.project_comments (project_id, user_id, content, parent_id)
   values (p_project_id, v_user_id, trim(p_content), p_parent_id)
-  returning
-    jsonb_build_object(
-      'id', id,
-      'project_id', project_id,
-      'user_id', user_id,
-      'content', content,
-      'parent_id', parent_id,
-      'is_flagged', is_flagged,
-      'is_hidden', is_hidden,
-      'created_at', created_at,
-      'updated_at', updated_at,
-      'author', case when btrim(up.public_name) = '' then 'Membre anonyme' else up.public_name end,
-      'author_avatar', up.avatar_url,
-      'author_grade', up.grade
-    )
+  returning * into v_comment;
+
+  select jsonb_build_object(
+    'id', v_comment.id,
+    'project_id', v_comment.project_id,
+    'user_id', v_comment.user_id,
+    'content', v_comment.content,
+    'parent_id', v_comment.parent_id,
+    'is_flagged', v_comment.is_flagged,
+    'is_hidden', v_comment.is_hidden,
+    'created_at', v_comment.created_at,
+    'updated_at', v_comment.updated_at,
+    'author', case when btrim(up.public_name) = '' then 'Membre anonyme' else up.public_name end,
+    'author_avatar', up.avatar_url,
+    'author_grade', up.grade
+  )
   into v_result
   from public.user_profiles up
   where up.id = v_user_id;
