@@ -4,18 +4,24 @@ import AuthOnboardingPage from "../../components/AuthOnboardingPage";
 import { redirectLocale } from "../../lib/redirectLocale";
 import { getUserAccessContext } from "../../lib/auth";
 import { isOnboardingCompleted } from "../../lib/onboarding";
+import { getLocale } from "../../lib/i18n";
+import { getServerLocale } from "../../lib/serverLocale";
 import { buildPageMetadata } from "../../lib/seo";
 import { createClient } from "../../utils/supabase/server";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-export const metadata = buildPageMetadata({
-  title: "Inscription",
-  description: "Crée ton compte TakaCode et commence à construire des projets réels avec des parcours guides.",
-  path: "/signup",
-  noIndex: true
-});
+export async function generateMetadata() {
+  const locale = await getServerLocale();
+  const { t } = getLocale(locale);
+  return buildPageMetadata({
+    title: t("auth.signUp"),
+    description: t("auth.signUpDesc"),
+    path: "/signup",
+    noIndex: true
+  });
+}
 
 async function redirectIfAuthenticated() {
   const cookieStore = await cookies();

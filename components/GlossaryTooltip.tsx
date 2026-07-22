@@ -1,87 +1,102 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useI18n } from "./I18nProvider";
 
-const GLOSSARY: Record<string, string> = {
-  token:
-    "Fragment de texte (mot, morceau de mot ou ponctuation) : l'unité de base que le LLM manipule à chaque étape.",
-  tokens:
-    "Fragments de texte (mots, morceaux de mots ou ponctuation) : les unités de base manipulées par le LLM.",
-  LLM:
-    "Large Language Model : modèle d'IA entraîné sur d'immenses corpus de textes. Il prédit le prochain token le plus probable.",
-  "context window":
-    "Quantité maximale de tokens que le modèle peut traiter en une seule fois : sa mémoire de travail.",
-  hallucination:
-    "Réponse plausible mais factuellement fausse générée par le modèle. Toujours vérifier les faits critiques.",
-  MCP:
-    "Model Context Protocol : standard ouvert pour connecter une IA à des outils externes (BDD, API, fichiers...).",
-  RAG:
-    "Retrieval-Augmented Generation : technique qui injecte des documents pertinents dans le prompt pour que l'IA réponde sur tes données.",
-  agent:
-    "LLM équipé d'outils (fichiers, terminal, web...) qui travaille en boucle : planifie, agit, observe et recommence.",
-  API:
-    "Interface de programmation qui permet à des applications de communiquer entre elles.",
-  "fine-tuning":
-    "Entraînement supplémentaire d'un modèle sur des données spécifiques pour le spécialiser.",
-  "few-shot":
-    "Technique de prompt : donner 2-3 exemples du résultat attendu pour calibrer le format et le style.",
-  "zero-shot":
-    "Technique de prompt : demander directement sans exemple.",
-  "chain of thought":
-    "Technique qui demande au modèle de raisonner étape par étape, ce qui réduit les erreurs sur les problèmes complexes.",
-  prompt:
-    "Instruction ou question donnée à l'IA. Structure, contexte et format déterminent la qualité de la réponse.",
-  "adresse IP":
-    "Étiquette numérique unique attribuée à chaque appareil connecté à un réseau (comme une adresse postale pour ton ordinateur).",
-  "IPv4":
-    "Version 4 du protocole IP : 4 nombres séparés par des points (ex: 192.168.1.1). Permet environ 4 milliards d'adresses.",
-  "IPv6":
-    "Version 6 du protocole IP : format hexadecimal long, créé pour remplacer IPv4 et résoudre la pénurie d'adresses.",
-  TCP:
-    "Transmission Control Protocol : protocole qui découpe les données en paquets, les envoie, et vérifie qu'ils arrivent dans le bon ordre.",
-  UDP:
-    "User Datagram Protocol : protocole plus rapide mais sans vérification, utilisé pour le streaming et les jeux en ligne.",
-  DNS:
-    "Domain Name System : l'annuaire d'Internet qui traduit les noms de domaine (google.com) en adresses IP.",
-  HTTP:
-    "HyperText Transfer Protocol : le protocole de base du web, définit comment le navigateur et le serveur communiquent.",
-  HTTPS:
-    "Version sécurisée de HTTP : les données sont chiffrées entre le navigateur et le serveur grâce à TLS/SSL.",
-  TLS:
-    "Transport Layer Security : protocole de chiffrement qui sécurise les communications sur Internet (le successeur de SSL).",
-  SSL:
-    "Secure Sockets Layer : ancien protocole de chiffrement remplacé par TLS, mais le terme est encore utilisé couramment.",
-  certificat:
-    "Document électronique qui vérifie l'identité d'un site web et permet le chiffrement HTTPS. Délivré par une autorité de certification.",
-  serveur:
-    "Ordinateur distant qui stocke et fournit des données (pages web, fichiers) aux clients qui les demandent.",
-  client:
-    "Appareil ou logiciel (navigateur, app) qui envoie des requêtes à un serveur pour obtenir des données.",
-  navigateur:
-    "Logiciel (Chrome, Firefox, Safari) qui affiche les pages web en interprétant le HTML, CSS et JavaScript.",
-  "nom de domaine":
-    "Adresse lisible d'un site web (ex: takacode.fr) qui pointe vers une adresse IP via le DNS.",
-  hebergement:
-    "Service qui stocke les fichiers de ton site web sur un serveur accessible 24h/24 sur Internet.",
-  URL:
-    "Uniform Resource Locator : l'adresse complète d'une ressource sur le web (ex: https://takacode.fr/parcours).",
-  paquet:
-    "Unité de données transmise sur un réseau. Les fichiers sont découpés en paquets avant d'être envoyés.",
-  routeur:
-    "Appareil qui achemine les paquets de données entre différents réseaux pour qu'ils arrivent à destination.",
-  "bande passante":
-    "Quantité de données maximale qui peut être transmise par seconde sur une connexion. Plus c'est haut, plus c'est rapide.",
-  ping:
-    "Temps de latence entre l'envoi d'une requête et la réception de la réponse. Mesure la réactivité de la connexion.",
-  parefeu:
-    "Firewall : système de sécurité qui filtre le trafic réseau pour bloquer les connexions non autorisées.",
-  proxy:
-    "Serveur intermédiaire entre le client et le serveur destination, utilisé pour l'anonymat ou le contournement.",
-  CDN:
-    "Content Delivery Network : réseau de serveurs distribués dans le monde pour livrer le contenu plus vite aux utilisateurs.",
-};
+function useGlossary(): Record<string, string> {
+  const { locale } = useI18n();
+  if (locale === "en") {
+    return {
+      token: "Text fragment (word, word piece, or punctuation): the basic unit the LLM processes at each step.",
+      tokens: "Text fragments (words, word pieces, or punctuation): the basic units processed by the LLM.",
+      LLM: "Large Language Model: AI model trained on vast text corpora. It predicts the most likely next token.",
+      "context window": "Maximum number of tokens the model can process at once: its working memory.",
+      hallucination: "Plausible but factually incorrect response generated by the model. Always verify critical facts.",
+      MCP: "Model Context Protocol: open standard to connect AI to external tools (DB, API, files...).",
+      RAG: "Retrieval-Augmented Generation: technique that injects relevant documents into the prompt so the AI answers based on your data.",
+      agent: "LLM equipped with tools (files, terminal, web...) that works in a loop: plan, act, observe, repeat.",
+      API: "Application Programming Interface that allows applications to communicate with each other.",
+      "fine-tuning": "Additional training of a model on specific data to specialize it.",
+      "few-shot": "Prompt technique: provide 2-3 examples of the expected output to calibrate format and style.",
+      "zero-shot": "Prompt technique: ask directly without examples.",
+      "chain of thought": "Technique that asks the model to reason step by step, reducing errors on complex problems.",
+      prompt: "Instruction or question given to the AI. Structure, context, and format determine response quality.",
+      "adresse IP": "Unique numeric label assigned to each device on a network (like a postal address for your computer).",
+      IPv4: "IP protocol version 4: 4 numbers separated by dots (e.g. 192.168.1.1). Supports about 4 billion addresses.",
+      IPv6: "IP protocol version 6: long hexadecimal format, created to replace IPv4 and solve address shortages.",
+      TCP: "Transmission Control Protocol: splits data into packets, sends them, and verifies they arrive in order.",
+      UDP: "User Datagram Protocol: faster but without verification, used for streaming and online gaming.",
+      DNS: "Domain Name System: the Internet's directory that translates domain names (google.com) into IP addresses.",
+      HTTP: "HyperText Transfer Protocol: the basic web protocol that defines how browsers and servers communicate.",
+      HTTPS: "Secure version of HTTP: data is encrypted between browser and server using TLS/SSL.",
+      TLS: "Transport Layer Security: encryption protocol that secures communications on the Internet (SSL's successor).",
+      SSL: "Secure Sockets Layer: older encryption protocol replaced by TLS, but the term is still commonly used.",
+      certificat: "Electronic document verifying a website's identity and enabling HTTPS encryption. Issued by a certificate authority.",
+      serveur: "Remote computer that stores and delivers data (web pages, files) to requesting clients.",
+      client: "Device or software (browser, app) that sends requests to a server to retrieve data.",
+      navigateur: "Software (Chrome, Firefox, Safari) that displays web pages by interpreting HTML, CSS, and JavaScript.",
+      "nom de domaine": "Readable website address (e.g. takacode.fr) that points to an IP address via DNS.",
+      hebergement: "Service that stores your website files on a server accessible 24/7 on the Internet.",
+      URL: "Uniform Resource Locator: the full address of a web resource (e.g. https://takacode.fr/tracks).",
+      paquet: "Data unit transmitted over a network. Files are split into packets before sending.",
+      routeur: "Device that routes data packets between different networks to reach their destination.",
+      "bande passante": "Maximum data that can be transmitted per second over a connection. Higher is faster.",
+      ping: "Latency time between sending a request and receiving the response. Measures connection responsiveness.",
+      parefeu: "Firewall: security system that filters network traffic to block unauthorized connections.",
+      proxy: "Intermediate server between client and destination server, used for anonymity or bypassing restrictions.",
+      CDN: "Content Delivery Network: distributed server network that delivers content faster to users worldwide.",
+    };
+  }
+  return {
+    token: "Fragment de texte (mot, morceau de mot ou ponctuation) : l'unité de base que le LLM manipule à chaque étape.",
+    tokens: "Fragments de texte (mots, morceaux de mots ou ponctuation) : les unités de base manipulées par le LLM.",
+    LLM: "Large Language Model : modèle d'IA entraîné sur d'immenses corpus de textes. Il prédit le prochain token le plus probable.",
+    "context window": "Quantité maximale de tokens que le modèle peut traiter en une seule fois : sa mémoire de travail.",
+    hallucination: "Réponse plausible mais factuellement fausse générée par le modèle. Toujours vérifier les faits critiques.",
+    MCP: "Model Context Protocol : standard ouvert pour connecter une IA à des outils externes (BDD, API, fichiers...).",
+    RAG: "Retrieval-Augmented Generation : technique qui injecte des documents pertinents dans le prompt pour que l'IA réponde sur tes données.",
+    agent: "LLM équipé d'outils (fichiers, terminal, web...) qui travaille en boucle : planifie, agit, observe et recommence.",
+    API: "Interface de programmation qui permet à des applications de communiquer entre elles.",
+    "fine-tuning": "Entraînement supplémentaire d'un modèle sur des données spécifiques pour le spécialiser.",
+    "few-shot": "Technique de prompt : donner 2-3 exemples du résultat attendu pour calibrer le format et le style.",
+    "zero-shot": "Technique de prompt : demander directement sans exemple.",
+    "chain of thought": "Technique qui demande au modèle de raisonner étape par étape, ce qui réduit les erreurs sur les problèmes complexes.",
+    prompt: "Instruction ou question donnée à l'IA. Structure, contexte et format déterminent la qualité de la réponse.",
+    "adresse IP": "Étiquette numérique unique attribuée à chaque appareil connecté à un réseau (comme une adresse postale pour ton ordinateur).",
+    IPv4: "Version 4 du protocole IP : 4 nombres séparés par des points (ex: 192.168.1.1). Permet environ 4 milliards d'adresses.",
+    IPv6: "Version 6 du protocole IP : format hexadecimal long, créé pour remplacer IPv4 et résoudre la pénurie d'adresses.",
+    TCP: "Transmission Control Protocol : protocole qui découpe les données en paquets, les envoie, et vérifie qu'ils arrivent dans le bon ordre.",
+    UDP: "User Datagram Protocol : protocole plus rapide mais sans vérification, utilisé pour le streaming et les jeux en ligne.",
+    DNS: "Domain Name System : l'annuaire d'Internet qui traduit les noms de domaine (google.com) en adresses IP.",
+    HTTP: "HyperText Transfer Protocol : le protocole de base du web, définit comment le navigateur et le serveur communiquent.",
+    HTTPS: "Version sécurisée de HTTP : les données sont chiffrées entre le navigateur et le serveur grâce à TLS/SSL.",
+    TLS: "Transport Layer Security : protocole de chiffrement qui sécurise les communications sur Internet (le successeur de SSL).",
+    SSL: "Secure Sockets Layer : ancien protocole de chiffrement remplacé par TLS, mais le terme est encore utilisé couramment.",
+    certificat: "Document électronique qui vérifie l'identité d'un site web et permet le chiffrement HTTPS. Délivré par une autorité de certification.",
+    serveur: "Ordinateur distant qui stocke et fournit des données (pages web, fichiers) aux clients qui les demandent.",
+    client: "Appareil ou logiciel (navigateur, app) qui envoie des requêtes à un serveur pour obtenir des données.",
+    navigateur: "Logiciel (Chrome, Firefox, Safari) qui affiche les pages web en interprétant le HTML, CSS et JavaScript.",
+    "nom de domaine": "Adresse lisible d'un site web (ex: takacode.fr) qui pointe vers une adresse IP via le DNS.",
+    hebergement: "Service qui stocke les fichiers de ton site web sur un serveur accessible 24h/24 sur Internet.",
+    URL: "Uniform Resource Locator : l'adresse complète d'une ressource sur le web (ex: https://takacode.fr/parcours).",
+    paquet: "Unité de données transmise sur un réseau. Les fichiers sont découpés en paquets avant d'être envoyés.",
+    routeur: "Appareil qui achemine les paquets de données entre différents réseaux pour qu'ils arrivent à destination.",
+    "bande passante": "Quantité de données maximale qui peut être transmise par seconde sur une connexion. Plus c'est haut, plus c'est rapide.",
+    ping: "Temps de latence entre l'envoi d'une requête et la réception de la réponse. Mesure la réactivité de la connexion.",
+    parefeu: "Firewall : système de sécurité qui filtre le trafic réseau pour bloquer les connexions non autorisées.",
+    proxy: "Serveur intermédiaire entre le client et le serveur destination, utilisé pour l'anonymat ou le contournement.",
+    CDN: "Content Delivery Network : réseau de serveurs distribués dans le monde pour livrer le contenu plus vite aux utilisateurs.",
+  };
+}
 
-const TERMS = Object.keys(GLOSSARY).sort((a, b) => b.length - a.length);
+const GLOSSARY_KEYS = [
+  "token", "tokens", "LLM", "context window", "hallucination", "MCP", "RAG", "agent", "API",
+  "fine-tuning", "few-shot", "zero-shot", "chain of thought", "prompt",
+  "adresse IP", "IPv4", "IPv6", "TCP", "UDP", "DNS", "HTTP", "HTTPS", "TLS", "SSL",
+  "certificat", "serveur", "client", "navigateur", "nom de domaine", "hebergement",
+  "URL", "paquet", "routeur", "bande passante", "ping", "parefeu", "proxy", "CDN"
+];
+const TERMS = [...GLOSSARY_KEYS].sort((a, b) => b.length - a.length);
 const ESCAPED = TERMS.map((t) =>
   t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
 );
@@ -93,6 +108,7 @@ interface GlossaryTooltipProps {
 function GlossaryTooltip({ term }: GlossaryTooltipProps) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLSpanElement>(null);
+  const glossary = useGlossary();
 
   useEffect(() => {
     if (!open) return;
@@ -103,7 +119,7 @@ function GlossaryTooltip({ term }: GlossaryTooltipProps) {
     return () => document.removeEventListener("mousedown", onDocClick);
   }, [open]);
 
-  const definition = GLOSSARY[term];
+  const definition = glossary[term];
   if (!definition) return <>{term}</>;
 
   return (

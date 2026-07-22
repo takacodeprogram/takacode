@@ -4,18 +4,24 @@ import AuthOnboardingPage from "../../components/AuthOnboardingPage";
 import { redirectLocale } from "../../lib/redirectLocale";
 import { getUserAccessContext } from "../../lib/auth";
 import { isOnboardingCompleted } from "../../lib/onboarding";
+import { getLocale } from "../../lib/i18n";
+import { getServerLocale } from "../../lib/serverLocale";
 import { buildPageMetadata } from "../../lib/seo";
 import { createClient } from "../../utils/supabase/server";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-export const metadata = buildPageMetadata({
-  title: "Connexion",
-  description: "Reconnecte-toi a ton espace TakaCode pour reprendre tes projets, tes parcours et tes sessions live.",
-  path: "/signin",
-  noIndex: true
-});
+export async function generateMetadata() {
+  const locale = await getServerLocale();
+  const { t } = getLocale(locale);
+  return buildPageMetadata({
+    title: t("auth.signIn"),
+    description: t("auth.signInDesc"),
+    path: "/signin",
+    noIndex: true
+  });
+}
 
 async function redirectIfAuthenticated() {
   const cookieStore = await cookies();

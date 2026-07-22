@@ -36,7 +36,7 @@ interface Recommendation {
 }
 
 interface StepMeta {
-  label: string;
+  labelKey: string;
   icon: string;
   accent: string;
 }
@@ -61,13 +61,13 @@ function clampStep(value: number): number {
 }
 
 const STEP_META: Record<number, StepMeta> = {
-  1: { label: "Bienvenue", icon: "lucide:sparkles", accent: "#4F8EF7" },
-  2: { label: "Objectif", icon: "lucide:target", accent: "#22D3EE" },
-  3: { label: "Niveau", icon: "lucide:layers-3", accent: "#9B6DFF" },
-  4: { label: "Projet", icon: "lucide:lightbulb", accent: "#F59E0B" },
-  5: { label: "Outils", icon: "lucide:wrench", accent: "#10B981" },
-  6: { label: "Rythme", icon: "lucide:clock-3", accent: "#38BDF8" },
-  7: { label: "Résultat", icon: "lucide:rocket", accent: "#4F8EF7" }
+  1: { labelKey: "onboarding.welcomeSection.label", icon: "lucide:sparkles", accent: "#4F8EF7" },
+  2: { labelKey: "onboarding.goalSection.label", icon: "lucide:target", accent: "#22D3EE" },
+  3: { labelKey: "onboarding.levelSection.label", icon: "lucide:layers-3", accent: "#9B6DFF" },
+  4: { labelKey: "onboarding.projectSection.label", icon: "lucide:lightbulb", accent: "#F59E0B" },
+  5: { labelKey: "onboarding.toolsSection.label", icon: "lucide:wrench", accent: "#10B981" },
+  6: { labelKey: "onboarding.rhythmSection.label", icon: "lucide:clock-3", accent: "#38BDF8" },
+  7: { labelKey: "onboarding.resultSection.label", icon: "lucide:rocket", accent: "#4F8EF7" }
 };
 
 const LEVEL_VISUALS: Record<string, Visual> = {
@@ -916,12 +916,12 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
             <div className="mt-8 pt-6 border-t border-white/[0.05] flex items-center justify-between gap-3">
               {step > 1 ? (
                 <button type="button" onClick={handleBack} className="btn-secondary" disabled={saving}>
-                  Retour
+                  {t("onboarding.resultSection.back")}
                 </button>
               ) : <span />}
 
               <button type="button" onClick={handleNext} className="btn-primary" disabled={!canContinue || saving}>
-                {step === 1 ? "Commencer" : "Continuer"}
+                {step === 1 ? t("onboarding.resultSection.start") : t("onboarding.resultSection.continue")}
               </button>
             </div>
           ) : (
@@ -932,7 +932,7 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
                 onClick={() => completeOnboarding("/tracks")}
                 disabled={saving}
               >
-                {saving ? "Chargement..." : "Explorer la plateforme"}
+                {saving ? t("onboarding.resultSection.saveLoading") : t("onboarding.resultSection.explorePlatform")}
               </button>
               <button
                 type="button"
@@ -940,7 +940,7 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
                 onClick={() => completeOnboarding("/dashboard")}
                 disabled={saving}
               >
-                {saving ? "Chargement..." : "Commencer mon parcours"}
+                {saving ? t("onboarding.resultSection.saveLoading") : t("onboarding.resultSection.startTrack")}
               </button>
             </div>
           )}

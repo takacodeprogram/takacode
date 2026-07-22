@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { createClient } from "../utils/supabase/client";
+import { useI18n } from "./I18nProvider";
 
 interface SignOutButtonProps {
   className?: string;
@@ -10,6 +11,7 @@ interface SignOutButtonProps {
 }
 
 export default function SignOutButton({ className, style, children }: SignOutButtonProps) {
+  const { t } = useI18n();
   const router = useRouter();
 
   async function handleSignOut() {
@@ -20,7 +22,7 @@ export default function SignOutButton({ className, style, children }: SignOutBut
 
   return (
     <button type="button" onClick={handleSignOut} className={className} style={style}>
-      {children || "Se déconnecter"}
+      {children || t("navbar.seDeconnecter")}
     </button>
   );
 }

@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { createClient } from "../utils/supabase/client";
+import { useI18n } from "./I18nProvider";
 import { useToast } from "./Toast";
 
 interface User {
@@ -61,6 +62,7 @@ function formatDate(value: string | undefined): string {
 }
 
 export default function AdminUsersManager({ initialUsers = [], currentUserId = "" }: AdminUsersManagerProps) {
+  const { t } = useI18n();
   const supabase = useMemo(() => createClient(), []);
   const { toast } = useToast();
   const [users, setUsers] = useState<User[]>(Array.isArray(initialUsers) ? initialUsers : []);
@@ -152,11 +154,11 @@ export default function AdminUsersManager({ initialUsers = [], currentUserId = "
         <table className="w-full min-w-[900px] border-collapse">
           <thead>
             <tr className="text-left text-[11px] uppercase tracking-widest text-[#666] border-b border-white/[0.06]">
-              <th className="py-3 pr-4">Utilisateur</th>
-              <th className="py-3 pr-4">Rôle</th>
-              <th className="py-3 pr-4">Points</th>
-              <th className="py-3 pr-4">Grade</th>
-              <th className="py-3 pr-4">Inscription</th>
+              <th className="py-3 pr-4">{t("adminUsers.user")}</th>
+              <th className="py-3 pr-4">{t("adminUsers.role")}</th>
+              <th className="py-3 pr-4">{t("adminUsers.points")}</th>
+              <th className="py-3 pr-4">{t("adminUsers.grade")}</th>
+              <th className="py-3 pr-4">{t("adminUsers.registration")}</th>
             </tr>
           </thead>
           <tbody>
@@ -170,9 +172,9 @@ export default function AdminUsersManager({ initialUsers = [], currentUserId = "
                   <td className="py-3 pr-4 font-body-readable">
                     <div className="font-semibold text-white flex items-center gap-2">
                       {resolveUserDisplayName(user)}
-                      {isSelf ? <span className="text-[9px] px-1.5 py-0.5 rounded-full border border-blue-400/30 bg-blue-500/10 text-blue-200">toi</span> : null}
+                      {isSelf ? <span className="text-[9px] px-1.5 py-0.5 rounded-full border border-blue-400/30 bg-blue-500/10 text-blue-200">{t("adminUsers.yourself")}</span> : null}
                     </div>
-                    <div className="text-[11px] text-[#8b8b8b]">{user.email || "Email non disponible"}</div>
+                    <div className="text-[11px] text-[#8b8b8b]">{user.email || t("adminUsers.emailNotAvailable")}</div>
                     <div className="text-[10px] text-[#575757] font-mono mt-0.5">{user.referral_code || shortId(user.id)}</div>
                   </td>
                   <td className="py-3 pr-4">

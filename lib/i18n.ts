@@ -47,8 +47,51 @@ const FR: Translations = {
     commencer: "Commencer",
     tableauDeBord: "Tableau de bord",
     monProfil: "Mon profil",
+    proposerParcours: "Proposer un parcours",
+    centreAdmin: "Centre d'administration",
     seDeconnecter: "Se déconnecter",
-    ouvrirMenu: "Ouvrir le menu"
+    ouvrirMenu: "Ouvrir le menu",
+    member: "Membre"
+  },
+  referral: {
+    copy: "Copier",
+    copied: "Copié !",
+    description: "Chaque inscription via ton lien te fait gagner +100 points.",
+    linkLabel: "Ton lien de parrainage"
+  },
+  glossary: {
+    token: "Fragment de texte (mot, morceau de mot ou ponctuation) : l'unité de base que le LLM manipule à chaque étape.",
+    tokens: "Fragments de texte (mots, morceaux de mots ou ponctuation) : les unités de base manipulées par le LLM.",
+    LLM: "Large Language Model : modèle d'IA entraîné sur d'immenses corpus de textes. Il prédit le prochain token le plus probable.",
+    contextWindow: "Quantité maximale de tokens que le modèle peut traiter en une seule fois : sa mémoire de travail.",
+    hallucination: "Réponse plausible mais factuellement fausse générée par le modèle. Toujours vérifier les faits critiques.",
+    mcp: "Model Context Protocol : standard ouvert pour connecter une IA à des outils externes (BDD, API, fichiers...).",
+    rag: "Retrieval-Augmented Generation : technique qui injecte des documents pertinents dans le prompt pour que l'IA réponde sur tes données.",
+    agent: "LLM équipé d'outils (fichiers, terminal, web...) qui travaille en boucle : planifie, agit, observe et recommence.",
+    api: "Interface de programmation qui permet à des applications de communiquer entre elles.",
+    fineTuning: "Entraînement supplémentaire d'un modèle sur des données spécifiques pour le spécialiser.",
+    fewShot: "Technique de prompt : donner 2-3 exemples du résultat attendu pour calibrer le format et le style.",
+    zeroShot: "Technique de prompt : demander directement sans exemple.",
+    chainOfThought: "Technique de prompt : demander au modèle d'expliquer son raisonnement étape par étape avant la réponse finale.",
+    systemPrompt: "Instruction de base donnée au LLM en début de contexte, qui définit son rôle, son ton et ses contraintes pour toute la conversation.",
+    temperature: "Paramètre qui contrôle la créativité du modèle (0 = déterministe, 1 = très créatif).",
+    topP: "Nucleus sampling : le modèle ne considère que les tokens dont la probabilité cumulée atteint le seuil P. Alternative à la température.",
+    embedding: "Transformation d'un texte en vecteur de nombres réels qui représente son sens. Deux textes proches ont des vecteurs proches.",
+    RAG: "Retrieval-Augmented Generation : technique qui injecte des documents pertinents dans le prompt pour que l'IA réponde sur tes données."
+  },
+  projectForm: {
+    titleRequired: "Le titre du projet est obligatoire.",
+    trackLinked: "Parcours accélérateur lié : tu y es inscrit.",
+    saved: "Projet enregistré.",
+    deleted: "Projet supprimé.",
+    fileTooLarge: "Le fichier dépasse 5 Mo.",
+    fileUploaded: "Fichier uploadé.",
+    uploadFailed: "Échec de l'upload.",
+    lesson: {
+      fileTooLarge: "Le fichier dépasse 5 Mo.",
+      uploaded: "Fichier uploadé.",
+      uploadFailed: "Échec de l'upload."
+    }
   },
   home: {
     hero: {
@@ -960,7 +1003,9 @@ const FR: Translations = {
     resetPasswordUpdateError: "Impossible de mettre à jour le mot de passe.",
     resetPasswordNoSession: "Ouvre cette page depuis le lien reçu par email pour choisir ton nouveau mot de passe.",
     resetPasswordSessionError: "Impossible de vérifier la session. Recharge la page depuis le lien reçu par email.",
-    resetPasswordNetworkError: "Problème réseau. Réessaie dans un instant."
+    resetPasswordNetworkError: "Problème réseau. Réessaie dans un instant.",
+    signUpDesc: "Crée ton compte TakaCode et commence à construire des projets réels avec des parcours guides.",
+    signInDesc: "Reconnecte-toi à ton espace TakaCode pour reprendre tes projets, tes parcours et tes sessions live."
   },
   onboarding: {
     backToSite: "Retour au site",
@@ -1477,7 +1522,14 @@ const FR: Translations = {
     title: "UTILISATEURS",
     subtitle: "{n} compte{s}",
     tableMissing: "Table user_profiles manquante. Lance d'abord les scripts SQL d'initialisation.",
-    loadError: "Erreur de chargement des utilisateurs."
+    loadError: "Erreur de chargement des utilisateurs.",
+    user: "Utilisateur",
+    role: "Rôle",
+    points: "Points",
+    grade: "Grade",
+    registration: "Inscription",
+    emailNotAvailable: "Email non disponible",
+    yourself: "toi"
   },
   adminTracks: {
     metaTitle: "Admin - Parcours",
@@ -1789,8 +1841,51 @@ const EN: Translations = {
     commencer: "Get started",
     tableauDeBord: "Dashboard",
     monProfil: "My profile",
+    proposerParcours: "Propose a track",
+    centreAdmin: "Admin center",
     seDeconnecter: "Sign out",
-    ouvrirMenu: "Open menu"
+    ouvrirMenu: "Open menu",
+    member: "Member"
+  },
+  referral: {
+    copy: "Copy",
+    copied: "Copied!",
+    description: "Each referral via your link earns you +100 points.",
+    linkLabel: "Your referral link"
+  },
+  glossary: {
+    token: "Text fragment (word, word piece, or punctuation): the basic unit the LLM processes at each step.",
+    tokens: "Text fragments (words, word pieces, or punctuation): the basic units processed by the LLM.",
+    LLM: "Large Language Model: AI model trained on vast text corpora. It predicts the most likely next token.",
+    contextWindow: "Maximum number of tokens the model can process at once: its working memory.",
+    hallucination: "Plausible but factually incorrect response generated by the model. Always verify critical facts.",
+    mcp: "Model Context Protocol: open standard to connect AI to external tools (DB, API, files...).",
+    rag: "Retrieval-Augmented Generation: technique that injects relevant documents into the prompt so the AI answers based on your data.",
+    agent: "LLM equipped with tools (files, terminal, web...) that works in a loop: plan, act, observe, repeat.",
+    api: "Application Programming Interface that allows applications to communicate with each other.",
+    fineTuning: "Additional training of a model on specific data to specialize it.",
+    fewShot: "Prompt technique: provide 2-3 examples of the expected output to calibrate format and style.",
+    zeroShot: "Prompt technique: ask directly without examples.",
+    chainOfThought: "Prompt technique: ask the model to explain its reasoning step by step before the final answer.",
+    systemPrompt: "Base instruction given to the LLM at the start of context, defining its role, tone, and constraints for the entire conversation.",
+    temperature: "Parameter controlling model creativity (0 = deterministic, 1 = very creative).",
+    topP: "Nucleus sampling: the model only considers tokens whose cumulative probability reaches threshold P. Alternative to temperature.",
+    embedding: "Transformation of text into a vector of real numbers representing its meaning. Similar texts have similar vectors.",
+    RAG: "Retrieval-Augmented Generation: technique that injects relevant documents into the prompt so the AI answers based on your data."
+  },
+  projectForm: {
+    titleRequired: "Project title is required.",
+    trackLinked: "Accelerator track linked: you are enrolled.",
+    saved: "Project saved.",
+    deleted: "Project deleted.",
+    fileTooLarge: "File exceeds 5 MB.",
+    fileUploaded: "File uploaded.",
+    uploadFailed: "Upload failed.",
+    lesson: {
+      fileTooLarge: "File exceeds 5 MB.",
+      uploaded: "File uploaded.",
+      uploadFailed: "Upload failed."
+    }
   },
   home: {
     hero: {
@@ -2702,7 +2797,9 @@ const EN: Translations = {
     resetPasswordUpdateError: "Unable to update the password.",
     resetPasswordNoSession: "Open this page from the link you received by email to choose your new password.",
     resetPasswordSessionError: "Unable to verify session. Reload the page from the link you received by email.",
-    resetPasswordNetworkError: "Network error. Try again shortly."
+    resetPasswordNetworkError: "Network error. Try again shortly.",
+    signUpDesc: "Create your TakaCode account and start building real projects with guided tracks.",
+    signInDesc: "Sign back into your TakaCode space to resume your projects, tracks, and live sessions."
   },
   onboarding: {
     backToSite: "Back to site",
@@ -3219,7 +3316,14 @@ const EN: Translations = {
     title: "USERS",
     subtitle: "{n} user{s}",
     tableMissing: "Missing user_profiles table. Run the initialization SQL scripts first.",
-    loadError: "Error loading users."
+    loadError: "Error loading users.",
+    user: "User",
+    role: "Role",
+    points: "Points",
+    grade: "Grade",
+    registration: "Registration",
+    emailNotAvailable: "Email not available",
+    yourself: "you"
   },
   adminTracks: {
     metaTitle: "Admin - Tracks",

@@ -10,6 +10,7 @@ import FormatPicker from "../components/FormatPicker";
 import RichTextRenderer from "../components/RichTextRenderer";
 import { playSuccess, playPop } from "../components/effects/sound";
 import { useToast } from "./Toast";
+import { useI18n } from "./I18nProvider";
 import type { ProjectStatus } from "../lib/userProjects";
 import type { StarterTemplate } from "../lib/starterTemplates";
 
@@ -62,6 +63,7 @@ function iconify(icon: string) {
 }
 
 export default function ProjectForm({ userId, tracks = [], project = null }: ProjectFormProps) {
+  const { t } = useI18n();
   const router = useRouter();
   const supabase = useMemo(() => createClient(), []);
   const { toast } = useToast();
@@ -153,7 +155,7 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
 
     if (!form.title.trim()) {
       setError("Le titre du projet est obligatoire.");
-      toast("Le titre du projet est obligatoire.", "error");
+      toast(t("projectForm.titleRequired"), "error");
       return;
     }
 
@@ -180,11 +182,11 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
       }
       if (enrollNeeded) {
         await ensureUserTrackEnrollment(supabase, userId, payload.track_id as string);
-        toast("Parcours accelerateur lie : tu y es inscrit.", "success");
+        toast(t("projectForm.trackLinked"), "success");
       }
       setSaving(false);
       setMessage("Projet enregistre.");
-      toast("Projet enregistre.", "success");
+      toast(t("projectForm.saved"), "success");
       playSuccess();
       router.refresh();
       return;
@@ -218,7 +220,7 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
       toast(deleteError.message, "error");
       return;
     }
-    toast("Projet supprime.", "success");
+      toast(t("projectForm.deleted"), "success");
     router.push("/dashboard/projects");
   }
 

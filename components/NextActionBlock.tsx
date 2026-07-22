@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useI18n } from "./I18nProvider";
 
 interface NextActionProject {
   id: string;
@@ -19,15 +22,17 @@ function iconify(icon: string) {
 }
 
 export default function NextActionBlock({ project, hasEnrollment, hasOnboarding }: NextActionBlockProps) {
+  const { t } = useI18n();
+
   if (!hasOnboarding) {
     return (
       <ActionCard
         icon="lucide:compass"
         accent="#22D3EE"
-        title="Termine ton onboarding"
-        description="Réponds a quelques questions pour qu'on personnalise ton expérience."
+        title={t("nextAction.noOnboardingTitle")}
+        description={t("nextAction.noOnboardingDesc")}
         href="/onboarding"
-        label="Continuer l'onboarding"
+        label={t("nextAction.noOnboardingLabel")}
       />
     );
   }
@@ -37,10 +42,10 @@ export default function NextActionBlock({ project, hasEnrollment, hasOnboarding 
       <ActionCard
         icon="lucide:map"
         accent="#4F8EF7"
-        title="Choisis ton premier parcours"
-        description="Sélectionne un parcours adapte a ton objectif pour commencer à construire."
+        title={t("nextAction.noTrackTitle")}
+        description={t("nextAction.noTrackDesc")}
         href="/tracks"
-        label="Voir les parcours"
+        label={t("nextAction.noTrackLabel")}
       />
     );
   }
@@ -50,10 +55,10 @@ export default function NextActionBlock({ project, hasEnrollment, hasOnboarding 
       <ActionCard
         icon="lucide:folder-code"
         accent="#9B6DFF"
-        title="Cree ton projet principal"
-        description="Définit le projet que tu veux construire. Il servira de fil rouge a tes parcours."
+        title={t("nextAction.noProjectTitle")}
+        description={t("nextAction.noProjectDesc")}
         href="/dashboard/projects/new"
-        label="Créer mon projet"
+        label={t("nextAction.noProjectLabel")}
       />
     );
   }
@@ -63,10 +68,10 @@ export default function NextActionBlock({ project, hasEnrollment, hasOnboarding 
       <ActionCard
         icon="lucide:pencil-line"
         accent="#F59E0B"
-        title="Finalise les details de ton projet"
-        description="Ajoute une description, un statut et une deadline pour lancer ton projet."
+        title={t("nextAction.ideaTitle")}
+        description={t("nextAction.ideaDesc")}
         href={`/dashboard/projects/${project.id}`}
-        label="Éditer mon projet"
+        label={t("nextAction.ideaLabel")}
       />
     );
   }
@@ -76,10 +81,10 @@ export default function NextActionBlock({ project, hasEnrollment, hasOnboarding 
       <ActionCard
         icon="lucide:github"
         accent="#22D3EE"
-        title="Connecte ton depot GitHub"
-        description="Héberge ton code sur GitHub pour le déployer facilement et suivre les versions."
+        title={t("nextAction.noRepoTitle")}
+        description={t("nextAction.noRepoDesc")}
         href={`/dashboard/projects/${project.id}`}
-        label="Ajouter le dépôt"
+        label={t("nextAction.noRepoLabel")}
       />
     );
   }
@@ -89,10 +94,10 @@ export default function NextActionBlock({ project, hasEnrollment, hasOnboarding 
       <ActionCard
         icon="lucide:rocket"
         accent="#10B981"
-        title="Deploie ton projet en ligne"
-        description="Publie ton projet avec Vercel ou Netlify pour le rendre accessible au monde entier."
+        title={t("nextAction.noLiveTitle")}
+        description={t("nextAction.noLiveDesc")}
         href={`/dashboard/projects/${project.id}`}
-        label="Déployer mon projet"
+        label={t("nextAction.noLiveLabel")}
       />
     );
   }
@@ -101,10 +106,10 @@ export default function NextActionBlock({ project, hasEnrollment, hasOnboarding 
     <ActionCard
       icon="lucide:share-2"
       accent="#38BDF8"
-      title="Partage ton projet"
-      description="Ton projet est en ligne ! Montre-le a la communauté et ajoute-le a ton portfolio."
+      title={t("nextAction.doneTitle")}
+      description={t("nextAction.doneDesc")}
       href={`/dashboard/projects/${project.id}`}
-      label="Partager mon projet"
+      label={t("nextAction.doneLabel")}
     />
   );
 }
@@ -124,6 +129,7 @@ function ActionCard({
   href: string;
   label: string;
 }) {
+  const { t } = useI18n();
   return (
     <div
       className="rounded-2xl border p-5"
@@ -143,7 +149,7 @@ function ActionCard({
           {iconify(iconName)}
         </div>
         <div>
-          <div className="font-venite text-[10px] tracking-widest text-[#888] uppercase">Prochaine action</div>
+          <div className="font-venite text-[10px] tracking-widest text-[#888] uppercase">{t("nextAction.label")}</div>
           <h3 className="font-venite-italic text-[14px] text-white leading-tight">{title}</h3>
         </div>
       </div>

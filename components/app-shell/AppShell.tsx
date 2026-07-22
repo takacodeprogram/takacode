@@ -15,6 +15,7 @@ import ReleaseBanner from "../ReleaseBanner";
 import { ADMIN_AREA_LINKS, ADMIN_ENTRY_LINK, MEMBER_NAV, MENTOR_LINK, isAdminAreaPath, isSidebarLinkActive, isNavGroup } from "./appNav";
 import type { NavItem, NavLink } from "./appNav";
 import SignOutButton from "../SignOutButton";
+import { useI18n } from "../I18nProvider";
 import { ToastProvider } from "../Toast";
 
 interface User {
@@ -74,6 +75,7 @@ function SidebarLink({ link, pathname, onNavigate }: { link: NavLink; pathname: 
 }
 
 export default function AppShell({ user, children }: AppShellProps) {
+  const { t } = useI18n();
   const pathname = usePathname();
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
@@ -82,7 +84,7 @@ export default function AppShell({ user, children }: AppShellProps) {
   useSessionTracker();
   useLiveRefresh();
 
-  const displayName = user?.displayName || "Membre";
+  const displayName = user?.displayName || t("navbar.member");
   const email = user?.email || "membre@takacode.app";
   const role = (user?.role || "user").toLowerCase();
   const roleLabel = role.toUpperCase();
@@ -302,12 +304,12 @@ export default function AppShell({ user, children }: AppShellProps) {
                     role="menuitem"
                   >
                     <iconify-icon icon="lucide:shield-check" style={{ fontSize: "15px", color: "#89c7ff" }} />
-                    Centre admin
+                    {t("navbar.centreAdmin")}
                   </L>
                 ) : null}
                 <SignOutButton className="w-full flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-red-400/80 hover:text-red-400 hover:bg-red-400/5 transition-colors mt-1 pt-1 border-t border-white/[0.06]">
                   <iconify-icon icon="lucide:log-out" style={{ fontSize: "15px" }} />
-                  Se déconnecter
+                  {t("navbar.seDeconnecter")}
                 </SignOutButton>
               </div>
             ) : null}

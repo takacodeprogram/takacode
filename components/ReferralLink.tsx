@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useI18n } from "./I18nProvider";
 
 interface Props {
   code?: string;
@@ -8,6 +9,7 @@ interface Props {
 }
 
 export default function ReferralLink({ code = "", baseUrl = "" }: Props) {
+  const { t } = useI18n();
   const [copied, setCopied] = useState(false);
 
   const normalizedCode = String(code || "").trim().toUpperCase();
@@ -46,11 +48,11 @@ export default function ReferralLink({ code = "", baseUrl = "" }: Props) {
           style={{ padding: "9px 14px" }}
         >
           <iconify-icon icon={copied ? "lucide:check" : "lucide:copy"} style={{ fontSize: "13px" }} />
-          {copied ? "Copie !" : "Copier"}
+          {copied ? t("referral.copied") : t("referral.copy")}
         </button>
       </div>
       <div className="text-[11px] text-blue-100/80 font-body-readable mt-2">
-        Chaque inscription via ton lien te fait gagner <span className="font-semibold text-white">+100 points</span>.
+        {t("referral.description")}
       </div>
     </article>
   );

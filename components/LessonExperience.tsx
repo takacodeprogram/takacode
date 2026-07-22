@@ -10,6 +10,7 @@ import { GlossaryText } from "./GlossaryTooltip";
 import { playPop } from "./effects/sound";
 import CodeEditor from "./CodeEditor";
 import { useToast } from "./Toast";
+import { useI18n } from "./I18nProvider";
 
 interface LessonQuizQuestion {
   question: string;
@@ -171,6 +172,7 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
 }
 
 export default function LessonExperience({ lesson, trackSlug, previousLessonSlug, nextLessonSlug, nextLessonTitle, projectTitle, projectId }: Props) {
+  const { t } = useI18n();
   const router = useRouter();
   const supabaseClient = useMemo(() => createClient(), []);
   const { toast } = useToast();
@@ -393,7 +395,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
 
     const maxSize = 5 * 1024 * 1024;
     if (file.size > maxSize) {
-      toast("Le fichier dépasse 5 Mo.", "error");
+      toast(t("projectForm.lesson.fileTooLarge"), "error");
       return;
     }
 
@@ -408,9 +410,9 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
       const { data: { publicUrl } } = supabaseClient.storage.from("project-files").getPublicUrl(fileName);
       setProjectFileUrl(publicUrl);
       setProjectFileName(file.name);
-      toast("Fichier uploade.", "success");
+      toast(t("projectForm.lesson.uploaded"), "success");
     } catch (err) {
-      toast("Échec de l'upload.", "error");
+      toast(t("projectForm.lesson.uploadFailed"), "error");
     }
     setFileUploading(false);
     event.target.value = "";
