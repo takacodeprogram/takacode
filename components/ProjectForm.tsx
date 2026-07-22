@@ -203,7 +203,7 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
     }
     setSaving(false);
     playSuccess();
-    router.push("/dashboard/projets");
+    router.push("/dashboard/projects");
   }
 
   async function handleDelete() {
@@ -219,7 +219,7 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
       return;
     }
     toast("Projet supprime.", "success");
-    router.push("/dashboard/projets");
+    router.push("/dashboard/projects");
   }
 
   if (showTemplates) {

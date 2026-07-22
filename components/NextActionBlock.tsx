@@ -39,7 +39,7 @@ export default function NextActionBlock({ project, hasEnrollment, hasOnboarding 
         accent="#4F8EF7"
         title="Choisis ton premier parcours"
         description="Sélectionne un parcours adapte a ton objectif pour commencer à construire."
-        href="/parcours"
+        href="/tracks"
         label="Voir les parcours"
       />
     );
@@ -52,7 +52,7 @@ export default function NextActionBlock({ project, hasEnrollment, hasOnboarding 
         accent="#9B6DFF"
         title="Cree ton projet principal"
         description="Définit le projet que tu veux construire. Il servira de fil rouge a tes parcours."
-        href="/dashboard/projets/nouveau"
+        href="/dashboard/projects/new"
         label="Créer mon projet"
       />
     );
@@ -65,7 +65,7 @@ export default function NextActionBlock({ project, hasEnrollment, hasOnboarding 
         accent="#F59E0B"
         title="Finalise les details de ton projet"
         description="Ajoute une description, un statut et une deadline pour lancer ton projet."
-        href={`/dashboard/projets/${project.id}`}
+        href={`/dashboard/projects/${project.id}`}
         label="Éditer mon projet"
       />
     );
@@ -78,7 +78,7 @@ export default function NextActionBlock({ project, hasEnrollment, hasOnboarding 
         accent="#22D3EE"
         title="Connecte ton depot GitHub"
         description="Héberge ton code sur GitHub pour le déployer facilement et suivre les versions."
-        href={`/dashboard/projets/${project.id}`}
+        href={`/dashboard/projects/${project.id}`}
         label="Ajouter le dépôt"
       />
     );
@@ -91,7 +91,7 @@ export default function NextActionBlock({ project, hasEnrollment, hasOnboarding 
         accent="#10B981"
         title="Deploie ton projet en ligne"
         description="Publie ton projet avec Vercel ou Netlify pour le rendre accessible au monde entier."
-        href={`/dashboard/projets/${project.id}`}
+        href={`/dashboard/projects/${project.id}`}
         label="Déployer mon projet"
       />
     );
@@ -103,7 +103,7 @@ export default function NextActionBlock({ project, hasEnrollment, hasOnboarding 
       accent="#38BDF8"
       title="Partage ton projet"
       description="Ton projet est en ligne ! Montre-le a la communauté et ajoute-le a ton portfolio."
-      href={`/dashboard/projets/${project.id}`}
+      href={`/dashboard/projects/${project.id}`}
       label="Partager mon projet"
     />
   );

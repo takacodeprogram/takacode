@@ -2,7 +2,7 @@ import { normalizeText, isMissingSchemaError } from "./utils";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 export const ADMIN_TRACK_COLUMNS =
-  "id, slug, goal_key, title, summary, description, level_label, duration_weeks, accent_color, icon, objective, resources, next_session, next_steps, is_published, is_active, sort_order, created_at, updated_at";
+  "id, slug, goal_key, title, summary, description, level_label, duration_weeks, accent_color, icon, objective, resources, next_session, next_steps, is_published, is_active, sort_order, locale, created_at, updated_at";
 
 export const ADMIN_LESSON_COLUMNS =
   "id, module_id, slug, title, intro, why_important, how_to_use, objectives, resources, quiz, micro_project, xp_reward, duration_minutes, sort_order, is_published, created_at";
@@ -69,7 +69,7 @@ interface AdminLessonResult {
 export async function listAdminTracks(supabase: SupabaseClient): Promise<AdminTrackResult> {
   const { data, error } = await supabase
     .from("learning_tracks")
-    .select("id, slug, title, level_label, is_published, is_active, sort_order, updated_at")
+    .select("id, slug, title, level_label, is_published, is_active, sort_order, locale, updated_at")
     .order("sort_order", { ascending: true })
     .order("created_at", { ascending: true })
     .limit(300);

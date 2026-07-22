@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import CommunitySection from "../components/CommunitySection";
-import CompetencesSection from "../components/CompetencesSection";
+import SkillsSection from "../components/SkillsSection";
 import FAQSection from "../components/FAQSection";
 import FinalCtaSection from "../components/FinalCtaSection";
 import FooterSection from "../components/FooterSection";
@@ -8,13 +8,14 @@ import GlobeSection from "../components/GlobeSection";
 import Hero from "../components/Hero";
 import HowItWorksSection from "../components/HowItWorksSection";
 import Navbar from "../components/Navbar";
-import ParcoursSection from "../components/ParcoursSection";
+import TracksSection from "../components/TracksSection";
 import ProjectsSection from "../components/ProjectsSection";
-import RessourcesSection from "../components/RessourcesSection";
+import ResourcesSection from "../components/ResourcesSection";
 import SessionsLiveSection from "../components/SessionsLiveSection";
 import StartupLoader from "../components/StartupLoader";
 import ValuesSection from "../components/ValuesSection";
 import { getPlatformStats } from "../lib/platformStats";
+import { getServerLocale } from "../lib/serverLocale";
 import { buildPageMetadata } from "../lib/seo";
 import { getPublicLeaderboard } from "../lib/leaderboard";
 import { listPublishedTracks } from "../lib/tracks";
@@ -33,8 +34,9 @@ export const metadata = buildPageMetadata({
 export default async function Home() {
   const cookieStore = await cookies();
   const supabase = await createClient(cookieStore);
+  const locale = await getServerLocale();
   const [{ tracks }, stats] = await Promise.all([
-    listPublishedTracks(supabase, { limit: 7 }),
+    listPublishedTracks(supabase, { limit: 7, locale }),
     getPlatformStats(supabase)
   ]);
 
@@ -59,11 +61,11 @@ export default async function Home() {
         <hr className="section-divider" />
         <HowItWorksSection />
         <hr className="section-divider" />
-        <CompetencesSection />
+        <SkillsSection />
         <hr className="section-divider" />
-        <ParcoursSection tracks={tracks} />
+        <TracksSection tracks={tracks} />
         <hr className="section-divider" />
-        <RessourcesSection />
+        <ResourcesSection />
         <hr className="section-divider" />
         <SessionsLiveSection />
         <hr className="section-divider" />

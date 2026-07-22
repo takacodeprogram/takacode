@@ -64,7 +64,7 @@ export const PRODUCT_RELEASES: ProductRelease[] = [
       "Badge 1er euro affiche sur la homepage, la galerie, le dashboard et les cards projets",
       "Notifications liees aux lecons : correction du lien 404 (slug vs UUID)",
       "Lien WhatsApp ajoute dans le footer",
-      "Page profil public (/profil/[id]) avec avatar, bio, competences, grade, XP, pays",
+      "Page profil public (/profile/[id]) avec avatar, bio, competences, grade, XP, pays",
       "Classement et page communaute : les membres sont cliquables vers leur profil public",
       "Projet detail : section livrables montrant les micro-projets realises lies au projet",
       "Migration project_id sur user_lesson_progress pour lier soumissions et projets"

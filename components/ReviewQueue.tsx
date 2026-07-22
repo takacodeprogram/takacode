@@ -87,7 +87,7 @@ export default function ReviewQueue({ initialItems = [] }: ReviewQueueProps) {
           : `Des améliorations ont été demandées sur "${item.lessonTitle}". Retraite ton travail.`,
         // Lien seulement si les slugs sont connus : un lien vide n'ouvre rien
         // (mieux qu'un /parcours//lecon/ qui menait sur une 404).
-        p_link: item.trackSlug && item.lessonSlug ? `/parcours/${item.trackSlug}/lecon/${item.lessonSlug}` : ""
+        p_link: item.trackSlug && item.lessonSlug ? `/tracks/${item.trackSlug}/lesson/${item.lessonSlug}` : ""
       });
     } catch (e) {
       // Non bloquant

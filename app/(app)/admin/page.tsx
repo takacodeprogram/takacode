@@ -8,6 +8,8 @@ import { listPublishedTracks } from "../../../lib/tracks";
 import { isMissingSchemaError } from "../../../lib/utils";
 import { createClient } from "../../../utils/supabase/server";
 import { createAdminClient } from "../../../utils/supabase/admin";
+import { getLocale } from "../../../lib/i18n";
+import { getServerLocale } from "../../../lib/serverLocale";
 
 // Étoile du nord de la plateforme : % de membres avec un projet en ligne,
 // puis % avec un premier euro déclaré. Calculée en service role : les
@@ -46,12 +48,11 @@ export const revalidate = 0;
 const ADMIN_USERS_SELECT = "id, role, points, grade, referral_code, referred_by, created_at, updated_at";
 const ADMIN_TRACKS_SELECT = "id, slug, title, is_published, is_active, sort_order, updated_at";
 
-export const metadata = buildPageMetadata({
-  title: "Admin",
-  description: "Centre d'administration TakaCode.",
-  path: "/admin",
-  noIndex: true
-});
+export async function generateMetadata() {
+  const locale = await getServerLocale();
+  const { t } = getLocale(locale);
+  return buildPageMetadata({ title: t("adminOverview.metaTitle"), description: t("adminOverview.metaDesc"), path: "/admin", noIndex: true });
+}
 
 function isMissingTableError(error: unknown, table: string) {
   return isMissingSchemaError(error, [table]);
@@ -82,19 +83,22 @@ export default async function AdminOverviewPage() {
   const tracks = !tracksSchemaReady || tracksResult.error ? [] : tracksResult.data || [];
 
   const systemIssues = [];
+  const locale = await getServerLocale();
+  const { t } = getLocale(locale);
+
   if (!usersSchemaReady) {
-    systemIssues.push("Table user_profiles manquante. Lance supabase/sql/001_roles_points_referrals.sql.");
+    systemIssues.push(t("adminOverview.tableUserProfiles"));
   }
   if (!tracksSchemaReady) {
-    systemIssues.push("Table learning_tracks manquante. Lance supabase/sql/003_learning_tracks.sql.");
+    systemIssues.push(t("adminOverview.tableLearningTracks"));
   }
   if (tracksSchemaReady && !tracksResult.error && tracks.length === 0) {
-    systemIssues.push("Aucun parcours en base. Vérifie les seeds et les policies RLS admin.");
+    systemIssues.push(t("adminOverview.noTracks"));
   }
 
   return (
     <>
-      <PageHeader title="CENTRE ADMIN" subtitle="Pilotage de la plateforme" />
+      <PageHeader title={t("admin.centreTitle")} subtitle={t("admin.centreSubtitle")} />
       <AdminOverview users={users} tracks={tracks} platformStats={platformStats} systemIssues={systemIssues} northStar={northStar} />
     </>
   );

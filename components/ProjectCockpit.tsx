@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import L from "./L";
 import type { UserProject } from "../lib/userProjects";
 import DeclareFirstRevenue from "./DeclareFirstRevenue";
 import { useI18n } from "./I18nProvider";
@@ -73,11 +73,11 @@ export default function ProjectCockpit({ project, firstName, goalLabel }: Projec
           {t("dashboard.startPrompt")}
         </p>
         <div className="flex flex-wrap gap-3">
-          <Link href="/dashboard/projets/nouveau" className="btn-primary inline-flex items-center gap-2">
+          <L href="/dashboard/projects/new" className="btn-primary inline-flex items-center gap-2">
             {t("dashboard.createProject")}
             <iconify-icon icon="lucide:rocket" style={{ fontSize: "14px" }} />
-          </Link>
-          <Link href="/dashboard/projets" className="btn-secondary">{t("dashboard.seeExamples")}</Link>
+          </L>
+          <L href="/dashboard/projects" className="btn-secondary">{t("dashboard.seeExamples")}</L>
         </div>
       </section>
     );
@@ -181,11 +181,11 @@ export default function ProjectCockpit({ project, firstName, goalLabel }: Projec
       </div>
 
       <div className="flex flex-wrap gap-3">
-        <Link href={`/dashboard/projets/${project.id}`} className="btn-primary inline-flex items-center gap-2">
+        <L href={`/dashboard/projects/${project.id}`} className="btn-primary inline-flex items-center gap-2">
           {t("dashboard.openProject")}
           <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "14px" }} />
-        </Link>
-        <Link href="/dashboard/projets" className="btn-secondary">{t("dashboard.allMyProjects")}</Link>
+        </L>
+        <L href="/dashboard/projects" className="btn-secondary">{t("dashboard.allMyProjects")}</L>
       </div>
     </section>
   );

@@ -2,36 +2,31 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
-import { GUIDE_STEPS, LECON_STEPS, PARCOURS_DETAIL_STEPS, PARCOURS_PAGE_STEPS } from "./steps";
-import type { Step } from "./steps";
+import { getSteps } from "./steps";
+import { useI18n } from "../I18nProvider";
 
 const STORAGE_KEY_PREFIX = "tk_tour_";
 const TOUR_DELAY_MS = 800;
 
 function getTourKey(pathname: string): string | null {
-  if (pathname.startsWith("/parcours/") && pathname.includes("/lecon/")) return "lecon";
-  if (pathname.startsWith("/parcours/") && pathname !== "/parcours") return "detail";
-  if (pathname === "/parcours") return "parcours";
+  if (pathname.startsWith("/tracks/") && pathname.includes("/lesson/")) return "lecon";
+  if (pathname.startsWith("/tracks/") && pathname !== "/tracks") return "detail";
+  if (pathname === "/tracks") return "parcours";
   if (pathname === "/dashboard/guide") return "guide";
   return null;
 }
 
-function getSteps(tourKey: string): Step[] {
-  if (tourKey === "parcours") return PARCOURS_PAGE_STEPS;
-  if (tourKey === "detail") return PARCOURS_DETAIL_STEPS;
-  if (tourKey === "lecon") return LECON_STEPS;
-  if (tourKey === "guide") return GUIDE_STEPS;
-  return [];
-}
+
 
 export default function PublicTour() {
   const pathname = usePathname();
+  const { t, locale } = useI18n();
   const [active, setActive] = useState<boolean>(false);
   const [current, setCurrent] = useState<number>(0);
   const dialogRef = useRef<HTMLDivElement | null>(null);
 
   const tourKey = getTourKey(pathname);
-  const steps = getSteps(tourKey || "");
+  const steps = getSteps(tourKey || "", locale);
   const isLast = current === steps.length - 1;
   const isFirst = current === 0;
 
@@ -90,7 +85,7 @@ export default function PublicTour() {
       style={{ background: "rgba(0,0,0,0.65)" } as React.CSSProperties}
       role="dialog"
       aria-modal="true"
-      aria-label="Guide interactif"
+      aria-label={t("tour.overlay.ariaLabel")}
     >
       <div
         ref={dialogRef}
@@ -110,7 +105,7 @@ export default function PublicTour() {
             type="button"
             onClick={finish}
             className="w-6 h-6 rounded-lg flex items-center justify-center text-[#555] hover:text-white hover:bg-white/[0.06] transition-all"
-            title="Passer le guide"
+            title={t("tour.overlay.skipTour")}
           >
             <iconify-icon icon="lucide:x" style={{ fontSize: "14px" }} />
           </button>
@@ -127,7 +122,7 @@ export default function PublicTour() {
                 onClick={prev}
                 className="text-[11px] text-[#666] hover:text-white px-2.5 py-1.5 rounded-lg hover:bg-white/[0.04] transition-all"
               >
-                ← Precedent
+                ← {t("tour.overlay.previous")}
               </button>
             )}
           </div>
@@ -137,7 +132,7 @@ export default function PublicTour() {
               onClick={finish}
               className="text-[10px] text-[#555] hover:text-[#888] transition-colors"
             >
-              Passer
+              {t("tour.overlay.skip")}
             </button>
             <button
               type="button"
@@ -148,7 +143,7 @@ export default function PublicTour() {
                   : "bg-white/[0.08] text-white hover:bg-white/[0.12]"
               }`}
             >
-              {isLast ? "C'est parti !" : "Suivant →"}
+              {isLast ? t("tour.overlay.start") : `${t("tour.overlay.next")} →`}
             </button>
           </div>
         </div>

@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { redirectLocale } from "../../../lib/redirectLocale";
 import { getUserAccessContext } from "../../../lib/auth";
 import { createClient } from "../../../utils/supabase/server";
 
@@ -16,13 +17,13 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect("/signin?next=/admin");
+    await redirectLocale("/signin?next=/admin");
   }
 
   const accessContext = await getUserAccessContext(supabase, user);
 
   if (accessContext.role !== "admin") {
-    redirect("/dashboard");
+    await redirectLocale("/dashboard");
   }
 
   return children;

@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { redirectLocale } from "../../../../lib/redirectLocale";
 import { getUserAccessContext } from "../../../../lib/auth";
 import { createClient } from "../../../../utils/supabase/server";
 
@@ -16,12 +17,12 @@ export default async function MentorLayout({ children }: { children: React.React
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect("/signin?next=/dashboard/mentor");
+    await redirectLocale("/signin?next=/dashboard/mentor");
   }
 
   const accessContext = await getUserAccessContext(supabase, user);
   if (!["mentor", "admin"].includes(accessContext.role)) {
-    redirect("/dashboard");
+    await redirectLocale("/dashboard");
   }
 
   return children;

@@ -589,7 +589,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
           </div>
           {nextLessonSlug ? (
             <Link
-              href={`/parcours/${trackSlug}/lecon/${nextLessonSlug}`}
+              href={`/tracks/${trackSlug}/lesson/${nextLessonSlug}`}
               className="btn-secondary inline-flex items-center gap-2 text-[12px]"
               style={{ padding: "9px 14px" }}
             >
@@ -598,7 +598,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
             </Link>
           ) : (
             <Link
-              href={`/parcours/${trackSlug}`}
+              href={`/tracks/${trackSlug}`}
               className="btn-secondary inline-flex items-center gap-2 text-[12px]"
               style={{ padding: "9px 14px" }}
             >
@@ -619,7 +619,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
           </div>
           {nextLessonSlug ? (
             <Link
-              href={`/parcours/${trackSlug}/lecon/${nextLessonSlug}`}
+              href={`/tracks/${trackSlug}/lesson/${nextLessonSlug}`}
               className="btn-secondary inline-flex items-center gap-2 text-[12px]"
               style={{ padding: "9px 14px" }}
             >
@@ -1018,7 +1018,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
       <div className="flex items-center justify-between gap-2.5 flex-wrap pt-2">
         {previousLessonSlug ? (
           <Link
-            href={`/parcours/${trackSlug}/lecon/${previousLessonSlug}`}
+            href={`/tracks/${trackSlug}/lesson/${previousLessonSlug}`}
             className="btn-secondary inline-flex items-center gap-2 text-[12px]"
             style={{ padding: "9px 14px" }}
           >
@@ -1031,7 +1031,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
 
         {(isCompleted || awaitingReview) && nextLessonSlug ? (
           <Link
-            href={`/parcours/${trackSlug}/lecon/${nextLessonSlug}`}
+            href={`/tracks/${trackSlug}/lesson/${nextLessonSlug}`}
             className="btn-secondary inline-flex items-center gap-2 text-[12px]"
             style={{ padding: "9px 14px" }}
           >
@@ -1055,7 +1055,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
           if (celebration.ctaAction === "retry") {
             retryQuiz();
           } else if (celebration.ctaAction === "next" && nextLessonSlug) {
-            router.push(`/parcours/${trackSlug}/lecon/${nextLessonSlug}`);
+            router.push(`/tracks/${trackSlug}/lesson/${nextLessonSlug}`);
           }
         }}
       />

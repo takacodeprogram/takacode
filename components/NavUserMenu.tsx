@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { getInitials } from "../lib/avatar";
+import L from "./L";
 import SignOutButton from "./SignOutButton";
 
 interface User {
@@ -70,25 +71,25 @@ export default function NavUserMenu({ user, onNavigate }: Props) {
             <div className="text-[12px] text-white font-semibold truncate">{displayName}</div>
             {email ? <div className="text-[10px] text-[#777] truncate">{email}</div> : null}
           </div>
-          <Link href="/dashboard" onClick={handleNavigate} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[#d1d1d1] hover:bg-white/[0.05] transition-colors" role="menuitem">
+          <L href="/dashboard" onClick={handleNavigate} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[#d1d1d1] hover:bg-white/[0.05] transition-colors" role="menuitem">
             <iconify-icon icon="lucide:layout-grid" style={{ fontSize: "15px", color: "#89c7ff" }} />
             Tableau de bord
-          </Link>
-          <Link href="/dashboard/profil" onClick={handleNavigate} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[#d1d1d1] hover:bg-white/[0.05] transition-colors" role="menuitem">
+          </L>
+          <L href="/dashboard/profile" onClick={handleNavigate} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[#d1d1d1] hover:bg-white/[0.05] transition-colors" role="menuitem">
             <iconify-icon icon="lucide:user" style={{ fontSize: "15px", color: "#89c7ff" }} />
             Mon profil
-          </Link>
+          </L>
           {isMentor ? (
-            <Link href="/dashboard/mentor" onClick={handleNavigate} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[#d1d1d1] hover:bg-white/[0.05] transition-colors" role="menuitem">
+            <L href="/dashboard/mentor" onClick={handleNavigate} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[#d1d1d1] hover:bg-white/[0.05] transition-colors" role="menuitem">
               <iconify-icon icon="lucide:book-plus" style={{ fontSize: "15px", color: "#89c7ff" }} />
               Proposer un parcours
-            </Link>
+            </L>
           ) : null}
           {isAdmin ? (
-            <Link href="/admin" onClick={handleNavigate} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[#d1d1d1] hover:bg-white/[0.05] transition-colors" role="menuitem">
+            <L href="/admin" onClick={handleNavigate} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[#d1d1d1] hover:bg-white/[0.05] transition-colors" role="menuitem">
               <iconify-icon icon="lucide:shield-check" style={{ fontSize: "15px", color: "#89c7ff" }} />
               Centre d'administration
-            </Link>
+            </L>
           ) : null}
           <SignOutButton className="w-full flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-red-400/80 hover:text-red-400 hover:bg-red-400/5 transition-colors mt-1 pt-1 border-t border-white/[0.06]">
             <iconify-icon icon="lucide:log-out" style={{ fontSize: "15px" }} />

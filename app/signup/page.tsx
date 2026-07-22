@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import AuthOnboardingPage from "../../components/AuthOnboardingPage";
+import { redirectLocale } from "../../lib/redirectLocale";
 import { getUserAccessContext } from "../../lib/auth";
 import { isOnboardingCompleted } from "../../lib/onboarding";
 import { buildPageMetadata } from "../../lib/seo";
@@ -31,11 +32,11 @@ async function redirectIfAuthenticated() {
   const accessContext = await getUserAccessContext(supabase, user);
 
   if (accessContext.hasRole(["admin"])) {
-    redirect("/admin");
+    await redirectLocale("/admin");
   }
 
   const redirectTarget = isOnboardingCompleted(user) ? "/dashboard" : "/onboarding";
-  redirect(redirectTarget);
+  await redirectLocale(redirectTarget);
 }
 
 export default async function SignUpPage() {

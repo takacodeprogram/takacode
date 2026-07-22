@@ -25,8 +25,8 @@ describe("SUPPORTED_LOCALES", () => {
 });
 
 describe("DEFAULT_LOCALE", () => {
-  it("is fr", () => {
-    expect(DEFAULT_LOCALE).toBe("fr");
+  it("is en", () => {
+    expect(DEFAULT_LOCALE).toBe("en");
   });
 });
 
@@ -45,9 +45,9 @@ describe("createT", () => {
     expect(t("navbar.commencer")).toBe("Get started");
   });
 
-  it("falls back to FR for unsupported locale", () => {
+  it("falls back to EN for unsupported locale", () => {
     const t = createT("de" as "fr");
-    expect(t("navbar.accueil")).toBe("Accueil");
+    expect(t("navbar.accueil")).toBe("Home");
   });
 
   it("returns nested translations", () => {
@@ -106,12 +106,12 @@ describe("createT", () => {
 });
 
 describe("detectLocale", () => {
-  it("returns fr for undefined", () => {
-    expect(detectLocale()).toBe("fr");
+  it("returns en for undefined", () => {
+    expect(detectLocale()).toBe("en");
   });
 
-  it("returns fr for empty string", () => {
-    expect(detectLocale("")).toBe("fr");
+  it("returns en for empty string", () => {
+    expect(detectLocale("")).toBe("en");
   });
 
   it("detects fr from fr-FR", () => {
@@ -138,10 +138,10 @@ describe("detectLocale", () => {
     expect(detectLocale("de, en-US, fr")).toBe("en");
   });
 
-  it("falls back to fr for unsupported locales", () => {
-    expect(detectLocale("de-DE")).toBe("fr");
-    expect(detectLocale("es")).toBe("fr");
-    expect(detectLocale("zh-CN, ja-JP")).toBe("fr");
+  it("falls back to en for unsupported locales", () => {
+    expect(detectLocale("de-DE")).toBe("en");
+    expect(detectLocale("es")).toBe("en");
+    expect(detectLocale("zh-CN, ja-JP")).toBe("en");
   });
 
   it("strips quality values from accept-language", () => {
@@ -151,10 +151,10 @@ describe("detectLocale", () => {
 });
 
 describe("getLocale", () => {
-  it("returns FR by default", () => {
+  it("returns EN by default", () => {
     const { t, locale } = getLocale();
-    expect(locale).toBe("fr");
-    expect(t("navbar.accueil")).toBe("Accueil");
+    expect(locale).toBe("en");
+    expect(t("navbar.accueil")).toBe("Home");
   });
 
   it("returns EN when specified", () => {
@@ -163,10 +163,10 @@ describe("getLocale", () => {
     expect(t("navbar.accueil")).toBe("Home");
   });
 
-  it("returns FR for unknown locale", () => {
+  it("returns EN for unknown locale", () => {
     const { t, locale } = getLocale("de" as "fr");
-    expect(locale).toBe("fr");
-    expect(t("navbar.accueil")).toBe("Accueil");
+    expect(locale).toBe("en");
+    expect(t("navbar.accueil")).toBe("Home");
   });
 
   it("supports string locale argument", () => {
@@ -176,28 +176,28 @@ describe("getLocale", () => {
 });
 
 describe("getAlternateUrls", () => {
-  it("returns FR without prefix and EN with /en prefix for root path", () => {
+  it("returns EN without prefix and FR with /fr prefix for root path", () => {
     const urls = getAlternateUrls("/");
-    expect(urls.fr).toBe("");
-    expect(urls.en).toBe("/en");
+    expect(urls.en).toBe("");
+    expect(urls.fr).toBe("/fr");
   });
 
   it("returns correct alternates for sub-paths", () => {
     const urls = getAlternateUrls("/parcours");
-    expect(urls.fr).toBe("/parcours");
-    expect(urls.en).toBe("/en/parcours");
+    expect(urls.en).toBe("/parcours");
+    expect(urls.fr).toBe("/fr/parcours");
   });
 
   it("handles paths with trailing slash", () => {
     const urls = getAlternateUrls("/projets/");
-    expect(urls.fr).toBe("/projets/");
-    expect(urls.en).toBe("/en/projets/");
+    expect(urls.en).toBe("/projets/");
+    expect(urls.fr).toBe("/fr/projets/");
   });
 
   it("handles deep paths", () => {
     const urls = getAlternateUrls("/parcours/site-web/lecon/html");
-    expect(urls.fr).toBe("/parcours/site-web/lecon/html");
-    expect(urls.en).toBe("/en/parcours/site-web/lecon/html");
+    expect(urls.en).toBe("/parcours/site-web/lecon/html");
+    expect(urls.fr).toBe("/fr/parcours/site-web/lecon/html");
   });
 
   it("returns object with exactly 2 keys", () => {
@@ -209,10 +209,10 @@ describe("getAlternateUrls", () => {
 });
 
 describe("useLocale", () => {
-  it("returns FR translations by default", () => {
+  it("returns EN translations by default", () => {
     const { t, locale } = useLocale();
-    expect(locale).toBe("fr");
-    expect(t("navbar.accueil")).toBe("Accueil");
+    expect(locale).toBe("en");
+    expect(t("navbar.accueil")).toBe("Home");
   });
 
   it("returns EN translations when specified", () => {
@@ -221,10 +221,10 @@ describe("useLocale", () => {
     expect(t("navbar.accueil")).toBe("Home");
   });
 
-  it("returns FR for unsupported locale", () => {
+  it("returns EN for unsupported locale", () => {
     const { t, locale } = useLocale("de" as "fr");
-    expect(locale).toBe("fr");
-    expect(t("navbar.accueil")).toBe("Accueil");
+    expect(locale).toBe("en");
+    expect(t("navbar.accueil")).toBe("Home");
   });
 
   it("t function handles fallback", () => {

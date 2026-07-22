@@ -68,14 +68,14 @@ describe("detectBrowserLocale", () => {
     expect(detectBrowserLocale()).toBe("en");
   });
 
-  it("returns fr for unsupported language", () => {
+  it("returns en for unsupported language", () => {
     setNavigatorLanguage("de-DE");
-    expect(detectBrowserLocale()).toBe("fr");
+    expect(detectBrowserLocale()).toBe("en");
   });
 
-  it("returns fr when navigator is undefined (SSR)", () => {
+  it("returns en when navigator is undefined (SSR)", () => {
     delete (globalThis as any).navigator;
-    expect(detectBrowserLocale()).toBe("fr");
+    expect(detectBrowserLocale()).toBe("en");
   });
 });
 

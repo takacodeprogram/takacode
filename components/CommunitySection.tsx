@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import L from "./L";
 import { useI18n } from "./I18nProvider";
 
 export default function CommunitySection() {
@@ -22,10 +22,10 @@ export default function CommunitySection() {
               {t("community.title2")}
               </h2>
               <p className="font-body-readable text-[#666] text-[15px] leading-relaxed mb-8">{t("community.subtitle")}</p>
-              <Link href="/communaute" id="communaute-cta-link" className="btn-primary glow-btn inline-flex items-center gap-2" style={{ fontSize: "14px", padding: "14px 28px" }}>
+              <L href="/community" id="communaute-cta-link" className="btn-primary glow-btn inline-flex items-center gap-2" style={{ fontSize: "14px", padding: "14px 28px" }}>
                 <iconify-icon icon="lucide:users" style={{ fontSize: "16px" }} />
                 {t("community.cta")}
-              </Link>
+              </L>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

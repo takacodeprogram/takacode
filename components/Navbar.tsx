@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import type { StaticImageData } from "next/image";
 import logoLight4 from "../assets/logos-light-png/logo-light-4.png";
@@ -11,6 +11,8 @@ import SignOutButton from "./SignOutButton";
 import { createClient } from "../utils/supabase/client";
 import { useI18n } from "./I18nProvider";
 import type { Locale } from "../lib/i18n";
+import { DEFAULT_LOCALE } from "../lib/i18n";
+import { localePath, switchLocalePath } from "../utils/localePath";
 
 interface NavLink {
   href: string;
@@ -26,30 +28,45 @@ interface SessionUser {
   avatarUrl: string;
 }
 
-const navLinks: NavLink[] = [
-  { href: "/", id: "nav-accueil-link", label: "Accueil", match: ["/"] },
-  { href: "/parcours", id: "nav-parcours-link", label: "Parcours", match: ["/parcours"] },
-  { href: "/competences", id: "nav-competences-link", label: "Compétences", match: ["/competences"] },
-  { href: "/projets", id: "nav-projets-link", label: "Projets", match: ["/projets"] },
-  { href: "/communaute", id: "nav-communaute-link", label: "Communauté", match: ["/communaute"] },
-  { href: "/classement", id: "nav-classement-link", label: "Classement", match: ["/classement"] }
+const NAV_LINK_DEFS: Array<{ href: string; id: string; labelKey: string; match: string[] }> = [
+  { href: "/", id: "nav-accueil-link", labelKey: "navbar.accueil", match: ["/"] },
+  { href: "/tracks", id: "nav-tracks-link", labelKey: "navbar.parcours", match: ["/tracks"] },
+  { href: "/skills", id: "nav-skills-link", labelKey: "navbar.competences", match: ["/skills"] },
+  { href: "/projects", id: "nav-projects-link", labelKey: "navbar.projets", match: ["/projects"] },
+  { href: "/community", id: "nav-community-link", labelKey: "navbar.communaute", match: ["/community"] },
+  { href: "/leaderboard", id: "nav-leaderboard-link", labelKey: "navbar.classement", match: ["/leaderboard"] }
 ];
+
+// Construit les liens Nav avec locale appliquée aux href et labels traduits
+function buildNavLinks(locale: Locale, t: (key: string, fallback?: string) => string): NavLink[] {
+  return NAV_LINK_DEFS.map((def) => ({
+    href: localePath(def.href, locale),
+    id: def.id,
+    label: t(def.labelKey),
+    match: def.match
+  }));
+}
 
 function isLinkActive(pathname: string, link: NavLink): boolean {
   return link.match.some((prefix) => {
     if (prefix === "/") {
-      return pathname === "/";
+      return pathname === "/" || pathname === "/en";
     }
-    return pathname === prefix || pathname.startsWith(`${prefix}/`);
+    return pathname === prefix || pathname.startsWith(`${prefix}/`) || pathname === `/en${prefix}` || pathname.startsWith(`/en${prefix}/`);
   });
 }
 
 function LangSwitch() {
   const { locale, setLocale } = useI18n();
+  const pathname = usePathname();
+  const router = useRouter();
 
   const toggle = () => {
     const next: Locale = locale === "fr" ? "en" : "fr";
+    const nextPath = switchLocalePath(pathname, locale, next);
     setLocale(next);
+    // Navigation client-side - le middleware intercepte et réécrit
+    router.push(nextPath);
   };
 
   return (
@@ -57,7 +74,7 @@ function LangSwitch() {
       type="button"
       onClick={toggle}
       className="inline-flex items-center justify-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-lg border border-white/[0.12] bg-white/[0.03] text-[#aaa] hover:text-white hover:border-white/[0.25] transition-all min-w-[44px]"
-      aria-label={`Passer en ${locale === "fr" ? "anglais" : "français"}`}
+      aria-label={locale === "fr" ? "Switch to English" : "Passer en français"}
     >
       <span className={`${locale === "fr" ? "text-white" : "text-[#666]"}`}>FR</span>
       <span className="text-[#444]">/</span>
@@ -184,10 +201,13 @@ export default function Navbar() {
   const isAuthLoading = authState === "loading";
   const isAuthenticated = authState === "authenticated";
 
-  const authHref = "/signin";
-  const authLabel = "Connexion";
-  const ctaHref = isAuthenticated ? "/dashboard" : "/signup";
-  const ctaLabel = isAuthenticated ? "Tableau de bord" : "Commencer";
+  const { t, locale } = useI18n();
+  const navLinks = buildNavLinks(locale, t);
+
+  const authHref = localePath("/signin", locale);
+  const authLabel = t("navbar.connexion");
+  const ctaHref = localePath(isAuthenticated ? "/dashboard" : "/signup", locale);
+  const ctaLabel = isAuthenticated ? t("navbar.tableauDeBord") : t("navbar.commencer");
 
   return (
     <nav
@@ -228,7 +248,7 @@ export default function Navbar() {
           ) : (
             <>
               <Link href={authHref} id="nav-connexion-link" className="nav-link">{authLabel}</Link>
-              <Link href="/signup" id="nav-cta-link" className="btn-primary glow-btn">Commencer</Link>
+              <Link href={ctaHref} id="nav-cta-link" className="btn-primary glow-btn">{ctaLabel}</Link>
             </>
           )}
         </div>
@@ -272,14 +292,14 @@ export default function Navbar() {
             </div>
             {isAuthLoading ? null : isAuthenticated ? (
               <>
-                <Link href="/dashboard" id="nav-dashboard-mobile-link" className="btn-primary glow-btn nav-mobile-cta" onClick={closeMobileMenu}>
-                  Tableau de bord
+                <Link href={localePath("/dashboard", locale)} id="nav-dashboard-mobile-link" className="btn-primary glow-btn nav-mobile-cta" onClick={closeMobileMenu}>
+                  {t("navbar.tableauDeBord")}
                 </Link>
-                <Link href="/dashboard/profil" className="nav-link nav-mobile-link" onClick={closeMobileMenu}>
-                  Mon profil
+                <Link href={localePath("/dashboard/profile", locale)} className="nav-link nav-mobile-link" onClick={closeMobileMenu}>
+                  {t("navbar.monProfil")}
                 </Link>
                 <SignOutButton className="nav-link nav-mobile-link text-red-400/80" style={{ background: "none", border: "none", padding: 0, cursor: "pointer" }}>
-                  Se déconnecter
+                  {t("navbar.seDeconnecter")}
                 </SignOutButton>
               </>
             ) : (

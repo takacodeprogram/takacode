@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import L from "./L";
 import { useEffect, useRef, useState } from "react";
 import { useI18n } from "./I18nProvider";
 
@@ -132,10 +132,10 @@ export default function HowItWorksSection() {
         </div>
 
         <div className="text-center mt-16 transition-all duration-1000" style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(20px)" }}>
-          <Link href="/projets" id="how-cta-link" className="btn-primary glow-btn inline-flex items-center gap-2" style={{ fontSize: "14px", padding: "14px 32px" }}>
+          <L href="/projects" id="how-cta-link" className="btn-primary glow-btn inline-flex items-center gap-2" style={{ fontSize: "14px", padding: "14px 32px" }}>
             <iconify-icon icon="lucide:zap" style={{ fontSize: "16px" }} />
             {t("process.cta")}
-          </Link>
+          </L>
         </div>
       </div>
     </section>

@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import L from "./L";
 import { useEffect, useState } from "react";
 
 const STORAGE_KEY = "tk_cookie_consent_v1";
@@ -41,9 +41,9 @@ export default function CookieNotice() {
           <iconify-icon icon="lucide:cookie" style={{ fontSize: "18px", color: "#4F8EF7" }} />
           <p className="font-body-readable text-[12px] text-[#b0b0b0] leading-relaxed">
             TakaCode utilise des cookies essentiels (session, preferences) pour fonctionner. Aucune pub, aucun traceur tiers.{" "}
-            <Link href="/cookies" className="text-[#89c7ff] hover:underline">
+            <L href="/cookies" className="text-[#89c7ff] hover:underline">
               En savoir plus
-            </Link>
+            </L>
             .
           </p>
         </div>

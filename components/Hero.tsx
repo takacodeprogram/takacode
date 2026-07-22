@@ -65,7 +65,7 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
 
             <div className="animate-fade-up-d3 flex flex-col sm:flex-row sm:items-center gap-4 mb-12">
               <Link
-                href="/projets"
+                href="/projects"
                 id="hero-cta-primary"
                 className="btn-primary glow-btn flex items-center justify-center gap-2"
                 style={{ fontSize: "14px", padding: "14px 28px" }}
@@ -73,7 +73,7 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
                 {t("home.hero.ctaPrimary")}
               </Link>
               <Link
-                href="/parcours"
+                href="/tracks"
                 id="hero-cta-secondary"
                 className="btn-secondary flex items-center justify-center gap-2"
                 style={{ fontSize: "14px", padding: "14px 28px" }}
@@ -101,7 +101,7 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
                   </div>
                   <div className="flex items-center gap-1.5">
                     <div className="w-2 h-2 rounded-full bg-green-400" style={{ animation: "pulse-glow 2s'ease infinite" }} />
-                    <span className="font-body-readable text-[11px] text-green-400">En cours</span>
+                    <span className="font-body-readable text-[11px] text-green-400">{t("home.hero.liveStatus")}</span>
                   </div>
                 </div>
 
@@ -157,8 +157,8 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
                   <span className="font-venite-italic text-[10px] text-green-400">OK</span>
                 </div>
                 <div>
-                  <div className="font-venite-italic text-[11px] text-white">PROJET PUBLIE</div>
-                  <div className="font-body-readable text-[10px] text-[#555]">Application web</div>
+                  <div className="font-venite-italic text-[11px] text-white">{t("home.hero.floatingPublished")}</div>
+                  <div className="font-body-readable text-[10px] text-[#555]">{t("home.hero.floatingWebApp")}</div>
                 </div>
               </div>
             </div>
@@ -172,8 +172,8 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
                   <span className="font-venite-italic text-[10px] text-blue-400">LIVE</span>
                 </div>
                 <div>
-                  <div className="font-venite-italic text-[11px] text-white">SESSION LIVE</div>
-                  <div className="font-body-readable text-[10px] text-[#555]">Dans 2h - 34 inscrits</div>
+                  <div className="font-venite-italic text-[11px] text-white">{t("home.hero.floatingSessionLive")}</div>
+                  <div className="font-body-readable text-[10px] text-[#555]">{t("home.hero.floatingSessionInfo")}</div>
                 </div>
               </div>
             </div>

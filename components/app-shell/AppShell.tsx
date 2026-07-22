@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import L from "../L";
 import { useEffect, useRef, useState } from "react";
 import { useSessionTracker } from "../../hooks/useSessionTracker";
 import { useLiveRefresh } from "../../hooks/useLiveRefresh";
@@ -47,7 +48,7 @@ function getInitials(value: string | undefined): string {
 function SidebarLink({ link, pathname, onNavigate }: { link: NavLink; pathname: string; onNavigate?: () => void }) {
   const active = isSidebarLinkActive(pathname, link);
   return (
-    <Link
+    <L
       href={link.href}
       onClick={onNavigate}
       data-tour={link.tour || undefined}
@@ -68,7 +69,7 @@ function SidebarLink({ link, pathname, onNavigate }: { link: NavLink; pathname: 
           {link.badge}
         </span>
       ) : null}
-    </Link>
+    </L>
   );
 }
 
@@ -129,9 +130,9 @@ export default function AppShell({ user, children }: AppShellProps) {
     return (
       <>
         <div className="mb-10 pl-2">
-          <Link href="/dashboard" onClick={onNavigate}>
+          <L href="/dashboard" onClick={onNavigate}>
              <img src={logoLight4.src} alt="TakaCode" className="nav-logo-image" />
-          </Link>
+          </L>
         </div>
 
         <nav className="flex-1 overflow-y-auto">
@@ -178,14 +179,14 @@ export default function AppShell({ user, children }: AppShellProps) {
 
         <div className="pt-6 border-t border-white/[0.05] space-y-2">
           {adminArea ? (
-            <Link
+            <L
               href="/dashboard"
               onClick={onNavigate}
               className="flex items-center gap-3 rounded-xl px-4 py-3 text-[14px] font-medium text-[#888] hover:text-white hover:bg-white/[0.04] transition-all"
             >
               <iconify-icon icon="lucide:arrow-left" />
               Espace membre
-            </Link>
+            </L>
           ) : null}
           <SignOutButton className="w-full flex items-center gap-3 rounded-xl px-4 py-3 text-[14px] font-medium text-red-400/70 hover:text-red-400 hover:bg-red-400/5 transition-all">
             <iconify-icon icon="lucide:log-out" />
@@ -265,17 +266,17 @@ export default function AppShell({ user, children }: AppShellProps) {
                     <div className="text-[12px] text-white font-semibold truncate">{displayName}</div>
                     <div className="text-[10px] text-[#777] truncate">{email}</div>
                   </div>
-                  <Link
-                    href="/dashboard/profil"
+                  <L
+                    href="/dashboard/profile"
                     onClick={() => setMenuOpen(false)}
                     className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[#d1d1d1] hover:bg-white/[0.05] transition-colors"
                     role="menuitem"
                   >
                     <iconify-icon icon="lucide:user" style={{ fontSize: "15px", color: "#89c7ff" }} />
                     Mon profil
-                  </Link>
+                  </L>
                   <div className="border-t border-white/[0.06] my-1" />
-                  <Link
+                  <L
                     href="/dashboard/guide"
                     onClick={() => setMenuOpen(false)}
                     className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[#d1d1d1] hover:bg-white/[0.05] transition-colors"
@@ -283,18 +284,18 @@ export default function AppShell({ user, children }: AppShellProps) {
                   >
                     <iconify-icon icon="lucide:compass" style={{ fontSize: "15px", color: "#89c7ff" }} />
                     Guide de démarrage
-                  </Link>
-                  <Link
-                    href="/dashboard/documentation"
+                  </L>
+                  <L
+                    href="/dashboard/docs"
                     onClick={() => setMenuOpen(false)}
                     className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[#d1d1d1] hover:bg-white/[0.05] transition-colors"
                     role="menuitem"
                   >
                     <iconify-icon icon="lucide:book-open" style={{ fontSize: "15px", color: "#89c7ff" }} />
                     Documentation
-                  </Link>
+                  </L>
                 {isAdmin ? (
-                  <Link
+                  <L
                     href="/admin"
                     onClick={() => setMenuOpen(false)}
                     className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[#d1d1d1] hover:bg-white/[0.05] transition-colors"
@@ -302,7 +303,7 @@ export default function AppShell({ user, children }: AppShellProps) {
                   >
                     <iconify-icon icon="lucide:shield-check" style={{ fontSize: "15px", color: "#89c7ff" }} />
                     Centre admin
-                  </Link>
+                  </L>
                 ) : null}
                 <SignOutButton className="w-full flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-red-400/80 hover:text-red-400 hover:bg-red-400/5 transition-colors mt-1 pt-1 border-t border-white/[0.06]">
                   <iconify-icon icon="lucide:log-out" style={{ fontSize: "15px" }} />

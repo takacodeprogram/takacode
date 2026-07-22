@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "../../utils/supabase/client";
 import { useToast } from "../Toast";
+import { useI18n } from "../I18nProvider";
 import { analyzeQuiz, balanceQuizAnswers } from "../../lib/quizQuality";
 import MicroProjectBuilder from "./MicroProjectBuilder";
 import QuestionBankEditor from "./QuestionBankEditor";
@@ -79,6 +80,7 @@ export default function LessonForm({ trackId, modules = [], lesson = null, defau
   const router = useRouter();
   const supabase = useMemo(() => createClient(), []);
   const { toast } = useToast();
+  const { t } = useI18n();
   const isEdit = Boolean(lesson);
 
   const [form, setForm] = useState<Record<string, string>>(() => ({
@@ -140,7 +142,7 @@ export default function LessonForm({ trackId, modules = [], lesson = null, defau
 
     return {
       module_id: form.module_id,
-      title: form.title.trim() || "Lecon",
+      title: form.title.trim() || t("lessonForm.lessonDefault"),
       intro: form.intro.trim(),
       why_important: form.why_important.trim(),
       how_to_use: form.how_to_use.trim(),
@@ -159,11 +161,11 @@ export default function LessonForm({ trackId, modules = [], lesson = null, defau
     event.preventDefault();
 
     if (!form.module_id) {
-      toast("Choisis un module.", "error");
+      toast(t("lessonForm.chooseModule"), "error");
       return;
     }
     if (!form.title.trim()) {
-      toast("Le titre est obligatoire.", "error");
+      toast(t("lessonForm.titleRequired"), "error");
       return;
     }
 
@@ -184,14 +186,14 @@ export default function LessonForm({ trackId, modules = [], lesson = null, defau
         toast(updateError.message, "error");
         return;
       }
-      toast("Leçon enregistrée.", "success");
+      toast(t("lessonForm.saved"), "success");
       router.refresh();
       return;
     }
 
     const slug = form.slug.trim().toLowerCase();
     if (!slugIsValid(slug)) {
-      toast("Slug de leçon invalide (minuscules, chiffres, tirets).", "error");
+      toast(t("lessonForm.invalidSlug"), "error");
       setSaving(false);
       return;
     }
@@ -202,14 +204,14 @@ export default function LessonForm({ trackId, modules = [], lesson = null, defau
       toast(insertError.message, "error");
       return;
     }
-    router.push(`/admin/parcours/${trackId}`);
+    router.push(`/admin/tracks/${trackId}`);
   }
 
   return (
     <div className="space-y-6">
     <form onSubmit={handleSubmit} className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        <Field label="Module">
+        <Field label={t("lessonForm.module")}>
           <select className={INPUT} value={form.module_id} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setField("module_id", e.target.value)}>
             {modules.map((module: Module) => (
               <option key={module.id} value={module.id}>
@@ -219,25 +221,25 @@ export default function LessonForm({ trackId, modules = [], lesson = null, defau
           </select>
         </Field>
         {isEdit ? (
-          <Field label="Slug"><input className={INPUT} value={form.slug} disabled /></Field>
+          <Field label={t("lessonForm.slug")}><input className={INPUT} value={form.slug} disabled /></Field>
         ) : (
-          <Field label="Slug (url)"><input className={INPUT} value={form.slug} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("slug", e.target.value)} placeholder="ex: bases-html" /></Field>
+          <Field label={t("lessonForm.slug")}><input className={INPUT} value={form.slug} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("slug", e.target.value)} placeholder="ex: bases-html" /></Field>
         )}
       </div>
 
-      <Field label="Titre"><input className={INPUT} value={form.title} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("title", e.target.value)} /></Field>
-      <Field label="Introduction"><textarea className={`${INPUT} min-h-[64px]`} value={form.intro} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setField("intro", e.target.value)} /></Field>
+      <Field label={t("lessonForm.title")}><input className={INPUT} value={form.title} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("title", e.target.value)} /></Field>
+      <Field label={t("lessonForm.introduction")}><textarea className={`${INPUT} min-h-[64px]`} value={form.intro} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setField("intro", e.target.value)} /></Field>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        <Field label="Pourquoi c'est important"><textarea className={`${INPUT} min-h-[64px]`} value={form.why_important} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setField("why_important", e.target.value)} /></Field>
-        <Field label="Comment travailler la leçon"><textarea className={`${INPUT} min-h-[64px]`} value={form.how_to_use} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setField("how_to_use", e.target.value)} /></Field>
+        <Field label={t("lessonForm.whyImportant")}><textarea className={`${INPUT} min-h-[64px]`} value={form.why_important} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setField("why_important", e.target.value)} /></Field>
+        <Field label={t("lessonForm.howToUse")}><textarea className={`${INPUT} min-h-[64px]`} value={form.how_to_use} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setField("how_to_use", e.target.value)} /></Field>
       </div>
 
-      <Field label="Objectifs" hint="Un objectif par ligne"><textarea className={`${INPUT} min-h-[80px]`} value={form.objectives} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setField("objectives", e.target.value)} /></Field>
+      <Field label={t("lessonForm.objectives")} hint={t("lessonForm.objectivesHint")}><textarea className={`${INPUT} min-h-[80px]`} value={form.objectives} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setField("objectives", e.target.value)} /></Field>
 
       <ResourcesEditor value={form.resources} onChange={(val: string) => setField("resources", val)} />
 
-      <Field label="Quiz (JSON)" hint="answer = index de la bonne réponse (commence à 0)">
+      <Field label={t("lessonForm.quiz")} hint={t("lessonForm.quizHint")}>
         <JsonEditor value={form.quiz} onChange={(val: string) => setField("quiz", val)} compact />
       </Field>
 
@@ -245,10 +247,10 @@ export default function LessonForm({ trackId, modules = [], lesson = null, defau
         <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
           <div className="flex items-center gap-2">
             <iconify-icon icon={quizQuality.valid ? "lucide:badge-check" : "lucide:circle-alert"} style={{ fontSize: "14px", color: quizQuality.valid ? "#6ec3ff" : "#fca5a5" }} />
-            <span className="font-venite-italic text-[11px] text-white">QUALITE DU QUIZ</span>
+            <span className="font-venite-italic text-[11px] text-white">{t("lessonForm.quizQuality")}</span>
           </div>
           <span className="text-[10px] text-[#8d8d8d] font-body-readable">
-            {quizQuality.questionCount} question{quizQuality.questionCount > 1 ? "s" : ""}
+            {t("lessonForm.questionCount").replace("{n}", String(quizQuality.questionCount))}
           </span>
         </div>
 
@@ -256,7 +258,7 @@ export default function LessonForm({ trackId, modules = [], lesson = null, defau
           <div className="flex flex-wrap gap-1.5 mb-2.5">
             {quizQuality.answerDistribution.map((count, index) => (
               <span key={`answer-position-${index}`} className="rounded-full border border-white/[0.08] bg-white/[0.03] px-2 py-1 text-[10px] text-[#a5a5a5] font-body-readable">
-                Position {index + 1} : {count || 0}
+                {t("lessonForm.position").replace("{n}", String(index + 1)).replace("{count}", String(count || 0))}
               </span>
             ))}
           </div>
@@ -266,29 +268,29 @@ export default function LessonForm({ trackId, modules = [], lesson = null, defau
           <div className="space-y-1.5">
             {quizQuality.issues.slice(0, 6).map((issue, index) => (
               <p key={`${issue.message}-${index}`} className={`text-[11px] leading-relaxed font-body-readable ${issue.level === "error" ? "text-red-200" : "text-amber-100"}`}>
-                {issue.level === "error" ? "A corriger" : "Conseil"} : {issue.message}
+                {issue.level === "error" ? t("lessonForm.issueError") : t("lessonForm.issueTip")} : {issue.message}
               </p>
             ))}
           </div>
         ) : (
-          <p className="text-[11px] text-blue-100 font-body-readable">Structure valide. Les bonnes réponses seront reparties automatiquement entre les positions.</p>
+          <p className="text-[11px] text-blue-100 font-body-readable">{t("lessonForm.structureValid")}</p>
         )}
       </div>
 
       <MicroProjectBuilder value={form.micro_project} onChange={(val: string) => setField("micro_project", val)} />
 
       <div className="grid grid-cols-3 gap-3">
-        <Field label="XP"><input type="number" min="0" className={INPUT} value={form.xp_reward} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("xp_reward", e.target.value)} /></Field>
-        <Field label="Durée (min)"><input type="number" min="1" className={INPUT} value={form.duration_minutes} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("duration_minutes", e.target.value)} /></Field>
-        <Field label="Ordre"><input type="number" min="1" className={INPUT} value={form.sort_order} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("sort_order", e.target.value)} /></Field>
+        <Field label={t("lessonForm.xp")}><input type="number" min="0" className={INPUT} value={form.xp_reward} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("xp_reward", e.target.value)} /></Field>
+        <Field label={t("lessonForm.duration")}><input type="number" min="1" className={INPUT} value={form.duration_minutes} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("duration_minutes", e.target.value)} /></Field>
+        <Field label={t("lessonForm.order")}><input type="number" min="1" className={INPUT} value={form.sort_order} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("sort_order", e.target.value)} /></Field>
       </div>
 
       <label className="text-[11px] text-[#9b9b9b] flex items-center gap-1.5">
-        <input type="checkbox" checked={form.is_published === "true"} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("is_published", e.target.checked ? "true" : "false")} /> Publiée
+        <input type="checkbox" checked={form.is_published === "true"} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("is_published", e.target.checked ? "true" : "false")} /> {t("lessonForm.published")}
       </label>
 
       <button type="submit" disabled={saving} className={`btn-primary inline-flex items-center gap-2 text-[12px] ${saving ? "opacity-50 cursor-not-allowed" : ""}`} style={{ padding: "10px 18px" }}>
-        {saving ? "Enregistrement..." : isEdit ? "Enregistrer la leçon" : "Créer la leçon"}
+        {saving ? t("lessonForm.saving") : isEdit ? t("lessonForm.submitSave") : t("lessonForm.submitCreate")}
         <iconify-icon icon="lucide:save" style={{ fontSize: "13px" }} />
       </button>
     </form>

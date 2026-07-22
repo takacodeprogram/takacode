@@ -1,100 +1,16 @@
 "use client";
 
-import Link from "next/link";
+import L from "./L";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { sanitizeAuthEmail, toAuthErrorMessage } from "../lib/authErrors";
 import { createClient } from "../utils/supabase/client";
 import { useToast } from "./Toast";
+import { useI18n } from "./I18nProvider";
 
 interface AuthOnboardingPageProps {
   initialMode?: string;
 }
-
-interface HighlightItem {
-  icon: string;
-  iconColor: string;
-  shellClass: string;
-  title: string;
-  text: string;
-}
-
-interface AuthModeCopy {
-  badge: string;
-  titleLines: string[];
-  description: string;
-  highlights: HighlightItem[];
-}
-
-const AUTH_ERROR_MESSAGES: Record<string, string> = {
-  forbidden: "Ton compte ne dispose pas du rôle requis pour accéder au dashboard.",
-  oauth_callback_failed: "La connexion n'a pas abouti. Réessaie.",
-  oauth_code_missing: "La connexion a été interrompue. Réessaie.",
-  oauth_denied: "Connexion annulée ou refusée.",
-  auth_config_missing: "Configuration auth manquante. Contacte l'administrateur.",
-  auth_network: "Problème réseau pendant la connexion OAuth. Réessaie."
-};
-
-const AUTH_MODE_COPY: Record<string, AuthModeCopy> = {
-  signup: {
-    badge: "Communauté TakaCode",
-    titleLines: ["Commence ton", "prochain projet"],
-    description:
-      "Crée ton compte et accède aux parcours, ressources, sessions live et à une communauté qui apprend en construisant.",
-    highlights: [
-      {
-        icon: "lucide:book-open",
-        iconColor: "#4F8EF7",
-        shellClass: "bg-blue-500/10 border-blue-500/20",
-        title: "Apprends avec methode",
-        text: "Parcours guidés, ressources sélectionnées et exercices pratiques pour progresser à ton rythme."
-      },
-      {
-        icon: "lucide:users",
-        iconColor: "#9B6DFF",
-        shellClass: "bg-violet-500/10 border-violet-500/20",
-        title: "Construis avec la communaute",
-        text: "Participe aux sessions live, échange avec d'autres créateurs et avance ensemble."
-      },
-      {
-        icon: "lucide:zap",
-        iconColor: "#22D3EE",
-        shellClass: "bg-cyan-500/10 border-cyan-500/20",
-        title: "Accelere avec l'IA",
-        text: "Profite des meilleurs outils d'IA pour comprendre plus vite et transformer tes idées en projets concrets."
-      }
-    ]
-  },
-  signin: {
-    badge: "Bon retour",
-    titleLines: ["Retrouve tes projets", "et continue à avancer"],
-    description:
-      "Reconnecte-toi pour reprendre ton parcours, participer aux sessions live et poursuivre tes réalisations.",
-    highlights: [
-      {
-        icon: "lucide:rocket",
-        iconColor: "#4F8EF7",
-        shellClass: "bg-blue-500/10 border-blue-500/20",
-        title: "Reprends la ou tu t'es arrete",
-        text: "Tes parcours, ressources et projets t'attendent."
-      },
-      {
-        icon: "lucide:users",
-        iconColor: "#9B6DFF",
-        shellClass: "bg-violet-500/10 border-violet-500/20",
-        title: "Retrouve la communaute",
-        text: "Échange avec d'autres créateurs et participe aux prochaines sessions."
-      },
-      {
-        icon: "lucide:chart-column-increasing",
-        iconColor: "#22D3EE",
-        shellClass: "bg-cyan-500/10 border-cyan-500/20",
-        title: "Continue a progresser",
-        text: "Chaque étape te rapproche un peu plus de ton prochain projet."
-      }
-    ]
-  }
-};
 
 function sanitizeNextPath(value: string | null): string {
   if (typeof value !== "string") {
@@ -148,9 +64,9 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
   const searchParams = useSearchParams();
   const supabase = useMemo(() => createClient(), []);
   const { toast } = useToast();
+  const { t } = useI18n();
 
   const nextPath = sanitizeNextPath(searchParams.get("next"));
-  const queryError = searchParams.get("error");
   const resetSuccess = searchParams.get("reset") === "success";
   const referralFromQuery = searchParams.get("ref");
 
@@ -169,7 +85,6 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
 
   const passwordStrength = getPasswordStrength(password);
   const strengthMeta = getStrengthMeta(passwordStrength);
-  const modeCopy = AUTH_MODE_COPY[mode] ?? AUTH_MODE_COPY.signin;
 
   useEffect(() => {
     let isMounted = true;
@@ -249,12 +164,12 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
       });
 
       if (error) {
-        toast(toAuthErrorMessage(error, "Impossible de démarrer la connexion OAuth."), "error");
+        toast(toAuthErrorMessage(error, t("auth.oauthError")), "error");
         setLoading(false);
         return;
       }
     } catch {
-      toast("Problème réseau. Réessaie dans un instant.", "error");
+      toast(t("auth.networkError"), "error");
       setLoading(false);
     }
   }
@@ -269,7 +184,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
       });
 
       if (error) {
-        toast(toAuthErrorMessage(error, "Impossible de connecter le wallet."), "error");
+        toast(toAuthErrorMessage(error, t("auth.walletError")), "error");
         setLoading(false);
         return;
       }
@@ -277,7 +192,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
       router.push(nextPath);
       router.refresh();
     } catch {
-      toast("Problème réseau. Réessaie dans un instant.", "error");
+      toast(t("auth.networkError"), "error");
       setLoading(false);
     }
   }
@@ -287,7 +202,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
 
     const normalizedEmail = sanitizeAuthEmail(email);
     if (!normalizedEmail) {
-      toast("Entre ton email pour te connecter.", "error");
+      toast(t("auth.enterEmailError"), "error");
       return;
     }
 
@@ -300,7 +215,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
       });
 
       if (error) {
-        toast(toAuthErrorMessage(error, "Connexion impossible pour le moment."), "error");
+        toast(toAuthErrorMessage(error, t("auth.signInError")), "error");
         setLoading(false);
         return;
       }
@@ -308,7 +223,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
       router.push(nextPath);
       router.refresh();
     } catch {
-      toast("Problème réseau. Réessaie dans un instant.", "error");
+      toast(t("auth.networkError"), "error");
       setLoading(false);
     }
   }
@@ -318,17 +233,17 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
 
     const normalizedEmail = sanitizeAuthEmail(email);
     if (!normalizedEmail) {
-      toast("Entre une adresse email valide.", "error");
+      toast(t("auth.validEmailError"), "error");
       return;
     }
 
     if (password !== passwordConfirm) {
-      toast("Les mots de passe ne correspondent pas.", "error");
+      toast(t("auth.passwordMismatch"), "error");
       return;
     }
 
     if (passwordStrength < 75) {
-      toast("Utilise un mot de passe plus solide (min 10 caractères, majuscule, chiffre, symbole).", "error");
+      toast(t("auth.weakPasswordError"), "error");
       return;
     }
 
@@ -352,7 +267,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
       });
 
       if (error) {
-        toast(toAuthErrorMessage(error, "Inscription impossible pour le moment."), "error");
+        toast(toAuthErrorMessage(error, t("auth.signUpError")), "error");
         setLoading(false);
         return;
       }
@@ -363,10 +278,10 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
         return;
       }
 
-      toast("Compte créé. Vérifie ton email pour confirmer ton inscription.", "info");
+      toast(t("auth.checkEmail"), "info");
       setLoading(false);
     } catch {
-      toast("Problème réseau. Réessaie dans un instant.", "error");
+      toast(t("auth.networkError"), "error");
       setLoading(false);
     }
   }
@@ -378,7 +293,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
 
       <div className="relative z-10 w-full max-w-[1120px] mx-auto">
         <div className="mb-8 animate-fade-up">
-          <Link
+          <L
             href="/"
             id="nav-back-landing"
             className="inline-flex items-center gap-2 rounded-xl border border-white/[0.08] bg-black/30 px-4 py-2.5 group"
@@ -387,47 +302,98 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
               <iconify-icon icon="lucide:arrow-left" style={{ fontSize: "15px" }} />
             </span>
             <span className="text-[11px] font-semibold text-[#666] tracking-widest uppercase group-hover:text-[#9a9a9a] transition-colors">
-              Retour au site
+              {t("auth.backToSite")}
             </span>
-          </Link>
+          </L>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div className="hidden lg:block space-y-10 animate-fade-up">
-            <div className="section-label">{modeCopy.badge}</div>
-
-            <h1 className="font-valorax text-[56px] leading-[0.9] gradient-text-blue">
-              {modeCopy.titleLines.map((line: string, index: number) => (
-                <span key={line}>
-                  {line}
-                  {index < modeCopy.titleLines.length - 1 ? <br /> : null}
-                </span>
-              ))}
-            </h1>
-
-            <p className="text-[#888] text-lg max-w-xl font-body-readable">{modeCopy.description}</p>
-
-            <div className="space-y-5 pt-4">
-              {modeCopy.highlights.map((item: HighlightItem) => (
-                <div key={item.title} className="flex items-start gap-4">
-                  <div className={`w-11 h-11 rounded-xl border flex items-center justify-center flex-shrink-0 ${item.shellClass}`}>
-                    <iconify-icon icon={item.icon} style={{ color: item.iconColor, fontSize: "22px" }} />
+            {mode === "signup" ? (
+              <>
+                <div className="section-label">{t("auth.signUpHeroBadge")}</div>
+                <h1 className="font-valorax text-[56px] leading-[0.9] gradient-text-blue">
+                  {t("auth.signUpHeroTitle1")}<br />
+                  {t("auth.signUpHeroTitle2")}
+                </h1>
+                <p className="text-[#888] text-lg max-w-xl font-body-readable">{t("auth.signUpHeroDesc")}</p>
+                <div className="space-y-5 pt-4">
+                  <div className="flex items-start gap-4">
+                    <div className="w-11 h-11 rounded-xl border flex items-center justify-center flex-shrink-0 bg-blue-500/10 border-blue-500/20">
+                      <iconify-icon icon="lucide:book-open" style={{ color: "#4F8EF7", fontSize: "22px" }} />
+                    </div>
+                    <div>
+                      <h3 className="text-sm text-white font-venite-italic">{t("auth.signUpHighlight1Title")}</h3>
+                      <p className="text-[13px] text-[#555] font-body-readable">{t("auth.signUpHighlight1Desc")}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="text-sm text-white font-venite-italic">{item.title}</h3>
-                    <p className="text-[13px] text-[#555] font-body-readable">{item.text}</p>
+                  <div className="flex items-start gap-4">
+                    <div className="w-11 h-11 rounded-xl border flex items-center justify-center flex-shrink-0 bg-violet-500/10 border-violet-500/20">
+                      <iconify-icon icon="lucide:users" style={{ color: "#9B6DFF", fontSize: "22px" }} />
+                    </div>
+                    <div>
+                      <h3 className="text-sm text-white font-venite-italic">{t("auth.signUpHighlight2Title")}</h3>
+                      <p className="text-[13px] text-[#555] font-body-readable">{t("auth.signUpHighlight2Desc")}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-4">
+                    <div className="w-11 h-11 rounded-xl border flex items-center justify-center flex-shrink-0 bg-cyan-500/10 border-cyan-500/20">
+                      <iconify-icon icon="lucide:zap" style={{ color: "#22D3EE", fontSize: "22px" }} />
+                    </div>
+                    <div>
+                      <h3 className="text-sm text-white font-venite-italic">{t("auth.signUpHighlight3Title")}</h3>
+                      <p className="text-[13px] text-[#555] font-body-readable">{t("auth.signUpHighlight3Desc")}</p>
+                    </div>
                   </div>
                 </div>
-              ))}
-            </div>
+              </>
+            ) : (
+              <>
+                <div className="section-label">{t("auth.signInHeroBadge")}</div>
+                <h1 className="font-valorax text-[56px] leading-[0.9] gradient-text-blue">
+                  {t("auth.signInHeroTitle1")}<br />
+                  {t("auth.signInHeroTitle2")}
+                </h1>
+                <p className="text-[#888] text-lg max-w-xl font-body-readable">{t("auth.signInHeroDesc")}</p>
+                <div className="space-y-5 pt-4">
+                  <div className="flex items-start gap-4">
+                    <div className="w-11 h-11 rounded-xl border flex items-center justify-center flex-shrink-0 bg-blue-500/10 border-blue-500/20">
+                      <iconify-icon icon="lucide:rocket" style={{ color: "#4F8EF7", fontSize: "22px" }} />
+                    </div>
+                    <div>
+                      <h3 className="text-sm text-white font-venite-italic">{t("auth.signInHighlight1Title")}</h3>
+                      <p className="text-[13px] text-[#555] font-body-readable">{t("auth.signInHighlight1Desc")}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-4">
+                    <div className="w-11 h-11 rounded-xl border flex items-center justify-center flex-shrink-0 bg-violet-500/10 border-violet-500/20">
+                      <iconify-icon icon="lucide:users" style={{ color: "#9B6DFF", fontSize: "22px" }} />
+                    </div>
+                    <div>
+                      <h3 className="text-sm text-white font-venite-italic">{t("auth.signInHighlight2Title")}</h3>
+                      <p className="text-[13px] text-[#555] font-body-readable">{t("auth.signInHighlight2Desc")}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-4">
+                    <div className="w-11 h-11 rounded-xl border flex items-center justify-center flex-shrink-0 bg-cyan-500/10 border-cyan-500/20">
+                      <iconify-icon icon="lucide:chart-column-increasing" style={{ color: "#22D3EE", fontSize: "22px" }} />
+                    </div>
+                    <div>
+                      <h3 className="text-sm text-white font-venite-italic">{t("auth.signInHighlight3Title")}</h3>
+                      <p className="text-[13px] text-[#555] font-body-readable">{t("auth.signInHighlight3Desc")}</p>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
 
           <div className="w-full">
             <div className="bg-[#111] border border-white/[0.07] rounded-3xl p-8 sm:p-10 shadow-2xl relative onboarding-step animate-fade-up">
               <div className="flex items-center justify-between mb-8">
                 <div>
-                  <span className="text-[11px] font-semibold text-[#4F8EF7] uppercase tracking-widest">Authentification</span>
-                  <h2 className="font-valorax text-3xl mt-2">{mode === "signin" ? "SE CONNECTER" : "CREER UN COMPTE"}</h2>
+                  <span className="text-[11px] font-semibold text-[#4F8EF7] uppercase tracking-widest">{t("auth.authLabel")}</span>
+                  <h2 className="font-valorax text-3xl mt-2">{mode === "signin" ? t("auth.signInTitle") : t("auth.signUpTitle")}</h2>
                 </div>
               </div>
 
@@ -439,7 +405,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
                   onClick={() => handleOAuth("google")}
                 >
                   <iconify-icon icon="logos:google-icon" className="text-lg" />
-                  <span className="text-[12px]">Continuer avec Google</span>
+                  <span className="text-[12px]">{t("auth.continueWithGoogle")}</span>
                 </button>
 
                 <button
@@ -451,7 +417,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
                   <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-white">
                     <iconify-icon icon="logos:github-icon" style={{ fontSize: "14px" }} />
                   </span>
-                  <span className="text-[12px]">Continuer avec GitHub</span>
+                  <span className="text-[12px]">{t("auth.continueWithGithub")}</span>
                 </button>
               </div>
 
@@ -462,29 +428,29 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
                 onClick={handleWalletLogin}
               >
                 <iconify-icon icon="lucide:wallet" className="text-lg" />
-                <span className="text-[12px]">Continuer avec Wallet Ethereum</span>
+                <span className="text-[12px]">{t("auth.continueWithWallet")}</span>
               </button>
 
               <div className="flex items-center gap-4 mb-8">
                 <div className="h-px flex-1 bg-white/[0.05]" />
-                <span className="text-[11px] text-[#444] uppercase font-bold">ou</span>
+                <span className="text-[11px] text-[#444] uppercase font-bold">{t("auth.orDivider")}</span>
                 <div className="h-px flex-1 bg-white/[0.05]" />
               </div>
 
               {showResetSuccessState ? (
                 <div className="mb-4 rounded-xl border border-emerald-500/25 bg-emerald-500/10 px-4 py-4 text-emerald-100">
-                  <div className="text-[10px] font-semibold tracking-[0.16em] uppercase text-emerald-300 mb-1">C'est bon !</div>
-                  <div className="text-[14px] font-semibold mb-1">Ton mot de passe a été mis à jour</div>
-                  <p className="text-[12px] text-emerald-100/80 mb-2">Tu peux maintenant te reconnecter et reprendre là où tu t'étais arrêté.</p>
-                  <Link href="/signin?next=/dashboard" className="text-[12px] font-semibold text-emerald-200 hover:text-white transition-colors">
-                    Continuer mon parcours
-                  </Link>
+                  <div className="text-[10px] font-semibold tracking-[0.16em] uppercase text-emerald-300 mb-1">{t("auth.resetBadge")}</div>
+                  <div className="text-[14px] font-semibold mb-1">{t("auth.resetTitle")}</div>
+                  <p className="text-[12px] text-emerald-100/80 mb-2">{t("auth.resetDescription")}</p>
+                  <L href="/signin?next=/dashboard" className="text-[12px] font-semibold text-emerald-200 hover:text-white transition-colors">
+                    {t("auth.resetContinue")}
+                  </L>
                 </div>
               ) : null}
 
               {mode === "signup" && referralCode ? (
                 <div className="mb-4 rounded-xl border border-emerald-500/25 bg-emerald-500/10 px-4 py-3 text-[12px] text-emerald-200">
-                  Code parrainage détecté: <span className="font-semibold">{referralCode}</span>
+                  {t("auth.referralDetected")} <span className="font-semibold">{referralCode}</span>
                 </div>
               ) : null}
 
@@ -492,7 +458,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
                 {mode === "signup" ? (
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                      <label className="text-[12px] text-[#555] ml-1">Prenom</label>
+                      <label className="text-[12px] text-[#555] ml-1">{t("auth.signUpFirstName")}</label>
                       <input
                         type="text"
                         className="auth-input"
@@ -502,7 +468,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-[12px] text-[#555] ml-1">Nom</label>
+                      <label className="text-[12px] text-[#555] ml-1">{t("auth.signUpLastName")}</label>
                       <input
                         type="text"
                         className="auth-input"
@@ -515,11 +481,11 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
                 ) : null}
 
                 <div className="space-y-1.5">
-                  <label className="text-[12px] text-[#555] ml-1">Email</label>
+                  <label className="text-[12px] text-[#555] ml-1">{t("auth.email")}</label>
                   <input
                     type="email"
                     className="auth-input"
-                    placeholder="nom@exemple.com"
+                    placeholder={t("auth.emailPlaceholder")}
                     value={email}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}
                     required
@@ -528,11 +494,11 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
 
                 {mode === "signup" ? (
                   <div className="space-y-1.5">
-                    <label className="text-[12px] text-[#555] ml-1">Code de parrainage (facultatif)</label>
+                    <label className="text-[12px] text-[#555] ml-1">{t("auth.signUpReferralCode")}</label>
                     <input
                       type="text"
                       className="auth-input uppercase"
-                      placeholder="ABC123DEF0"
+                      placeholder={t("auth.signUpReferralPlaceholder")}
                       value={referralCode}
                       maxLength={16}
                       onChange={(event: React.ChangeEvent<HTMLInputElement>) => setReferralCode(event.target.value.toUpperCase())}
@@ -541,7 +507,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
                 ) : null}
 
                 <div className="space-y-1.5">
-                  <label className="text-[12px] text-[#555] ml-1">Mot de passe</label>
+                  <label className="text-[12px] text-[#555] ml-1">{t("auth.password")}</label>
                   <div className="relative">
                     <input
                       type={showPassword ? "text" : "password"}
@@ -556,7 +522,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
                       className="absolute right-2 top-1/2 -translate-y-1/2 text-[11px] text-[#8FA8FF] hover:text-white transition-colors"
                       onClick={() => setShowPassword((current) => !current)}
                     >
-                      {showPassword ? "Masquer" : "Afficher"}
+                      {showPassword ? t("auth.hidePassword") : t("auth.showPassword")}
                     </button>
                   </div>
                   {mode === "signup" ? (
@@ -564,14 +530,14 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
                       <div className="h-1 rounded bg-[#222] mt-1 overflow-hidden">
                         <div className="h-full transition-all" style={{ width: `${passwordStrength}%`, backgroundColor: strengthMeta.color }} />
                       </div>
-                      <p className="text-[10px] text-[#666] mt-1">{strengthMeta.label}</p>
+                      <p className="text-[10px] text-[#666] mt-1">{passwordStrength < 45 ? t("auth.passwordWeak") : passwordStrength < 75 ? t("auth.passwordMedium") : t("auth.passwordStrong")}</p>
                     </>
                   ) : null}
                 </div>
 
                 {mode === "signup" ? (
                   <div className="space-y-1.5">
-                    <label className="text-[12px] text-[#555] ml-1">Confirmer le mot de passe</label>
+                    <label className="text-[12px] text-[#555] ml-1">{t("auth.signUpConfirmPassword")}</label>
                     <div className="relative">
                       <input
                         type={showPasswordConfirm ? "text" : "password"}
@@ -586,7 +552,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
                         className="absolute right-2 top-1/2 -translate-y-1/2 text-[11px] text-[#8FA8FF] hover:text-white transition-colors"
                         onClick={() => setShowPasswordConfirm((current) => !current)}
                       >
-                        {showPasswordConfirm ? "Masquer" : "Afficher"}
+                        {showPasswordConfirm ? t("auth.hidePassword") : t("auth.showPassword")}
                       </button>
                     </div>
                   </div>
@@ -594,21 +560,21 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
 
                 {mode === "signin" ? (
                   <div className="flex items-center justify-end">
-                    <Link href="/forgot-password" className="text-[12px] text-[#4F8EF7] hover:underline">
-                      Mot de passe oublié ?
-                    </Link>
+                    <L href="/forgot-password" className="text-[12px] text-[#4F8EF7] hover:underline">
+                      {t("auth.forgotPassword")}
+                    </L>
                   </div>
                 ) : null}
 
                 <button type="submit" className="btn-primary w-full h-[48px]" disabled={loading}>
-                  {loading ? "Chargement..." : mode === "signin" ? "Se connecter" : "Créer mon compte"}
+                  {loading ? t("common.loading") : mode === "signin" ? t("auth.signIn") : t("auth.signUpCreateAccount")}
                 </button>
               </form>
 
               <div className="mt-8 pt-8 border-t border-white/[0.05] text-center text-[13px] text-[#666]">
                 {mode === "signin" ? (
                   <>
-                    Pas encore membre ?{" "}
+                    {t("auth.noAccountPrompt")}{" "}
                     <button
                       type="button"
                       className="text-white font-medium hover:underline"
@@ -616,12 +582,12 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
                         setMode("signup");
                       }}
                     >
-                      Créer un compte
+                      {t("auth.createAccountLink")}
                     </button>
                   </>
                 ) : (
                   <>
-                    Déjà membre ?{" "}
+                    {t("auth.hasAccountPrompt")}{" "}
                     <button
                       type="button"
                       className="text-white font-medium hover:underline"
@@ -629,7 +595,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
                         setMode("signin");
                       }}
                     >
-                      Se connecter
+                      {t("auth.signInLink")}
                     </button>
                   </>
                 )}

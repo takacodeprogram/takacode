@@ -1,8 +1,11 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextRequest, NextResponse } from "next/server";
+import { SUPPORTED_LOCALES, DEFAULT_LOCALE } from "../../../lib/i18n";
+import type { Locale } from "../../../lib/i18n";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+const COOKIE_NAME = "takacode_locale";
 
 function getConfig() {
   if (!supabaseUrl || !supabaseKey) {
@@ -12,11 +15,25 @@ function getConfig() {
   return { supabaseUrl, supabaseKey };
 }
 
+function getLocaleFromRequest(request: NextRequest): Locale {
+  const cookie = request.cookies.get(COOKIE_NAME)?.value;
+  if (cookie && SUPPORTED_LOCALES.includes(cookie as Locale)) {
+    return cookie as Locale;
+  }
+  return DEFAULT_LOCALE;
+}
+
+function localeSigninUrl(request: NextRequest): URL {
+  const requestUrl = new URL(request.url);
+  const locale = getLocaleFromRequest(request);
+  const path = locale === DEFAULT_LOCALE ? "/signin" : `/${locale}/signin`;
+  return new URL(path, requestUrl.origin);
+}
+
 async function signOutAndRedirect(request: NextRequest) {
   const { supabaseUrl: url, supabaseKey: key } = getConfig();
-  const requestUrl = new URL(request.url);
 
-  const response = NextResponse.redirect(new URL("/signin", requestUrl.origin));
+  const response = NextResponse.redirect(localeSigninUrl(request));
 
   const supabase = createServerClient(url, key, {
     cookies: {
@@ -37,8 +54,7 @@ async function signOutAndRedirect(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
-  const requestUrl = new URL(request.url);
-  return NextResponse.redirect(new URL("/signin", requestUrl.origin));
+  return NextResponse.redirect(localeSigninUrl(request));
 }
 
 export async function POST(request: NextRequest) {

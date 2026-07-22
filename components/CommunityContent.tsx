@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import L from "./L";
 import { createClient } from "../utils/supabase/client";
 import { getPlatformStats, PlatformStatsData } from "../lib/platformStats";
 import { getCommunityProjects, CommunityProject, getProjectComments, ProjectComment } from "../lib/community";
@@ -162,7 +162,7 @@ export default function CommunityContent() {
                 <div className="font-venite text-[13px] tracking-widest text-[#888] mb-4">ACTIVITE RECENTE</div>
                 <div className="space-y-3">
                   {projects.slice(0, 3).map((project, i) => (
-                    <Link key={project.id} href={`/projets/${project.id}`} className="flex items-center gap-3 rounded-lg p-3 hover:bg-white/[0.02] transition-colors">
+                    <L key={project.id} href={`/projects/${project.id}`} className="flex items-center gap-3 rounded-lg p-3 hover:bg-white/[0.02] transition-colors">
                       <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/15 flex items-center justify-center shrink-0">
                         <iconify-icon icon={project.liveUrl ? "lucide:globe" : "lucide:hammer"} className="text-[#4F8EF7]" style={{ fontSize: "18px" }} />
                       </div>
@@ -177,7 +177,7 @@ export default function CommunityContent() {
                       <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${project.liveUrl ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-200" : "border-white/[0.12] bg-white/[0.03] text-[#888]"}`}>
                         {project.liveUrl ? "En ligne" : "En cours"}
                       </span>
-                    </Link>
+                    </L>
                   ))}
                   {projects.length === 0 && (
                     <div className="text-center text-[12px] text-[#666] py-4">Aucune activité récente. Publie ton premier projet !</div>
@@ -199,7 +199,7 @@ export default function CommunityContent() {
                         <option value="in_progress">En cours</option>
                         <option value="all">Tous</option>
                       </select>
-                      <Link href="/projets" className="text-[11px] text-[#4F8EF7] hover:underline">Voir tout</Link>
+                      <L href="/projects" className="text-[11px] text-[#4F8EF7] hover:underline">Voir tout</L>
                     </div>
                   </div>
 
@@ -319,17 +319,17 @@ export default function CommunityContent() {
                   <div>
                     <div className="flex items-center justify-between mb-3">
                       <h2 className="font-venite text-[13px] tracking-widest text-[#888]">TOP MEMBRES</h2>
-                      <Link href="/classement" className="text-[11px] text-[#4F8EF7] hover:underline">Classement</Link>
+                      <L href="/leaderboard" className="text-[11px] text-[#4F8EF7] hover:underline">Classement</L>
                     </div>
                     <div className="rounded-2xl border border-white/[0.08] bg-[#111] divide-y divide-white/[0.05]">
                       {topMembers.length ? (
                         topMembers.map((entry) => (
-                          <Link key={entry.rank} href={`/profil/${entry.id}`} className="flex items-center gap-3 px-4 py-2.5 hover:bg-white/[0.02] transition-colors">
+                          <L key={entry.rank} href={`/profile/${entry.id}`} className="flex items-center gap-3 px-4 py-2.5 hover:bg-white/[0.02] transition-colors">
                             <span className="w-5 text-center text-[12px] text-[#888] font-semibold">{entry.rank}</span>
                             <Avatar url={entry.avatarUrl} name={entry.publicName} size={30} />
                             <span className="flex-1 min-w-0 text-[12px] text-white font-semibold truncate">{entry.publicName}</span>
                             <span className="text-[11px] text-[#6ec3ff] font-semibold shrink-0">{entry.points} XP</span>
-                          </Link>
+                          </L>
                         ))
                       ) : (
                         <div className="px-4 py-4 text-[12px] text-[#777] font-body-readable">Le classement se remplira bientôt.</div>

@@ -1,11 +1,12 @@
 "use client";
 
-import Link from "next/link";
+import L from "./L";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toAuthErrorMessage } from "../lib/authErrors";
 import { createClient } from "../utils/supabase/client";
 import { useToast } from "./Toast";
+import { useI18n } from "./I18nProvider";
 
 function getPasswordStrength(password: string): number {
   let score = 0;
@@ -38,6 +39,7 @@ export default function ResetPasswordPageClient() {
   const router = useRouter();
   const supabase = useMemo(() => createClient(), []);
   const { toast } = useToast();
+  const { t } = useI18n();
 
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -58,11 +60,11 @@ export default function ResetPasswordPageClient() {
         } = await supabase.auth.getSession();
 
         if (!session && isMounted) {
-          toast("Ouvre cette page depuis le lien reçu par email pour choisir ton nouveau mot de passe.", "info");
+          toast(t("auth.resetPasswordNoSession"), "info");
         }
       } catch {
         if (isMounted) {
-          toast("Impossible de vérifier la session. Recharge la page depuis le lien reçu par email.", "info");
+          toast(t("auth.resetPasswordSessionError"), "info");
         }
       }
     }
@@ -78,12 +80,12 @@ export default function ResetPasswordPageClient() {
     event.preventDefault();
 
     if (password !== confirmPassword) {
-      toast("Les mots de passe ne correspondent pas.", "error");
+      toast(t("auth.resetPasswordMismatch"), "error");
       return;
     }
 
     if (strength < 75) {
-      toast("Choisis un mot de passe plus solide (min 10 caractères, majuscule, chiffre, symbole).", "error");
+      toast(t("auth.resetPasswordWeakError"), "error");
       return;
     }
 
@@ -93,7 +95,7 @@ export default function ResetPasswordPageClient() {
       const { error } = await supabase.auth.updateUser({ password });
 
       if (error) {
-        toast(toAuthErrorMessage(error, "Impossible de mettre à jour le mot de passe."), "error");
+        toast(toAuthErrorMessage(error, t("auth.resetPasswordUpdateError")), "error");
         return;
       }
 
@@ -101,7 +103,7 @@ export default function ResetPasswordPageClient() {
       router.replace("/signin?reset=success");
       router.refresh();
     } catch {
-      toast("Problème réseau. Réessaie dans un instant.", "error");
+      toast(t("auth.resetPasswordNetworkError"), "error");
     } finally {
       setLoading(false);
     }
@@ -110,15 +112,15 @@ export default function ResetPasswordPageClient() {
   return (
     <main className="min-h-screen bg-[#0A0A0A] text-white px-6 py-20 md:py-24 flex items-center justify-center">
       <div className="w-full max-w-[560px] bg-[#111] border border-white/[0.07] rounded-3xl p-8 sm:p-10">
-        <div className="section-label mb-4">NOUVEAU MOT DE PASSE</div>
-        <h1 className="font-valorax text-[34px] mb-4">PRET A REPRENDRE ?</h1>
+        <div className="section-label mb-4">{t("auth.resetPasswordBadge")}</div>
+        <h1 className="font-valorax text-[34px] mb-4">{t("auth.resetPasswordTitle")}</h1>
         <p className="font-body-readable text-[14px] text-[#888] leading-relaxed mb-8">
-          Choisis un nouveau mot de passe pour retrouver ton espace et poursuivre tes projets.
+          {t("auth.resetPasswordDesc")}
         </p>
 
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="space-y-1.5">
-            <label className="text-[12px] text-[#555] ml-1">Nouveau mot de passe</label>
+            <label className="text-[12px] text-[#555] ml-1">{t("auth.resetPasswordNewLabel")}</label>
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
@@ -133,17 +135,17 @@ export default function ResetPasswordPageClient() {
                 className="absolute right-2 top-1/2 -translate-y-1/2 text-[11px] text-[#8FA8FF] hover:text-white transition-colors"
                 onClick={() => setShowPassword((current) => !current)}
               >
-                {showPassword ? "Masquer" : "Afficher"}
+                {showPassword ? t("auth.hidePassword") : t("auth.showPassword")}
               </button>
             </div>
             <div className="h-1 rounded bg-[#222] mt-1 overflow-hidden">
               <div className="h-full transition-all" style={{ width: `${strength}%`, backgroundColor: strengthMeta.color }} />
             </div>
-            <p className="text-[10px] text-[#666] mt-1">{strengthMeta.label}</p>
+            <p className="text-[10px] text-[#666] mt-1">{strength < 45 ? t("auth.passwordWeak") : strength < 75 ? t("auth.passwordMedium") : t("auth.passwordStrong")}</p>
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-[12px] text-[#555] ml-1">Confirmer le mot de passe</label>
+            <label className="text-[12px] text-[#555] ml-1">{t("auth.resetPasswordConfirmLabel")}</label>
             <div className="relative">
               <input
                 type={showConfirmPassword ? "text" : "password"}
@@ -158,23 +160,23 @@ export default function ResetPasswordPageClient() {
                 className="absolute right-2 top-1/2 -translate-y-1/2 text-[11px] text-[#8FA8FF] hover:text-white transition-colors"
                 onClick={() => setShowConfirmPassword((current) => !current)}
               >
-                {showConfirmPassword ? "Masquer" : "Afficher"}
+                {showConfirmPassword ? t("auth.hidePassword") : t("auth.showPassword")}
               </button>
             </div>
           </div>
 
           <button type="submit" className="btn-primary w-full h-[48px]" disabled={loading}>
-            {loading ? "Mise à jour..." : "Reprendre mon parcours"}
+            {loading ? t("auth.resetPasswordLoading") : t("auth.resetPasswordSubmit")}
           </button>
         </form>
 
         <div className="mt-8 pt-6 border-t border-white/[0.05] text-[13px] flex items-center justify-between">
-          <Link href="/signin" className="text-[#888] hover:text-white transition-colors">
-            Retour à la connexion
-          </Link>
-          <Link href="/forgot-password" className="text-[#4F8EF7] hover:underline">
-            Nouveau lien
-          </Link>
+          <L href="/signin" className="text-[#888] hover:text-white transition-colors">
+            {t("auth.resetPasswordBack")}
+          </L>
+          <L href="/forgot-password" className="text-[#4F8EF7] hover:underline">
+            {t("auth.resetPasswordNewLink")}
+          </L>
         </div>
       </div>
     </main>

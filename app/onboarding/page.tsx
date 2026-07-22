@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { redirectLocale } from "../../lib/redirectLocale";
 import OnboardingExperiencePage from "../../components/OnboardingExperiencePage";
 import { userHasRole } from "../../lib/auth";
 import { isOnboardingCompleted } from "../../lib/onboarding";
@@ -48,11 +49,11 @@ export default async function OnboardingPage() {
   }
 
   if (!userHasRole(user, ["user", "admin"])) {
-    redirect("/signin?error=forbidden");
+    await redirectLocale("/signin?error=forbidden");
   }
 
   if (isOnboardingCompleted(user)) {
-    redirect("/dashboard");
+    await redirectLocale("/dashboard");
   }
 
   return (

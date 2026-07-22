@@ -38,10 +38,10 @@ export const MEMBER_NAV: NavItem[] = [
     icon: "lucide:graduation-cap",
     tour: "formation",
     children: [
-      { href: "/dashboard/parcours", icon: "lucide:map", label: "Mes parcours", tour: "parcours" },
-      { href: "/dashboard/projets", icon: "lucide:folder-code", label: "Mes projets", tour: "projets" },
-      { href: "/dashboard/reviews", icon: "lucide:git-pull-request", label: "Revues", tour: "reviews" },
-      { href: "/dashboard/ressources", icon: "lucide:book-open", label: "Ressources", tour: "ressources" },
+      { href: "/dashboard/tracks", icon: "lucide:map", label: "My tracks", tour: "tracks" },
+      { href: "/dashboard/projects", icon: "lucide:folder-code", label: "My projects", tour: "projects" },
+      { href: "/dashboard/reviews", icon: "lucide:git-pull-request", label: "Reviews", tour: "reviews" },
+      { href: "/dashboard/resources", icon: "lucide:book-open", label: "Resources", tour: "resources" },
     ],
   },
   {
@@ -49,8 +49,8 @@ export const MEMBER_NAV: NavItem[] = [
     icon: "lucide:globe",
     tour: "communaute-group",
     children: [
-      { href: "/dashboard/sessions", icon: "lucide:video", label: "Sessions live", live: true, tour: "sessions" },
-      { href: "/dashboard/communaute", icon: "lucide:users", label: "Communaute", tour: "communaute" },
+      { href: "/dashboard/sessions", icon: "lucide:video", label: "Live sessions", live: true, tour: "sessions" },
+      { href: "/dashboard/community", icon: "lucide:users", label: "Community", tour: "community" },
     ],
   },
   {
@@ -58,10 +58,10 @@ export const MEMBER_NAV: NavItem[] = [
     icon: "lucide:settings",
     tour: "personnel",
     children: [
-      { href: "/dashboard/outils", icon: "lucide:wrench", label: "Outils", tour: "outils" },
-      { href: "/dashboard/nouveautes", icon: "lucide:sparkles", label: "Nouveautes", badge: v },
-      { href: "/dashboard/documentation", icon: "lucide:book-open", label: "Documentation", exact: true },
-      { href: "/dashboard/profil", icon: "lucide:user", label: "Profil", tour: "profil" },
+      { href: "/dashboard/tools", icon: "lucide:wrench", label: "Outils", tour: "tools" },
+      { href: "/dashboard/changelog", icon: "lucide:sparkles", label: "Nouveautes", badge: v },
+      { href: "/dashboard/docs", icon: "lucide:book-open", label: "Documentation", exact: true },
+      { href: "/dashboard/profile", icon: "lucide:user", label: "Profil", tour: "profile" },
     ],
   },
 ];
@@ -72,12 +72,12 @@ export const MENTOR_LINK: NavLink = { href: "/dashboard/mentor", icon: "lucide:b
 
 export const ADMIN_AREA_LINKS: NavLink[] = [
   { href: "/admin", icon: "lucide:layout-dashboard", label: "Vue globale", exact: true },
-  { href: "/admin/utilisateurs", icon: "lucide:users", label: "Utilisateurs" },
-  { href: "/admin/parcours", icon: "lucide:route", label: "Parcours" },
+  { href: "/admin/users", icon: "lucide:users", label: "Utilisateurs" },
+  { href: "/admin/tracks", icon: "lucide:route", label: "Parcours" },
   { href: "/admin/sessions", icon: "lucide:video", label: "Sessions live" },
-  { href: "/admin/revues", icon: "lucide:git-pull-request", label: "Historique des revues" },
-  { href: "/admin/affiliations", icon: "lucide:link", label: "Affiliations" },
-  { href: "/admin/ia", icon: "lucide:bot", label: "Review IA" }
+  { href: "/admin/reviews", icon: "lucide:git-pull-request", label: "Historique des revues" },
+  { href: "/admin/affiliates", icon: "lucide:link", label: "Affiliations" },
+  { href: "/admin/ai", icon: "lucide:bot", label: "Review IA" }
 ];
 
 export function isAdminAreaPath(pathname: string): boolean {

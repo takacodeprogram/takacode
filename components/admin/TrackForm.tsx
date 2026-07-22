@@ -8,6 +8,7 @@ import TrackLivePreview from "./TrackLivePreview";
 import TrackVersionHistory from "./TrackVersionHistory";
 import { useAutosave } from "../../hooks/useAutosave";
 import { useToast } from "../Toast";
+import { useI18n } from "../I18nProvider";
 
 interface TrackData {
   id: string;
@@ -50,12 +51,12 @@ interface ValidationErrors {
 const TRACK_SELECT = "id, slug, title, is_published, is_active";
 
 const TABS = [
-  { id: "identite", label: "Identité" },
-  { id: "cible", label: "Cible" },
-  { id: "promesse", label: "Promesse" },
-  { id: "structure", label: "Structure" },
-  { id: "publication", label: "Publication" },
-] as const;
+  { id: "identite" as const, labelKey: "trackForm.tabsIdentite" },
+  { id: "cible" as const, labelKey: "trackForm.tabsCible" },
+  { id: "promesse" as const, labelKey: "trackForm.tabsPromesse" },
+  { id: "structure" as const, labelKey: "trackForm.tabsStructure" },
+  { id: "publication" as const, labelKey: "trackForm.tabsPublication" },
+];
 
 type TabId = (typeof TABS)[number]["id"];
 
@@ -97,10 +98,11 @@ function TabDot({ filled }: { filled: boolean }) {
   return <span className={`inline-block w-1.5 h-1.5 rounded-full ${filled ? "bg-emerald-400" : "bg-[#444]"}`} />;
 }
 
-export default function TrackForm({ mode = "create", track = null, proposal = false, userId = "", redirectBase = "/admin/parcours" }: TrackFormProps) {
+export default function TrackForm({ mode = "create", track = null, proposal = false, userId = "", redirectBase = "/admin/tracks" }: TrackFormProps) {
   const router = useRouter();
   const supabase = useMemo(() => createClient(), []);
   const { toast } = useToast();
+  const { t } = useI18n();
   const isEdit = mode === "edit";
 
   const [form, setForm] = useState<Record<string, string>>(() => ({
@@ -143,7 +145,7 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
     await createVersion(versionLabel.trim());
     setShowVersionPrompt(false);
     setVersionLabel("");
-    toast("Version créée avec succès", "success");
+    toast(t("trackForm.versionCreated"), "success");
   }
 
   async function handleCompareVersion(version: VersionEntry) {
@@ -202,15 +204,15 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
     const errs: ValidationErrors = {};
     for (const field of requiredFields) {
       if (!form[field]?.trim()) {
-        errs[field] = "Ce champ est obligatoire.";
+        errs[field] = t("trackForm.fieldRequired");
       }
     }
     if (!isEdit) {
       const slug = form.slug?.trim().toLowerCase() || "";
       if (!slug) {
-        errs.slug = "Le slug est obligatoire.";
+        errs.slug = t("trackForm.slugRequired");
       } else if (!slugIsValid(slug)) {
-        errs.slug = "Lettres minuscules, chiffres et tirets uniquement.";
+        errs.slug = t("trackForm.slugInvalid");
       }
     }
     return errs;
@@ -244,7 +246,7 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
     const summary = form.summary.trim();
     return {
       goal_key: form.goal_key.trim().toLowerCase() || "other",
-      title: form.title.trim() || "Parcours",
+      title: form.title.trim() || t("trackForm.trackDefault"),
       summary: summary || "Parcours en préparation.",
       description: summary || "Parcours en préparation.",
       level_label: form.level_label.trim() || "Debutant",
@@ -283,7 +285,7 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
       }
       await createVersion("Sauvegarde manuelle");
       markSaved();
-      toast("Parcours mis à jour.", "success");
+      toast(t("trackForm.updated"), "success");
       setDirty(false);
       setSaving(false);
       router.refresh();
@@ -313,22 +315,22 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
         return (
           <>
             {!isEdit && (
-              <Field label="Slug (url)" error={errors.slug}>
-                <input className={INPUT_CLASS} placeholder="ex: automatisation-ia" value={form.slug} onChange={(e) => setField("slug", e.target.value)} />
+              <Field label={t("trackForm.fieldSlug")} error={errors.slug}>
+                <input className={INPUT_CLASS} placeholder={t("trackForm.fieldSlugPlaceholder")} value={form.slug} onChange={(e) => setField("slug", e.target.value)} />
               </Field>
             )}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <Field label="Titre" error={errors.title}>
+              <Field label={t("trackForm.fieldTitle")} error={errors.title}>
                 <input className={INPUT_CLASS} value={form.title} onChange={(e) => setField("title", e.target.value)} />
               </Field>
-              <Field label="Icone">
+              <Field label={t("trackForm.fieldIcon")}>
                 <input className={INPUT_CLASS} value={form.icon} onChange={(e) => setField("icon", e.target.value)} />
               </Field>
             </div>
-            <Field label="Resume" error={errors.summary}>
+            <Field label={t("trackForm.fieldSummary")} error={errors.summary}>
               <textarea className={`${INPUT_CLASS} min-h-[64px]`} value={form.summary} onChange={(e) => setField("summary", e.target.value)} />
             </Field>
-            <Field label="Objectif">
+            <Field label={t("trackForm.fieldObjective")}>
               <textarea className={`${INPUT_CLASS} min-h-[64px]`} value={form.objective} onChange={(e) => setField("objective", e.target.value)} />
             </Field>
           </>
@@ -337,17 +339,17 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
         return (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <Field label="goal_key">
+              <Field label={t("trackForm.fieldGoalKey")}>
                 <input className={INPUT_CLASS} value={form.goal_key} onChange={(e) => setField("goal_key", e.target.value)} />
               </Field>
-              <Field label="Niveau">
+              <Field label={t("trackForm.fieldLevel")}>
                 <input className={INPUT_CLASS} value={form.level_label} onChange={(e) => setField("level_label", e.target.value)} />
               </Field>
             </div>
-            <Field label="Session suivante">
+            <Field label={t("trackForm.fieldNextSession")}>
               <input className={INPUT_CLASS} value={form.next_session} onChange={(e) => setField("next_session", e.target.value)} />
             </Field>
-            <Field label="Ressources (separees par virgule)">
+            <Field label={t("trackForm.fieldResources")}>
               <input className={INPUT_CLASS} value={form.resources} onChange={(e) => setField("resources", e.target.value)} />
             </Field>
           </>
@@ -356,14 +358,14 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
         return (
           <div className="space-y-3">
             <p className="text-[11px] text-[#6d6d6d] font-body-readable">
-              Explique pourquoi ce parcours existe et ce que l'apprenant va construire.
+              {t("trackForm.promiseHint")}
             </p>
-            <Field label="Objectif / Promesse">
+            <Field label={t("trackForm.fieldObjective")}>
               <textarea className={`${INPUT_CLASS} min-h-[100px]`} value={form.objective} onChange={(e) => setField("objective", e.target.value)} />
             </Field>
             {!isEdit && (
               <div className="rounded-xl border border-blue-500/25 bg-blue-500/10 px-3.5 py-2.5 text-[12px] text-blue-100 font-body-readable">
-                Cette promesse sera affichee sur la carte du parcours dans le catalogue.
+                {t("trackForm.promisePublic")}
               </div>
             )}
           </div>
@@ -371,17 +373,17 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
       case "structure":
         return (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            <Field label="Durée (sem.)">
+            <Field label={t("trackForm.fieldDuration")}>
               <input type="number" min="1" className={INPUT_CLASS} value={form.duration_weeks} onChange={(e) => setField("duration_weeks", e.target.value)} />
             </Field>
-            <Field label="Ordre">
+            <Field label={t("trackForm.fieldOrder")}>
               <input type="number" min="1" className={INPUT_CLASS} value={form.sort_order} onChange={(e) => setField("sort_order", e.target.value)} />
             </Field>
-            <Field label="Couleur">
+            <Field label={t("trackForm.fieldColor")}>
               <input className={INPUT_CLASS} value={form.accent_color} onChange={(e) => setField("accent_color", e.target.value)} />
             </Field>
             {isEdit && (
-              <Field label="Slug">
+              <Field label={t("trackForm.fieldSlug")}>
                 <div className="text-[11px] text-[#6d6d6d] h-[36px] flex items-center">/{track?.slug}</div>
               </Field>
             )}
@@ -391,7 +393,7 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
         if (proposal) {
           return (
             <div className="rounded-xl border border-blue-500/25 bg-blue-500/10 px-3.5 py-2.5 text-[12px] text-blue-100 font-body-readable">
-              Cette proposition sera <span className="font-semibold">validée par un admin</span> avant d etre publiee.
+              {t("trackForm.proposalNote")}
             </div>
           );
         }
@@ -399,17 +401,17 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
           <div className="space-y-4">
             <div className="flex items-center gap-5">
               <label className="text-[11px] text-[#9b9b9b] flex items-center gap-1.5">
-                <input type="checkbox" checked={form.is_published === "true"} onChange={(e) => setField("is_published", e.target.checked ? "true" : "false")} /> Publie
+                <input type="checkbox" checked={form.is_published === "true"} onChange={(e) => setField("is_published", e.target.checked ? "true" : "false")} /> {t("trackForm.publishedLabel")}
               </label>
               <label className="text-[11px] text-[#9b9b9b] flex items-center gap-1.5">
-                <input type="checkbox" checked={form.is_active === "true"} onChange={(e) => setField("is_active", e.target.checked ? "true" : "false")} /> Actif
+                <input type="checkbox" checked={form.is_active === "true"} onChange={(e) => setField("is_active", e.target.checked ? "true" : "false")} /> {t("trackForm.activeLabel")}
               </label>
             </div>
             {isEdit && track?.slug && (
               <div className="flex items-center gap-2">
-                <Link href={`/parcours/${track.slug}`} target="_blank" rel="noopener noreferrer" className="text-[11px] text-[#4F8EF7] hover:underline inline-flex items-center gap-1">
+                <Link href={`/tracks/${track.slug}`} target="_blank" rel="noopener noreferrer" className="text-[11px] text-[#4F8EF7] hover:underline inline-flex items-center gap-1">
                   <iconify-icon icon="lucide:external-link" style={{ fontSize: "12px" }} />
-                  Voir en public
+                  {t("admin.seePublic")}
                 </Link>
               </div>
             )}
@@ -424,7 +426,7 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
       <div className="px-5 pt-4 pb-2">
         <div className="flex items-center gap-2 mb-2">
           <span className="text-[10px] text-[#6d6d6d] uppercase tracking-widest">
-            Completeur : {filledCount}/{requiredFields.length}
+            {t("trackForm.completeness").replace("{n}", String(filledCount)).replace("{total}", String(requiredFields.length))}
           </span>
           <div className="flex-1 h-1 rounded-full bg-[#222] overflow-hidden">
             <div
@@ -457,7 +459,7 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
               ) : (
                 <TabDot filled={complete === 1} />
               )}
-              {tab.label}
+               {t(tab.labelKey)}
             </button>
           );
         })}
@@ -476,11 +478,11 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
           className="flex items-center gap-2 text-[10px] text-[#6d6d6d] uppercase tracking-widest hover:text-[#aaa] transition-colors"
         >
           <iconify-icon icon={showPreview ? "lucide:eye-off" : "lucide:eye"} style={{ fontSize: "12px" }} />
-          Apercu public {showPreview ? "— masquer" : "— montrer"}
+          {showPreview ? t("trackForm.previewHide") : t("trackForm.previewShow")}
         </button>
         {showPreview && (
           <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="text-[10px] text-[#555] uppercase tracking-widest font-semibold self-end">Tel qu'affiché dans le catalogue</div>
+            <div className="text-[10px] text-[#555] uppercase tracking-widest font-semibold self-end">{t("trackForm.previewCatalog")}</div>
             <TrackLivePreview
               data={{
                 title: form.title || "",
@@ -505,7 +507,7 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
                 className="flex items-center gap-2 text-[10px] text-[#6d6d6d] uppercase tracking-widest hover:text-[#aaa] transition-colors"
               >
                 <iconify-icon icon="lucide:plus-circle" style={{ fontSize: "12px" }} />
-                Créer une version manuelle
+                {t("trackForm.createVersion")}
               </button>
               {showVersionPrompt && (
                 <div className="flex items-center gap-2 ml-auto">
@@ -513,7 +515,7 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
                     type="text"
                     value={versionLabel}
                     onChange={(e) => setVersionLabel(e.target.value)}
-                    placeholder="Label (ex: Avant refonte design)"
+                    placeholder={t("trackForm.versionLabel")}
                     className="auth-input text-[11px] w-[200px]"
                     onKeyDown={(e) => e.key === "Enter" && handleCreateManualVersion()}
                     autoFocus
@@ -523,14 +525,14 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
                     onClick={handleCreateManualVersion}
                     className="btn-primary text-[11px] px-3 py-1.5"
                   >
-                    Créer
+                    {t("trackForm.versionCreate")}
                   </button>
                   <button
                     type="button"
                     onClick={() => { setShowVersionPrompt(false); setVersionLabel(""); }}
                     className="text-[11px] text-[#888] hover:text-white px-2 py-1.5"
                   >
-                    Annuler
+                    {t("admin.cancel")}
                   </button>
                 </div>
               )}
@@ -564,7 +566,7 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
             {comparingVersionId && comparisonSnapshot && (
               <div className="rounded-xl border border-blue-500/30 bg-blue-500/10 p-3">
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-[10px] text-blue-100 uppercase tracking-widest font-semibold">Comparaison avec la version actuelle</span>
+                  <span className="text-[10px] text-blue-100 uppercase tracking-widest font-semibold">{t("trackForm.compareTitle")}</span>
                   <button type="button" onClick={closeComparison} className="text-blue-300 hover:text-white text-[14px]">✕</button>
                 </div>
                 <div className="grid grid-cols-2 gap-4 text-[11px]">
@@ -596,9 +598,9 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
       {/* Footer with actions */}
       <div className="flex items-center justify-between gap-3 border-t border-white/[0.06] px-5 py-4">
         <div className="flex items-center gap-3">
-          {autosaveStatus === "saving" && <span className="text-[10px] text-[#4F8EF7]">Enregistrement automatique...</span>}
-          {autosaveStatus === "saved" && <span className="text-[10px] text-emerald-400">Brouillon sauvegarde</span>}
-          {dirty && autosaveStatus !== "saving" && autosaveStatus !== "saved" && <span className="text-[10px] text-amber-400">Modifications non enregistrees</span>}
+          {autosaveStatus === "saving" && <span className="text-[10px] text-[#4F8EF7]">{t("trackForm.autosaving")}</span>}
+          {autosaveStatus === "saved" && <span className="text-[10px] text-emerald-400">{t("trackForm.autosaved")}</span>}
+          {dirty && autosaveStatus !== "saving" && autosaveStatus !== "saved" && <span className="text-[10px] text-amber-400">{t("trackForm.unsaved")}</span>}
         </div>
         <div className="flex items-center gap-2">
           {isEdit && (
@@ -610,11 +612,11 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
               }}
               className="text-[11px] text-[#888] hover:text-white px-3 py-2"
             >
-              Annuler
+              {t("admin.cancel")}
             </button>
           )}
           <button type="submit" disabled={saving} className={`btn-primary inline-flex items-center gap-2 text-[12px] ${saving ? "opacity-50 cursor-not-allowed" : ""}`} style={{ padding: "10px 18px" }}>
-            {saving ? "Enregistrement..." : isEdit ? "Enregistrer" : "Créer le parcours"}
+            {saving ? t("trackForm.saving") : isEdit ? t("trackForm.submitSave") : t("trackForm.submitCreate")}
             <iconify-icon icon="lucide:save" style={{ fontSize: "13px" }} />
           </button>
         </div>

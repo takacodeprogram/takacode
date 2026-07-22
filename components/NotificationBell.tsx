@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "../utils/supabase/client";
 import { playNotification } from "../components/effects/sound";
+import { useI18n } from "../components/I18nProvider";
 import { useToast } from "./Toast";
 
 interface Notification {
@@ -32,20 +33,24 @@ const NOTIF_COLORS: Record<string, string> = {
   review_completed: "#10B981"
 };
 
-function timeAgo(dateStr: string | null | undefined): string {
+function timeAgo(dateStr: string | null | undefined, t: (key: string, fallback?: string) => string): string {
   if (!dateStr) return "";
   const now = new Date();
   const date = new Date(dateStr);
   const diff = Math.floor((now.getTime() - date.getTime()) / 1000);
-  if (diff < 60) return "à l'instant";
-  if (diff < 3600) return `il y a ${Math.floor(diff / 60)}min`;
-  if (diff < 86400) return `il y a ${Math.floor(diff / 3600)}h`;
-  return `il y a ${Math.floor(diff / 86400)}j`;
+  if (diff < 60) return t("notification.timeAgo.justNow", "just now");
+  const num = Math.floor(diff / 60);
+  if (diff < 3600) return `${t("notification.timeAgo.minutes")} ${num}${t("notification.min")}`;
+  const hrs = Math.floor(diff / 3600);
+  if (diff < 86400) return `${t("notification.timeAgo.hours")} ${hrs}${t("notification.h")}`;
+  const days = Math.floor(diff / 86400);
+  return `${t("notification.timeAgo.days")} ${days}${t("notification.j")}`;
 }
 
 export default function NotificationBell() {
   const router = useRouter();
   const supabase = createClient();
+  const { t } = useI18n();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [unreadCount, setUnreadCount] = useState<number>(0);
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -65,9 +70,9 @@ export default function NotificationBell() {
         setUnreadCount((countData as { count: number }).count);
       }
     } catch (err) {
-      toast("Erreur lors du chargement des notifications", "error");
+      toast(t("notification.loadingError", "Error loading notifications"), "error");
     }
-  }, [supabase]);
+  }, [supabase, t]);
 
   useEffect(() => {
     fetchNotifications();
@@ -90,7 +95,7 @@ export default function NotificationBell() {
       );
       setUnreadCount((prev) => Math.max(0, prev - 1));
     } catch (err) {
-      toast("Erreur lors du marquage de la notification", "error");
+      toast(t("notification.markReadError", "Error marking notification as read"), "error");
     }
   }
 
@@ -102,7 +107,7 @@ export default function NotificationBell() {
       );
       setUnreadCount(0);
     } catch (err) {
-      toast("Erreur lors du marquage de toutes les notifications", "error");
+      toast(t("notification.markAllReadError", "Error marking all notifications as read"), "error");
     }
   }
 
@@ -122,7 +127,7 @@ export default function NotificationBell() {
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         className="relative p-2 text-[#888] hover:text-white transition-colors"
-        aria-label="Notifications"
+        aria-label={t("notification.bellLabel", "Notifications")}
       >
         <iconify-icon icon="lucide:bell" style={{ fontSize: "18px" }} />
         {unreadCount > 0 ? (
@@ -137,14 +142,14 @@ export default function NotificationBell() {
           <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
           <div className="absolute right-0 top-full mt-2 w-[340px] max-h-[420px] rounded-2xl border border-white/[0.1] bg-[#111] shadow-2xl z-50 overflow-hidden">
             <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.08]">
-              <span className="text-[12px] text-white font-semibold">Notifications</span>
+              <span className="text-[12px] text-white font-semibold">{t("notification.bellLabel", "Notifications")}</span>
               {unreadCount > 0 ? (
                 <button
                   type="button"
                   onClick={markAllRead}
                   className="text-[10px] text-[#4F8EF7] hover:text-[#6ba3ff]"
                 >
-                  Tout marquer lu
+                  {t("notification.markAllRead", "Mark all read")}
                 </button>
               ) : null}
             </div>
@@ -152,7 +157,7 @@ export default function NotificationBell() {
             <div className="overflow-y-auto max-h-[360px]">
               {notifications.length === 0 ? (
                 <div className="px-4 py-8 text-center text-[12px] text-[#666]">
-                  Aucune notification
+                  {t("notification.empty", "No notifications")}
                 </div>
               ) : (
                 notifications.map((notif) => {
@@ -185,7 +190,7 @@ export default function NotificationBell() {
                         {notif.body ? (
                           <p className="text-[10px] text-[#777] leading-snug mt-0.5 line-clamp-2">{notif.body}</p>
                         ) : null}
-                        <span className="text-[9px] text-[#555] mt-1 block">{timeAgo(notif.created_at)}</span>
+                        <span className="text-[9px] text-[#555] mt-1 block">{timeAgo(notif.created_at, t)}</span>
                       </div>
                     </button>
                   );

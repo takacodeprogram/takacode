@@ -1,8 +1,28 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextRequest, NextResponse } from "next/server";
+import { SUPPORTED_LOCALES, DEFAULT_LOCALE } from "../../../lib/i18n";
+import type { Locale } from "../../../lib/i18n";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+const COOKIE_NAME = "takacode_locale";
+
+function getLocaleFromRequest(request: NextRequest): Locale {
+  const cookie = request.cookies.get(COOKIE_NAME)?.value;
+  if (cookie && SUPPORTED_LOCALES.includes(cookie as Locale)) {
+    return cookie as Locale;
+  }
+  return DEFAULT_LOCALE;
+}
+
+function localeSigninUrl(request: NextRequest, error?: string): URL {
+  const requestUrl = new URL(request.url);
+  const locale = getLocaleFromRequest(request);
+  const path = locale === DEFAULT_LOCALE ? "/signin" : `/${locale}/signin`;
+  const url = new URL(path, requestUrl.origin);
+  if (error) url.searchParams.set("error", error);
+  return url;
+}
 
 function sanitizeNextPath(value: string | null) {
   if (typeof value !== "string") {
@@ -31,23 +51,17 @@ export async function GET(request: NextRequest) {
   const nextPath = sanitizeNextPath(requestUrl.searchParams.get("next"));
 
   if (oauthError) {
-    const redirectUrl = new URL("/signin", requestUrl.origin);
-    redirectUrl.searchParams.set("error", "oauth_denied");
-    return NextResponse.redirect(redirectUrl);
+    return NextResponse.redirect(localeSigninUrl(request, "oauth_denied"));
   }
 
   if (!code) {
-    const redirectUrl = new URL("/signin", requestUrl.origin);
-    redirectUrl.searchParams.set("error", "oauth_code_missing");
-    return NextResponse.redirect(redirectUrl);
+    return NextResponse.redirect(localeSigninUrl(request, "oauth_code_missing"));
   }
 
   const config = getConfig();
 
   if (!config) {
-    const redirectUrl = new URL("/signin", requestUrl.origin);
-    redirectUrl.searchParams.set("error", "auth_config_missing");
-    return NextResponse.redirect(redirectUrl);
+    return NextResponse.redirect(localeSigninUrl(request, "auth_config_missing"));
   }
 
   const redirectUrl = new URL(nextPath, requestUrl.origin);
@@ -70,15 +84,11 @@ export async function GET(request: NextRequest) {
     const { error } = await supabase.auth.exchangeCodeForSession(code);
 
     if (error) {
-      const failureUrl = new URL("/signin", requestUrl.origin);
-      failureUrl.searchParams.set("error", "oauth_callback_failed");
-      return NextResponse.redirect(failureUrl);
+      return NextResponse.redirect(localeSigninUrl(request, "oauth_callback_failed"));
     }
 
     return response;
   } catch {
-    const failureUrl = new URL("/signin", requestUrl.origin);
-    failureUrl.searchParams.set("error", "auth_network");
-    return NextResponse.redirect(failureUrl);
+    return NextResponse.redirect(localeSigninUrl(request, "auth_network"));
   }
 }

@@ -180,7 +180,7 @@ async function triggerAIReview(supabase: Awaited<ReturnType<typeof createClient>
   const trackArr = Array.isArray(module.track) ? module.track as Record<string, unknown>[] : [module.track as Record<string, unknown>];
   const track = trackArr[0] || {};
   const trackSlug = String(track.slug || "");
-  const notificationLink = trackSlug && lessonSlug ? `/parcours/${trackSlug}/lecon/${lessonSlug}` : `/parcours`;
+  const notificationLink = trackSlug && lessonSlug ? `/tracks/${trackSlug}/lesson/${lessonSlug}` : `/tracks`;
   const microProject = (lesson.micro_project || {}) as Record<string, unknown>;
   const steps = Array.isArray(microProject.steps) ? microProject.steps as string[] : [];
 

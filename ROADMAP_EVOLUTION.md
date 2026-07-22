@@ -111,22 +111,29 @@ Les parcours sont des accelerateurs injectes au bon moment de cette boucle, jama
 - [x] Etoile du nord mesuree (admin) : carte en tete du centre admin — % de membres avec projet en ligne et % avec premier euro declare (calcul service role, jauges + valeurs absolues)
 ---
 
-## V1.4.3 — Fondations i18n & multi-devise 🔴 NOUVEAU 🔴
+## V1.4.3 — Fondations i18n & multi-devise (i18n livrée, multi-devise en cours) 🔴
 
 > **Pourquoi maintenant :** Le marche africain est notre coeur de cible. Les membres utilisent
 > le franc CFA (XOF/XAF), le naira (NGN), le cedi (GHS), le dirham (MAD), etc. — pas seulement l'euro.
 > L'internationalisation (i18n) et le multi-devise sont des prerequis pour scale.
 
-### Priorite : CRITIQUE — poser les bases AVANT la marketplace
+### Priorite : LIVREE — les fondations sont posees, les chantiers restants sont integres aux sprints
 
 #### Internationalisation (i18n) 🌍
 
 - [x] **Fondation i18n** : `lib/i18n.ts` avec systeme de traduction (fr + en), detection locale, helpers serveur/client
-- [ ] **Provider React** : wrapper `<I18nProvider>` pour injecter la locale dans l'arbre React
-- [ ] **Switch EN/FR** dans la navbar (selecteur de langue)
-- [ ] **SEO multilingue** : balises `hreflang`, URLs `/en/...`, metadata par locale
-- [ ] **Pages publiques traduites** : landing, parcours, communaute, projets
-- [ ] **Contenu bilingue** : ressources officielles en anglais, explications en français
+- [x] **Provider React** : `<I18nProvider>` avec `useI18n()` hook, persistance cookie + localStorage
+- [x] **Switch EN/FR** dans la navbar (composant Navbar.tsx via `setLocale()`)
+- [x] **SEO multilingue** : balises `hreflang`, `getAlternateUrls()`, metadata par locale, URLs `/en/...` via proxy middleware
+- [x] **Redirection locale-aware** : `redirectLocale()` preserve la locale dans les redirects auth
+- [x] **Helpers de chemin** : `localePath()`, `stripLocale()`, `switchLocalePath()`, composant `<L>` locale-aware
+- [x] **Middleware i18n** : `proxy.ts` gere le prefixe `/fr/` et `/en/` dans les URLs
+- [ ] **Pages landing traduites (6 composants)** : `ParcoursSection`, `RessourcesSection`, `SessionsLiveSection`, `ProjectsSection`, `FinalCtaSection`, `GlobeSection` — contenu FR dur, pas de `t()`
+- [ ] **Filtre locale sur les tracks** : `app/page.tsx` ne filtre pas les tracks par locale
+- [ ] **Colonne locale dans l'admin** : `lib/adminCurriculum.ts` ne selectionne pas la colonne `locale`
+- [ ] **Seeds EN** : tous les parcours seedes sont en `locale='fr'` (defaut), aucun track EN
+
+> **Voir `RAPPORT_LOCALISATION.md`** pour l'audit complet : page par page, composant par composant.
 
 #### Multi-devise "Premier revenu" 💶
 
@@ -752,30 +759,8 @@ L'IA construit un profil de compétences dynamique :
 
 ---
 
-### 🔴 Internationalisation (i18n) — EN COURS (V1.4.3)
-
-> **Statut :** les fondations sont posees (`lib/i18n.ts`, switch EN/FR, SEO multilingue).
-> L'i18n est devenue une priorite transverse a toutes les versions, pas une feature isolee.
-
-#### Livre en V1.4.3 🔴
-
-- [x] `lib/i18n.ts` — systeme de traduction simple (fr + en), detection locale, `createT()`, `getLocale()`, `useLocale()` hook
-- [ ] Provider React `<I18nProvider>` avec locale depuis cookie/navigateur
-- [ ] Switch EN/FR dans la navbar
-- [ ] Routes `/en/...` avec Next.js i18n routing
-- [ ] SEO multilingue : balises `hreflang`, `getAlternateUrls()`
-
-#### Integre dans chaque version 🟡
-
-- **V1.6 (Communaute)** : profils publies, commentaires, notifications en fr + en
-- **V1.7 (Engagement)** : streaks, portfolio, partage social en fr + en
-- **V1.8 (IA)** : tuteur IA bilingue (repond dans la langue de la lecon)
-- **V1.9 (PWA)** : manifest.json, service worker en fr + en
-- **V2.0 (Marketplace)** : pages de vente, checkout, emails en fr + en
-
-> 💡 **Pourquoi maintenant :** le marche francophone est un plafond de verre.
-> L'anglais ouvre l'Afrique anglophone (Nigeria 220M, Ghana 33M, Kenya 55M, Afrique du Sud 60M)
-> et le marche mondial. Chaque nouvelle page est desormais conque bilingue.
+> **L'i18n est transverse a toutes les versions.** Voir section `V1.4.3` ci-dessus pour le statut detaille
+> et `RAPPORT_LOCALISATION.md` pour l'audit complet. Chaque nouvelle page est concue bilingue.
 
 ---
 

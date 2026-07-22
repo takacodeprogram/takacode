@@ -1,17 +1,22 @@
 import Link from "next/link";
+import { localePath } from "../lib/localeHelpers";
+import { getServerLocale } from "../lib/serverLocale";
+import { getLocale } from "../lib/i18n";
 
-export default function SessionsLiveSection() {
+export default async function SessionsLiveSection() {
+  const locale = await getServerLocale();
+  const { t } = getLocale(locale);
   return (
     <section className="py-28 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-900/[0.03] to-transparent pointer-events-none" />
       <div className="max-w-[1320px] mx-auto px-8">
-        <div className="section-label mb-4">En direct</div>
+        <div className="section-label mb-4">{t("sessions.sectionLabel")}</div>
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between mb-14">
 <h2 className="font-valorax gradient-text" style={{ fontSize: "clamp(36px, 3.5vw, 54px)", letterSpacing: "-0.02em" }}>
-Apprendre ensemble
+{t("sessions.title")}
 </h2>
-          <Link href="/communaute" id="sessions-all-link" className="btn-secondary inline-flex items-center gap-2 self-start lg:self-auto">
-            Voir toutes les sessions
+          <Link href={localePath("/community", locale)} id="sessions-all-link" className="btn-secondary inline-flex items-center gap-2 self-start lg:self-auto">
+            {t("sessions.viewAll")}
             <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "14px" }} />
           </Link>
         </div>
@@ -19,38 +24,38 @@ Apprendre ensemble
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           <div>
             <p className="font-body-readable text-[#666] text-[15px] leading-relaxed mb-8">
-              Participe à des sessions de pratique en direct avec la communauté. Pose des questions, construis avec d'autres, avance plus vite.
+              {t("sessions.description")}
             </p>
             <div className="space-y-3">
               <div className="flex items-center gap-3">
                 <div className="w-6 h-6 rounded-lg bg-blue-500/10 flex items-center justify-center flex-shrink-0">
                   <iconify-icon icon="lucide:wrench" className="text-[#4F8EF7]" style={{ fontSize: "12px" }} />
                 </div>
-                <span className="font-body-readable text-[13px] text-[#888]">Ateliers pratiques</span>
+                <span className="font-body-readable text-[13px] text-[#888]">{t("sessions.features.workshops")}</span>
               </div>
               <div className="flex items-center gap-3">
                 <div className="w-6 h-6 rounded-lg bg-violet-500/10 flex items-center justify-center flex-shrink-0">
                   <iconify-icon icon="lucide:help-circle" className="text-[#9B6DFF]" style={{ fontSize: "12px" }} />
                 </div>
-                <span className="font-body-readable text-[13px] text-[#888]">Questions & réponses</span>
+                <span className="font-body-readable text-[13px] text-[#888]">{t("sessions.features.qanda")}</span>
               </div>
               <div className="flex items-center gap-3">
                 <div className="w-6 h-6 rounded-lg bg-cyan-500/10 flex items-center justify-center flex-shrink-0">
                   <iconify-icon icon="lucide:users-2" className="text-[#22D3EE]" style={{ fontSize: "12px" }} />
                 </div>
-                <span className="font-body-readable text-[13px] text-[#888]">Construction collaborative</span>
+                <span className="font-body-readable text-[13px] text-[#888]">{t("sessions.features.collaborative")}</span>
               </div>
               <div className="flex items-center gap-3">
                 <div className="w-6 h-6 rounded-lg bg-orange-500/10 flex items-center justify-center flex-shrink-0">
                   <iconify-icon icon="lucide:bug" className="text-orange-400" style={{ fontSize: "12px" }} />
                 </div>
-                <span className="font-body-readable text-[13px] text-[#888]">Debogage en direct</span>
+                <span className="font-body-readable text-[13px] text-[#888]">{t("sessions.features.debugging")}</span>
               </div>
               <div className="flex items-center gap-3">
                 <div className="w-6 h-6 rounded-lg bg-green-500/10 flex items-center justify-center flex-shrink-0">
                   <iconify-icon icon="lucide:presentation" className="text-green-400" style={{ fontSize: "12px" }} />
                 </div>
-                <span className="font-body-readable text-[13px] text-[#888]">Masterclass & Demos</span>
+                <span className="font-body-readable text-[13px] text-[#888]">{t("sessions.features.masterclass")}</span>
               </div>
             </div>
           </div>
@@ -68,9 +73,9 @@ Apprendre ensemble
               <div className="text-right flex-shrink-0">
                 <div className="flex items-center justify-end gap-1.5 mb-1">
                   <div className="w-1.5 h-1.5 rounded-full bg-green-400" />
-                  <span className="font-body-readable text-[11px] text-green-400">Live</span>
+                  <span className="font-body-readable text-[11px] text-green-400">{t("sessions.live")}</span>
                 </div>
-                <div className="font-body-readable text-[11px] text-[#555]">47 inscrits</div>
+                <div className="font-body-readable text-[11px] text-[#555]">47 {t("sessions.registered")}</div>
               </div>
             </div>
 
@@ -86,9 +91,9 @@ Apprendre ensemble
               <div className="text-right flex-shrink-0">
                 <div className="flex items-center justify-end gap-1.5 mb-1">
                   <iconify-icon icon="lucide:calendar" className="text-[#555]" style={{ fontSize: "11px" }} />
-                  <span className="font-body-readable text-[11px] text-[#555]">A venir</span>
+                  <span className="font-body-readable text-[11px] text-[#555]">{t("sessions.upcoming")}</span>
                 </div>
-                <div className="font-body-readable text-[11px] text-[#555]">23 inscrits</div>
+                <div className="font-body-readable text-[11px] text-[#555]">23 {t("sessions.registered")}</div>
               </div>
             </div>
 
@@ -104,9 +109,9 @@ Apprendre ensemble
               <div className="text-right flex-shrink-0">
                 <div className="flex items-center justify-end gap-1.5 mb-1">
                   <iconify-icon icon="lucide:calendar" className="text-[#555]" style={{ fontSize: "11px" }} />
-                  <span className="font-body-readable text-[11px] text-[#555]">A venir</span>
+                  <span className="font-body-readable text-[11px] text-[#555]">{t("sessions.upcoming")}</span>
                 </div>
-                <div className="font-body-readable text-[11px] text-[#555]">18 inscrits</div>
+                <div className="font-body-readable text-[11px] text-[#555]">18 {t("sessions.registered")}</div>
               </div>
             </div>
           </div>

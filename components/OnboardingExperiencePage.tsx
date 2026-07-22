@@ -14,6 +14,7 @@ import {
 import type { Option } from "../lib/onboarding";
 import { createClient } from "../utils/supabase/client";
 import { useToast } from "./Toast";
+import { useI18n } from "./I18nProvider";
 
 interface User {
   displayName?: string;
@@ -196,6 +197,7 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
   const [errorMessage, setErrorMessage] = useState<string>("");
   const skipDraftSyncRef = useRef<boolean>(true);
   const { toast } = useToast();
+  const { t } = useI18n();
 
   const selectedGoal = findOption(GOAL_OPTIONS, goalKey, "website");
   const selectedLevel = findOption(LEVEL_OPTIONS, levelKey, "beginner");
@@ -443,7 +445,7 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
               <iconify-icon icon="lucide:arrow-left" style={{ fontSize: "15px" }} />
             </span>
             <span className="text-[11px] font-semibold text-[#666] tracking-widest uppercase group-hover:text-[#9a9a9a] transition-colors">
-              Retour au site
+              {t("onboarding.backToSite")}
             </span>
           </Link>
         </div>
@@ -479,7 +481,7 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
             >
               <iconify-icon icon={stepMeta.icon} style={{ color: stepMeta.accent, fontSize: "14px" }} />
               <span className="text-[11px] font-semibold tracking-widest uppercase" style={{ color: stepMeta.accent }}>
-                {"Étape"} {step} / {TOTAL_STEPS}
+                {t("onboarding.resultSection.step")} {step} / {TOTAL_STEPS}
               </span>
             </div>
           </div>
@@ -487,10 +489,10 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
           <div key={step} className="onboarding-step-pane">
             {step === 1 ? (
               <section className="space-y-8">
-                <div className="section-label font-venite-italic">Bienvenue</div>
-                <h1 className="font-valorax text-[clamp(36px,4vw,54px)] leading-[0.9] gradient-text-blue">BIENVENUE SUR TAKACODE</h1>
+                <div className="section-label font-venite-italic">{t("onboarding.welcomeSection.label")}</div>
+                <h1 className="font-valorax text-[clamp(36px,4vw,54px)] leading-[0.9] gradient-text-blue">{t("onboarding.welcomeSection.title")}</h1>
                 <p className="font-body-readable text-[15px] text-[#9b9b9b] leading-relaxed max-w-[700px]">
-                  {"L'endroit où l'on apprend en construisant. Nous allons personnaliser ton expérience en moins d'une minute."}
+                  {t("onboarding.welcomeSection.desc")}
                 </p>
 
                 <div className="grid sm:grid-cols-3 gap-3">
@@ -498,24 +500,24 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
                     <div className="w-9 h-9 rounded-lg bg-blue-500/20 border border-blue-400/30 inline-flex items-center justify-center mb-3">
                       <iconify-icon icon="lucide:route" style={{ color: "#4F8EF7", fontSize: "16px" }} />
                     </div>
-                    <h3 className="font-venite-italic text-[13px] text-white mb-1">{"Parcours cible"}</h3>
-                    <p className="text-[12px] text-blue-100/80 font-body-readable">{"Ton plan s'adapte à ton objectif réel."}</p>
+                    <h3 className="font-venite-italic text-[13px] text-white mb-1">{t("onboarding.welcomeSection.card1Title")}</h3>
+                    <p className="text-[12px] text-blue-100/80 font-body-readable">{t("onboarding.welcomeSection.card1Desc")}</p>
                   </article>
 
                   <article className="rounded-2xl border border-violet-500/25 bg-violet-500/10 p-4">
                     <div className="w-9 h-9 rounded-lg bg-violet-500/20 border border-violet-400/30 inline-flex items-center justify-center mb-3">
                       <iconify-icon icon="lucide:users" style={{ color: "#9B6DFF", fontSize: "16px" }} />
                     </div>
-                    <h3 className="font-venite-italic text-[13px] text-white mb-1">{"Communaute active"}</h3>
-                    <p className="text-[12px] text-violet-100/80 font-body-readable">{"Sessions live, échanges et feedback concrets."}</p>
+                    <h3 className="font-venite-italic text-[13px] text-white mb-1">{t("onboarding.welcomeSection.card2Title")}</h3>
+                    <p className="text-[12px] text-violet-100/80 font-body-readable">{t("onboarding.welcomeSection.card2Desc")}</p>
                   </article>
 
                   <article className="rounded-2xl border border-cyan-500/25 bg-cyan-500/10 p-4">
                     <div className="w-9 h-9 rounded-lg bg-cyan-500/20 border border-cyan-400/30 inline-flex items-center justify-center mb-3">
                       <iconify-icon icon="lucide:bot" style={{ color: "#22D3EE", fontSize: "16px" }} />
                     </div>
-                    <h3 className="font-venite-italic text-[13px] text-white mb-1">IA pratique</h3>
-                    <p className="text-[12px] text-cyan-100/80 font-body-readable">{"Tu gagnes du temps sur chaque étape."}</p>
+                    <h3 className="font-venite-italic text-[13px] text-white mb-1">{t("onboarding.welcomeSection.card3Title")}</h3>
+                    <p className="text-[12px] text-cyan-100/80 font-body-readable">{t("onboarding.welcomeSection.card3Desc")}</p>
                   </article>
                 </div>
               </section>
@@ -927,7 +929,7 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
               <button
                 type="button"
                 className="btn-secondary"
-                onClick={() => completeOnboarding("/parcours")}
+                onClick={() => completeOnboarding("/tracks")}
                 disabled={saving}
               >
                 {saving ? "Chargement..." : "Explorer la plateforme"}

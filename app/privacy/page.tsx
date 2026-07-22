@@ -2,14 +2,25 @@ import Link from "next/link";
 import Navbar from "../../components/Navbar";
 import FooterSection from "../../components/FooterSection";
 import { buildPageMetadata } from "../../lib/seo";
+import { localePath } from "../../lib/localeHelpers";
+import { getServerLocale } from "../../lib/serverLocale";
+import { getLocale } from "../../lib/i18n";
 
-export const metadata = buildPageMetadata({
-  title: "Politique de confidentialite",
-  description: "Consulte la politique de confidentialité TakaCode : données collectées, utilisation, protection et droits utilisateur.",
-  path: "/privacy"
-});
+export async function generateMetadata() {
+  const locale = await getServerLocale();
+  const { t } = getLocale(locale);
+  return buildPageMetadata({
+    title: t("privacyPage.title"),
+    description: t("privacyPage.sections.dataCollected.body"),
+    path: "/privacy"
+  });
+}
 
-export default function PrivacyPage() {
+const PRIVACY_SECTIONS = ["dataCollected", "dataUsage", "storage", "rights"] as const;
+
+export default async function PrivacyPage() {
+  const locale = await getServerLocale();
+  const { t } = getLocale(locale);
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-white">
       <Navbar />
@@ -17,52 +28,28 @@ export default function PrivacyPage() {
         <section className="py-20 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-blue-900/[0.04] via-transparent to-violet-900/[0.04] pointer-events-none" />
           <div className="max-w-[920px] mx-auto px-8 relative z-10">
-            <div className="section-label mb-5">LEGAL</div>
+            <div className="section-label mb-5">{t("privacyPage.sectionLabel")}</div>
             <h1 className="font-valorax gradient-text mb-6" style={{ fontSize: "clamp(34px, 4.8vw, 58px)", letterSpacing: "-0.02em" }}>
-              POLITIQUE DE CONFIDENTIALITE
+              {t("privacyPage.title")}
             </h1>
             <p className="font-body-readable text-[#888] text-[15px] leading-relaxed max-w-[760px] mb-10">
-              Cette page explique quelles données TakaCode collecte, comment elles sont utilisées et quelles options tu as pour les gérer.
-              En utilisant la plateforme, tu acceptes les pratiques décrites ici.
+              {t("privacyPage.description")}
             </p>
 
             <div className="space-y-8 font-body-readable">
-              <section className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6">
-                <h2 className="text-[16px] font-semibold text-white mb-3">1. Donnees collectees</h2>
-                <p className="text-[14px] leading-relaxed text-[#9A9A9A]">
-                  Nous pouvons collecter des informations de compte (nom, email), des données d'usage (pages consultées, progression),
-                  et des données techniques (navigateur, appareil, logs de sécurité).
-                </p>
-              </section>
-
-              <section className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6">
-                <h2 className="text-[16px] font-semibold text-white mb-3">2. Utilisation des donnees</h2>
-                <p className="text-[14px] leading-relaxed text-[#9A9A9A]">
-                  Ces données sont utilisées pour fournir le service, améliorer l'expérience, personnaliser les contenus,
-                  assurer la sécurité de la plateforme et communiquer des informations importantes.
-                </p>
-              </section>
-
-              <section className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6">
-                <h2 className="text-[16px] font-semibold text-white mb-3">3. Conservation et protection</h2>
-                <p className="text-[14px] leading-relaxed text-[#9A9A9A]">
-                  Les données sont conservées pendant la durée nécessaire au fonctionnement du service et protégées par des mesures
-                  techniques et organisationnelles adaptées.
-                </p>
-              </section>
-
-              <section className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6">
-                <h2 className="text-[16px] font-semibold text-white mb-3">4. Tes droits</h2>
-                <p className="text-[14px] leading-relaxed text-[#9A9A9A]">
-                  Tu peux demander l'accès, la correction ou la suppression de tes données, selon la réglementation applicable.
-                  Pour toute demande, utilise la page communauté/contact.
-                </p>
-              </section>
+              {PRIVACY_SECTIONS.map((key) => (
+                <section key={key} className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6">
+                  <h2 className="text-[16px] font-semibold text-white mb-3">{t(`privacyPage.sections.${key}.title`)}</h2>
+                  <p className="text-[14px] leading-relaxed text-[#9A9A9A]">
+                    {t(`privacyPage.sections.${key}.body`)}
+                  </p>
+                </section>
+              ))}
             </div>
 
             <div className="mt-10 flex flex-wrap items-center gap-3">
-              <Link href="/terms" className="btn-primary glow-btn">Voir les conditions</Link>
-              <Link href="/communaute" className="btn-secondary">Contacter TakaCode</Link>
+              <Link href={localePath("/terms", locale)} className="btn-primary glow-btn">{t("privacyPage.cta.terms")}</Link>
+              <Link href={localePath("/community", locale)} className="btn-secondary">{t("privacyPage.cta.contact")}</Link>
             </div>
           </div>
         </section>

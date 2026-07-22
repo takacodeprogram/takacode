@@ -7,7 +7,7 @@ import { isOnboardingCompleted } from "../../lib/onboarding";
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
-const AUTH_PATHS = new Set(["/signin", "/signup", "/connexion"]);
+const AUTH_PATHS = new Set(["/signin", "/signup", "/login"]);
 const ONBOARDING_PATH = "/onboarding";
 
 function getConfig() {

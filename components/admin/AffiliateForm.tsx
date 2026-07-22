@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { createClient } from "../../utils/supabase/client";
 import { AFFILIATE_CATEGORIES } from "../../lib/affiliate";
 import type { AffiliateCategory } from "../../lib/affiliate";
+import { useI18n } from "../I18nProvider";
 
 interface AffiliateLinkData {
   id: string;
@@ -43,6 +44,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 export default function AffiliateForm({ link = null }: AffiliateFormProps) {
   const router = useRouter();
   const supabase = useMemo(() => createClient(), []);
+  const { t } = useI18n();
   const isEdit = Boolean(link);
 
   const [form, setForm] = useState<Record<string, string | boolean>>(() => ({
@@ -67,9 +69,9 @@ export default function AffiliateForm({ link = null }: AffiliateFormProps) {
 
   function buildPayload() {
     return {
-      provider: String(form.provider).trim() || "Fournisseur",
+      provider: String(form.provider).trim() || t("affiliateForm.provider"),
       category: String(form.category),
-      title: String(form.title).trim() || String(form.provider).trim() || "Offre",
+      title: String(form.title).trim() || String(form.provider).trim() || t("affiliateForm.offer"),
       description: String(form.description).trim(),
       url: cleanUrl(String(form.url)),
       logo_url: cleanUrl(String(form.logo_url)),
@@ -84,7 +86,7 @@ export default function AffiliateForm({ link = null }: AffiliateFormProps) {
     setError("");
     setMessage("");
     if (!String(form.provider).trim()) {
-      setError("Le fournisseur est obligatoire.");
+      setError(t("affiliateForm.providerRequired"));
       return;
     }
     setSaving(true);
@@ -96,7 +98,7 @@ export default function AffiliateForm({ link = null }: AffiliateFormProps) {
         setError(updateError.message);
         return;
       }
-      setMessage("Lien enregistre.");
+      setMessage(t("affiliateForm.saved"));
       router.refresh();
       return;
     }
@@ -104,14 +106,14 @@ export default function AffiliateForm({ link = null }: AffiliateFormProps) {
     const { error: insertError } = await supabase.from("affiliate_links").insert(buildPayload());
     setSaving(false);
     if (insertError) {
-      setError(insertError.message.includes("affiliate_links") ? "Table absente. Lance supabase/sql/015_affiliate_links.sql." : insertError.message);
+      setError(insertError.message.includes("affiliate_links") ? t("affiliateForm.tableMissing") : insertError.message);
       return;
     }
-    router.push("/admin/affiliations");
+    router.push("/admin/affiliates");
   }
 
   async function handleDelete() {
-    if (!window.confirm("Supprimer ce lien d'affiliation ?")) return;
+    if (!window.confirm(t("affiliateForm.deleteConfirm"))) return;
     setDeleting(true);
     const { error: deleteError } = await supabase.from("affiliate_links").delete().eq("id", link!.id);
     setDeleting(false);
@@ -119,14 +121,14 @@ export default function AffiliateForm({ link = null }: AffiliateFormProps) {
       setError(deleteError.message);
       return;
     }
-    router.push("/admin/affiliations");
+    router.push("/admin/affiliates");
   }
 
   return (
     <form onSubmit={handleSubmit} className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        <Field label="Fournisseur"><input className={INPUT} value={String(form.provider)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("provider", e.target.value)} placeholder="Ex: Hostinger" /></Field>
-        <Field label="Categorie">
+        <Field label={t("affiliateForm.fieldProvider")}><input className={INPUT} value={String(form.provider)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("provider", e.target.value)} placeholder={t("affiliateForm.placeholderProvider")} /></Field>
+        <Field label={t("affiliateForm.fieldCategory")}>
           <select className={INPUT} value={String(form.category)} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setField("category", e.target.value)}>
             {AFFILIATE_CATEGORIES.map((c: AffiliateCategory) => (
               <option key={c.value} value={c.value}>{c.label}</option>
@@ -135,24 +137,24 @@ export default function AffiliateForm({ link = null }: AffiliateFormProps) {
         </Field>
       </div>
 
-      <Field label="Titre"><input className={INPUT} value={String(form.title)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("title", e.target.value)} placeholder="Ex: Hébergement web Hostinger" /></Field>
-      <Field label="Description"><textarea className={`${INPUT} min-h-[64px]`} value={String(form.description)} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setField("description", e.target.value)} /></Field>
+      <Field label={t("affiliateForm.fieldTitle")}><input className={INPUT} value={String(form.title)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("title", e.target.value)} placeholder={t("affiliateForm.placeholderTitle")} /></Field>
+      <Field label={t("affiliateForm.fieldDescription")}><textarea className={`${INPUT} min-h-[64px]`} value={String(form.description)} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setField("description", e.target.value)} /></Field>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        <Field label="Lien d'affiliation"><input className={INPUT} value={String(form.url)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("url", e.target.value)} placeholder="https://..." /></Field>
-        <Field label="Logo (URL, optionnel)"><input className={INPUT} value={String(form.logo_url)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("logo_url", e.target.value)} placeholder="https://.../logo.png" /></Field>
+        <Field label={t("affiliateForm.fieldUrl")}><input className={INPUT} value={String(form.url)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("url", e.target.value)} placeholder="https://..." /></Field>
+        <Field label={t("affiliateForm.fieldLogo")}><input className={INPUT} value={String(form.logo_url)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("logo_url", e.target.value)} placeholder="https://.../logo.png" /></Field>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        <Field label="Parcours associé (slug, optionnel)">
-          <input className={INPUT} value={String(form.track_slug)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("track_slug", e.target.value)} placeholder="Ex: media-buyer, produits-digitaux" />
+        <Field label={t("affiliateForm.fieldTrackSlug")}>
+          <input className={INPUT} value={String(form.track_slug)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("track_slug", e.target.value)} placeholder={t("affiliateForm.placeholderTrackSlug")} />
         </Field>
         <label className="text-[11px] text-[#9b9b9b] flex items-center gap-1.5" style={{ maxWidth: 140, alignSelf: "end", paddingBottom: "4px" }}>
-          Ordre
+          {t("affiliateForm.fieldOrder")}
           <input type="number" min="1" className="auth-input text-[12px] w-[80px]" value={String(form.sort_order)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("sort_order", e.target.value)} />
         </label>
         <label className="text-[11px] text-[#9b9b9b] flex items-center gap-1.5" style={{ alignSelf: "end", paddingBottom: "4px" }}>
-          <input type="checkbox" checked={form.is_published === true} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("is_published", e.target.checked)} /> Publie
+          <input type="checkbox" checked={form.is_published === true} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("is_published", e.target.checked)} /> {t("affiliateForm.published")}
         </label>
       </div>
 
@@ -161,13 +163,13 @@ export default function AffiliateForm({ link = null }: AffiliateFormProps) {
 
       <div className="flex items-center gap-3 flex-wrap">
         <button type="submit" disabled={saving} className={`btn-primary inline-flex items-center gap-2 text-[12px] ${saving ? "opacity-50 cursor-not-allowed" : ""}`} style={{ padding: "10px 18px" }}>
-          {saving ? "Enregistrement..." : isEdit ? "Enregistrer" : "Ajouter le lien"}
+          {saving ? t("affiliateForm.saving") : isEdit ? t("affiliateForm.submitSave") : t("affiliateForm.submitAdd")}
           <iconify-icon icon="lucide:save" style={{ fontSize: "13px" }} />
         </button>
         {isEdit ? (
           <button type="button" onClick={handleDelete} disabled={deleting} className="text-[12px] text-red-400/80 hover:text-red-400 inline-flex items-center gap-1.5">
             <iconify-icon icon="lucide:trash-2" style={{ fontSize: "13px" }} />
-            {deleting ? "Suppression..." : "Supprimer"}
+            {deleting ? t("affiliateForm.deleting") : t("affiliateForm.delete")}
           </button>
         ) : null}
       </div>

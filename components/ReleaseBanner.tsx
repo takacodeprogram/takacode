@@ -64,7 +64,7 @@ export default function ReleaseBanner() {
           {latest.title} : {latest.summary}
         </p>
         <Link
-          href="/dashboard/nouveautes"
+          href="/dashboard/changelog"
           onClick={handleDismiss}
           className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-[#4F8EF7] hover:underline"
         >
