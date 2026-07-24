@@ -51,7 +51,9 @@ const FR: Translations = {
     centreAdmin: "Centre d'administration",
     seDeconnecter: "Se déconnecter",
     ouvrirMenu: "Ouvrir le menu",
-    member: "Membre"
+    member: "Membre",
+    switchToEnglish: "Switch to English",
+    switchToFrench: "Passer en français"
   },
   referral: {
     copy: "Copier",
@@ -96,7 +98,48 @@ const FR: Translations = {
       aiValidated: "L'IA a validé ton travail.",
       lessonValidatedTitle: "LECON VALIDEE !",
       trackCompletedTitle: "PARCOURS TERMINE !"
-    }
+    },
+    chooseStarterKit: "Choisis un starter kit",
+    starterKitDesc: "Un starter kit te donne une base de code prête à déployer. Tu peux aussi partir d'une page blanche.",
+    startFromScratch: "Partir d'une page blanche",
+    templateAppliedPrefix: "Template ",
+    templateAppliedSuffix: " appliqué. Modifie les champs ci-dessous si nécessaire.",
+    scratchProject: "Projet vierge. Remplis les champs ci-dessous.",
+    fieldTitle: "Titre du projet",
+    titlePlaceholder: "Ex: Ma boutique en ligne",
+    fieldObjective: "Objectif",
+    objectivePlaceholder: "Ce que tu veux accomplir",
+    fieldDescription: "Description",
+    descriptionPlaceholder: "Décris ton projet, ses fonctionnalités, son public...",
+    previewLabel: "Aperçu",
+    fieldStatus: "Statut",
+    fieldDeadline: "Deadline",
+    sectionAccelerator: "Parcours accélérateur",
+    acceleratorDesc: "Le parcours qui guide la construction de ce projet, sprint par sprint. En le choisissant, tu y es inscrit automatiquement : ses leçons deviennent tes sprints et leurs micro-projets tes livrables, visibles sur cette page.",
+    noTrack: "Aucun — je construis sans parcours",
+    fieldRevenueModel: "Modèle de revenu visé",
+    revenueNone: "Pas de monétisation pour l'instant",
+    revenueVente: "Vente directe (produits, services)",
+    revenueAbonnement: "Abonnement (SaaS, newsletter payante)",
+    revenuePublicite: "Publicité (audience, trafic)",
+    revenueAffiliation: "Affiliation (commissions)",
+    revenueFreelance: "Freelance (prestations)",
+    fieldRepoUrl: "Lien du code (GitHub)",
+    public: "Public",
+    private: "Privé",
+    fieldLiveUrl: "Lien en ligne",
+    liveUrlPlaceholder: "https://mon-projet.com",
+    publishConfirmTitle: "Publier ce projet ?",
+    publishConfirmDesc: "Une fois publié, ton projet sera visible par toute la communauté TakaCode, affiché sur la page d'accueil et dans la galerie. Tu pourras le modifier ou le retirer à tout moment depuis ton dashboard.",
+    confirmPublish: "Oui, publier",
+    cancel: "Annuler",
+    saving: "Enregistrement...",
+    save: "Enregistrer",
+    create: "Créer le projet",
+    changeTemplate: "Changer de template",
+    deleting: "Suppression...",
+    delete: "Supprimer",
+    deleteConfirm: "Supprimer ce projet ? Cette action est irréversible."
   },
   lessonExperience: {
     stepsResources: "Ressources",
@@ -899,7 +942,9 @@ const FR: Translations = {
       forbidden: "Ce niveau de revue est réservé aux mentors.",
       notPending: "Cette soumission n'est plus en attente.",
       notReviewable: "Ce projet n'est pas en revue."
-    }
+    },
+    notificationApproved: 'Bravo ! "{title}" a été validé.',
+    notificationChanges: 'Des améliorations ont été demandées sur "{title}". Retraite ton travail.'
   },
   revenue: {
     declared: "Premier revenu déclaré — bravo !",
@@ -910,7 +955,8 @@ const FR: Translations = {
     cancel: "Annuler",
     amountError: "Indique un montant valide",
     declaredSuccess: "Premier revenu déclaré :",
-    networkError: "Erreur réseau"
+    networkError: "Erreur réseau",
+    error: "Erreur"
   },
   notification: {
     bellLabel: "Notifications",
@@ -1058,6 +1104,7 @@ const FR: Translations = {
     networkError: "Problème réseau. Réessaie dans un instant.",
     oauthError: "Impossible de démarrer la connexion OAuth.",
     walletError: "Impossible de connecter le wallet.",
+    walletStatement: "Connexion à TakaCode",
     errorForbidden: "Ton compte ne dispose pas du rôle requis pour accéder au dashboard.",
     errorOauthCallback: "La connexion n'a pas abouti. Réessaie.",
     errorOauthCodeMissing: "La connexion a été interrompue. Réessaie.",
@@ -1162,6 +1209,14 @@ const FR: Translations = {
       explorePlatform: "Explorer la plateforme",
       startTrack: "Commencer mon parcours",
       draftSaveError: "Impossible de sauvegarder le brouillon"
+    },
+    revenue: {
+      unknown: "Je ne sais pas encore",
+      vente: "Vente directe",
+      abonnement: "Abonnement",
+      publicite: "Publicité / audience",
+      affiliation: "Affiliation",
+      freelance: "Freelance / prestations"
     }
   },
   nextAction: {
@@ -1313,14 +1368,35 @@ const FR: Translations = {
     roleLabel: "Role",
     member: "Membre",
     memberEmail: "membre@takacode.app",
-    live: "En direct"
+    live: "En direct",
+    membreFallback: "membre@takacode.app",
+    espaceMembre: "Espace membre",
+    deconnexion: "Déconnexion",
+    fermerMenu: "Fermer le menu",
+    ouvrirMenu: "Ouvrir le menu",
+    guideDemarrage: "Guide de démarrage",
+    enDirect: "En direct",
+    monProfil: "Mon profil",
+    retours: "Retour"
   },
   cookieNotice: {
-    label: "Consentement cookies",
-    description: "TakaCode utilise des cookies essentiels (session, preferences) pour fonctionner. Aucune pub, aucun traceur tiers.",
+    title: "Consentement cookies",
+    desc: "TakaCode utilise des cookies essentiels (session, preferences) pour fonctionner. Aucune pub, aucun traceur tiers.",
     learnMore: "En savoir plus",
     essentialOnly: "Essentiels seulement",
     accept: "J'ai compris"
+  },
+  celebrations: {
+    activateSound: "Activer le son",
+    muteSound: "Couper le son",
+    close: "Fermer"
+  },
+  shareButtons: {
+    shareOn: "Partager sur {name}",
+    copyLink: "Copier le lien",
+    copied: "Copie !",
+    copy: "Copier",
+    shareVictory: "Partage ta victoire"
   },
   parcoursSection: {
     sectionLabel: "CATALOGUE",
@@ -2016,7 +2092,7 @@ const FR: Translations = {
     fieldOrder: "Ordre",
     published: "Publié",
     offer: "Offre"
-  }
+  },
 };
 
 const EN: Translations = {
@@ -2035,7 +2111,9 @@ const EN: Translations = {
     centreAdmin: "Admin center",
     seDeconnecter: "Sign out",
     ouvrirMenu: "Open menu",
-    member: "Member"
+    member: "Member",
+    switchToEnglish: "Switch to English",
+    switchToFrench: "Passer en français"
   },
   referral: {
     copy: "Copy",
@@ -2080,7 +2158,48 @@ const EN: Translations = {
       aiValidated: "AI validated your work.",
       lessonValidatedTitle: "LESSON VALIDATED!",
       trackCompletedTitle: "TRACK COMPLETED!"
-    }
+    },
+    chooseStarterKit: "Choose a starter kit",
+    starterKitDesc: "A starter kit gives you a ready-to-deploy codebase. You can also start from scratch.",
+    startFromScratch: "Start from scratch",
+    templateAppliedPrefix: "Template ",
+    templateAppliedSuffix: " applied. Edit the fields below if needed.",
+    scratchProject: "Blank project. Fill in the fields below.",
+    fieldTitle: "Project title",
+    titlePlaceholder: "e.g. My online shop",
+    fieldObjective: "Objective",
+    objectivePlaceholder: "What you want to accomplish",
+    fieldDescription: "Description",
+    descriptionPlaceholder: "Describe your project, its features, its audience...",
+    previewLabel: "Preview",
+    fieldStatus: "Status",
+    fieldDeadline: "Deadline",
+    sectionAccelerator: "Accelerator track",
+    acceleratorDesc: "The track that guides this project, sprint by sprint. By choosing one, you are automatically enrolled: its lessons become your sprints and their micro-projects your deliverables, visible on this page.",
+    noTrack: "None — I build without a track",
+    fieldRevenueModel: "Target revenue model",
+    revenueNone: "No monetization for now",
+    revenueVente: "Direct sales (products, services)",
+    revenueAbonnement: "Subscription (SaaS, paid newsletter)",
+    revenuePublicite: "Advertising (audience, traffic)",
+    revenueAffiliation: "Affiliate (commissions)",
+    revenueFreelance: "Freelance (services)",
+    fieldRepoUrl: "Code link (GitHub)",
+    public: "Public",
+    private: "Private",
+    fieldLiveUrl: "Live link",
+    liveUrlPlaceholder: "https://my-project.com",
+    publishConfirmTitle: "Publish this project?",
+    publishConfirmDesc: "Once published, your project will be visible to the entire TakaCode community, displayed on the homepage and in the gallery. You can edit or remove it anytime from your dashboard.",
+    confirmPublish: "Yes, publish",
+    cancel: "Cancel",
+    saving: "Saving...",
+    save: "Save",
+    create: "Create project",
+    changeTemplate: "Change template",
+    deleting: "Deleting...",
+    delete: "Delete",
+    deleteConfirm: "Delete this project? This action is irreversible."
   },
   lessonExperience: {
     stepsResources: "Resources",
@@ -2883,7 +3002,9 @@ const EN: Translations = {
       forbidden: "This review level is reserved for mentors.",
       notPending: "This submission is no longer pending.",
       notReviewable: "This project is not under review."
-    }
+    },
+    notificationApproved: 'Well done! "{title}" has been approved.',
+    notificationChanges: 'Changes have been requested for "{title}". Rework your submission.'
   },
   revenue: {
     declared: "First revenue declared — congrats!",
@@ -2894,7 +3015,8 @@ const EN: Translations = {
     cancel: "Cancel",
     amountError: "Enter a valid amount",
     declaredSuccess: "First revenue declared:",
-    networkError: "Network error"
+    networkError: "Network error",
+    error: "Error"
   },
   notification: {
     bellLabel: "Notifications",
@@ -3042,6 +3164,7 @@ const EN: Translations = {
     networkError: "Network error. Try again shortly.",
     oauthError: "Unable to start OAuth sign in.",
     walletError: "Unable to connect wallet.",
+    walletStatement: "Sign in to TakaCode",
     errorForbidden: "Your account doesn't have the required role to access the dashboard.",
     errorOauthCallback: "Sign in failed. Try again.",
     errorOauthCodeMissing: "Sign in was interrupted. Try again.",
@@ -3146,6 +3269,14 @@ const EN: Translations = {
       explorePlatform: "Explore the platform",
       startTrack: "Start my journey",
       draftSaveError: "Could not save the draft"
+    },
+    revenue: {
+      unknown: "I don't know yet",
+      vente: "Direct sales",
+      abonnement: "Subscription",
+      publicite: "Advertising / audience",
+      affiliation: "Affiliate",
+      freelance: "Freelance / services"
     }
   },
   nextAction: {
@@ -3297,14 +3428,35 @@ const EN: Translations = {
     roleLabel: "Role",
     member: "Member",
     memberEmail: "member@takacode.app",
-    live: "Live"
+    live: "Live",
+    membreFallback: "member@takacode.app",
+    espaceMembre: "Member area",
+    deconnexion: "Sign out",
+    fermerMenu: "Close menu",
+    ouvrirMenu: "Open menu",
+    guideDemarrage: "Getting started guide",
+    enDirect: "Live",
+    monProfil: "My profile",
+    retours: "Back"
   },
   cookieNotice: {
-    label: "Cookie consent",
-    description: "TakaCode uses essential cookies (session, preferences) to function. No ads, no third-party trackers.",
+    title: "Cookie consent",
+    desc: "TakaCode uses essential cookies (session, preferences) to function. No ads, no third-party trackers.",
     learnMore: "Learn more",
     essentialOnly: "Essential only",
     accept: "Got it"
+  },
+  celebrations: {
+    activateSound: "Activate sound",
+    muteSound: "Mute sound",
+    close: "Close"
+  },
+  shareButtons: {
+    shareOn: "Share on {name}",
+    copyLink: "Copy link",
+    copied: "Copied!",
+    copy: "Copy",
+    shareVictory: "Share your victory"
   },
   parcoursSection: {
     sectionLabel: "CATALOG",

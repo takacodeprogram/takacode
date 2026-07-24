@@ -57,7 +57,7 @@ function isLinkActive(pathname: string, link: NavLink): boolean {
 }
 
 function LangSwitch() {
-  const { locale, setLocale } = useI18n();
+  const { t, locale, setLocale } = useI18n();
   const pathname = usePathname();
   const router = useRouter();
 
@@ -74,7 +74,7 @@ function LangSwitch() {
       type="button"
       onClick={toggle}
       className="inline-flex items-center justify-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-lg border border-white/[0.12] bg-white/[0.03] text-[#aaa] hover:text-white hover:border-white/[0.25] transition-all min-w-[44px]"
-      aria-label={locale === "fr" ? "Switch to English" : "Passer en français"}
+      aria-label={locale === "fr" ? t("navbar.switchToEnglish") : t("navbar.switchToFrench")}
     >
       <span className={`${locale === "fr" ? "text-white" : "text-[#666]"}`}>FR</span>
       <span className="text-[#444]">/</span>
@@ -179,7 +179,7 @@ export default function Navbar() {
         setSessionUser((prev) =>
           prev || {
             role: "user",
-            displayName: session.user.user_metadata?.full_name || session.user.email?.split("@")[0] || "Membre",
+            displayName: session.user.user_metadata?.full_name || session.user.email?.split("@")[0] || t("navbar.member"),
             email: session.user.email || "",
             avatarUrl: session.user.user_metadata?.avatar_url || ""
           }
@@ -259,7 +259,7 @@ export default function Navbar() {
           id="nav-menu-toggle"
           aria-controls="nav-mobile-panel"
           aria-expanded={isMobileOpen}
-          aria-label="Ouvrir le menu"
+           aria-label={t("navbar.ouvrirMenu")}
           onClick={toggleMobileMenu}
         >
           <span className="nav-menu-icon" aria-hidden="true">

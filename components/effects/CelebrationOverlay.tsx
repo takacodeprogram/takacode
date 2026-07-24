@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Confetti from "./Confetti";
 import ShareButtons from "./ShareButtons";
 import { isMuted, playFail, playSuccess, setMuted } from "./sound";
+import { useI18n } from "../I18nProvider";
 
 interface Props {
   open?: boolean;
@@ -30,6 +31,7 @@ export default function CelebrationOverlay({
   shareText = "",
   shareUrl = ""
 }: Props) {
+  const { t } = useI18n();
   const [confettiKey, setConfettiKey] = useState(0);
   const [muted, setMutedState] = useState(false);
   const wasOpen = useRef(false);
@@ -85,8 +87,8 @@ export default function CelebrationOverlay({
             type="button"
             onClick={toggleMute}
             className="absolute top-3 right-3 text-[#666] hover:text-white transition-colors p-1"
-            aria-label={muted ? "Activer le son" : "Couper le son"}
-            title={muted ? "Activer le son" : "Couper le son"}
+            aria-label={muted ? t("celebrations.activateSound") : t("celebrations.muteSound")}
+            title={muted ? t("celebrations.activateSound") : t("celebrations.muteSound")}
           >
             <iconify-icon icon={muted ? "lucide:volume-x" : "lucide:volume-2"} style={{ fontSize: "16px" }} />
           </button>
@@ -117,7 +119,7 @@ export default function CelebrationOverlay({
 
           {isSuccess && shareText ? (
             <div className="mb-5">
-              <div className="text-[10px] text-[#777] uppercase tracking-widest mb-2">Partage ta victoire</div>
+              <div className="text-[10px] text-[#777] uppercase tracking-widest mb-2">{t("shareButtons.shareVictory")}</div>
               <ShareButtons text={shareText} url={shareUrl} />
             </div>
           ) : null}
@@ -135,7 +137,7 @@ export default function CelebrationOverlay({
               </button>
             ) : null}
             <button type="button" onClick={onClose} className="text-[12px] text-[#888] hover:text-white px-3 py-2">
-              Fermer
+              {t("celebrations.close")}
             </button>
           </div>
         </div>

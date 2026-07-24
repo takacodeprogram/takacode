@@ -19,7 +19,7 @@ export default function PageHeader({ title, subtitle, backHref, backLabel, actio
             className="inline-flex items-center gap-1.5 text-[11px] text-[#7d7d7d] hover:text-white transition-colors mb-2"
           >
             <iconify-icon icon="lucide:arrow-left" style={{ fontSize: "12px" }} />
-            {backLabel || "Retour"}
+            {backLabel || "Back"}
           </Link>
         ) : null}
         <h1 className="font-valorax text-2xl md:text-3xl mb-1">{title}</h1>

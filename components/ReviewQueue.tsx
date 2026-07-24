@@ -83,8 +83,8 @@ export default function ReviewQueue({ initialItems = [] }: ReviewQueueProps) {
         p_type: "review_received",
         p_title: `Micro-project ${verdictLabel}`,
         p_body: verdict === "approved"
-          ? `Bravo ! "${item.lessonTitle}" a été validé.`
-          : `Des améliorations ont été demandées sur "${item.lessonTitle}". Retraite ton travail.`,
+          ? t("review.notificationApproved").replace("{title}", item.lessonTitle || "")
+          : t("review.notificationChanges").replace("{title}", item.lessonTitle || ""),
         // Lien seulement si les slugs sont connus : un lien vide n'ouvre rien
         // (mieux qu'un /parcours//lecon/ qui menait sur une 404).
         p_link: item.trackSlug && item.lessonSlug ? `/tracks/${item.trackSlug}/lesson/${item.lessonSlug}` : ""

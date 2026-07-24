@@ -92,15 +92,16 @@ const WEEKLY_VISUALS: Record<string, Visual> = {
 
 const TOOL_SWATCHES = ["#4F8EF7", "#9B6DFF", "#22D3EE", "#10B981", "#F59E0B"];
 
-// Modèles de revenu proposés dès l'onboarding : le projet vise le cash dès le départ.
-const REVENUE_OPTIONS = [
-  { key: "", label: "Je ne sais pas encore", icon: "lucide:help-circle", accent: "#8b8b8b" },
-  { key: "vente", label: "Vente directe", icon: "lucide:shopping-bag", accent: "#F59E0B" },
-  { key: "abonnement", label: "Abonnement", icon: "lucide:refresh-ccw", accent: "#4F8EF7" },
-  { key: "publicite", label: "Publicité / audience", icon: "lucide:megaphone", accent: "#EF4444" },
-  { key: "affiliation", label: "Affiliation", icon: "lucide:link", accent: "#10B981" },
-  { key: "freelance", label: "Freelance / prestations", icon: "lucide:briefcase", accent: "#9B6DFF" }
-];
+function getRevenueOptions(t: (key: string) => string) {
+  return [
+    { key: "", label: t("onboarding.revenue.unknown"), icon: "lucide:help-circle", accent: "#8b8b8b" },
+    { key: "vente", label: t("onboarding.revenue.vente"), icon: "lucide:shopping-bag", accent: "#F59E0B" },
+    { key: "abonnement", label: t("onboarding.revenue.abonnement"), icon: "lucide:refresh-ccw", accent: "#4F8EF7" },
+    { key: "publicite", label: t("onboarding.revenue.publicite"), icon: "lucide:megaphone", accent: "#EF4444" },
+    { key: "affiliation", label: t("onboarding.revenue.affiliation"), icon: "lucide:link", accent: "#10B981" },
+    { key: "freelance", label: t("onboarding.revenue.freelance"), icon: "lucide:briefcase", accent: "#9B6DFF" }
+  ];
+}
 
 function findOption(options: Option[], key: string | undefined, fallbackKey: string): Option {
   const normalized = typeof key === "string" ? key.trim() : "";
@@ -185,9 +186,6 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
   const [projectClarityKey, setProjectClarityKey] = useState<string>(findOption(PROJECT_CLARITY_OPTIONS, profileSeed.project_clarity as string | undefined, "explore").key);
   const [projectIdea, setProjectIdea] = useState<string>(sanitizeText(profileSeed.project_idea));
   const [projectName, setProjectName] = useState<string>(sanitizeText(profileSeed.project_name));
-  const [revenueModelKey, setRevenueModelKey] = useState<string>(
-    REVENUE_OPTIONS.some((o) => o.key === profileSeed.revenue_model) ? (profileSeed.revenue_model as string) : ""
-  );
   const [tools, setTools] = useState<string[]>(sanitizeTools(profileSeed.tools));
   const [weeklyCommitmentKey, setWeeklyCommitmentKey] = useState<string>(
     findOption(WEEKLY_COMMITMENT_OPTIONS, profileSeed.weekly_commitment as string | undefined, "2_to_5").key
@@ -198,6 +196,11 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
   const skipDraftSyncRef = useRef<boolean>(true);
   const { toast } = useToast();
   const { t } = useI18n();
+
+  const revenueOptions = getRevenueOptions(t);
+  const [revenueModelKey, setRevenueModelKey] = useState<string>(
+    revenueOptions.some((o) => o.key === profileSeed.revenue_model) ? (profileSeed.revenue_model as string) : ""
+  );
 
   const selectedGoal = findOption(GOAL_OPTIONS, goalKey, "website");
   const selectedLevel = findOption(LEVEL_OPTIONS, levelKey, "beginner");
@@ -253,7 +256,7 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
       });
 
       if (error) {
-        toast("Impossible de sauvegarder le brouillon", "error");
+        toast(t("onboarding.resultSection.draftSaveError"), "error");
       }
     }, 450);
 
@@ -526,8 +529,8 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
             {step === 2 ? (
               <section className="space-y-7">
                 <div>
-                  <div className="section-label font-venite-italic mb-3">Ton objectif</div>
-                  <h2 className="font-valorax text-[clamp(30px,3.4vw,44px)] leading-[0.9] gradient-text">{"QUE VEUX-TU REALISER ?"}</h2>
+                  <div className="section-label font-venite-italic mb-3">{t("onboarding.goalSection.label")}</div>
+                  <h2 className="font-valorax text-[clamp(30px,3.4vw,44px)] leading-[0.9] gradient-text">{t("onboarding.goalSection.title")}</h2>
                 </div>
 
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -582,8 +585,8 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
             {step === 3 ? (
               <section className="space-y-7">
                 <div>
-                  <div className="section-label font-venite-italic mb-3">Ton niveau</div>
-                  <h2 className="font-valorax text-[clamp(30px,3.4vw,44px)] leading-[0.9] gradient-text">{"OU EN ES-TU AUJOURD'HUI ?"}</h2>
+                  <div className="section-label font-venite-italic mb-3">{t("onboarding.levelSection.label")}</div>
+                  <h2 className="font-valorax text-[clamp(30px,3.4vw,44px)] leading-[0.9] gradient-text">{t("onboarding.levelSection.title")}</h2>
                 </div>
 
                 <div className="space-y-3">
@@ -639,8 +642,8 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
             {step === 4 ? (
               <section className="space-y-7">
                 <div>
-                  <div className="section-label font-venite-italic mb-3">Ton projet</div>
-                  <h2 className="font-valorax text-[clamp(30px,3.4vw,44px)] leading-[0.9] gradient-text">{"AS-TU DEJA UNE IDEE PRECISE ?"}</h2>
+                  <div className="section-label font-venite-italic mb-3">{t("onboarding.projectSection.label")}</div>
+                  <h2 className="font-valorax text-[clamp(30px,3.4vw,44px)] leading-[0.9] gradient-text">{t("onboarding.projectSection.title")}</h2>
                 </div>
 
                 <div className="space-y-3">
@@ -691,39 +694,37 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
 
                 {projectClarityKey !== "explore" ? (
                   <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-4">
-                    <label className="text-[12px] text-[#9d9d9d] block mb-2">{"Décris ton projet en quelques mots"}</label>
+                    <label className="text-[12px] text-[#9d9d9d] block mb-2">{t("onboarding.projectSection.ideaLabel")}</label>
                     <textarea
                       className="auth-input min-h-[110px] resize-y"
                       value={projectIdea}
                       onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => setProjectIdea(event.target.value)}
-                      placeholder={"Ex: créer un site pour mon restaurant, automatiser WhatsApp, lancer une chaîne YouTube"}
+                      placeholder={t("onboarding.projectSection.ideaPlaceholder")}
                     />
                     {projectClarityKey === "clear_idea" && projectIdea.trim().length > 0 && projectIdea.trim().length < 8 ? (
-                      <p className="text-[11px] text-orange-300 mt-2">{"Ajoute un peu plus de contexte pour un plan plus précis."}</p>
+                      <p className="text-[11px] text-orange-300 mt-2">{t("onboarding.projectSection.ideaHint")}</p>
                     ) : null}
                   </div>
                 ) : null}
 
                 <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-4">
                   <label className="text-[12px] text-[#9d9d9d] block mb-2">
-                    {"Donne un nom à ton projet"} <span className="text-[#666]">{"(modifiable plus tard)"}</span>
+                    {t("onboarding.projectSection.nameLabel")} <span className="text-[#666]">{t("onboarding.projectSection.nameHint")}</span>
                   </label>
                   <input
                     className="auth-input"
                     value={projectName}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => setProjectName(event.target.value)}
-                    placeholder={"Ex : La Table de Marco, AutoWhats, Ma chaîne Histoires"}
+                    placeholder={t("onboarding.projectSection.namePlaceholder")}
                     maxLength={120}
                   />
                 </div>
 
                 <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-4">
-                  <label className="text-[12px] text-[#9d9d9d] block mb-1">{"Comment veux-tu le monétiser un jour ?"}</label>
-                  <p className="text-[11px] text-[#777] mb-3">
-                    {"Sur TakaCode, un projet vise le premier euro. Choisis une piste — tu pourras changer d'avis."}
-                  </p>
+                  <label className="text-[12px] text-[#9d9d9d] block mb-1">{t("onboarding.projectSection.monetizationLabel")}</label>
+                  <p className="text-[11px] text-[#777] mb-3">{t("onboarding.projectSection.monetizationHint")}</p>
                   <div className="flex flex-wrap gap-2">
-                    {REVENUE_OPTIONS.map((option) => {
+                    {revenueOptions.map((option) => {
                       const selected = option.key === revenueModelKey;
                       return (
                         <button
@@ -757,9 +758,9 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
             {step === 5 ? (
               <section className="space-y-7">
                 <div>
-                  <div className="section-label font-venite-italic mb-3">Tes outils</div>
-                  <h2 className="font-valorax text-[clamp(30px,3.4vw,44px)] leading-[0.9] gradient-text">{"QUELS OUTILS T'INTERESSENT ?"}</h2>
-                  <p className="font-body-readable text-[13px] text-[#7b7b7b] mt-3">{"Étape facultative. Tu peux continuer sans sélection."}</p>
+                  <div className="section-label font-venite-italic mb-3">{t("onboarding.toolsSection.label")}</div>
+                  <h2 className="font-valorax text-[clamp(30px,3.4vw,44px)] leading-[0.9] gradient-text">{t("onboarding.toolsSection.title")}</h2>
+                  <p className="font-body-readable text-[13px] text-[#7b7b7b] mt-3">{t("onboarding.toolsSection.subtitle")}</p>
                 </div>
 
                 <div className="flex flex-wrap gap-2.5">
@@ -785,10 +786,8 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
             {step === 6 ? (
               <section className="space-y-7">
                 <div>
-                  <div className="section-label font-venite-italic mb-3">Ton rythme</div>
-                  <h2 className="font-valorax text-[clamp(30px,3.4vw,44px)] leading-[0.9] gradient-text">
-                    COMBIEN DE TEMPS PEUX-TU CONSACRER CHAQUE SEMAINE ?
-                  </h2>
+                  <div className="section-label font-venite-italic mb-3">{t("onboarding.rhythmSection.label")}</div>
+                  <h2 className="font-valorax text-[clamp(30px,3.4vw,44px)] leading-[0.9] gradient-text">{t("onboarding.rhythmSection.title")}</h2>
                 </div>
 
                 <div className="grid sm:grid-cols-2 gap-3">
@@ -836,23 +835,23 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
             {step === 7 ? (
               <section className="space-y-7">
                 <div>
-                  <div className="section-label font-venite-italic mb-3">{"Resultat"}</div>
-                  <h2 className="font-valorax text-[clamp(30px,3.4vw,44px)] leading-[0.9] gradient-text-blue">{"TON ESPACE EST PRET"}</h2>
+                  <div className="section-label font-venite-italic mb-3">{t("onboarding.resultSection.label")}</div>
+                  <h2 className="font-valorax text-[clamp(30px,3.4vw,44px)] leading-[0.9] gradient-text-blue">{t("onboarding.resultSection.title")}</h2>
                   <p className="font-body-readable text-[14px] text-[#8f8f8f] mt-3 max-w-[680px]">
-                    {"On t'a préparé une première trajectoire selon ton objectif: "}{selectedGoal.label.toLowerCase()}.
+                    {t("onboarding.resultSection.desc")}{selectedGoal.label.toLowerCase()}.
                   </p>
                 </div>
 
                 <div className="grid lg:grid-cols-[1.35fr_1fr] gap-5">
                   <article className="rounded-2xl border border-blue-500/20 bg-gradient-to-br from-blue-500/10 via-[#15162a] to-violet-500/10 p-5 space-y-5">
                     <div>
-                      <div className="font-venite-italic text-[11px] text-[#7a8fd8] uppercase tracking-widest mb-2">{"Parcours recommande"}</div>
+                      <div className="font-venite-italic text-[11px] text-[#7a8fd8] uppercase tracking-widest mb-2">{t("onboarding.resultSection.recommendedTrack")}</div>
                       <h3 className="font-venite-italic text-[24px] leading-[0.95] text-white">{recommendation.parcoursTitle}</h3>
                       <p className="text-[12px] text-[#a2b2d9] mt-1 font-body-readable">{recommendation.parcoursMeta}</p>
                     </div>
 
                     <div>
-                      <div className="font-venite-italic text-[12px] text-white mb-2">{"Premieres ressources"}</div>
+                      <div className="font-venite-italic text-[12px] text-white mb-2">{t("onboarding.resultSection.firstResources")}</div>
                       <div className="space-y-2">
                         {recommendation.resources.map((resource: string) => (
                           <div key={resource} className="flex items-center gap-2 text-[12px] text-[#c1d1ff] font-body-readable">
@@ -864,28 +863,28 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
                     </div>
 
                     <div className="rounded-xl border border-cyan-400/30 bg-cyan-500/10 px-4 py-3 text-[12px] text-cyan-100 font-body-readable">
-                      <div className="font-venite-italic text-[12px] mb-1">Objectif</div>
+                      <div className="font-venite-italic text-[12px] mb-1">{t("onboarding.resultSection.objective")}</div>
                       {recommendation.objective}
                     </div>
                   </article>
 
                   <article className="rounded-2xl border border-violet-500/20 bg-gradient-to-br from-violet-500/10 via-[#101019] to-cyan-500/10 p-5 space-y-5">
                     <div>
-                      <div className="font-venite-italic text-[11px] text-[#888] uppercase tracking-widest mb-2">Ton profil</div>
+                      <div className="font-venite-italic text-[11px] text-[#888] uppercase tracking-widest mb-2">{t("onboarding.resultSection.yourProfile")}</div>
                       <div className="font-venite-italic text-[13px] text-white">{selectedGoal.label}</div>
                       <div className="text-[12px] text-[#a2a2b5] font-body-readable mt-1">{selectedLevel.label}</div>
                       <div className="text-[12px] text-[#a2a2b5] font-body-readable">{selectedWeeklyCommitment.label} / semaine</div>
                     </div>
 
                     <div>
-                      <div className="font-venite-italic text-[12px] text-white mb-2">Prochaine session live</div>
+                      <div className="font-venite-italic text-[12px] text-white mb-2">{t("onboarding.resultSection.nextSession")}</div>
                       <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] px-3 py-2 text-[12px] text-[#bfbfe0] font-body-readable">
                         {recommendation.nextSession}
                       </div>
                     </div>
 
                     <div>
-                      <div className="font-venite-italic text-[12px] text-white mb-2">{"Prochaines etapes"}</div>
+                      <div className="font-venite-italic text-[12px] text-white mb-2">{t("onboarding.resultSection.nextSteps")}</div>
                       <div className="space-y-2">
                         {recommendation.nextSteps.map((stepItem: { label: string; state: string }) => {
                           const ui = getStepStateUi(stepItem.state);

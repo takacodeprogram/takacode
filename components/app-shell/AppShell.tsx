@@ -46,7 +46,7 @@ function getInitials(value: string | undefined): string {
   return `${tokens[0][0]}${tokens[tokens.length - 1][0]}`.toUpperCase();
 }
 
-function SidebarLink({ link, pathname, onNavigate }: { link: NavLink; pathname: string; onNavigate?: () => void }) {
+function SidebarLink({ link, pathname, onNavigate, t }: { link: NavLink; pathname: string; onNavigate?: () => void; t: (key: string) => string }) {
   const active = isSidebarLinkActive(pathname, link);
   return (
     <L
@@ -64,7 +64,7 @@ function SidebarLink({ link, pathname, onNavigate }: { link: NavLink; pathname: 
         <iconify-icon icon={link.icon} />
         {link.label}
       </span>
-      {link.live ? <span className="h-2 w-2 rounded-full bg-red-500" aria-label="En direct" /> : null}
+      {link.live ?         <span className="h-2 w-2 rounded-full bg-red-500" aria-label={t("appShell.enDirect")} /> : null}
       {link.badge ? (
         <span className="rounded-full border border-blue-400/25 bg-blue-500/10 px-2 py-0.5 text-[9px] font-semibold text-blue-200">
           {link.badge}
@@ -85,7 +85,7 @@ export default function AppShell({ user, children }: AppShellProps) {
   useLiveRefresh();
 
   const displayName = user?.displayName || t("navbar.member");
-  const email = user?.email || "membre@takacode.app";
+  const email = user?.email || t("appShell.membreFallback");
   const role = (user?.role || "user").toLowerCase();
   const roleLabel = role.toUpperCase();
   const isAdmin = role === "admin";
@@ -161,19 +161,19 @@ export default function AppShell({ user, children }: AppShellProps) {
                   {expanded ? (
                     <div className="ml-2 space-y-0.5 mb-1">
                       {item.children.map((child: NavLink) => (
-                        <SidebarLink key={child.href} link={child} pathname={pathname} onNavigate={onNavigate} />
+                        <SidebarLink key={child.href} link={child} pathname={pathname} onNavigate={onNavigate} t={t} />
                       ))}
                     </div>
                   ) : null}
                 </div>
               );
             }
-            return <SidebarLink key={(item as NavLink).href} link={item as NavLink} pathname={pathname} onNavigate={onNavigate} />;
+            return <SidebarLink key={(item as NavLink).href} link={item as NavLink} pathname={pathname} onNavigate={onNavigate} t={t} />;
           })}
           {extraLinks.length > 0 ? (
             <div className="pt-3 mt-3 border-t border-white/[0.05] space-y-0.5">
               {extraLinks.map((link: NavLink) => (
-                <SidebarLink key={link.href} link={link} pathname={pathname} onNavigate={onNavigate} />
+                <SidebarLink key={link.href} link={link} pathname={pathname} onNavigate={onNavigate} t={t} />
               ))}
             </div>
           ) : null}
@@ -187,12 +187,12 @@ export default function AppShell({ user, children }: AppShellProps) {
               className="flex items-center gap-3 rounded-xl px-4 py-3 text-[14px] font-medium text-[#888] hover:text-white hover:bg-white/[0.04] transition-all"
             >
               <iconify-icon icon="lucide:arrow-left" />
-              Espace membre
+              {t("appShell.espaceMembre")}
             </L>
           ) : null}
           <SignOutButton className="w-full flex items-center gap-3 rounded-xl px-4 py-3 text-[14px] font-medium text-red-400/70 hover:text-red-400 hover:bg-red-400/5 transition-all">
             <iconify-icon icon="lucide:log-out" />
-            Deconnexion
+            {t("appShell.deconnexion")}
           </SignOutButton>
         </div>
       </>
@@ -214,7 +214,7 @@ export default function AppShell({ user, children }: AppShellProps) {
               type="button"
               onClick={() => setDrawerOpen(false)}
               className="absolute top-4 right-4 text-[#888] hover:text-white p-1"
-              aria-label="Fermer le menu"
+              aria-label={t("appShell.fermerMenu")}
             >
               <iconify-icon icon="lucide:x" style={{ fontSize: "18px" }} />
             </button>
@@ -232,7 +232,7 @@ export default function AppShell({ user, children }: AppShellProps) {
             type="button"
             onClick={() => setDrawerOpen(true)}
             className="lg:hidden inline-flex items-center justify-center h-10 w-10 rounded-xl border border-white/[0.08] bg-white/[0.02] text-white"
-            aria-label="Ouvrir le menu"
+            aria-label={t("appShell.ouvrirMenu")}
           >
             <iconify-icon icon="lucide:menu" style={{ fontSize: "18px" }} />
           </button>
@@ -275,7 +275,7 @@ export default function AppShell({ user, children }: AppShellProps) {
                     role="menuitem"
                   >
                     <iconify-icon icon="lucide:user" style={{ fontSize: "15px", color: "#89c7ff" }} />
-                    Mon profil
+                    {t("appShell.monProfil")}
                   </L>
                   <div className="border-t border-white/[0.06] my-1" />
                   <L
@@ -285,7 +285,7 @@ export default function AppShell({ user, children }: AppShellProps) {
                     role="menuitem"
                   >
                     <iconify-icon icon="lucide:compass" style={{ fontSize: "15px", color: "#89c7ff" }} />
-                    Guide de démarrage
+                    {t("appShell.guideDemarrage")}
                   </L>
                   <L
                     href="/dashboard/docs"
@@ -294,7 +294,7 @@ export default function AppShell({ user, children }: AppShellProps) {
                     role="menuitem"
                   >
                     <iconify-icon icon="lucide:book-open" style={{ fontSize: "15px", color: "#89c7ff" }} />
-                    Documentation
+                    {t("appShell.documentation")}
                   </L>
                 {isAdmin ? (
                   <L

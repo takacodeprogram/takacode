@@ -180,7 +180,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
     try {
       const { error } = await supabase.auth.signInWithWeb3({
         chain: "ethereum",
-        statement: "Connexion à TakaCode"
+        statement: t("auth.walletStatement")
       });
 
       if (error) {

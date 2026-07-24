@@ -51,7 +51,7 @@ export default function DeclareFirstRevenue({ projectId, alreadyDeclared, countr
       });
       const data = await res.json();
       if (!res.ok || data.error) {
-        toast(data?.error || "Erreur", "error");
+        toast(data?.error || t("revenue.error"), "error");
         return;
       }
       const cur = getCurrency(currency);

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useI18n } from "../I18nProvider";
 
 interface ShareTarget {
   key: string;
@@ -16,6 +17,7 @@ interface Props {
 }
 
 export default function ShareButtons({ text = "", url = "", compact = false }: Props) {
+  const { t } = useI18n();
   const [copied, setCopied] = useState(false);
 
   const shareUrl = url || (typeof window !== "undefined" ? window.location.origin : "https://takacode.vercel.app");
@@ -52,7 +54,7 @@ export default function ShareButtons({ text = "", url = "", compact = false }: P
           type="button"
           onClick={() => openShare(target.href)}
           className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.1] bg-white/[0.03] hover:bg-white/[0.07] transition-colors px-2.5 py-1.5 text-[11px] text-[#d1d1d1]"
-          aria-label={`Partager sur ${target.label}`}
+          aria-label={t("shareButtons.shareOn").replace("{name}", target.label)}
         >
           <iconify-icon icon={target.icon} style={{ fontSize: "13px", color: "#89c7ff" }} />
           {!compact ? target.label : null}
@@ -62,10 +64,10 @@ export default function ShareButtons({ text = "", url = "", compact = false }: P
         type="button"
         onClick={copyLink}
         className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.1] bg-white/[0.03] hover:bg-white/[0.07] transition-colors px-2.5 py-1.5 text-[11px] text-[#d1d1d1]"
-        aria-label="Copier le lien"
+        aria-label={t("shareButtons.copyLink")}
       >
         <iconify-icon icon={copied ? "lucide:check" : "lucide:link"} style={{ fontSize: "13px", color: copied ? "#6ee7b7" : "#89c7ff" }} />
-        {copied ? "Copie !" : compact ? null : "Copier"}
+        {copied ? t("shareButtons.copied") : compact ? null : t("shareButtons.copy")}
       </button>
     </div>
   );
