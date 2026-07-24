@@ -338,7 +338,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
         setCelebration({
           open: true,
           variant: "success",
-          title: nextLessonSlug ? "LECON VALIDEE !" : "PARCOURS TERMINE !",
+          title: nextLessonSlug ? t("projectForm.lesson.lessonValidatedTitle") : t("projectForm.lesson.trackCompletedTitle"),
           message: nextLessonSlug
             ? "Bravo, tu progresses. Continue sur ta lancée !"
             : "Félicitations, tu as terminé toutes les leçons de ce parcours !",
@@ -471,16 +471,16 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
         const isAI = data.aiReview?.available === true;
         const aiComment = data.aiReview?.feedback || "";
         const successMessage = nextLessonSlug
-          ? "Ton micro-projet est enregistré. Bravo, continue !"
-          : "Félicitations, tu as terminé tout le parcours !";
+          ? t("projectForm.lesson.microProjectSaved")
+          : t("projectForm.lesson.trackCompleted");
         const messageWithAI = isAI && aiComment
-          ? `L'IA a validé ton travail.\n\n${aiComment}\n\n${successMessage}`
+          ? `${t("projectForm.lesson.aiValidated")}\n\n${aiComment}\n\n${successMessage}`
           : successMessage;
 
         setCelebration({
           open: true,
           variant: "success",
-          title: nextLessonSlug ? "LECON VALIDEE !" : "PARCOURS TERMINE !",
+          title: nextLessonSlug ? t("projectForm.lesson.lessonValidatedTitle") : t("projectForm.lesson.trackCompletedTitle"),
           message: messageWithAI,
           xp: Number(data.xpAwarded) || 0,
           ctaLabel: nextLessonSlug ? "Leçon suivante" : "",

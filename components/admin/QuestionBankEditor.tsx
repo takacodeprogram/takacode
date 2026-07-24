@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { createClient } from "../../utils/supabase/client";
 import { useToast } from "../Toast";
+import { useI18n } from "../I18nProvider";
 
 interface QuestionRow {
   id: string;
@@ -48,6 +49,7 @@ function normalizeRow(row: Record<string, unknown>): QuestionRow {
 }
 
 export default function QuestionBankEditor({ lessonId, userId, objectives = [], resources = [] }: Props) {
+  const { t } = useI18n();
   const supabase = useMemo(() => createClient(), []);
   const { toast } = useToast();
   const [questions, setQuestions] = useState<QuestionRow[]>([]);
@@ -116,11 +118,11 @@ export default function QuestionBankEditor({ lessonId, userId, objectives = [], 
   async function saveQuestion(question: QuestionRow) {
     const choices = question.choices.map((choice) => choice.trim());
     if (question.prompt.trim().length < 8 || choices.length < 2 || choices.some((choice) => !choice)) {
-      toast("Complète l'énoncé et tous les choix avant d'enregistrer.", "error");
+      toast(t("adminQuestions.completePromptAndChoices"), "error");
       return;
     }
     if (new Set(choices.map((choice) => choice.toLowerCase())).size !== choices.length) {
-      toast("Les choix d'une question doivent être différents.", "error");
+      toast(t("adminQuestions.choicesMustBeDifferent"), "error");
       return;
     }
 

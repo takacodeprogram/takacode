@@ -90,7 +90,12 @@ const FR: Translations = {
     lesson: {
       fileTooLarge: "Le fichier dépasse 5 Mo.",
       uploaded: "Fichier uploadé.",
-      uploadFailed: "Échec de l'upload."
+      uploadFailed: "Échec de l'upload.",
+      microProjectSaved: "Ton micro-projet est enregistré. Bravo, continue !",
+      trackCompleted: "Félicitations, tu as terminé tout le parcours !",
+      aiValidated: "L'IA a validé ton travail.",
+      lessonValidatedTitle: "LECON VALIDEE !",
+      trackCompletedTitle: "PARCOURS TERMINE !"
     }
   },
   home: {
@@ -1529,7 +1534,9 @@ const FR: Translations = {
     grade: "Grade",
     registration: "Inscription",
     emailNotAvailable: "Email non disponible",
-    yourself: "toi"
+    yourself: "toi",
+    pointsUpdated: "Points mis à jour.",
+    roleChangeFailed: "Impossible de changer le rôle."
   },
   adminTracks: {
     metaTitle: "Admin - Parcours",
@@ -1581,7 +1588,8 @@ const FR: Translations = {
     tableMissing: "Table sessions absente. Lance supabase/sql/010_live_sessions.sql.",
     loadError: "Erreur",
     empty: "Aucune session pour l'instant.",
-    dateToConfirm: "Date à confirmer"
+    dateToConfirm: "Date à confirmer",
+    sessionSaved: "Session enregistrée."
   },
   adminSessionNew: {
     metaTitle: "Admin - Nouvelle session",
@@ -1663,6 +1671,10 @@ const FR: Translations = {
     metaDesc: "Ajouter un lien d'affiliation.",
     title: "NOUVEAU LIEN",
     subtitle: "Ajouter un lien d'affiliation"
+  },
+  adminQuestions: {
+    completePromptAndChoices: "Complète l'énoncé et tous les choix avant d'enregistrer.",
+    choicesMustBeDifferent: "Les choix d'une question doivent être différents."
   },
   trackForm: {
     tabsIdentite: "Identité",
@@ -1884,7 +1896,12 @@ const EN: Translations = {
     lesson: {
       fileTooLarge: "File exceeds 5 MB.",
       uploaded: "File uploaded.",
-      uploadFailed: "Upload failed."
+      uploadFailed: "Upload failed.",
+      microProjectSaved: "Your micro-project is saved. Well done, keep going!",
+      trackCompleted: "Congratulations, you completed the entire track!",
+      aiValidated: "AI validated your work.",
+      lessonValidatedTitle: "LESSON VALIDATED!",
+      trackCompletedTitle: "TRACK COMPLETED!"
     }
   },
   home: {
@@ -3323,7 +3340,9 @@ const EN: Translations = {
     grade: "Grade",
     registration: "Registration",
     emailNotAvailable: "Email not available",
-    yourself: "you"
+    yourself: "you",
+    pointsUpdated: "Points updated.",
+    roleChangeFailed: "Unable to change role."
   },
   adminTracks: {
     metaTitle: "Admin - Tracks",
@@ -3375,7 +3394,8 @@ const EN: Translations = {
     tableMissing: "Missing sessions table. Run supabase/sql/010_live_sessions.sql.",
     loadError: "Error",
     empty: "No sessions yet.",
-    dateToConfirm: "Date to be confirmed"
+    dateToConfirm: "Date to be confirmed",
+    sessionSaved: "Session saved."
   },
   adminSessionNew: {
     metaTitle: "Admin - New session",
@@ -3457,6 +3477,10 @@ const EN: Translations = {
     metaDesc: "Add an affiliate link.",
     title: "NEW LINK",
     subtitle: "Add an affiliate link"
+  },
+  adminQuestions: {
+    completePromptAndChoices: "Complete the prompt and all choices before saving.",
+    choicesMustBeDifferent: "Question choices must be different."
   },
   trackForm: {
     tabsIdentite: "Identity",

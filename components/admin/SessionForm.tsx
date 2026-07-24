@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "../../utils/supabase/client";
 import { useToast } from "../Toast";
+import { useI18n } from "../I18nProvider";
 
 interface Track {
   id: string;
@@ -48,6 +49,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 }
 
 export default function SessionForm({ tracks = [], session = null }: SessionFormProps) {
+  const { t } = useI18n();
   const router = useRouter();
   const supabase = useMemo(() => createClient(), []);
   const { toast } = useToast();
@@ -100,7 +102,7 @@ export default function SessionForm({ tracks = [], session = null }: SessionForm
         toast(updateError.message, "error");
         return;
       }
-      toast("Session enregistrée.", "success");
+      toast(t("adminSessions.sessionSaved"), "success");
       router.refresh();
       return;
     }

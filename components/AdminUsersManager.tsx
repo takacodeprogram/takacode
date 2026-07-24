@@ -95,7 +95,7 @@ export default function AdminUsersManager({ initialUsers = [], currentUserId = "
 
     setUsers((current) => current.map((u) => (u.id === userId ? { ...u, ...(data as object) } : u)));
     setPointsDraft((current) => ({ ...current, [userId]: String((data as { points: number }).points) }));
-    toast("Points mis à jour.", "success");
+    toast(t("adminUsers.pointsUpdated"), "success");
     setSavingPointsId("");
   }
 
@@ -116,7 +116,7 @@ export default function AdminUsersManager({ initialUsers = [], currentUserId = "
 
     if (error || (data && typeof data === "object" && "error" in data && data.error)) {
       const code = (data && typeof data === "object" && "error" in data ? (data as { error: string }).error : "") || (error?.message?.includes("function") ? "rpc_missing" : "");
-      toast(ROLE_ERROR[code] || error?.message || "Impossible de changer le rôle.", "error");
+      toast(ROLE_ERROR[code] || error?.message || t("adminUsers.roleChangeFailed"), "error");
       setApplyingRoleId("");
       setConfirm(null);
       setRoleDraft((current) => ({ ...current, [user.id]: user.role || "user" }));
