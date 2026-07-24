@@ -23,20 +23,22 @@ interface AdminUsersManagerProps {
 
 const ROLE_OPTIONS = ["user", "mentor", "admin"];
 
-const ROLE_INFO: Record<string, { label: string; desc: string }> = {
-  user: { label: "Membre", desc: "Apprend, suit les parcours, publie ses projets." },
-  mentor: { label: "Mentor", desc: "Membre + anime des sessions live et accompagne les autres." },
-  admin: { label: "Admin", desc: "Accès complet : utilisateurs, parcours, leçons, sessions, paramètres." }
-};
+function getRoleInfo(t: (key: string) => string): Record<string, { label: string; desc: string }> {
+  return {
+    user: { label: t("adminUsers.roleUser"), desc: t("adminUsers.roleUserDesc") },
+    mentor: { label: t("adminUsers.roleMentor"), desc: t("adminUsers.roleMentorDesc") },
+    admin: { label: t("adminUsers.roleAdmin"), desc: t("adminUsers.roleAdminDesc") }
+  };
+}
 
-const ROLE_ERROR: Record<string, string> = {
-  not_authenticated: "Session expiree, reconnecte-toi.",
-  forbidden: "Action réservée aux admins.",
-  invalid_role: "Rôle invalide.",
-  cannot_change_self: "Tu ne peux pas modifier ton propre rôle.",
-  user_not_found: "Utilisateur introuvable.",
-  last_admin: "Impossible : il doit rester au moins un admin.",
-  rpc_missing: "Fonction de role absente. Lance supabase/sql/011_role_management.sql."
+const ROLE_ERROR_KEYS: Record<string, string> = {
+  not_authenticated: "errNotAuthenticated",
+  forbidden: "errForbidden",
+  invalid_role: "errInvalidRole",
+  cannot_change_self: "errCannotChangeSelf",
+  user_not_found: "errUserNotFound",
+  last_admin: "errLastAdmin",
+  rpc_missing: "errRpcMissing"
 };
 
 function shortId(value: string | undefined): string {
@@ -65,6 +67,7 @@ export default function AdminUsersManager({ initialUsers = [], currentUserId = "
   const { t } = useI18n();
   const supabase = useMemo(() => createClient(), []);
   const { toast } = useToast();
+  const roleInfo = useMemo(() => getRoleInfo(t), [t]);
   const [users, setUsers] = useState<User[]>(Array.isArray(initialUsers) ? initialUsers : []);
   const [pointsDraft, setPointsDraft] = useState<Record<string, string>>(() =>
     Object.fromEntries((initialUsers || []).map((u: User) => [u.id, String(Number(u.points ?? 0))]))
@@ -116,7 +119,8 @@ export default function AdminUsersManager({ initialUsers = [], currentUserId = "
 
     if (error || (data && typeof data === "object" && "error" in data && data.error)) {
       const code = (data && typeof data === "object" && "error" in data ? (data as { error: string }).error : "") || (error?.message?.includes("function") ? "rpc_missing" : "");
-      toast(ROLE_ERROR[code] || error?.message || t("adminUsers.roleChangeFailed"), "error");
+      const errorKey = ROLE_ERROR_KEYS[code];
+      toast(errorKey ? t("adminUsers." + errorKey) : (error?.message || t("adminUsers.roleChangeFailed")), "error");
       setApplyingRoleId("");
       setConfirm(null);
       setRoleDraft((current) => ({ ...current, [user.id]: user.role || "user" }));
@@ -124,7 +128,7 @@ export default function AdminUsersManager({ initialUsers = [], currentUserId = "
     }
 
     setUsers((current) => current.map((u) => (u.id === user.id ? { ...u, role: newRole } : u)));
-    toast(`Role de ${resolveUserDisplayName(user)} : ${ROLE_INFO[newRole].label}.`, "success");
+    toast(t("adminUsers.roleChanged").replace("{user}", resolveUserDisplayName(user)).replace("{role}", roleInfo[newRole].label), "success");
     setApplyingRoleId("");
     setConfirm(null);
   }
@@ -133,19 +137,19 @@ export default function AdminUsersManager({ initialUsers = [], currentUserId = "
     <section className="rounded-2xl border border-white/[0.08] bg-[#111] p-5">
       <div className="flex items-center justify-between gap-3 mb-4 flex-wrap">
         <div>
-          <h2 className="font-valorax text-xl">UTILISATEURS ET ROLES</h2>
+          <h2 className="font-valorax text-xl">{t("adminUsers.sectionTitle")}</h2>
           <p className="text-[12px] text-[#777] font-body-readable mt-1">
-            Change les points directement. Les changements de rôle demandent une confirmation et sont journalises.
+            {t("adminUsers.sectionDesc")}
           </p>
         </div>
-        <div className="rounded-lg border border-white/[0.08] bg-white/[0.02] px-3 py-1.5 text-[11px] text-[#bbb]">{users.length} utilisateur(s)</div>
+        <div className="rounded-lg border border-white/[0.08] bg-white/[0.02] px-3 py-1.5 text-[11px] text-[#bbb]">{t("adminUsers.userCount").replace("{n}", String(users.length))}</div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5 mb-5">
         {ROLE_OPTIONS.map((role) => (
           <div key={role} className="rounded-xl border border-white/[0.08] bg-white/[0.02] px-3.5 py-2.5">
-            <div className="text-[11px] font-semibold text-white mb-0.5">{ROLE_INFO[role].label}</div>
-            <div className="text-[10px] text-[#888] font-body-readable leading-snug">{ROLE_INFO[role].desc}</div>
+            <div className="text-[11px] font-semibold text-white mb-0.5">{roleInfo[role].label}</div>
+            <div className="text-[10px] text-[#888] font-body-readable leading-snug">{roleInfo[role].desc}</div>
           </div>
         ))}
       </div>
@@ -179,7 +183,7 @@ export default function AdminUsersManager({ initialUsers = [], currentUserId = "
                   </td>
                   <td className="py-3 pr-4">
                     {isSelf ? (
-                      <span className="text-[11px] text-[#888]">{ROLE_INFO[user.role || ""]?.label || user.role}</span>
+                      <span className="text-[11px] text-[#888]">{roleInfo[user.role || ""]?.label || user.role}</span>
                     ) : (
                       <div className="flex items-center gap-1.5">
                         <select
@@ -188,7 +192,7 @@ export default function AdminUsersManager({ initialUsers = [], currentUserId = "
                           onChange={(event: React.ChangeEvent<HTMLSelectElement>) => setRoleDraft((c) => ({ ...c, [user.id]: event.target.value }))}
                         >
                           {ROLE_OPTIONS.map((r) => (
-                            <option key={r} value={r}>{ROLE_INFO[r].label}</option>
+                            <option key={r} value={r}>{roleInfo[r].label}</option>
                           ))}
                         </select>
                         <button
@@ -199,7 +203,7 @@ export default function AdminUsersManager({ initialUsers = [], currentUserId = "
                             roleChanged ? "border-blue-500/35 bg-blue-500/15 text-blue-100 hover:bg-blue-500/25" : "border-white/[0.08] text-[#555] cursor-not-allowed"
                           }`}
                         >
-                          Appliquer
+                          {t("adminUsers.apply")}
                         </button>
                       </div>
                     )}
@@ -239,22 +243,22 @@ export default function AdminUsersManager({ initialUsers = [], currentUserId = "
           <div className="celebrate-pop w-full max-w-[400px] rounded-2xl border border-white/[0.1] bg-[#111] p-6" onClick={(e: React.MouseEvent) => e.stopPropagation()}>
             <div className="flex items-center gap-2.5 mb-3">
               <iconify-icon icon="lucide:shield-alert" style={{ fontSize: "20px", color: confirm.newRole === "admin" ? "#F59E0B" : "#4F8EF7" }} />
-              <h3 className="font-venite text-[14px] tracking-wide text-white">CONFIRMER LE CHANGEMENT DE ROLE</h3>
+              <h3 className="font-venite text-[14px] tracking-wide text-white">{t("adminUsers.confirmTitle")}</h3>
             </div>
             <p className="font-body-readable text-[13px] text-[#a5a5a5] leading-relaxed mb-2">
-              {resolveUserDisplayName(confirm.user)} : <span className="text-white font-semibold">{ROLE_INFO[confirm.oldRole]?.label || confirm.oldRole}</span> → <span className="text-white font-semibold">{ROLE_INFO[confirm.newRole]?.label || confirm.newRole}</span>
+              {resolveUserDisplayName(confirm.user)} : <span className="text-white font-semibold">{roleInfo[confirm.oldRole]?.label || confirm.oldRole}</span> → <span className="text-white font-semibold">{roleInfo[confirm.newRole]?.label || confirm.newRole}</span>
             </p>
             {confirm.newRole === "admin" ? (
               <div className="rounded-xl border border-amber-500/25 bg-amber-500/10 px-3.5 py-2.5 text-[12px] text-amber-100 font-body-readable mb-4">
-                Attention : le role Admin donne un acces complet a la plateforme (utilisateurs, parcours, sessions, parametres).
+                {t("adminUsers.adminWarning")}
               </div>
             ) : (
-              <p className="font-body-readable text-[12px] text-[#888] mb-4">{ROLE_INFO[confirm.newRole]?.desc}</p>
+              <p className="font-body-readable text-[12px] text-[#888] mb-4">{roleInfo[confirm.newRole]?.desc}</p>
             )}
             <div className="flex items-center justify-end gap-2.5">
-              <button type="button" onClick={() => setConfirm(null)} className="text-[12px] text-[#888] hover:text-white px-3 py-2">Annuler</button>
+              <button type="button" onClick={() => setConfirm(null)} className="text-[12px] text-[#888] hover:text-white px-3 py-2">{t("adminUsers.cancel")}</button>
               <button type="button" onClick={confirmRoleChange} disabled={applyingRoleId === confirm.user.id} className="btn-primary inline-flex items-center gap-2 text-[12px]" style={{ padding: "9px 16px" }}>
-                {applyingRoleId === confirm.user.id ? "Application..." : "Confirmer"}
+                {applyingRoleId === confirm.user.id ? t("adminUsers.applying") : t("adminUsers.confirm")}
                 <iconify-icon icon="lucide:check" style={{ fontSize: "13px" }} />
               </button>
             </div>

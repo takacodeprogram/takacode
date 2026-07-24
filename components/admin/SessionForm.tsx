@@ -89,7 +89,7 @@ export default function SessionForm({ tracks = [], session = null }: SessionForm
     event.preventDefault();
 
     if (!String(form.title).trim()) {
-      toast("Le titre est obligatoire.", "error");
+      toast(t("adminSessions.titleRequired"), "error");
       return;
     }
 
@@ -110,14 +110,14 @@ export default function SessionForm({ tracks = [], session = null }: SessionForm
     const { error: insertError } = await supabase.from("live_sessions").insert(buildPayload());
     setSaving(false);
     if (insertError) {
-      toast(insertError.message.includes("live_sessions") ? "Table sessions absente. Lance supabase/sql/010_live_sessions.sql." : insertError.message, "error");
+      toast(insertError.message.includes("live_sessions") ? t("adminSessions.tableMissing") : insertError.message, "error");
       return;
     }
     router.push("/admin/sessions");
   }
 
   async function handleDelete() {
-    if (!window.confirm("Supprimer cette session ? Cette action est irréversible.")) {
+    if (!window.confirm(t("adminSessions.confirmDelete"))) {
       return;
     }
     setDeleting(true);
@@ -132,15 +132,15 @@ export default function SessionForm({ tracks = [], session = null }: SessionForm
 
   return (
     <form onSubmit={handleSubmit} className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 space-y-4">
-      <Field label="Titre"><input className={INPUT} value={String(form.title)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("title", e.target.value)} placeholder="Ex: Atelier live - deployer sur Vercel" /></Field>
-      <Field label="Description"><textarea className={`${INPUT} min-h-[70px]`} value={String(form.description)} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setField("description", e.target.value)} /></Field>
+      <Field label={t("adminSessions.fieldTitle")}><input className={INPUT} value={String(form.title)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("title", e.target.value)} placeholder={t("adminSessions.titlePlaceholder")} /></Field>
+      <Field label={t("adminSessions.fieldDescription")}><textarea className={`${INPUT} min-h-[70px]`} value={String(form.description)} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setField("description", e.target.value)} /></Field>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        <Field label="Date et heure"><input type="datetime-local" className={INPUT} value={String(form.scheduled_at)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("scheduled_at", e.target.value)} /></Field>
-        <Field label="Durée (min)"><input type="number" min="1" className={INPUT} value={String(form.duration_minutes)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("duration_minutes", e.target.value)} /></Field>
-        <Field label="Parcours lie">
+        <Field label={t("adminSessions.fieldDatetime")}><input type="datetime-local" className={INPUT} value={String(form.scheduled_at)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("scheduled_at", e.target.value)} /></Field>
+        <Field label={t("adminSessions.fieldDuration")}><input type="number" min="1" className={INPUT} value={String(form.duration_minutes)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("duration_minutes", e.target.value)} /></Field>
+        <Field label={t("adminSessions.fieldTrack")}>
           <select className={INPUT} value={String(form.track_id)} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setField("track_id", e.target.value)}>
-            <option value="">Aucun</option>
+            <option value="">{t("adminSessions.noTrack")}</option>
             {tracks.map((track: Track) => (
               <option key={track.id} value={track.id}>{track.title}</option>
             ))}
@@ -149,23 +149,23 @@ export default function SessionForm({ tracks = [], session = null }: SessionForm
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        <Field label="Lien pour rejoindre"><input className={INPUT} value={String(form.join_url)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("join_url", e.target.value)} placeholder="https://meet..." /></Field>
-        <Field label="Lien du replay"><input className={INPUT} value={String(form.replay_url)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("replay_url", e.target.value)} placeholder="https://youtube..." /></Field>
+        <Field label={t("adminSessions.fieldJoinUrl")}><input className={INPUT} value={String(form.join_url)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("join_url", e.target.value)} placeholder={t("adminSessions.joinUrlPlaceholder")} /></Field>
+        <Field label={t("adminSessions.fieldReplayUrl")}><input className={INPUT} value={String(form.replay_url)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("replay_url", e.target.value)} placeholder={t("adminSessions.replayUrlPlaceholder")} /></Field>
       </div>
 
       <label className="text-[11px] text-[#9b9b9b] flex items-center gap-1.5">
-        <input type="checkbox" checked={form.is_published === true} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("is_published", e.target.checked)} /> Publiée (visible par les membres)
+        <input type="checkbox" checked={form.is_published === true} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("is_published", e.target.checked)} /> {t("adminSessions.publishedLabel")}
       </label>
 
       <div className="flex items-center gap-3 flex-wrap">
         <button type="submit" disabled={saving} className={`btn-primary inline-flex items-center gap-2 text-[12px] ${saving ? "opacity-50 cursor-not-allowed" : ""}`} style={{ padding: "10px 18px" }}>
-          {saving ? "Enregistrement..." : isEdit ? "Enregistrer" : "Créer la session"}
+          {saving ? t("adminSessions.saving") : isEdit ? t("adminSessions.save") : t("adminSessions.create")}
           <iconify-icon icon="lucide:save" style={{ fontSize: "13px" }} />
         </button>
         {isEdit ? (
           <button type="button" onClick={handleDelete} disabled={deleting} className="text-[12px] text-red-400/80 hover:text-red-400 inline-flex items-center gap-1.5">
             <iconify-icon icon="lucide:trash-2" style={{ fontSize: "13px" }} />
-            {deleting ? "Suppression..." : "Supprimer"}
+            {deleting ? t("adminSessions.deleting") : t("adminSessions.delete")}
           </button>
         ) : null}
       </div>

@@ -165,7 +165,7 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
       .update(buildPayload())
       .eq("id", track.id);
     if (saveError) return false;
-    await createVersion("Sauvegarde automatique");
+    await createVersion(t("trackForm.versionAuto"));
     return true;
   }
 
@@ -247,8 +247,8 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
     return {
       goal_key: form.goal_key.trim().toLowerCase() || "other",
       title: form.title.trim() || t("trackForm.trackDefault"),
-      summary: summary || "Parcours en préparation.",
-      description: summary || "Parcours en préparation.",
+      summary: summary || t("trackForm.trackFallback"),
+      description: summary || t("trackForm.trackFallback"),
       level_label: form.level_label.trim() || "Debutant",
       duration_weeks: Math.max(1, Number.parseInt(form.duration_weeks, 10) || 8),
       sort_order: Math.max(1, Number.parseInt(form.sort_order, 10) || 100),
@@ -283,7 +283,7 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
         setSaving(false);
         return;
       }
-      await createVersion("Sauvegarde manuelle");
+      await createVersion(t("trackForm.versionManual"));
       markSaved();
       toast(t("trackForm.updated"), "success");
       setDirty(false);
@@ -293,7 +293,7 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
     }
 
     const slug = form.slug.trim().toLowerCase();
-    const insertPayload: Record<string, unknown> = { slug, ...buildPayload(), next_steps: [{ label: "Démarrer le parcours", state: "current" }] };
+    const insertPayload: Record<string, unknown> = { slug, ...buildPayload(), next_steps: [{ label: t("trackForm.startSteps"), state: "current" }] };
     if (proposal) {
       insertPayload.created_by = userId;
       insertPayload.is_pending = true;
@@ -581,8 +581,8 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
                         <div key={key} className={`flex flex-col gap-1 ${changed ? "text-amber-300" : "text-[#666]"}`}>
                           <span className="uppercase tracking-widest font-semibold text-[9px]">{key}</span>
                           <div className="flex gap-2">
-                            <span className="text-green-400">Actuel: {JSON.stringify(currentVal)}</span>
-                            <span className="text-amber-400">Version: {JSON.stringify(oldVal)}</span>
+                            <span className="text-green-400">{t("trackForm.currentLabel")}{JSON.stringify(currentVal)}</span>
+                            <span className="text-amber-400">{t("trackForm.versionLabelText")}{JSON.stringify(oldVal)}</span>
                           </div>
                         </div>
                       );
