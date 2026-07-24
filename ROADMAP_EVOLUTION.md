@@ -8,7 +8,33 @@ Ce document est la source de verite produit et technique. Chaque livraison visib
 
 Tout ce qui est construit — parcours, outils, templates, communaute — converge vers ce seul objectif. Le projet est l'entite centrale de la plateforme. Les parcours ne sont que des accelerateurs pour concevoir, lancer et rentabiliser un projet.
 
-## Principes
+## Principes d'apprentissage
+
+### Curation, pas creation
+
+TakaCode ne cree pas de contenu original. Chaque parcours est une **curation structuree de ressources existantes de qualite** : videos YouTube, documentation officielle, articles, tutoriels, templates. L'originalite de la plateforme reside dans l'**orchestration** de ces ressources — le chemin, l'ordre, les exercices, les quiz, le guidage IA — pas dans la production de cours « maison ».
+
+### Autonomie et esprit critique
+
+L'objectif n'est pas de donner les reponses, mais de developper chez chaque membre :
+- le **reflexe de trouver des informations fiables** par lui-meme
+- la **capacite a evaluer** la qualite d'une source
+- l'**habitude d'utiliser l'IA** comme accelerateur d'apprentissage (pas comme béquille)
+- la **confiance** pour apprendre n'importe quelle competence digitale en autonomie
+
+### L'IA comme levier transversal
+
+L'IA n'est pas un module optionnel : c'est un outil fondamental que chaque parcours enseigne a utiliser pour **apprendre plus vite, construire, debugger, resoudre et iterer**. Le tuteur IA (V1.8) est une brique, mais l'IA est integree dans la pedagogie de chaque parcours.
+
+### Spectre large des competences digitales
+
+TakaCode ne se limite pas au code. Le spectre couvre : developpement logiciel, IA, no-code, design, automatisation, entrepreneuriat, marketing, data, et toute competence qui aide a **construire et lancer un projet digital**.
+
+### Mentors pairs, pas professeurs
+
+Les mentors sont des **membres experimentes de la communaute** qui ont deja parcouru le chemin. Leur role : suivre la progression, identifier les difficultes, repondre aux questions, responsabiliser et encourager. Les sessions live **completent** l'apprentissage autonome — elles ne le remplacent pas.
+
+## Principes produit
 
 - Le projet est le point de depart et d'arrivee : tout utilisateur cree son projet avant (ou en parallele) de suivre un parcours.
 - Les parcours sont lies a un type de projet concret (site vitrine, SaaS, e-commerce, application mobile, blog monétise...). Pas de parcours « generaux ».
@@ -19,7 +45,7 @@ Tout ce qui est construit — parcours, outils, templates, communaute — conver
 - Ne jamais exposer les reponses des quiz ni les cles IA au navigateur.
 - La page Nouveautes ne montre que les changements visibles par l'utilisateur.
 - Tout plan tarifaire doit apporter de la valeur mesurable (temps gagne, projet lance, revenu genere).
-- **La qualité du code et les tests sont des prerequis, pas des options.** Aucune version ne livre une fonctionnalite sans ses tests.
+- **La qualite du code et les tests sont des prerequis, pas des options.** Aucune version ne livre une fonctionnalite sans ses tests.
 
 ---
 
