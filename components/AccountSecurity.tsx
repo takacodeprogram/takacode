@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { createClient } from "../utils/supabase/client";
+import { useI18n } from "./I18nProvider";
 import { getCountryFlag } from "../lib/leaderboard";
 
 interface Session {
@@ -27,14 +28,17 @@ function deviceIcon(type: string): string {
   return "lucide:monitor";
 }
 
-function formatDate(value: string | null | undefined): string {
+function formatDate(value: string | null | undefined, locale: string): string {
   if (!value) return "";
   const d = new Date(value);
   if (Number.isNaN(d.getTime())) return "";
-  return d.toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" });
+  try {
+    return d.toLocaleDateString(locale === "fr" ? "fr-FR" : "en-US", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" });
+  } catch { return String(d); }
 }
 
 export default function AccountSecurity({ userId, lastSignInAt }: { userId: string; lastSignInAt: string | null }) {
+  const { t, locale } = useI18n();
   const supabase = createClient();
   const [sessions, setSessions] = useState<Session[]>([]);
   const [deleting, setDeleting] = useState(false);
@@ -60,19 +64,19 @@ export default function AccountSecurity({ userId, lastSignInAt }: { userId: stri
   }, [supabase]);
 
   async function handleDeactivate() {
-    if (!window.confirm("Desactiver ton compte ? Tu pourras le reactiver en contactant l'équipe.")) return;
+    if (!window.confirm(t("accountSecurity.confirmDeactivate"))) return;
     setDeleting(true);
     await supabase.rpc("deactivate_my_account");
-    setMessage("Compte désactive. A bientôt !");
+    setMessage(t("accountSecurity.deactivated"));
     setDeleting(false);
   }
 
   async function handleDelete() {
-    if (!window.confirm("Supprimer definitivement ton compte ? Toutes tes données seront perdues.")) return;
-    if (!window.confirm("Confirmation : es-tu sur de vouloir supprimer ton compte ?")) return;
+    if (!window.confirm(t("accountSecurity.confirmDelete"))) return;
+    if (!window.confirm(t("accountSecurity.confirmDelete2"))) return;
     setDeleting(true);
     await supabase.rpc("delete_my_account");
-    setMessage("Compte supprime. Redirection...");
+    setMessage(t("accountSecurity.deleted"));
     setTimeout(() => { window.location.href = "/"; }, 2000);
     setDeleting(false);
   }
@@ -85,22 +89,22 @@ export default function AccountSecurity({ userId, lastSignInAt }: { userId: stri
             <iconify-icon icon="lucide:clock" style={{ color: "#22D3EE", fontSize: "15px" }} />
           </div>
           <div>
-            <div className="font-venite text-[10px] tracking-widest text-[#888] uppercase">Securite</div>
-            <h3 className="font-venite-italic text-[14px] text-white">Connexion et appareils</h3>
+            <div className="font-venite text-[10px] tracking-widest text-[#888] uppercase">{t("accountSecurity.title")}</div>
+            <h3 className="font-venite-italic text-[14px] text-white">{t("accountSecurity.subtitle")}</h3>
           </div>
         </div>
 
         <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-3 mb-4">
-          <div className="text-[10px] text-[#777] uppercase tracking-widest mb-0.5">Dernière connexion</div>
+          <div className="text-[10px] text-[#777] uppercase tracking-widest mb-0.5">{t("accountSecurity.lastSignIn")}</div>
           <div className="text-[13px] text-white font-semibold">
-            {lastSignInAt ? formatDate(lastSignInAt) : "Non disponible"}
+            {lastSignInAt ? formatDate(lastSignInAt, locale) : t("accountSecurity.notAvailable")}
           </div>
         </div>
 
         {sessions.length > 0 ? (
           <div className="space-y-2 mb-4">
             <div className="text-[10px] text-[#777] uppercase tracking-widest mb-1">
-              Appareils connectes ({sessions.length})
+              {t("accountSecurity.connectedDevices").replace("{n}", String(sessions.length))}
             </div>
             {sessions.map((session) => (
               <div
@@ -112,10 +116,10 @@ export default function AccountSecurity({ userId, lastSignInAt }: { userId: stri
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="text-[12px] text-white font-semibold leading-tight truncate flex items-center gap-1.5">
-                    {session.deviceName || session.browser || "Appareil inconnu"}
+                    {session.deviceName || session.browser || t("accountSecurity.unknownDevice")}
                     {session.isCurrent ? (
                       <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-200">
-                        Actuel
+                        {t("accountSecurity.current")}
                       </span>
                     ) : null}
                   </div>
@@ -125,7 +129,7 @@ export default function AccountSecurity({ userId, lastSignInAt }: { userId: stri
                   </div>
                 </div>
                 <div className="text-[10px] text-[#666] shrink-0">
-                  {formatDate(session.lastActiveAt)}
+                  {formatDate(session.lastActiveAt, locale)}
                 </div>
               </div>
             ))}
@@ -139,12 +143,12 @@ export default function AccountSecurity({ userId, lastSignInAt }: { userId: stri
             <iconify-icon icon="lucide:trash-2" style={{ color: "#EF4444", fontSize: "15px" }} />
           </div>
           <div>
-            <div className="font-venite text-[10px] tracking-widest text-[#888] uppercase">Zone dangereuse</div>
-            <h3 className="font-venite-italic text-[14px] text-white">Desactivation ou suppression</h3>
+            <div className="font-venite text-[10px] tracking-widest text-[#888] uppercase">{t("accountSecurity.dangerZone")}</div>
+            <h3 className="font-venite-italic text-[14px] text-white">{t("accountSecurity.dangerSubtitle")}</h3>
           </div>
         </div>
         <p className="font-body-readable text-[12px] text-[#a5a5a5] leading-relaxed mb-4">
-          Desactiver cache ton profil et désactive les notifications. Supprimer efface toutes tes données de manière irreversible.
+          {t("accountSecurity.dangerDesc")}
         </p>
         <div className="flex items-center gap-3 flex-wrap">
           <button
@@ -154,7 +158,7 @@ export default function AccountSecurity({ userId, lastSignInAt }: { userId: stri
             className="text-[12px] font-semibold px-4 py-2.5 rounded-xl border border-red-500/30 bg-red-500/10 text-red-200 hover:bg-red-500/20 transition-all inline-flex items-center gap-2"
           >
             <iconify-icon icon="lucide:power" style={{ fontSize: "13px" }} />
-            Desactiver mon compte
+            {t("accountSecurity.deactivateBtn")}
           </button>
           <button
             type="button"
@@ -163,7 +167,7 @@ export default function AccountSecurity({ userId, lastSignInAt }: { userId: stri
             className="text-[12px] font-semibold px-4 py-2.5 rounded-xl border border-red-500/50 bg-red-500/20 text-red-300 hover:bg-red-500/30 transition-all inline-flex items-center gap-2"
           >
             <iconify-icon icon="lucide:trash-2" style={{ fontSize: "13px" }} />
-            Supprimer mon compte
+            {t("accountSecurity.deleteBtn")}
           </button>
         </div>
         {message ? (

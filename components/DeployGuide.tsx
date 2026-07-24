@@ -5,43 +5,49 @@ interface DeployGuideProps {
   liveUrl: string;
   projectId: string;
   projectTitle: string;
+  t?: (key: string) => string;
 }
 
-const STEP_REPO = {
-  icon: "lucide:github",
-  accent: "#22D3EE",
-  title: "1. Cree ton depot GitHub",
-  description: "Héberge ton code sur GitHub pour versionner et déployer automatiquement.",
-  docsUrl: "https://docs.github.com/fr/get-started/quickstart/create-a-repo",
-  actionLabel: "Créer le dépôt",
-  actionUrl: "https://github.com/new"
-};
-
-const STEP_DEPLOY = {
-  icon: "lucide:rocket",
-  accent: "#10B981",
-  title: "2. Deploie sur Vercel",
-  description: "Connecte ton dépôt GitHub a Vercel pour un déploiement automatique à chaque push.",
-  docsUrl: "https://vercel.com/docs/deployments/git",
-  actionLabel: "Déployer sur Vercel",
-  actionUrl: "https://vercel.com/new"
-};
-
-const STEP_DOMAIN = {
-  icon: "lucide:globe",
-  accent: "#4F8EF7",
-  title: "3. Ajoute ton domaine",
-  description: "Configure un nom de domaine personnalise pour ton projet (ex: monprojet.com).",
-  docsUrl: "https://vercel.com/docs/projects/domains/add-a-domain",
-  actionLabel: "Ajouter un domaine",
-  actionUrl: "https://vercel.com/docs/projects/domains/add-a-domain"
-};
+function buildSteps(t?: (key: string) => string) {
+  const k = (key: string) => (t ? t("deployGuide." + key) : key);
+  return [
+    {
+      icon: "lucide:github",
+      accent: "#22D3EE",
+      title: k("step1Title"),
+      description: k("step1Desc"),
+      docsUrl: "https://docs.github.com/fr/get-started/quickstart/create-a-repo",
+      actionLabel: k("step1Action"),
+      actionUrl: "https://github.com/new"
+    },
+    {
+      icon: "lucide:rocket",
+      accent: "#10B981",
+      title: k("step2Title"),
+      description: k("step2Desc"),
+      docsUrl: "https://vercel.com/docs/deployments/git",
+      actionLabel: k("step2Action"),
+      actionUrl: "https://vercel.com/new"
+    },
+    {
+      icon: "lucide:globe",
+      accent: "#4F8EF7",
+      title: k("step3Title"),
+      description: k("step3Desc"),
+      docsUrl: "https://vercel.com/docs/projects/domains/add-a-domain",
+      actionLabel: k("step3Action"),
+      actionUrl: "https://vercel.com/docs/projects/domains/add-a-domain"
+    }
+  ];
+}
 
 function iconify(icon: string) {
   return <iconify-icon icon={icon} style={{ fontSize: "18px" }} />;
 }
 
-export default function DeployGuide({ repoUrl, liveUrl, projectTitle }: DeployGuideProps) {
+export default function DeployGuide({ repoUrl, liveUrl, projectTitle, t }: DeployGuideProps) {
+  const k = (key: string) => (t ? t("deployGuide." + key) : key);
+  const STEPS = buildSteps(t);
   const stepsDone = [
     Boolean(repoUrl),
     Boolean(liveUrl),
@@ -55,31 +61,34 @@ export default function DeployGuide({ repoUrl, liveUrl, projectTitle }: DeployGu
           <iconify-icon icon="lucide:rocket" style={{ color: "#10B981", fontSize: "16px" }} />
         </div>
         <div>
-          <div className="font-venite text-[11px] tracking-widest text-[#888] uppercase">Publication guidee</div>
-          <h3 className="font-venite-italic text-[14px] text-white">Deploie {projectTitle}</h3>
+          <div className="font-venite text-[11px] tracking-widest text-[#888] uppercase">{k("sectionLabel")}</div>
+          <h3 className="font-venite-italic text-[14px] text-white">{k("title").replace("{name}", projectTitle)}</h3>
         </div>
       </div>
 
       <p className="font-body-readable text-[12px] text-[#a5a5a5] leading-relaxed">
-        Suis ces étapes pour mettre ton projet en ligne. Chaque étape te rapproche d'un produit accessible au monde entier.
+        {k("intro")}
       </p>
 
       <div className="space-y-3">
         <DeployStep
-          {...STEP_REPO}
+          {...STEPS[0]}
           done={stepsDone[0]}
           value={repoUrl}
+          t={t}
         />
         <DeployStep
-          {...STEP_DEPLOY}
+          {...STEPS[1]}
           done={stepsDone[1]}
           value={liveUrl}
           disabled={!repoUrl}
+          t={t}
         />
         <DeployStep
-          {...STEP_DOMAIN}
+          {...STEPS[2]}
           done={stepsDone[2]}
           disabled={!liveUrl}
+          t={t}
         />
       </div>
     </div>
@@ -96,7 +105,8 @@ function DeployStep({
   docsUrl,
   done,
   value,
-  disabled
+  disabled,
+  t
 }: {
   icon: string;
   accent: string;
@@ -108,6 +118,7 @@ function DeployStep({
   done: boolean;
   value?: string;
   disabled?: boolean;
+  t?: (key: string) => string;
 }) {
   return (
     <div
@@ -150,7 +161,7 @@ function DeployStep({
 
         {done ? (
           <span className="text-[10px] font-semibold px-2 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-200 shrink-0">
-            Fait
+            {t ? t("deployGuide.done") : "Done"}
           </span>
         ) : (
           <div className="flex items-center gap-2 shrink-0">
@@ -173,7 +184,7 @@ function DeployStep({
               target="_blank"
               rel="noopener noreferrer"
               className="text-[10px] text-[#888] hover:text-[#bbb] transition-colors"
-              title="Voir la doc"
+              title={t ? t("deployGuide.viewDoc") : "View docs"}
             >
               <iconify-icon icon="lucide:book-open" style={{ fontSize: "14px" }} />
             </a>

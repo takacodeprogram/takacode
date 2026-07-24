@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useI18n } from "../I18nProvider";
 
 interface PreviewData {
   title: string;
@@ -45,6 +46,7 @@ function getCompetencies(goalKey: string): string[] {
 }
 
 export default function TrackLivePreview({ data }: { data: PreviewData }) {
+  const { t } = useI18n();
   const competencies = getCompetencies(data.objective || "");
   const levelChip = getLevelChipClass(data.level_label);
   const meta = formatMeta(data.level_label, data.duration_weeks);
@@ -53,7 +55,7 @@ export default function TrackLivePreview({ data }: { data: PreviewData }) {
     <article className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4 card-hover project-card">
       <div className="flex items-center justify-between gap-3 mb-3">
         <span className="text-[10px] px-2 py-1 rounded-full border border-blue-400/25 bg-blue-500/10 text-blue-200 font-semibold">
-          {data.slug ? `/${data.slug}` : "Apercu"}
+          {data.slug ? `/${data.slug}` : t("adminTrackPreview.preview")}
         </span>
         <div className="flex items-center gap-2">
           <span className={`${levelChip} text-[10px] font-semibold px-2.5 py-1 rounded-full`}>
@@ -73,13 +75,13 @@ export default function TrackLivePreview({ data }: { data: PreviewData }) {
       </div>
 
       <h3 className="font-venite-italic text-[14px] text-white leading-tight mb-1.5">
-        {data.title || "Titre du parcours"}
+        {data.title || t("adminTrackPreview.trackTitle")}
       </h3>
 
       <p className="font-body-readable text-[11px] text-[#6f6f6f] mb-3">{meta}</p>
 
       <p className="font-body-readable text-[11px] text-[#555] leading-relaxed mb-4">
-        {(data.summary || data.objective || "Résumé du parcours...").slice(0, 120)}
+        {(data.summary || data.objective || t("adminTrackPreview.summaryPlaceholder")).slice(0, 120)}
       </p>
 
       <div className="flex flex-wrap gap-1.5 mb-4">
@@ -94,7 +96,7 @@ export default function TrackLivePreview({ data }: { data: PreviewData }) {
       </div>
 
       <div className="inline-flex items-center gap-2 text-[11px] text-[#4F8EF7] font-semibold">
-        Voir les détails
+        {t("adminTrackPreview.viewDetails")}
         <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "12px" }} />
       </div>
     </article>

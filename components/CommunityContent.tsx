@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import L from "./L";
 import { createClient } from "../utils/supabase/client";
+import { useI18n } from "./I18nProvider";
 import { getPlatformStats, PlatformStatsData } from "../lib/platformStats";
 import { getCommunityProjects, CommunityProject, getProjectComments, ProjectComment } from "../lib/community";
 import { getPublicLeaderboard, LeaderboardEntry } from "../lib/leaderboard";
@@ -33,14 +34,16 @@ function Avatar({ url, name, size = 36 }: { url: string; name: string; size?: nu
   );
 }
 
-function formatWhen(value: string | null) {
-  if (!value) return "Date a confirmer";
+function formatWhen(value: string | null, locale: string, t: (key: string) => string) {
+  if (!value) return t("communityContent.dateToConfirm");
   const parsed = new Date(value);
-  if (Number.isNaN(parsed.getTime())) return "Date a confirmer";
-  return parsed.toLocaleString("fr-FR", { weekday: "long", day: "2-digit", month: "long", hour: "2-digit", minute: "2-digit" });
+  if (Number.isNaN(parsed.getTime())) return t("communityContent.dateToConfirm");
+  try {
+    return parsed.toLocaleString(locale === "fr" ? "fr-FR" : "en-US", { weekday: "long", day: "2-digit", month: "long", hour: "2-digit", minute: "2-digit" });
+  } catch { return String(parsed); }
 }
 
-function formatRelative(value: string | null) {
+function formatRelative(value: string | null, locale: string, t: (key: string) => string) {
   if (!value) return "";
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return "";
@@ -48,11 +51,14 @@ function formatRelative(value: string | null) {
   const diffMins = Math.floor(diffMs / 60000);
   const diffHours = Math.floor(diffMs / 3600000);
   const diffDays = Math.floor(diffMs / 86400000);
-  if (diffMins < 1) return "a l'instant";
-  if (diffMins < 60) return `il y a ${diffMins} min`;
-  if (diffHours < 24) return `il y a ${diffHours} h`;
-  if (diffDays < 7) return `il y a ${diffDays} j`;
-  return date.toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit" });
+  try {
+    const rtf = new Intl.RelativeTimeFormat(locale === "fr" ? "fr" : "en", { numeric: "auto" });
+    if (diffMins < 1) return rtf.format(0, "minute");
+    if (diffMins < 60) return rtf.format(-diffMins, "minute");
+    if (diffHours < 24) return rtf.format(-diffHours, "hour");
+    if (diffDays < 7) return rtf.format(-diffDays, "day");
+  } catch {}
+  return date.toLocaleDateString(locale === "fr" ? "fr-FR" : "en-US", { day: "2-digit", month: "2-digit" });
 }
 
 interface ActivityItem {
@@ -69,6 +75,7 @@ interface ActivityItem {
 }
 
 export default function CommunityContent() {
+  const { t, locale } = useI18n();
   const [stats, setStats] = useState<PlatformStatsData>(EMPTY_STATS);
   const [projects, setProjects] = useState<CommunityProject[]>([]);
   const [topMembers, setTopMembers] = useState<LeaderboardEntry[]>([]);
@@ -125,10 +132,10 @@ export default function CommunityContent() {
   });
 
   const statCards = [
-    { label: "Membres", value: stats.members, icon: "lucide:users" },
-    { label: "Leçons validées", value: stats.completedLessons, icon: "lucide:check-circle" },
-    { label: "Projets", value: stats.submittedProjects, icon: "lucide:folder-code" },
-    { label: "Likes", value: stats.totalLikes, icon: "lucide:heart", accent: "#f43f5e" }
+    { label: t("communityContent.statsMembers"), value: stats.members, icon: "lucide:users" },
+    { label: t("communityContent.statsLessons"), value: stats.completedLessons, icon: "lucide:check-circle" },
+    { label: t("communityContent.statsProjects"), value: stats.submittedProjects, icon: "lucide:folder-code" },
+    { label: t("communityContent.statsLikes"), value: stats.totalLikes, icon: "lucide:heart", accent: "#f43f5e" }
   ];
 
   return (
@@ -136,15 +143,15 @@ export default function CommunityContent() {
       <section className="py-24 md:py-28 px-8">
         <div className="max-w-[1180px] mx-auto space-y-10">
           <div className="text-center">
-            <div className="section-label mb-3">Communauté</div>
+            <div className="section-label mb-3">{t("communityContent.title")}</div>
             <h1 className="font-valorax gradient-text" style={{ fontSize: "clamp(32px, 4vw, 52px)", letterSpacing: "-0.02em" }}>
-              Construire ensemble
+              {t("communityContent.heading")}
             </h1>
-            <p className="font-body-readable text-[14px] text-[#888] mt-3">Les membres, leurs projets et les prochaines sessions live.</p>
+            <p className="font-body-readable text-[14px] text-[#888] mt-3">{t("communityContent.subtitle")}</p>
           </div>
 
           {loading ? (
-            <div className="text-center text-[13px] text-[#666] font-body-readable py-12">Chargement...</div>
+            <div className="text-center text-[13px] text-[#666] font-body-readable py-12">{t("communityContent.loading")}</div>
           ) : (
             <>
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
@@ -159,7 +166,7 @@ export default function CommunityContent() {
 
               {/* Activity Feed */}
               <section className="rounded-2xl border border-white/[0.08] bg-[#111] p-5">
-                <div className="font-venite text-[13px] tracking-widest text-[#888] mb-4">ACTIVITE RECENTE</div>
+                <div className="font-venite text-[13px] tracking-widest text-[#888] mb-4">{t("communityContent.activityFeed")}</div>
                 <div className="space-y-3">
                   {projects.slice(0, 3).map((project, i) => (
                     <L key={project.id} href={`/projects/${project.id}`} className="flex items-center gap-3 rounded-lg p-3 hover:bg-white/[0.02] transition-colors">
@@ -171,16 +178,16 @@ export default function CommunityContent() {
                         <div className="text-[10px] text-[#666] flex items-center gap-2">
                           <span>{project.author}</span>
                           <span>·</span>
-                          <span>{formatRelative(project.firstEuroAt)}</span>
+                          <span>{formatRelative(project.firstEuroAt, locale, t)}</span>
                         </div>
                       </div>
                       <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${project.liveUrl ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-200" : "border-white/[0.12] bg-white/[0.03] text-[#888]"}`}>
-                        {project.liveUrl ? "En ligne" : "En cours"}
+                        {project.liveUrl ? t("communityContent.statusOnline") : t("communityContent.statusInProgress")}
                       </span>
                     </L>
                   ))}
                   {projects.length === 0 && (
-                    <div className="text-center text-[12px] text-[#666] py-4">Aucune activité récente. Publie ton premier projet !</div>
+                    <div className="text-center text-[12px] text-[#666] py-4">{t("communityContent.noActivity")}</div>
                   )}
                 </div>
               </section>
@@ -188,18 +195,18 @@ export default function CommunityContent() {
               <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_0.9fr] gap-6">
                 <section>
                   <div className="flex items-center justify-between mb-4">
-                    <h2 className="font-venite text-[13px] tracking-widest text-[#888]">PROJETS COMMUNAUTAIRES</h2>
+                    <h2 className="font-venite text-[13px] tracking-widest text-[#888]">{t("communityContent.projectsTitle")}</h2>
                     <div className="flex items-center gap-2">
                       <select
                         value={filter}
                         onChange={(e) => setFilter(e.target.value as ProjectFilter)}
                         className="auth-input text-[12px] bg-[#111] border-white/[0.08] px-3 py-1.5 rounded-lg"
                       >
-                        <option value="published">Publiés</option>
-                        <option value="in_progress">En cours</option>
-                        <option value="all">Tous</option>
+                        <option value="published">{t("communityContent.filterPublished")}</option>
+                        <option value="in_progress">{t("communityContent.filterInProgress")}</option>
+                        <option value="all">{t("communityContent.filterAll")}</option>
                       </select>
-                      <L href="/projects" className="text-[11px] text-[#4F8EF7] hover:underline">Voir tout</L>
+                      <L href="/projects" className="text-[11px] text-[#4F8EF7] hover:underline">{t("communityContent.viewAll")}</L>
                     </div>
                   </div>
 
@@ -216,18 +223,18 @@ export default function CommunityContent() {
                                 {project.liveUrl && project.liveUrl.length > 0 && (
                                   <span className="inline-flex items-center gap-1 text-[9px] font-semibold px-1.5 py-0.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-200">
                                     <iconify-icon icon="lucide:globe" style={{ fontSize: "8px" }} />
-                                    En ligne
+                                    {t("communityContent.statusOnline")}
                                   </span>
                                 )}
                                 {project.hasDeclaredFirstEuro ? (
                                   <span className="inline-flex items-center gap-1 text-[9px] font-semibold px-1.5 py-0.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-200 shrink-0">
                                     <iconify-icon icon="lucide:badge-check" style={{ fontSize: "8px" }} />
-                                    1er euro
+                                    {t("communityContent.firstEuro")}
                                   </span>
                                 ) : null}
                                 {!project.liveUrl && !project.hasDeclaredFirstEuro && (
                                   <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full border border-white/[0.12] bg-white/[0.03] text-[#888]">
-                                    En cours
+                                    {t("communityContent.statusInProgress")}
                                   </span>
                                 )}
                               </div>
@@ -247,12 +254,12 @@ export default function CommunityContent() {
                                   </span>
                                 ) : null}
                                 {project.liveUrl ? (
-                                  <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="text-[#89c7ff] hover:text-white" title="Voir en ligne" onClick={(e) => e.stopPropagation()}>
+                                  <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="text-[#89c7ff] hover:text-white" title={t("communityContent.viewOnline")} onClick={(e) => e.stopPropagation()}>
                                     <iconify-icon icon="lucide:external-link" style={{ fontSize: "14px" }} />
                                   </a>
                                 ) : null}
                                 {project.repoUrl ? (
-                                  <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" className="text-[#89c7ff] hover:text-white" title="Code" onClick={(e) => e.stopPropagation()}>
+                                  <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" className="text-[#89c7ff] hover:text-white" title={t("communityContent.code")} onClick={(e) => e.stopPropagation()}>
                                     <iconify-icon icon="lucide:github" style={{ fontSize: "14px" }} />
                                   </a>
                                 ) : null}
@@ -266,7 +273,7 @@ export default function CommunityContent() {
                                 className="flex items-center gap-1.5 text-[11px] text-[#4F8EF7] hover:underline mb-2"
                               >
                                 <iconify-icon icon="lucide:message-square" style={{ fontSize: "13px" }} />
-                                {isOpen ? "Masquer" : "Afficher"} les commentaires ({projectComments.length})
+                                {isOpen ? t("communityContent.commentsHide") : t("communityContent.commentsShow")} ({projectComments.length})
                               </button>
 
                               {isOpen && (
@@ -278,7 +285,7 @@ export default function CommunityContent() {
                                         <div className="flex-1 min-w-0">
                                           <div className="flex items-center gap-2 text-[11px] mb-1">
                                             <span className="font-semibold text-white">{comment.author}</span>
-                                            <span className="text-[#666]">{formatRelative(comment.createdAt)}</span>
+                                            <span className="text-[#666]">{formatRelative(comment.createdAt, locale, t)}</span>
                                           </div>
                                           <p className="font-body-readable text-[12px] text-[#a5a5a5] leading-snug">{comment.content}</p>
                                         </div>
@@ -286,19 +293,19 @@ export default function CommunityContent() {
                                     </div>
                                   ))}
                                   {projectComments.length === 0 && (
-                                    <p className="text-[11px] text-[#666] font-body-readable text-center py-2">Aucun commentaire pour l'instant.</p>
+                                    <p className="text-[11px] text-[#666] font-body-readable text-center py-2">{t("communityContent.commentsEmpty")}</p>
                                   )}
                                   <form onSubmit={(e) => handleSubmitComment(project.id, e)} className="flex gap-2 mt-2">
                                     <input
                                       type="text"
                                       value={newComment[project.id] || ""}
                                       onChange={(e) => setNewComment(prev => ({ ...prev, [project.id]: e.target.value }))}
-                                      placeholder="Ajouter un commentaire..."
+                                      placeholder={t("communityContent.commentsPlaceholder")}
                                       className="auth-input text-[12px] flex-1"
                                       maxLength={500}
                                     />
                                     <button type="submit" className="btn-primary text-[11px] px-3" style={{ padding: "8px 12px" }}>
-                                      Envoyer
+                                      {t("communityContent.commentsSend")}
                                     </button>
                                   </form>
                                 </div>
@@ -310,7 +317,7 @@ export default function CommunityContent() {
                     </div>
                   ) : (
                     <div className="rounded-2xl border border-white/[0.07] bg-[#111] p-8 text-center font-body-readable text-[13px] text-[#777]">
-                      Aucun projet pour ce filtre. Change le filtre ou cree ton projet !
+                      {t("communityContent.noProjectsFilter")}
                     </div>
                   )}
                 </section>
@@ -318,8 +325,8 @@ export default function CommunityContent() {
                 <section className="space-y-6">
                   <div>
                     <div className="flex items-center justify-between mb-3">
-                      <h2 className="font-venite text-[13px] tracking-widest text-[#888]">TOP MEMBRES</h2>
-                      <L href="/leaderboard" className="text-[11px] text-[#4F8EF7] hover:underline">Classement</L>
+                      <h2 className="font-venite text-[13px] tracking-widest text-[#888]">{t("communityContent.topMembers")}</h2>
+                      <L href="/leaderboard" className="text-[11px] text-[#4F8EF7] hover:underline">{t("communityContent.leaderboardLink")}</L>
                     </div>
                     <div className="rounded-2xl border border-white/[0.08] bg-[#111] divide-y divide-white/[0.05]">
                       {topMembers.length ? (
@@ -332,13 +339,13 @@ export default function CommunityContent() {
                           </L>
                         ))
                       ) : (
-                        <div className="px-4 py-4 text-[12px] text-[#777] font-body-readable">Le classement se remplira bientôt.</div>
+                        <div className="px-4 py-4 text-[12px] text-[#777] font-body-readable">{t("communityContent.noMembers")}</div>
                       )}
                     </div>
                   </div>
 
                   <div>
-                    <h2 className="font-venite text-[13px] tracking-widest text-[#888] mb-3">SESSIONS A VENIR</h2>
+                    <h2 className="font-venite text-[13px] tracking-widest text-[#888] mb-3">{t("communityContent.upcomingSessions")}</h2>
                     <div className="space-y-2.5">
                       {upcoming.length ? (
                         upcoming.map((session) => (
@@ -346,13 +353,13 @@ export default function CommunityContent() {
                             <div className="text-[13px] text-white font-semibold leading-tight">{session.title}</div>
                             <div className="text-[11px] text-[#89c7ff] font-body-readable inline-flex items-center gap-1.5 mt-1">
                               <iconify-icon icon="lucide:calendar-clock" style={{ fontSize: "12px" }} />
-                              {formatWhen(session.scheduledAt)}
+                              {formatWhen(session.scheduledAt, locale, t)}
                             </div>
                           </article>
                         ))
                       ) : (
                         <div className="rounded-2xl border border-white/[0.08] bg-[#111] px-4 py-4 text-[12px] text-[#777] font-body-readable">
-                          Pas de session programmee pour le moment.
+                          {t("communityContent.noSessions")}
                         </div>
                       )}
                     </div>

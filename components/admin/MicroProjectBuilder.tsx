@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useI18n } from "../I18nProvider";
 
 interface MicroProjectData {
   title: string;
@@ -48,6 +49,7 @@ function serializeProject(data: MicroProjectData): string {
 }
 
 export default function MicroProjectBuilder({ value, onChange }: MicroProjectBuilderProps) {
+  const { t } = useI18n();
   const [data, setData] = useState<MicroProjectData>(() => {
     return parseProject(value) || {
       title: "",
@@ -82,31 +84,31 @@ export default function MicroProjectBuilder({ value, onChange }: MicroProjectBui
 
   return (
     <div className="space-y-3 rounded-xl border border-white/[0.08] bg-white/[0.02] p-4">
-      <div className="text-[10px] text-[#8d8d8d] uppercase tracking-widest font-semibold mb-2">MICRO-PROJET</div>
+      <div className="text-[10px] text-[#8d8d8d] uppercase tracking-widest font-semibold mb-2">{t("adminMicroProject.title")}</div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <div>
-          <label className="text-[10px] text-[#6d6d6d] block mb-1">Titre *</label>
-          <input className={INPUT} value={data.title} onChange={(e) => update({ title: e.target.value })} placeholder="Titre du micro-projet" />
+          <label className="text-[10px] text-[#6d6d6d] block mb-1">{t("adminMicroProject.labelTitle")}</label>
+          <input className={INPUT} value={data.title} onChange={(e) => update({ title: e.target.value })} placeholder={t("adminMicroProject.placeholderTitle")} />
         </div>
         <div>
-          <label className="text-[10px] text-[#6d6d6d] block mb-1">Mode de validation</label>
+          <label className="text-[10px] text-[#6d6d6d] block mb-1">{t("adminMicroProject.validationMode")}</label>
           <select className={INPUT} value={data.validation} onChange={(e) => update({ validation: e.target.value as MicroProjectData["validation"] })}>
-            <option value="auto">Automatique</option>
-            <option value="ai">IA</option>
-            <option value="peer">Pair</option>
-            <option value="mentor">Mentor</option>
+            <option value="auto">{t("adminMicroProject.optionAuto")}</option>
+            <option value="ai">{t("adminMicroProject.optionAI")}</option>
+            <option value="peer">{t("adminMicroProject.optionPeer")}</option>
+            <option value="mentor">{t("adminMicroProject.optionMentor")}</option>
           </select>
         </div>
       </div>
 
       <div>
-        <label className="text-[10px] text-[#6d6d6d] block mb-1">Description / consigne</label>
-        <textarea className={AREA} value={data.brief} onChange={(e) => update({ brief: e.target.value })} placeholder="Explique le travail attendu..." />
+        <label className="text-[10px] text-[#6d6d6d] block mb-1">{t("adminMicroProject.description")}</label>
+        <textarea className={AREA} value={data.brief} onChange={(e) => update({ brief: e.target.value })} placeholder={t("adminMicroProject.placeholderBrief")} />
       </div>
 
       <div>
-        <label className="text-[10px] text-[#6d6d6d] block mb-1">Étapes</label>
+        <label className="text-[10px] text-[#6d6d6d] block mb-1">{t("adminMicroProject.steps")}</label>
         <div className="space-y-1.5">
           {data.steps.map((step, index) => (
             <div key={index} className="flex items-center gap-2">
@@ -117,13 +119,13 @@ export default function MicroProjectBuilder({ value, onChange }: MicroProjectBui
                 className={INPUT}
                 value={step}
                 onChange={(e) => setStep(index, e.target.value)}
-                placeholder={`Etape ${index + 1}`}
+                placeholder={t("adminMicroProject.stepPlaceholder").replace("{n}", String(index + 1))}
               />
               <button
                 type="button"
                 onClick={() => removeStep(index)}
                 className="text-red-400/70 hover:text-red-400 p-1 shrink-0"
-                title="Supprimer l'etape"
+                title={t("adminMicroProject.deleteStep")}
                 disabled={data.steps.length <= 1}
               >
                 <iconify-icon icon="lucide:x" style={{ fontSize: "14px" }} />
@@ -132,19 +134,19 @@ export default function MicroProjectBuilder({ value, onChange }: MicroProjectBui
           ))}
           <button type="button" onClick={addStep} className="text-[11px] text-[#4F8EF7] hover:underline inline-flex items-center gap-1 mt-1">
             <iconify-icon icon="lucide:plus" style={{ fontSize: "12px" }} />
-            Ajouter une étape
+            {t("adminMicroProject.addStep")}
           </button>
         </div>
       </div>
 
       <div>
-        <label className="text-[10px] text-[#6d6d6d] block mb-1">Livrable attendu</label>
-        <textarea className={AREA} value={data.deliverable} onChange={(e) => update({ deliverable: e.target.value })} placeholder="Ce qui doit être rendu (lien, fichier, description...)" />
+        <label className="text-[10px] text-[#6d6d6d] block mb-1">{t("adminMicroProject.deliverable")}</label>
+        <textarea className={AREA} value={data.deliverable} onChange={(e) => update({ deliverable: e.target.value })} placeholder={t("adminMicroProject.placeholderDeliverable")} />
       </div>
 
       <label className="text-[11px] text-[#9b9b9b] flex items-center gap-1.5">
         <input type="checkbox" checked={data.requiresLink} onChange={(e) => update({ requiresLink: e.target.checked })} />
-        L'apprenant doit fournir un lien (URL)
+        {t("adminMicroProject.requiresLink")}
       </label>
     </div>
   );

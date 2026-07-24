@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useI18n } from "../I18nProvider";
 
 type State = "idle" | "loading" | "success" | "error";
 
@@ -23,6 +24,7 @@ interface TestResult {
 }
 
 export default function AIReviewTestButton() {
+  const { t } = useI18n();
   const [state, setState] = useState<State>("idle");
   const [result, setResult] = useState<TestResult | null>(null);
 
@@ -40,7 +42,7 @@ export default function AIReviewTestButton() {
         const text = await response.text().catch(() => "");
         setState("error");
         setResult({
-          error: "Réponse serveur invalide",
+          error: t("adminAi.testErrorInvalid"),
           detail: `HTTP ${response.status}: ${text.slice(0, 300)}`
         });
         return;
@@ -56,8 +58,8 @@ export default function AIReviewTestButton() {
     } catch (err) {
       setState("error");
       setResult({
-        error: "Erreur réseau",
-        detail: err instanceof Error ? err.message : "Impossible de contacter le serveur"
+        error: t("adminAi.testErrorNetwork"),
+        detail: err instanceof Error ? err.message : t("adminAi.testErrorContact")
       });
     }
   }
@@ -76,12 +78,12 @@ export default function AIReviewTestButton() {
         {state === "loading" ? (
           <>
             <iconify-icon icon="lucide:loader-circle" style={{ fontSize: "14px" }} className="animate-spin" />
-            Test en cours...
+            {t("adminAi.testInProgress")}
           </>
         ) : (
           <>
             <iconify-icon icon="lucide:zap" style={{ fontSize: "14px" }} />
-            Tester la connexion
+            {t("adminAi.testTitle")}
           </>
         )}
       </button>
@@ -92,17 +94,17 @@ export default function AIReviewTestButton() {
           <div className="rounded-xl border border-emerald-500/25 bg-emerald-500/10 px-4 py-3 flex items-start gap-3">
             <iconify-icon icon="lucide:check-circle" style={{ fontSize: "18px", color: "#6ee7b7", marginTop: "1px" }} />
             <div>
-              <div className="font-body-readable text-[12px] text-emerald-100 font-semibold">Connexion réussie !</div>
+              <div className="font-body-readable text-[12px] text-emerald-100 font-semibold">{t("adminAi.testSuccess")}</div>
               {firstOk ? (
                 <p className="font-body-readable text-[11px] text-emerald-100/70 mt-0.5">
-                  {firstOk.elapsedMs ? `Reponse en ${firstOk.elapsedMs}ms ` : ""}
+                  {firstOk.elapsedMs ? t("adminAi.testResponseMs").replace("{n}", String(firstOk.elapsedMs)) + " " : ""}
                   {firstOk.provider ? `• ${firstOk.label || firstOk.provider}` : ""}
                   {firstOk.model ? ` • ${firstOk.model}` : ""}
                 </p>
               ) : null}
               {firstOk?.response ? (
                 <p className="font-body-readable text-[11px] text-emerald-100/70 mt-0.5">
-                  Reponse du modele : &ldquo;{firstOk.response}&rdquo;
+                  {t("adminAi.testResponseModel")}: &ldquo;{firstOk.response}&rdquo;
                 </p>
               ) : null}
               {Array.isArray(result?.providers) && result.providers.length > 1 ? (
@@ -121,7 +123,7 @@ export default function AIReviewTestButton() {
                 </div>
               ) : null}
               <p className="font-body-readable text-[10px] text-emerald-100/50 mt-1">
-                La review automatique des micro-projets est operationnelle.
+                {t("adminAi.testWorking")}
               </p>
             </div>
           </div>
@@ -134,8 +136,8 @@ export default function AIReviewTestButton() {
           <div className="rounded-xl border border-red-500/25 bg-red-500/10 px-4 py-3 flex items-start gap-3">
             <iconify-icon icon="lucide:x-circle" style={{ fontSize: "18px", color: "#fca5a5", marginTop: "1px" }} />
             <div className="flex-1 min-w-0">
-              <div className="font-body-readable text-[12px] text-red-200 font-semibold">Échec de la connexion</div>
-              <p className="font-body-readable text-[11px] text-red-200/80 mt-0.5">{result?.error || "Erreur inconnue"}</p>
+              <div className="font-body-readable text-[12px] text-red-200 font-semibold">{t("adminAi.testFailed")}</div>
+              <p className="font-body-readable text-[11px] text-red-200/80 mt-0.5">{result?.error || t("adminAi.testErrorUnknown")}</p>
 
               {providers.map((p, i) => (
                 <div key={p.provider || i} className="mt-2 rounded-lg border border-red-500/15 bg-black/20 p-2.5">
@@ -163,7 +165,7 @@ export default function AIReviewTestButton() {
               ))}
 
               <p className="font-body-readable text-[10px] text-red-200/50 mt-3">
-                Vérifie ta clé API et que le provider est bien accessible depuis ton réseau.
+                {t("adminAi.testCheckApi")}
               </p>
             </div>
           </div>
@@ -173,7 +175,7 @@ export default function AIReviewTestButton() {
       {state === "loading" ? (
         <div className="rounded-xl border border-blue-500/25 bg-blue-500/10 px-4 py-3 flex items-center gap-3">
           <iconify-icon icon="lucide:loader-circle" style={{ fontSize: "16px", color: "#93c5fd" }} className="animate-spin" />
-          <span className="font-body-readable text-[12px] text-blue-100">Connexion au provider IA en cours...</span>
+          <span className="font-body-readable text-[12px] text-blue-100">{t("adminAi.testConnecting")}</span>
         </div>
       ) : null}
     </div>
