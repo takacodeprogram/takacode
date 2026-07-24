@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TakaCode – Donne Vie à Tes Idées</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+@font-face {
+  font-family: 'VALORAX';
+  src: url('https://fonts.gstatic.com/s/valorax/v1/valorax.woff2') format('woff2');
+  font-weight: 900;
+}
+
+:root {
+  --bg-main: #0A0A0A;
+  --bg-card: #111111;
+  --bg-card-alt: #151515;
+  --border: rgba(255,255,255,0.07);
+  --text-primary: #FFFFFF;
+  --text-secondary: #888888;
+  --text-muted: #555555;
+  --accent-blue: #4F8EF7;
+  --accent-violet: #9B6DFF;
+  --accent-cyan: #22D3EE;
+  --cta-primary: #FFFFFF;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { background-color: #0A0A0A; scroll-behavior: smooth; }
+
+body { font-family: 'Poppins', sans-serif; background: #0A0A0A; color: #FFFFFF; overflow-x: hidden; }
+
+/* FONTS */
+.font-valorax {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  font-style: italic;
+}
+.font-venite {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #0A0A0A; }
+::-webkit-scrollbar-thumb { background: #222; border-radius: 2px; }
+
+/* GLOW EFFECTS */
+.glow-blue { box-shadow: 0 0 80px rgba(79,142,247,0.12), 0 0 40px rgba(79,142,247,0.06); }
+.glow-violet { box-shadow: 0 0 80px rgba(155,109,255,0.15), 0 0 40px rgba(155,109,255,0.08); }
+.glow-btn { box-shadow: 0 0 24px rgba(255,255,255,0.15), 0 2px 12px rgba(0,0,0,0.5); }
+
+.hero-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* CARD HOVER */
+.card-hover {
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card-hover:hover {
+  border-color: rgba(79,142,247,0.25) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 40px rgba(79,142,247,0.08);
+}
+
+/* ANIMATIONS */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+@keyframes scroll-x {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-fade-up { animation: fadeInUp 0.7s ease both; }
+.animate-fade-up-d1 { animation: fadeInUp 0.7s ease 0.1s both; }
+.animate-fade-up-d2 { animation: fadeInUp 0.7s ease 0.2s both; }
+.animate-fade-up-d3 { animation: fadeInUp 0.7s ease 0.3s both; }
+.animate-fade-up-d4 { animation: fadeInUp 0.7s ease 0.4s both; }
+.animate-fade { animation: fadeIn 1s ease both; }
+.float-anim { animation: float 6s ease-in-out infinite; }
+
+/* TAG BADGE */
+.tag-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 100px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.04);
+  font-size: 11px;
+  font-weight: 500;
+  color: #888;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* GRADIENT TEXT */
+.gradient-text {
+  background: linear-gradient(135deg, #FFFFFF 0%, #888888 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.gradient-text-blue {
+  background: linear-gradient(135deg, #FFFFFF 0%, #4F8EF7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* CTA PRIMARY BTN */
+.btn-primary {
+  background: #FFFFFF;
+  color: #0A0A0A;
+  font-weight: 600;
+  font-size: 13px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+.btn-primary:hover { background: #F0F0F0; box-shadow: 0 0 24px rgba(255,255,255,0.2); }
+
+.btn-secondary {
+  background: transparent;
+  color: #AAAAAA;
+  font-weight: 500;
+  font-size: 13px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.12);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+.btn-secondary:hover { border-color: rgba(255,255,255,0.25); color: #FFFFFF; }
+
+/* DIVIDER */
+.section-divider { border: none; border-top: 1px solid rgba(255,255,255,0.05); margin: 0; }
+
+/* STEP CONNECTOR */
+.step-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, rgba(79,142,247,0.5), transparent);
+  margin: 0 auto;
+}
+
+/* SCROLLING TAGS */
+.scroll-track {
+  display: flex;
+  gap: 12px;
+  animation: scroll-x 30s linear infinite;
+  width: max-content;
+}
+.scroll-container:hover .scroll-track { animation-play-state: paused; }
+
+/* NAV LINK */
+.nav-link {
+  font-size: 13px;
+  font-weight: 500;
+  color: #888;
+  text-decoration: none;
+  transition: color 0.2s;
+  letter-spacing: 0.01em;
+}
+.nav-link:hover { color: #FFF; }
+.nav-link.active { color: #FFF; }
+
+/* PROGRESS BAR */
+.progress-bar {
+  height: 2px;
+  border-radius: 1px;
+  background: linear-gradient(to right, #4F8EF7, #9B6DFF);
+}
+
+/* SECTION LABEL */
+.section-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #4F8EF7;
+}
+
+/* STAT */
+.stat-value {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+/* PROJECT CARD */
+.project-card { position: relative; overflow: hidden; }
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(79,142,247,0.4), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.project-card:hover::before { opacity: 1; }
+
+/* STEP CARD */
+.step-card {
+  position: relative;
+}
+.step-num {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 900;
+  font-size: 11px;
+  color: #333;
+  letter-spacing: 0.05em;
+}
+
+/* PARCOURS CARD LEVEL BADGE */
+.level-beginner { background: rgba(34,211,238,0.1); color: #22D3EE; border: 1px solid rgba(34,211,238,0.2); }
+.level-intermediate { background: rgba(79,142,247,0.1); color: #4F8EF7; border: 1px solid rgba(79,142,247,0.2); }
+.level-advanced { background: rgba(155,109,255,0.1); color: #9B6DFF; border: 1px solid rgba(155,109,255,0.2); }
+
+/* FAQ ITEM */
+.faq-item { border-bottom: 1px solid rgba(255,255,255,0.05); }
+.faq-question { cursor: pointer; transition: color 0.2s; }
+.faq-question:hover { color: #FFF; }
+
+/* COMMUNITY TAG */
+.community-tag {
+  padding: 6px 14px;
+  border-radius: 100px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.03);
+  font-size: 12px;
+  color: #888;
+  transition: all 0.2s;
+}
+.community-tag:hover { border-color: rgba(79,142,247,0.4); color: #4F8EF7; background: rgba(79,142,247,0.05); }
+
+/* TESTIMONIAL */
+.testimonial-card { position: relative; overflow: hidden; }
+.testimonial-card::after {
+  content: '"';
+  position: absolute;
+  top: -20px;
+  right: 20px;
+  font-size: 120px;
+  font-weight: 900;
+  color: rgba(79,142,247,0.06);
+  pointer-events: none;
+  line-height: 1;
+}
+</style>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        'tc-bg': '#0A0A0A',
+        'tc-card': '#111111',
+        'tc-card-alt': '#151515',
+        'tc-blue': '#4F8EF7',
+        'tc-violet': '#9B6DFF',
+        'tc-cyan': '#22D3EE',
+      }
+    }
+  }
+}
+</script>
+</head>
+<body>
+<div class="min-h-screen bg-[#0A0A0A] text-white">
+
+  <!-- ═══════════════════════════════════════ NAVIGATION ═══════════════════════════════════════ -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-[#0A0A0A] border-b border-white/[0.05]">
+    <div class="max-w-[1320px] mx-auto px-8 h-[64px] flex items-center justify-between">
+      <!-- Logo -->
+      <a href="#" id="nav-logo-link" class="flex items-center gap-2 flex-shrink-0">
+        <img src="https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/uploads/161cd373-01d3-4786-8399-e0dbe1644cae/1781767252990-e202dde8/logo-light-4.png" alt="TakaCode" class="h-8 w-auto">
+      </a>
+      <!-- Nav Links -->
+      <div class="flex items-center gap-7">
+        <a href="#" id="nav-accueil-link" class="nav-link active">Accueil</a>
+        <a href="#parcours" id="nav-parcours-link" class="nav-link">Parcours</a>
+        <a href="#competences" id="nav-competences-link" class="nav-link">Compétences</a>
+        <a href="#projets" id="nav-projets-link" class="nav-link">Projets</a>
+        <a href="#ressources" id="nav-ressources-link" class="nav-link">Ressources</a>
+        <a href="#communaute" id="nav-communaute-link" class="nav-link">Communauté</a>
+        <a href="#tarifs" id="nav-tarifs-link" class="nav-link">Tarifs</a>
+      </div>
+      <!-- Actions -->
+      <div class="flex items-center gap-3">
+        <a href="#" id="nav-connexion-link" class="nav-link">Connexion</a>
+        <a href="#" id="nav-cta-link" class="btn-primary glow-btn">Commencer un projet</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════ HERO ═══════════════════════════════════════ -->
+  <section class="relative pt-[64px] min-h-screen flex items-center overflow-hidden">
+    <!-- Background halos -->
+    <div class="hero-glow w-[700px] h-[700px] bg-blue-500/[0.06] -left-[200px] top-[50px]"></div>
+    <div class="hero-glow w-[500px] h-[500px] bg-violet-500/[0.08] right-[100px] top-[100px]"></div>
+    <div class="hero-glow w-[400px] h-[400px] bg-blue-400/[0.04] left-[40%] bottom-0"></div>
+
+    <div class="relative z-10 max-w-[1320px] mx-auto px-8 w-full py-20">
+      <div class="grid grid-cols-2 gap-20 items-center">
+        <!-- Left: Content -->
+        <div>
+          <!-- Badge -->
+          <div class="animate-fade-up mb-7">
+            <span class="tag-badge">
+              <span class="w-1.5 h-1.5 rounded-full bg-green-400 inline-block" style="animation: pulse-glow 2s ease-in-out infinite;"></span>
+              Plateforme de création et d'apprentissage
+            </span>
+          </div>
+
+          <!-- Title -->
+          <h1 class="font-valorax animate-fade-up-d1 mb-6" style="font-size: clamp(52px, 5.5vw, 82px); line-height: 0.95; letter-spacing: -0.02em;">
+            DONNE VIE<br>
+            <span class="gradient-text-blue">À TES IDÉES</span>
+          </h1>
+
+          <!-- Description -->
+          <p class="animate-fade-up-d2 text-[#888] text-[15px] leading-relaxed mb-9 max-w-[460px]">
+            TakaCode t'aide à transformer tes idées en projets réels grâce à des parcours guidés, des ressources sélectionnées, des sessions pratiques et l'intelligence artificielle.
+          </p>
+
+          <!-- CTAs -->
+          <div class="animate-fade-up-d3 flex items-center gap-4 mb-12">
+            <a href="#" id="hero-cta-primary" class="btn-primary glow-btn flex items-center gap-2" style="font-size: 14px; padding: 14px 28px;">
+              <iconify-icon icon="lucide:zap" style="font-size: 16px;"></iconify-icon>
+              Commencer un projet
+            </a>
+            <a href="#parcours" id="hero-cta-secondary" class="btn-secondary flex items-center gap-2" style="font-size: 14px; padding: 14px 28px;">
+              Explorer les parcours
+              <iconify-icon icon="lucide:arrow-right" style="font-size: 14px;"></iconify-icon>
+            </a>
+          </div>
+
+          <!-- Social Proof -->
+          <div class="animate-fade-up-d4 flex items-center gap-8 pt-8 border-t border-white/[0.06]">
+            <div>
+              <div class="stat-value text-[28px] text-white mb-0.5">2 400+</div>
+              <div class="text-[12px] text-[#555] font-medium">Membres actifs</div>
+            </div>
+            <div class="w-px h-10 bg-white/[0.06]"></div>
+            <div>
+              <div class="stat-value text-[28px] text-white mb-0.5">890+</div>
+              <div class="text-[12px] text-[#555] font-medium">Projets réalisés</div>
+            </div>
+            <div class="w-px h-10 bg-white/[0.06]"></div>
+            <div>
+              <div class="stat-value text-[28px] text-white mb-0.5">48</div>
+              <div class="text-[12px] text-[#555] font-medium">Parcours disponibles</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Interactive Preview Card -->
+        <div class="float-anim relative">
+          <!-- Main card -->
+          <div class="bg-[#111] border border-white/[0.07] rounded-2xl p-6 glow-blue relative overflow-hidden">
+            <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/30 to-transparent"></div>
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-500/[0.02] to-violet-500/[0.03]"></div>
+            <div class="relative z-10">
+              <!-- Card header -->
+              <div class="flex items-center justify-between mb-5">
+                <div>
+                  <div class="section-label mb-1">ROADMAP IA</div>
+                  <div class="text-[12px] text-[#555]">Progression active</div>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <div class="w-2 h-2 rounded-full bg-green-400" style="animation: pulse-glow 2s ease infinite;"></div>
+                  <span class="text-[11px] text-green-400">En cours</span>
+                </div>
+              </div>
+
+              <!-- Progress items -->
+              <div class="space-y-4">
+                <div>
+                  <div class="flex items-center justify-between mb-1.5">
+                    <span class="text-[12px] text-[#888] font-medium">IDÉE</span>
+                    <span class="text-[11px] text-green-400">Complété</span>
+                  </div>
+                  <div class="h-1 bg-white/[0.05] rounded-full overflow-hidden">
+                    <div class="progress-bar h-full w-full"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex items-center justify-between mb-1.5">
+                    <span class="text-[12px] text-[#888] font-medium">PARCOURS</span>
+                    <span class="text-[11px] text-[#4F8EF7]">En cours</span>
+                  </div>
+                  <div class="h-1 bg-white/[0.05] rounded-full overflow-hidden">
+                    <div class="progress-bar h-full" style="width:62%"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex items-center justify-between mb-1.5">
+                    <span class="text-[12px] text-[#555] font-medium">PROJET</span>
+                    <span class="text-[11px] text-[#555]">Publication</span>
+                  </div>
+                  <div class="h-1 bg-white/[0.05] rounded-full overflow-hidden">
+                    <div class="progress-bar h-full" style="width:15%"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Divider -->
+              <div class="border-t border-white/[0.05] mt-5 pt-5">
+                <div class="text-[12px] text-[#555] mb-3">Assistant IA</div>
+                <div class="bg-[#0D0D0D] border border-white/[0.06] rounded-xl p-3.5">
+                  <p class="text-[12px] text-[#888] leading-relaxed">
+                    "Voici ton plan pour lancer ton idée de dashboard avec un backlinking visuel."
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Floating mini cards -->
+          <div class="absolute -bottom-4 -left-8 bg-[#151515] border border-white/[0.07] rounded-xl p-3.5 shadow-xl" style="animation: float 5s ease-in-out 1s infinite;">
+            <div class="flex items-center gap-2.5">
+              <div class="w-7 h-7 rounded-lg bg-green-500/10 border border-green-500/20 flex items-center justify-center">
+                <iconify-icon icon="lucide:check" class="text-green-400" style="font-size: 13px;"></iconify-icon>
+              </div>
+              <div>
+                <div class="text-[11px] font-semibold text-white">Projet publié</div>
+                <div class="text-[10px] text-[#555]">Application web</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="absolute -top-4 -right-6 bg-[#151515] border border-white/[0.07] rounded-xl p-3.5 shadow-xl" style="animation: float 5s ease-in-out 0.5s infinite;">
+            <div class="flex items-center gap-2.5">
+              <div class="w-7 h-7 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
+                <iconify-icon icon="lucide:users" class="text-blue-400" style="font-size: 13px;"></iconify-icon>
+              </div>
+              <div>
+                <div class="text-[11px] font-semibold text-white">Session live</div>
+                <div class="text-[10px] text-[#555]">Dans 2h • 34 inscrits</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════ SECTION VALEURS ═══════════════════════════════════════ -->
+  <section class="py-28 relative overflow-hidden" id="valeurs">
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-violet-900/[0.02] to-transparent pointer-events-none"></div>
+    <div class="max-w-[1320px] mx-auto px-8">
+      <!-- Header -->
+      <div class="mb-16">
+        <div class="section-label mb-4">PLATEFORME</div>
+        <h2 class="font-valorax gradient-text" style="font-size: clamp(36px, 3.5vw, 54px); letter-spacing: -0.02em;">CRÉER AVEC CLARTÉ</h2>
+      </div>
+
+      <!-- Cards grid -->
+      <div class="grid grid-cols-5 gap-4">
+        <!-- Card 1 -->
+        <div class="bg-[#111] border border-white/[0.07] rounded-2xl p-6 card-hover cursor-pointer">
+          <div class="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/15 flex items-center justify-center mb-5">
+            <iconify-icon icon="lucide:map" class="text-tc-blue" style="font-size: 18px;"></iconify-icon>
+          </div>
+          <div class="font-venite text-[13px] text-white mb-3">PARCOURS GUIDÉS</div>
+          <p class="text-[12px] text-[#666] leading-relaxed">Des parcours clairs et progressifs pour atteindre ton objectif, même si tu pars de zéro.</p>
+        </div>
+        <!-- Card 2 -->
+        <div class="bg-[#111] border border-white/[0.07] rounded-2xl p-6 card-hover cursor-pointer">
+          <div class="w-10 h-10 rounded-xl bg-violet-500/10 border border-violet-500/15 flex items-center justify-center mb-5">
+            <iconify-icon icon="lucide:bot" class="text-tc-violet" style="font-size: 18px;"></iconify-icon>
+          </div>
+          <div class="font-venite text-[13px] text-white mb-3">ASSISTANT IA</div>
+          <p class="text-[12px] text-[#666] leading-relaxed">Un assistant intelligent qui t'accompagne et transforme les idées en étapes simples et concrètes.</p>
+        </div>
+        <!-- Card 3 -->
+        <div class="bg-[#151515] border border-white/[0.07] rounded-2xl p-6 card-hover cursor-pointer" style="border-color: rgba(79,142,247,0.12); box-shadow: 0 0 40px rgba(79,142,247,0.06);">
+          <div class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/15 flex items-center justify-center mb-5">
+            <iconify-icon icon="lucide:hammer" class="text-tc-cyan" style="font-size: 18px;"></iconify-icon>
+          </div>
+          <div class="font-venite text-[13px] text-white mb-3">APPRENTISSAGE PRATIQUE</div>
+          <p class="text-[12px] text-[#666] leading-relaxed">Apprends en construisant de vrais projets grâce aux ressources, exercices et sessions en direct.</p>
+        </div>
+        <!-- Card 4 -->
+        <div class="bg-[#111] border border-white/[0.07] rounded-2xl p-6 card-hover cursor-pointer">
+          <div class="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/15 flex items-center justify-center mb-5">
+            <iconify-icon icon="lucide:layers" class="text-orange-400" style="font-size: 18px;"></iconify-icon>
+          </div>
+          <div class="font-venite text-[13px] text-white mb-3">PROJETS RÉELS</div>
+          <p class="text-[12px] text-[#666] leading-relaxed">Tu réalises un projet concret et tu peux le publier sur la plateforme et le partager.</p>
+        </div>
+        <!-- Card 5 -->
+        <div class="bg-[#111] border border-white/[0.07] rounded-2xl p-6 card-hover cursor-pointer">
+          <div class="w-10 h-10 rounded-xl bg-green-500/10 border border-green-500/15 flex items-center justify-center mb-5">
+            <iconify-icon icon="lucide:users" class="text-green-400" style="font-size: 18px;"></iconify-icon>
+          </div>
+          <div class="font-venite text-[13px] text-white mb-3">COMMUNAUTÉ ACTIVE</div>
+          <p class="text-[12px] text-[#666] leading-relaxed">Avance avec d'autres créateurs, partage tes réalisations et collabore sur des projets communs.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ═══════════════════════════════════════ COMMENT ÇA MARCHE ═══════════════════════════════════════ -->
+  <section class="py-28" id="comment-ca-marche">
+    <div class="max-w-[1320px] mx-auto px-8">
+      <!-- Header -->
+      <div class="text-center mb-20">
+        <div class="section-label mb-4">PROCESSUS</div>
+        <h2 class="font-valorax gradient-text mb-5" style="font-size: clamp(36px, 3.5vw, 54px); letter-spacing: -0.02em;">COMMENT ÇA MARCHE</h2>
+        <p class="text-[#666] text-[15px] max-w-md mx-auto">De ton idée à ton projet publié, un chemin clair et guidé.</p>
+      </div>
+
+      <!-- Steps -->
+      <div class="relative">
+        <!-- Connector line -->
+        <div class="absolute top-[44px] left-[calc(100%/12)] right-[calc(100%/12)] h-px bg-gradient-to-r from-transparent via-white/[0.07] to-transparent z-0"></div>
+
+        <div class="grid grid-cols-6 gap-5 relative z-10">
+          <!-- Step 1 -->
+          <div class="text-center">
+            <div class="w-[88px] h-[88px] rounded-2xl bg-[#111] border border-white/[0.07] flex items-center justify-center mx-auto mb-5 card-hover" style="border-color: rgba(79,142,247,0.2); box-shadow: 0 0 30px rgba(79,142,247,0.08);">
+              <iconify-icon icon="lucide:lightbulb" class="text-tc-blue" style="font-size: 28px;"></iconify-icon>
+            </div>
+            <div class="font-venite text-[12px] text-white mb-2">UNE IDÉE</div>
+            <p class="text-[11px] text-[#555] leading-relaxed">Tu viens avec une idée, un besoin ou simplement l'envie d'apprendre.</p>
+          </div>
+          <!-- Step 2 -->
+          <div class="text-center">
+            <div class="w-[88px] h-[88px] rounded-2xl bg-[#111] border border-white/[0.07] flex items-center justify-center mx-auto mb-5 card-hover">
+              <iconify-icon icon="lucide:git-branch" class="text-[#888]" style="font-size: 28px;"></iconify-icon>
+            </div>
+            <div class="font-venite text-[12px] text-white mb-2">UN PARCOURS ADAPTÉ</div>
+            <p class="text-[11px] text-[#555] leading-relaxed">Tu choisis le parcours qui correspond à ton objectif et ton niveau.</p>
+          </div>
+          <!-- Step 3 -->
+          <div class="text-center">
+            <div class="w-[88px] h-[88px] rounded-2xl bg-[#111] border border-white/[0.07] flex items-center justify-center mx-auto mb-5 card-hover">
+              <iconify-icon icon="lucide:book-open" class="text-[#888]" style="font-size: 28px;"></iconify-icon>
+            </div>
+            <div class="font-venite text-[12px] text-white mb-2">RESSOURCES ET PRATIQUE</div>
+            <p class="text-[11px] text-[#555] leading-relaxed">Tu accèdes aux ressources, exercices et à l'assistance de l'IA.</p>
+          </div>
+          <!-- Step 4 -->
+          <div class="text-center">
+            <div class="w-[88px] h-[88px] rounded-2xl bg-[#111] border border-white/[0.07] flex items-center justify-center mx-auto mb-5 card-hover">
+              <iconify-icon icon="lucide:video" class="text-[#888]" style="font-size: 28px;"></iconify-icon>
+            </div>
+            <div class="font-venite text-[12px] text-white mb-2">SESSIONS LIVE</div>
+            <p class="text-[11px] text-[#555] leading-relaxed">Tu participes à des sessions de pratique et de co-construction.</p>
+          </div>
+          <!-- Step 5 -->
+          <div class="text-center">
+            <div class="w-[88px] h-[88px] rounded-2xl bg-[#111] border border-white/[0.07] flex items-center justify-center mx-auto mb-5 card-hover">
+              <iconify-icon icon="lucide:package" class="text-[#888]" style="font-size: 28px;"></iconify-icon>
+            </div>
+            <div class="font-venite text-[12px] text-white mb-2">PROJET RÉALISÉ</div>
+            <p class="text-[11px] text-[#555] leading-relaxed">Tu finalises et tu réalises un projet concret, vraiment fonctionnel.</p>
+          </div>
+          <!-- Step 6 -->
+          <div class="text-center">
+            <div class="w-[88px] h-[88px] rounded-2xl bg-[#111] border border-white/[0.07] flex items-center justify-center mx-auto mb-5 card-hover" style="border-color: rgba(155,109,255,0.2); box-shadow: 0 0 30px rgba(155,109,255,0.06);">
+              <iconify-icon icon="lucide:share-2" class="text-tc-violet" style="font-size: 28px;"></iconify-icon>
+            </div>
+            <div class="font-venite text-[12px] text-white mb-2">PARTAGE</div>
+            <p class="text-[11px] text-[#555] leading-relaxed">Tu publies sur la galerie et partages avec toute la communauté.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="text-center mt-16">
+        <a href="#" id="how-cta-link" class="btn-primary glow-btn inline-flex items-center gap-2" style="font-size: 14px; padding: 14px 32px;">
+          <iconify-icon icon="lucide:zap" style="font-size: 16px;"></iconify-icon>
+          Commencer mon premier projet
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ═══════════════════════════════════════ CE QUE TU PEUX CRÉER ═══════════════════════════════════════ -->
+  <section class="py-28 overflow-hidden" id="competences">
+    <div class="max-w-[1320px] mx-auto px-8 mb-14">
+      <div class="section-label mb-4">POSSIBILITÉS</div>
+      <h2 class="font-valorax gradient-text" style="font-size: clamp(36px, 3.5vw, 54px); letter-spacing: -0.02em;">CE QUE TU PEUX CRÉER</h2>
+    </div>
+
+    <!-- Scrolling Tags Row 1 -->
+    <div class="scroll-container overflow-hidden mb-4">
+      <div class="scroll-track">
+        <div class="flex gap-3">
+          <span class="community-tag flex items-center gap-2"><iconify-icon icon="lucide:globe"></iconify-icon> Sites web</span>
+          <span class="community-tag flex items-center gap-2"><iconify-icon icon="lucide:layout-dashboard"></iconify-icon> Applications web</span>
+          <span class="community-tag flex items-center gap-2"><iconify-icon icon="lucide:zap"></iconify-icon> Automatisations</span>
+          <span class="community-tag flex items-center gap-2"><iconify-icon icon="lucide:bot"></iconify-icon> Agents IA</span>
+          <span class="community-tag flex items-center gap-2"><iconify-icon icon="lucide:music"></iconify-icon> Musique</span>
+          <span class="community-tag flex items-center gap-2"><iconify-icon icon="lucide:mic"></iconify-icon> Podcasts</span>
+          <span class="community-tag flex items-center gap-2"><iconify-icon icon="lucide:youtube"></iconify-icon> Chaînes YouTube</span>
+          <span class="community-tag flex items-center gap-2"><iconify-icon icon="lucide:video"></iconify-icon> Vidéos avec IA</span>
+          <span class="community-tag flex items-center gap-2"><iconify-icon icon="lucide:bar-chart-3"></iconify-icon> Analyse de données</span>
+        </div>
+        <div class="flex gap-3 ml-3">
+          <span class="community-tag flex items-center gap-2"><iconify-icon icon="lucide:globe"></iconify-icon> Sites web</span>
+          <span class="community-tag flex items-center gap-2"><iconify-icon icon="lucide:layout-dashboard"></iconify-icon> Applications web</span>
+          <span class="community-tag flex items-center gap-2"><iconify-icon icon="lucide:zap"></iconify-icon> Automatisations</span>
+          <span class="community-tag flex items-center gap-2"><iconify-icon icon="lucide:bot"></iconify-icon> Agents IA</span>
+          <span class="community-tag flex items-center gap-2"><iconify-icon icon="lucide:music"></iconify-icon> Musique</span>
+          <span class="community-tag flex items-center gap-2"><iconify-icon icon="lucide:mic"></iconify-icon> Podcasts</span>
+          <span class="community-tag flex items-center gap-2"><iconify-icon icon="lucide:youtube"></iconify-icon> Chaînes YouTube</span>
+          <span class="community-tag flex items-center gap-2"><iconify-icon icon="lucide:video"></iconify-icon> Vidéos avec IA</span>
+          <span class="community-tag flex items-center gap-2"><iconify-icon icon="lucide:bar-chart-3"></iconify-icon> Analyse de données</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scrolling Tags Row 2 (reverse) -->
+    <div class="scroll-container overflow-hidden">
+      <div class="scroll-track" style="animation-direction: reverse; animation-duration: 25s;">
+        <div class="flex gap-3">
+          <span class="community-tag flex items-center gap-2"><iconify-icon icon="lucide:pie-chart"></iconify-icon> Tableaux de bord</span>
+          <span class="community-tag flex items-center gap-2"><iconify-icon icon="lucide:database"></iconify-icon> Collecte de données</span>
+          <span class="community-tag flex items-center gap-2"><iconify-icon icon="lucide:leaf"></iconify-icon> Agritech</span>
+          <span class="community-tag flex items-center gap-2"><iconify-icon icon="lucide:package"></iconify-icon> Produits numériques</span>
+          <span class="community-tag flex items-center gap-2"><iconify-icon icon="lucide:trending-up"></iconify-icon> Business digitaux</span>
+          <span class="community-tag flex items-center gap-2"><iconify-icon icon="lucide:wrench"></iconify-icon> Outils SaaS</span>
+          <span class="community-tag flex items-center gap-2"><iconify-icon icon="lucide:message-square"></iconify-icon> Chatbots</span>
+          <span class="community-tag flex items-center gap-2"><iconify-icon icon="lucide:smartphone"></iconify-icon> Applications mobiles</span>
+          <span class="community-tag flex items-center gap-2"><iconify-icon icon="lucide:cpu"></iconify-icon> IA générative</span>
+        </div>
+        <div class="flex gap-3 ml-3">
+          <span class="community-tag flex items-center gap-2"><iconify-icon icon="lucide:pie-chart"></iconify-icon> Tableaux de bord</span>
+          <span class="community-tag flex items-center gap-2"><iconify-icon icon="lucide:database"></iconify-icon> Collecte de données</span>
+          <span class="community-tag flex items-center gap-2"><iconify-icon icon="lucide:leaf"></iconify-icon> Agritech</span>
+          <span class="community-tag flex items-center gap-2"><iconify-icon icon="lucide:package"></iconify-icon> Produits numériques</span>
+          <span class="community-tag flex items-center gap-2"><iconify-icon icon="lucide:trending-up"></iconify-icon> Business digitaux</span>
+          <span class="community-tag flex items-center gap-2"><iconify-icon icon="lucide:wrench"></iconify-icon> Outils SaaS</span>
+          <span class="community-tag flex items-center gap-2"><iconify-icon icon="lucide:message-square"></iconify-icon> Chatbots</span>
+          <span class="community-tag flex items-center gap-2"><iconify-icon icon="lucide:smartphone"></iconify-icon> Applications mobiles</span>
+          <span class="community-tag flex items-center gap-2"><iconify-icon icon="lucide:cpu"></iconify-icon> IA générative</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ═══════════════════════════════════════ PARCOURS ═══════════════════════════════════════ -->
+  <section class="py-28" id="parcours">
+    <div class="max-w-[1320px] mx-auto px-8">
+      <!-- Header -->
+      <div class="flex items-end justify-between mb-16">
+        <div>
+          <div class="section-label mb-4">CATALOGUE</div>
+          <h2 class="font-valorax gradient-text" style="font-size: clamp(36px, 3.5vw, 54px); letter-spacing: -0.02em;">PARCOURS DISPONIBLES</h2>
+        </div>
+        <a href="#" id="parcours-all-link" class="btn-secondary flex items-center gap-2">
+          Tous les parcours
+          <iconify-icon icon="lucide:arrow-right" style="font-size: 14px;"></iconify-icon>
+        </a>
+      </div>
+
+      <!-- Grid -->
+      <div class="grid grid-cols-3 gap-5 mb-6">
+        <!-- Parcours 1 -->
+        <div class="bg-[#111] border border-white/[0.07] rounded-2xl p-6 card-hover project-card">
+          <div class="flex items-start justify-between mb-5">
+            <div class="w-11 h-11 rounded-xl bg-blue-500/10 border border-blue-500/15 flex items-center justify-center">
+              <iconify-icon icon="lucide:code-2" class="text-tc-blue" style="font-size: 20px;"></iconify-icon>
+            </div>
+            <span class="level-beginner text-[10px] font-semibold px-2.5 py-1 rounded-full">Débutant</span>
+          </div>
+          <div class="font-venite text-[14px] text-white mb-2">DÉVELOPPEMENT WEB</div>
+          <p class="text-[12px] text-[#666] leading-relaxed mb-5">HTML, CSS, JavaScript, React et Node.js. Construis des sites web et applications complètes de A à Z.</p>
+          <div class="flex items-center gap-4 mb-5 text-[11px] text-[#555]">
+            <span class="flex items-center gap-1.5"><iconify-icon icon="lucide:clock"></iconify-icon> 12 semaines</span>
+            <span class="flex items-center gap-1.5"><iconify-icon icon="lucide:book"></iconify-icon> 48 ressources</span>
+            <span class="flex items-center gap-1.5"><iconify-icon icon="lucide:layers"></iconify-icon> 8 projets</span>
+          </div>
+          <a href="#" id="parcours-web-link" class="w-full btn-secondary flex items-center justify-center gap-2 text-[12px]" style="padding: 10px 20px;">
+            Découvrir <iconify-icon icon="lucide:arrow-right" style="font-size: 13px;"></iconify-icon>
+          </a>
+        </div>
+
+        <!-- Parcours 2 -->
+        <div class="bg-[#151515] border rounded-2xl p-6 card-hover project-card" style="border-color: rgba(155,109,255,0.2); box-shadow: 0 0 40px rgba(155,109,255,0.06);">
+          <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-violet-500/30 to-transparent rounded-t-2xl"></div>
+          <div class="flex items-start justify-between mb-5">
+            <div class="w-11 h-11 rounded-xl bg-violet-500/10 border border-violet-500/15 flex items-center justify-center">
+              <iconify-icon icon="lucide:cpu" class="text-tc-violet" style="font-size: 20px;"></iconify-icon>
+            </div>
+            <span class="level-intermediate text-[10px] font-semibold px-2.5 py-1 rounded-full">Intermédiaire</span>
+          </div>
+          <div class="font-venite text-[14px] text-white mb-2">AUTOMATISATION ET IA</div>
+          <p class="text-[12px] text-[#666] leading-relaxed mb-5">ChatGPT, agents IA, Make, n8n et Zapier. Automatise des tâches et construis des workflows intelligents.</p>
+          <div class="flex items-center gap-4 mb-5 text-[11px] text-[#555]">
+            <span class="flex items-center gap-1.5"><iconify-icon icon="lucide:clock"></iconify-icon> 8 semaines</span>
+            <span class="flex items-center gap-1.5"><iconify-icon icon="lucide:book"></iconify-icon> 36 ressources</span>
+            <span class="flex items-center gap-1.5"><iconify-icon icon="lucide:layers"></iconify-icon> 6 projets</span>
+          </div>
+          <a href="#" id="parcours-ia-link" class="w-full btn-secondary flex items-center justify-center gap-2 text-[12px]" style="padding: 10px 20px; border-color: rgba(155,109,255,0.25);">
+            Découvrir <iconify-icon icon="lucide:arrow-right" style="font-size: 13px;"></iconify-icon>
+          </a>
+        </div>
+
+        <!-- Parcours 3 -->
+        <div class="bg-[#111] border border-white/[0.07] rounded-2xl p-6 card-hover project-card">
+          <div class="flex items-start justify-between mb-5">
+            <div class="w-11 h-11 rounded-xl bg-cyan-500/10 border border-cyan-500/15 flex items-center justify-center">
+              <iconify-icon icon="lucide:bar-chart-3" class="text-tc-cyan" style="font-size: 20px;"></iconify-icon>
+            </div>
+            <span class="level-intermediate text-[10px] font-semibold px-2.5 py-1 rounded-full">Intermédiaire</span>
+          </div>
+          <div class="font-venite text-[14px] text-white mb-2">ANALYSE DE DONNÉES</div>
+          <p class="text-[12px] text-[#666] leading-relaxed mb-5">Excel, Power BI, Tableau et Python. Analyse, visualise et prends de meilleures décisions grâce aux données.</p>
+          <div class="flex items-center gap-4 mb-5 text-[11px] text-[#555]">
+            <span class="flex items-center gap-1.5"><iconify-icon icon="lucide:clock"></iconify-icon> 10 semaines</span>
+            <span class="flex items-center gap-1.5"><iconify-icon icon="lucide:book"></iconify-icon> 42 ressources</span>
+            <span class="flex items-center gap-1.5"><iconify-icon icon="lucide:layers"></iconify-icon> 5 projets</span>
+          </div>
+          <a href="#" id="parcours-data-link" class="w-full btn-secondary flex items-center justify-center gap-2 text-[12px]" style="padding: 10px 20px;">
+            Découvrir <iconify-icon icon="lucide:arrow-right" style="font-size: 13px;"></iconify-icon>
+          </a>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-4 gap-5">
+        <!-- Parcours 4 -->
+        <div class="bg-[#111] border border-white/[0.07] rounded-2xl p-5 card-hover project-card">
+          <div class="w-10 h-10 rounded-xl bg-green-500/10 border border-green-500/15 flex items-center justify-center mb-4">
+            <iconify-icon icon="lucide:database" class="text-green-400" style="font-size: 18px;"></iconify-icon>
+          </div>
+          <div class="font-venite text-[12px] text-white mb-1.5">COLLECTE DE DONNÉES</div>
+          <p class="text-[11px] text-[#555] leading-relaxed mb-4">KoboCollect, ODK et gestion des données terrain.</p>
+          <div class="flex items-center gap-3 mb-4 text-[10px] text-[#444]">
+            <span class="flex items-center gap-1"><iconify-icon icon="lucide:clock"></iconify-icon> 6 sem.</span>
+            <span class="level-beginner text-[10px] font-medium px-2 py-0.5 rounded-full">Débutant</span>
+          </div>
+          <a href="#" id="parcours-collecte-link" class="text-[11px] text-[#4F8EF7] font-medium flex items-center gap-1 hover:gap-2 transition-all">Découvrir <iconify-icon icon="lucide:arrow-right" style="font-size: 12px;"></iconify-icon></a>
+        </div>
+
+        <!-- Parcours 5 -->
+        <div class="bg-[#111] border border-white/[0.07] rounded-2xl p-5 card-hover project-card">
+          <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/15 flex items-center justify-center mb-4">
+            <iconify-icon icon="lucide:leaf" class="text-emerald-400" style="font-size: 18px;"></iconify-icon>
+          </div>
+          <div class="font-venite text-[12px] text-white mb-1.5">AGRITECH</div>
+          <p class="text-[11px] text-[#555] leading-relaxed mb-4">Outils numériques pour l'agriculture et les projets de terrain.</p>
+          <div class="flex items-center gap-3 mb-4 text-[10px] text-[#444]">
+            <span class="flex items-center gap-1"><iconify-icon icon="lucide:clock"></iconify-icon> 8 sem.</span>
+            <span class="level-beginner text-[10px] font-medium px-2 py-0.5 rounded-full">Débutant</span>
+          </div>
+          <a href="#" id="parcours-agritech-link" class="text-[11px] text-[#4F8EF7] font-medium flex items-center gap-1 hover:gap-2 transition-all">Découvrir <iconify-icon icon="lucide:arrow-right" style="font-size: 12px;"></iconify-icon></a>
+        </div>
+
+        <!-- Parcours 6 -->
+        <div class="bg-[#111] border border-white/[0.07] rounded-2xl p-5 card-hover project-card">
+          <div class="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/15 flex items-center justify-center mb-4">
+            <iconify-icon icon="lucide:video" class="text-red-400" style="font-size: 18px;"></iconify-icon>
+          </div>
+          <div class="font-venite text-[12px] text-white mb-1.5">CRÉATION VIDÉO</div>
+          <p class="text-[11px] text-[#555] leading-relaxed mb-4">Montage vidéo, YouTube et outils de création de contenu IA.</p>
+          <div class="flex items-center gap-3 mb-4 text-[10px] text-[#444]">
+            <span class="flex items-center gap-1"><iconify-icon icon="lucide:clock"></iconify-icon> 7 sem.</span>
+            <span class="level-beginner text-[10px] font-medium px-2 py-0.5 rounded-full">Débutant</span>
+          </div>
+          <a href="#" id="parcours-video-link" class="text-[11px] text-[#4F8EF7] font-medium flex items-center gap-1 hover:gap-2 transition-all">Découvrir <iconify-icon icon="lucide:arrow-right" style="font-size: 12px;"></iconify-icon></a>
+        </div>
+
+        <!-- Parcours 7 -->
+        <div class="bg-[#111] border border-white/[0.07] rounded-2xl p-5 card-hover project-card">
+          <div class="w-10 h-10 rounded-xl bg-pink-500/10 border border-pink-500/15 flex items-center justify-center mb-4">
+            <iconify-icon icon="lucide:music" class="text-pink-400" style="font-size: 18px;"></iconify-icon>
+          </div>
+          <div class="font-venite text-[12px] text-white mb-1.5">MUSIQUE ET AUDIO</div>
+          <p class="text-[11px] text-[#555] leading-relaxed mb-4">Création musicale, podcasts et outils audio numériques.</p>
+          <div class="flex items-center gap-3 mb-4 text-[10px] text-[#444]">
+            <span class="flex items-center gap-1"><iconify-icon icon="lucide:clock"></iconify-icon> 6 sem.</span>
+            <span class="level-beginner text-[10px] font-medium px-2 py-0.5 rounded-full">Débutant</span>
+          </div>
+          <a href="#" id="parcours-musique-link" class="text-[11px] text-[#4F8EF7] font-medium flex items-center gap-1 hover:gap-2 transition-all">Découvrir <iconify-icon icon="lucide:arrow-right" style="font-size: 12px;"></iconify-icon></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ═══════════════════════════════════════ RESSOURCES ═══════════════════════════════════════ -->
+  <section class="py-28" id="ressources">
+    <div class="max-w-[1320px] mx-auto px-8">
+      <div class="grid grid-cols-2 gap-20 items-center">
+        <!-- Left -->
+        <div>
+          <div class="section-label mb-4">BIBLIOTHÈQUE</div>
+          <h2 class="font-valorax gradient-text mb-6" style="font-size: clamp(36px, 3.5vw, 54px); letter-spacing: -0.02em;">RESSOURCES POUR AVANCER</h2>
+          <p class="text-[#666] text-[15px] leading-relaxed mb-8 max-w-[420px]">Guides, tutoriels, templates, prompts, outils recommandés et bien plus. Tout ce dont tu as besoin pour progresser.</p>
+          <div class="flex flex-wrap gap-3 mb-10">
+            <span class="community-tag">Guides</span>
+            <span class="community-tag">Tutoriels</span>
+            <span class="community-tag">Vidéos</span>
+            <span class="community-tag">Templates</span>
+            <span class="community-tag">Prompts IA</span>
+            <span class="community-tag">Outils</span>
+            <span class="community-tag">Cheat Sheets</span>
+            <span class="community-tag">Bibliothèque IA</span>
+          </div>
+          <a href="#" id="ressources-cta-link" class="btn-primary glow-btn inline-flex items-center gap-2" style="font-size: 14px; padding: 14px 28px;">
+            Explorer les ressources
+            <iconify-icon icon="lucide:arrow-right" style="font-size: 16px;"></iconify-icon>
+          </a>
+        </div>
+
+        <!-- Right: Resource cards grid -->
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-[#111] border border-white/[0.07] rounded-2xl p-5 card-hover">
+            <div class="w-9 h-9 rounded-xl bg-blue-500/10 border border-blue-500/15 flex items-center justify-center mb-4">
+              <iconify-icon icon="lucide:file-text" class="text-tc-blue" style="font-size: 16px;"></iconify-icon>
+            </div>
+            <div class="font-venite text-[12px] text-white mb-1.5">GUIDES</div>
+            <p class="text-[11px] text-[#555] mb-3">Explications simples et structurées pour chaque concept clé.</p>
+            <div class="text-[10px] text-[#444]">124 guides disponibles</div>
+          </div>
+          <div class="bg-[#111] border border-white/[0.07] rounded-2xl p-5 card-hover">
+            <div class="w-9 h-9 rounded-xl bg-red-500/10 border border-red-500/15 flex items-center justify-center mb-4">
+              <iconify-icon icon="lucide:play-circle" class="text-red-400" style="font-size: 16px;"></iconify-icon>
+            </div>
+            <div class="font-venite text-[12px] text-white mb-1.5">VIDÉOS</div>
+            <p class="text-[11px] text-[#555] mb-3">Démonstrations et tutoriels pratiques en vidéo.</p>
+            <div class="text-[10px] text-[#444]">89 vidéos</div>
+          </div>
+          <div class="bg-[#151515] border border-white/[0.07] rounded-2xl p-5 card-hover" style="border-color: rgba(79,142,247,0.12);">
+            <div class="w-9 h-9 rounded-xl bg-violet-500/10 border border-violet-500/15 flex items-center justify-center mb-4">
+              <iconify-icon icon="lucide:layout-template" class="text-tc-violet" style="font-size: 16px;"></iconify-icon>
+            </div>
+            <div class="font-venite text-[12px] text-white mb-1.5">MODÈLES ET TEMPLATES</div>
+            <p class="text-[11px] text-[#555] mb-3">Templates de prompts, documents et modèles réutilisables.</p>
+            <div class="text-[10px] text-[#444]">67 templates</div>
+          </div>
+          <div class="bg-[#111] border border-white/[0.07] rounded-2xl p-5 card-hover">
+            <div class="w-9 h-9 rounded-xl bg-orange-500/10 border border-orange-500/15 flex items-center justify-center mb-4">
+              <iconify-icon icon="lucide:tool" class="text-orange-400" style="font-size: 16px;"></iconify-icon>
+            </div>
+            <div class="font-venite text-[12px] text-white mb-1.5">OUTILS</div>
+            <p class="text-[11px] text-[#555] mb-3">Une sélection d'outils pour aller plus loin rapidement.</p>
+            <div class="text-[10px] text-[#444]">200+ outils référencés</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ═══════════════════════════════════════ SESSIONS LIVE ═══════════════════════════════════════ -->
+  <section class="py-28 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-blue-900/[0.03] to-transparent pointer-events-none"></div>
+    <div class="max-w-[1320px] mx-auto px-8">
+      <div class="section-label mb-4">LIVE</div>
+      <div class="flex items-end justify-between mb-14">
+        <h2 class="font-valorax gradient-text" style="font-size: clamp(36px, 3.5vw, 54px); letter-spacing: -0.02em;">APPRENDRE ENSEMBLE</h2>
+        <a href="#" id="sessions-all-link" class="btn-secondary flex items-center gap-2">
+          Voir toutes les sessions
+          <iconify-icon icon="lucide:arrow-right" style="font-size: 14px;"></iconify-icon>
+        </a>
+      </div>
+
+      <div class="grid grid-cols-2 gap-8 items-start">
+        <!-- Left: Types -->
+        <div>
+          <p class="text-[#666] text-[15px] leading-relaxed mb-8">Participe à des sessions de pratique en direct avec la communauté. Pose des questions, construis avec d'autres, avance plus vite.</p>
+          <div class="space-y-3">
+            <div class="flex items-center gap-3">
+              <div class="w-6 h-6 rounded-lg bg-blue-500/10 flex items-center justify-center flex-shrink-0">
+                <iconify-icon icon="lucide:wrench" class="text-tc-blue" style="font-size: 12px;"></iconify-icon>
+              </div>
+              <span class="text-[13px] text-[#888]">Ateliers pratiques</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="w-6 h-6 rounded-lg bg-violet-500/10 flex items-center justify-center flex-shrink-0">
+                <iconify-icon icon="lucide:help-circle" class="text-tc-violet" style="font-size: 12px;"></iconify-icon>
+              </div>
+              <span class="text-[13px] text-[#888]">Questions & réponses</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="w-6 h-6 rounded-lg bg-cyan-500/10 flex items-center justify-center flex-shrink-0">
+                <iconify-icon icon="lucide:users-2" class="text-tc-cyan" style="font-size: 12px;"></iconify-icon>
+              </div>
+              <span class="text-[13px] text-[#888]">Construction collaborative</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="w-6 h-6 rounded-lg bg-orange-500/10 flex items-center justify-center flex-shrink-0">
+                <iconify-icon icon="lucide:bug" class="text-orange-400" style="font-size: 12px;"></iconify-icon>
+              </div>
+              <span class="text-[13px] text-[#888]">Débogage en direct</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="w-6 h-6 rounded-lg bg-green-500/10 flex items-center justify-center flex-shrink-0">
+                <iconify-icon icon="lucide:presentation" class="text-green-400" style="font-size: 12px;"></iconify-icon>
+              </div>
+              <span class="text-[13px] text-[#888]">Masterclass & Démos</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Next sessions -->
+        <div class="space-y-3">
+          <!-- Session 1 -->
+          <div class="bg-[#111] border border-white/[0.07] rounded-xl p-5 card-hover flex items-center gap-5">
+            <div class="w-14 h-14 rounded-xl bg-blue-500/10 border border-blue-500/15 flex flex-col items-center justify-center flex-shrink-0">
+              <div class="text-[10px] text-[#555] font-medium">JUN</div>
+              <div class="text-[18px] font-bold text-tc-blue leading-none">24</div>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="font-venite text-[13px] text-white mb-1">ATELIER AGENTS IA</div>
+              <div class="text-[11px] text-[#555]">Construire son premier agent IA avec n8n</div>
+            </div>
+            <div class="text-right flex-shrink-0">
+              <div class="flex items-center gap-1.5 mb-1">
+                <div class="w-1.5 h-1.5 rounded-full bg-green-400"></div>
+                <span class="text-[11px] text-green-400">Live</span>
+              </div>
+              <div class="text-[11px] text-[#555]">47 inscrits</div>
+            </div>
+          </div>
+
+          <!-- Session 2 -->
+          <div class="bg-[#111] border border-white/[0.07] rounded-xl p-5 card-hover flex items-center gap-5">
+            <div class="w-14 h-14 rounded-xl bg-violet-500/10 border border-violet-500/15 flex flex-col items-center justify-center flex-shrink-0">
+              <div class="text-[10px] text-[#555] font-medium">JUN</div>
+              <div class="text-[18px] font-bold text-tc-violet leading-none">27</div>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="font-venite text-[13px] text-white mb-1">MASTERCLASS DONNÉES</div>
+              <div class="text-[11px] text-[#555]">KoboCollect pour la collecte terrain</div>
+            </div>
+            <div class="text-right flex-shrink-0">
+              <div class="flex items-center gap-1.5 mb-1">
+                <iconify-icon icon="lucide:calendar" class="text-[#555]" style="font-size: 11px;"></iconify-icon>
+                <span class="text-[11px] text-[#555]">À venir</span>
+              </div>
+              <div class="text-[11px] text-[#555]">23 inscrits</div>
+            </div>
+          </div>
+
+          <!-- Session 3 -->
+          <div class="bg-[#111] border border-white/[0.07] rounded-xl p-5 card-hover flex items-center gap-5">
+            <div class="w-14 h-14 rounded-xl bg-cyan-500/10 border border-cyan-500/15 flex flex-col items-center justify-center flex-shrink-0">
+              <div class="text-[10px] text-[#555] font-medium">JUL</div>
+              <div class="text-[18px] font-bold text-tc-cyan leading-none">02</div>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="font-venite text-[13px] text-white mb-1">Q&R DÉVELOPPEMENT WEB</div>
+              <div class="text-[11px] text-[#555]">Débogage, questions et revue de code</div>
+            </div>
+            <div class="text-right flex-shrink-0">
+              <div class="flex items-center gap-1.5 mb-1">
+                <iconify-icon icon="lucide:calendar" class="text-[#555]" style="font-size: 11px;"></iconify-icon>
+                <span class="text-[11px] text-[#555]">À venir</span>
+              </div>
+              <div class="text-[11px] text-[#555]">18 inscrits</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ═══════════════════════════════════════ PROJETS COMMUNAUTÉ ═══════════════════════════════════════ -->
+  <section class="py-28" id="projets">
+    <div class="max-w-[1320px] mx-auto px-8">
+      <!-- Header -->
+      <div class="flex items-end justify-between mb-5">
+        <div>
+          <div class="section-label mb-4">GALERIE</div>
+          <h2 class="font-valorax gradient-text" style="font-size: clamp(28px, 3vw, 46px); letter-spacing: -0.02em; max-width: 600px;">DES PROJETS RÉELS.<br>PAS SEULEMENT DE LA THÉORIE.</h2>
+        </div>
+        <a href="#" id="projets-all-link" class="btn-secondary flex items-center gap-2">
+          Voir tous les projets
+          <iconify-icon icon="lucide:arrow-right" style="font-size: 14px;"></iconify-icon>
+        </a>
+      </div>
+      <p class="text-[#666] text-[14px] mb-14">Découvrez les réalisations des membres de la communauté.</p>
+
+      <!-- Project grid -->
+      <div class="grid grid-cols-3 gap-5 mb-5">
+        <!-- Project 1 -->
+        <div class="bg-[#111] border border-white/[0.07] rounded-2xl overflow-hidden card-hover project-card">
+          <div class="h-44 bg-[#0D0D0D] relative overflow-hidden">
+            <div class="absolute inset-0 flex items-center justify-center">
+              <div class="w-full h-full" style="background: linear-gradient(135deg, rgba(79,142,247,0.08) 0%, rgba(0,0,0,0) 60%), linear-gradient(225deg, rgba(155,109,255,0.06) 0%, rgba(0,0,0,0) 60%);">
+                <div class="flex items-center justify-center h-full">
+                  <iconify-icon icon="lucide:layout-dashboard" class="text-[#333]" style="font-size: 48px;"></iconify-icon>
+                </div>
+              </div>
+            </div>
+            <div class="absolute top-3 left-3">
+              <span class="tag-badge">Dashboard</span>
+            </div>
+          </div>
+          <div class="p-5">
+            <div class="font-venite text-[13px] text-white mb-2">DASHBOARD AGRI DATA</div>
+            <p class="text-[11px] text-[#555] mb-4">Tableau de bord pour l'analyse des données agricoles collectées avec KoboCollect.</p>
+            <div class="flex flex-wrap gap-1.5 mb-4">
+              <span class="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">Power BI</span>
+              <span class="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">KoboCollect</span>
+              <span class="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">Python</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <div class="w-6 h-6 rounded-full bg-gradient-to-br from-blue-400 to-violet-500"></div>
+                <span class="text-[11px] text-[#666]">Moussa K.</span>
+              </div>
+              <a href="#" id="project-1-link" class="text-[11px] text-[#4F8EF7] font-medium flex items-center gap-1 hover:gap-2 transition-all">Voir <iconify-icon icon="lucide:arrow-right" style="font-size: 11px;"></iconify-icon></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="bg-[#111] border border-white/[0.07] rounded-2xl overflow-hidden card-hover project-card">
+          <div class="h-44 bg-[#0D0D0D] relative overflow-hidden">
+            <div class="absolute inset-0" style="background: linear-gradient(135deg, rgba(34,211,238,0.08) 0%, rgba(0,0,0,0) 60%);">
+              <div class="flex items-center justify-center h-full">
+                <iconify-icon icon="lucide:globe" class="text-[#333]" style="font-size: 48px;"></iconify-icon>
+              </div>
+            </div>
+            <div class="absolute top-3 left-3">
+              <span class="tag-badge">Site web</span>
+            </div>
+          </div>
+          <div class="p-5">
+            <div class="font-venite text-[13px] text-white mb-2">VITRINE E-COMMERCE</div>
+            <p class="text-[11px] text-[#555] mb-4">Site web complet pour une boutique artisanale avec paiement mobile money intégré.</p>
+            <div class="flex flex-wrap gap-1.5 mb-4">
+              <span class="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">React</span>
+              <span class="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">Node.js</span>
+              <span class="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">Stripe</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <div class="w-6 h-6 rounded-full bg-gradient-to-br from-cyan-400 to-green-500"></div>
+                <span class="text-[11px] text-[#666]">Awa D.</span>
+              </div>
+              <a href="#" id="project-2-link" class="text-[11px] text-[#4F8EF7] font-medium flex items-center gap-1 hover:gap-2 transition-all">Voir <iconify-icon icon="lucide:arrow-right" style="font-size: 11px;"></iconify-icon></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 3 -->
+        <div class="bg-[#111] border border-white/[0.07] rounded-2xl overflow-hidden card-hover project-card">
+          <div class="h-44 bg-[#0D0D0D] relative overflow-hidden">
+            <div class="absolute inset-0" style="background: linear-gradient(135deg, rgba(155,109,255,0.08) 0%, rgba(0,0,0,0) 60%);">
+              <div class="flex items-center justify-center h-full">
+                <iconify-icon icon="lucide:bot" class="text-[#333]" style="font-size: 48px;"></iconify-icon>
+              </div>
+            </div>
+            <div class="absolute top-3 left-3">
+              <span class="tag-badge">Automatisation</span>
+            </div>
+          </div>
+          <div class="p-5">
+            <div class="font-venite text-[13px] text-white mb-2">AGENT IA SUPPORT CLIENT</div>
+            <p class="text-[11px] text-[#555] mb-4">Agent IA automatisant les réponses client avec intégration WhatsApp et Make.com.</p>
+            <div class="flex flex-wrap gap-1.5 mb-4">
+              <span class="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">Make.com</span>
+              <span class="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">GPT-4</span>
+              <span class="text-[10px] bg-white/[0.04] border border-white/[0.06] text-[#666] px-2 py-0.5 rounded-full">WhatsApp API</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <div class="w-6 h-6 rounded-full bg-gradient-to-br from-violet-400 to-pink-500"></div>
+                <span class="text-[11px] text-[#666]">Ibrahim S.</span>
+              </div>
+              <a href="#" id="project-3-link" class="text-[11px] text-[#4F8EF7] font-medium flex items-center gap-1 hover:gap-2 transition-all">Voir <iconify-icon icon="lucide:arrow-right" style="font-size: 11px;"></iconify-icon></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="flex items-center justify-center mt-10">
+        <a href="#" id="projets-publish-link" class="btn-secondary flex items-center gap-2" style="font-size: 13px; padding: 12px 24px;">
+          <iconify-icon icon="lucide:upload" style="font-size: 14px;"></iconify-icon>
+          Publier mon projet
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ═══════════════════════════════════════ COMMUNAUTÉ ═══════════════════════════════════════ -->
+  <section class="py-28" id="communaute">
+    <div class="max-w-[1320px] mx-auto px-8">
+      <div class="bg-[#111] border border-white/[0.07] rounded-3xl p-14 relative overflow-hidden" style="border-color: rgba(79,142,247,0.12); box-shadow: 0 0 80px rgba(79,142,247,0.05);">
+        <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/20 to-transparent"></div>
+        <div class="absolute -bottom-40 -right-40 w-80 h-80 bg-violet-500/[0.05] rounded-full filter blur-3xl"></div>
+        <div class="absolute -top-40 -left-40 w-80 h-80 bg-blue-500/[0.04] rounded-full filter blur-3xl"></div>
+
+        <div class="relative z-10 grid grid-cols-2 gap-20 items-center">
+          <div>
+            <div class="section-label mb-4">COMMUNAUTÉ</div>
+            <h2 class="font-valorax gradient-text mb-6" style="font-size: clamp(32px, 3vw, 48px); letter-spacing: -0.02em;">UNE COMMUNAUTÉ<br>QUI CONSTRUIT</h2>
+            <p class="text-[#666] text-[15px] leading-relaxed mb-8">Avance avec d'autres créateurs et partage tes progrès. Seul on va vite, ensemble on va loin.</p>
+            <a href="#" id="communaute-cta-link" class="btn-primary glow-btn inline-flex items-center gap-2" style="font-size: 14px; padding: 14px 28px;">
+              <iconify-icon icon="lucide:users" style="font-size: 16px;"></iconify-icon>
+              Rejoindre la communauté
+            </a>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div class="bg-[#0D0D0D] border border-white/[0.06] rounded-xl p-4 card-hover">
+              <iconify-icon icon="lucide:trophy" class="text-yellow-400 mb-3" style="font-size: 20px;"></iconify-icon>
+              <div class="font-venite text-[12px] text-white mb-1">CHALLENGES</div>
+              <p class="text-[11px] text-[#555]">Défis hebdomadaires et mensuels pour progresser.</p>
+            </div>
+            <div class="bg-[#0D0D0D] border border-white/[0.06] rounded-xl p-4 card-hover">
+              <iconify-icon icon="lucide:users-2" class="text-tc-blue mb-3" style="font-size: 20px;"></iconify-icon>
+              <div class="font-venite text-[12px] text-white mb-1">GROUPES D'ÉTUDE</div>
+              <p class="text-[11px] text-[#555]">Étudie et construis avec d'autres membres.</p>
+            </div>
+            <div class="bg-[#0D0D0D] border border-white/[0.06] rounded-xl p-4 card-hover">
+              <iconify-icon icon="lucide:share-2" class="text-tc-violet mb-3" style="font-size: 20px;"></iconify-icon>
+              <div class="font-venite text-[12px] text-white mb-1">PARTAGE DE PROJETS</div>
+              <p class="text-[11px] text-[#555]">Publication et mise en avant de tes créations.</p>
+            </div>
+            <div class="bg-[#0D0D0D] border border-white/[0.06] rounded-xl p-4 card-hover">
+              <iconify-icon icon="lucide:bar-chart-2" class="text-green-400 mb-3" style="font-size: 20px;"></iconify-icon>
+              <div class="font-venite text-[12px] text-white mb-1">CLASSEMENTS</div>
+              <p class="text-[11px] text-[#555]">Suis ta progression et tes succès.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ═══════════════════════════════════════ TÉMOIGNAGES ═══════════════════════════════════════ -->
+  <section class="py-28">
+    <div class="max-w-[1320px] mx-auto px-8">
+      <div class="text-center mb-16">
+        <div class="section-label mb-4">TÉMOIGNAGES</div>
+        <h2 class="font-valorax gradient-text" style="font-size: clamp(36px, 3.5vw, 54px); letter-spacing: -0.02em;">ILS ONT CONSTRUIT</h2>
+      </div>
+
+      <div class="grid grid-cols-3 gap-5">
+        <!-- Testimonial 1 -->
+        <div class="bg-[#111] border border-white/[0.07] rounded-2xl p-7 testimonial-card card-hover">
+          <div class="flex items-center gap-1 mb-5">
+            <iconify-icon icon="lucide:star" class="text-yellow-400" style="font-size: 14px;"></iconify-icon>
+            <iconify-icon icon="lucide:star" class="text-yellow-400" style="font-size: 14px;"></iconify-icon>
+            <iconify-icon icon="lucide:star" class="text-yellow-400" style="font-size: 14px;"></iconify-icon>
+            <iconify-icon icon="lucide:star" class="text-yellow-400" style="font-size: 14px;"></iconify-icon>
+            <iconify-icon icon="lucide:star" class="text-yellow-400" style="font-size: 14px;"></iconify-icon>
+          </div>
+          <p class="text-[13px] text-[#888] leading-relaxed mb-6 italic">"Je suis venu sans aucune expérience en programmation. En 3 mois, j'ai lancé mon premier site e-commerce. TakaCode est vraiment différent des autres plateformes."</p>
+          <div class="flex items-center gap-3 pt-5 border-t border-white/[0.05]">
+            <div class="w-9 h-9 rounded-full bg-gradient-to-br from-blue-400 to-cyan-500 flex-shrink-0"></div>
+            <div>
+              <div class="text-[13px] font-semibold text-white">Kofi Mensah</div>
+              <div class="text-[11px] text-[#555]">Parcours Développement Web</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial 2 -->
+        <div class="bg-[#151515] border rounded-2xl p-7 testimonial-card card-hover" style="border-color: rgba(79,142,247,0.15); box-shadow: 0 0 40px rgba(79,142,247,0.06);">
+          <div class="flex items-center gap-1 mb-5">
+            <iconify-icon icon="lucide:star" class="text-yellow-400" style="font-size: 14px;"></iconify-icon>
+            <iconify-icon icon="lucide:star" class="text-yellow-400" style="font-size: 14px;"></iconify-icon>
+            <iconify-icon icon="lucide:star" class="text-yellow-400" style="font-size: 14px;"></iconify-icon>
+            <iconify-icon icon="lucide:star" class="text-yellow-400" style="font-size: 14px;"></iconify-icon>
+            <iconify-icon icon="lucide:star" class="text-yellow-400" style="font-size: 14px;"></iconify-icon>
+          </div>
+          <p class="text-[13px] text-[#888] leading-relaxed mb-6 italic">"Les sessions live ont tout changé pour moi. Pouvoir coder en temps réel avec quelqu'un qui m'aide, c'est exactement ce qu'il me manquait pour progresser rapidement."</p>
+          <div class="flex items-center gap-3 pt-5 border-t border-white/[0.05]">
+            <div class="w-9 h-9 rounded-full bg-gradient-to-br from-violet-400 to-pink-500 flex-shrink-0"></div>
+            <div>
+              <div class="text-[13px] font-semibold text-white">Fatou Diallo</div>
+              <div class="text-[11px] text-[#555]">Parcours Automatisation IA</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial 3 -->
+        <div class="bg-[#111] border border-white/[0.07] rounded-2xl p-7 testimonial-card card-hover">
+          <div class="flex items-center gap-1 mb-5">
+            <iconify-icon icon="lucide:star" class="text-yellow-400" style="font-size: 14px;"></iconify-icon>
+            <iconify-icon icon="lucide:star" class="text-yellow-400" style="font-size: 14px;"></iconify-icon>
+            <iconify-icon icon="lucide:star" class="text-yellow-400" style="font-size: 14px;"></iconify-icon>
+            <iconify-icon icon="lucide:star" class="text-yellow-400" style="font-size: 14px;"></iconify-icon>
+            <iconify-icon icon="lucide:star" class="text-yellow-400" style="font-size: 14px;"></iconify-icon>
+          </div>
+          <p class="text-[13px] text-[#888] leading-relaxed mb-6 italic">"J'ai créé un dashboard de suivi pour mon projet agricole grâce au parcours Agritech. L'assistant IA m'a guidé étape par étape. Incroyable pour quelqu'un qui ne savait pas coder."</p>
+          <div class="flex items-center gap-3 pt-5 border-t border-white/[0.05]">
+            <div class="w-9 h-9 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 flex-shrink-0"></div>
+            <div>
+              <div class="text-[13px] font-semibold text-white">Amara Touré</div>
+              <div class="text-[11px] text-[#555]">Parcours Agritech & Données</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ═══════════════════════════════════════ FAQ ═══════════════════════════════════════ -->
+  <section class="py-28">
+    <div class="max-w-[1320px] mx-auto px-8">
+      <div class="grid grid-cols-2 gap-20">
+        <!-- Left -->
+        <div>
+          <div class="section-label mb-4">FAQ</div>
+          <h2 class="font-valorax gradient-text mb-6" style="font-size: clamp(32px, 3vw, 48px); letter-spacing: -0.02em;">QUESTIONS<br>FRÉQUENTES</h2>
+          <p class="text-[#666] text-[15px] leading-relaxed">Tu as une question ? La réponse est sûrement ici. Si ce n'est pas le cas, la communauté est là pour t'aider.</p>
+        </div>
+
+        <!-- Right: Questions -->
+        <div class="space-y-0">
+          <div class="faq-item py-5">
+            <div class="faq-question flex items-center justify-between">
+              <span class="text-[14px] text-[#CCC] font-medium">Dois-je savoir coder pour commencer ?</span>
+              <iconify-icon icon="lucide:plus" class="text-[#444] flex-shrink-0" style="font-size: 16px;"></iconify-icon>
+            </div>
+            <p class="text-[13px] text-[#555] mt-3 leading-relaxed hidden">Absolument pas. TakaCode est conçu pour les débutants complets. Nos parcours commencent depuis zéro et l'assistant IA t'accompagne à chaque étape.</p>
+          </div>
+
+          <div class="faq-item py-5">
+            <div class="faq-question flex items-center justify-between">
+              <span class="text-[14px] text-[#CCC] font-medium">Puis-je commencer sans expérience ?</span>
+              <iconify-icon icon="lucide:plus" class="text-[#444] flex-shrink-0" style="font-size: 16px;"></iconify-icon>
+            </div>
+          </div>
+
+          <div class="faq-item py-5">
+            <div class="faq-question flex items-center justify-between">
+              <span class="text-[14px] text-[#CCC] font-medium">Comment fonctionnent les parcours ?</span>
+              <iconify-icon icon="lucide:plus" class="text-[#444] flex-shrink-0" style="font-size: 16px;"></iconify-icon>
+            </div>
+          </div>
+
+          <div class="faq-item py-5">
+            <div class="faq-question flex items-center justify-between">
+              <span class="text-[14px] text-[#CCC] font-medium">Comment se déroulent les sessions live ?</span>
+              <iconify-icon icon="lucide:plus" class="text-[#444] flex-shrink-0" style="font-size: 16px;"></iconify-icon>
+            </div>
+          </div>
+
+          <div class="faq-item py-5">
+            <div class="faq-question flex items-center justify-between">
+              <span class="text-[14px] text-[#CCC] font-medium">Comment publier mes projets ?</span>
+              <iconify-icon icon="lucide:plus" class="text-[#444] flex-shrink-0" style="font-size: 16px;"></iconify-icon>
+            </div>
+          </div>
+
+          <div class="faq-item py-5" style="border-bottom: none;">
+            <div class="faq-question flex items-center justify-between">
+              <span class="text-[14px] text-[#CCC] font-medium">Puis-je apprendre plusieurs domaines ?</span>
+              <iconify-icon icon="lucide:plus" class="text-[#444] flex-shrink-0" style="font-size: 16px;"></iconify-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ═══════════════════════════════════════ CTA FINAL ═══════════════════════════════════════ -->
+  <section class="py-32 relative overflow-hidden">
+    <!-- Background halos -->
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-500/[0.04] rounded-full filter blur-[100px]"></div>
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-violet-500/[0.05] rounded-full filter blur-[80px]"></div>
+    </div>
+
+    <div class="relative z-10 max-w-[800px] mx-auto px-8 text-center">
+      <div class="section-label mb-6">COMMENCE MAINTENANT</div>
+      <h2 class="font-valorax mb-6" style="font-size: clamp(42px, 5vw, 72px); letter-spacing: -0.02em; line-height: 0.95;">
+        <span class="gradient-text">TON PROJET</span><br>
+        <span style="background: linear-gradient(135deg, #4F8EF7 0%, #9B6DFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">COMMENCE ICI</span>
+      </h2>
+      <p class="text-[#666] text-[15px] leading-relaxed mb-4 max-w-[500px] mx-auto">Tu n'as pas besoin d'être expert.</p>
+      <p class="text-[#888] text-[15px] leading-relaxed mb-3">Tu as besoin d'un parcours clair et de pratique.</p>
+      <p class="text-[#666] text-[14px] mb-12">TakaCode t'accompagne pour transformer tes idées en projets réels.</p>
+
+      <div class="flex items-center justify-center gap-4">
+        <a href="#" id="final-cta-primary" class="btn-primary glow-btn flex items-center gap-2" style="font-size: 15px; padding: 16px 36px;">
+          <iconify-icon icon="lucide:zap" style="font-size: 18px;"></iconify-icon>
+          Commencer un projet
+        </a>
+        <a href="#parcours" id="final-cta-secondary" class="btn-secondary flex items-center gap-2" style="font-size: 15px; padding: 16px 36px;">
+          Explorer les parcours
+          <iconify-icon icon="lucide:arrow-right" style="font-size: 16px;"></iconify-icon>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ═══════════════════════════════════════ FOOTER ═══════════════════════════════════════ -->
+  <footer class="py-16">
+    <div class="max-w-[1320px] mx-auto px-8">
+      <div class="flex items-center justify-between mb-12">
+        <img src="https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/uploads/161cd373-01d3-4786-8399-e0dbe1644cae/1781767252990-e202dde8/logo-light-4.png" alt="TakaCode" class="h-7 w-auto opacity-80">
+        <p class="text-[12px] text-[#444]">L'atelier numérique où l'on apprend en construisant.</p>
+      </div>
+
+      <div class="grid grid-cols-5 gap-10 mb-14">
+        <div>
+          <div class="text-[11px] font-semibold text-[#444] uppercase tracking-widest mb-4">Plateforme</div>
+          <div class="space-y-2.5">
+            <div><a href="#" id="footer-parcours-link" class="text-[12px] text-[#555] hover:text-white transition-colors">Parcours</a></div>
+            <div><a href="#" id="footer-competences-link" class="text-[12px] text-[#555] hover:text-white transition-colors">Compétences</a></div>
+            <div><a href="#" id="footer-projets-link" class="text-[12px] text-[#555] hover:text-white transition-colors">Projets</a></div>
+            <div><a href="#" id="footer-ressources-link" class="text-[12px] text-[#555] hover:text-white transition-colors">Ressources</a></div>
+          </div>
+        </div>
+        <div>
+          <div class="text-[11px] font-semibold text-[#444] uppercase tracking-widest mb-4">Communauté</div>
+          <div class="space-y-2.5">
+            <div><a href="#" id="footer-communaute-link" class="text-[12px] text-[#555] hover:text-white transition-colors">Communauté</a></div>
+            <div><a href="#" id="footer-sessions-link" class="text-[12px] text-[#555] hover:text-white transition-colors">Sessions live</a></div>
+            <div><a href="#" id="footer-challenges-link" class="text-[12px] text-[#555] hover:text-white transition-colors">Challenges</a></div>
+            <div><a href="#" id="footer-galerie-link" class="text-[12px] text-[#555] hover:text-white transition-colors">Galerie projets</a></div>
+          </div>
+        </div>
+        <div>
+          <div class="text-[11px] font-semibold text-[#444] uppercase tracking-widest mb-4">Compte</div>
+          <div class="space-y-2.5">
+            <div><a href="#" id="footer-connexion-link" class="text-[12px] text-[#555] hover:text-white transition-colors">Connexion</a></div>
+            <div><a href="#" id="footer-inscription-link" class="text-[12px] text-[#555] hover:text-white transition-colors">S'inscrire</a></div>
+            <div><a href="#" id="footer-tarifs-link" class="text-[12px] text-[#555] hover:text-white transition-colors">Tarifs</a></div>
+            <div><a href="#" id="footer-profil-link" class="text-[12px] text-[#555] hover:text-white transition-colors">Mon profil</a></div>
+          </div>
+        </div>
+        <div>
+          <div class="text-[11px] font-semibold text-[#444] uppercase tracking-widest mb-4">Entreprise</div>
+          <div class="space-y-2.5">
+            <div><a href="#" id="footer-about-link" class="text-[12px] text-[#555] hover:text-white transition-colors">À propos</a></div>
+            <div><a href="#" id="footer-blog-link" class="text-[12px] text-[#555] hover:text-white transition-colors">Blog</a></div>
+            <div><a href="#" id="footer-contact-link" class="text-[12px] text-[#555] hover:text-white transition-colors">Contact</a></div>
+          </div>
+        </div>
+        <div>
+          <div class="text-[11px] font-semibold text-[#444] uppercase tracking-widest mb-4">Légal</div>
+          <div class="space-y-2.5">
+            <div><a href="#" id="footer-privacy-link" class="text-[12px] text-[#555] hover:text-white transition-colors">Confidentialité</a></div>
+            <div><a href="#" id="footer-terms-link" class="text-[12px] text-[#555] hover:text-white transition-colors">Conditions</a></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-8 border-t border-white/[0.05] flex items-center justify-between">
+        <div class="text-[11px] text-[#333]">© 2025 TakaCode. Tous droits réservés.</div>
+        <div class="flex items-center gap-5">
+          <a href="#" id="footer-francais-link" class="text-[11px] text-[#444] hover:text-white transition-colors">Français</a>
+          <a href="#" id="footer-parcours-footer-link" class="text-[11px] text-[#444] hover:text-white transition-colors">Parcours</a>
+          <a href="#" id="footer-projets-footer-link" class="text-[11px] text-[#444] hover:text-white transition-colors">Projets</a>
+          <a href="#" id="footer-ressources-footer-link" class="text-[11px] text-[#444] hover:text-white transition-colors">Ressources</a>
+          <a href="#" id="footer-communaute-footer-link" class="text-[11px] text-[#444] hover:text-white transition-colors">Communauté</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>

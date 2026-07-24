@@ -1,0 +1,270 @@
+"use client";
+
+import { useMemo, useState } from "react";
+import { createClient } from "../utils/supabase/client";
+import { useI18n } from "./I18nProvider";
+import { useToast } from "./Toast";
+
+interface User {
+  id: string;
+  display_name?: string;
+  email?: string;
+  role?: string;
+  points?: number;
+  grade?: string;
+  referral_code?: string;
+  created_at?: string;
+}
+
+interface AdminUsersManagerProps {
+  initialUsers?: User[];
+  currentUserId?: string;
+}
+
+const ROLE_OPTIONS = ["user", "mentor", "admin"];
+
+function getRoleInfo(t: (key: string) => string): Record<string, { label: string; desc: string }> {
+  return {
+    user: { label: t("adminUsers.roleUser"), desc: t("adminUsers.roleUserDesc") },
+    mentor: { label: t("adminUsers.roleMentor"), desc: t("adminUsers.roleMentorDesc") },
+    admin: { label: t("adminUsers.roleAdmin"), desc: t("adminUsers.roleAdminDesc") }
+  };
+}
+
+const ROLE_ERROR_KEYS: Record<string, string> = {
+  not_authenticated: "errNotAuthenticated",
+  forbidden: "errForbidden",
+  invalid_role: "errInvalidRole",
+  cannot_change_self: "errCannotChangeSelf",
+  user_not_found: "errUserNotFound",
+  last_admin: "errLastAdmin",
+  rpc_missing: "errRpcMissing"
+};
+
+function shortId(value: string | undefined): string {
+  if (typeof value !== "string" || value.length < 10) {
+    return value || "-";
+  }
+  return `${value.slice(0, 6)}...${value.slice(-4)}`;
+}
+
+function resolveUserDisplayName(user: User): string {
+  const directName = typeof user?.display_name === "string" ? user.display_name.trim() : "";
+  if (directName) return directName;
+  const email = typeof user?.email === "string" ? user.email.trim() : "";
+  if (email && email.includes("@")) return email.split("@")[0];
+  return shortId(user?.id);
+}
+
+function formatDate(value: string | undefined): string {
+  if (!value) return "-";
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) return "-";
+  return parsed.toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit", year: "numeric" });
+}
+
+export default function AdminUsersManager({ initialUsers = [], currentUserId = "" }: AdminUsersManagerProps) {
+  const { t } = useI18n();
+  const supabase = useMemo(() => createClient(), []);
+  const { toast } = useToast();
+  const roleInfo = useMemo(() => getRoleInfo(t), [t]);
+  const [users, setUsers] = useState<User[]>(Array.isArray(initialUsers) ? initialUsers : []);
+  const [pointsDraft, setPointsDraft] = useState<Record<string, string>>(() =>
+    Object.fromEntries((initialUsers || []).map((u: User) => [u.id, String(Number(u.points ?? 0))]))
+  );
+  const [roleDraft, setRoleDraft] = useState<Record<string, string>>(() =>
+    Object.fromEntries((initialUsers || []).map((u: User) => [u.id, typeof u.role === "string" ? u.role : "user"]))
+  );
+  const [savingPointsId, setSavingPointsId] = useState<string>("");
+  const [applyingRoleId, setApplyingRoleId] = useState<string>("");
+  const [confirm, setConfirm] = useState<{ user: User; oldRole: string; newRole: string } | null>(null);
+
+  async function handleSavePoints(userId: string) {
+    const points = Math.max(0, Number.parseInt(String(pointsDraft[userId]), 10) || 0);
+    setSavingPointsId(userId);
+
+    const { data, error } = await supabase
+      .from("user_profiles")
+      .update({ points })
+      .eq("id", userId)
+      .select("id, role, points, grade, referral_code, referred_by, created_at, updated_at")
+      .single();
+
+    if (error) {
+      toast(error.message, "error");
+      setSavingPointsId("");
+      return;
+    }
+
+    setUsers((current) => current.map((u) => (u.id === userId ? { ...u, ...(data as object) } : u)));
+    setPointsDraft((current) => ({ ...current, [userId]: String((data as { points: number }).points) }));
+    toast(t("adminUsers.pointsUpdated"), "success");
+    setSavingPointsId("");
+  }
+
+  function requestRoleChange(user: User) {
+    const newRole = roleDraft[user.id];
+    if (!ROLE_OPTIONS.includes(newRole) || newRole === user.role) {
+      return;
+    }
+    setConfirm({ user, oldRole: user.role || "user", newRole });
+  }
+
+  async function confirmRoleChange() {
+    if (!confirm) return;
+    const { user, newRole } = confirm;
+    setApplyingRoleId(user.id);
+
+    const { data, error } = await supabase.rpc("admin_set_user_role", { p_target: user.id, p_role: newRole });
+
+    if (error || (data && typeof data === "object" && "error" in data && data.error)) {
+      const code = (data && typeof data === "object" && "error" in data ? (data as { error: string }).error : "") || (error?.message?.includes("function") ? "rpc_missing" : "");
+      const errorKey = ROLE_ERROR_KEYS[code];
+      toast(errorKey ? t("adminUsers." + errorKey) : (error?.message || t("adminUsers.roleChangeFailed")), "error");
+      setApplyingRoleId("");
+      setConfirm(null);
+      setRoleDraft((current) => ({ ...current, [user.id]: user.role || "user" }));
+      return;
+    }
+
+    setUsers((current) => current.map((u) => (u.id === user.id ? { ...u, role: newRole } : u)));
+    toast(t("adminUsers.roleChanged").replace("{user}", resolveUserDisplayName(user)).replace("{role}", roleInfo[newRole].label), "success");
+    setApplyingRoleId("");
+    setConfirm(null);
+  }
+
+  return (
+    <section className="rounded-2xl border border-white/[0.08] bg-[#111] p-5">
+      <div className="flex items-center justify-between gap-3 mb-4 flex-wrap">
+        <div>
+          <h2 className="font-valorax text-xl">{t("adminUsers.sectionTitle")}</h2>
+          <p className="text-[12px] text-[#777] font-body-readable mt-1">
+            {t("adminUsers.sectionDesc")}
+          </p>
+        </div>
+        <div className="rounded-lg border border-white/[0.08] bg-white/[0.02] px-3 py-1.5 text-[11px] text-[#bbb]">{t("adminUsers.userCount").replace("{n}", String(users.length))}</div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5 mb-5">
+        {ROLE_OPTIONS.map((role) => (
+          <div key={role} className="rounded-xl border border-white/[0.08] bg-white/[0.02] px-3.5 py-2.5">
+            <div className="text-[11px] font-semibold text-white mb-0.5">{roleInfo[role].label}</div>
+            <div className="text-[10px] text-[#888] font-body-readable leading-snug">{roleInfo[role].desc}</div>
+          </div>
+        ))}
+      </div>
+
+      <div className="overflow-x-auto">
+        <table className="w-full min-w-[900px] border-collapse">
+          <thead>
+            <tr className="text-left text-[11px] uppercase tracking-widest text-[#666] border-b border-white/[0.06]">
+              <th className="py-3 pr-4">{t("adminUsers.user")}</th>
+              <th className="py-3 pr-4">{t("adminUsers.role")}</th>
+              <th className="py-3 pr-4">{t("adminUsers.points")}</th>
+              <th className="py-3 pr-4">{t("adminUsers.grade")}</th>
+              <th className="py-3 pr-4">{t("adminUsers.registration")}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((user) => {
+              const isSelf = currentUserId && user.id === currentUserId;
+              const selectedRole = roleDraft[user.id] || user.role || "user";
+              const roleChanged = selectedRole !== user.role;
+
+              return (
+                <tr key={user.id} className="border-b border-white/[0.04] text-[13px] text-[#d5d5d5]">
+                  <td className="py-3 pr-4 font-body-readable">
+                    <div className="font-semibold text-white flex items-center gap-2">
+                      {resolveUserDisplayName(user)}
+                      {isSelf ? <span className="text-[9px] px-1.5 py-0.5 rounded-full border border-blue-400/30 bg-blue-500/10 text-blue-200">{t("adminUsers.yourself")}</span> : null}
+                    </div>
+                    <div className="text-[11px] text-[#8b8b8b]">{user.email || t("adminUsers.emailNotAvailable")}</div>
+                    <div className="text-[10px] text-[#575757] font-mono mt-0.5">{user.referral_code || shortId(user.id)}</div>
+                  </td>
+                  <td className="py-3 pr-4">
+                    {isSelf ? (
+                      <span className="text-[11px] text-[#888]">{roleInfo[user.role || ""]?.label || user.role}</span>
+                    ) : (
+                      <div className="flex items-center gap-1.5">
+                        <select
+                          className="auth-input h-[34px] py-1 px-2 text-[12px]"
+                          value={selectedRole}
+                          onChange={(event: React.ChangeEvent<HTMLSelectElement>) => setRoleDraft((c) => ({ ...c, [user.id]: event.target.value }))}
+                        >
+                          {ROLE_OPTIONS.map((r) => (
+                            <option key={r} value={r}>{roleInfo[r].label}</option>
+                          ))}
+                        </select>
+                        <button
+                          type="button"
+                          disabled={!roleChanged || applyingRoleId === user.id}
+                          onClick={() => requestRoleChange(user)}
+                          className={`text-[11px] h-[34px] px-2.5 rounded-lg border ${
+                            roleChanged ? "border-blue-500/35 bg-blue-500/15 text-blue-100 hover:bg-blue-500/25" : "border-white/[0.08] text-[#555] cursor-not-allowed"
+                          }`}
+                        >
+                          {t("adminUsers.apply")}
+                        </button>
+                      </div>
+                    )}
+                  </td>
+                  <td className="py-3 pr-4">
+                    <div className="flex items-center gap-1.5">
+                      <input
+                        type="number"
+                        min="0"
+                        className="auth-input h-[34px] py-1 px-2 text-[12px] w-[100px]"
+                        value={pointsDraft[user.id] ?? "0"}
+                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPointsDraft((c) => ({ ...c, [user.id]: event.target.value }))}
+                      />
+                      <button
+                        type="button"
+                        className="btn-secondary h-[34px] px-2.5 text-[11px]"
+                        onClick={() => handleSavePoints(user.id)}
+                        disabled={savingPointsId === user.id}
+                      >
+                        {savingPointsId === user.id ? "..." : "OK"}
+                      </button>
+                    </div>
+                  </td>
+                  <td className="py-3 pr-4">
+                    <span className="rounded-lg border border-blue-500/25 bg-blue-500/10 px-2 py-1 text-[11px] text-blue-200">{user.grade || "Starter"}</span>
+                  </td>
+                  <td className="py-3 pr-4 text-[#999]">{formatDate(user.created_at)}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+
+      {confirm ? (
+        <div className="fixed inset-0 z-[55] flex items-center justify-center p-5" style={{ background: "rgba(0,0,0,0.62)", backdropFilter: "blur(4px)" } as React.CSSProperties} onClick={() => setConfirm(null)}>
+          <div className="celebrate-pop w-full max-w-[400px] rounded-2xl border border-white/[0.1] bg-[#111] p-6" onClick={(e: React.MouseEvent) => e.stopPropagation()}>
+            <div className="flex items-center gap-2.5 mb-3">
+              <iconify-icon icon="lucide:shield-alert" style={{ fontSize: "20px", color: confirm.newRole === "admin" ? "#F59E0B" : "#4F8EF7" }} />
+              <h3 className="font-venite text-[14px] tracking-wide text-white">{t("adminUsers.confirmTitle")}</h3>
+            </div>
+            <p className="font-body-readable text-[13px] text-[#a5a5a5] leading-relaxed mb-2">
+              {resolveUserDisplayName(confirm.user)} : <span className="text-white font-semibold">{roleInfo[confirm.oldRole]?.label || confirm.oldRole}</span> → <span className="text-white font-semibold">{roleInfo[confirm.newRole]?.label || confirm.newRole}</span>
+            </p>
+            {confirm.newRole === "admin" ? (
+              <div className="rounded-xl border border-amber-500/25 bg-amber-500/10 px-3.5 py-2.5 text-[12px] text-amber-100 font-body-readable mb-4">
+                {t("adminUsers.adminWarning")}
+              </div>
+            ) : (
+              <p className="font-body-readable text-[12px] text-[#888] mb-4">{roleInfo[confirm.newRole]?.desc}</p>
+            )}
+            <div className="flex items-center justify-end gap-2.5">
+              <button type="button" onClick={() => setConfirm(null)} className="text-[12px] text-[#888] hover:text-white px-3 py-2">{t("adminUsers.cancel")}</button>
+              <button type="button" onClick={confirmRoleChange} disabled={applyingRoleId === confirm.user.id} className="btn-primary inline-flex items-center gap-2 text-[12px]" style={{ padding: "9px 16px" }}>
+                {applyingRoleId === confirm.user.id ? t("adminUsers.applying") : t("adminUsers.confirm")}
+                <iconify-icon icon="lucide:check" style={{ fontSize: "13px" }} />
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
+    </section>
+  );
+}
