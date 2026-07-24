@@ -28,6 +28,17 @@ Les **sessions live** sont animées par des **mentors** — des membres expérim
 - Cockpit projet : pipeline Idee → Construction → En ligne → Cash
 - Vitrine publique des projets publies
 
+### Parcours EN
+- **AI Foundations** — LLMs, prompt engineering, agents, MCP, RAG
+- **Digital Products** — build and sell digital products with AI
+
+Ressources externes intégrées dans les leçons (FR + EN) :
+- Anthropic Prompt Engineering Interactive Tutorial (cours officiel gratuit)
+- Claude Code 101 & Claude Code in Action (cours officiels)
+- Agent Architecture (blog LangChain)
+- Skills, Routines, MCP, CLAUDE.md (docs officielles)
+- Claude Code Ultimate Guide & Awesome Claude Code (communauté)
+
 ### Communaute
 - Profils publics, classement, parrainage
 - Peer review / IA review des micro-projets
