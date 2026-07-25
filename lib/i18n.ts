@@ -113,10 +113,10 @@ const FR: Translations = {
     objectivePlaceholder: "Ce que tu veux accomplir",
     fieldDescription: "Description",
     descriptionPlaceholder: "Décris ton projet, ses fonctionnalités, son public...",
-    previewLabel: "Aperçu",
+    previewLabel: "Apercu",
     fieldStatus: "Statut",
     fieldDeadline: "Deadline",
-    sectionAccelerator: "Parcours accélérateur",
+    sectionAccelerator: "Parcours accelerateur",
     acceleratorDesc: "Le parcours qui guide la construction de ce projet, sprint par sprint. En le choisissant, tu y es inscrit automatiquement : ses leçons deviennent tes sprints et leurs micro-projets tes livrables, visibles sur cette page.",
     noTrack: "Aucun — je construis sans parcours",
     fieldRevenueModel: "Modèle de revenu visé",
@@ -178,7 +178,7 @@ const FR: Translations = {
     projectSubmittedTitle: "Projet soumis !",
     validateQuizToFinish: "Valide le quiz pour terminer la leçon.",
     goodWorkSaved: "Beau travail, c'est enregistré.",
-    lessonValidatedLabel: "Leçon validée",
+    lessonValidatedLabel: "Lecon validee",
     xpEarned: "+{xp} XP gagnés",
     trackCompleteBack: "Parcours terminé, retour au programme",
     changesRequestedStatus: "Des améliorations ont été demandées sur ce micro-projet. Tu peux continuer en attendant de le retravailler.",
@@ -245,11 +245,11 @@ const FR: Translations = {
       roadmapLabel: "ROADMAP PROJET",
       roadmapStatus: "Progression active",
       roadmapIdea: "IDEE",
-      roadmapDone: "Complète",
+      roadmapDone: "Complete",
       roadmapTrack: "Parcours",
       roadmapInProgress: "En cours",
-      roadmapMonetization: "Monétisation",
-      roadmapUpcoming: "À venir",
+      roadmapMonetization: "Monetisation",
+      roadmapUpcoming: "A venir",
       liveStatus: "En cours",
       floatingPublished: "PROJET PUBLIE",
       floatingWebApp: "Application web",
@@ -294,14 +294,14 @@ const FR: Translations = {
   },
   values: {
     sectionLabel: "Plateforme",
-    title: "Un cadre pour créer et monétiser",
+    title: "Un cadre pour creer et monetiser",
     cards: {
       project: {
         title: "Projet central",
         desc: "Tout commence par ton projet. Les parcours, ressources et outils sont là pour t'aider à le réaliser, pas l'inverse."
       },
       ai: {
-        title: "IA accélératrice",
+        title: "IA acceleratrice",
         desc: "Utilise l'IA pour coder plus vite, mieux concevoir et automatiser les tâches répétitives de ton projet."
       },
       learning: {
@@ -309,15 +309,15 @@ const FR: Translations = {
         desc: "Progresse en produisant des livrables concrets, pas seulement en accumulant de la théorie."
       },
       monetization: {
-        title: "Monétisation",
+        title: "Monetisation",
         desc: "Chaque projet est conçu pour pouvoir être monétisé : abonnements, produits, pubs, affiliation."
       },
       community: {
-        title: "Communauté active",
+        title: "Communaute active",
         desc: "Ne construis plus seul. Échange, collabore et progresse avec d'autres créateurs."
       },
       deploy: {
-        title: "Du déploiement au revenu",
+        title: "Du deploiement au revenu",
         desc: "De la première ligne de code à la première vente, on t'accompagne à chaque étape."
       }
     }
@@ -355,17 +355,17 @@ const FR: Translations = {
     cta: "Commencer mon projet"
   },
   community: {
-    sectionLabel: "Communauté",      title1: "Une communauté",
+    sectionLabel: "Communaute",      title1: "Une communaute",
       title2: "qui construit",
       subtitle: "Avance avec d'autres créateurs et partage tes progrès. Seul on va vite, ensemble on va loin.",
     cta: "Rejoindre la communauté",
     features: {
       challenges: {
-        title: "Défis",
+        title: "Defis",
         desc: "Défis hebdomadaires et mensuels pour progresser."
       },
       studyGroups: {
-        title: "Groupes d'étude",
+        title: "Groupes d'etude",
         desc: "Étudie et construis avec d'autres membres."
       },
       sharing: {
@@ -1062,7 +1062,7 @@ const FR: Translations = {
     passwordMedium: "Mot de passe moyen",
     passwordStrong: "Mot de passe solide",
     resetBadge: "C'est bon !",
-    resetTitle: "Ton mot de passe a été mis à jour",
+    resetTitle: "Ton mot de passe a ete mis a jour",
     resetDescription: "Tu peux maintenant te reconnecter et reprendre là où tu t'étais arrêté.",
     resetContinue: "Continuer mon parcours",
     referralDetected: "Code parrainage détecté:",
@@ -1088,7 +1088,7 @@ const FR: Translations = {
     signUpHighlight3Desc: "Profite des meilleurs outils d'IA pour comprendre plus vite et transformer tes idées en projets concrets.",
     signInHeroBadge: "Bon retour",
     signInHeroTitle1: "Retrouve tes projets",
-    signInHeroTitle2: "et continue à avancer",
+    signInHeroTitle2: "et continue a avancer",
     signInHeroDesc: "Reconnecte-toi pour reprendre ton parcours, participer aux sessions live et poursuivre tes réalisations.",
     signInHighlight1Title: "Reprends la ou tu t'es arrete",
     signInHighlight1Desc: "Tes parcours, ressources et projets t'attendent.",
@@ -1173,13 +1173,13 @@ const FR: Translations = {
     projectSection: {
       label: "Ton projet",
       title: "AS-TU DEJA UNE IDEE PRECISE ?",
-      ideaLabel: "Décris ton projet en quelques mots",
+      ideaLabel: "Decris ton projet en quelques mots",
       ideaPlaceholder: "Ex: créer un site pour mon restaurant, automatiser WhatsApp, lancer une chaîne YouTube",
       ideaHint: "Ajoute un peu plus de contexte pour un plan plus précis.",
-      nameLabel: "Donne un nom à ton projet",
+      nameLabel: "Donne un nom a ton projet",
       nameHint: "(modifiable plus tard)",
       namePlaceholder: "Ex : La Table de Marco, AutoWhats, Ma chaîne Histoires",
-      monetizationLabel: "Comment veux-tu le monétiser un jour ?",
+      monetizationLabel: "Comment veux-tu le monetiser un jour ?",
       monetizationHint: "Sur TakaCode, un projet vise le premier euro. Choisis une piste — tu pourras changer d'avis.",
       noIdea: "Je ne sais pas encore"
     },
@@ -1231,22 +1231,22 @@ const FR: Translations = {
     noTrackLabel: "Voir les parcours",
     noProjectTitle: "Cree ton projet principal",
     noProjectDesc: "Définit le projet que tu veux construire. Il servira de fil rouge a tes parcours.",
-    noProjectLabel: "Créer mon projet",
+    noProjectLabel: "Creer mon projet",
     ideaTitle: "Finalise les details de ton projet",
     ideaDesc: "Ajoute une description, un statut et une deadline pour lancer ton projet.",
-    ideaLabel: "Éditer mon projet",
+    ideaLabel: "Editer mon projet",
     noRepoTitle: "Connecte ton depot GitHub",
     noRepoDesc: "Héberge ton code sur GitHub pour le déployer facilement et suivre les versions.",
-    noRepoLabel: "Ajouter le dépôt",
+    noRepoLabel: "Ajouter le depot",
     noLiveTitle: "Deploie ton projet en ligne",
     noLiveDesc: "Publie ton projet avec Vercel ou Netlify pour le rendre accessible au monde entier.",
-    noLiveLabel: "Déployer mon projet",
+    noLiveLabel: "Deployer mon projet",
     doneTitle: "Partage ton projet",
     doneDesc: "Ton projet est en ligne ! Montre-le a la communauté et ajoute-le a ton portfolio.",
     doneLabel: "Partager mon projet"
   },
   communityContent: {
-    title: "Communauté",
+    title: "Communaute",
     heading: "Construire ensemble",
     subtitle: "Les membres, leurs projets et les prochaines sessions live.",
     loading: "Chargement...",
@@ -1456,14 +1456,14 @@ const FR: Translations = {
   },
   projectsSection: {
     sectionLabel: "Galerie",
-    title1: "Des projets publiés.",
+    title1: "Des projets publies.",
     title2: "Pas seulement des exercices.",
     viewAll: "Voir tous les projets",
-    emptyTitle: "La galerie démarre avec toi",
+    emptyTitle: "La galerie demarre avec toi",
     emptyDesc: "Aucun projet publié pour l'instant. Construis ton projet, publie-le et inspire la communauté.",
     startProject: "Commencer un projet",
     joinAndPublish: "Rejoindre et publier mon projet",
-    emptyLabel: "Les projets publiés par les membres apparaîtront ici.",
+    emptyLabel: "Les projets publies par les membres apparaitront ici.",
     projectLabel: "Projet",
     firstEuro: "1er euro",
     revenueModel: "Modèle :",
@@ -1479,13 +1479,13 @@ const FR: Translations = {
     ctaSecondary: "Explorer les parcours"
   },
   globe: {
-    sectionLabel: "Communauté mondiale",
+    sectionLabel: "Communaute mondiale",
     title: "Des builders partout dans le monde",
     subtitle: "pays représentés — explore le globe pour voir où sont les membres."
   },
   projetsPage: {
     sectionLabel: "Projets",
-    title: "Les projets de la communauté",
+    title: "Les projets de la communaute",
     description: "Découvre les projets digitaux construits, publiés et parfois monétisés par les membres TakaCode. Inspire-toi, explore les stacks et lance le tien.",
     stats: {
       library: { label: "Bibliothèque", desc: "Des projets publics par les membres." },
@@ -1494,7 +1494,7 @@ const FR: Translations = {
     },
     projectCard: { label: "Projet", objective: "Objectif", track: "Parcours", deadline: "Deadline", publishedOn: "Publié le" },
     empty: {
-      title: "Sois le premier à publier",
+      title: "Sois le premier a publier",
       desc: "Aucun projet publié pour l'instant. La communauté attend tes réalisations.",
       cta: "Rejoindre et créer mon projet"
     }
@@ -1544,7 +1544,7 @@ const FR: Translations = {
   trackDetail: {
     back: "Retour",
     notFound: {
-      title: "Parcours non trouvé - TakaCode",
+      title: "Parcours non trouve - TakaCode",
       description: "Ce parcours n'existe pas ou n'est pas encore publié."
     },
     defaultDescription: "Découvre ce parcours TakaCode : compétences, plan de progression, objectif et ressources.",
@@ -1558,7 +1558,7 @@ const FR: Translations = {
       description: "Pour tirer le meilleur de ce parcours, on te conseille de suivre d'abord :",
       note: "Ce n'est qu'un conseil : tu peux commencer ce parcours quand tu veux."
     },
-    competenciesTitle: "Compétences fournies",
+    competenciesTitle: "Competences fournies",
     objectiveTitle: "Objectif du parcours",
     myProject: {
       title: "MON PROJET",
@@ -1597,7 +1597,7 @@ const FR: Translations = {
     },
     guest: {
       sectionLabel: "Parcours",
-      title: "Accède à ce parcours",
+      title: "Accede a ce parcours",
       description: "Connecte-toi ou crée un compte pour acceder au détail de ce parcours et commencer à apprendre.",
       signIn: "Se connecter",
       signUp: "Créer un compte"
@@ -1723,12 +1723,12 @@ const FR: Translations = {
     cancel: "Annuler",
     delete: "Supprimer",
     create: "Créer",
-    publishedLabel: "Publié",
+    publishedLabel: "Publie",
     draftLabel: "Brouillon",
     activeLabel: "Actif",
     inactiveLabel: "Inactif",
-    hiddenLabel: "Masqué",
-    publishedLabelF: "Publiée",
+    hiddenLabel: "Masque",
+    publishedLabelF: "Publiee",
     seePublic: "Voir en public",
     loading: "Chargement...",
     error: "Erreur",
@@ -1871,7 +1871,7 @@ const FR: Translations = {
     saving: "Enregistrement...",
     delete: "Supprimer",
     deleting: "Suppression...",
-    publishedLabel: "Publiée (visible par les membres)",
+    publishedLabel: "Publiee (visible par les membres)",
     confirmDelete: "Supprimer cette session ? Cette action est irréversible.",
     titlePlaceholder: "Ex: Atelier live - déployer sur Vercel",
     joinUrlPlaceholder: "https://meet...",
@@ -2027,7 +2027,7 @@ const FR: Translations = {
     fieldOrder: "Ordre",
     fieldColor: "Couleur",
     proposalNote: "Cette proposition sera validée par un admin avant d'être publiée.",
-    publishedLabel: "Publié",
+    publishedLabel: "Publie",
     activeLabel: "Actif",
     previewShow: "Aperçu public — montrer",
     previewHide: "Aperçu public — masquer",
@@ -2105,7 +2105,7 @@ const FR: Translations = {
     fieldXp: "XP",
     fieldDuration: "Durée (min)",
     fieldOrder: "Ordre",
-    publishedLabel: "Publiée",
+    publishedLabel: "Publiee",
     submitCreate: "Créer la leçon",
     submitSave: "Enregistrer la leçon",
     saving: "Enregistrement...",
@@ -2145,7 +2145,7 @@ const FR: Translations = {
     trackSlug: "Parcours associé (slug, optionnel)",
     trackSlugPlaceholder: "Ex: media-buyer, produits-digitaux",
     order: "Ordre",
-    publishedLabel: "Publié",
+    publishedLabel: "Publie",
     providerRequired: "Le fournisseur est obligatoire.",
     tableMissing: "Table absente. Lance supabase/sql/015_affiliate_links.sql.",
     saved: "Lien enregistré.",
