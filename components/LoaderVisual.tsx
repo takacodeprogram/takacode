@@ -34,7 +34,8 @@ export default function LoaderVisual() {
       </div>
 
       <div className="startup-loader-core" aria-hidden="true">
-        <img src="/logo-light-2.png" alt="" className="startup-loader-logo" />
+        <img src="/logo-light-2.png" alt="" className="startup-loader-logo startup-loader-logo-dark" />
+        <img src="/logo-dark-2.png" alt="" className="startup-loader-logo startup-loader-logo-light" />
       </div>
 
       <div className="startup-loader-text font-venite-italic">INITIALISATION</div>
