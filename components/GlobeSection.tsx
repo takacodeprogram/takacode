@@ -24,8 +24,10 @@ export default function GlobeSection({ markers }: GlobeSectionProps) {
             {markers.length} {t("globe.subtitle")}
           </p>
         </div>
-        <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-3)] p-4 md:p-6">
-          <Globe3D markers={markers} />
+        <div className="rounded-3xl border border-[var(--border-3)] bg-[var(--surface-3)] p-3 md:p-4 overflow-hidden shadow-[var(--shadow-card)]">
+          <div className="rounded-2xl overflow-hidden">
+            <Globe3D markers={markers} />
+          </div>
         </div>
       </div>
     </section>
