@@ -55,7 +55,7 @@
   --overlay-6: rgba(255,255,255,0.06);
   --overlay-7: rgba(255,255,255,0.07);
 
-  --nav-scrim: rgba(10,10,10, var(--nav-bg-alpha,0.14));
+  --nav-scrim: rgba(10,10,10, calc(0.62 + var(--nav-bg-alpha, 0.14) * 1.5));
   --scrim-strong: rgba(10,10,10,0.88);
   --shadow-lg: 0 8px 28px rgba(0,0,0,0.22);
   --shadow-btn: 0 0 24px rgba(255,255,255,0.15), 0 2px 12px rgba(0,0,0,0.5);
@@ -93,7 +93,7 @@
   --overlay-6: rgba(0,0,0,0.07);
   --overlay-7: rgba(0,0,0,0.08);
 
-  --nav-scrim: rgba(255,255,255, calc(var(--nav-bg-alpha,0.14) * 4));
+  --nav-scrim: rgba(255,255,255, calc(0.68 + var(--nav-bg-alpha, 0.14) * 1.4));
   --scrim-strong: rgba(255,255,255,0.94);
   --shadow-lg: 0 8px 28px rgba(15,23,42,0.10);
   --shadow-btn: 0 2px 12px rgba(15,23,42,0.10), 0 0 0 1px rgba(15,23,42,0.04);
