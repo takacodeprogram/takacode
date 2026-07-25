@@ -89,7 +89,7 @@ export default function PublicTour() {
     >
       <div
         ref={dialogRef}
-        className="w-full max-w-sm rounded-2xl border border-white/[0.10] bg-[#0F0F0F]/95 backdrop-blur-xl p-6 animate-fade-up-d1"
+        className="w-full max-w-sm rounded-2xl border border-[var(--border-4)] bg-[var(--surface-3)]/95 backdrop-blur-xl p-6 animate-fade-up-d1"
         style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.6)" } as React.CSSProperties}
       >
         <div className="flex items-center justify-between mb-2.5">
@@ -104,7 +104,7 @@ export default function PublicTour() {
           <button
             type="button"
             onClick={finish}
-            className="w-6 h-6 rounded-lg flex items-center justify-center text-[#555] hover:text-white hover:bg-white/[0.06] transition-all"
+            className="w-6 h-6 rounded-lg flex items-center justify-center text-[var(--muted-5)] hover:text-[var(--text-primary)] hover:bg-[var(--overlay-6)] transition-all"
             title={t("tour.overlay.skipTour")}
           >
             <iconify-icon icon="lucide:x" style={{ fontSize: "14px" }} />
@@ -112,7 +112,7 @@ export default function PublicTour() {
         </div>
 
         <div className="text-[15px] font-semibold leading-tight mb-1.5">{step.title}</div>
-        <p className="text-[12px] text-[#b0b0b0] leading-relaxed font-body-readable mb-4">{step.body}</p>
+        <p className="text-[12px] text-[var(--muted-2)] leading-relaxed font-body-readable mb-4">{step.body}</p>
 
         <div className="flex items-center justify-between">
           <div>
@@ -120,7 +120,7 @@ export default function PublicTour() {
               <button
                 type="button"
                 onClick={prev}
-                className="text-[11px] text-[#666] hover:text-white px-2.5 py-1.5 rounded-lg hover:bg-white/[0.04] transition-all"
+                className="text-[11px] text-[var(--muted-4)] hover:text-[var(--text-primary)] px-2.5 py-1.5 rounded-lg hover:bg-[var(--overlay-4)] transition-all"
               >
                 ← {t("tour.overlay.previous")}
               </button>
@@ -130,7 +130,7 @@ export default function PublicTour() {
             <button
               type="button"
               onClick={finish}
-              className="text-[10px] text-[#555] hover:text-[#888] transition-colors"
+              className="text-[10px] text-[var(--muted-5)] hover:text-[var(--muted-3)] transition-colors"
             >
               {t("tour.overlay.skip")}
             </button>
@@ -139,8 +139,8 @@ export default function PublicTour() {
               onClick={isLast ? finish : next}
               className={`inline-flex items-center gap-1.5 text-[11px] font-semibold px-4 py-2 rounded-xl transition-all ${
                 isLast
-                  ? "bg-gradient-to-r from-[#4F8EF7] to-[#9B6DFF] text-white hover:shadow-lg hover:shadow-blue-500/20"
-                  : "bg-white/[0.08] text-white hover:bg-white/[0.12]"
+                  ? "bg-gradient-to-r from-[#4F8EF7] to-[#9B6DFF] text-[var(--text-primary)] hover:shadow-lg hover:shadow-blue-500/20"
+                  : "bg-[var(--overlay-7)] text-[var(--text-primary)] hover:bg-white/[0.12]"
               }`}
             >
               {isLast ? t("tour.overlay.start") : `${t("tour.overlay.next")} →`}

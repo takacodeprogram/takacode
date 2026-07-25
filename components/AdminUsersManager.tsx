@@ -134,22 +134,22 @@ export default function AdminUsersManager({ initialUsers = [], currentUserId = "
   }
 
   return (
-    <section className="rounded-2xl border border-white/[0.08] bg-[#111] p-5">
+    <section className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-5">
       <div className="flex items-center justify-between gap-3 mb-4 flex-wrap">
         <div>
           <h2 className="font-valorax text-xl">{t("adminUsers.sectionTitle")}</h2>
-          <p className="text-[12px] text-[#777] font-body-readable mt-1">
+          <p className="text-[12px] text-[var(--muted-3)] font-body-readable mt-1">
             {t("adminUsers.sectionDesc")}
           </p>
         </div>
-        <div className="rounded-lg border border-white/[0.08] bg-white/[0.02] px-3 py-1.5 text-[11px] text-[#bbb]">{t("adminUsers.userCount").replace("{n}", String(users.length))}</div>
+        <div className="rounded-lg border border-[var(--border-3)] bg-[var(--overlay-2)] px-3 py-1.5 text-[11px] text-[var(--muted-2)]">{t("adminUsers.userCount").replace("{n}", String(users.length))}</div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5 mb-5">
         {ROLE_OPTIONS.map((role) => (
-          <div key={role} className="rounded-xl border border-white/[0.08] bg-white/[0.02] px-3.5 py-2.5">
-            <div className="text-[11px] font-semibold text-white mb-0.5">{roleInfo[role].label}</div>
-            <div className="text-[10px] text-[#888] font-body-readable leading-snug">{roleInfo[role].desc}</div>
+          <div key={role} className="rounded-xl border border-[var(--border-3)] bg-[var(--overlay-2)] px-3.5 py-2.5">
+            <div className="text-[11px] font-semibold text-[var(--text-primary)] mb-0.5">{roleInfo[role].label}</div>
+            <div className="text-[10px] text-[var(--muted-3)] font-body-readable leading-snug">{roleInfo[role].desc}</div>
           </div>
         ))}
       </div>
@@ -157,7 +157,7 @@ export default function AdminUsersManager({ initialUsers = [], currentUserId = "
       <div className="overflow-x-auto">
         <table className="w-full min-w-[900px] border-collapse">
           <thead>
-            <tr className="text-left text-[11px] uppercase tracking-widest text-[#666] border-b border-white/[0.06]">
+            <tr className="text-left text-[11px] uppercase tracking-widest text-[var(--muted-4)] border-b border-[var(--border-2)]">
               <th className="py-3 pr-4">{t("adminUsers.user")}</th>
               <th className="py-3 pr-4">{t("adminUsers.role")}</th>
               <th className="py-3 pr-4">{t("adminUsers.points")}</th>
@@ -172,18 +172,18 @@ export default function AdminUsersManager({ initialUsers = [], currentUserId = "
               const roleChanged = selectedRole !== user.role;
 
               return (
-                <tr key={user.id} className="border-b border-white/[0.04] text-[13px] text-[#d5d5d5]">
+                <tr key={user.id} className="border-b border-[var(--border-1)] text-[13px] text-[var(--muted-1)]">
                   <td className="py-3 pr-4 font-body-readable">
-                    <div className="font-semibold text-white flex items-center gap-2">
+                    <div className="font-semibold text-[var(--text-primary)] flex items-center gap-2">
                       {resolveUserDisplayName(user)}
                       {isSelf ? <span className="text-[9px] px-1.5 py-0.5 rounded-full border border-blue-400/30 bg-blue-500/10 text-blue-200">{t("adminUsers.yourself")}</span> : null}
                     </div>
-                    <div className="text-[11px] text-[#8b8b8b]">{user.email || t("adminUsers.emailNotAvailable")}</div>
+                    <div className="text-[11px] text-[var(--muted-3)]">{user.email || t("adminUsers.emailNotAvailable")}</div>
                     <div className="text-[10px] text-[#575757] font-mono mt-0.5">{user.referral_code || shortId(user.id)}</div>
                   </td>
                   <td className="py-3 pr-4">
                     {isSelf ? (
-                      <span className="text-[11px] text-[#888]">{roleInfo[user.role || ""]?.label || user.role}</span>
+                      <span className="text-[11px] text-[var(--muted-3)]">{roleInfo[user.role || ""]?.label || user.role}</span>
                     ) : (
                       <div className="flex items-center gap-1.5">
                         <select
@@ -200,7 +200,7 @@ export default function AdminUsersManager({ initialUsers = [], currentUserId = "
                           disabled={!roleChanged || applyingRoleId === user.id}
                           onClick={() => requestRoleChange(user)}
                           className={`text-[11px] h-[34px] px-2.5 rounded-lg border ${
-                            roleChanged ? "border-blue-500/35 bg-blue-500/15 text-blue-100 hover:bg-blue-500/25" : "border-white/[0.08] text-[#555] cursor-not-allowed"
+                            roleChanged ? "border-blue-500/35 bg-blue-500/15 text-blue-100 hover:bg-blue-500/25" : "border-[var(--border-3)] text-[var(--muted-5)] cursor-not-allowed"
                           }`}
                         >
                           {t("adminUsers.apply")}
@@ -230,7 +230,7 @@ export default function AdminUsersManager({ initialUsers = [], currentUserId = "
                   <td className="py-3 pr-4">
                     <span className="rounded-lg border border-blue-500/25 bg-blue-500/10 px-2 py-1 text-[11px] text-blue-200">{user.grade || "Starter"}</span>
                   </td>
-                  <td className="py-3 pr-4 text-[#999]">{formatDate(user.created_at)}</td>
+                  <td className="py-3 pr-4 text-[var(--muted-3)]">{formatDate(user.created_at)}</td>
                 </tr>
               );
             })}
@@ -240,23 +240,23 @@ export default function AdminUsersManager({ initialUsers = [], currentUserId = "
 
       {confirm ? (
         <div className="fixed inset-0 z-[55] flex items-center justify-center p-5" style={{ background: "rgba(0,0,0,0.62)", backdropFilter: "blur(4px)" } as React.CSSProperties} onClick={() => setConfirm(null)}>
-          <div className="celebrate-pop w-full max-w-[400px] rounded-2xl border border-white/[0.1] bg-[#111] p-6" onClick={(e: React.MouseEvent) => e.stopPropagation()}>
+          <div className="celebrate-pop w-full max-w-[400px] rounded-2xl border border-[var(--border-4)] bg-[var(--surface-1)] p-6" onClick={(e: React.MouseEvent) => e.stopPropagation()}>
             <div className="flex items-center gap-2.5 mb-3">
               <iconify-icon icon="lucide:shield-alert" style={{ fontSize: "20px", color: confirm.newRole === "admin" ? "#F59E0B" : "#4F8EF7" }} />
-              <h3 className="font-venite text-[14px] tracking-wide text-white">{t("adminUsers.confirmTitle")}</h3>
+              <h3 className="font-venite text-[14px] tracking-wide text-[var(--text-primary)]">{t("adminUsers.confirmTitle")}</h3>
             </div>
-            <p className="font-body-readable text-[13px] text-[#a5a5a5] leading-relaxed mb-2">
-              {resolveUserDisplayName(confirm.user)} : <span className="text-white font-semibold">{roleInfo[confirm.oldRole]?.label || confirm.oldRole}</span> → <span className="text-white font-semibold">{roleInfo[confirm.newRole]?.label || confirm.newRole}</span>
+            <p className="font-body-readable text-[13px] text-[var(--muted-2)] leading-relaxed mb-2">
+              {resolveUserDisplayName(confirm.user)} : <span className="text-[var(--text-primary)] font-semibold">{roleInfo[confirm.oldRole]?.label || confirm.oldRole}</span> → <span className="text-[var(--text-primary)] font-semibold">{roleInfo[confirm.newRole]?.label || confirm.newRole}</span>
             </p>
             {confirm.newRole === "admin" ? (
               <div className="rounded-xl border border-amber-500/25 bg-amber-500/10 px-3.5 py-2.5 text-[12px] text-amber-100 font-body-readable mb-4">
                 {t("adminUsers.adminWarning")}
               </div>
             ) : (
-              <p className="font-body-readable text-[12px] text-[#888] mb-4">{roleInfo[confirm.newRole]?.desc}</p>
+              <p className="font-body-readable text-[12px] text-[var(--muted-3)] mb-4">{roleInfo[confirm.newRole]?.desc}</p>
             )}
             <div className="flex items-center justify-end gap-2.5">
-              <button type="button" onClick={() => setConfirm(null)} className="text-[12px] text-[#888] hover:text-white px-3 py-2">{t("adminUsers.cancel")}</button>
+              <button type="button" onClick={() => setConfirm(null)} className="text-[12px] text-[var(--muted-3)] hover:text-[var(--text-primary)] px-3 py-2">{t("adminUsers.cancel")}</button>
               <button type="button" onClick={confirmRoleChange} disabled={applyingRoleId === confirm.user.id} className="btn-primary inline-flex items-center gap-2 text-[12px]" style={{ padding: "9px 16px" }}>
                 {applyingRoleId === confirm.user.id ? t("adminUsers.applying") : t("adminUsers.confirm")}
                 <iconify-icon icon="lucide:check" style={{ fontSize: "13px" }} />

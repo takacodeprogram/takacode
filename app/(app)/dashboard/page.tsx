@@ -120,20 +120,20 @@ export default async function DashboardHomePage() {
           <ProjectCockpit project={mainProject} firstName={firstName} goalLabel={onboardingProfile.goalLabel} />
 
           {primaryEnrollment ? (
-            <section className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 animate-fade-up-d2">
+            <section className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-5 animate-fade-up-d2">
               <div className="flex items-center justify-between gap-3 flex-wrap mb-3">
-                <h3 className="font-venite text-[12px] tracking-widest text-[#888] inline-flex items-center gap-2">
+                <h3 className="font-venite text-[12px] tracking-widest text-[var(--muted-3)] inline-flex items-center gap-2">
                   <iconify-icon icon="lucide:zap" style={{ color: "#4F8EF7", fontSize: "14px" }} />
                   {t("dashboard.trainToAdvance")}
                 </h3>
                 <span className="text-[11px] text-[#89c7ff] font-semibold">{progress}%</span>
               </div>
-              <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4">
-                <div className="text-[13px] text-white font-semibold mb-1">{primaryEnrollment.track.title}</div>
-                <div className="h-1.5 rounded bg-white/[0.06] overflow-hidden mb-2">
+              <div className="rounded-xl border border-[var(--border-3)] bg-[var(--overlay-2)] p-4">
+                <div className="text-[13px] text-[var(--text-primary)] font-semibold mb-1">{primaryEnrollment.track.title}</div>
+                <div className="h-1.5 rounded bg-[var(--overlay-6)] overflow-hidden mb-2">
                   <div className="h-full rounded bg-gradient-to-r from-[#4F8EF7] to-[#9B6DFF]" style={{ width: `${progress}%` }} />
                 </div>
-                <p className="font-body-readable text-[11px] text-[#8d8d8d] leading-snug mb-3">
+                <p className="font-body-readable text-[11px] text-[var(--muted-3)] leading-snug mb-3">
                   {curriculum?.nextLesson
                     ? t("dashboard.nextCompetence", curriculum.nextLesson.title)
                     : t("dashboard.trackCompleted")}
@@ -145,8 +145,8 @@ export default async function DashboardHomePage() {
               </div>
             </section>
           ) : recommendedTrack ? (
-            <section className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 animate-fade-up-d2">
-              <h3 className="font-venite text-[12px] tracking-widest text-[#888] inline-flex items-center gap-2 mb-3">
+            <section className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-5 animate-fade-up-d2">
+              <h3 className="font-venite text-[12px] tracking-widest text-[var(--muted-3)] inline-flex items-center gap-2 mb-3">
                 <iconify-icon icon="lucide:zap" style={{ color: "#4F8EF7", fontSize: "14px" }} />
                 {t("dashboard.trainToAdvance")}
               </h3>
@@ -159,7 +159,7 @@ export default async function DashboardHomePage() {
                     <iconify-icon icon={recommendedTrack.icon} style={{ color: recommendedTrack.accentColor, fontSize: "20px" }} />
                   </div>
                   <div className="min-w-0">
-                    <div className="text-[13px] text-white font-semibold leading-tight">{recommendedTrack.title}</div>
+                    <div className="text-[13px] text-[var(--text-primary)] font-semibold leading-tight">{recommendedTrack.title}</div>
                     <div className="text-[11px] text-blue-100/80 font-body-readable">{formatTrackMeta(recommendedTrack)}</div>
                   </div>
                 </div>
@@ -190,20 +190,20 @@ export default async function DashboardHomePage() {
 
           <GradeProgress points={points} compact />
 
-          <article className="rounded-2xl border border-white/[0.08] bg-[#111] p-5">
-            <h3 className="font-venite text-[12px] tracking-widest text-[#888] mb-3">{t("dashboard.myStats")}</h3>
+          <article className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-5">
+            <h3 className="font-venite text-[12px] tracking-widest text-[var(--muted-3)] mb-3">{t("dashboard.myStats")}</h3>
             <div className="grid grid-cols-3 gap-2">
-              <div className="rounded-lg border border-white/[0.08] bg-white/[0.02] px-2.5 py-2">
-                <div className="text-[9px] text-[#666] uppercase tracking-widest">{t("dashboard.points")}</div>
-                <div className="text-[15px] text-white font-semibold">{points}</div>
+              <div className="rounded-lg border border-[var(--border-3)] bg-[var(--overlay-2)] px-2.5 py-2">
+                <div className="text-[9px] text-[var(--muted-4)] uppercase tracking-widest">{t("dashboard.points")}</div>
+                <div className="text-[15px] text-[var(--text-primary)] font-semibold">{points}</div>
               </div>
-              <div className="rounded-lg border border-white/[0.08] bg-white/[0.02] px-2.5 py-2">
-                <div className="text-[9px] text-[#666] uppercase tracking-widest">{t("dashboard.grade")}</div>
-                <div className="text-[15px] text-white font-semibold">{grade}</div>
+              <div className="rounded-lg border border-[var(--border-3)] bg-[var(--overlay-2)] px-2.5 py-2">
+                <div className="text-[9px] text-[var(--muted-4)] uppercase tracking-widest">{t("dashboard.grade")}</div>
+                <div className="text-[15px] text-[var(--text-primary)] font-semibold">{grade}</div>
               </div>
-              <div className="rounded-lg border border-white/[0.08] bg-white/[0.02] px-2.5 py-2">
-                <div className="text-[9px] text-[#666] uppercase tracking-widest">{t("dashboard.tracks")}</div>
-                <div className="text-[15px] text-white font-semibold">{enrolledTracks.length}</div>
+              <div className="rounded-lg border border-[var(--border-3)] bg-[var(--overlay-2)] px-2.5 py-2">
+                <div className="text-[9px] text-[var(--muted-4)] uppercase tracking-widest">{t("dashboard.tracks")}</div>
+                <div className="text-[15px] text-[var(--text-primary)] font-semibold">{enrolledTracks.length}</div>
               </div>
             </div>
           </article>
@@ -211,9 +211,9 @@ export default async function DashboardHomePage() {
       </div>
 
       {roadmap.length > 1 ? (
-        <section className="rounded-2xl border border-white/[0.08] bg-[#111] p-6 mt-6 animate-fade-up-d3">
+        <section className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-6 mt-6 animate-fade-up-d3">
           <div className="flex items-center justify-between gap-3 flex-wrap mb-1">
-            <h3 className="font-venite text-[12px] tracking-widest text-[#888] inline-flex items-center gap-2">
+            <h3 className="font-venite text-[12px] tracking-widest text-[var(--muted-3)] inline-flex items-center gap-2">
               <iconify-icon icon="lucide:route" style={{ color: "#4F8EF7", fontSize: "14px" }} />
               {t("dashboard.projectAccelerators")}
             </h3>
@@ -221,7 +221,7 @@ export default async function DashboardHomePage() {
               {t("dashboard.viewAllCatalog")}
             </Link>
           </div>
-          <p className="font-body-readable text-[12px] text-[#8d8d8d] leading-relaxed mb-4">
+          <p className="font-body-readable text-[12px] text-[var(--muted-3)] leading-relaxed mb-4">
             {t("dashboard.roadmapDescription")}
           </p>
 
@@ -230,7 +230,7 @@ export default async function DashboardHomePage() {
               <Link
                 key={entry.track.id}
                 href={`/tracks/${entry.track.slug}`}
-                className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-3.5 card-hover block"
+                className="rounded-xl border border-[var(--border-3)] bg-[var(--overlay-2)] p-3.5 card-hover block"
               >
                 <div className="flex items-center justify-between gap-2 mb-2">
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full border border-blue-400/25 bg-blue-500/10 text-blue-200">
@@ -250,9 +250,9 @@ export default async function DashboardHomePage() {
                     </span>
                   ) : null}
                 </div>
-                <div className="text-[12px] text-white font-semibold leading-tight mb-1">{entry.track.title}</div>
+                <div className="text-[12px] text-[var(--text-primary)] font-semibold leading-tight mb-1">{entry.track.title}</div>
                 {entry.guidance.tagline ? (
-                  <p className="font-body-readable text-[11px] text-[#8d8d8d] leading-snug">{entry.guidance.tagline}</p>
+                  <p className="font-body-readable text-[11px] text-[var(--muted-3)] leading-snug">{entry.guidance.tagline}</p>
                 ) : null}
               </Link>
             ))}

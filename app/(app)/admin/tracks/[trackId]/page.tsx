@@ -66,7 +66,7 @@ export default async function AdminTrackDetailPage({ params }: { params: Promise
 
       <div className="space-y-6">
         <section>
-          <h2 className="font-venite text-[13px] tracking-widest text-[#888] mb-3">{t("adminTrackDetail.trackInfo")}</h2>
+          <h2 className="font-venite text-[13px] tracking-widest text-[var(--muted-3)] mb-3">{t("adminTrackDetail.trackInfo")}</h2>
           <TrackForm mode="edit" track={track as never} />
         </section>
 

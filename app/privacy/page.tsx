@@ -22,7 +22,7 @@ export default async function PrivacyPage() {
   const locale = await getServerLocale();
   const { t } = getLocale(locale);
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white">
+    <div className="min-h-screen bg-[var(--bg-app)] text-[var(--text-primary)]">
       <Navbar />
       <main className="pt-[64px]">
         <section className="py-20 relative overflow-hidden">
@@ -32,15 +32,15 @@ export default async function PrivacyPage() {
             <h1 className="font-valorax gradient-text mb-6" style={{ fontSize: "clamp(34px, 4.8vw, 58px)", letterSpacing: "-0.02em" }}>
               {t("privacyPage.title")}
             </h1>
-            <p className="font-body-readable text-[#888] text-[15px] leading-relaxed max-w-[760px] mb-10">
+            <p className="font-body-readable text-[var(--muted-3)] text-[15px] leading-relaxed max-w-[760px] mb-10">
               {t("privacyPage.description")}
             </p>
 
             <div className="space-y-8 font-body-readable">
               {PRIVACY_SECTIONS.map((key) => (
-                <section key={key} className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6">
-                  <h2 className="text-[16px] font-semibold text-white mb-3">{t(`privacyPage.sections.${key}.title`)}</h2>
-                  <p className="text-[14px] leading-relaxed text-[#9A9A9A]">
+                <section key={key} className="rounded-2xl border border-[var(--border-3)] bg-[var(--overlay-2)] p-6">
+                  <h2 className="text-[16px] font-semibold text-[var(--text-primary)] mb-3">{t(`privacyPage.sections.${key}.title`)}</h2>
+                  <p className="text-[14px] leading-relaxed text-[var(--muted-2)]">
                     {t(`privacyPage.sections.${key}.body`)}
                   </p>
                 </section>

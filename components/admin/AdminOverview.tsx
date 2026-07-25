@@ -104,32 +104,32 @@ export default function AdminOverview({ users = [], tracks = [], platformStats =
   return (
     <div className="space-y-5">
       {northStar?.ready ? (
-        <div className="rounded-2xl border border-[#4F8EF7]/25 bg-[#111] p-5">
+        <div className="rounded-2xl border border-[#4F8EF7]/25 bg-[var(--surface-1)] p-5">
           <div className="flex items-center gap-2 mb-4">
             <iconify-icon icon="lucide:star" style={{ color: "#F59E0B", fontSize: "15px" }} />
-            <span className="text-[11px] text-[#8d8d8d] uppercase tracking-widest font-semibold">{t("admin.northStar")}</span>
-            <span className="text-[10px] text-[#666] font-body-readable ml-auto">{northStar.members} {t("admin.members")}</span>
+            <span className="text-[11px] text-[var(--muted-3)] uppercase tracking-widest font-semibold">{t("admin.northStar")}</span>
+            <span className="text-[10px] text-[var(--muted-4)] font-body-readable ml-auto">{northStar.members} {t("admin.members")}</span>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <div className="flex items-end justify-between gap-2 mb-1.5">
-                <span className="font-body-readable text-[12px] text-[#a5a5a5]">{t("adminOverview.membersOnline")}</span>
-                <span className="text-[22px] text-white font-semibold leading-none">{northStar.pctLive}%</span>
+                <span className="font-body-readable text-[12px] text-[var(--muted-2)]">{t("adminOverview.membersOnline")}</span>
+                <span className="text-[22px] text-[var(--text-primary)] font-semibold leading-none">{northStar.pctLive}%</span>
               </div>
-              <div className="h-1.5 rounded bg-white/[0.06] overflow-hidden mb-1">
+              <div className="h-1.5 rounded bg-[var(--overlay-6)] overflow-hidden mb-1">
                 <div className="h-full rounded bg-gradient-to-r from-[#4F8EF7] to-[#9B6DFF]" style={{ width: `${northStar.pctLive}%` }} />
               </div>
-              <div className="text-[10px] text-[#666] font-body-readable">{t("adminOverview.membersWithLive").replace("{n}", String(northStar.withLive)).replace("{s}", northStar.withLive > 1 ? "s" : "")}</div>
+              <div className="text-[10px] text-[var(--muted-4)] font-body-readable">{t("adminOverview.membersWithLive").replace("{n}", String(northStar.withLive)).replace("{s}", northStar.withLive > 1 ? "s" : "")}</div>
             </div>
             <div>
               <div className="flex items-end justify-between gap-2 mb-1.5">
-                <span className="font-body-readable text-[12px] text-[#a5a5a5]">{t("adminOverview.membersEuro")}</span>
+                <span className="font-body-readable text-[12px] text-[var(--muted-2)]">{t("adminOverview.membersEuro")}</span>
                 <span className="text-[22px] text-emerald-300 font-semibold leading-none">{northStar.pctEuro}%</span>
               </div>
-              <div className="h-1.5 rounded bg-white/[0.06] overflow-hidden mb-1">
+              <div className="h-1.5 rounded bg-[var(--overlay-6)] overflow-hidden mb-1">
                 <div className="h-full rounded bg-gradient-to-r from-emerald-500 to-emerald-300" style={{ width: `${northStar.pctEuro}%` }} />
               </div>
-              <div className="text-[10px] text-[#666] font-body-readable">{t("adminOverview.membersWithEuro").replace("{n}", String(northStar.withEuro)).replace("{s}", northStar.withEuro > 1 ? "s" : "")}</div>
+              <div className="text-[10px] text-[var(--muted-4)] font-body-readable">{t("adminOverview.membersWithEuro").replace("{n}", String(northStar.withEuro)).replace("{s}", northStar.withEuro > 1 ? "s" : "")}</div>
             </div>
           </div>
         </div>
@@ -137,9 +137,9 @@ export default function AdminOverview({ users = [], tracks = [], platformStats =
 
       <div className="grid grid-cols-2 xl:grid-cols-4 gap-2.5">
         {metrics.map((tile) => (
-          <div key={tile.label} className="rounded-xl border border-white/[0.08] bg-[#111] px-3.5 py-3">
-            <div className="text-[10px] text-[#666] uppercase tracking-widest">{tile.label}</div>
-            <div className="text-[20px] text-white font-semibold mt-1">{tile.value}</div>
+          <div key={tile.label} className="rounded-xl border border-[var(--border-3)] bg-[var(--surface-1)] px-3.5 py-3">
+            <div className="text-[10px] text-[var(--muted-4)] uppercase tracking-widest">{tile.label}</div>
+            <div className="text-[20px] text-[var(--text-primary)] font-semibold mt-1">{tile.value}</div>
           </div>
         ))}
       </div>
@@ -147,9 +147,9 @@ export default function AdminOverview({ users = [], tracks = [], platformStats =
       {curriculumTiles.length ? (
         <div className="grid grid-cols-2 xl:grid-cols-4 gap-2.5">
           {curriculumTiles.map((tile) => (
-            <div key={tile.label} className="rounded-xl border border-white/[0.08] bg-[#111] px-3.5 py-3">
-              <div className="text-[10px] text-[#666] uppercase tracking-widest">{tile.label}</div>
-              <div className="text-[20px] text-white font-semibold mt-1">
+            <div key={tile.label} className="rounded-xl border border-[var(--border-3)] bg-[var(--surface-1)] px-3.5 py-3">
+              <div className="text-[10px] text-[var(--muted-4)] uppercase tracking-widest">{tile.label}</div>
+              <div className="text-[20px] text-[var(--text-primary)] font-semibold mt-1">
                 {Number.isFinite(Number(tile.value)) ? tile.value : "—"}
               </div>
             </div>
@@ -172,8 +172,8 @@ export default function AdminOverview({ users = [], tracks = [], platformStats =
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
         {leaderboard.length ? (
-          <div className="rounded-2xl border border-white/[0.08] bg-[#111] p-5">
-            <div className="text-[11px] text-[#8d8d8d] uppercase tracking-widest font-semibold mb-3">{t("adminOverview.leaderboard")}</div>
+          <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-5">
+            <div className="text-[11px] text-[var(--muted-3)] uppercase tracking-widest font-semibold mb-3">{t("adminOverview.leaderboard")}</div>
             <div className="space-y-2">
               {leaderboard.map((entry, index) => (
                 <div key={entry.id || entry.label} className="flex items-center justify-between gap-3">
@@ -181,8 +181,8 @@ export default function AdminOverview({ users = [], tracks = [], platformStats =
                     <span className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-blue-500/25 bg-blue-500/10 text-[11px] font-semibold text-blue-200">
                       {index + 1}
                     </span>
-                    <span className="text-[12px] text-white font-body-readable truncate">{entry.label}</span>
-                    <span className="text-[10px] text-[#777] hidden sm:inline">{entry.grade}</span>
+                    <span className="text-[12px] text-[var(--text-primary)] font-body-readable truncate">{entry.label}</span>
+                    <span className="text-[10px] text-[var(--muted-3)] hidden sm:inline">{entry.grade}</span>
                   </div>
                   <span className="text-[12px] text-[#6ec3ff] font-semibold shrink-0">{entry.points} XP</span>
                 </div>
@@ -191,18 +191,18 @@ export default function AdminOverview({ users = [], tracks = [], platformStats =
           </div>
         ) : null}
 
-        <div className="rounded-2xl border border-white/[0.08] bg-[#111] p-5">
-          <div className="text-[11px] text-[#8d8d8d] uppercase tracking-widest font-semibold mb-3">{t("adminOverview.management")}</div>
+        <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-5">
+          <div className="text-[11px] text-[var(--muted-3)] uppercase tracking-widest font-semibold mb-3">{t("adminOverview.management")}</div>
           <div className="space-y-2.5">
-            <Link href={localePath("/admin/users", locale)} className="w-full rounded-xl border border-white/[0.08] bg-white/[0.02] px-3.5 py-3 text-[12px] font-semibold text-[#d1d1d1] hover:bg-white/[0.05] transition-colors inline-flex items-center gap-2">
+            <Link href={localePath("/admin/users", locale)} className="w-full rounded-xl border border-[var(--border-3)] bg-[var(--overlay-2)] px-3.5 py-3 text-[12px] font-semibold text-[var(--muted-1)] hover:bg-[var(--overlay-5)] transition-colors inline-flex items-center gap-2">
               <iconify-icon icon="lucide:users" style={{ color: "#4F8EF7", fontSize: "14px" }} />
               {t("adminOverview.manageUsers")}
             </Link>
-            <Link href={localePath("/admin/tracks", locale)} className="w-full rounded-xl border border-white/[0.08] bg-white/[0.02] px-3.5 py-3 text-[12px] font-semibold text-[#d1d1d1] hover:bg-white/[0.05] transition-colors inline-flex items-center gap-2">
+            <Link href={localePath("/admin/tracks", locale)} className="w-full rounded-xl border border-[var(--border-3)] bg-[var(--overlay-2)] px-3.5 py-3 text-[12px] font-semibold text-[var(--muted-1)] hover:bg-[var(--overlay-5)] transition-colors inline-flex items-center gap-2">
               <iconify-icon icon="lucide:route" style={{ color: "#4F8EF7", fontSize: "14px" }} />
               {t("adminOverview.manageTracks")}
             </Link>
-            <Link href={localePath("/admin/reviews", locale)} className="w-full rounded-xl border border-white/[0.08] bg-white/[0.02] px-3.5 py-3 text-[12px] font-semibold text-[#d1d1d1] hover:bg-white/[0.05] transition-colors inline-flex items-center gap-2">
+            <Link href={localePath("/admin/reviews", locale)} className="w-full rounded-xl border border-[var(--border-3)] bg-[var(--overlay-2)] px-3.5 py-3 text-[12px] font-semibold text-[var(--muted-1)] hover:bg-[var(--overlay-5)] transition-colors inline-flex items-center gap-2">
               <iconify-icon icon="lucide:git-pull-request" style={{ color: "#9B6DFF", fontSize: "14px" }} />
               {t("adminOverview.reviewHistory")}
             </Link>

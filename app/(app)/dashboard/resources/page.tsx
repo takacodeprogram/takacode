@@ -63,30 +63,30 @@ export default async function MyResourcesPage() {
               href={resource.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="block rounded-xl border border-white/[0.08] bg-[#111] p-4 card-hover"
+              className="block rounded-xl border border-[var(--border-3)] bg-[var(--surface-1)] p-4 card-hover"
             >
               <div className="flex items-center gap-2.5 mb-1.5">
                 <iconify-icon icon={resourceIcon(resource.kind)} style={{ fontSize: "14px", color: "#89c7ff" }} />
-                <span className="font-body-readable text-[12px] text-white font-semibold leading-tight">{resource.label}</span>
+                <span className="font-body-readable text-[12px] text-[var(--text-primary)] font-semibold leading-tight">{resource.label}</span>
                 <iconify-icon icon="lucide:external-link" style={{ fontSize: "11px", color: "#666" }} />
               </div>
               {resource.why ? (
-                <p className="font-body-readable text-[11px] text-[#9b9b9b] leading-snug mb-1.5">{resource.why}</p>
+                <p className="font-body-readable text-[11px] text-[var(--muted-2)] leading-snug mb-1.5">{resource.why}</p>
               ) : null}
-              <div className="text-[10px] text-[#666] font-body-readable">
+              <div className="text-[10px] text-[var(--muted-4)] font-body-readable">
                 {resource.trackTitle} · {resource.lessonTitle}
               </div>
             </a>
           ))}
         </div>
       ) : (
-        <div className="rounded-2xl border border-white/[0.07] bg-[#111] p-10 flex flex-col items-center text-center gap-4">
-          <div className="w-14 h-14 rounded-2xl border border-white/[0.08] bg-white/[0.02] flex items-center justify-center">
+        <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-10 flex flex-col items-center text-center gap-4">
+          <div className="w-14 h-14 rounded-2xl border border-[var(--border-3)] bg-[var(--overlay-2)] flex items-center justify-center">
             <iconify-icon icon="lucide:book-open" className="text-[#4F8EF7]" style={{ fontSize: "26px" }} />
           </div>
           <div>
-            <div className="font-venite text-[15px] text-white mb-1.5">{t("dashboardResources.emptyTitle")}</div>
-            <p className="font-body-readable text-[13px] text-[#777] max-w-[440px]">
+            <div className="font-venite text-[15px] text-[var(--text-primary)] mb-1.5">{t("dashboardResources.emptyTitle")}</div>
+            <p className="font-body-readable text-[13px] text-[var(--muted-3)] max-w-[440px]">
               {t("dashboardResources.emptyDesc")}
             </p>
           </div>           <Link href={localePath("/dashboard/tracks", locale)} className="btn-primary inline-flex items-center gap-2" style={{ fontSize: "13px", padding: "12px 24px" }}>

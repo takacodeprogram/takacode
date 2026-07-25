@@ -124,12 +124,12 @@ export default function ProfileEditor({
   }
 
   return (
-    <section className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 space-y-5">
-      <h2 className="font-venite text-[13px] tracking-widest text-[#888]">{t("profile.edit")}</h2>
+    <section className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-5 space-y-5">
+      <h2 className="font-venite text-[13px] tracking-widest text-[var(--muted-3)]">{t("profile.edit")}</h2>
 
       <div>
         <div className="flex items-center justify-between mb-2">
-          <label className="text-[11px] text-[#8d8d8d] uppercase tracking-widest font-semibold">{t("profile.avatar")}</label>
+          <label className="text-[11px] text-[var(--muted-3)] uppercase tracking-widest font-semibold">{t("profile.avatar")}</label>
           <button type="button" onClick={() => setShuffle((s) => s + 1)} className="text-[11px] text-[#4F8EF7] hover:underline inline-flex items-center gap-1">
             <iconify-icon icon="lucide:dices" style={{ fontSize: "12px" }} />
             {t("profile.moreSuggestions")}
@@ -143,7 +143,7 @@ export default function ProfileEditor({
                 key={option.style}
                 type="button"
                 onClick={() => setAvatarUrl(option.url)}
-                className={`h-14 w-14 rounded-full border overflow-hidden bg-white/[0.03] ${selected ? "border-[#4F8EF7] ring-2 ring-blue-500/30" : "border-white/[0.1] hover:border-white/[0.25]"}`}
+                className={`h-14 w-14 rounded-full border overflow-hidden bg-[var(--overlay-3)] ${selected ? "border-[#4F8EF7] ring-2 ring-blue-500/30" : "border-[var(--border-4)] hover:border-[var(--border-5)]"}`}
                 title={option.style}
               >
                 <img src={option.url} alt={option.style} className="h-full w-full object-cover" />
@@ -154,7 +154,7 @@ export default function ProfileEditor({
             <button
               type="button"
               onClick={() => setAvatarUrl("")}
-              className="h-14 w-14 rounded-full border border-white/[0.1] text-[#888] hover:text-white flex items-center justify-center"
+              className="h-14 w-14 rounded-full border border-[var(--border-4)] text-[var(--muted-3)] hover:text-[var(--text-primary)] flex items-center justify-center"
               title={t("profile.removeAvatar")}
             >
               <iconify-icon icon="lucide:user-x" style={{ fontSize: "18px" }} />
@@ -164,7 +164,7 @@ export default function ProfileEditor({
       </div>
 
       <div>
-        <label className="text-[11px] text-[#8d8d8d] uppercase tracking-widest font-semibold">{t("profile.publicName")}</label>
+        <label className="text-[11px] text-[var(--muted-3)] uppercase tracking-widest font-semibold">{t("profile.publicName")}</label>
         <div className="flex flex-wrap gap-1.5 mt-1.5 mb-2">
           {[
             { key: "generate", label: t("profile.name.generate") },
@@ -178,7 +178,7 @@ export default function ProfileEditor({
               className={`text-[11px] rounded-lg border px-2.5 py-1.5 transition-colors ${
                 nameMode === opt.key
                   ? "border-blue-500/35 bg-blue-500/15 text-blue-100"
-                  : "border-white/[0.1] bg-white/[0.02] text-[#bbb] hover:bg-white/[0.05]"
+                  : "border-[var(--border-4)] bg-[var(--overlay-2)] text-[var(--muted-2)] hover:bg-[var(--overlay-5)]"
               }`}
             >
               {opt.label}
@@ -193,7 +193,7 @@ export default function ProfileEditor({
             maxLength={40}
             disabled={nameMode === "real"}
             placeholder={nameMode === "generate" ? t("profile.generatedPlaceholder") : t("profile.namePlaceholder")}
-            className="flex-1 rounded-lg border border-white/[0.08] bg-[#0f0f0f] px-3 py-2.5 font-body-readable text-[12px] text-[#d0d0d0] placeholder:text-[#555] focus:outline-none focus:border-blue-400/40 disabled:opacity-60"
+            className="flex-1 rounded-lg border border-[var(--border-3)] bg-[var(--surface-3)] px-3 py-2.5 font-body-readable text-[12px] text-[var(--muted-1)] placeholder:text-[var(--muted-5)] focus:outline-none focus:border-blue-400/40 disabled:opacity-60"
           />
           {nameMode === "generate" ? (
             <button
@@ -208,19 +208,19 @@ export default function ProfileEditor({
           ) : null}
         </div>
         {nameMode === "real" ? (
-          <p className="text-[10px] text-[#777] font-body-readable mt-1.5">{t("profile.realNameWarning")}</p>
+          <p className="text-[10px] text-[var(--muted-3)] font-body-readable mt-1.5">{t("profile.realNameWarning")}</p>
         ) : null}
       </div>
 
       <div>
-        <label className="text-[11px] text-[#8d8d8d] uppercase tracking-widest font-semibold">{t("profile.bio")}</label>
+        <label className="text-[11px] text-[var(--muted-3)] uppercase tracking-widest font-semibold">{t("profile.bio")}</label>
         <textarea
           value={bio}
           onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setBio(e.target.value)}
           rows={4}
           maxLength={600}
           placeholder={t("profile.bioPlaceholder")}
-          className="mt-1.5 w-full rounded-lg border border-white/[0.08] bg-[#0f0f0f] px-3 py-2.5 font-body-readable text-[12px] text-[#d0d0d0] leading-relaxed placeholder:text-[#555] focus:outline-none focus:border-blue-400/40"
+          className="mt-1.5 w-full rounded-lg border border-[var(--border-3)] bg-[var(--surface-3)] px-3 py-2.5 font-body-readable text-[12px] text-[var(--muted-1)] leading-relaxed placeholder:text-[var(--muted-5)] focus:outline-none focus:border-blue-400/40"
         />
         <div className="mt-2">
           <FormatPicker value={bioFormat} onChange={setBioFormat} label={t("profile.contentFormat")} />
@@ -228,11 +228,11 @@ export default function ProfileEditor({
       </div>
 
       <div>
-        <label className="text-[11px] text-[#8d8d8d] uppercase tracking-widest font-semibold">{t("profile.country")}</label>
+        <label className="text-[11px] text-[var(--muted-3)] uppercase tracking-widest font-semibold">{t("profile.country")}</label>
         <select
           value={countryCode}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setCountryCode(e.target.value)}
-          className="mt-1.5 w-full rounded-lg border border-white/[0.08] bg-[#0f0f0f] px-3 py-2.5 font-body-readable text-[12px] text-[#d0d0d0] focus:outline-none focus:border-blue-400/40"
+          className="mt-1.5 w-full rounded-lg border border-[var(--border-3)] bg-[var(--surface-3)] px-3 py-2.5 font-body-readable text-[12px] text-[var(--muted-1)] focus:outline-none focus:border-blue-400/40"
         >
           {COUNTRY_OPTIONS.map((opt: { code: string; label: string }) => (
             <option key={opt.code} value={opt.code}>{opt.label}</option>
@@ -241,16 +241,16 @@ export default function ProfileEditor({
       </div>
 
       <div>
-        <label className="text-[11px] text-[#8d8d8d] uppercase tracking-widest font-semibold">{t("profile.social")}</label>
+        <label className="text-[11px] text-[var(--muted-3)] uppercase tracking-widest font-semibold">{t("profile.social")}</label>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mt-1.5">
           {SOCIAL_FIELDS.map((field: { key: string; label: string; placeholder: string; icon: string }) => (
-            <div key={field.key} className="flex items-center gap-2 rounded-lg border border-white/[0.08] bg-[#0f0f0f] px-2.5">
+            <div key={field.key} className="flex items-center gap-2 rounded-lg border border-[var(--border-3)] bg-[var(--surface-3)] px-2.5">
               <iconify-icon icon={field.icon} style={{ fontSize: "14px", color: "#7f7f7f" }} />
               <input
                 value={socials[field.key]}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSocials((c) => ({ ...c, [field.key]: e.target.value }))}
                 placeholder={field.placeholder}
-                className="flex-1 bg-transparent py-2.5 font-body-readable text-[12px] text-[#d0d0d0] placeholder:text-[#555] focus:outline-none"
+                className="flex-1 bg-transparent py-2.5 font-body-readable text-[12px] text-[var(--muted-1)] placeholder:text-[var(--muted-5)] focus:outline-none"
               />
             </div>
           ))}
@@ -258,12 +258,12 @@ export default function ProfileEditor({
       </div>
 
       <div>
-        <label className="text-[11px] text-[#8d8d8d] uppercase tracking-widest font-semibold">{t("profile.skills")}</label>
+        <label className="text-[11px] text-[var(--muted-3)] uppercase tracking-widest font-semibold">{t("profile.skills")}</label>
         <input
           value={skillsInput}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSkillsInput(e.target.value)}
           placeholder={t("profile.skillsPlaceholder")}
-          className="mt-1.5 w-full rounded-lg border border-white/[0.08] bg-[#0f0f0f] px-3 py-2.5 font-body-readable text-[12px] text-[#d0d0d0] placeholder:text-[#555] focus:outline-none focus:border-blue-400/40"
+          className="mt-1.5 w-full rounded-lg border border-[var(--border-3)] bg-[var(--surface-3)] px-3 py-2.5 font-body-readable text-[12px] text-[var(--muted-1)] placeholder:text-[var(--muted-5)] focus:outline-none focus:border-blue-400/40"
         />
       </div>
 

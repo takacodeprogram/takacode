@@ -8,6 +8,7 @@ import logoLight4 from "../assets/logos-light-png/logo-light-4.png";
 import NavUserMenu from "./NavUserMenu";
 import NotificationBell from "./NotificationBell";
 import SignOutButton from "./SignOutButton";
+import ThemeToggle from "./ThemeToggle";
 import { createClient } from "../utils/supabase/client";
 import { useI18n } from "./I18nProvider";
 import type { Locale } from "../lib/i18n";
@@ -73,12 +74,12 @@ function LangSwitch() {
     <button
       type="button"
       onClick={toggle}
-      className="inline-flex items-center justify-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-lg border border-white/[0.12] bg-white/[0.03] text-[#aaa] hover:text-white hover:border-white/[0.25] transition-all min-w-[44px]"
+      className="inline-flex items-center justify-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-lg border border-[var(--border-4)] bg-[var(--overlay-3)] text-[var(--muted-2)] hover:text-[var(--text-primary)] hover:border-[var(--border-5)] transition-all min-w-[44px]"
       aria-label={locale === "fr" ? t("navbar.switchToEnglish") : t("navbar.switchToFrench")}
     >
-      <span className={`${locale === "fr" ? "text-white" : "text-[#666]"}`}>FR</span>
-      <span className="text-[#444]">/</span>
-      <span className={`${locale === "en" ? "text-white" : "text-[#666]"}`}>EN</span>
+      <span className={`${locale === "fr" ? "text-[var(--text-primary)]" : "text-[var(--muted-4)]"}`}>FR</span>
+      <span className="text-[var(--muted-6)]">/</span>
+      <span className={`${locale === "en" ? "text-[var(--text-primary)]" : "text-[var(--muted-4)]"}`}>EN</span>
     </button>
   );
 }
@@ -237,6 +238,7 @@ export default function Navbar() {
         </div>
 
         <div className="nav-desktop-actions flex items-center gap-3">
+          <ThemeToggle />
           <LangSwitch />
           {isAuthLoading ? (
             <div className="h-10 w-[120px]" aria-hidden="true" />
@@ -287,7 +289,8 @@ export default function Navbar() {
           </div>
 
           <div className="nav-mobile-actions">
-            <div className="flex justify-center mb-2">
+            <div className="flex justify-center items-center gap-2 mb-2">
+              <ThemeToggle />
               <LangSwitch />
             </div>
             {isAuthLoading ? null : isAuthenticated ? (

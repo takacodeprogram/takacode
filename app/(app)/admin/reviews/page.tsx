@@ -47,7 +47,7 @@ export default async function AdminReviewsPage() {
       />
 
       {!error && items.length === 0 ? (
-        <div className="rounded-2xl border border-white/[0.07] bg-[#111] p-10 text-center font-body-readable text-[13px] text-[#777]">
+        <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-10 text-center font-body-readable text-[13px] text-[var(--muted-3)]">
           {t("adminReviews.empty")}
         </div>
       ) : error ? (

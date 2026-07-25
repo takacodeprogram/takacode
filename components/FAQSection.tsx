@@ -17,18 +17,18 @@ export default function FAQSection() {
               <br />
               {t("faq.title2")}
             </h2>
-            <p className="font-body-readable text-[#666] text-[15px] leading-relaxed">{t("faq.subtitle")}</p>
+            <p className="font-body-readable text-[var(--muted-4)] text-[15px] leading-relaxed">{t("faq.subtitle")}</p>
           </div>
 
           <div className="space-y-0">
             {FAQ_KEYS.map((key, index) => (
               <div key={key} className="faq-item py-5" style={index === FAQ_KEYS.length - 1 ? { borderBottom: "none" } : undefined}>
                 <div className="faq-question flex items-center justify-between">
-                  <span className="font-body-readable text-[14px] text-[#CCC] font-medium">{t(`faq.questions.${key}`)}</span>
-                  <iconify-icon icon="lucide:plus" className="text-[#444] flex-shrink-0" style={{ fontSize: "16px" }} />
+                  <span className="font-body-readable text-[14px] text-[var(--muted-1)] font-medium">{t(`faq.questions.${key}`)}</span>
+                  <iconify-icon icon="lucide:plus" className="text-[var(--muted-6)] flex-shrink-0" style={{ fontSize: "16px" }} />
                 </div>
                 {key === "q1" ? (
-                  <p className="font-body-readable text-[13px] text-[#555] mt-3 leading-relaxed hidden">{t("faq.answers.q1")}</p>
+                  <p className="font-body-readable text-[13px] text-[var(--muted-5)] mt-3 leading-relaxed hidden">{t("faq.answers.q1")}</p>
                 ) : null}
               </div>
             ))}

@@ -287,7 +287,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
   }
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] px-6 py-20 md:py-24 relative overflow-hidden text-white">
+    <div className="min-h-screen bg-[var(--bg-app)] px-6 py-20 md:py-24 relative overflow-hidden text-[var(--text-primary)]">
       <div className="hero-glow w-[620px] h-[620px] bg-blue-500/[0.04] -left-[120px] top-[12%]" />
       <div className="hero-glow w-[520px] h-[520px] bg-violet-500/[0.06] -right-[90px] bottom-[10%]" />
 
@@ -296,12 +296,12 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
           <L
             href="/"
             id="nav-back-landing"
-            className="inline-flex items-center gap-2 rounded-xl border border-white/[0.08] bg-black/30 px-4 py-2.5 group"
+            className="inline-flex items-center gap-2 rounded-xl border border-[var(--border-3)] bg-black/30 px-4 py-2.5 group"
           >
-            <span className="w-7 h-7 rounded-lg border border-white/[0.12] bg-white/[0.04] inline-flex items-center justify-center text-[#8ba1ff] group-hover:text-white transition-colors">
+            <span className="w-7 h-7 rounded-lg border border-[var(--border-4)] bg-[var(--overlay-4)] inline-flex items-center justify-center text-[#8ba1ff] group-hover:text-[var(--text-primary)] transition-colors">
               <iconify-icon icon="lucide:arrow-left" style={{ fontSize: "15px" }} />
             </span>
-            <span className="text-[11px] font-semibold text-[#666] tracking-widest uppercase group-hover:text-[#9a9a9a] transition-colors">
+            <span className="text-[11px] font-semibold text-[var(--muted-4)] tracking-widest uppercase group-hover:text-[var(--muted-2)] transition-colors">
               {t("auth.backToSite")}
             </span>
           </L>
@@ -316,15 +316,15 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
                   {t("auth.signUpHeroTitle1")}<br />
                   {t("auth.signUpHeroTitle2")}
                 </h1>
-                <p className="text-[#888] text-lg max-w-xl font-body-readable">{t("auth.signUpHeroDesc")}</p>
+                <p className="text-[var(--muted-3)] text-lg max-w-xl font-body-readable">{t("auth.signUpHeroDesc")}</p>
                 <div className="space-y-5 pt-4">
                   <div className="flex items-start gap-4">
                     <div className="w-11 h-11 rounded-xl border flex items-center justify-center flex-shrink-0 bg-blue-500/10 border-blue-500/20">
                       <iconify-icon icon="lucide:book-open" style={{ color: "#4F8EF7", fontSize: "22px" }} />
                     </div>
                     <div>
-                      <h3 className="text-sm text-white font-venite-italic">{t("auth.signUpHighlight1Title")}</h3>
-                      <p className="text-[13px] text-[#555] font-body-readable">{t("auth.signUpHighlight1Desc")}</p>
+                      <h3 className="text-sm text-[var(--text-primary)] font-venite-italic">{t("auth.signUpHighlight1Title")}</h3>
+                      <p className="text-[13px] text-[var(--muted-5)] font-body-readable">{t("auth.signUpHighlight1Desc")}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
@@ -332,8 +332,8 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
                       <iconify-icon icon="lucide:users" style={{ color: "#9B6DFF", fontSize: "22px" }} />
                     </div>
                     <div>
-                      <h3 className="text-sm text-white font-venite-italic">{t("auth.signUpHighlight2Title")}</h3>
-                      <p className="text-[13px] text-[#555] font-body-readable">{t("auth.signUpHighlight2Desc")}</p>
+                      <h3 className="text-sm text-[var(--text-primary)] font-venite-italic">{t("auth.signUpHighlight2Title")}</h3>
+                      <p className="text-[13px] text-[var(--muted-5)] font-body-readable">{t("auth.signUpHighlight2Desc")}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
@@ -341,8 +341,8 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
                       <iconify-icon icon="lucide:zap" style={{ color: "#22D3EE", fontSize: "22px" }} />
                     </div>
                     <div>
-                      <h3 className="text-sm text-white font-venite-italic">{t("auth.signUpHighlight3Title")}</h3>
-                      <p className="text-[13px] text-[#555] font-body-readable">{t("auth.signUpHighlight3Desc")}</p>
+                      <h3 className="text-sm text-[var(--text-primary)] font-venite-italic">{t("auth.signUpHighlight3Title")}</h3>
+                      <p className="text-[13px] text-[var(--muted-5)] font-body-readable">{t("auth.signUpHighlight3Desc")}</p>
                     </div>
                   </div>
                 </div>
@@ -354,15 +354,15 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
                   {t("auth.signInHeroTitle1")}<br />
                   {t("auth.signInHeroTitle2")}
                 </h1>
-                <p className="text-[#888] text-lg max-w-xl font-body-readable">{t("auth.signInHeroDesc")}</p>
+                <p className="text-[var(--muted-3)] text-lg max-w-xl font-body-readable">{t("auth.signInHeroDesc")}</p>
                 <div className="space-y-5 pt-4">
                   <div className="flex items-start gap-4">
                     <div className="w-11 h-11 rounded-xl border flex items-center justify-center flex-shrink-0 bg-blue-500/10 border-blue-500/20">
                       <iconify-icon icon="lucide:rocket" style={{ color: "#4F8EF7", fontSize: "22px" }} />
                     </div>
                     <div>
-                      <h3 className="text-sm text-white font-venite-italic">{t("auth.signInHighlight1Title")}</h3>
-                      <p className="text-[13px] text-[#555] font-body-readable">{t("auth.signInHighlight1Desc")}</p>
+                      <h3 className="text-sm text-[var(--text-primary)] font-venite-italic">{t("auth.signInHighlight1Title")}</h3>
+                      <p className="text-[13px] text-[var(--muted-5)] font-body-readable">{t("auth.signInHighlight1Desc")}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
@@ -370,8 +370,8 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
                       <iconify-icon icon="lucide:users" style={{ color: "#9B6DFF", fontSize: "22px" }} />
                     </div>
                     <div>
-                      <h3 className="text-sm text-white font-venite-italic">{t("auth.signInHighlight2Title")}</h3>
-                      <p className="text-[13px] text-[#555] font-body-readable">{t("auth.signInHighlight2Desc")}</p>
+                      <h3 className="text-sm text-[var(--text-primary)] font-venite-italic">{t("auth.signInHighlight2Title")}</h3>
+                      <p className="text-[13px] text-[var(--muted-5)] font-body-readable">{t("auth.signInHighlight2Desc")}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
@@ -379,8 +379,8 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
                       <iconify-icon icon="lucide:chart-column-increasing" style={{ color: "#22D3EE", fontSize: "22px" }} />
                     </div>
                     <div>
-                      <h3 className="text-sm text-white font-venite-italic">{t("auth.signInHighlight3Title")}</h3>
-                      <p className="text-[13px] text-[#555] font-body-readable">{t("auth.signInHighlight3Desc")}</p>
+                      <h3 className="text-sm text-[var(--text-primary)] font-venite-italic">{t("auth.signInHighlight3Title")}</h3>
+                      <p className="text-[13px] text-[var(--muted-5)] font-body-readable">{t("auth.signInHighlight3Desc")}</p>
                     </div>
                   </div>
                 </div>
@@ -389,7 +389,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
           </div>
 
           <div className="w-full">
-            <div className="bg-[#111] border border-white/[0.07] rounded-3xl p-8 sm:p-10 shadow-2xl relative onboarding-step animate-fade-up">
+            <div className="bg-[var(--surface-1)] border border-[var(--border-3)] rounded-3xl p-8 sm:p-10 shadow-2xl relative onboarding-step animate-fade-up">
               <div className="flex items-center justify-between mb-8">
                 <div>
                   <span className="text-[11px] font-semibold text-[#4F8EF7] uppercase tracking-widest">{t("auth.authLabel")}</span>
@@ -432,9 +432,9 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
               </button>
 
               <div className="flex items-center gap-4 mb-8">
-                <div className="h-px flex-1 bg-white/[0.05]" />
-                <span className="text-[11px] text-[#444] uppercase font-bold">{t("auth.orDivider")}</span>
-                <div className="h-px flex-1 bg-white/[0.05]" />
+                <div className="h-px flex-1 bg-[var(--overlay-5)]" />
+                <span className="text-[11px] text-[var(--muted-6)] uppercase font-bold">{t("auth.orDivider")}</span>
+                <div className="h-px flex-1 bg-[var(--overlay-5)]" />
               </div>
 
               {showResetSuccessState ? (
@@ -442,7 +442,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
                   <div className="text-[10px] font-semibold tracking-[0.16em] uppercase text-emerald-300 mb-1">{t("auth.resetBadge")}</div>
                   <div className="text-[14px] font-semibold mb-1">{t("auth.resetTitle")}</div>
                   <p className="text-[12px] text-emerald-100/80 mb-2">{t("auth.resetDescription")}</p>
-                  <L href="/signin?next=/dashboard" className="text-[12px] font-semibold text-emerald-200 hover:text-white transition-colors">
+                  <L href="/signin?next=/dashboard" className="text-[12px] font-semibold text-emerald-200 hover:text-[var(--text-primary)] transition-colors">
                     {t("auth.resetContinue")}
                   </L>
                 </div>
@@ -458,7 +458,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
                 {mode === "signup" ? (
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                      <label className="text-[12px] text-[#555] ml-1">{t("auth.signUpFirstName")}</label>
+                      <label className="text-[12px] text-[var(--muted-5)] ml-1">{t("auth.signUpFirstName")}</label>
                       <input
                         type="text"
                         className="auth-input"
@@ -468,7 +468,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-[12px] text-[#555] ml-1">{t("auth.signUpLastName")}</label>
+                      <label className="text-[12px] text-[var(--muted-5)] ml-1">{t("auth.signUpLastName")}</label>
                       <input
                         type="text"
                         className="auth-input"
@@ -481,7 +481,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
                 ) : null}
 
                 <div className="space-y-1.5">
-                  <label className="text-[12px] text-[#555] ml-1">{t("auth.email")}</label>
+                  <label className="text-[12px] text-[var(--muted-5)] ml-1">{t("auth.email")}</label>
                   <input
                     type="email"
                     className="auth-input"
@@ -494,7 +494,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
 
                 {mode === "signup" ? (
                   <div className="space-y-1.5">
-                    <label className="text-[12px] text-[#555] ml-1">{t("auth.signUpReferralCode")}</label>
+                    <label className="text-[12px] text-[var(--muted-5)] ml-1">{t("auth.signUpReferralCode")}</label>
                     <input
                       type="text"
                       className="auth-input uppercase"
@@ -507,7 +507,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
                 ) : null}
 
                 <div className="space-y-1.5">
-                  <label className="text-[12px] text-[#555] ml-1">{t("auth.password")}</label>
+                  <label className="text-[12px] text-[var(--muted-5)] ml-1">{t("auth.password")}</label>
                   <div className="relative">
                     <input
                       type={showPassword ? "text" : "password"}
@@ -519,7 +519,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
                     />
                     <button
                       type="button"
-                      className="absolute right-2 top-1/2 -translate-y-1/2 text-[11px] text-[#8FA8FF] hover:text-white transition-colors"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 text-[11px] text-[#8FA8FF] hover:text-[var(--text-primary)] transition-colors"
                       onClick={() => setShowPassword((current) => !current)}
                     >
                       {showPassword ? t("auth.hidePassword") : t("auth.showPassword")}
@@ -527,17 +527,17 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
                   </div>
                   {mode === "signup" ? (
                     <>
-                      <div className="h-1 rounded bg-[#222] mt-1 overflow-hidden">
+                      <div className="h-1 rounded bg-[var(--surface-2)] mt-1 overflow-hidden">
                         <div className="h-full transition-all" style={{ width: `${passwordStrength}%`, backgroundColor: strengthMeta.color }} />
                       </div>
-                      <p className="text-[10px] text-[#666] mt-1">{passwordStrength < 45 ? t("auth.passwordWeak") : passwordStrength < 75 ? t("auth.passwordMedium") : t("auth.passwordStrong")}</p>
+                      <p className="text-[10px] text-[var(--muted-4)] mt-1">{passwordStrength < 45 ? t("auth.passwordWeak") : passwordStrength < 75 ? t("auth.passwordMedium") : t("auth.passwordStrong")}</p>
                     </>
                   ) : null}
                 </div>
 
                 {mode === "signup" ? (
                   <div className="space-y-1.5">
-                    <label className="text-[12px] text-[#555] ml-1">{t("auth.signUpConfirmPassword")}</label>
+                    <label className="text-[12px] text-[var(--muted-5)] ml-1">{t("auth.signUpConfirmPassword")}</label>
                     <div className="relative">
                       <input
                         type={showPasswordConfirm ? "text" : "password"}
@@ -549,7 +549,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
                       />
                       <button
                         type="button"
-                        className="absolute right-2 top-1/2 -translate-y-1/2 text-[11px] text-[#8FA8FF] hover:text-white transition-colors"
+                        className="absolute right-2 top-1/2 -translate-y-1/2 text-[11px] text-[#8FA8FF] hover:text-[var(--text-primary)] transition-colors"
                         onClick={() => setShowPasswordConfirm((current) => !current)}
                       >
                         {showPasswordConfirm ? t("auth.hidePassword") : t("auth.showPassword")}
@@ -571,13 +571,13 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
                 </button>
               </form>
 
-              <div className="mt-8 pt-8 border-t border-white/[0.05] text-center text-[13px] text-[#666]">
+              <div className="mt-8 pt-8 border-t border-[var(--border-1)] text-center text-[13px] text-[var(--muted-4)]">
                 {mode === "signin" ? (
                   <>
                     {t("auth.noAccountPrompt")}{" "}
                     <button
                       type="button"
-                      className="text-white font-medium hover:underline"
+                      className="text-[var(--text-primary)] font-medium hover:underline"
                       onClick={() => {
                         setMode("signup");
                       }}
@@ -590,7 +590,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
                     {t("auth.hasAccountPrompt")}{" "}
                     <button
                       type="button"
-                      className="text-white font-medium hover:underline"
+                      className="text-[var(--text-primary)] font-medium hover:underline"
                       onClick={() => {
                         setMode("signin");
                       }}

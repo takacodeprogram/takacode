@@ -97,7 +97,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
   const { module, lesson, previousLesson, nextLesson, position, total } = located;
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white">
+    <div className="min-h-screen bg-[var(--bg-app)] text-[var(--text-primary)]">
       <Navbar />
       <main className="pt-[64px]">
         <section className="py-24 md:py-28 px-8">
@@ -111,12 +111,12 @@ export default async function LessonPage({ params }: LessonPageProps) {
                 <iconify-icon icon="lucide:arrow-left" style={{ fontSize: "13px" }} />
                 {t("lessonPage.backToTrack")}
               </Link>
-              <span className="text-[11px] text-[#7d7d7d] font-body-readable">
+              <span className="text-[11px] text-[var(--muted-3)] font-body-readable">
                 {track.title} / {module.title}
               </span>
             </div>
 
-            <article className="bg-[#111] border border-white/[0.07] rounded-2xl p-6 md:p-7 project-card">
+            <article className="bg-[var(--surface-1)] border border-[var(--border-3)] rounded-2xl p-6 md:p-7 project-card">
               <div className="flex items-start justify-between gap-5 flex-wrap mb-6">
                 <div className="flex items-start gap-4">
                   <div
@@ -130,13 +130,13 @@ export default async function LessonPage({ params }: LessonPageProps) {
                   </div>
 
                   <div>
-                    <h1 className="font-venite-italic text-[20px] text-white leading-tight mb-1">{lesson.title}</h1>
-                    <p className="font-body-readable text-[12px] text-[#7a7a7a]">
+                    <h1 className="font-venite-italic text-[20px] text-[var(--text-primary)] leading-tight mb-1">{lesson.title}</h1>
+                    <p className="font-body-readable text-[12px] text-[var(--muted-3)]">
                       {t("lessonPage.lessonPosition").replace("{position}", String(position)).replace("{total}", String(total))} - {lesson.durationMinutes} min - {lesson.xpReward} XP
                     </p>
                     {curriculum.totalLessons > 0 ? (
                       <div className="flex items-center gap-2.5 mt-2">
-                        <div className="flex-1 h-1.5 rounded bg-white/[0.06] overflow-hidden max-w-[180px]">
+                        <div className="flex-1 h-1.5 rounded bg-[var(--overlay-6)] overflow-hidden max-w-[180px]">
                           <div
                             className="h-full rounded bg-gradient-to-r from-[#4F8EF7] to-[#9B6DFF]"
                             style={{ width: `${curriculum.progressPercent}%` }}
@@ -185,19 +185,19 @@ function GuestCTA({ locale: localeP }: { locale?: Locale } = {}) {
   const effectiveLocale = localeP || "en";
   const { t } = getLocale(effectiveLocale);
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white">
+    <div className="min-h-screen bg-[var(--bg-app)] text-[var(--text-primary)]">
       <Navbar />
       <main className="pt-[64px]">
         <section className="py-24 md:py-28 px-8">
           <div className="max-w-[600px] mx-auto text-center">
-            <div className="w-16 h-16 rounded-2xl border border-white/[0.08] bg-white/[0.02] flex items-center justify-center mx-auto mb-6">
+            <div className="w-16 h-16 rounded-2xl border border-[var(--border-3)] bg-[var(--overlay-2)] flex items-center justify-center mx-auto mb-6">
               <iconify-icon icon="lucide:graduation-cap" className="text-[#4F8EF7]" style={{ fontSize: "30px" }} />
             </div>
             <div className="section-label mb-3">{t("lessonPage.guest.sectionLabel")}</div>
             <h1 className="font-valorax gradient-text" style={{ fontSize: "clamp(32px, 4vw, 52px)", letterSpacing: "-0.02em" }}>
               {t("lessonPage.guest.title")}
             </h1>
-            <p className="font-body-readable text-[14px] text-[#888] mt-3 mb-8 leading-relaxed">
+            <p className="font-body-readable text-[14px] text-[var(--muted-3)] mt-3 mb-8 leading-relaxed">
               {t("lessonPage.guest.description")}
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">

@@ -81,23 +81,23 @@ export default async function AdminIAConfigPage() {
       />
 
       <div className="space-y-6">
-        <div className="rounded-2xl border border-white/[0.08] bg-[#111] p-6">
-          <h2 className="font-venite-italic text-[14px] text-white mb-4">{t("adminAi.statusTitle")}</h2>
+        <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-6">
+          <h2 className="font-venite-italic text-[14px] text-[var(--text-primary)] mb-4">{t("adminAi.statusTitle")}</h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-3">
-              <div className="text-[10px] text-[#777] uppercase tracking-widest mb-1">{t("adminAi.providerLabel")}</div>
+            <div className="rounded-xl border border-[var(--border-3)] bg-[var(--overlay-2)] px-4 py-3">
+              <div className="text-[10px] text-[var(--muted-3)] uppercase tracking-widest mb-1">{t("adminAi.providerLabel")}</div>
               <div className="flex items-center gap-2">
                 <span className={`w-2 h-2 rounded-full ${config.enabled ? "bg-emerald-400" : "bg-amber-400"}`} />
-                <span className="text-[13px] text-white font-semibold">
+                <span className="text-[13px] text-[var(--text-primary)] font-semibold">
                   {config.provider === "gemini" ? "Google Gemini" : config.provider === "openrouter" ? "OpenRouter" : config.provider || t("adminAi.notConfigured")}
                 </span>
               </div>
             </div>
 
-            <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-3">
-              <div className="text-[10px] text-[#777] uppercase tracking-widest mb-1">{t("adminAi.modelLabel")}</div>
-              <span className="text-[13px] text-white font-semibold">{config.model || t("adminAi.defaultModel")}</span>
+            <div className="rounded-xl border border-[var(--border-3)] bg-[var(--overlay-2)] px-4 py-3">
+              <div className="text-[10px] text-[var(--muted-3)] uppercase tracking-widest mb-1">{t("adminAi.modelLabel")}</div>
+              <span className="text-[13px] text-[var(--text-primary)] font-semibold">{config.model || t("adminAi.defaultModel")}</span>
             </div>
           </div>
 
@@ -119,19 +119,19 @@ export default async function AdminIAConfigPage() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-white/[0.08] bg-[#111] p-6">
-          <h2 className="font-venite-italic text-[14px] text-white mb-4">
+        <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-6">
+          <h2 className="font-venite-italic text-[14px] text-[var(--text-primary)] mb-4">
             <iconify-icon icon="lucide:settings" style={{ fontSize: "16px", color: "#4F8EF7", marginRight: "8px" }} />
             {t("adminAi.envConfig")}
           </h2>
 
-          <p className="font-body-readable text-[12px] text-[#a5a5a5] leading-relaxed mb-4">
+          <p className="font-body-readable text-[12px] text-[var(--muted-2)] leading-relaxed mb-4">
             {t("adminAi.envDesc").replace("{dev}", '.env.local').replace("{prod}", t("adminAi.envProd"))}
           </p>
 
           <div className="space-y-3">
-            <div className="rounded-xl border border-white/[0.08] bg-[#0f0f0f] p-4">
-              <div className="text-[11px] text-white font-semibold mb-1">{t("adminAi.stepChooseProvider")}</div>
+            <div className="rounded-xl border border-[var(--border-3)] bg-[var(--surface-3)] p-4">
+              <div className="text-[11px] text-[var(--text-primary)] font-semibold mb-1">{t("adminAi.stepChooseProvider")}</div>
               <div className="flex flex-wrap gap-2 mt-2">
                 {providers.map((p) => (
                   <a
@@ -142,7 +142,7 @@ export default async function AdminIAConfigPage() {
                     className={`rounded-lg border px-3.5 py-2.5 text-[12px] transition-colors ${
                       config.provider === p.id
                         ? "border-blue-400/35 bg-blue-500/15 text-blue-100"
-                        : "border-white/[0.08] bg-white/[0.02] text-[#b3b3b3] hover:bg-white/[0.05]"
+                        : "border-[var(--border-3)] bg-[var(--overlay-2)] text-[var(--muted-2)] hover:bg-[var(--overlay-5)]"
                     }`}
                   >
                     <div className="flex items-center gap-2 mb-1">
@@ -162,8 +162,8 @@ export default async function AdminIAConfigPage() {
               </div>
             </div>
 
-            <div className="rounded-xl border border-white/[0.08] bg-[#0f0f0f] p-4">
-              <div className="text-[11px] text-white font-semibold mb-2">{t("adminAi.stepQuickChoice")}</div>
+            <div className="rounded-xl border border-[var(--border-3)] bg-[var(--surface-3)] p-4">
+              <div className="text-[11px] text-[var(--text-primary)] font-semibold mb-2">{t("adminAi.stepQuickChoice")}</div>
 
               <div className="space-y-2">
                 <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/[0.06] p-3">
@@ -171,7 +171,7 @@ export default async function AdminIAConfigPage() {
                     <iconify-icon icon="lucide:zap" style={{ fontSize: "13px" }} />
                     {t("adminAi.optionA")}
                   </div>
-                  <pre className="font-body-readable text-[10px] text-[#b3b3b3] bg-black/30 rounded p-2 mt-1 overflow-x-auto">AI_REVIEW_PROVIDER=openrouter{`\n`}AI_REVIEW_API_KEY=ta_cle_openrouter</pre>
+                  <pre className="font-body-readable text-[10px] text-[var(--muted-2)] bg-black/30 rounded p-2 mt-1 overflow-x-auto">AI_REVIEW_PROVIDER=openrouter{`\n`}AI_REVIEW_API_KEY=ta_cle_openrouter</pre>
                   <a href="https://openrouter.ai/keys" target="_blank" rel="noopener noreferrer" className="text-[10px] text-[#4F8EF7] hover:underline mt-1 inline-block">
                     {t("adminAi.optionAKey")}
                   </a>
@@ -182,22 +182,22 @@ export default async function AdminIAConfigPage() {
                     <iconify-icon icon="lucide:smile" style={{ fontSize: "13px" }} />
                     {t("adminAi.optionB")}
                   </div>
-                  <pre className="font-body-readable text-[10px] text-[#b3b3b3] bg-black/30 rounded p-2 mt-1 overflow-x-auto">AI_REVIEW_PROVIDER=huggingface</pre>
+                  <pre className="font-body-readable text-[10px] text-[var(--muted-2)] bg-black/30 rounded p-2 mt-1 overflow-x-auto">AI_REVIEW_PROVIDER=huggingface</pre>
                   <p className="text-[10px] text-violet-200/70 mt-1">{t("adminAi.optionBDesc")}</p>
                 </div>
 
-                <div className="rounded-lg border border-white/[0.06] bg-white/[0.02] p-3">
-                  <div className="text-[11px] text-[#ccc] font-semibold flex items-center gap-1.5 mb-1">
+                <div className="rounded-lg border border-[var(--border-2)] bg-[var(--overlay-2)] p-3">
+                  <div className="text-[11px] text-[var(--muted-1)] font-semibold flex items-center gap-1.5 mb-1">
                     <iconify-icon icon="lucide:sparkles" style={{ fontSize: "13px" }} />
                     {t("adminAi.optionC")}
                   </div>
-                  <pre className="font-body-readable text-[10px] text-[#b3b3b3] bg-black/30 rounded p-2 mt-1 overflow-x-auto">AI_REVIEW_PROVIDER=gemini{`\n`}AI_REVIEW_API_KEY=ta_cle_gemini</pre>
+                  <pre className="font-body-readable text-[10px] text-[var(--muted-2)] bg-black/30 rounded p-2 mt-1 overflow-x-auto">AI_REVIEW_PROVIDER=gemini{`\n`}AI_REVIEW_API_KEY=ta_cle_gemini</pre>
                 </div>
               </div>
             </div>
 
-            <div className="rounded-xl border border-white/[0.08] bg-[#0f0f0f] p-4">
-              <div className="text-[11px] text-white font-semibold mb-2">{t("adminAi.stepGetKey")}</div>
+            <div className="rounded-xl border border-[var(--border-3)] bg-[var(--surface-3)] p-4">
+              <div className="text-[11px] text-[var(--text-primary)] font-semibold mb-2">{t("adminAi.stepGetKey")}</div>
               <div className="space-y-2">
                 {providers.filter(p => !p.apiKeyOptional).map((p) => (
                   <a
@@ -205,7 +205,7 @@ export default async function AdminIAConfigPage() {
                     href={p.docsUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 rounded-lg border border-white/[0.06] bg-white/[0.02] px-3.5 py-2.5 text-[12px] text-[#c7c7c7] hover:bg-white/[0.04] transition-colors"
+                    className="flex items-center gap-2 rounded-lg border border-[var(--border-2)] bg-[var(--overlay-2)] px-3.5 py-2.5 text-[12px] text-[var(--muted-1)] hover:bg-[var(--overlay-4)] transition-colors"
                   >
                     <iconify-icon icon={p.icon} style={{ fontSize: "14px", color: "#4F8EF7" }} />
                     <span>{t("adminAi.getApiKey").replace("{name}", p.name)}</span>
@@ -221,18 +221,18 @@ export default async function AdminIAConfigPage() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-white/[0.08] bg-[#111] p-6">
-          <h2 className="font-venite-italic text-[14px] text-white mb-4">
+        <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-6">
+          <h2 className="font-venite-italic text-[14px] text-[var(--text-primary)] mb-4">
             <iconify-icon icon="lucide:brain" style={{ fontSize: "16px", color: "#9B6DFF", marginRight: "8px" }} />
             {t("adminAi.availableModels")}
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {providers.map((p) => (
-              <div key={p.id} className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4">
+              <div key={p.id} className="rounded-xl border border-[var(--border-3)] bg-[var(--overlay-2)] p-4">
                 <div className="flex items-center gap-2 mb-2">
                   <iconify-icon icon={p.icon} style={{ fontSize: "15px", color: "#4F8EF7" }} />
-                  <span className="text-[12px] text-white font-semibold">{p.name}</span>
+                  <span className="text-[12px] text-[var(--text-primary)] font-semibold">{p.name}</span>
                 </div>
                 <div className="space-y-1.5">
                   {p.models.map((model) => {
@@ -243,7 +243,7 @@ export default async function AdminIAConfigPage() {
                         className={`text-[11px] font-body-readable px-2.5 py-1.5 rounded-lg ${
                           isActive
                             ? "bg-blue-500/10 text-blue-100 border border-blue-400/20"
-                            : "text-[#9b9b9b]"
+                            : "text-[var(--muted-2)]"
                         }`}
                       >
                         {model}
@@ -268,18 +268,18 @@ export default async function AdminIAConfigPage() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-white/[0.08] bg-[#111] p-6">
-          <h2 className="font-venite-italic text-[14px] text-white mb-2">
+        <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-6">
+          <h2 className="font-venite-italic text-[14px] text-[var(--text-primary)] mb-2">
             <iconify-icon icon="lucide:shuffle" style={{ fontSize: "16px", color: "#4F8EF7", marginRight: "8px" }} />
             {t("adminAi.fallbackTitle")}
           </h2>
-          <p className="font-body-readable text-[12px] text-[#a5a5a5] leading-relaxed mb-4">
+          <p className="font-body-readable text-[12px] text-[var(--muted-2)] leading-relaxed mb-4">
             {t("adminAi.fallbackDesc")}
           </p>
 
-          <div className="rounded-xl border border-white/[0.08] bg-[#0f0f0f] p-4">
-            <div className="text-[11px] text-white font-semibold mb-2">{t("adminAi.fallbackConfigTitle")}</div>
-            <pre className="font-body-readable text-[10px] text-[#b3b3b3] bg-black/30 rounded p-3 overflow-x-auto">
+          <div className="rounded-xl border border-[var(--border-3)] bg-[var(--surface-3)] p-4">
+            <div className="text-[11px] text-[var(--text-primary)] font-semibold mb-2">{t("adminAi.fallbackConfigTitle")}</div>
+            <pre className="font-body-readable text-[10px] text-[var(--muted-2)] bg-black/30 rounded p-3 overflow-x-auto">
               <span className="text-[#6ec3ff]">{t("adminAi.fallbackPrimary")}</span>
               AI_REVIEW_PROVIDER=openrouter
               {`\n`}
@@ -307,27 +307,27 @@ export default async function AdminIAConfigPage() {
               </div>
             ) : (
               <div className="rounded-lg border border-amber-500/20 bg-amber-500/[0.06] px-3.5 py-2.5 text-[11px] text-amber-100">
-                {t("adminAi.fallbackNone").replace("{var}", '<strong className="text-white">AI_REVIEW_FALLBACK=huggingface,gemini</strong>')}
+                {t("adminAi.fallbackNone").replace("{var}", '<strong className="text-[var(--text-primary)]">AI_REVIEW_FALLBACK=huggingface,gemini</strong>')}
               </div>
             )}
           </div>
         </div>
 
-        <div className="rounded-2xl border border-white/[0.08] bg-[#111] p-6">
-          <h2 className="font-venite-italic text-[14px] text-white mb-2">
+        <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-6">
+          <h2 className="font-venite-italic text-[14px] text-[var(--text-primary)] mb-2">
             <iconify-icon icon="lucide:zap" style={{ fontSize: "16px", color: "#4F8EF7", marginRight: "8px" }} />
             {t("adminAi.testTitle")}
           </h2>
-          <p className="font-body-readable text-[12px] text-[#a5a5a5] leading-relaxed mb-4">
+          <p className="font-body-readable text-[12px] text-[var(--muted-2)] leading-relaxed mb-4">
             {t("adminAi.testDesc")}
           </p>
 
           <AIReviewTestButton />
 
-          <div className="mt-4 rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3">
+          <div className="mt-4 rounded-xl border border-[var(--border-2)] bg-[var(--overlay-2)] px-4 py-3">
             <div className="flex items-start gap-2.5">
               <iconify-icon icon="lucide:info" style={{ fontSize: "14px", color: "#888", marginTop: "1px" }} />
-              <div className="font-body-readable text-[11px] text-[#999] leading-relaxed">
+              <div className="font-body-readable text-[11px] text-[var(--muted-3)] leading-relaxed">
                 {t("adminAi.testInfo")}
               </div>
             </div>

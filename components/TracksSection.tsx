@@ -35,7 +35,7 @@ export default async function ParcoursSection({ tracks = [] }: Props) {
         {featuredTracks.length ? (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
             {featuredTracks.map((track) => (
-                <article key={track.id} className="bg-[#111] border border-white/[0.07] rounded-2xl p-6 card-hover project-card">
+                <article key={track.id} className="bg-[var(--surface-1)] border border-[var(--border-3)] rounded-2xl p-6 card-hover project-card">
                   <div className="flex items-start justify-between mb-5">
                     <div
                       className="w-11 h-11 rounded-xl border flex items-center justify-center"
@@ -48,9 +48,9 @@ export default async function ParcoursSection({ tracks = [] }: Props) {
                     </div>
                     <span className={getLevelChipClass(track.levelLabel) + " text-[10px] font-semibold px-2.5 py-1 rounded-full"}>{track.levelLabel}</span>
                   </div>
-                  <div className="font-venite text-[14px] text-white mb-2">{track.title.toUpperCase()}</div>
-                  <p className="font-body-readable text-[12px] text-[#666] leading-relaxed mb-5">{track.summary}</p>
-                  <div className="font-body-readable flex items-center gap-4 mb-5 text-[11px] text-[#555]">
+                  <div className="font-venite text-[14px] text-[var(--text-primary)] mb-2">{track.title.toUpperCase()}</div>
+                  <p className="font-body-readable text-[12px] text-[var(--muted-4)] leading-relaxed mb-5">{track.summary}</p>
+                  <div className="font-body-readable flex items-center gap-4 mb-5 text-[11px] text-[var(--muted-5)]">
                     <span className="flex items-center gap-1.5"><iconify-icon icon="lucide:clock" /> {track.durationWeeks} {t("parcoursSection.weeks")}</span>
                     <span className="flex items-center gap-1.5"><iconify-icon icon="lucide:book" /> {formatTrackMeta(track)}</span>
                   </div>
@@ -61,7 +61,7 @@ export default async function ParcoursSection({ tracks = [] }: Props) {
             ))}
           </div>
         ) : (
-          <div className="rounded-2xl border border-white/[0.08] bg-[#111] p-6 text-[13px] text-[#888] font-body-readable">
+          <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-6 text-[13px] text-[var(--muted-3)] font-body-readable">
             {t("parcoursSection.empty")}
           </div>
         )}

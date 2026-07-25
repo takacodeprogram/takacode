@@ -39,7 +39,7 @@ export default function ReferralLink({ code = "", baseUrl = "" }: Props) {
           readOnly
           value={link}
           onFocus={(e) => e.target.select()}
-          className="flex-1 min-w-0 rounded-lg border border-white/[0.1] bg-[#0f0f0f] px-3 py-2.5 font-mono text-[11px] text-[#cfcfcf] focus:outline-none focus:border-blue-400/40"
+          className="flex-1 min-w-0 rounded-lg border border-[var(--border-4)] bg-[var(--surface-3)] px-3 py-2.5 font-mono text-[11px] text-[var(--muted-1)] focus:outline-none focus:border-blue-400/40"
         />
         <button
           type="button"

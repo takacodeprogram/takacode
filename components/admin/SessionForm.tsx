@@ -42,7 +42,7 @@ function toLocalInput(value: string | null | undefined): string {
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block">
-      <span className="text-[10px] text-[#8d8d8d] uppercase tracking-widest font-semibold">{label}</span>
+      <span className="text-[10px] text-[var(--muted-3)] uppercase tracking-widest font-semibold">{label}</span>
       <div className="mt-1">{children}</div>
     </label>
   );
@@ -131,7 +131,7 @@ export default function SessionForm({ tracks = [], session = null }: SessionForm
   }
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 space-y-4">
+    <form onSubmit={handleSubmit} className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-5 space-y-4">
       <Field label={t("adminSessions.fieldTitle")}><input className={INPUT} value={String(form.title)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("title", e.target.value)} placeholder={t("adminSessions.titlePlaceholder")} /></Field>
       <Field label={t("adminSessions.fieldDescription")}><textarea className={`${INPUT} min-h-[70px]`} value={String(form.description)} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setField("description", e.target.value)} /></Field>
 
@@ -153,7 +153,7 @@ export default function SessionForm({ tracks = [], session = null }: SessionForm
         <Field label={t("adminSessions.fieldReplayUrl")}><input className={INPUT} value={String(form.replay_url)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("replay_url", e.target.value)} placeholder={t("adminSessions.replayUrlPlaceholder")} /></Field>
       </div>
 
-      <label className="text-[11px] text-[#9b9b9b] flex items-center gap-1.5">
+      <label className="text-[11px] text-[var(--muted-2)] flex items-center gap-1.5">
         <input type="checkbox" checked={form.is_published === true} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("is_published", e.target.checked)} /> {t("adminSessions.publishedLabel")}
       </label>
 

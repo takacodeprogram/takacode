@@ -22,11 +22,11 @@ function HeroStat({ value, suffix = "", label }: HeroStatProps) {
   return (
     <div>
       {hasValue ? (
-        <CountUpStat end={Number(value)} suffix={suffix} className="stat-value text-[28px] text-white mb-0.5" />
+        <CountUpStat end={Number(value)} suffix={suffix} className="stat-value text-[28px] text-[var(--text-primary)] mb-0.5" />
       ) : (
-        <div className="stat-value text-[28px] text-white mb-0.5">—</div>
+        <div className="stat-value text-[28px] text-[var(--text-primary)] mb-0.5">—</div>
       )}
-      <div className="font-body-readable text-[12px] text-[#555] font-medium">{label}</div>
+      <div className="font-body-readable text-[12px] text-[var(--muted-5)] font-medium">{label}</div>
     </div>
   );
 }
@@ -59,7 +59,7 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
               <span className="gradient-text-blue">{t("home.hero.title2")}</span>
             </h1>
 
-            <p className="animate-fade-up-d2 font-body-readable text-[#9A9A9A] text-[15px] leading-relaxed mb-9 max-w-[460px]">
+            <p className="animate-fade-up-d2 font-body-readable text-[var(--muted-2)] text-[15px] leading-relaxed mb-9 max-w-[460px]">
               {t("home.hero.subtitle")}
             </p>
 
@@ -82,7 +82,7 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
               </Link>
             </div>
 
-            <div className="animate-fade-up-d4 grid grid-cols-3 gap-4 sm:gap-8 pt-8 border-t border-white/[0.06] max-w-[520px]">
+            <div className="animate-fade-up-d4 grid grid-cols-3 gap-4 sm:gap-8 pt-8 border-t border-[var(--border-2)] max-w-[520px]">
               <HeroStat value={stats?.members} label={t("home.hero.statMembers")} />
               <HeroStat value={stats?.submittedProjects} label={t("home.hero.statProjects")} />
               <HeroStat value={stats?.publishedTracks} label={t("home.hero.statTracks")} />
@@ -90,14 +90,14 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
           </div>
 
           <div className="float-anim relative pt-20 pb-20 sm:pt-12 sm:pb-12">
-            <div className="bg-[#111] border border-white/[0.07] rounded-2xl px-6 py-8 glow-blue relative overflow-hidden z-10">
+            <div className="bg-[var(--surface-1)] border border-[var(--border-3)] rounded-2xl px-6 py-8 glow-blue relative overflow-hidden z-10">
               <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/30 to-transparent" />
               <div className="absolute inset-0 bg-gradient-to-br from-blue-500/[0.02] to-violet-500/[0.03]" />
               <div className="relative z-10">
                 <div className="flex items-center justify-between mb-5">
                   <div>
                     <div className="section-label font-venite-italic mb-1">{t("home.hero.roadmapLabel")}</div>
-                    <div className="font-body-readable text-[12px] text-[#555]">{t("home.hero.roadmapStatus")}</div>
+                    <div className="font-body-readable text-[12px] text-[var(--muted-5)]">{t("home.hero.roadmapStatus")}</div>
                   </div>
                   <div className="flex items-center gap-1.5">
                     <div className="w-2 h-2 rounded-full bg-green-400" style={{ animation: "pulse-glow 2s'ease infinite" }} />
@@ -108,10 +108,10 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
                 <div className="space-y-4 roadmap-progress-list">
                   <div className="roadmap-progress-item roadmap-progress-item-1">
                     <div className="flex items-center justify-between mb-1.5">
-                      <span className="font-venite-italic text-[12px] text-[#888]">{t("home.hero.roadmapIdea")}</span>
+                      <span className="font-venite-italic text-[12px] text-[var(--muted-3)]">{t("home.hero.roadmapIdea")}</span>
                       <span className="font-body-readable text-[11px] text-green-400">{t("home.hero.roadmapDone")}</span>
                     </div>
-                    <div className="h-1 bg-white/[0.05] rounded-full overflow-hidden">
+                    <div className="h-1 bg-[var(--overlay-5)] rounded-full overflow-hidden">
                       <div
                         className="progress-bar h-full roadmap-progress-fill"
                         style={{ "--target-width": "100%", "--progress-delay": "0.1s", "--progress-start": "#22c55e", "--progress-end": "#86efac", "--progress-accent": "#dcfce7", "--progress-glow": "rgba(34,197,94,0.45)" } as React.CSSProperties}
@@ -121,10 +121,10 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
 
                   <div className="roadmap-progress-item roadmap-progress-item-2">
                     <div className="flex items-center justify-between mb-1.5">
-                      <span className="font-venite-italic text-[12px] text-[#888]">{t("home.hero.roadmapTrack")}</span>
+                      <span className="font-venite-italic text-[12px] text-[var(--muted-3)]">{t("home.hero.roadmapTrack")}</span>
                       <span className="font-body-readable text-[11px] text-[#4F8EF7]">{t("home.hero.roadmapInProgress")}</span>
                     </div>
-                    <div className="h-1 bg-white/[0.05] rounded-full overflow-hidden">
+                    <div className="h-1 bg-[var(--overlay-5)] rounded-full overflow-hidden">
                       <div
                         className="progress-bar h-full roadmap-progress-fill"
                         style={{ "--target-width": "62%", "--progress-delay": "0.28s", "--progress-start": "#4F8EF7", "--progress-end": "#22D3EE", "--progress-accent": "#bfdbfe", "--progress-glow": "rgba(79,142,247,0.42)" } as React.CSSProperties}
@@ -134,10 +134,10 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
 
                   <div className="roadmap-progress-item roadmap-progress-item-3">
                     <div className="flex items-center justify-between mb-1.5">
-                      <span className="font-venite-italic text-[12px] text-[#555]">{t("home.hero.roadmapMonetization")}</span>
-                      <span className="font-body-readable text-[11px] text-[#555]">{t("home.hero.roadmapUpcoming")}</span>
+                      <span className="font-venite-italic text-[12px] text-[var(--muted-5)]">{t("home.hero.roadmapMonetization")}</span>
+                      <span className="font-body-readable text-[11px] text-[var(--muted-5)]">{t("home.hero.roadmapUpcoming")}</span>
                     </div>
-                    <div className="h-1 bg-white/[0.05] rounded-full overflow-hidden">
+                    <div className="h-1 bg-[var(--overlay-5)] rounded-full overflow-hidden">
                       <div
                         className="progress-bar h-full roadmap-progress-fill"
                         style={{ "--target-width": "15%", "--progress-delay": "0.46s", "--progress-start": "#f59e0b", "--progress-end": "#f97316", "--progress-accent": "#fdba74", "--progress-glow": "rgba(245,158,11,0.4)" } as React.CSSProperties}
@@ -149,7 +149,7 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
             </div>
 
             <div
-              className="absolute bottom-4 left-2 sm:-bottom-6 sm:-left-6 bg-[#151515] border border-white/[0.07] rounded-xl p-3.5 shadow-xl w-[250px] z-0"
+              className="absolute bottom-4 left-2 sm:-bottom-6 sm:-left-6 bg-[var(--surface-2)] border border-[var(--border-3)] rounded-xl p-3.5 shadow-xl w-[250px] z-0"
               style={{ animation: "float 5s'ease-in-out 1s'infinite" }}
             >
               <div className="flex items-center gap-2.5">
@@ -157,14 +157,14 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
                   <span className="font-venite-italic text-[10px] text-green-400">OK</span>
                 </div>
                 <div>
-                  <div className="font-venite-italic text-[11px] text-white">{t("home.hero.floatingPublished")}</div>
-                  <div className="font-body-readable text-[10px] text-[#555]">{t("home.hero.floatingWebApp")}</div>
+                  <div className="font-venite-italic text-[11px] text-[var(--text-primary)]">{t("home.hero.floatingPublished")}</div>
+                  <div className="font-body-readable text-[10px] text-[var(--muted-5)]">{t("home.hero.floatingWebApp")}</div>
                 </div>
               </div>
             </div>
 
             <div
-              className="absolute top-4 right-2 sm:-top-6 sm:-right-4 bg-[#151515] border border-white/[0.07] rounded-xl p-3.5 shadow-xl z-0"
+              className="absolute top-4 right-2 sm:-top-6 sm:-right-4 bg-[var(--surface-2)] border border-[var(--border-3)] rounded-xl p-3.5 shadow-xl z-0"
               style={{ animation: "float 5s'ease-in-out 0.5s'infinite" }}
             >
               <div className="flex items-center gap-2.5">
@@ -172,8 +172,8 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
                   <span className="font-venite-italic text-[10px] text-blue-400">LIVE</span>
                 </div>
                 <div>
-                  <div className="font-venite-italic text-[11px] text-white">{t("home.hero.floatingSessionLive")}</div>
-                  <div className="font-body-readable text-[10px] text-[#555]">{t("home.hero.floatingSessionInfo")}</div>
+                  <div className="font-venite-italic text-[11px] text-[var(--text-primary)]">{t("home.hero.floatingSessionLive")}</div>
+                  <div className="font-body-readable text-[10px] text-[var(--muted-5)]">{t("home.hero.floatingSessionInfo")}</div>
                 </div>
               </div>
             </div>

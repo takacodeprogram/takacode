@@ -25,10 +25,10 @@ function getInitials(name: string) {
 
 function Avatar({ url, name, size = 36 }: { url: string; name: string; size?: number }) {
   if (url) {
-    return <img src={url} alt="" className="rounded-full border border-white/10 object-cover bg-white/[0.03]" style={{ width: size, height: size }} />;
+    return <img src={url} alt="" className="rounded-full border border-white/10 object-cover bg-[var(--overlay-3)]" style={{ width: size, height: size }} />;
   }
   return (
-    <div className="rounded-full border border-white/10 bg-gradient-to-br from-blue-400 to-cyan-500 flex items-center justify-center font-semibold text-white" style={{ width: size, height: size, fontSize: size * 0.32 }}>
+    <div className="rounded-full border border-white/10 bg-gradient-to-br from-blue-400 to-cyan-500 flex items-center justify-center font-semibold text-[var(--text-primary)]" style={{ width: size, height: size, fontSize: size * 0.32 }}>
       {getInitials(name)}
     </div>
   );
@@ -147,47 +147,47 @@ export default function CommunityContent() {
             <h1 className="font-valorax gradient-text" style={{ fontSize: "clamp(32px, 4vw, 52px)", letterSpacing: "-0.02em" }}>
               {t("communityContent.heading")}
             </h1>
-            <p className="font-body-readable text-[14px] text-[#888] mt-3">{t("communityContent.subtitle")}</p>
+            <p className="font-body-readable text-[14px] text-[var(--muted-3)] mt-3">{t("communityContent.subtitle")}</p>
           </div>
 
           {loading ? (
-            <div className="text-center text-[13px] text-[#666] font-body-readable py-12">{t("communityContent.loading")}</div>
+            <div className="text-center text-[13px] text-[var(--muted-4)] font-body-readable py-12">{t("communityContent.loading")}</div>
           ) : (
             <>
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
                 {statCards.map((tile) => (
-                  <div key={tile.label} className="rounded-2xl border border-white/[0.08] bg-[#111] px-4 py-4 text-center">
+                  <div key={tile.label} className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] px-4 py-4 text-center">
                     <iconify-icon icon={tile.icon} style={{ fontSize: "20px", color: tile.accent || "#4F8EF7" }} />
-                    <div className="text-[24px] text-white font-semibold mt-1">{tile.value !== null && Number.isFinite(Number(tile.value)) ? tile.value : "—"}</div>
-                    <div className="text-[11px] text-[#666] font-body-readable">{tile.label}</div>
+                    <div className="text-[24px] text-[var(--text-primary)] font-semibold mt-1">{tile.value !== null && Number.isFinite(Number(tile.value)) ? tile.value : "—"}</div>
+                    <div className="text-[11px] text-[var(--muted-4)] font-body-readable">{tile.label}</div>
                   </div>
                 ))}
               </div>
 
               {/* Activity Feed */}
-              <section className="rounded-2xl border border-white/[0.08] bg-[#111] p-5">
-                <div className="font-venite text-[13px] tracking-widest text-[#888] mb-4">{t("communityContent.activityFeed")}</div>
+              <section className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-5">
+                <div className="font-venite text-[13px] tracking-widest text-[var(--muted-3)] mb-4">{t("communityContent.activityFeed")}</div>
                 <div className="space-y-3">
                   {projects.slice(0, 3).map((project, i) => (
-                    <L key={project.id} href={`/projects/${project.id}`} className="flex items-center gap-3 rounded-lg p-3 hover:bg-white/[0.02] transition-colors">
+                    <L key={project.id} href={`/projects/${project.id}`} className="flex items-center gap-3 rounded-lg p-3 hover:bg-[var(--overlay-2)] transition-colors">
                       <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/15 flex items-center justify-center shrink-0">
                         <iconify-icon icon={project.liveUrl ? "lucide:globe" : "lucide:hammer"} className="text-[#4F8EF7]" style={{ fontSize: "18px" }} />
                       </div>
                       <div className="min-w-0">
-                        <div className="text-[12px] text-white font-semibold truncate">{project.title}</div>
-                        <div className="text-[10px] text-[#666] flex items-center gap-2">
+                        <div className="text-[12px] text-[var(--text-primary)] font-semibold truncate">{project.title}</div>
+                        <div className="text-[10px] text-[var(--muted-4)] flex items-center gap-2">
                           <span>{project.author}</span>
                           <span>·</span>
                           <span>{formatRelative(project.firstEuroAt, locale, t)}</span>
                         </div>
                       </div>
-                      <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${project.liveUrl ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-200" : "border-white/[0.12] bg-white/[0.03] text-[#888]"}`}>
+                      <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${project.liveUrl ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-200" : "border-[var(--border-4)] bg-[var(--overlay-3)] text-[var(--muted-3)]"}`}>
                         {project.liveUrl ? t("communityContent.statusOnline") : t("communityContent.statusInProgress")}
                       </span>
                     </L>
                   ))}
                   {projects.length === 0 && (
-                    <div className="text-center text-[12px] text-[#666] py-4">{t("communityContent.noActivity")}</div>
+                    <div className="text-center text-[12px] text-[var(--muted-4)] py-4">{t("communityContent.noActivity")}</div>
                   )}
                 </div>
               </section>
@@ -195,12 +195,12 @@ export default function CommunityContent() {
               <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_0.9fr] gap-6">
                 <section>
                   <div className="flex items-center justify-between mb-4">
-                    <h2 className="font-venite text-[13px] tracking-widest text-[#888]">{t("communityContent.projectsTitle")}</h2>
+                    <h2 className="font-venite text-[13px] tracking-widest text-[var(--muted-3)]">{t("communityContent.projectsTitle")}</h2>
                     <div className="flex items-center gap-2">
                       <select
                         value={filter}
                         onChange={(e) => setFilter(e.target.value as ProjectFilter)}
-                        className="auth-input text-[12px] bg-[#111] border-white/[0.08] px-3 py-1.5 rounded-lg"
+                        className="auth-input text-[12px] bg-[var(--surface-1)] border-[var(--border-3)] px-3 py-1.5 rounded-lg"
                       >
                         <option value="published">{t("communityContent.filterPublished")}</option>
                         <option value="in_progress">{t("communityContent.filterInProgress")}</option>
@@ -216,9 +216,9 @@ export default function CommunityContent() {
                         const projectComments = comments[project.id] || [];
                         const isOpen = showComments[project.id];
                         return (
-                          <article key={project.id} className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 card-hover">
+                          <article key={project.id} className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-5 card-hover">
                             <div className="flex items-center justify-between gap-2 mb-1">
-                              <div className="text-[13px] text-white font-semibold leading-tight">{project.title}</div>
+                              <div className="text-[13px] text-[var(--text-primary)] font-semibold leading-tight">{project.title}</div>
                               <div className="flex items-center gap-1.5 shrink-0">
                                 {project.liveUrl && project.liveUrl.length > 0 && (
                                   <span className="inline-flex items-center gap-1 text-[9px] font-semibold px-1.5 py-0.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-200">
@@ -233,33 +233,33 @@ export default function CommunityContent() {
                                   </span>
                                 ) : null}
                                 {!project.liveUrl && !project.hasDeclaredFirstEuro && (
-                                  <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full border border-white/[0.12] bg-white/[0.03] text-[#888]">
+                                  <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full border border-[var(--border-4)] bg-[var(--overlay-3)] text-[var(--muted-3)]">
                                     {t("communityContent.statusInProgress")}
                                   </span>
                                 )}
                               </div>
                             </div>
-                            {project.objective ? <p className="font-body-readable text-[12px] text-[#a5a5a5] leading-snug mb-3">{project.objective}</p> : null}
+                            {project.objective ? <p className="font-body-readable text-[12px] text-[var(--muted-2)] leading-snug mb-3">{project.objective}</p> : null}
 
-                            <div className="flex items-center justify-between gap-2 pt-3 border-t border-white/[0.05] mb-3">
+                            <div className="flex items-center justify-between gap-2 pt-3 border-t border-[var(--border-1)] mb-3">
                               <div className="flex items-center gap-2 min-w-0">
                                 <Avatar url={project.avatarUrl} name={project.author} size={26} />
-                                <span className="text-[11px] text-[#888] truncate">{project.author}</span>
+                                <span className="text-[11px] text-[var(--muted-3)] truncate">{project.author}</span>
                               </div>
                               <div className="flex items-center gap-2 shrink-0">
                                 {project.likeCount > 0 ? (
-                                  <span className="text-[11px] text-[#888] inline-flex items-center gap-1">
+                                  <span className="text-[11px] text-[var(--muted-3)] inline-flex items-center gap-1">
                                     <iconify-icon icon="lucide:heart" style={{ fontSize: "12px" }} />
                                     {project.likeCount}
                                   </span>
                                 ) : null}
                                 {project.liveUrl ? (
-                                  <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="text-[#89c7ff] hover:text-white" title={t("communityContent.viewOnline")} onClick={(e) => e.stopPropagation()}>
+                                  <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="text-[#89c7ff] hover:text-[var(--text-primary)]" title={t("communityContent.viewOnline")} onClick={(e) => e.stopPropagation()}>
                                     <iconify-icon icon="lucide:external-link" style={{ fontSize: "14px" }} />
                                   </a>
                                 ) : null}
                                 {project.repoUrl ? (
-                                  <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" className="text-[#89c7ff] hover:text-white" title={t("communityContent.code")} onClick={(e) => e.stopPropagation()}>
+                                  <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" className="text-[#89c7ff] hover:text-[var(--text-primary)]" title={t("communityContent.code")} onClick={(e) => e.stopPropagation()}>
                                     <iconify-icon icon="lucide:github" style={{ fontSize: "14px" }} />
                                   </a>
                                 ) : null}
@@ -267,7 +267,7 @@ export default function CommunityContent() {
                             </div>
 
                             {/* Comments section */}
-                            <div className="border-t border-white/[0.05] pt-3">
+                            <div className="border-t border-[var(--border-1)] pt-3">
                               <button
                                 onClick={() => loadComments(project.id)}
                                 className="flex items-center gap-1.5 text-[11px] text-[#4F8EF7] hover:underline mb-2"
@@ -279,21 +279,21 @@ export default function CommunityContent() {
                               {isOpen && (
                                 <div className="space-y-2.5">
                                   {projectComments.map((comment) => (
-                                    <div key={comment.id} className="rounded-lg bg-white/[0.02] p-3">
+                                    <div key={comment.id} className="rounded-lg bg-[var(--overlay-2)] p-3">
                                       <div className="flex items-start gap-2 mb-1">
                                         <Avatar url={comment.authorAvatar} name={comment.author} size={24} />
                                         <div className="flex-1 min-w-0">
                                           <div className="flex items-center gap-2 text-[11px] mb-1">
-                                            <span className="font-semibold text-white">{comment.author}</span>
-                                            <span className="text-[#666]">{formatRelative(comment.createdAt, locale, t)}</span>
+                                            <span className="font-semibold text-[var(--text-primary)]">{comment.author}</span>
+                                            <span className="text-[var(--muted-4)]">{formatRelative(comment.createdAt, locale, t)}</span>
                                           </div>
-                                          <p className="font-body-readable text-[12px] text-[#a5a5a5] leading-snug">{comment.content}</p>
+                                          <p className="font-body-readable text-[12px] text-[var(--muted-2)] leading-snug">{comment.content}</p>
                                         </div>
                                       </div>
                                     </div>
                                   ))}
                                   {projectComments.length === 0 && (
-                                    <p className="text-[11px] text-[#666] font-body-readable text-center py-2">{t("communityContent.commentsEmpty")}</p>
+                                    <p className="text-[11px] text-[var(--muted-4)] font-body-readable text-center py-2">{t("communityContent.commentsEmpty")}</p>
                                   )}
                                   <form onSubmit={(e) => handleSubmitComment(project.id, e)} className="flex gap-2 mt-2">
                                     <input
@@ -316,7 +316,7 @@ export default function CommunityContent() {
                       })}
                     </div>
                   ) : (
-                    <div className="rounded-2xl border border-white/[0.07] bg-[#111] p-8 text-center font-body-readable text-[13px] text-[#777]">
+                    <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-8 text-center font-body-readable text-[13px] text-[var(--muted-3)]">
                       {t("communityContent.noProjectsFilter")}
                     </div>
                   )}
@@ -325,32 +325,32 @@ export default function CommunityContent() {
                 <section className="space-y-6">
                   <div>
                     <div className="flex items-center justify-between mb-3">
-                      <h2 className="font-venite text-[13px] tracking-widest text-[#888]">{t("communityContent.topMembers")}</h2>
+                      <h2 className="font-venite text-[13px] tracking-widest text-[var(--muted-3)]">{t("communityContent.topMembers")}</h2>
                       <L href="/leaderboard" className="text-[11px] text-[#4F8EF7] hover:underline">{t("communityContent.leaderboardLink")}</L>
                     </div>
-                    <div className="rounded-2xl border border-white/[0.08] bg-[#111] divide-y divide-white/[0.05]">
+                    <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] divide-y divide-white/[0.05]">
                       {topMembers.length ? (
                         topMembers.map((entry) => (
-                          <L key={entry.rank} href={`/profile/${entry.id}`} className="flex items-center gap-3 px-4 py-2.5 hover:bg-white/[0.02] transition-colors">
-                            <span className="w-5 text-center text-[12px] text-[#888] font-semibold">{entry.rank}</span>
+                          <L key={entry.rank} href={`/profile/${entry.id}`} className="flex items-center gap-3 px-4 py-2.5 hover:bg-[var(--overlay-2)] transition-colors">
+                            <span className="w-5 text-center text-[12px] text-[var(--muted-3)] font-semibold">{entry.rank}</span>
                             <Avatar url={entry.avatarUrl} name={entry.publicName} size={30} />
-                            <span className="flex-1 min-w-0 text-[12px] text-white font-semibold truncate">{entry.publicName}</span>
+                            <span className="flex-1 min-w-0 text-[12px] text-[var(--text-primary)] font-semibold truncate">{entry.publicName}</span>
                             <span className="text-[11px] text-[#6ec3ff] font-semibold shrink-0">{entry.points} XP</span>
                           </L>
                         ))
                       ) : (
-                        <div className="px-4 py-4 text-[12px] text-[#777] font-body-readable">{t("communityContent.noMembers")}</div>
+                        <div className="px-4 py-4 text-[12px] text-[var(--muted-3)] font-body-readable">{t("communityContent.noMembers")}</div>
                       )}
                     </div>
                   </div>
 
                   <div>
-                    <h2 className="font-venite text-[13px] tracking-widest text-[#888] mb-3">{t("communityContent.upcomingSessions")}</h2>
+                    <h2 className="font-venite text-[13px] tracking-widest text-[var(--muted-3)] mb-3">{t("communityContent.upcomingSessions")}</h2>
                     <div className="space-y-2.5">
                       {upcoming.length ? (
                         upcoming.map((session) => (
-                          <article key={session.id} className="rounded-2xl border border-white/[0.08] bg-[#111] p-4">
-                            <div className="text-[13px] text-white font-semibold leading-tight">{session.title}</div>
+                          <article key={session.id} className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-4">
+                            <div className="text-[13px] text-[var(--text-primary)] font-semibold leading-tight">{session.title}</div>
                             <div className="text-[11px] text-[#89c7ff] font-body-readable inline-flex items-center gap-1.5 mt-1">
                               <iconify-icon icon="lucide:calendar-clock" style={{ fontSize: "12px" }} />
                               {formatWhen(session.scheduledAt, locale, t)}
@@ -358,7 +358,7 @@ export default function CommunityContent() {
                           </article>
                         ))
                       ) : (
-                        <div className="rounded-2xl border border-white/[0.08] bg-[#111] px-4 py-4 text-[12px] text-[#777] font-body-readable">
+                        <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] px-4 py-4 text-[12px] text-[var(--muted-3)] font-body-readable">
                           {t("communityContent.noSessions")}
                         </div>
                       )}

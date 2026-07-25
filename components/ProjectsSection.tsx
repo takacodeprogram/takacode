@@ -41,19 +41,19 @@ export default async function ProjectsSection() {
             <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "14px" }} />
           </Link>
         </div>
-        <p className="font-body-readable text-[#666] text-[14px] mb-14">{t("projectsSection.emptyLabel")}</p>
+        <p className="font-body-readable text-[var(--muted-4)] text-[14px] mb-14">{t("projectsSection.emptyLabel")}</p>
 
         {projects.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {projects.slice(0, 6).map((project) => (
-              <article key={project.id} className="bg-[#111] border border-white/[0.07] rounded-2xl p-5 card-hover">
+              <article key={project.id} className="bg-[var(--surface-1)] border border-[var(--border-3)] rounded-2xl p-5 card-hover">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-10 h-10 rounded-xl border border-blue-500/30 bg-blue-500/10 flex items-center justify-center">
                     <iconify-icon icon="lucide:folder" style={{ color: "#4F8EF7", fontSize: "18px" }} />
                   </div>
                   <div className="min-w-0">
-                    <div className="text-[10px] text-[#777] uppercase tracking-widest">{t("projectsSection.projectLabel")}</div>
-                    <h3 className="font-venite-italic text-[14px] text-white leading-tight truncate">{project.title}</h3>
+                    <div className="text-[10px] text-[var(--muted-3)] uppercase tracking-widest">{t("projectsSection.projectLabel")}</div>
+                    <h3 className="font-venite-italic text-[14px] text-[var(--text-primary)] leading-tight truncate">{project.title}</h3>
                   </div>
                   {project.hasDeclaredFirstEuro ? (
                     <span className="ml-auto inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-200 shrink-0">
@@ -63,9 +63,9 @@ export default async function ProjectsSection() {
                   ) : null}
                 </div>
                 {project.objective ? (
-                  <p className="font-body-readable text-[11px] text-[#a5a5a5] leading-relaxed mb-3 line-clamp-2">{project.objective}</p>
+                  <p className="font-body-readable text-[11px] text-[var(--muted-2)] leading-relaxed mb-3 line-clamp-2">{project.objective}</p>
                 ) : null}
-                <div className="flex items-center gap-3 text-[10px] text-[#585858] font-body-readable">
+                <div className="flex items-center gap-3 text-[10px] text-[var(--muted-5)] font-body-readable">
                   {project.revenueModel ? <span>{t("projectsSection.revenueModel")} {project.revenueModel}</span> : null}
                   {project.publishedAt ? <span>{t("projectsSection.publishedOn")} {formatDate(project.publishedAt, locale)}</span> : null}
                 </div>
@@ -73,13 +73,13 @@ export default async function ProjectsSection() {
             ))}
           </div>
         ) : (
-          <div className="rounded-2xl border border-white/[0.07] bg-[#111] p-10 flex flex-col items-center text-center gap-4">
-            <div className="w-14 h-14 rounded-2xl border border-white/[0.08] bg-white/[0.02] flex items-center justify-center">
+          <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-10 flex flex-col items-center text-center gap-4">
+            <div className="w-14 h-14 rounded-2xl border border-[var(--border-3)] bg-[var(--overlay-2)] flex items-center justify-center">
               <iconify-icon icon="lucide:rocket" className="text-[#4F8EF7]" style={{ fontSize: "26px" }} />
             </div>
             <div>
-              <div className="font-venite text-[15px] text-white mb-1.5">{t("projectsSection.emptyTitle")}</div>
-              <p className="font-body-readable text-[13px] text-[#777] max-w-[460px]">
+              <div className="font-venite text-[15px] text-[var(--text-primary)] mb-1.5">{t("projectsSection.emptyTitle")}</div>
+              <p className="font-body-readable text-[13px] text-[var(--muted-3)] max-w-[460px]">
                 {t("projectsSection.emptyDesc")}
               </p>
             </div>

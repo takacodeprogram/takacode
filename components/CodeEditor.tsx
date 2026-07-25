@@ -53,9 +53,9 @@ export default function CodeEditor({
   return (
     <div className="space-y-1.5">
       {label ? (
-        <label className="text-[11px] text-[#8d8d8d] uppercase tracking-widest font-semibold">{label}</label>
+        <label className="text-[11px] text-[var(--muted-3)] uppercase tracking-widest font-semibold">{label}</label>
       ) : null}
-      <div className="rounded-xl border border-white/[0.08] overflow-hidden [&_.cm-editor]:outline-none [&_.cm-gutters]:border-r-white/[0.06] [&_.cm-activeLineGutter]:bg-white/[0.03]">
+      <div className="rounded-xl border border-[var(--border-3)] overflow-hidden [&_.cm-editor]:outline-none [&_.cm-gutters]:border-r-white/[0.06] [&_.cm-activeLineGutter]:bg-[var(--overlay-3)]">
         <CodeMirror
           value={value}
           onChange={handleChange}

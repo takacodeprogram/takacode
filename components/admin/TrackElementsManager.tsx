@@ -83,9 +83,9 @@ function SortableModuleCard({
     opacity: isDragging ? 0.4 : 1,
   };
   return (
-    <div ref={setNodeRef} style={style} className="rounded-2xl border border-white/[0.08] bg-[#111] p-4">
+    <div ref={setNodeRef} style={style} className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-4">
       <div className="flex items-start gap-2">
-        <div {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing text-[#444] hover:text-[#888] mt-0.5 shrink-0" style={{ fontSize: "15px" }}>
+        <div {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing text-[var(--muted-6)] hover:text-[var(--muted-3)] mt-0.5 shrink-0" style={{ fontSize: "15px" }}>
           <iconify-icon icon="lucide:grip-vertical" />
         </div>
         <div className="flex-1 min-w-0">{children}</div>
@@ -108,8 +108,8 @@ function SortableLessonRow({
     opacity: isDragging ? 0.4 : 1,
   };
   return (
-    <div ref={setNodeRef} style={style} className="flex items-center gap-2 rounded-lg border border-white/[0.06] bg-[#0f0f0f] px-3 py-2.5">
-      <div {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing text-[#444] hover:text-[#888] shrink-0" style={{ fontSize: "14px" }}>
+    <div ref={setNodeRef} style={style} className="flex items-center gap-2 rounded-lg border border-[var(--border-2)] bg-[var(--surface-3)] px-3 py-2.5">
+      <div {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing text-[var(--muted-6)] hover:text-[var(--muted-3)] shrink-0" style={{ fontSize: "14px" }}>
         <iconify-icon icon="lucide:grip-vertical" />
       </div>
       {children}
@@ -364,8 +364,8 @@ export default function TrackElementsManager({ trackId, initialModules = [], bas
   return (
     <section className="space-y-4">
       <div className="flex items-center justify-between gap-3">
-        <h2 className="font-venite text-[13px] tracking-widest text-[#888]">{t("trackEl.sectionTitle")}</h2>
-        <span className="text-[11px] text-[#6d6d6d]">{t("trackEl.moduleCount").replace("{n}", String(modules.length))}</span>
+        <h2 className="font-venite text-[13px] tracking-widest text-[var(--muted-3)]">{t("trackEl.sectionTitle")}</h2>
+        <span className="text-[11px] text-[var(--muted-4)]">{t("trackEl.moduleCount").replace("{n}", String(modules.length))}</span>
       </div>
 
       <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
@@ -382,7 +382,7 @@ export default function TrackElementsManager({ trackId, initialModules = [], bas
                   <input className={INPUT} value={editForm.summary} onChange={(e) => setEditForm((c) => ({ ...c, summary: e.target.value }))} placeholder={t("trackEl.fieldSummary")} />
                   <div className="flex gap-2">
                     <button type="button" disabled={busy} onClick={() => handleUpdateModule(module.id)} className="btn-secondary text-[11px] h-[34px] px-3">{t("trackEl.save")}</button>
-                    <button type="button" onClick={() => setEditingId("")} className="text-[11px] text-[#888] hover:text-white px-2">{t("admin.cancel")}</button>
+                    <button type="button" onClick={() => setEditingId("")} className="text-[11px] text-[var(--muted-3)] hover:text-[var(--text-primary)] px-2">{t("admin.cancel")}</button>
                   </div>
                 </div>
               ) : (
@@ -394,7 +394,7 @@ export default function TrackElementsManager({ trackId, initialModules = [], bas
                       </span>
                       <div className="min-w-0">
                         <div className="flex items-center gap-2">
-                          <div className="text-[13px] text-white font-semibold leading-tight">{module.title}</div>
+                          <div className="text-[13px] text-[var(--text-primary)] font-semibold leading-tight">{module.title}</div>
                           <button
                             type="button"
                             onClick={() => toggleModulePublish(module.id, module.is_published)}
@@ -402,14 +402,14 @@ export default function TrackElementsManager({ trackId, initialModules = [], bas
                             title={module.is_published ? t("trackEl.publishedTooltip") : t("trackEl.draftTooltip")}
                           />
                         </div>
-                        <div className="text-[11px] text-[#6d6d6d]">/{module.slug}{module.summary ? ` · ${module.summary}` : ""}</div>
+                        <div className="text-[11px] text-[var(--muted-4)]">/{module.slug}{module.summary ? ` · ${module.summary}` : ""}</div>
                       </div>
                     </div>
                     <div className="flex items-center gap-1.5 shrink-0">
-                      <button type="button" onClick={() => startEdit(module)} className="text-[#888] hover:text-white p-1" title={t("trackEl.editModule")}>
+                      <button type="button" onClick={() => startEdit(module)} className="text-[var(--muted-3)] hover:text-[var(--text-primary)] p-1" title={t("trackEl.editModule")}>
                         <iconify-icon icon="lucide:pencil" style={{ fontSize: "14px" }} />
                       </button>
-                      <button type="button" onClick={() => handleDuplicateModule(module)} disabled={busy} className="text-[#888] hover:text-white p-1" title={t("trackEl.duplicateModule")}>
+                      <button type="button" onClick={() => handleDuplicateModule(module)} disabled={busy} className="text-[var(--muted-3)] hover:text-[var(--text-primary)] p-1" title={t("trackEl.duplicateModule")}>
                         <iconify-icon icon="lucide:copy" style={{ fontSize: "14px" }} />
                       </button>
                       <button type="button" onClick={() => handleDeleteModule(module.id)} className="text-red-400/70 hover:text-red-400 p-1" title={t("trackEl.deleteModule")}>
@@ -430,15 +430,15 @@ export default function TrackElementsManager({ trackId, initialModules = [], bas
                               title={lesson.is_published ? t("trackEl.publishedTooltip") : t("trackEl.draftTooltip")}
                             />
                             <div className="min-w-0 flex-1">
-                              <div className="text-[12px] text-[#d0d0d0] leading-tight truncate">{lesson.title}</div>
-                              <div className="text-[10px] text-[#666]">/{lesson.slug} · {lesson.duration_minutes} min · {lesson.xp_reward} XP</div>
+                              <div className="text-[12px] text-[var(--muted-1)] leading-tight truncate">{lesson.title}</div>
+                              <div className="text-[10px] text-[var(--muted-4)]">/{lesson.slug} · {lesson.duration_minutes} min · {lesson.xp_reward} XP</div>
                             </div>
                           </div>
                           <div className="flex items-center gap-1.5 shrink-0">
-                            <Link href={`${basePath}/lecons/${lesson.id}`} className="text-[#888] hover:text-white p-1" title={t("trackEl.editLesson")}>
+                            <Link href={`${basePath}/lecons/${lesson.id}`} className="text-[var(--muted-3)] hover:text-[var(--text-primary)] p-1" title={t("trackEl.editLesson")}>
                               <iconify-icon icon="lucide:pencil" style={{ fontSize: "13px" }} />
                             </Link>
-                            <button type="button" onClick={() => handleDuplicateLesson(lesson, module.id)} disabled={busy} className="text-[#888] hover:text-white p-1" title={t("trackEl.duplicateLesson")}>
+                            <button type="button" onClick={() => handleDuplicateLesson(lesson, module.id)} disabled={busy} className="text-[var(--muted-3)] hover:text-[var(--text-primary)] p-1" title={t("trackEl.duplicateLesson")}>
                               <iconify-icon icon="lucide:copy" style={{ fontSize: "13px" }} />
                             </button>
                             <button type="button" onClick={() => handleDeleteLesson(lesson.id)} className="text-red-400/70 hover:text-red-400 p-1" title={t("trackEl.deleteLesson")}>
@@ -463,8 +463,8 @@ export default function TrackElementsManager({ trackId, initialModules = [], bas
         </SortableContext>
       </DndContext>
 
-      <form onSubmit={handleCreateModule} className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-4 space-y-2.5">
-        <div className="text-[11px] text-[#8d8d8d] uppercase tracking-widest font-semibold">{t("trackEl.newModule")}</div>
+      <form onSubmit={handleCreateModule} className="rounded-2xl border border-[var(--border-3)] bg-[var(--overlay-2)] p-4 space-y-2.5">
+        <div className="text-[11px] text-[var(--muted-3)] uppercase tracking-widest font-semibold">{t("trackEl.newModule")}</div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5">
           <input className={INPUT} value={createForm.title} onChange={(e) => setCreateForm((c) => ({ ...c, title: e.target.value }))} placeholder={t("trackEl.fieldTitleModule")} />
           <input className={INPUT} value={createForm.slug} onChange={(e) => setCreateForm((c) => ({ ...c, slug: e.target.value }))} placeholder={t("trackEl.fieldSlug")} />

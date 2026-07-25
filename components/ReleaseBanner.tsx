@@ -45,7 +45,7 @@ export default function ReleaseBanner() {
 
   return (
     <div className="fixed bottom-6 right-6 z-50 max-w-sm animate-fade-up-d1">
-      <div className="rounded-2xl border border-[#4F8EF7]/30 bg-[#0F0F0F]/95 backdrop-blur-xl p-4 shadow-2xl" style={{ boxShadow: "0 8px 32px rgba(79,142,247,0.15)" }}>
+      <div className="rounded-2xl border border-[#4F8EF7]/30 bg-[var(--surface-3)]/95 backdrop-blur-xl p-4 shadow-2xl" style={{ boxShadow: "0 8px 32px rgba(79,142,247,0.15)" }}>
         <div className="flex items-start justify-between gap-3 mb-2">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
@@ -54,13 +54,13 @@ export default function ReleaseBanner() {
           <button
             type="button"
             onClick={handleDismiss}
-            className="w-6 h-6 rounded-lg flex items-center justify-center text-[#555] hover:text-white hover:bg-white/[0.06] transition-all"
+            className="w-6 h-6 rounded-lg flex items-center justify-center text-[var(--muted-5)] hover:text-[var(--text-primary)] hover:bg-[var(--overlay-6)] transition-all"
           >
             <iconify-icon icon="lucide:x" style={{ fontSize: "14px" }} />
           </button>
         </div>
-        <div className="font-venite-italic text-[14px] text-white mb-1">Version {LATEST_PRODUCT_VERSION}</div>
-        <p className="font-body-readable text-[12px] text-[#b0b0b0] leading-relaxed mb-3">
+        <div className="font-venite-italic text-[14px] text-[var(--text-primary)] mb-1">Version {LATEST_PRODUCT_VERSION}</div>
+        <p className="font-body-readable text-[12px] text-[var(--muted-2)] leading-relaxed mb-3">
           {latest.title} : {latest.summary}
         </p>
         <Link

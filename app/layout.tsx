@@ -5,11 +5,28 @@ import logoLight2 from "../assets/logos-light-png/logo-light-2.png";
 import CookieNotice from "../components/CookieNotice";
 import LiveRefreshWrapper from "../components/LiveRefreshWrapper";
 import { I18nProvider } from "../components/I18nProvider";
+import { ThemeProvider, type Theme } from "../components/ThemeProvider";
 import { SEO_DEFAULTS, buildHreflang } from "../lib/seo";
 import type { Locale } from "../lib/i18n";
 import { SUPPORTED_LOCALES, DEFAULT_LOCALE } from "../lib/i18n";
 
 const COOKIE_NAME = "takacode_locale";
+const THEME_COOKIE_NAME = "takacode_theme";
+
+async function detectThemeFromCookie(): Promise<Theme> {
+  try {
+    const cookieStore = await cookies();
+    const stored = cookieStore.get(THEME_COOKIE_NAME)?.value;
+    if (stored === "light" || stored === "dark") return stored;
+  } catch {
+    // cookies() unavailable in some contexts
+  }
+  return "dark";
+}
+
+const THEME_NO_FLASH_SCRIPT = `
+(function(){try{var m=document.cookie.match(/(?:^|;\\s*)takacode_theme=(dark|light)/);var t=m?m[1]:(window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();
+`.trim();
 
 /**
  * Lit la locale depuis le cookie posé par le middleware proxy.
@@ -69,13 +86,17 @@ export async function generateMetadata() {
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const locale = await detectLocaleFromCookie();
+  const [locale, theme] = await Promise.all([
+    detectLocaleFromCookie(),
+    detectThemeFromCookie()
+  ]);
 
   return (
     // Browser extensions can inject attributes into <html>/<body> before hydration.
     // Keep hydration warnings muted for those external mutations.
-    <html lang={locale} suppressHydrationWarning>
+    <html lang={locale} data-theme={theme} suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_NO_FLASH_SCRIPT }} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" />
@@ -86,10 +107,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       </head>
       <body suppressHydrationWarning>
         <Script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js" strategy="beforeInteractive" />
-        <I18nProvider>
-          <LiveRefreshWrapper>{children}</LiveRefreshWrapper>
-          <CookieNotice />
-        </I18nProvider>
+        <ThemeProvider initialTheme={theme}>
+          <I18nProvider>
+            <LiveRefreshWrapper>{children}</LiveRefreshWrapper>
+            <CookieNotice />
+          </I18nProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

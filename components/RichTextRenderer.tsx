@@ -11,7 +11,7 @@ interface RichTextRendererProps {
 
 export default function RichTextRenderer({ content, format = "text", className = "", fallback }: RichTextRendererProps) {
   if (!content) {
-    if (fallback) return <p className={`font-body-readable text-[13px] text-[#666] ${className}`}>{fallback}</p>;
+    if (fallback) return <p className={`font-body-readable text-[13px] text-[var(--muted-4)] ${className}`}>{fallback}</p>;
     return null;
   }
 
@@ -21,7 +21,7 @@ export default function RichTextRenderer({ content, format = "text", className =
     const sanitized = sanitizeHtml(content);
     return (
       <div
-        className={`font-body-readable text-[13px] text-[#b5b5b5] leading-relaxed [&_iconify-icon]:inline [&_iconify-icon]:align-middle ${className}`}
+        className={`font-body-readable text-[13px] text-[var(--muted-2)] leading-relaxed [&_iconify-icon]:inline [&_iconify-icon]:align-middle ${className}`}
         dangerouslySetInnerHTML={{ __html: sanitized }}
       />
     );
@@ -32,7 +32,7 @@ export default function RichTextRenderer({ content, format = "text", className =
   }
 
   return (
-    <p className={`font-body-readable text-[13px] text-[#b5b5b5] leading-relaxed whitespace-pre-wrap ${className}`}>
+    <p className={`font-body-readable text-[13px] text-[var(--muted-2)] leading-relaxed whitespace-pre-wrap ${className}`}>
       {content}
     </p>
   );

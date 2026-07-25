@@ -292,18 +292,18 @@ function GlobeScene({ markers, onSelectCountry, selectedCountry }: {
 function InfoPanel({ data, onClose }: { data: CountryData; onClose: () => void }) {
   const flagEmoji = getFlag(data.code);
   return (
-    <div className="absolute top-4 left-4 z-10 rounded-xl border border-white/[0.1] bg-[#111]/90 backdrop-blur-md px-4 py-3 text-white shadow-lg animate-fadeIn">
+    <div className="absolute top-4 left-4 z-10 rounded-xl border border-[var(--border-4)] bg-[var(--surface-1)]/90 backdrop-blur-md px-4 py-3 text-[var(--text-primary)] shadow-lg animate-fadeIn">
       <div className="flex items-center gap-2 mb-1">
         <span className="text-[18px] leading-none">{flagEmoji}</span>
         <span className="text-[13px] font-semibold">{data.name}</span>
       </div>
-      <div className="text-[11px] text-[#888] font-body-readable">
+      <div className="text-[11px] text-[var(--muted-3)] font-body-readable">
         {data.count} builder{data.count > 1 ? "s" : ""} actif{data.count > 1 ? "s" : ""}
       </div>
       <button
         type="button"
         onClick={onClose}
-        className="absolute top-1.5 right-2.5 text-[#666] hover:text-white text-[16px] leading-none"
+        className="absolute top-1.5 right-2.5 text-[var(--muted-4)] hover:text-[var(--text-primary)] text-[16px] leading-none"
         aria-label="Fermer"
       >
         &times;

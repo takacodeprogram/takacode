@@ -52,10 +52,10 @@ export default function PendingTracksReview({ initialPending = [] }: PendingTrac
 
       <div className="space-y-2.5">
         {pending.map((track) => (
-          <div key={track.id} className="flex items-center justify-between gap-3 rounded-xl border border-white/[0.08] bg-[#111] px-4 py-3">
+          <div key={track.id} className="flex items-center justify-between gap-3 rounded-xl border border-[var(--border-3)] bg-[var(--surface-1)] px-4 py-3">
             <div className="min-w-0">
-              <div className="text-[13px] text-white font-semibold leading-tight truncate">{track.title}</div>
-              <div className="text-[11px] text-[#6d6d6d] font-body-readable">/{track.slug} · {t("adminTracks.proposedBy")}</div>
+              <div className="text-[13px] text-[var(--text-primary)] font-semibold leading-tight truncate">{track.title}</div>
+              <div className="text-[11px] text-[var(--muted-4)] font-body-readable">/{track.slug} · {t("adminTracks.proposedBy")}</div>
             </div>
             <div className="flex items-center gap-2 shrink-0">
               <Link href={`/admin/tracks/${track.id}`} className="text-[11px] text-[#89c7ff] hover:underline">{t("admin.view")}</Link>
@@ -63,7 +63,7 @@ export default function PendingTracksReview({ initialPending = [] }: PendingTrac
                 type="button"
                 disabled={busyId === track.id}
                 onClick={() => decide(track.id, false)}
-                className="text-[11px] h-[32px] px-2.5 rounded-lg border border-white/[0.1] text-[#bbb] hover:text-white hover:bg-white/[0.05]"
+                className="text-[11px] h-[32px] px-2.5 rounded-lg border border-[var(--border-4)] text-[var(--muted-2)] hover:text-[var(--text-primary)] hover:bg-[var(--overlay-5)]"
               >
                 {t("adminTracks.reject")}
               </button>

@@ -87,7 +87,7 @@ export default async function MyTracksPage(props: { searchParams: Promise<{ page
         <>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {cards.map(({ track, progress, completedLessons, totalLessons, nextHref, started }) => (
-              <article key={track.id} className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 card-hover project-card">
+              <article key={track.id} className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-5 card-hover project-card">
                 <div className="flex items-start gap-4 mb-4">
                   <div
                     className="w-11 h-11 rounded-xl border flex items-center justify-center shrink-0"
@@ -96,18 +96,18 @@ export default async function MyTracksPage(props: { searchParams: Promise<{ page
                     <iconify-icon icon={track.icon} style={{ color: track.accentColor, fontSize: "20px" }} />
                   </div>
                   <div className="min-w-0">
-                    <h2 className="font-venite-italic text-[16px] text-white leading-tight">{track.title}</h2>
-                    <p className="font-body-readable text-[11px] text-[#7a7a7a]">{formatTrackMeta(track)}</p>
+                    <h2 className="font-venite-italic text-[16px] text-[var(--text-primary)] leading-tight">{track.title}</h2>
+                    <p className="font-body-readable text-[11px] text-[var(--muted-3)]">{formatTrackMeta(track)}</p>
                   </div>
                 </div>
 
                 <div className="flex items-center justify-between text-[11px] mb-1.5">
-                  <span className="text-[#888]">{t("dashboardTracks.progress")}</span>
+                  <span className="text-[var(--muted-3)]">{t("dashboardTracks.progress")}</span>
                   <span className="text-[#89c7ff] font-semibold">
                     {progress}%{totalLessons ? ` · ${completedLessons}/${totalLessons} lecons` : ""}
                   </span>
                 </div>
-                <div className="h-1.5 rounded bg-white/[0.06] overflow-hidden mb-4">
+                <div className="h-1.5 rounded bg-[var(--overlay-6)] overflow-hidden mb-4">
                   <div className="h-full rounded bg-gradient-to-r from-[#4F8EF7] to-[#9B6DFF]" style={{ width: `${progress}%` }} />
                 </div>
 
@@ -126,13 +126,13 @@ export default async function MyTracksPage(props: { searchParams: Promise<{ page
           <Pagination currentPage={currentPage} hasNextPage={hasNextPage} baseUrl="/dashboard/tracks" />
         </>
       ) : (
-        <div className="rounded-2xl border border-white/[0.07] bg-[#111] p-10 flex flex-col items-center text-center gap-4">
-          <div className="w-14 h-14 rounded-2xl border border-white/[0.08] bg-white/[0.02] flex items-center justify-center">
+        <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-10 flex flex-col items-center text-center gap-4">
+          <div className="w-14 h-14 rounded-2xl border border-[var(--border-3)] bg-[var(--overlay-2)] flex items-center justify-center">
             <iconify-icon icon="lucide:map" className="text-[#4F8EF7]" style={{ fontSize: "26px" }} />
           </div>
           <div>
-            <div className="font-venite text-[15px] text-white mb-1.5">{t("dashboardTracks.emptyTitle")}</div>
-            <p className="font-body-readable text-[13px] text-[#777] max-w-[440px]">
+            <div className="font-venite text-[15px] text-[var(--text-primary)] mb-1.5">{t("dashboardTracks.emptyTitle")}</div>
+            <p className="font-body-readable text-[13px] text-[var(--muted-3)] max-w-[440px]">
               {t("dashboardTracks.emptyDesc")}
             </p>
           </div>

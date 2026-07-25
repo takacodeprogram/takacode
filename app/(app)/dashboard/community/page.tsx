@@ -49,25 +49,25 @@ export default async function CommunityFeedPage() {
       <PageHeader title={t("dashboardCommunity.title")} subtitle={`${projects.length} projets · ${stats.totalLikes ?? "—"} likes`} />
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
-        <div className="rounded-2xl border border-white/[0.08] bg-[#111] px-4 py-4 text-center">
+        <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] px-4 py-4 text-center">
           <iconify-icon icon="lucide:users" style={{ fontSize: "18px", color: "#4F8EF7" }} />
-          <div className="text-[20px] text-white font-semibold mt-1">{stats.members ?? "—"}</div>
-          <div className="text-[10px] text-[#666] font-body-readable">{t("dashboardCommunity.members")}</div>
+          <div className="text-[20px] text-[var(--text-primary)] font-semibold mt-1">{stats.members ?? "—"}</div>
+          <div className="text-[10px] text-[var(--muted-4)] font-body-readable">{t("dashboardCommunity.members")}</div>
         </div>
-        <div className="rounded-2xl border border-white/[0.08] bg-[#111] px-4 py-4 text-center">
+        <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] px-4 py-4 text-center">
           <iconify-icon icon="lucide:folder-code" style={{ fontSize: "18px", color: "#4F8EF7" }} />
-          <div className="text-[20px] text-white font-semibold mt-1">{stats.submittedProjects ?? "—"}</div>
-          <div className="text-[10px] text-[#666] font-body-readable">{t("dashboardCommunity.projects")}</div>
+          <div className="text-[20px] text-[var(--text-primary)] font-semibold mt-1">{stats.submittedProjects ?? "—"}</div>
+          <div className="text-[10px] text-[var(--muted-4)] font-body-readable">{t("dashboardCommunity.projects")}</div>
         </div>
-        <div className="rounded-2xl border border-white/[0.08] bg-[#111] px-4 py-4 text-center">
+        <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] px-4 py-4 text-center">
           <iconify-icon icon="lucide:heart" style={{ fontSize: "18px", color: "#f43f5e" }} />
-          <div className="text-[20px] text-white font-semibold mt-1">{stats.totalLikes ?? "—"}</div>
-          <div className="text-[10px] text-[#666] font-body-readable">{t("dashboardCommunity.likes")}</div>
+          <div className="text-[20px] text-[var(--text-primary)] font-semibold mt-1">{stats.totalLikes ?? "—"}</div>
+          <div className="text-[10px] text-[var(--muted-4)] font-body-readable">{t("dashboardCommunity.likes")}</div>
         </div>
-        <div className="rounded-2xl border border-white/[0.08] bg-[#111] px-4 py-4 text-center">
+        <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] px-4 py-4 text-center">
           <iconify-icon icon="lucide:check-circle" style={{ fontSize: "18px", color: "#4F8EF7" }} />
-          <div className="text-[20px] text-white font-semibold mt-1">{stats.completedLessons ?? "—"}</div>
-          <div className="text-[10px] text-[#666] font-body-readable">{t("dashboardCommunity.lessons")}</div>
+          <div className="text-[20px] text-[var(--text-primary)] font-semibold mt-1">{stats.completedLessons ?? "—"}</div>
+          <div className="text-[10px] text-[var(--muted-4)] font-body-readable">{t("dashboardCommunity.lessons")}</div>
         </div>
       </div>
 
@@ -77,14 +77,14 @@ export default async function CommunityFeedPage() {
             <Link
               key={project.id}
               href={localePath(`/projects/${project.id}`, locale)}
-              className="flex items-center gap-3 rounded-xl border border-white/[0.06] bg-white/[0.01] px-4 py-3 hover:border-white/[0.15] transition-all"
+              className="flex items-center gap-3 rounded-xl border border-[var(--border-2)] bg-[var(--overlay-1)] px-4 py-3 hover:border-[var(--border-5)] transition-all"
             >
-              <div className="w-8 h-8 rounded-lg border border-white/[0.06] bg-white/[0.02] flex items-center justify-center shrink-0">
+              <div className="w-8 h-8 rounded-lg border border-[var(--border-2)] bg-[var(--overlay-2)] flex items-center justify-center shrink-0">
                 <iconify-icon icon="lucide:folder" style={{ color: "#4F8EF7", fontSize: "15px" }} />
               </div>
               <div className="min-w-0 flex-1">
-                <div className="text-[13px] text-white font-semibold leading-tight">{project.title}</div>
-                <div className="text-[11px] text-[#888] font-body-readable">
+                <div className="text-[13px] text-[var(--text-primary)] font-semibold leading-tight">{project.title}</div>
+                <div className="text-[11px] text-[var(--muted-3)] font-body-readable">
                   {project.author} · {project.track || t("dashboardCommunity.noTrack")}
                   {project.likeCount > 0 ? ` · ${project.likeCount} like${project.likeCount > 1 ? "s" : ""}` : ""}
                 </div>
@@ -97,13 +97,13 @@ export default async function CommunityFeedPage() {
           </Link>
         </div>
       ) : (
-        <div className="rounded-2xl border border-white/[0.07] bg-[#111] p-10 flex flex-col items-center text-center gap-4">
-          <div className="w-14 h-14 rounded-2xl border border-white/[0.08] bg-white/[0.02] flex items-center justify-center">
+        <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-10 flex flex-col items-center text-center gap-4">
+          <div className="w-14 h-14 rounded-2xl border border-[var(--border-3)] bg-[var(--overlay-2)] flex items-center justify-center">
             <iconify-icon icon="lucide:users" className="text-[#4F8EF7]" style={{ fontSize: "26px" }} />
           </div>
           <div>
-            <div className="font-venite text-[15px] text-white mb-1.5">{t("dashboardCommunity.emptyTitle")}</div>
-            <p className="font-body-readable text-[13px] text-[#777] max-w-[460px]">
+            <div className="font-venite text-[15px] text-[var(--text-primary)] mb-1.5">{t("dashboardCommunity.emptyTitle")}</div>
+            <p className="font-body-readable text-[13px] text-[var(--muted-3)] max-w-[460px]">
               {t("dashboardCommunity.emptyDesc")}
             </p>
           </div>

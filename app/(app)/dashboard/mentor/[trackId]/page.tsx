@@ -61,7 +61,7 @@ export default async function MentorEditTrackPage({ params }: { params: Promise<
       {track.is_pending ? (
         <TrackForm mode="edit" track={track} proposal userId={user.id} redirectBase="/dashboard/mentor" />
       ) : (
-        <div className="rounded-xl border border-white/[0.08] bg-[#111] px-4 py-4 text-[12px] text-[#a5a5a5] font-body-readable">
+        <div className="rounded-xl border border-[var(--border-3)] bg-[var(--surface-1)] px-4 py-4 text-[12px] text-[var(--muted-2)] font-body-readable">
           {track.is_published
             ? t("dashboardMentorEdit.published")
             : t("dashboardMentorEdit.rejected")}

@@ -66,10 +66,10 @@ export default function ProjectCockpit({ project, firstName, goalLabel }: Projec
   const { t, locale } = useI18n();
   if (!project) {
     return (
-      <section className="rounded-2xl border border-white/[0.08] bg-[#111] p-6 animate-fade-up-d1">
+      <section className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-6 animate-fade-up-d1">
         <div className="section-label mb-2">{t("dashboard.myProject")}</div>
         <h2 className="font-valorax text-[clamp(24px,3.4vw,38px)] leading-[0.95] mb-2">{t("dashboard.welcome").toUpperCase()} {firstName.toUpperCase()}</h2>
-        <p className="font-body-readable text-[14px] text-[#a5a5a5] leading-relaxed mb-5">
+        <p className="font-body-readable text-[14px] text-[var(--muted-2)] leading-relaxed mb-5">
           {t("dashboard.startPrompt")}
         </p>
         <div className="flex flex-wrap gap-3">
@@ -89,7 +89,7 @@ export default function ProjectCockpit({ project, firstName, goalLabel }: Projec
   const isLive = stageIndex >= 3;
 
   return (
-    <section className="rounded-2xl border border-white/[0.08] bg-[#111] p-6 animate-fade-up-d1">
+    <section className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-6 animate-fade-up-d1">
       <div className="flex items-center justify-between gap-3 flex-wrap mb-2">
         <div className="section-label">{t("dashboard.myProject")}</div>
         <div className="flex items-center gap-2 flex-wrap">
@@ -109,7 +109,7 @@ export default function ProjectCockpit({ project, firstName, goalLabel }: Projec
       </div>
 
       <h2 className="font-valorax text-[clamp(22px,3vw,34px)] leading-[0.95] mb-1.5">{project.title.toUpperCase()}</h2>
-      <p className="font-body-readable text-[13px] text-[#a5a5a5] leading-relaxed mb-5">
+      <p className="font-body-readable text-[13px] text-[var(--muted-2)] leading-relaxed mb-5">
         {project.objective || project.description || goalLabel}
       </p>
 
@@ -126,18 +126,18 @@ export default function ProjectCockpit({ project, firstName, goalLabel }: Projec
                   ? "border-emerald-500/30 bg-emerald-500/10"
                   : current
                     ? "border-blue-500/35 bg-blue-500/10 step-active"
-                    : "border-white/[0.08] bg-white/[0.02] opacity-60"
+                    : "border-[var(--border-3)] bg-[var(--overlay-2)] opacity-60"
               }`}
             >
               <iconify-icon
                 icon={done ? "lucide:check-circle" : STAGE_ICONS[key]}
                 style={{ fontSize: "16px", color: done ? "#6ee7b7" : current ? "#89c7ff" : "#666" }}
               />
-              <div className={`text-[10px] font-semibold mt-1 ${done ? "text-emerald-200" : current ? "text-blue-100" : "text-[#777]"}`}>
+              <div className={`text-[10px] font-semibold mt-1 ${done ? "text-emerald-200" : current ? "text-blue-100" : "text-[var(--muted-3)]"}`}>
                 {t(`dashboard.pipeline.${key}`)}
               </div>
               {current ? (
-                <div className="font-body-readable text-[9px] text-[#8d8d8d] leading-tight mt-0.5 hidden sm:block">{t(`dashboard.hints.${key}`)}</div>
+                <div className="font-body-readable text-[9px] text-[var(--muted-3)] leading-tight mt-0.5 hidden sm:block">{t(`dashboard.hints.${key}`)}</div>
               ) : null}
             </div>
           );
@@ -145,19 +145,19 @@ export default function ProjectCockpit({ project, firstName, goalLabel }: Projec
       </div>
 
       {/* Progression vers la mise en ligne / objectif cash */}
-      <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4 mb-5">
+      <div className="rounded-xl border border-[var(--border-3)] bg-[var(--overlay-2)] p-4 mb-5">
         <div className="flex items-center justify-between gap-3 mb-2">
-          <span className="text-[11px] text-[#9b9b9b] font-body-readable">
+          <span className="text-[11px] text-[var(--muted-2)] font-body-readable">
             {isLive ? t("dashboard.onlineGoal") : t("dashboard.progressToLaunch")}
           </span>
           <span className="text-[11px] text-[#89c7ff] font-semibold">{progress}%</span>
         </div>
-        <div className="h-1.5 rounded bg-white/[0.06] overflow-hidden mb-2.5">
+        <div className="h-1.5 rounded bg-[var(--overlay-6)] overflow-hidden mb-2.5">
           <div className="h-full rounded bg-gradient-to-r from-[#4F8EF7] to-[#9B6DFF]" style={{ width: `${progress}%` }} />
         </div>
         <div className="flex items-center gap-3 flex-wrap">
           {project.repoUrl ? (
-            <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-[11px] text-[#9b9b9b] hover:text-white transition-colors">
+            <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-[11px] text-[var(--muted-2)] hover:text-[var(--text-primary)] transition-colors">
               <iconify-icon icon="lucide:github" style={{ fontSize: "12px" }} />
               {t("dashboard.repo")}
             </a>
@@ -169,7 +169,7 @@ export default function ProjectCockpit({ project, firstName, goalLabel }: Projec
             </a>
           ) : null}
           {project.trackTitle ? (
-            <span className="inline-flex items-center gap-1.5 text-[11px] text-[#777]">
+            <span className="inline-flex items-center gap-1.5 text-[11px] text-[var(--muted-3)]">
               <iconify-icon icon="lucide:map" style={{ fontSize: "12px" }} />
               {t("dashboard.acceleratedBy")} : {project.trackTitle}
             </span>

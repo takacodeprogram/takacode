@@ -34,14 +34,14 @@ export default function CookieNotice() {
   return (
     <div className="fixed bottom-0 left-0 right-0 z-[400] p-3 sm:p-4">
       <div
-        className="max-w-[900px] mx-auto rounded-2xl border border-white/[0.1] bg-[#0F0F0F]/95 backdrop-blur-xl p-4 flex flex-col sm:flex-row sm:items-center gap-3"
+        className="max-w-[900px] mx-auto rounded-2xl border border-[var(--border-4)] bg-[var(--surface-3)]/95 backdrop-blur-xl p-4 flex flex-col sm:flex-row sm:items-center gap-3"
         style={{ boxShadow: "0 -8px 40px rgba(0,0,0,0.5)" }}
         role="dialog"
         aria-label={t("cookieNotice.title")}
       >
         <div className="flex items-start gap-2.5 flex-1 min-w-0">
           <iconify-icon icon="lucide:cookie" style={{ fontSize: "18px", color: "#4F8EF7" }} />
-          <p className="font-body-readable text-[12px] text-[#b0b0b0] leading-relaxed">
+          <p className="font-body-readable text-[12px] text-[var(--muted-2)] leading-relaxed">
             {t("cookieNotice.desc")}{" "}
             <L href="/cookies" className="text-[#89c7ff] hover:underline">
               {t("cookieNotice.learnMore")}
@@ -53,7 +53,7 @@ export default function CookieNotice() {
           <button
             type="button"
             onClick={() => decide("essential")}
-            className="text-[12px] text-[#888] hover:text-white px-3 py-2 rounded-lg hover:bg-white/[0.05] transition-colors"
+            className="text-[12px] text-[var(--muted-3)] hover:text-[var(--text-primary)] px-3 py-2 rounded-lg hover:bg-[var(--overlay-5)] transition-colors"
           >
             {t("cookieNotice.essentialOnly")}
           </button>

@@ -57,7 +57,7 @@ function SidebarLink({ link, pathname, onNavigate, t }: { link: NavLink; pathnam
         "flex items-center justify-between rounded-xl px-4 py-3 text-[14px] font-medium transition-all",
         active
           ? "bg-blue-500/10 text-[#4F8EF7] border border-blue-500/15"
-          : "text-[#888] hover:text-white hover:bg-white/[0.04]"
+          : "text-[var(--muted-3)] hover:text-[var(--text-primary)] hover:bg-[var(--overlay-4)]"
       ].join(" ")}
     >
       <span className="flex items-center gap-3">
@@ -147,7 +147,7 @@ export default function AppShell({ user, children }: AppShellProps) {
                     type="button"
                     data-tour={item.tour || undefined}
                     onClick={() => toggleGroup(item.label)}
-                    className="flex items-center justify-between w-full rounded-xl px-4 py-2.5 text-[12px] font-semibold text-[#555] hover:text-white hover:bg-white/[0.04] transition-all uppercase tracking-wider"
+                    className="flex items-center justify-between w-full rounded-xl px-4 py-2.5 text-[12px] font-semibold text-[var(--muted-5)] hover:text-[var(--text-primary)] hover:bg-[var(--overlay-4)] transition-all uppercase tracking-wider"
                   >
                     <span className="flex items-center gap-2.5">
                       <iconify-icon icon={item.icon} style={{ fontSize: "13px" }} />
@@ -171,7 +171,7 @@ export default function AppShell({ user, children }: AppShellProps) {
             return <SidebarLink key={(item as NavLink).href} link={item as NavLink} pathname={pathname} onNavigate={onNavigate} t={t} />;
           })}
           {extraLinks.length > 0 ? (
-            <div className="pt-3 mt-3 border-t border-white/[0.05] space-y-0.5">
+            <div className="pt-3 mt-3 border-t border-[var(--border-1)] space-y-0.5">
               {extraLinks.map((link: NavLink) => (
                 <SidebarLink key={link.href} link={link} pathname={pathname} onNavigate={onNavigate} t={t} />
               ))}
@@ -179,12 +179,12 @@ export default function AppShell({ user, children }: AppShellProps) {
           ) : null}
         </nav>
 
-        <div className="pt-6 border-t border-white/[0.05] space-y-2">
+        <div className="pt-6 border-t border-[var(--border-1)] space-y-2">
           {adminArea ? (
             <L
               href="/dashboard"
               onClick={onNavigate}
-              className="flex items-center gap-3 rounded-xl px-4 py-3 text-[14px] font-medium text-[#888] hover:text-white hover:bg-white/[0.04] transition-all"
+              className="flex items-center gap-3 rounded-xl px-4 py-3 text-[14px] font-medium text-[var(--muted-3)] hover:text-[var(--text-primary)] hover:bg-[var(--overlay-4)] transition-all"
             >
               <iconify-icon icon="lucide:arrow-left" />
               {t("appShell.espaceMembre")}
@@ -201,19 +201,19 @@ export default function AppShell({ user, children }: AppShellProps) {
 
   return (
     <ToastProvider>
-    <div className="min-h-screen bg-[#0A0A0A] flex text-white">
-      <aside className="w-[280px] border-r border-white/[0.05] bg-[#0A0A0A] sticky top-0 h-screen z-40 p-6 hidden lg:flex lg:flex-col">
+    <div className="min-h-screen bg-[var(--bg-app)] flex text-[var(--text-primary)]">
+      <aside className="w-[280px] border-r border-[var(--border-1)] bg-[var(--bg-app)] sticky top-0 h-screen z-40 p-6 hidden lg:flex lg:flex-col">
         {sidebarInner()}
       </aside>
 
       {drawerOpen ? (
         <div className="fixed inset-0 z-[60] lg:hidden">
           <div className="absolute inset-0" style={{ background: "rgba(0,0,0,0.6)" } as React.CSSProperties} onClick={() => setDrawerOpen(false)} />
-          <aside className="drawer-in absolute left-0 top-0 h-full w-[280px] max-w-[82%] border-r border-white/[0.05] bg-[#0A0A0A] p-6 flex flex-col">
+          <aside className="drawer-in absolute left-0 top-0 h-full w-[280px] max-w-[82%] border-r border-[var(--border-1)] bg-[var(--bg-app)] p-6 flex flex-col">
             <button
               type="button"
               onClick={() => setDrawerOpen(false)}
-              className="absolute top-4 right-4 text-[#888] hover:text-white p-1"
+              className="absolute top-4 right-4 text-[var(--muted-3)] hover:text-[var(--text-primary)] p-1"
               aria-label={t("appShell.fermerMenu")}
             >
               <iconify-icon icon="lucide:x" style={{ fontSize: "18px" }} />
@@ -231,7 +231,7 @@ export default function AppShell({ user, children }: AppShellProps) {
           <button
             type="button"
             onClick={() => setDrawerOpen(true)}
-            className="lg:hidden inline-flex items-center justify-center h-10 w-10 rounded-xl border border-white/[0.08] bg-white/[0.02] text-white"
+            className="lg:hidden inline-flex items-center justify-center h-10 w-10 rounded-xl border border-[var(--border-3)] bg-[var(--overlay-2)] text-[var(--text-primary)]"
             aria-label={t("appShell.ouvrirMenu")}
           >
             <iconify-icon icon="lucide:menu" style={{ fontSize: "18px" }} />
@@ -244,7 +244,7 @@ export default function AppShell({ user, children }: AppShellProps) {
             <button
               type="button"
               onClick={() => setMenuOpen((open) => !open)}
-              className="flex items-center gap-3 rounded-xl border border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.05] transition-colors px-2 py-1.5"
+              className="flex items-center gap-3 rounded-xl border border-[var(--border-2)] bg-[var(--overlay-2)] hover:bg-[var(--overlay-5)] transition-colors px-2 py-1.5"
               aria-haspopup="menu"
               aria-expanded={menuOpen}
             >
@@ -253,7 +253,7 @@ export default function AppShell({ user, children }: AppShellProps) {
                 <div className="text-[10px] text-[#4ADE80] leading-tight">Role {roleLabel}</div>
               </div>
               {avatarUrl ? (
-                <img src={avatarUrl} alt="" className="w-9 h-9 rounded-full border border-white/10 object-cover bg-white/[0.03]" />
+                <img src={avatarUrl} alt="" className="w-9 h-9 rounded-full border border-white/10 object-cover bg-[var(--overlay-3)]" />
               ) : (
                 <div className="w-9 h-9 rounded-full border border-white/10 bg-gradient-to-br from-blue-400 to-cyan-500 flex items-center justify-center text-[11px] font-semibold">
                   {initials}
@@ -263,25 +263,25 @@ export default function AppShell({ user, children }: AppShellProps) {
             </button>
 
 {menuOpen ? (
-                <div className="menu-in absolute right-0 mt-2 w-60 rounded-xl border border-white/[0.1] bg-[#111] p-1.5 z-[70]" style={{ boxShadow: "0 16px 40px rgba(0,0,0,0.5)" } as React.CSSProperties} role="menu">
-                  <div className="px-3 py-2 border-b border-white/[0.06] mb-1">
-                    <div className="text-[12px] text-white font-semibold truncate">{displayName}</div>
-                    <div className="text-[10px] text-[#777] truncate">{email}</div>
+                <div className="menu-in absolute right-0 mt-2 w-60 rounded-xl border border-[var(--border-4)] bg-[var(--surface-1)] p-1.5 z-[70]" style={{ boxShadow: "0 16px 40px rgba(0,0,0,0.5)" } as React.CSSProperties} role="menu">
+                  <div className="px-3 py-2 border-b border-[var(--border-2)] mb-1">
+                    <div className="text-[12px] text-[var(--text-primary)] font-semibold truncate">{displayName}</div>
+                    <div className="text-[10px] text-[var(--muted-3)] truncate">{email}</div>
                   </div>
                   <L
                     href="/dashboard/profile"
                     onClick={() => setMenuOpen(false)}
-                    className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[#d1d1d1] hover:bg-white/[0.05] transition-colors"
+                    className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[var(--muted-1)] hover:bg-[var(--overlay-5)] transition-colors"
                     role="menuitem"
                   >
                     <iconify-icon icon="lucide:user" style={{ fontSize: "15px", color: "#89c7ff" }} />
                     {t("appShell.monProfil")}
                   </L>
-                  <div className="border-t border-white/[0.06] my-1" />
+                  <div className="border-t border-[var(--border-2)] my-1" />
                   <L
                     href="/dashboard/guide"
                     onClick={() => setMenuOpen(false)}
-                    className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[#d1d1d1] hover:bg-white/[0.05] transition-colors"
+                    className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[var(--muted-1)] hover:bg-[var(--overlay-5)] transition-colors"
                     role="menuitem"
                   >
                     <iconify-icon icon="lucide:compass" style={{ fontSize: "15px", color: "#89c7ff" }} />
@@ -290,7 +290,7 @@ export default function AppShell({ user, children }: AppShellProps) {
                   <L
                     href="/dashboard/docs"
                     onClick={() => setMenuOpen(false)}
-                    className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[#d1d1d1] hover:bg-white/[0.05] transition-colors"
+                    className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[var(--muted-1)] hover:bg-[var(--overlay-5)] transition-colors"
                     role="menuitem"
                   >
                     <iconify-icon icon="lucide:book-open" style={{ fontSize: "15px", color: "#89c7ff" }} />
@@ -300,14 +300,14 @@ export default function AppShell({ user, children }: AppShellProps) {
                   <L
                     href="/admin"
                     onClick={() => setMenuOpen(false)}
-                    className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[#d1d1d1] hover:bg-white/[0.05] transition-colors"
+                    className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[var(--muted-1)] hover:bg-[var(--overlay-5)] transition-colors"
                     role="menuitem"
                   >
                     <iconify-icon icon="lucide:shield-check" style={{ fontSize: "15px", color: "#89c7ff" }} />
                     {t("navbar.centreAdmin")}
                   </L>
                 ) : null}
-                <SignOutButton className="w-full flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-red-400/80 hover:text-red-400 hover:bg-red-400/5 transition-colors mt-1 pt-1 border-t border-white/[0.06]">
+                <SignOutButton className="w-full flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-red-400/80 hover:text-red-400 hover:bg-red-400/5 transition-colors mt-1 pt-1 border-t border-[var(--border-2)]">
                   <iconify-icon icon="lucide:log-out" style={{ fontSize: "15px" }} />
                   {t("navbar.seDeconnecter")}
                 </SignOutButton>

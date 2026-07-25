@@ -138,7 +138,7 @@ function LessonSteps({ hasQuiz, hasProject, quizDone, projectDone, completed, la
                   ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-200"
                   : isCurrent
                     ? "border-blue-500/35 bg-blue-500/10 text-blue-100 step-active"
-                    : "border-white/[0.1] bg-white/[0.02] text-[#777]"
+                    : "border-[var(--border-4)] bg-[var(--overlay-2)] text-[var(--muted-3)]"
               ].join(" ")}
             >
               <iconify-icon icon={step.done ? "lucide:check" : isCurrent ? "lucide:dot" : "lucide:circle"} style={{ fontSize: "11px" }} />
@@ -635,7 +635,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
 
       <div className="space-y-4">
         {lesson.intro ? (
-          <GlossaryText as="p" className="font-body-readable text-[13px] text-[#a5a5a5] leading-relaxed" text={lesson.intro} />
+          <GlossaryText as="p" className="font-body-readable text-[13px] text-[var(--muted-2)] leading-relaxed" text={lesson.intro} />
         ) : null}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -653,7 +653,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
                       <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-amber-500/20 text-amber-200/70 text-[8px] font-bold flex-shrink-0 mt-0.5">
                         {idx + 1}
                       </span>
-                      <div className="font-body-readable text-[11px] text-[#c7c7c7] leading-snug">
+                      <div className="font-body-readable text-[11px] text-[var(--muted-1)] leading-snug">
                         {item.label ? (
                           <><span className="text-amber-100 font-semibold">{item.label}</span> : <GlossaryText text={item.detail} as="span" /></>
                         ) : (
@@ -680,7 +680,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
                       <span className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-blue-400/30 bg-blue-500/10 text-blue-200 text-[9px] font-semibold flex-shrink-0 mt-0.5">
                         {idx + 1}
                       </span>
-                      <GlossaryText as="span" className="font-body-readable text-[11px] text-[#c7c7c7] leading-snug pt-0.5" text={step} />
+                      <GlossaryText as="span" className="font-body-readable text-[11px] text-[var(--muted-1)] leading-snug pt-0.5" text={step} />
                     </div>
                   ))}
                 </div>
@@ -696,12 +696,12 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
               {lesson.objectives.map((objective) => (
                 <div
                   key={`objective-${objective}`}
-                  className="rounded-xl border border-white/[0.08] bg-white/[0.02] px-3 py-2.5 flex items-center gap-2.5"
+                  className="rounded-xl border border-[var(--border-3)] bg-[var(--overlay-2)] px-3 py-2.5 flex items-center gap-2.5"
                 >
                   <span className="w-5 h-5 rounded-full border border-blue-400/30 bg-blue-500/10 text-blue-200 inline-flex items-center justify-center">
                     <iconify-icon icon="lucide:target" style={{ fontSize: "11px" }} />
                   </span>
-                  <span className="font-body-readable text-[11px] text-[#c7c7c7] leading-snug">{objective}</span>
+                  <span className="font-body-readable text-[11px] text-[var(--muted-1)] leading-snug">{objective}</span>
                 </div>
               ))}
             </div>
@@ -719,25 +719,25 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
                 href={resource.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block rounded-xl border border-white/[0.08] bg-white/[0.02] p-4 card-hover"
+                className="block rounded-xl border border-[var(--border-3)] bg-[var(--overlay-2)] p-4 card-hover"
               >
                 <div className="flex items-center gap-2.5 mb-1.5">
                   <iconify-icon
                     icon={resource.kind === "video" ? "lucide:play-circle" : resource.kind === "tool" ? "lucide:wrench" : resource.kind === "repo" ? "lucide:github" : "lucide:file-text"}
                     style={{ fontSize: "14px", color: "#89c7ff" }}
                   />
-                  <span className="font-body-readable text-[12px] text-white font-semibold">{resource.label}</span>
+                  <span className="font-body-readable text-[12px] text-[var(--text-primary)] font-semibold">{resource.label}</span>
                   <iconify-icon icon="lucide:external-link" style={{ fontSize: "11px", color: "#666" }} />
                 </div>
                 {resource.why ? (
-                  <p className="font-body-readable text-[11px] text-[#9b9b9b] leading-snug mb-1">
-                    <span className="text-[#7a7a7a]">Pourquoi : </span>
+                  <p className="font-body-readable text-[11px] text-[var(--muted-2)] leading-snug mb-1">
+                    <span className="text-[var(--muted-3)]">Pourquoi : </span>
                     {resource.why}
                   </p>
                 ) : null}
                 {resource.how ? (
-                  <p className="font-body-readable text-[11px] text-[#9b9b9b] leading-snug">
-                    <span className="text-[#7a7a7a]">Comment : </span>
+                  <p className="font-body-readable text-[11px] text-[var(--muted-2)] leading-snug">
+                    <span className="text-[var(--muted-3)]">Comment : </span>
                     {resource.how}
                   </p>
                 ) : null}
@@ -766,17 +766,17 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
           {bankQuestionsLoading ? (
             <div className="space-y-3">
               {[1, 2, 3].map((i) => (
-                <div key={i} className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4 animate-pulse">
-                  <div className="h-3 w-3/4 bg-white/[0.06] rounded mb-3" />
+                <div key={i} className="rounded-xl border border-[var(--border-3)] bg-[var(--overlay-2)] p-4 animate-pulse">
+                  <div className="h-3 w-3/4 bg-[var(--overlay-6)] rounded mb-3" />
                   <div className="space-y-2">
-                    <div className="h-8 bg-white/[0.04] rounded-lg" />
-                    <div className="h-8 bg-white/[0.04] rounded-lg w-3/4" />
+                    <div className="h-8 bg-[var(--overlay-4)] rounded-lg" />
+                    <div className="h-8 bg-[var(--overlay-4)] rounded-lg w-3/4" />
                   </div>
                 </div>
               ))}
             </div>
           ) : quizPassed && !quizResult ? (
-            <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-3 font-body-readable text-[12px] text-[#b3b3b3]">
+            <div className="rounded-xl border border-[var(--border-3)] bg-[var(--overlay-2)] px-4 py-3 font-body-readable text-[12px] text-[var(--muted-2)]">
               {t("lessonExperience.quizAlreadyPassed")}
               {initialProgress?.quizTotal ? ` (${initialProgress.quizScore}/${initialProgress.quizTotal})` : ""}.
             </div>
@@ -787,8 +787,8 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
                 const prompt = (question as { prompt?: string; question?: string }).prompt || (question as { question?: string }).question || "";
 
                 return (
-                  <div key={`quiz-${questionIndex}`} className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4">
-                    <div className="font-body-readable text-[12px] text-white mb-3">
+                  <div key={`quiz-${questionIndex}`} className="rounded-xl border border-[var(--border-3)] bg-[var(--overlay-2)] p-4">
+                    <div className="font-body-readable text-[12px] text-[var(--text-primary)] mb-3">
                       {questionIndex + 1}. {prompt}
                     </div>
                     <div className="space-y-2">
@@ -810,7 +810,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
                                   ? "border-red-500/40 bg-red-500/10 text-red-200"
                                   : isSelected
                                     ? "border-blue-400/40 bg-blue-500/10 text-blue-100"
-                                    : "border-white/[0.08] bg-[#0f0f0f] text-[#c7c7c7]"
+                                    : "border-[var(--border-3)] bg-[var(--surface-3)] text-[var(--muted-1)]"
                             }`}
                           >
                             {choice}
@@ -819,7 +819,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
                       })}
                     </div>
                     {feedback?.explanation ? (
-                      <p className="font-body-readable text-[11px] text-[#9b9b9b] leading-snug mt-2.5">{feedback.explanation}</p>
+                      <p className="font-body-readable text-[11px] text-[var(--muted-2)] leading-snug mt-2.5">{feedback.explanation}</p>
                     ) : null}
                   </div>
                 );
@@ -890,11 +890,11 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
             ) : null}
           </div>
 
-          <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4 space-y-3">
+          <div className="rounded-xl border border-[var(--border-3)] bg-[var(--overlay-2)] p-4 space-y-3">
             <div>
-              <div className="font-body-readable text-[12px] text-white font-semibold mb-1">{lesson.microProject!.title}</div>
+              <div className="font-body-readable text-[12px] text-[var(--text-primary)] font-semibold mb-1">{lesson.microProject!.title}</div>
               {lesson.microProject!.brief ? (
-                <p className="font-body-readable text-[12px] text-[#a5a5a5] leading-relaxed">{lesson.microProject!.brief}</p>
+                <p className="font-body-readable text-[12px] text-[var(--muted-2)] leading-relaxed">{lesson.microProject!.brief}</p>
               ) : null}
             </div>
 
@@ -905,15 +905,15 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
                     <span className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-blue-400/30 bg-blue-500/10 text-blue-200 text-[10px] font-semibold">
                       {stepIndex + 1}
                     </span>
-                    <span className="font-body-readable text-[11px] text-[#c7c7c7] leading-snug">{step}</span>
+                    <span className="font-body-readable text-[11px] text-[var(--muted-1)] leading-snug">{step}</span>
                   </div>
                 ))}
               </div>
             ) : null}
 
             {lesson.microProject!.deliverable ? (
-              <p className="font-body-readable text-[11px] text-[#9b9b9b] leading-snug">
-                <span className="text-[#7a7a7a]">
+              <p className="font-body-readable text-[11px] text-[var(--muted-2)] leading-snug">
+                <span className="text-[var(--muted-3)]">
                   {projectTitle ? t("lessonExperience.deliverableForProject").replace("{title}", projectTitle) : t("lessonExperience.deliverableExpected")}
                 </span>
                 {lesson.microProject!.deliverable}
@@ -953,19 +953,19 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
 
             <div className="flex items-center gap-2">
               <div className="flex-1">
-                <label className="text-[10px] text-[#666] uppercase tracking-widest font-semibold">{t("lessonExperience.linkLabel")}</label>
+                <label className="text-[10px] text-[var(--muted-4)] uppercase tracking-widest font-semibold">{t("lessonExperience.linkLabel")}</label>
                 <input
                   value={projectLink}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProjectLink(e.target.value)}
                   placeholder={t("lessonExperience.linkPlaceholder")}
                   disabled={reviewStatus === "pending"}
-                  className="w-full mt-1 rounded-lg border border-white/[0.08] bg-[#0f0f0f] px-3 py-2 font-body-readable text-[12px] text-[#d0d0d0] placeholder:text-[#555] focus:outline-none focus:border-blue-400/40 disabled:opacity-60"
+                  className="w-full mt-1 rounded-lg border border-[var(--border-3)] bg-[var(--surface-3)] px-3 py-2 font-body-readable text-[12px] text-[var(--muted-1)] placeholder:text-[var(--muted-5)] focus:outline-none focus:border-blue-400/40 disabled:opacity-60"
                 />
               </div>
             </div>
 
             <div className="flex items-center gap-3">
-              <label className="flex items-center gap-2 px-3 py-2 rounded-lg border border-white/[0.08] bg-[#0f0f0f] text-[11px] text-[#aaa] cursor-pointer hover:border-blue-400/40 transition-all disabled:opacity-60">
+              <label className="flex items-center gap-2 px-3 py-2 rounded-lg border border-[var(--border-3)] bg-[var(--surface-3)] text-[11px] text-[var(--muted-2)] cursor-pointer hover:border-blue-400/40 transition-all disabled:opacity-60">
                 <iconify-icon icon="lucide:upload" style={{ fontSize: "13px" }} />
                 {fileUploading ? t("lessonExperience.uploading") : t("lessonExperience.attachFile")}
                 <input type="file" onChange={handleFileUpload} disabled={reviewStatus === "pending" || fileUploading} className="hidden" accept=".png,.jpg,.jpeg,.gif,.pdf,.html,.css,.js,.zip,.gz" />

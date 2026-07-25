@@ -126,12 +126,12 @@ export default function NotificationBell() {
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2 text-[#888] hover:text-white transition-colors"
+        className="relative p-2 text-[var(--muted-3)] hover:text-[var(--text-primary)] transition-colors"
         aria-label={t("notification.bellLabel", "Notifications")}
       >
         <iconify-icon icon="lucide:bell" style={{ fontSize: "18px" }} />
         {unreadCount > 0 ? (
-          <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 rounded-full bg-[#4F8EF7] text-[9px] font-bold text-white flex items-center justify-center px-1">
+          <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 rounded-full bg-[#4F8EF7] text-[9px] font-bold text-[var(--text-primary)] flex items-center justify-center px-1">
             {unreadCount > 99 ? "99+" : unreadCount}
           </span>
         ) : null}
@@ -140,9 +140,9 @@ export default function NotificationBell() {
       {isOpen ? (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
-          <div className="absolute right-0 top-full mt-2 w-[340px] max-h-[420px] rounded-2xl border border-white/[0.1] bg-[#111] shadow-2xl z-50 overflow-hidden">
-            <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.08]">
-              <span className="text-[12px] text-white font-semibold">{t("notification.bellLabel", "Notifications")}</span>
+          <div className="absolute right-0 top-full mt-2 w-[340px] max-h-[420px] rounded-2xl border border-[var(--border-4)] bg-[var(--surface-1)] shadow-2xl z-50 overflow-hidden">
+            <div className="flex items-center justify-between px-4 py-3 border-b border-[var(--border-3)]">
+              <span className="text-[12px] text-[var(--text-primary)] font-semibold">{t("notification.bellLabel", "Notifications")}</span>
               {unreadCount > 0 ? (
                 <button
                   type="button"
@@ -156,7 +156,7 @@ export default function NotificationBell() {
 
             <div className="overflow-y-auto max-h-[360px]">
               {notifications.length === 0 ? (
-                <div className="px-4 py-8 text-center text-[12px] text-[#666]">
+                <div className="px-4 py-8 text-center text-[12px] text-[var(--muted-4)]">
                   {t("notification.empty", "No notifications")}
                 </div>
               ) : (
@@ -170,7 +170,7 @@ export default function NotificationBell() {
                       key={notif.id}
                       type="button"
                       onClick={() => handleNotifClick(notif)}
-                      className={`w-full text-left px-4 py-3 flex items-start gap-3 hover:bg-white/[0.03] transition-colors border-b border-white/[0.05] ${
+                      className={`w-full text-left px-4 py-3 flex items-start gap-3 hover:bg-[var(--overlay-3)] transition-colors border-b border-[var(--border-1)] ${
                         isUnread ? "bg-blue-500/[0.04]" : ""
                       }`}
                     >
@@ -182,15 +182,15 @@ export default function NotificationBell() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
-                          <span className={`text-[11px] font-semibold ${isUnread ? "text-white" : "text-[#aaa]"}`}>
+                          <span className={`text-[11px] font-semibold ${isUnread ? "text-[var(--text-primary)]" : "text-[var(--muted-2)]"}`}>
                             {notif.title}
                           </span>
                           {isUnread ? <span className="w-1.5 h-1.5 rounded-full bg-[#4F8EF7] shrink-0" /> : null}
                         </div>
                         {notif.body ? (
-                          <p className="text-[10px] text-[#777] leading-snug mt-0.5 line-clamp-2">{notif.body}</p>
+                          <p className="text-[10px] text-[var(--muted-3)] leading-snug mt-0.5 line-clamp-2">{notif.body}</p>
                         ) : null}
-                        <span className="text-[9px] text-[#555] mt-1 block">{timeAgo(notif.created_at, t)}</span>
+                        <span className="text-[9px] text-[var(--muted-5)] mt-1 block">{timeAgo(notif.created_at, t)}</span>
                       </div>
                     </button>
                   );

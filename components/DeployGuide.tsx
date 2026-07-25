@@ -55,18 +55,18 @@ export default function DeployGuide({ repoUrl, liveUrl, projectTitle, t }: Deplo
   ];
 
   return (
-    <div className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 space-y-4">
+    <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-5 space-y-4">
       <div className="flex items-center gap-2.5 mb-1">
         <div className="w-8 h-8 rounded-lg border border-emerald-500/30 bg-emerald-500/10 inline-flex items-center justify-center">
           <iconify-icon icon="lucide:rocket" style={{ color: "#10B981", fontSize: "16px" }} />
         </div>
         <div>
-          <div className="font-venite text-[11px] tracking-widest text-[#888] uppercase">{k("sectionLabel")}</div>
-          <h3 className="font-venite-italic text-[14px] text-white">{k("title").replace("{name}", projectTitle)}</h3>
+          <div className="font-venite text-[11px] tracking-widest text-[var(--muted-3)] uppercase">{k("sectionLabel")}</div>
+          <h3 className="font-venite-italic text-[14px] text-[var(--text-primary)]">{k("title").replace("{name}", projectTitle)}</h3>
         </div>
       </div>
 
-      <p className="font-body-readable text-[12px] text-[#a5a5a5] leading-relaxed">
+      <p className="font-body-readable text-[12px] text-[var(--muted-2)] leading-relaxed">
         {k("intro")}
       </p>
 
@@ -143,8 +143,8 @@ function DeployStep({
             ) : iconify(iconName)}
           </div>
           <div>
-            <div className="font-venite-italic text-[13px] text-white mb-1">{title}</div>
-            <p className="font-body-readable text-[11px] text-[#a5a5a5] leading-relaxed">{description}</p>
+            <div className="font-venite-italic text-[13px] text-[var(--text-primary)] mb-1">{title}</div>
+            <p className="font-body-readable text-[11px] text-[var(--muted-2)] leading-relaxed">{description}</p>
             {value ? (
               <a
                 href={value}
@@ -183,7 +183,7 @@ function DeployStep({
               href={docsUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[10px] text-[#888] hover:text-[#bbb] transition-colors"
+              className="text-[10px] text-[var(--muted-3)] hover:text-[var(--muted-2)] transition-colors"
               title={t ? t("deployGuide.viewDoc") : "View docs"}
             >
               <iconify-icon icon="lucide:book-open" style={{ fontSize: "14px" }} />

@@ -16,7 +16,7 @@ export default function PageHeader({ title, subtitle, backHref, backLabel, actio
         {backHref ? (
           <Link
             href={backHref}
-            className="inline-flex items-center gap-1.5 text-[11px] text-[#7d7d7d] hover:text-white transition-colors mb-2"
+            className="inline-flex items-center gap-1.5 text-[11px] text-[var(--muted-3)] hover:text-[var(--text-primary)] transition-colors mb-2"
           >
             <iconify-icon icon="lucide:arrow-left" style={{ fontSize: "12px" }} />
             {backLabel || "Back"}

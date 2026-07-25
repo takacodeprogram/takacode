@@ -77,8 +77,8 @@ export default function DeclareFirstRevenue({ projectId, alreadyDeclared, countr
           {t("revenue.declare")}
         </button>
       ) : (
-        <div className="rounded-lg border border-white/[0.08] bg-[#181818] p-3 space-y-2.5">
-          <div className="text-[11px] text-[#888] font-semibold">{t("revenue.declare")}</div>
+        <div className="rounded-lg border border-[var(--border-3)] bg-[#181818] p-3 space-y-2.5">
+          <div className="text-[11px] text-[var(--muted-3)] font-semibold">{t("revenue.declare")}</div>
           <div className="flex items-center gap-2">
             <input
               type="number"
@@ -106,7 +106,7 @@ export default function DeclareFirstRevenue({ projectId, alreadyDeclared, countr
               type="button"
               onClick={handleDeclare}
               disabled={declaring || !amount}
-              className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-1.5 rounded-lg bg-emerald-600 text-white hover:bg-emerald-500 transition-all disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-1.5 rounded-lg bg-emerald-600 text-[var(--text-primary)] hover:bg-emerald-500 transition-all disabled:opacity-50"
             >
               <iconify-icon icon={declaring ? "lucide:loader-circle" : "lucide:check"} style={{ fontSize: "12px" }} />
               {declaring ? t("revenue.declaring") : t("revenue.confirming")}
@@ -114,7 +114,7 @@ export default function DeclareFirstRevenue({ projectId, alreadyDeclared, countr
             <button
               type="button"
               onClick={() => setShowForm(false)}
-              className="text-[11px] text-[#888] hover:text-white transition-colors"
+              className="text-[11px] text-[var(--muted-3)] hover:text-[var(--text-primary)] transition-colors"
             >
               {t("revenue.cancel")}
             </button>

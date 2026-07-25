@@ -20,11 +20,11 @@ export default function GlobeSection({ markers }: GlobeSectionProps) {
 <h2 className="font-valorax gradient-text" style={{ fontSize: "clamp(28px, 3.5vw, 44px)", letterSpacing: "-0.02em" }}>
 {t("globe.title")}
 </h2>
-          <p className="font-body-readable text-[14px] text-[#888] mt-3">
+          <p className="font-body-readable text-[14px] text-[var(--muted-3)] mt-3">
             {markers.length} {t("globe.subtitle")}
           </p>
         </div>
-        <div className="rounded-2xl border border-white/[0.08] bg-[#0D0D0D] p-4 md:p-6">
+        <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-3)] p-4 md:p-6">
           <Globe3D markers={markers} />
         </div>
       </div>

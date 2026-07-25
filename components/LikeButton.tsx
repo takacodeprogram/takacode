@@ -76,7 +76,7 @@ export default function LikeButton({ projectId, initialCount, initialLiked, user
       className={`inline-flex items-center gap-1.5 rounded-xl border transition-all font-semibold ${
         liked
           ? "border-rose-500/40 bg-rose-500/15 text-rose-300"
-          : "border-white/[0.08] bg-white/[0.02] text-[#999] hover:border-white/[0.2] hover:text-white"
+          : "border-[var(--border-3)] bg-[var(--overlay-2)] text-[var(--muted-3)] hover:border-[var(--border-5)] hover:text-[var(--text-primary)]"
       }`}
       style={{ padding, fontSize: textSize }}
     >

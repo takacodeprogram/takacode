@@ -52,15 +52,15 @@ export default function NavUserMenu({ user, onNavigate }: Props) {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex items-center gap-2 rounded-full border border-white/[0.1] bg-white/[0.03] hover:bg-white/[0.07] transition-colors pl-2 pr-2.5 py-1.5"
+        className="flex items-center gap-2 rounded-full border border-[var(--border-4)] bg-[var(--overlay-3)] hover:bg-[var(--overlay-7)] transition-colors pl-2 pr-2.5 py-1.5"
         aria-haspopup="menu"
         aria-expanded={open}
         aria-label="Menu du profil"
       >
         {avatarUrl ? (
-          <img src={avatarUrl} alt="" className="w-8 h-8 rounded-full border border-white/10 object-cover bg-white/[0.03]" />
+          <img src={avatarUrl} alt="" className="w-8 h-8 rounded-full border border-white/10 object-cover bg-[var(--overlay-3)]" />
         ) : (
-          <div className="w-8 h-8 rounded-full border border-white/10 bg-gradient-to-br from-blue-400 to-cyan-500 flex items-center justify-center text-[11px] font-semibold text-white">
+          <div className="w-8 h-8 rounded-full border border-white/10 bg-gradient-to-br from-blue-400 to-cyan-500 flex items-center justify-center text-[11px] font-semibold text-[var(--text-primary)]">
             {getInitials(displayName)}
           </div>
         )}
@@ -68,32 +68,32 @@ export default function NavUserMenu({ user, onNavigate }: Props) {
       </button>
 
       {open ? (
-        <div className="menu-in absolute right-0 mt-2 w-60 rounded-xl border border-white/[0.1] bg-[#111] p-1.5 z-[80]" style={{ boxShadow: "0 16px 40px rgba(0,0,0,0.5)" }} role="menu">
-          <div className="px-3 py-2 border-b border-white/[0.06] mb-1">
-            <div className="text-[12px] text-white font-semibold truncate">{displayName}</div>
-            {email ? <div className="text-[10px] text-[#777] truncate">{email}</div> : null}
+        <div className="menu-in absolute right-0 mt-2 w-60 rounded-xl border border-[var(--border-4)] bg-[var(--surface-1)] p-1.5 z-[80]" style={{ boxShadow: "0 16px 40px rgba(0,0,0,0.5)" }} role="menu">
+          <div className="px-3 py-2 border-b border-[var(--border-2)] mb-1">
+            <div className="text-[12px] text-[var(--text-primary)] font-semibold truncate">{displayName}</div>
+            {email ? <div className="text-[10px] text-[var(--muted-3)] truncate">{email}</div> : null}
           </div>
-          <L href="/dashboard" onClick={handleNavigate} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[#d1d1d1] hover:bg-white/[0.05] transition-colors" role="menuitem">
+          <L href="/dashboard" onClick={handleNavigate} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[var(--muted-1)] hover:bg-[var(--overlay-5)] transition-colors" role="menuitem">
             <iconify-icon icon="lucide:layout-grid" style={{ fontSize: "15px", color: "#89c7ff" }} />
             {t("navbar.tableauDeBord")}
           </L>
-          <L href="/dashboard/profile" onClick={handleNavigate} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[#d1d1d1] hover:bg-white/[0.05] transition-colors" role="menuitem">
+          <L href="/dashboard/profile" onClick={handleNavigate} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[var(--muted-1)] hover:bg-[var(--overlay-5)] transition-colors" role="menuitem">
             <iconify-icon icon="lucide:user" style={{ fontSize: "15px", color: "#89c7ff" }} />
             {t("navbar.monProfil")}
           </L>
           {isMentor ? (
-            <L href="/dashboard/mentor" onClick={handleNavigate} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[#d1d1d1] hover:bg-white/[0.05] transition-colors" role="menuitem">
+            <L href="/dashboard/mentor" onClick={handleNavigate} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[var(--muted-1)] hover:bg-[var(--overlay-5)] transition-colors" role="menuitem">
               <iconify-icon icon="lucide:book-plus" style={{ fontSize: "15px", color: "#89c7ff" }} />
               {t("navbar.proposerParcours")}
             </L>
           ) : null}
           {isAdmin ? (
-            <L href="/admin" onClick={handleNavigate} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[#d1d1d1] hover:bg-white/[0.05] transition-colors" role="menuitem">
+            <L href="/admin" onClick={handleNavigate} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-[var(--muted-1)] hover:bg-[var(--overlay-5)] transition-colors" role="menuitem">
               <iconify-icon icon="lucide:shield-check" style={{ fontSize: "15px", color: "#89c7ff" }} />
               {t("navbar.centreAdmin")}
             </L>
           ) : null}
-          <SignOutButton className="w-full flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-red-400/80 hover:text-red-400 hover:bg-red-400/5 transition-colors mt-1 pt-1 border-t border-white/[0.06]">
+          <SignOutButton className="w-full flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-red-400/80 hover:text-red-400 hover:bg-red-400/5 transition-colors mt-1 pt-1 border-t border-[var(--border-2)]">
             <iconify-icon icon="lucide:log-out" style={{ fontSize: "15px" }} />
             {t("navbar.seDeconnecter")}
           </SignOutButton>

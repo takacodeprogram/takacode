@@ -24,7 +24,7 @@ function StepCard({ icon, title, desc, index, isVisible, accent }: { icon: strin
       }}
     >
       <div
-        className="w-[88px] h-[88px] rounded-2xl bg-[#111] border flex items-center justify-center mx-auto mb-5 transition-all duration-500 step-icon"
+        className="w-[88px] h-[88px] rounded-2xl bg-[var(--surface-1)] border flex items-center justify-center mx-auto mb-5 transition-all duration-500 step-icon"
         style={{
           borderColor: isVisible ? `${accent}55` : "rgba(255,255,255,0.07)",
           boxShadow: isVisible ? `0 0 40px ${accent}22, 0 0 0 1px ${accent}22` : "none"
@@ -32,8 +32,8 @@ function StepCard({ icon, title, desc, index, isVisible, accent }: { icon: strin
       >
         <iconify-icon icon={icon} style={{ fontSize: "28px", color: isVisible ? accent : "#666", transition: "color 0.5s" }} />
       </div>
-      <div className="font-venite text-[12px] text-white mb-2">{title}</div>
-      <p className="font-body-readable text-[11px] text-[#555] leading-relaxed transition-colors duration-500" style={{ color: isVisible ? "#888" : "#555" }}>
+      <div className="font-venite text-[12px] text-[var(--text-primary)] mb-2">{title}</div>
+      <p className="font-body-readable text-[11px] text-[var(--muted-5)] leading-relaxed transition-colors duration-500" style={{ color: isVisible ? "#888" : "#555" }}>
         {desc}
       </p>
     </div>
@@ -102,7 +102,7 @@ export default function HowItWorksSection() {
           <h2 className="font-valorax gradient-text mb-5" style={{ fontSize: "clamp(36px, 3.5vw, 54px)", letterSpacing: "-0.02em" }}>
             {t("process.title")}
           </h2>
-          <p className="font-body-readable text-[#666] text-[15px] max-w-md mx-auto">
+          <p className="font-body-readable text-[var(--muted-4)] text-[15px] max-w-md mx-auto">
             {t("process.subtitle")}
           </p>
         </div>

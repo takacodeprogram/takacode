@@ -89,7 +89,7 @@ export default async function ProfilePage() {
 
       <div className="grid xl:grid-cols-[0.9fr_1.1fr] gap-6">
         <section className="space-y-4">
-          <article className="rounded-2xl border border-white/[0.08] bg-[#111] p-5">
+          <article className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-5">
             <div className="flex items-center gap-4 mb-4">
               {avatarUrl ? (
                 <img src={avatarUrl} alt="" className="w-14 h-14 rounded-full border border-white/10 object-cover" />
@@ -97,31 +97,31 @@ export default async function ProfilePage() {
                 <div className="w-14 h-14 rounded-full border border-white/10 bg-gradient-to-br from-blue-400 to-cyan-500" />
               )}
               <div className="min-w-0">
-                <div className="text-[15px] text-white font-semibold leading-tight">{displayName}</div>
-                <div className="text-[11px] text-[#777] font-body-readable">{email}</div>
+                <div className="text-[15px] text-[var(--text-primary)] font-semibold leading-tight">{displayName}</div>
+                <div className="text-[11px] text-[var(--muted-3)] font-body-readable">{email}</div>
               </div>
             </div>
 
             <div className="grid grid-cols-3 gap-2">
-              <div className="rounded-lg border border-white/[0.08] bg-white/[0.02] px-2.5 py-2">
-                <div className="text-[9px] text-[#666] uppercase tracking-widest">{t("dashboardProfile.points")}</div>
-                <div className="text-[13px] text-white font-semibold">{points}</div>
+              <div className="rounded-lg border border-[var(--border-3)] bg-[var(--overlay-2)] px-2.5 py-2">
+                <div className="text-[9px] text-[var(--muted-4)] uppercase tracking-widest">{t("dashboardProfile.points")}</div>
+                <div className="text-[13px] text-[var(--text-primary)] font-semibold">{points}</div>
               </div>
-              <div className="rounded-lg border border-white/[0.08] bg-white/[0.02] px-2.5 py-2">
-                <div className="text-[9px] text-[#666] uppercase tracking-widest">{t("dashboardProfile.grade")}</div>
-                <div className="text-[13px] text-white font-semibold">{grade}</div>
+              <div className="rounded-lg border border-[var(--border-3)] bg-[var(--overlay-2)] px-2.5 py-2">
+                <div className="text-[9px] text-[var(--muted-4)] uppercase tracking-widest">{t("dashboardProfile.grade")}</div>
+                <div className="text-[13px] text-[var(--text-primary)] font-semibold">{grade}</div>
               </div>
-              <div className="rounded-lg border border-white/[0.08] bg-white/[0.02] px-2.5 py-2">
-                <div className="text-[9px] text-[#666] uppercase tracking-widest">{t("dashboardProfile.role")}</div>
-                <div className="text-[13px] text-white font-semibold">{roleLabel}</div>
+              <div className="rounded-lg border border-[var(--border-3)] bg-[var(--overlay-2)] px-2.5 py-2">
+                <div className="text-[9px] text-[var(--muted-4)] uppercase tracking-widest">{t("dashboardProfile.role")}</div>
+                <div className="text-[13px] text-[var(--text-primary)] font-semibold">{roleLabel}</div>
               </div>
             </div>
           </article>
 
           <GradeProgress points={points} />
 
-          <div className="rounded-2xl border border-white/[0.08] bg-[#111] p-4">
-            <div className="text-[10px] text-[#777] uppercase tracking-widest mb-2">{t("dashboardProfile.shareProgress")}</div>
+          <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-4">
+            <div className="text-[10px] text-[var(--muted-3)] uppercase tracking-widest mb-2">{t("dashboardProfile.shareProgress")}</div>
             <ShareButtons text={t("dashboardProfile.shareText").replace("{grade}", grade).replace("{points}", String(points))} />
           </div>
 

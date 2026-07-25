@@ -17,7 +17,7 @@ export default async function RessourcesSection() {
             <h2 className="font-valorax gradient-text mb-6" style={{ fontSize: "clamp(36px, 3.5vw, 54px)", letterSpacing: "-0.02em" }}>
               {t("ressources.title")}
             </h2>
-            <p className="font-body-readable text-[#666] text-[15px] leading-relaxed mb-8 max-w-[420px]">
+            <p className="font-body-readable text-[var(--muted-4)] text-[15px] leading-relaxed mb-8 max-w-[420px]">
               {t("ressources.description")}
             </p>
 
@@ -34,40 +34,40 @@ export default async function RessourcesSection() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="bg-[#111] border border-white/[0.07] rounded-2xl p-5 card-hover">
+            <div className="bg-[var(--surface-1)] border border-[var(--border-3)] rounded-2xl p-5 card-hover">
               <div className="w-9 h-9 rounded-xl bg-blue-500/10 border border-blue-500/15 flex items-center justify-center mb-4">
                 <iconify-icon icon="lucide:file-text" className="text-[#4F8EF7]" style={{ fontSize: "16px" }} />
               </div>
-              <div className="font-venite text-[12px] text-white mb-1.5">{t("ressources.cards.guides.title")}</div>
-              <p className="font-body-readable text-[11px] text-[#555] mb-3">{t("ressources.cards.guides.desc")}</p>
-              <div className="font-body-readable text-[10px] text-[#444]">{t("ressources.cards.guides.count")}</div>
+              <div className="font-venite text-[12px] text-[var(--text-primary)] mb-1.5">{t("ressources.cards.guides.title")}</div>
+              <p className="font-body-readable text-[11px] text-[var(--muted-5)] mb-3">{t("ressources.cards.guides.desc")}</p>
+              <div className="font-body-readable text-[10px] text-[var(--muted-6)]">{t("ressources.cards.guides.count")}</div>
             </div>
 
-            <div className="bg-[#111] border border-white/[0.07] rounded-2xl p-5 card-hover">
+            <div className="bg-[var(--surface-1)] border border-[var(--border-3)] rounded-2xl p-5 card-hover">
               <div className="w-9 h-9 rounded-xl bg-red-500/10 border border-red-500/15 flex items-center justify-center mb-4">
                 <iconify-icon icon="lucide:play-circle" className="text-red-400" style={{ fontSize: "16px" }} />
               </div>
-              <div className="font-venite text-[12px] text-white mb-1.5">{t("ressources.cards.videos.title")}</div>
-              <p className="font-body-readable text-[11px] text-[#555] mb-3">{t("ressources.cards.videos.desc")}</p>
-              <div className="font-body-readable text-[10px] text-[#444]">{t("ressources.cards.videos.count")}</div>
+              <div className="font-venite text-[12px] text-[var(--text-primary)] mb-1.5">{t("ressources.cards.videos.title")}</div>
+              <p className="font-body-readable text-[11px] text-[var(--muted-5)] mb-3">{t("ressources.cards.videos.desc")}</p>
+              <div className="font-body-readable text-[10px] text-[var(--muted-6)]">{t("ressources.cards.videos.count")}</div>
             </div>
 
-            <div className="bg-[#151515] border border-white/[0.07] rounded-2xl p-5 card-hover" style={{ borderColor: "rgba(79,142,247,0.12)" }}>
+            <div className="bg-[var(--surface-2)] border border-[var(--border-3)] rounded-2xl p-5 card-hover" style={{ borderColor: "rgba(79,142,247,0.12)" }}>
               <div className="w-9 h-9 rounded-xl bg-violet-500/10 border border-violet-500/15 flex items-center justify-center mb-4">
                 <iconify-icon icon="lucide:layout-template" className="text-[#9B6DFF]" style={{ fontSize: "16px" }} />
               </div>
-              <div className="font-venite text-[12px] text-white mb-1.5">{t("ressources.cards.templates.title")}</div>
-              <p className="font-body-readable text-[11px] text-[#555] mb-3">{t("ressources.cards.templates.desc")}</p>
-              <div className="font-body-readable text-[10px] text-[#444]">{t("ressources.cards.templates.count")}</div>
+              <div className="font-venite text-[12px] text-[var(--text-primary)] mb-1.5">{t("ressources.cards.templates.title")}</div>
+              <p className="font-body-readable text-[11px] text-[var(--muted-5)] mb-3">{t("ressources.cards.templates.desc")}</p>
+              <div className="font-body-readable text-[10px] text-[var(--muted-6)]">{t("ressources.cards.templates.count")}</div>
             </div>
 
-            <div className="bg-[#111] border border-white/[0.07] rounded-2xl p-5 card-hover">
+            <div className="bg-[var(--surface-1)] border border-[var(--border-3)] rounded-2xl p-5 card-hover">
               <div className="w-9 h-9 rounded-xl bg-orange-500/10 border border-orange-500/15 flex items-center justify-center mb-4">
                 <iconify-icon icon="lucide:wrench" className="text-orange-400" style={{ fontSize: "16px" }} />
               </div>
-              <div className="font-venite text-[12px] text-white mb-1.5">{t("ressources.cards.tools.title")}</div>
-              <p className="font-body-readable text-[11px] text-[#555] mb-3">{t("ressources.cards.tools.desc")}</p>
-              <div className="font-body-readable text-[10px] text-[#444]">{t("ressources.cards.tools.count")}</div>
+              <div className="font-venite text-[12px] text-[var(--text-primary)] mb-1.5">{t("ressources.cards.tools.title")}</div>
+              <p className="font-body-readable text-[11px] text-[var(--muted-5)] mb-3">{t("ressources.cards.tools.desc")}</p>
+              <div className="font-body-readable text-[10px] text-[var(--muted-6)]">{t("ressources.cards.tools.count")}</div>
             </div>
           </div>
         </div>

@@ -110,17 +110,17 @@ export default function ResetPasswordPageClient() {
   }
 
   return (
-    <main className="min-h-screen bg-[#0A0A0A] text-white px-6 py-20 md:py-24 flex items-center justify-center">
-      <div className="w-full max-w-[560px] bg-[#111] border border-white/[0.07] rounded-3xl p-8 sm:p-10">
+    <main className="min-h-screen bg-[var(--bg-app)] text-[var(--text-primary)] px-6 py-20 md:py-24 flex items-center justify-center">
+      <div className="w-full max-w-[560px] bg-[var(--surface-1)] border border-[var(--border-3)] rounded-3xl p-8 sm:p-10">
         <div className="section-label mb-4">{t("auth.resetPasswordBadge")}</div>
         <h1 className="font-valorax text-[34px] mb-4">{t("auth.resetPasswordTitle")}</h1>
-        <p className="font-body-readable text-[14px] text-[#888] leading-relaxed mb-8">
+        <p className="font-body-readable text-[14px] text-[var(--muted-3)] leading-relaxed mb-8">
           {t("auth.resetPasswordDesc")}
         </p>
 
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="space-y-1.5">
-            <label className="text-[12px] text-[#555] ml-1">{t("auth.resetPasswordNewLabel")}</label>
+            <label className="text-[12px] text-[var(--muted-5)] ml-1">{t("auth.resetPasswordNewLabel")}</label>
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
@@ -132,20 +132,20 @@ export default function ResetPasswordPageClient() {
               />
               <button
                 type="button"
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-[11px] text-[#8FA8FF] hover:text-white transition-colors"
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-[11px] text-[#8FA8FF] hover:text-[var(--text-primary)] transition-colors"
                 onClick={() => setShowPassword((current) => !current)}
               >
                 {showPassword ? t("auth.hidePassword") : t("auth.showPassword")}
               </button>
             </div>
-            <div className="h-1 rounded bg-[#222] mt-1 overflow-hidden">
+            <div className="h-1 rounded bg-[var(--surface-2)] mt-1 overflow-hidden">
               <div className="h-full transition-all" style={{ width: `${strength}%`, backgroundColor: strengthMeta.color }} />
             </div>
-            <p className="text-[10px] text-[#666] mt-1">{strength < 45 ? t("auth.passwordWeak") : strength < 75 ? t("auth.passwordMedium") : t("auth.passwordStrong")}</p>
+            <p className="text-[10px] text-[var(--muted-4)] mt-1">{strength < 45 ? t("auth.passwordWeak") : strength < 75 ? t("auth.passwordMedium") : t("auth.passwordStrong")}</p>
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-[12px] text-[#555] ml-1">{t("auth.resetPasswordConfirmLabel")}</label>
+            <label className="text-[12px] text-[var(--muted-5)] ml-1">{t("auth.resetPasswordConfirmLabel")}</label>
             <div className="relative">
               <input
                 type={showConfirmPassword ? "text" : "password"}
@@ -157,7 +157,7 @@ export default function ResetPasswordPageClient() {
               />
               <button
                 type="button"
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-[11px] text-[#8FA8FF] hover:text-white transition-colors"
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-[11px] text-[#8FA8FF] hover:text-[var(--text-primary)] transition-colors"
                 onClick={() => setShowConfirmPassword((current) => !current)}
               >
                 {showConfirmPassword ? t("auth.hidePassword") : t("auth.showPassword")}
@@ -170,8 +170,8 @@ export default function ResetPasswordPageClient() {
           </button>
         </form>
 
-        <div className="mt-8 pt-6 border-t border-white/[0.05] text-[13px] flex items-center justify-between">
-          <L href="/signin" className="text-[#888] hover:text-white transition-colors">
+        <div className="mt-8 pt-6 border-t border-[var(--border-1)] text-[13px] flex items-center justify-between">
+          <L href="/signin" className="text-[var(--muted-3)] hover:text-[var(--text-primary)] transition-colors">
             {t("auth.resetPasswordBack")}
           </L>
           <L href="/forgot-password" className="text-[#4F8EF7] hover:underline">

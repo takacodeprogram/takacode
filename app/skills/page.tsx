@@ -13,7 +13,7 @@ export const metadata = buildPageMetadata({
 export default async function CompetencesPage() {
   const locale = await getServerLocale();
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white">
+    <div className="min-h-screen bg-[var(--bg-app)] text-[var(--text-primary)]">
       <Navbar />
       <main className="pt-[64px]">
         <SkillsSection />

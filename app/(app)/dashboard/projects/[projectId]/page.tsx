@@ -91,14 +91,14 @@ export default async function EditProjectPage({ params }: { params: Promise<Reco
           <ProjectForm userId={user.id} tracks={tracks} project={project} />
 
           {deliverables.length > 0 ? (
-            <div className="rounded-2xl border border-white/[0.08] bg-[#111] p-5">
+            <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-5">
               <div className="flex items-center gap-2.5 mb-4">
                 <div className="w-9 h-9 rounded-xl border border-emerald-500/30 bg-emerald-500/10 inline-flex items-center justify-center">
                   <iconify-icon icon="lucide:package" style={{ color: "#6ee7b7", fontSize: "17px" }} />
                 </div>
                 <div>
-                  <div className="font-venite text-[10px] tracking-widest text-[#888] uppercase">{t("dashboardProjectDetail.deliverables")}</div>
-                  <h3 className="font-venite-italic text-[13px] text-white leading-tight">{deliverables.length} micro-projet{deliverables.length > 1 ? "s" : ""} realise{deliverables.length > 1 ? "s" : ""}</h3>
+                  <div className="font-venite text-[10px] tracking-widest text-[var(--muted-3)] uppercase">{t("dashboardProjectDetail.deliverables")}</div>
+                  <h3 className="font-venite-italic text-[13px] text-[var(--text-primary)] leading-tight">{deliverables.length} micro-projet{deliverables.length > 1 ? "s" : ""} realise{deliverables.length > 1 ? "s" : ""}</h3>
                 </div>
               </div>
               <div className="space-y-2">
@@ -106,14 +106,14 @@ export default async function EditProjectPage({ params }: { params: Promise<Reco
                   <Link
                     key={d.lessonId}
                     href={localePath(`/tracks/${d.trackSlug}/lesson/${d.lessonSlug}`, locale)}
-                    className="flex items-center gap-2.5 rounded-xl border border-white/[0.06] bg-white/[0.01] px-3.5 py-2.5 hover:border-white/[0.15] transition-all"
+                    className="flex items-center gap-2.5 rounded-xl border border-[var(--border-2)] bg-[var(--overlay-1)] px-3.5 py-2.5 hover:border-[var(--border-5)] transition-all"
                   >
-                    <div className="w-7 h-7 rounded-lg border border-white/[0.06] bg-white/[0.02] flex items-center justify-center">
+                    <div className="w-7 h-7 rounded-lg border border-[var(--border-2)] bg-[var(--overlay-2)] flex items-center justify-center">
                       <iconify-icon icon="lucide:file-code" style={{ color: "#9b9b9b", fontSize: "13px" }} />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <div className="text-[12px] text-white font-semibold leading-tight truncate">{d.lessonTitle}</div>
-                      <div className="text-[10px] text-[#888] font-body-readable">{d.trackTitle} · {formatDate(d.submittedAt)}</div>
+                      <div className="text-[12px] text-[var(--text-primary)] font-semibold leading-tight truncate">{d.lessonTitle}</div>
+                      <div className="text-[10px] text-[var(--muted-3)] font-body-readable">{d.trackTitle} · {formatDate(d.submittedAt)}</div>
                     </div>
                     <span className={`shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full border ${
                       d.status === "completed" ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-200" :
@@ -131,14 +131,14 @@ export default async function EditProjectPage({ params }: { params: Promise<Reco
 
         <div className="space-y-5">
           {project.trackId ? (
-            <div className="rounded-2xl border border-[#4F8EF7]/25 bg-[#111] p-5">
+            <div className="rounded-2xl border border-[#4F8EF7]/25 bg-[var(--surface-1)] p-5">
               <div className="flex items-center gap-2.5 mb-3">
                 <div className="w-9 h-9 rounded-xl border border-[#4F8EF7]/40 bg-[#4F8EF7]/15 inline-flex items-center justify-center">
                   <iconify-icon icon="lucide:zap" style={{ color: "#4F8EF7", fontSize: "17px" }} />
                 </div>
                 <div className="min-w-0">
-                  <div className="font-venite text-[10px] tracking-widest text-[#888] uppercase">{t("dashboardProjectDetail.acceleratorTrack")}</div>
-                  <h3 className="font-venite-italic text-[13px] text-white leading-tight truncate">
+                  <div className="font-venite text-[10px] tracking-widest text-[var(--muted-3)] uppercase">{t("dashboardProjectDetail.acceleratorTrack")}</div>
+                  <h3 className="font-venite-italic text-[13px] text-[var(--text-primary)] leading-tight truncate">
                     {linkedTrack?.title || project.trackTitle || "Parcours"}
                   </h3>
                 </div>
@@ -148,7 +148,7 @@ export default async function EditProjectPage({ params }: { params: Promise<Reco
               </div>
 
               {curriculum?.hasCurriculum ? (
-                <div className="h-1.5 rounded bg-white/[0.06] overflow-hidden mb-3">
+                <div className="h-1.5 rounded bg-[var(--overlay-6)] overflow-hidden mb-3">
                   <div className="h-full rounded bg-gradient-to-r from-[#4F8EF7] to-[#9B6DFF]" style={{ width: `${curriculum.progressPercent}%` }} />
                 </div>
               ) : null}
@@ -187,19 +187,19 @@ export default async function EditProjectPage({ params }: { params: Promise<Reco
           />
 
           {suggestedTracks.length > 0 ? (
-            <div className="rounded-2xl border border-white/[0.08] bg-[#111] p-5">
+            <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-5">
               <div className="flex items-center gap-2.5 mb-3">
                 <div className="w-9 h-9 rounded-xl border border-[#F59E0B]/40 bg-[#F59E0B]/15 inline-flex items-center justify-center">
                   <iconify-icon icon="lucide:map" style={{ color: "#F59E0B", fontSize: "17px" }} />
                 </div>
                 <div>
-                  <div className="font-venite text-[10px] tracking-widest text-[#888] uppercase">{t("dashboardProjectDetail.chooseAccelerator")}</div>
-                  <h3 className="font-venite-italic text-[13px] text-white leading-tight">
+                  <div className="font-venite text-[10px] tracking-widest text-[var(--muted-3)] uppercase">{t("dashboardProjectDetail.chooseAccelerator")}</div>
+                  <h3 className="font-venite-italic text-[13px] text-[var(--text-primary)] leading-tight">
                     {template ? `${t("dashboardProjectDetail.chooseAccelerator")} ${template.title}` : t("dashboardProjectDetail.suggestedTracks")}
                   </h3>
                 </div>
               </div>
-              <p className="font-body-readable text-[11px] text-[#8d8d8d] leading-snug mb-3">
+              <p className="font-body-readable text-[11px] text-[var(--muted-3)] leading-snug mb-3">
                 {t("dashboardProjectDetail.noAccelerator")}
               </p>
               <div className="space-y-2">
@@ -207,12 +207,12 @@ export default async function EditProjectPage({ params }: { params: Promise<Reco
                   <Link
                     key={track.id}
                     href={localePath(`/tracks/${track.slug}`, locale)}
-                    className="flex items-center gap-2.5 rounded-xl border border-white/[0.06] bg-white/[0.01] px-3.5 py-2.5 hover:border-white/[0.15] transition-all"
+                    className="flex items-center gap-2.5 rounded-xl border border-[var(--border-2)] bg-[var(--overlay-1)] px-3.5 py-2.5 hover:border-[var(--border-5)] transition-all"
                   >
                     <iconify-icon icon={track.icon} style={{ color: track.accentColor, fontSize: "15px" }} />
                     <div className="min-w-0">
-                      <div className="text-[12px] text-white font-semibold leading-tight truncate">{track.title}</div>
-                      <div className="text-[10px] text-[#888] font-body-readable truncate">{track.levelLabel}{track.durationWeeks ? ` · ${track.durationWeeks} sem` : ""}</div>
+                      <div className="text-[12px] text-[var(--text-primary)] font-semibold leading-tight truncate">{track.title}</div>
+                      <div className="text-[10px] text-[var(--muted-3)] font-body-readable truncate">{track.levelLabel}{track.durationWeeks ? ` · ${track.durationWeeks} sem` : ""}</div>
                     </div>
                     <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "13px", color: "#666" }} className="ml-auto shrink-0" />
                   </Link>

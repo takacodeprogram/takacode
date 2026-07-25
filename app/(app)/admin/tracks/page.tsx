@@ -23,7 +23,7 @@ function StatusBadge({ ok, labelOn, labelOff }: { ok: boolean; labelOn: string; 
     <span
       className={[
         "text-[10px] font-semibold px-2 py-0.5 rounded-full border",
-        ok ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-200" : "border-white/[0.12] bg-white/[0.03] text-[#888]"
+        ok ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-200" : "border-[var(--border-4)] bg-[var(--overlay-3)] text-[var(--muted-3)]"
       ].join(" ")}
     >
       {ok ? labelOn : labelOff}
@@ -80,11 +80,11 @@ export default async function AdminTracksListPage() {
             <Link
               key={track.id}
               href={localePath(`/admin/tracks/${track.id}`, locale)}
-              className="flex items-center justify-between gap-3 rounded-xl border border-white/[0.08] bg-[#111] px-4 py-3.5 card-hover"
+              className="flex items-center justify-between gap-3 rounded-xl border border-[var(--border-3)] bg-[var(--surface-1)] px-4 py-3.5 card-hover"
             >
               <div className="min-w-0">
-                <div className="text-[13px] text-white font-semibold leading-tight truncate">{track.title}</div>
-                <div className="text-[11px] text-[#6d6d6d] font-body-readable">
+                <div className="text-[13px] text-[var(--text-primary)] font-semibold leading-tight truncate">{track.title}</div>
+                <div className="text-[11px] text-[var(--muted-4)] font-body-readable">
                   /{track.slug} · {track.level_label}
                 </div>
               </div>
@@ -97,8 +97,8 @@ export default async function AdminTracksListPage() {
           ))}
         </div>
       ) : (
-        <div className="rounded-2xl border border-white/[0.07] bg-[#111] p-8 text-center">
-          <p className="font-body-readable text-[13px] text-[#777] mb-4">{t("adminTracks.empty")}</p>
+        <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-8 text-center">
+          <p className="font-body-readable text-[13px] text-[var(--muted-3)] mb-4">{t("adminTracks.empty")}</p>
           <Link href={localePath("/admin/tracks/new", locale)} className="btn-primary inline-flex items-center gap-2 text-[12px]">
             <iconify-icon icon="lucide:plus" style={{ fontSize: "13px" }} />
             {t("adminTracks.createFirst")}

@@ -53,7 +53,9 @@ const FR: Translations = {
     ouvrirMenu: "Ouvrir le menu",
     member: "Membre",
     switchToEnglish: "Switch to English",
-    switchToFrench: "Passer en français"
+    switchToFrench: "Passer en français",
+    themeLight: "Passer en mode clair",
+    themeDark: "Passer en mode sombre"
   },
   referral: {
     copy: "Copier",
@@ -2188,7 +2190,9 @@ const EN: Translations = {
     ouvrirMenu: "Open menu",
     member: "Member",
     switchToEnglish: "Switch to English",
-    switchToFrench: "Passer en français"
+    switchToFrench: "Passer en français",
+    themeLight: "Switch to light mode",
+    themeDark: "Switch to dark mode"
   },
   referral: {
     copy: "Copy",

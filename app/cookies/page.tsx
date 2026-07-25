@@ -21,7 +21,7 @@ export default async function CookiesPage() {
   const { t } = getLocale(locale);
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white">
+    <div className="min-h-screen bg-[var(--bg-app)] text-[var(--text-primary)]">
       <Navbar />
       <main className="pt-[64px]">
         <section className="py-24 md:py-28 px-8">
@@ -30,15 +30,15 @@ export default async function CookiesPage() {
             <h1 className="font-valorax gradient-text" style={{ fontSize: "clamp(30px, 3.5vw, 46px)", letterSpacing: "-0.02em" }}>
               {t("cookiesPage.title")}
             </h1>
-            <p className="font-body-readable text-[14px] text-[#888] mt-3 mb-10">
+            <p className="font-body-readable text-[14px] text-[var(--muted-3)] mt-3 mb-10">
               {t("cookiesPage.description")}
             </p>
 
             <div className="space-y-4">
               {SECTION_KEYS.map((key) => (
-                <article key={key} className="rounded-2xl border border-white/[0.08] bg-[#111] p-5">
-                  <h2 className="font-venite text-[13px] tracking-widest text-[#888] mb-2">{t(`cookiesPage.sections.${key}.title`).toUpperCase()}</h2>
-                  <p className="font-body-readable text-[13px] text-[#a5a5a5] leading-relaxed">{t(`cookiesPage.sections.${key}.body`)}</p>
+                <article key={key} className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-5">
+                  <h2 className="font-venite text-[13px] tracking-widest text-[var(--muted-3)] mb-2">{t(`cookiesPage.sections.${key}.title`).toUpperCase()}</h2>
+                  <p className="font-body-readable text-[13px] text-[var(--muted-2)] leading-relaxed">{t(`cookiesPage.sections.${key}.body`)}</p>
                 </article>
               ))}
             </div>

@@ -50,7 +50,7 @@ export default async function ProjetsPage() {
   const { projects } = await listPublishedProjects(supabase, 50);
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white">
+    <div className="min-h-screen bg-[var(--bg-app)] text-[var(--text-primary)]">
       <Navbar />
       <main className="pt-[64px]">
         <section className="py-24 md:py-28 px-8">
@@ -60,26 +60,26 @@ export default async function ProjetsPage() {
 <h1 className="font-valorax gradient-text text-[clamp(34px,4vw,56px)] leading-[0.92]">
 {t("projetsPage.title")}
 </h1>
-              <p className="font-body-readable text-[15px] text-[#8d8d8d] mt-4 leading-relaxed">
+              <p className="font-body-readable text-[15px] text-[var(--muted-3)] mt-4 leading-relaxed">
                 {t("projetsPage.description")}
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <article className="rounded-xl border border-white/[0.08] bg-[#111] px-4 py-4">
-                <div className="text-[10px] text-[#666] uppercase tracking-widest mb-1">{t("projetsPage.stats.library.label")}</div>
-                <div className="font-venite-italic text-[20px] text-white">{projects.length} {locale === "fr" ? "projets" : "projects"}</div>
-                <p className="font-body-readable text-[11px] text-[#767676] mt-1">{t("projetsPage.stats.library.desc")}</p>
+              <article className="rounded-xl border border-[var(--border-3)] bg-[var(--surface-1)] px-4 py-4">
+                <div className="text-[10px] text-[var(--muted-4)] uppercase tracking-widest mb-1">{t("projetsPage.stats.library.label")}</div>
+                <div className="font-venite-italic text-[20px] text-[var(--text-primary)]">{projects.length} {locale === "fr" ? "projets" : "projects"}</div>
+                <p className="font-body-readable text-[11px] text-[var(--muted-3)] mt-1">{t("projetsPage.stats.library.desc")}</p>
               </article>
-              <article className="rounded-xl border border-white/[0.08] bg-[#111] px-4 py-4">
-                <div className="text-[10px] text-[#666] uppercase tracking-widest mb-1">{t("projetsPage.stats.goal.label")}</div>
-                <div className="font-venite-italic text-[20px] text-white">{t("projetsPage.stats.goal.value")}</div>
-                <p className="font-body-readable text-[11px] text-[#767676] mt-1">{t("projetsPage.stats.goal.desc")}</p>
+              <article className="rounded-xl border border-[var(--border-3)] bg-[var(--surface-1)] px-4 py-4">
+                <div className="text-[10px] text-[var(--muted-4)] uppercase tracking-widest mb-1">{t("projetsPage.stats.goal.label")}</div>
+                <div className="font-venite-italic text-[20px] text-[var(--text-primary)]">{t("projetsPage.stats.goal.value")}</div>
+                <p className="font-body-readable text-[11px] text-[var(--muted-3)] mt-1">{t("projetsPage.stats.goal.desc")}</p>
               </article>
-              <article className="rounded-xl border border-white/[0.08] bg-[#111] px-4 py-4">
-                <div className="text-[10px] text-[#666] uppercase tracking-widest mb-1">{t("projetsPage.stats.next.label")}</div>
-                <div className="font-venite-italic text-[20px] text-white">{t("projetsPage.stats.next.value")}</div>
-                <p className="font-body-readable text-[11px] text-[#767676] mt-1">{t("projetsPage.stats.next.desc")}</p>
+              <article className="rounded-xl border border-[var(--border-3)] bg-[var(--surface-1)] px-4 py-4">
+                <div className="text-[10px] text-[var(--muted-4)] uppercase tracking-widest mb-1">{t("projetsPage.stats.next.label")}</div>
+                <div className="font-venite-italic text-[20px] text-[var(--text-primary)]">{t("projetsPage.stats.next.value")}</div>
+                <p className="font-body-readable text-[11px] text-[var(--muted-3)] mt-1">{t("projetsPage.stats.next.desc")}</p>
               </article>
             </div>
           </div>
@@ -90,15 +90,15 @@ export default async function ProjetsPage() {
             {projects.length ? (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
                   {projects.map((project) => (
-                  <Link key={project.id} href={localePath(`/projects/${project.id}`, locale)} className="bg-[#111] border border-white/[0.07] rounded-2xl p-6 card-hover block">
+                  <Link key={project.id} href={localePath(`/projects/${project.id}`, locale)} className="bg-[var(--surface-1)] border border-[var(--border-3)] rounded-2xl p-6 card-hover block">
                     <div className="flex items-center justify-between gap-3 flex-wrap mb-4">
                       <div className="flex items-center gap-3">
                         <div className="w-11 h-11 rounded-xl border border-blue-500/30 bg-blue-500/10 flex items-center justify-center">
                           <iconify-icon icon="lucide:folder" style={{ color: "#4F8EF7", fontSize: "20px" }} />
                         </div>
                         <div>
-                          <div className="text-[10px] text-[#777] uppercase tracking-widest">{t("projetsPage.projectCard.label")}</div>
-                          <h3 className="font-venite-italic text-[15px] text-white leading-tight">{project.title}</h3>
+                          <div className="text-[10px] text-[var(--muted-3)] uppercase tracking-widest">{t("projetsPage.projectCard.label")}</div>
+                          <h3 className="font-venite-italic text-[15px] text-[var(--text-primary)] leading-tight">{project.title}</h3>
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
@@ -114,12 +114,12 @@ export default async function ProjetsPage() {
 
                     {project.objective ? (
                       <div className="mb-4">
-                        <div className="text-[10px] text-[#666] uppercase tracking-widest mb-1">{t("projetsPage.projectCard.objective")}</div>
-                        <p className="font-body-readable text-[12px] text-[#c9c9c9] leading-relaxed">{project.objective}</p>
+                        <div className="text-[10px] text-[var(--muted-4)] uppercase tracking-widest mb-1">{t("projetsPage.projectCard.objective")}</div>
+                        <p className="font-body-readable text-[12px] text-[var(--muted-1)] leading-relaxed">{project.objective}</p>
                       </div>
                     ) : null}
 
-                    <div className="flex flex-wrap items-center gap-3 text-[11px] text-[#585858] font-body-readable">
+                    <div className="flex flex-wrap items-center gap-3 text-[11px] text-[var(--muted-5)] font-body-readable">
                       {project.trackTitle ? <span>{t("projetsPage.projectCard.track")}: {project.trackTitle}</span> : null}
                       {project.deadline ? <span>{t("projetsPage.projectCard.deadline")}: {formatDate(project.deadline)}</span> : null}
                       {project.publishedAt ? <span>{t("projetsPage.projectCard.publishedOn")} {formatDate(project.publishedAt)}</span> : null}
@@ -128,12 +128,12 @@ export default async function ProjetsPage() {
                 ))}
               </div>
             ) : (
-              <div className="rounded-2xl border border-white/[0.07] bg-[#111] p-16 text-center">
-                <div className="w-14 h-14 rounded-2xl border border-white/[0.08] bg-white/[0.02] flex items-center justify-center mx-auto mb-4">
+              <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-16 text-center">
+                <div className="w-14 h-14 rounded-2xl border border-[var(--border-3)] bg-[var(--overlay-2)] flex items-center justify-center mx-auto mb-4">
                   <iconify-icon icon="lucide:rocket" className="text-[#4F8EF7]" style={{ fontSize: "26px" }} />
                 </div>
-                <div className="font-venite text-[15px] text-white mb-1.5">{t("projetsPage.empty.title")}</div>
-                <p className="font-body-readable text-[13px] text-[#777] max-w-[460px] mx-auto mb-6">
+                <div className="font-venite text-[15px] text-[var(--text-primary)] mb-1.5">{t("projetsPage.empty.title")}</div>
+                <p className="font-body-readable text-[13px] text-[var(--muted-3)] max-w-[460px] mx-auto mb-6">
                   {t("projetsPage.empty.desc")}
                 </p>
                 <Link href={localePath("/signup", locale)} className="btn-primary inline-flex items-center gap-2" style={{ fontSize: "13px", padding: "12px 24px" }}>

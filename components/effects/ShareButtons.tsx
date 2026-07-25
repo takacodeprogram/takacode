@@ -53,7 +53,7 @@ export default function ShareButtons({ text = "", url = "", compact = false }: P
           key={target.key}
           type="button"
           onClick={() => openShare(target.href)}
-          className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.1] bg-white/[0.03] hover:bg-white/[0.07] transition-colors px-2.5 py-1.5 text-[11px] text-[#d1d1d1]"
+          className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--border-4)] bg-[var(--overlay-3)] hover:bg-[var(--overlay-7)] transition-colors px-2.5 py-1.5 text-[11px] text-[var(--muted-1)]"
           aria-label={t("shareButtons.shareOn").replace("{name}", target.label)}
         >
           <iconify-icon icon={target.icon} style={{ fontSize: "13px", color: "#89c7ff" }} />
@@ -63,7 +63,7 @@ export default function ShareButtons({ text = "", url = "", compact = false }: P
       <button
         type="button"
         onClick={copyLink}
-        className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.1] bg-white/[0.03] hover:bg-white/[0.07] transition-colors px-2.5 py-1.5 text-[11px] text-[#d1d1d1]"
+        className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--border-4)] bg-[var(--overlay-3)] hover:bg-[var(--overlay-7)] transition-colors px-2.5 py-1.5 text-[11px] text-[var(--muted-1)]"
         aria-label={t("shareButtons.copyLink")}
       >
         <iconify-icon icon={copied ? "lucide:check" : "lucide:link"} style={{ fontSize: "13px", color: copied ? "#6ee7b7" : "#89c7ff" }} />

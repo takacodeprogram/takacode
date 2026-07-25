@@ -50,17 +50,17 @@ export default async function GuidePage() {
         {steps.map((step, index) => {
           const href = LINKS[step.id];
           const card = (
-            <div className="flex items-start gap-3.5 rounded-2xl border border-white/[0.08] bg-[#111] p-4 card-hover">
+            <div className="flex items-start gap-3.5 rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-4 card-hover">
               <div className="w-10 h-10 rounded-xl bg-blue-500/15 flex items-center justify-center shrink-0">
                 <iconify-icon icon={step.icon} style={{ fontSize: "18px", color: "#4F8EF7" }} />
               </div>
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2">
                   <span className="text-[10px] text-[#4F8EF7] font-semibold">{index + 1}</span>
-                  <div className="text-[14px] text-white font-semibold leading-tight">{step.title}</div>
+                  <div className="text-[14px] text-[var(--text-primary)] font-semibold leading-tight">{step.title}</div>
                   {step.live ? <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" /> : null}
                 </div>
-                <p className="font-body-readable text-[12px] text-[#a5a5a5] leading-relaxed mt-1">{step.body}</p>
+                <p className="font-body-readable text-[12px] text-[var(--muted-2)] leading-relaxed mt-1">{step.body}</p>
               </div>
               {href ? <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "15px", color: "#666" }} /> : null}
             </div>

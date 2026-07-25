@@ -52,7 +52,7 @@ export default async function Home() {
     .map(([countryCode, count]) => ({ countryCode, count }));
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white">
+    <div className="min-h-screen bg-[var(--bg-app)] text-[var(--text-primary)]">
       <StartupLoader />
       <Navbar />
       <main>

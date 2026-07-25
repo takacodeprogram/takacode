@@ -29,8 +29,8 @@ export default async function FinalCtaSection() {
             {t("finalCta.title2")}
           </span>
         </h2>
-        <p className="font-body-readable text-[#666] text-[15px] leading-relaxed mb-3 max-w-[500px] mx-auto">{t("finalCta.desc1")}</p>
-        <p className="font-body-readable text-[#888] text-[15px] leading-relaxed mb-3">{t("finalCta.desc2")}</p>
+        <p className="font-body-readable text-[var(--muted-4)] text-[15px] leading-relaxed mb-3 max-w-[500px] mx-auto">{t("finalCta.desc1")}</p>
+        <p className="font-body-readable text-[var(--muted-3)] text-[15px] leading-relaxed mb-3">{t("finalCta.desc2")}</p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-12">
           <Link href={localePath("/projects", locale)} id="final-cta-primary" className="btn-primary glow-btn flex items-center gap-2" style={{ fontSize: "15px", padding: "16px 36px" }}>

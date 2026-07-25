@@ -36,7 +36,7 @@ function formatDate(value: string | null | undefined) {
 
 function statusChipClass(status: string) {
   if (status === "published") return "border-emerald-500/30 bg-emerald-500/10 text-emerald-200";
-  if (status === "archived") return "border-white/[0.12] bg-white/[0.03] text-[#888]";
+  if (status === "archived") return "border-[var(--border-4)] bg-[var(--overlay-3)] text-[var(--muted-3)]";
   if (status === "idea") return "border-violet-500/30 bg-violet-500/10 text-violet-200";
   return "border-blue-400/35 bg-blue-500/15 text-blue-200";
 }
@@ -100,10 +100,10 @@ export default async function MyProjectsPage(props: { searchParams: Promise<{ pa
                 <Link
                   key={project.id}
                   href={localePath(`/dashboard/projects/${project.id}`, locale)}
-                  className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 card-hover block"
+                  className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-5 card-hover block"
                 >
                   <div className="flex items-start justify-between gap-3 mb-2">
-                    <div className="text-[14px] text-white font-semibold leading-tight flex items-center gap-2">
+                    <div className="text-[14px] text-[var(--text-primary)] font-semibold leading-tight flex items-center gap-2">
                       {project.title}
                       {project.hasDeclaredFirstEuro ? (
                         <span className="inline-flex items-center gap-1 text-[9px] font-semibold px-1.5 py-0.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-200">
@@ -116,8 +116,8 @@ export default async function MyProjectsPage(props: { searchParams: Promise<{ pa
                       {statusLabel(project.status)}
                     </span>
                   </div>
-                  {project.objective ? <p className="font-body-readable text-[12px] text-[#a5a5a5] leading-snug mb-2">{project.objective}</p> : null}
-                  <div className="flex items-center gap-2 flex-wrap text-[10px] text-[#666] font-body-readable">
+                  {project.objective ? <p className="font-body-readable text-[12px] text-[var(--muted-2)] leading-snug mb-2">{project.objective}</p> : null}
+                  <div className="flex items-center gap-2 flex-wrap text-[10px] text-[var(--muted-4)] font-body-readable">
                     {project.revenueModel ? (
                       <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border border-emerald-500/20 bg-emerald-500/8 text-emerald-200/80">
                         {revenueLabels[project.revenueModel] || project.revenueModel}
@@ -138,13 +138,13 @@ export default async function MyProjectsPage(props: { searchParams: Promise<{ pa
           {projects.length > 0 ? <Pagination currentPage={currentPage} hasNextPage={hasNextPage} baseUrl="/dashboard/projects" /> : null}
         </>
       ) : ownResult.schemaReady ? (
-        <div className="rounded-2xl border border-white/[0.07] bg-[#111] p-10 flex flex-col items-center text-center gap-4 mb-8">
-          <div className="w-14 h-14 rounded-2xl border border-white/[0.08] bg-white/[0.02] flex items-center justify-center">
+        <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-10 flex flex-col items-center text-center gap-4 mb-8">
+          <div className="w-14 h-14 rounded-2xl border border-[var(--border-3)] bg-[var(--overlay-2)] flex items-center justify-center">
             <iconify-icon icon="lucide:rocket" className="text-[#4F8EF7]" style={{ fontSize: "26px" }} />
           </div>
           <div>
-            <div className="font-venite text-[15px] text-white mb-1.5">{t("dashboardProjects.emptyTitle")}</div>
-            <p className="font-body-readable text-[13px] text-[#777] max-w-[440px]">
+            <div className="font-venite text-[15px] text-[var(--text-primary)] mb-1.5">{t("dashboardProjects.emptyTitle")}</div>
+            <p className="font-body-readable text-[13px] text-[var(--muted-3)] max-w-[440px]">
               {t("dashboardProjects.emptyDesc")}
             </p>
           </div>
@@ -157,14 +157,14 @@ export default async function MyProjectsPage(props: { searchParams: Promise<{ pa
 
       {microResult.projects.length ? (
         <section>
-          <h2 className="font-venite text-[13px] tracking-widest text-[#888] mb-3">{t("dashboardProjects.microProjects")}</h2>
+          <h2 className="font-venite text-[13px] tracking-widest text-[var(--muted-3)] mb-3">{t("dashboardProjects.microProjects")}</h2>
           <div className="space-y-2.5">
             {microResult.projects.map((project) => (
-              <article key={project.lessonId} className="rounded-xl border border-white/[0.08] bg-[#111] p-4">
+              <article key={project.lessonId} className="rounded-xl border border-[var(--border-3)] bg-[var(--surface-1)] p-4">
                 <div className="flex items-start justify-between gap-3 flex-wrap">
                   <div className="min-w-0">
-                    <div className="text-[12px] text-white font-semibold leading-tight">{project.lessonTitle}</div>
-                    <div className="text-[11px] text-[#7a7a7a] font-body-readable">
+                    <div className="text-[12px] text-[var(--text-primary)] font-semibold leading-tight">{project.lessonTitle}</div>
+                    <div className="text-[11px] text-[var(--muted-3)] font-body-readable">
                       {project.trackTitle}
                       {project.submittedAt ? ` · ${formatDate(project.submittedAt)}` : ""}
                     </div>

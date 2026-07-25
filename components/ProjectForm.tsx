@@ -52,7 +52,7 @@ function cleanUrl(value: string): string {
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block">
-      <span className="text-[10px] text-[#8d8d8d] uppercase tracking-widest font-semibold">{label}</span>
+      <span className="text-[10px] text-[var(--muted-3)] uppercase tracking-widest font-semibold">{label}</span>
       <div className="mt-1">{children}</div>
     </label>
   );
@@ -227,17 +227,17 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
   if (showTemplates) {
     return (
       <div className="space-y-5">
-        <div className="rounded-2xl border border-white/[0.08] bg-[#111] p-5">
+        <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-5">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-9 h-9 rounded-xl border border-[#4F8EF7]/40 bg-[#4F8EF7]/15 inline-flex items-center justify-center">
               <iconify-icon icon="lucide:layout-template" style={{ color: "#4F8EF7", fontSize: "17px" }} />
             </div>
             <div>
-              <div className="font-venite text-[10px] tracking-widest text-[#888] uppercase">Template</div>
-              <h3 className="font-venite-italic text-[14px] text-white">{t("projectForm.chooseStarterKit")}</h3>
+              <div className="font-venite text-[10px] tracking-widest text-[var(--muted-3)] uppercase">Template</div>
+              <h3 className="font-venite-italic text-[14px] text-[var(--text-primary)]">{t("projectForm.chooseStarterKit")}</h3>
             </div>
           </div>
-          <p className="font-body-readable text-[12px] text-[#a5a5a5] leading-relaxed mb-4">
+          <p className="font-body-readable text-[12px] text-[var(--muted-2)] leading-relaxed mb-4">
             {t("projectForm.starterKitDesc")}
           </p>
 
@@ -247,7 +247,7 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
                 key={template.id}
                 type="button"
                 onClick={() => applyTemplate(template)}
-                className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-3.5 text-left hover:border-white/[0.2] transition-all card-hover"
+                className="rounded-xl border border-[var(--border-3)] bg-[var(--overlay-2)] p-3.5 text-left hover:border-[var(--border-5)] transition-all card-hover"
               >
                 <div className="flex items-center gap-2.5 mb-2">
                   <div
@@ -257,14 +257,14 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
                     {iconify(template.icon)}
                   </div>
                   <div className="min-w-0">
-                    <div className="text-[12px] text-white font-semibold leading-tight">{template.title}</div>
-                    <div className="text-[10px] text-[#888]">{template.domain} — {template.level}</div>
+                    <div className="text-[12px] text-[var(--text-primary)] font-semibold leading-tight">{template.title}</div>
+                    <div className="text-[10px] text-[var(--muted-3)]">{template.domain} — {template.level}</div>
                   </div>
                 </div>
-                <p className="font-body-readable text-[11px] text-[#a5a5a5] leading-snug">{template.summary}</p>
+                <p className="font-body-readable text-[11px] text-[var(--muted-2)] leading-snug">{template.summary}</p>
                 <div className="flex flex-wrap gap-1 mt-2">
                   {template.stack.map((tech) => (
-                    <span key={tech} className="text-[9px] px-1.5 py-0.5 rounded-full border border-white/[0.08] text-[#999]">{tech}</span>
+                    <span key={tech} className="text-[9px] px-1.5 py-0.5 rounded-full border border-[var(--border-3)] text-[var(--muted-3)]">{tech}</span>
                   ))}
                 </div>
               </button>
@@ -274,7 +274,7 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
           <button
             type="button"
             onClick={startFromScratch}
-            className="w-full rounded-xl border border-dashed border-white/[0.12] bg-white/[0.01] px-4 py-3 text-[12px] text-[#888] hover:text-white hover:border-white/[0.25] transition-all text-center"
+            className="w-full rounded-xl border border-dashed border-[var(--border-4)] bg-[var(--overlay-1)] px-4 py-3 text-[12px] text-[var(--muted-3)] hover:text-[var(--text-primary)] hover:border-[var(--border-5)] transition-all text-center"
           >
             {t("projectForm.startFromScratch")}
           </button>
@@ -284,14 +284,14 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
   }
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 space-y-4">
+    <form onSubmit={handleSubmit} className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-5 space-y-4">
       {selectedTemplateId && selectedTemplateId !== "_scratch" ? (
         <div className="rounded-xl border border-[#4F8EF7]/25 bg-[#4F8EF7]/10 px-4 py-3 text-[12px] text-[#c1d1ff] font-body-readable flex items-center gap-2">
           <iconify-icon icon="lucide:layout-template" style={{ fontSize: "14px", color: "#4F8EF7" }} />
           {t("projectForm.templateAppliedPrefix")}<strong>{getTemplateById(selectedTemplateId)?.title}</strong>{t("projectForm.templateAppliedSuffix")}
         </div>
       ) : selectedTemplateId === "_scratch" ? (
-        <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-3 text-[12px] text-[#aaa] font-body-readable flex items-center gap-2">
+        <div className="rounded-xl border border-[var(--border-3)] bg-[var(--overlay-2)] px-4 py-3 text-[12px] text-[var(--muted-2)] font-body-readable flex items-center gap-2">
           <iconify-icon icon="lucide:file-plus" style={{ fontSize: "14px", color: "#888" }} />
           {t("projectForm.scratchProject")}
         </div>
@@ -306,15 +306,15 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
         </div>
         <div className="flex flex-wrap gap-1 mt-1.5">
           {EMOJIS.map((emoji) => (
-            <button key={emoji} type="button" onClick={() => insertEmoji(emoji)} className="text-[16px] px-1 py-0.5 rounded hover:bg-white/[0.06] transition-colors leading-none">
+            <button key={emoji} type="button" onClick={() => insertEmoji(emoji)} className="text-[16px] px-1 py-0.5 rounded hover:bg-[var(--overlay-6)] transition-colors leading-none">
               {emoji}
             </button>
           ))}
         </div>
         {form.description.trim() ? (
           <div className="mt-2">
-            <div className="text-[10px] text-[#666] uppercase tracking-widest font-semibold mb-1">{t("projectForm.previewLabel")}</div>
-            <div className="rounded-xl border border-white/[0.06] bg-white/[0.01] p-3 min-h-[60px]">
+            <div className="text-[10px] text-[var(--muted-4)] uppercase tracking-widest font-semibold mb-1">{t("projectForm.previewLabel")}</div>
+            <div className="rounded-xl border border-[var(--border-2)] bg-[var(--overlay-1)] p-3 min-h-[60px]">
               <RichTextRenderer content={form.description} format={(form.description_format || "text") as "text" | "markdown" | "html"} className="text-[13px]" />
             </div>
           </div>
@@ -363,7 +363,7 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
         <Field label={t("projectForm.fieldRepoUrl")}>
           <div className="flex gap-2">
             <input className={`${INPUT} flex-1`} value={form.repo_url} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("repo_url", e.target.value)} placeholder="https://github.com/..." />
-            <label className="flex items-center gap-1.5 shrink-0 cursor-pointer px-2 py-1 rounded-lg border border-white/[0.08] text-[11px] text-[#888] hover:text-white hover:border-white/[0.2] transition-all">
+            <label className="flex items-center gap-1.5 shrink-0 cursor-pointer px-2 py-1 rounded-lg border border-[var(--border-3)] text-[11px] text-[var(--muted-3)] hover:text-[var(--text-primary)] hover:border-[var(--border-5)] transition-all">
               <input type="checkbox" className="sr-only" checked={form.repo_is_public === "true"} onChange={(e) => setField("repo_is_public", e.target.checked ? "true" : "false")} />
               <iconify-icon icon={form.repo_is_public === "true" ? "lucide:globe" : "lucide:lock"} style={{ fontSize: "13px", color: form.repo_is_public === "true" ? "#4F8EF7" : "#f59e0b" }} />
               {form.repo_is_public === "true" ? t("projectForm.public") : t("projectForm.private")}
@@ -379,13 +379,13 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
             <iconify-icon icon="lucide:globe" style={{ fontSize: "16px", color: "#F59E0B" }} />
             <span className="font-semibold text-[12px] text-amber-200">{t("projectForm.publishConfirmTitle")}</span>
           </div>
-          <p className="font-body-readable text-[11px] text-[#d4c5a0] leading-relaxed mb-3">{t("projectForm.publishConfirmDesc")}</p>
+          <p className="font-body-readable text-[11px] text-[var(--muted-1)] leading-relaxed mb-3">{t("projectForm.publishConfirmDesc")}</p>
           <div className="flex items-center gap-2">
             <button onClick={handleSubmit} className="btn-primary inline-flex items-center gap-2 text-[12px]" style={{ padding: "8px 16px" }}>
               <iconify-icon icon="lucide:globe" style={{ fontSize: "13px" }} />
               {t("projectForm.confirmPublish")}
             </button>
-            <button onClick={() => { setShowPublishConfirm(false); }} className="text-[12px] text-[#999] hover:text-white inline-flex items-center gap-1.5">
+            <button onClick={() => { setShowPublishConfirm(false); }} className="text-[12px] text-[var(--muted-3)] hover:text-[var(--text-primary)] inline-flex items-center gap-1.5">
               {t("projectForm.cancel")}
             </button>
           </div>
@@ -401,7 +401,7 @@ export default function ProjectForm({ userId, tracks = [], project = null }: Pro
           <iconify-icon icon="lucide:save" style={{ fontSize: "13px" }} />
         </button>
         {!isEdit ? (
-          <button type="button" onClick={() => setShowTemplates(true)} className="text-[12px] text-[#888] hover:text-white inline-flex items-center gap-1.5">
+          <button type="button" onClick={() => setShowTemplates(true)} className="text-[12px] text-[var(--muted-3)] hover:text-[var(--text-primary)] inline-flex items-center gap-1.5">
             <iconify-icon icon="lucide:undo-2" style={{ fontSize: "13px" }} />
             {t("projectForm.changeTemplate")}
           </button>

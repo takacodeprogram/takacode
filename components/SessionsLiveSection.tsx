@@ -23,7 +23,7 @@ export default async function SessionsLiveSection() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           <div>
-            <p className="font-body-readable text-[#666] text-[15px] leading-relaxed mb-8">
+            <p className="font-body-readable text-[var(--muted-4)] text-[15px] leading-relaxed mb-8">
               {t("sessions.description")}
             </p>
             <div className="space-y-3">
@@ -31,87 +31,87 @@ export default async function SessionsLiveSection() {
                 <div className="w-6 h-6 rounded-lg bg-blue-500/10 flex items-center justify-center flex-shrink-0">
                   <iconify-icon icon="lucide:wrench" className="text-[#4F8EF7]" style={{ fontSize: "12px" }} />
                 </div>
-                <span className="font-body-readable text-[13px] text-[#888]">{t("sessions.features.workshops")}</span>
+                <span className="font-body-readable text-[13px] text-[var(--muted-3)]">{t("sessions.features.workshops")}</span>
               </div>
               <div className="flex items-center gap-3">
                 <div className="w-6 h-6 rounded-lg bg-violet-500/10 flex items-center justify-center flex-shrink-0">
                   <iconify-icon icon="lucide:help-circle" className="text-[#9B6DFF]" style={{ fontSize: "12px" }} />
                 </div>
-                <span className="font-body-readable text-[13px] text-[#888]">{t("sessions.features.qanda")}</span>
+                <span className="font-body-readable text-[13px] text-[var(--muted-3)]">{t("sessions.features.qanda")}</span>
               </div>
               <div className="flex items-center gap-3">
                 <div className="w-6 h-6 rounded-lg bg-cyan-500/10 flex items-center justify-center flex-shrink-0">
                   <iconify-icon icon="lucide:users-2" className="text-[#22D3EE]" style={{ fontSize: "12px" }} />
                 </div>
-                <span className="font-body-readable text-[13px] text-[#888]">{t("sessions.features.collaborative")}</span>
+                <span className="font-body-readable text-[13px] text-[var(--muted-3)]">{t("sessions.features.collaborative")}</span>
               </div>
               <div className="flex items-center gap-3">
                 <div className="w-6 h-6 rounded-lg bg-orange-500/10 flex items-center justify-center flex-shrink-0">
                   <iconify-icon icon="lucide:bug" className="text-orange-400" style={{ fontSize: "12px" }} />
                 </div>
-                <span className="font-body-readable text-[13px] text-[#888]">{t("sessions.features.debugging")}</span>
+                <span className="font-body-readable text-[13px] text-[var(--muted-3)]">{t("sessions.features.debugging")}</span>
               </div>
               <div className="flex items-center gap-3">
                 <div className="w-6 h-6 rounded-lg bg-green-500/10 flex items-center justify-center flex-shrink-0">
                   <iconify-icon icon="lucide:presentation" className="text-green-400" style={{ fontSize: "12px" }} />
                 </div>
-                <span className="font-body-readable text-[13px] text-[#888]">{t("sessions.features.masterclass")}</span>
+                <span className="font-body-readable text-[13px] text-[var(--muted-3)]">{t("sessions.features.masterclass")}</span>
               </div>
             </div>
           </div>
 
           <div className="space-y-3">
-            <div className="bg-[#111] border border-white/[0.07] rounded-xl p-5 card-hover flex items-center gap-3 sm:gap-5">
+            <div className="bg-[var(--surface-1)] border border-[var(--border-3)] rounded-xl p-5 card-hover flex items-center gap-3 sm:gap-5">
               <div className="w-14 h-14 rounded-xl bg-blue-500/10 border border-blue-500/15 flex flex-col items-center justify-center flex-shrink-0">
-                <div className="font-body-readable text-[10px] text-[#555] font-medium">JUN</div>
+                <div className="font-body-readable text-[10px] text-[var(--muted-5)] font-medium">JUN</div>
                 <div className="text-[18px] font-bold text-[#4F8EF7] leading-none">24</div>
               </div>
               <div className="flex-1 min-w-0">
-                <div className="font-venite text-[13px] text-white mb-1">Atelier agents IA</div>
-                <div className="font-body-readable text-[11px] text-[#555]">Construire son premier agent IA avec n8n</div>
+                <div className="font-venite text-[13px] text-[var(--text-primary)] mb-1">Atelier agents IA</div>
+                <div className="font-body-readable text-[11px] text-[var(--muted-5)]">Construire son premier agent IA avec n8n</div>
               </div>
               <div className="text-right flex-shrink-0">
                 <div className="flex items-center justify-end gap-1.5 mb-1">
                   <div className="w-1.5 h-1.5 rounded-full bg-green-400" />
                   <span className="font-body-readable text-[11px] text-green-400">{t("sessions.live")}</span>
                 </div>
-                <div className="font-body-readable text-[11px] text-[#555]">47 {t("sessions.registered")}</div>
+                <div className="font-body-readable text-[11px] text-[var(--muted-5)]">47 {t("sessions.registered")}</div>
               </div>
             </div>
 
-            <div className="bg-[#111] border border-white/[0.07] rounded-xl p-5 card-hover flex items-center gap-3 sm:gap-5">
+            <div className="bg-[var(--surface-1)] border border-[var(--border-3)] rounded-xl p-5 card-hover flex items-center gap-3 sm:gap-5">
               <div className="w-14 h-14 rounded-xl bg-violet-500/10 border border-violet-500/15 flex flex-col items-center justify-center flex-shrink-0">
-                <div className="font-body-readable text-[10px] text-[#555] font-medium">JUN</div>
+                <div className="font-body-readable text-[10px] text-[var(--muted-5)] font-medium">JUN</div>
                 <div className="text-[18px] font-bold text-[#9B6DFF] leading-none">27</div>
               </div>
               <div className="flex-1 min-w-0">
-                <div className="font-venite text-[13px] text-white mb-1">Masterclass Web3</div>
-                <div className="font-body-readable text-[11px] text-[#555]">Créer ta première dApp avec wallet connecté</div>
+                <div className="font-venite text-[13px] text-[var(--text-primary)] mb-1">Masterclass Web3</div>
+                <div className="font-body-readable text-[11px] text-[var(--muted-5)]">Créer ta première dApp avec wallet connecté</div>
               </div>
               <div className="text-right flex-shrink-0">
                 <div className="flex items-center justify-end gap-1.5 mb-1">
-                  <iconify-icon icon="lucide:calendar" className="text-[#555]" style={{ fontSize: "11px" }} />
-                  <span className="font-body-readable text-[11px] text-[#555]">{t("sessions.upcoming")}</span>
+                  <iconify-icon icon="lucide:calendar" className="text-[var(--muted-5)]" style={{ fontSize: "11px" }} />
+                  <span className="font-body-readable text-[11px] text-[var(--muted-5)]">{t("sessions.upcoming")}</span>
                 </div>
-                <div className="font-body-readable text-[11px] text-[#555]">23 {t("sessions.registered")}</div>
+                <div className="font-body-readable text-[11px] text-[var(--muted-5)]">23 {t("sessions.registered")}</div>
               </div>
             </div>
 
-            <div className="bg-[#111] border border-white/[0.07] rounded-xl p-5 card-hover flex items-center gap-3 sm:gap-5">
+            <div className="bg-[var(--surface-1)] border border-[var(--border-3)] rounded-xl p-5 card-hover flex items-center gap-3 sm:gap-5">
               <div className="w-14 h-14 rounded-xl bg-cyan-500/10 border border-cyan-500/15 flex flex-col items-center justify-center flex-shrink-0">
-                <div className="font-body-readable text-[10px] text-[#555] font-medium">JUL</div>
+                <div className="font-body-readable text-[10px] text-[var(--muted-5)] font-medium">JUL</div>
                 <div className="text-[18px] font-bold text-[#22D3EE] leading-none">02</div>
               </div>
               <div className="flex-1 min-w-0">
-                <div className="font-venite text-[13px] text-white mb-1">Workshop 3D immersif</div>
-                <div className="font-body-readable text-[11px] text-[#555]">Intro Three.js et React Three Fiber en direct</div>
+                <div className="font-venite text-[13px] text-[var(--text-primary)] mb-1">Workshop 3D immersif</div>
+                <div className="font-body-readable text-[11px] text-[var(--muted-5)]">Intro Three.js et React Three Fiber en direct</div>
               </div>
               <div className="text-right flex-shrink-0">
                 <div className="flex items-center justify-end gap-1.5 mb-1">
-                  <iconify-icon icon="lucide:calendar" className="text-[#555]" style={{ fontSize: "11px" }} />
-                  <span className="font-body-readable text-[11px] text-[#555]">{t("sessions.upcoming")}</span>
+                  <iconify-icon icon="lucide:calendar" className="text-[var(--muted-5)]" style={{ fontSize: "11px" }} />
+                  <span className="font-body-readable text-[11px] text-[var(--muted-5)]">{t("sessions.upcoming")}</span>
                 </div>
-                <div className="font-body-readable text-[11px] text-[#555]">18 {t("sessions.registered")}</div>
+                <div className="font-body-readable text-[11px] text-[var(--muted-5)]">18 {t("sessions.registered")}</div>
               </div>
             </div>
           </div>

@@ -144,7 +144,7 @@ function getStepStateUi(state: string): StepStateUi {
 
   return {
     icon: "lucide:lock",
-    chip: "bg-white/[0.03] border-white/[0.08] text-[#777]"
+    chip: "bg-[var(--overlay-3)] border-[var(--border-3)] text-[var(--muted-3)]"
   };
 }
 
@@ -432,7 +432,7 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
   }
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] px-6 py-20 md:py-24 relative overflow-hidden text-white">
+    <div className="min-h-screen bg-[var(--bg-app)] px-6 py-20 md:py-24 relative overflow-hidden text-[var(--text-primary)]">
       <div className="hero-glow w-[620px] h-[620px] bg-blue-500/[0.06] -left-[110px] top-[8%]" />
       <div className="hero-glow w-[520px] h-[520px] bg-violet-500/[0.08] -right-[90px] bottom-[8%]" />
       <div className="hero-glow w-[420px] h-[420px] bg-cyan-500/[0.07] left-[42%] top-[45%]" />
@@ -442,18 +442,18 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
           <Link
             href="/"
             id="onboarding-back-home"
-            className="inline-flex items-center gap-2 rounded-xl border border-white/[0.08] bg-black/30 px-4 py-2.5 group"
+            className="inline-flex items-center gap-2 rounded-xl border border-[var(--border-3)] bg-black/30 px-4 py-2.5 group"
           >
-            <span className="w-7 h-7 rounded-lg border border-white/[0.12] bg-white/[0.04] inline-flex items-center justify-center text-[#8ba1ff] group-hover:text-white transition-colors">
+            <span className="w-7 h-7 rounded-lg border border-[var(--border-4)] bg-[var(--overlay-4)] inline-flex items-center justify-center text-[#8ba1ff] group-hover:text-[var(--text-primary)] transition-colors">
               <iconify-icon icon="lucide:arrow-left" style={{ fontSize: "15px" }} />
             </span>
-            <span className="text-[11px] font-semibold text-[#666] tracking-widest uppercase group-hover:text-[#9a9a9a] transition-colors">
+            <span className="text-[11px] font-semibold text-[var(--muted-4)] tracking-widest uppercase group-hover:text-[var(--muted-2)] transition-colors">
               {t("onboarding.backToSite")}
             </span>
           </Link>
         </div>
 
-        <div className="bg-[#111] border border-white/[0.07] rounded-3xl p-8 sm:p-10 shadow-2xl animate-fade-up">
+        <div className="bg-[var(--surface-1)] border border-[var(--border-3)] rounded-3xl p-8 sm:p-10 shadow-2xl animate-fade-up">
           <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
             <div className="flex items-center gap-2.5 flex-wrap">
               {Array.from({ length: TOTAL_STEPS }).map((_, index) => {
@@ -494,7 +494,7 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
               <section className="space-y-8">
                 <div className="section-label font-venite-italic">{t("onboarding.welcomeSection.label")}</div>
                 <h1 className="font-valorax text-[clamp(36px,4vw,54px)] leading-[0.9] gradient-text-blue">{t("onboarding.welcomeSection.title")}</h1>
-                <p className="font-body-readable text-[15px] text-[#9b9b9b] leading-relaxed max-w-[700px]">
+                <p className="font-body-readable text-[15px] text-[var(--muted-2)] leading-relaxed max-w-[700px]">
                   {t("onboarding.welcomeSection.desc")}
                 </p>
 
@@ -503,7 +503,7 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
                     <div className="w-9 h-9 rounded-lg bg-blue-500/20 border border-blue-400/30 inline-flex items-center justify-center mb-3">
                       <iconify-icon icon="lucide:route" style={{ color: "#4F8EF7", fontSize: "16px" }} />
                     </div>
-                    <h3 className="font-venite-italic text-[13px] text-white mb-1">{t("onboarding.welcomeSection.card1Title")}</h3>
+                    <h3 className="font-venite-italic text-[13px] text-[var(--text-primary)] mb-1">{t("onboarding.welcomeSection.card1Title")}</h3>
                     <p className="text-[12px] text-blue-100/80 font-body-readable">{t("onboarding.welcomeSection.card1Desc")}</p>
                   </article>
 
@@ -511,7 +511,7 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
                     <div className="w-9 h-9 rounded-lg bg-violet-500/20 border border-violet-400/30 inline-flex items-center justify-center mb-3">
                       <iconify-icon icon="lucide:users" style={{ color: "#9B6DFF", fontSize: "16px" }} />
                     </div>
-                    <h3 className="font-venite-italic text-[13px] text-white mb-1">{t("onboarding.welcomeSection.card2Title")}</h3>
+                    <h3 className="font-venite-italic text-[13px] text-[var(--text-primary)] mb-1">{t("onboarding.welcomeSection.card2Title")}</h3>
                     <p className="text-[12px] text-violet-100/80 font-body-readable">{t("onboarding.welcomeSection.card2Desc")}</p>
                   </article>
 
@@ -519,7 +519,7 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
                     <div className="w-9 h-9 rounded-lg bg-cyan-500/20 border border-cyan-400/30 inline-flex items-center justify-center mb-3">
                       <iconify-icon icon="lucide:bot" style={{ color: "#22D3EE", fontSize: "16px" }} />
                     </div>
-                    <h3 className="font-venite-italic text-[13px] text-white mb-1">{t("onboarding.welcomeSection.card3Title")}</h3>
+                    <h3 className="font-venite-italic text-[13px] text-[var(--text-primary)] mb-1">{t("onboarding.welcomeSection.card3Title")}</h3>
                     <p className="text-[12px] text-cyan-100/80 font-body-readable">{t("onboarding.welcomeSection.card3Desc")}</p>
                   </article>
                 </div>
@@ -547,7 +547,7 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
                           "onboarding-goal-card rounded-2xl border p-4 text-left transition-all duration-300",
                           selected
                             ? "border-white/0"
-                            : "border-white/[0.08] bg-white/[0.02] hover:border-white/[0.2]"
+                            : "border-[var(--border-3)] bg-[var(--overlay-2)] hover:border-[var(--border-5)]"
                         ].join(" ")}
                         style={
                           selected
@@ -568,7 +568,7 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
                           <iconify-icon icon={goal.icon!} style={{ fontSize: "18px", color: accent }} />
                         </div>
                         <div className="flex items-start justify-between gap-2">
-                          <div className="font-venite-italic text-[13px] text-white leading-snug">{goal.label}</div>
+                          <div className="font-venite-italic text-[13px] text-[var(--text-primary)] leading-snug">{goal.label}</div>
                           {selected ? (
                             <span className="onboarding-pulse-dot inline-flex h-5 w-5 items-center justify-center rounded-full border border-white/35 bg-white/15">
                               <iconify-icon icon="lucide:check" style={{ fontSize: "11px", color: "#fff" }} />
@@ -603,7 +603,7 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
                           "w-full rounded-xl border px-4 py-3.5 text-left transition-all flex items-center gap-3",
                           selected
                             ? "border-white/0"
-                            : "border-white/[0.08] bg-white/[0.02] hover:border-white/[0.2]"
+                            : "border-[var(--border-3)] bg-[var(--overlay-2)] hover:border-[var(--border-5)]"
                         ].join(" ")}
                         style={
                           selected
@@ -624,11 +624,11 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
                           <iconify-icon icon={visual.icon} style={{ fontSize: "14px", color: visual.accent }} />
                         </span>
 
-                        <span className="text-[14px] text-white font-body-readable flex-1">{level.label}</span>
+                        <span className="text-[14px] text-[var(--text-primary)] font-body-readable flex-1">{level.label}</span>
 
                         <span className={[
                           "w-4 h-4 rounded-full border inline-flex items-center justify-center",
-                          selected ? "border-blue-300" : "border-[#666]"
+                          selected ? "border-blue-300" : "border-[var(--border-4)]"
                         ].join(" ")}>
                           {selected ? <span className="w-2 h-2 rounded-full bg-blue-300" /> : null}
                         </span>
@@ -660,7 +660,7 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
                           "w-full rounded-xl border px-4 py-3.5 text-left transition-all flex items-center gap-3",
                           selected
                             ? "border-white/0"
-                            : "border-white/[0.08] bg-white/[0.02] hover:border-white/[0.2]"
+                            : "border-[var(--border-3)] bg-[var(--overlay-2)] hover:border-[var(--border-5)]"
                         ].join(" ")}
                         style={
                           selected
@@ -680,10 +680,10 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
                         >
                           <iconify-icon icon={visual.icon} style={{ fontSize: "14px", color: visual.accent }} />
                         </span>
-                        <span className="text-[14px] text-white font-body-readable flex-1">{option.label}</span>
+                        <span className="text-[14px] text-[var(--text-primary)] font-body-readable flex-1">{option.label}</span>
                         <span className={[
                           "w-4 h-4 rounded-full border inline-flex items-center justify-center",
-                          selected ? "border-blue-300" : "border-[#666]"
+                          selected ? "border-blue-300" : "border-[var(--border-4)]"
                         ].join(" ")}>
                           {selected ? <span className="w-2 h-2 rounded-full bg-blue-300" /> : null}
                         </span>
@@ -693,8 +693,8 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
                 </div>
 
                 {projectClarityKey !== "explore" ? (
-                  <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-4">
-                    <label className="text-[12px] text-[#9d9d9d] block mb-2">{t("onboarding.projectSection.ideaLabel")}</label>
+                  <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--overlay-2)] p-4">
+                    <label className="text-[12px] text-[var(--muted-2)] block mb-2">{t("onboarding.projectSection.ideaLabel")}</label>
                     <textarea
                       className="auth-input min-h-[110px] resize-y"
                       value={projectIdea}
@@ -707,9 +707,9 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
                   </div>
                 ) : null}
 
-                <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-4">
-                  <label className="text-[12px] text-[#9d9d9d] block mb-2">
-                    {t("onboarding.projectSection.nameLabel")} <span className="text-[#666]">{t("onboarding.projectSection.nameHint")}</span>
+                <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--overlay-2)] p-4">
+                  <label className="text-[12px] text-[var(--muted-2)] block mb-2">
+                    {t("onboarding.projectSection.nameLabel")} <span className="text-[var(--muted-4)]">{t("onboarding.projectSection.nameHint")}</span>
                   </label>
                   <input
                     className="auth-input"
@@ -720,9 +720,9 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
                   />
                 </div>
 
-                <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-4">
-                  <label className="text-[12px] text-[#9d9d9d] block mb-1">{t("onboarding.projectSection.monetizationLabel")}</label>
-                  <p className="text-[11px] text-[#777] mb-3">{t("onboarding.projectSection.monetizationHint")}</p>
+                <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--overlay-2)] p-4">
+                  <label className="text-[12px] text-[var(--muted-2)] block mb-1">{t("onboarding.projectSection.monetizationLabel")}</label>
+                  <p className="text-[11px] text-[var(--muted-3)] mb-3">{t("onboarding.projectSection.monetizationHint")}</p>
                   <div className="flex flex-wrap gap-2">
                     {revenueOptions.map((option) => {
                       const selected = option.key === revenueModelKey;
@@ -733,7 +733,7 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
                           onClick={() => setRevenueModelKey(option.key)}
                           className={[
                             "inline-flex items-center gap-2 rounded-full border px-3.5 py-2 text-[12px] font-semibold transition-all",
-                            selected ? "text-white" : "text-[#a3a3a3] border-white/[0.1] bg-white/[0.02] hover:border-white/[0.25]"
+                            selected ? "text-[var(--text-primary)]" : "text-[var(--muted-2)] border-[var(--border-4)] bg-[var(--overlay-2)] hover:border-[var(--border-5)]"
                           ].join(" ")}
                           style={
                             selected
@@ -760,7 +760,7 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
                 <div>
                   <div className="section-label font-venite-italic mb-3">{t("onboarding.toolsSection.label")}</div>
                   <h2 className="font-valorax text-[clamp(30px,3.4vw,44px)] leading-[0.9] gradient-text">{t("onboarding.toolsSection.title")}</h2>
-                  <p className="font-body-readable text-[13px] text-[#7b7b7b] mt-3">{t("onboarding.toolsSection.subtitle")}</p>
+                  <p className="font-body-readable text-[13px] text-[var(--muted-3)] mt-3">{t("onboarding.toolsSection.subtitle")}</p>
                 </div>
 
                 <div className="flex flex-wrap gap-2.5">
@@ -804,7 +804,7 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
                           "rounded-xl border px-4 py-4 text-left transition-all flex items-center gap-3",
                           selected
                             ? "border-white/0"
-                            : "border-white/[0.08] bg-white/[0.02] hover:border-white/[0.2]"
+                            : "border-[var(--border-3)] bg-[var(--overlay-2)] hover:border-[var(--border-5)]"
                         ].join(" ")}
                         style={
                           selected
@@ -837,7 +837,7 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
                 <div>
                   <div className="section-label font-venite-italic mb-3">{t("onboarding.resultSection.label")}</div>
                   <h2 className="font-valorax text-[clamp(30px,3.4vw,44px)] leading-[0.9] gradient-text-blue">{t("onboarding.resultSection.title")}</h2>
-                  <p className="font-body-readable text-[14px] text-[#8f8f8f] mt-3 max-w-[680px]">
+                  <p className="font-body-readable text-[14px] text-[var(--muted-3)] mt-3 max-w-[680px]">
                     {t("onboarding.resultSection.desc")}{selectedGoal.label.toLowerCase()}.
                   </p>
                 </div>
@@ -846,12 +846,12 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
                   <article className="rounded-2xl border border-blue-500/20 bg-gradient-to-br from-blue-500/10 via-[#15162a] to-violet-500/10 p-5 space-y-5">
                     <div>
                       <div className="font-venite-italic text-[11px] text-[#7a8fd8] uppercase tracking-widest mb-2">{t("onboarding.resultSection.recommendedTrack")}</div>
-                      <h3 className="font-venite-italic text-[24px] leading-[0.95] text-white">{recommendation.parcoursTitle}</h3>
+                      <h3 className="font-venite-italic text-[24px] leading-[0.95] text-[var(--text-primary)]">{recommendation.parcoursTitle}</h3>
                       <p className="text-[12px] text-[#a2b2d9] mt-1 font-body-readable">{recommendation.parcoursMeta}</p>
                     </div>
 
                     <div>
-                      <div className="font-venite-italic text-[12px] text-white mb-2">{t("onboarding.resultSection.firstResources")}</div>
+                      <div className="font-venite-italic text-[12px] text-[var(--text-primary)] mb-2">{t("onboarding.resultSection.firstResources")}</div>
                       <div className="space-y-2">
                         {recommendation.resources.map((resource: string) => (
                           <div key={resource} className="flex items-center gap-2 text-[12px] text-[#c1d1ff] font-body-readable">
@@ -870,21 +870,21 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
 
                   <article className="rounded-2xl border border-violet-500/20 bg-gradient-to-br from-violet-500/10 via-[#101019] to-cyan-500/10 p-5 space-y-5">
                     <div>
-                      <div className="font-venite-italic text-[11px] text-[#888] uppercase tracking-widest mb-2">{t("onboarding.resultSection.yourProfile")}</div>
-                      <div className="font-venite-italic text-[13px] text-white">{selectedGoal.label}</div>
+                      <div className="font-venite-italic text-[11px] text-[var(--muted-3)] uppercase tracking-widest mb-2">{t("onboarding.resultSection.yourProfile")}</div>
+                      <div className="font-venite-italic text-[13px] text-[var(--text-primary)]">{selectedGoal.label}</div>
                       <div className="text-[12px] text-[#a2a2b5] font-body-readable mt-1">{selectedLevel.label}</div>
                       <div className="text-[12px] text-[#a2a2b5] font-body-readable">{selectedWeeklyCommitment.label} / semaine</div>
                     </div>
 
                     <div>
-                      <div className="font-venite-italic text-[12px] text-white mb-2">{t("onboarding.resultSection.nextSession")}</div>
-                      <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] px-3 py-2 text-[12px] text-[#bfbfe0] font-body-readable">
+                      <div className="font-venite-italic text-[12px] text-[var(--text-primary)] mb-2">{t("onboarding.resultSection.nextSession")}</div>
+                      <div className="rounded-xl border border-[var(--border-3)] bg-[var(--overlay-2)] px-3 py-2 text-[12px] text-[#bfbfe0] font-body-readable">
                         {recommendation.nextSession}
                       </div>
                     </div>
 
                     <div>
-                      <div className="font-venite-italic text-[12px] text-white mb-2">{t("onboarding.resultSection.nextSteps")}</div>
+                      <div className="font-venite-italic text-[12px] text-[var(--text-primary)] mb-2">{t("onboarding.resultSection.nextSteps")}</div>
                       <div className="space-y-2">
                         {recommendation.nextSteps.map((stepItem: { label: string; state: string }) => {
                           const ui = getStepStateUi(stepItem.state);
@@ -893,7 +893,7 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
                               <span className={`inline-flex h-6 w-6 items-center justify-center rounded-full border ${ui.chip}`}>
                                 <iconify-icon icon={ui.icon} style={{ fontSize: "12px" }} />
                               </span>
-                              <span className="text-[#d1d1e8]">{stepItem.label}</span>
+                              <span className="text-[var(--muted-1)]">{stepItem.label}</span>
                             </div>
                           );
                         })}
@@ -912,7 +912,7 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
           ) : null}
 
           {step < TOTAL_STEPS ? (
-            <div className="mt-8 pt-6 border-t border-white/[0.05] flex items-center justify-between gap-3">
+            <div className="mt-8 pt-6 border-t border-[var(--border-1)] flex items-center justify-between gap-3">
               {step > 1 ? (
                 <button type="button" onClick={handleBack} className="btn-secondary" disabled={saving}>
                   {t("onboarding.resultSection.back")}
@@ -924,7 +924,7 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
               </button>
             </div>
           ) : (
-            <div className="mt-8 pt-6 border-t border-white/[0.05] flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-3">
+            <div className="mt-8 pt-6 border-t border-[var(--border-1)] flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-3">
               <button
                 type="button"
                 className="btn-secondary"

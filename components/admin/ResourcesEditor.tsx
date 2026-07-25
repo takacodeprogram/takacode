@@ -77,11 +77,11 @@ export default function ResourcesEditor({ value, onChange }: ResourcesEditorProp
 
   return (
     <div className="space-y-3">
-      <div className="text-[10px] text-[#8d8d8d] uppercase tracking-widest font-semibold">{t("adminResources.title")}</div>
+      <div className="text-[10px] text-[var(--muted-3)] uppercase tracking-widest font-semibold">{t("adminResources.title")}</div>
       {resources.map((res, index) => (
-        <div key={index} className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-3 space-y-2">
+        <div key={index} className="rounded-xl border border-[var(--border-3)] bg-[var(--overlay-2)] p-3 space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] text-[#6d6d6d]">{t("adminResources.resourceLabel").replace("{n}", String(index + 1))}</span>
+            <span className="text-[10px] text-[var(--muted-4)]">{t("adminResources.resourceLabel").replace("{n}", String(index + 1))}</span>
             <button type="button" onClick={() => remove(index)} className="text-red-400/70 hover:text-red-400 p-0.5" title={t("adminResources.deleteResource")} disabled={resources.length <= 1}>
               <iconify-icon icon="lucide:trash-2" style={{ fontSize: "13px" }} />
             </button>

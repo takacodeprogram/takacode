@@ -57,7 +57,7 @@ export default function TrackVersionHistory({ trackId, onRestore, onCompare }: T
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-2 text-[10px] text-[#6d6d6d] uppercase tracking-widest hover:text-[#aaa] transition-colors"
+        className="flex items-center gap-2 text-[10px] text-[var(--muted-4)] uppercase tracking-widest hover:text-[var(--muted-2)] transition-colors"
       >
         <iconify-icon icon={open ? "lucide:clock" : "lucide:clock"} style={{ fontSize: "12px" }} />
         Historique des versions {open ? "— masquer" : `— ${versions.length || ""}`}
@@ -66,20 +66,20 @@ export default function TrackVersionHistory({ trackId, onRestore, onCompare }: T
       {open && (
         <div className="mt-2 space-y-2 max-h-[300px] overflow-y-auto">
           {loading ? (
-            <div className="text-[11px] text-[#6d6d6d]">Chargement...</div>
+            <div className="text-[11px] text-[var(--muted-4)]">Chargement...</div>
           ) : versions.length === 0 ? (
-            <div className="text-[11px] text-[#6d6d6d]">Aucune version enregistree.</div>
+            <div className="text-[11px] text-[var(--muted-4)]">Aucune version enregistree.</div>
           ) : (
             versions.map((version) => (
-              <div key={version.id} className="flex items-center justify-between gap-2 rounded-lg border border-white/[0.06] bg-[#0f0f0f] px-3 py-2">
+              <div key={version.id} className="flex items-center justify-between gap-2 rounded-lg border border-[var(--border-2)] bg-[var(--surface-3)] px-3 py-2">
                 <div className="min-w-0">
-                  <div className="text-[11px] text-[#d0d0d0]">
+                  <div className="text-[11px] text-[var(--muted-1)]">
                     {new Date(version.created_at).toLocaleString("fr-FR", {
                       day: "numeric", month: "short", year: "numeric",
                       hour: "2-digit", minute: "2-digit"
                     })}
                   </div>
-                  {version.label && <div className="text-[10px] text-[#666]">{version.label}</div>}
+                  {version.label && <div className="text-[10px] text-[var(--muted-4)]">{version.label}</div>}
                 </div>
                 <div className="flex items-center gap-1.5 shrink-0">
                   <button

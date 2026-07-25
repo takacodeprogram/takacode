@@ -166,7 +166,7 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
   const projectProgress = computeProjectProgress(sprints);
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white">
+    <div className="min-h-screen bg-[var(--bg-app)] text-[var(--text-primary)]">
       <Navbar />
       <main className="pt-[64px]">
         <section className="py-24 md:py-28 px-8">
@@ -177,7 +177,7 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
                 {t("trackDetail.back")}
               </Link>
               {track ? (
-                <span className="text-[11px] text-[#7d7d7d] font-body-readable">/{track.slug}</span>
+                <span className="text-[11px] text-[var(--muted-3)] font-body-readable">/{track.slug}</span>
               ) : null}
             </div>
 
@@ -194,7 +194,7 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
             ) : null}
 
             {track ? (
-              <article className="bg-[#111] border border-white/[0.07] rounded-2xl p-6 md:p-7 card-hover project-card">
+              <article className="bg-[var(--surface-1)] border border-[var(--border-3)] rounded-2xl p-6 md:p-7 card-hover project-card">
                 <div className="flex items-start justify-between gap-5 flex-wrap mb-6">
                   <div className="flex items-start gap-4">
                     <div
@@ -208,8 +208,8 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
                     </div>
 
                     <div>
-                      <h1 className="font-venite-italic text-[20px] text-white leading-tight mb-1">{track.title}</h1>
-                      <p className="font-body-readable text-[12px] text-[#7a7a7a]">{formatTrackMeta(track)}</p>
+                      <h1 className="font-venite-italic text-[20px] text-[var(--text-primary)] leading-tight mb-1">{track.title}</h1>
+                      <p className="font-body-readable text-[12px] text-[var(--muted-3)]">{formatTrackMeta(track)}</p>
                     </div>
                   </div>
 
@@ -223,18 +223,18 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
                       {track.levelLabel}
                     </span>
                     {isMine && sprints.length > 0 ? (
-                      <div className="min-w-[140px] rounded-full border border-white/[0.08] bg-white/[0.02] px-3 py-1.5">
+                      <div className="min-w-[140px] rounded-full border border-[var(--border-3)] bg-[var(--overlay-2)] px-3 py-1.5">
                         <div className="flex items-center justify-between text-[10px] text-[#89c7ff] font-semibold mb-1">
                           <span>{t("trackDetail.project")}</span>
                           <span>{projectProgress}%</span>
                         </div>
-                        <div className="h-1 rounded bg-white/[0.07] overflow-hidden mb-1">
+                        <div className="h-1 rounded bg-[var(--overlay-7)] overflow-hidden mb-1">
                           <div
                             className="h-full rounded bg-gradient-to-r from-[#4F8EF7] to-[#9B6DFF]"
                             style={{ width: `${projectProgress}%` }}
                           />
                         </div>
-                        <div className="text-[9px] text-[#666] text-center">
+                        <div className="text-[9px] text-[var(--muted-4)] text-center">
                           {t("trackDetail.sprintCount").replace("{cleared}", String(sprints.filter((s) => s.cleared).length)).replace("{total}", String(sprints.length))}
                         </div>
                       </div>
@@ -244,7 +244,7 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
 
                 <div className="grid grid-cols-1 xl:grid-cols-[1.15fr_0.85fr] gap-6">
                   <div className="space-y-5">
-                    <p className="font-body-readable text-[13px] text-[#a5a5a5] leading-relaxed">{description}</p>
+                    <p className="font-body-readable text-[13px] text-[var(--muted-2)] leading-relaxed">{description}</p>
 
                     {missingPrereqs.length ? (
                       <div className="rounded-xl border border-amber-500/25 bg-amber-500/[0.08] p-4">
@@ -279,20 +279,20 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
                         {competencies.map((competence) => (
                           <div
                             key={`${track.id}-comp-${competence}`}
-                            className="rounded-xl border border-white/[0.08] bg-white/[0.02] px-3 py-2.5 flex items-center gap-2.5"
+                            className="rounded-xl border border-[var(--border-3)] bg-[var(--overlay-2)] px-3 py-2.5 flex items-center gap-2.5"
                           >
                             <span className="w-5 h-5 rounded-full border border-blue-400/30 bg-blue-500/10 text-blue-200 inline-flex items-center justify-center">
                               <iconify-icon icon="lucide:check" style={{ fontSize: "11px" }} />
                             </span>
-                            <span className="font-body-readable text-[11px] text-[#c7c7c7] leading-snug">{competence}</span>
+                            <span className="font-body-readable text-[11px] text-[var(--muted-1)] leading-snug">{competence}</span>
                           </div>
                         ))}
                       </div>
                     </div>
 
-                    <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4">
-                      <div className="font-venite-italic text-[11px] tracking-widest text-[#888] mb-2">{t("trackDetail.objectiveTitle")}</div>
-                      <p className="font-body-readable text-[12px] text-[#b3b3b3] leading-relaxed">{track.objective}</p>
+                    <div className="rounded-xl border border-[var(--border-3)] bg-[var(--overlay-2)] p-4">
+                      <div className="font-venite-italic text-[11px] tracking-widest text-[var(--muted-3)] mb-2">{t("trackDetail.objectiveTitle")}</div>
+                      <p className="font-body-readable text-[12px] text-[var(--muted-2)] leading-relaxed">{track.objective}</p>
                     </div>
                   </div>
 
@@ -309,8 +309,8 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
                         </div>
                         {hasProject ? (
                           <div className="space-y-2">
-                            <div className="text-[13px] text-white font-semibold">{trackProject!.title}</div>
-                            <div className="text-[11px] text-[#888] font-body-readable leading-relaxed">
+                            <div className="text-[13px] text-[var(--text-primary)] font-semibold">{trackProject!.title}</div>
+                            <div className="text-[11px] text-[var(--muted-3)] font-body-readable leading-relaxed">
                               {trackProject!.description || t("trackDetail.myProject.noDescription")}
                             </div>
                             <div className="flex items-center gap-2 flex-wrap">
@@ -318,13 +318,13 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
                                 {trackProject!.status === "published" ? t("trackDetail.myProject.statusPublished") : t("trackDetail.myProject.statusInProgress")}
                               </span>
                               {trackProject!.repoUrl ? (
-                                <a href={trackProject!.repoUrl} target="_blank" rel="noopener noreferrer" className="text-[10px] text-[#888] hover:text-blue-200 inline-flex items-center gap-1">
+                                <a href={trackProject!.repoUrl} target="_blank" rel="noopener noreferrer" className="text-[10px] text-[var(--muted-3)] hover:text-blue-200 inline-flex items-center gap-1">
                                   <iconify-icon icon="lucide:github" style={{ fontSize: "11px" }} />
                                   Repo
                                 </a>
                               ) : null}
                               {trackProject!.liveUrl ? (
-                                <a href={trackProject!.liveUrl} target="_blank" rel="noopener noreferrer" className="text-[10px] text-[#888] hover:text-blue-200 inline-flex items-center gap-1">
+                                <a href={trackProject!.liveUrl} target="_blank" rel="noopener noreferrer" className="text-[10px] text-[var(--muted-3)] hover:text-blue-200 inline-flex items-center gap-1">
                                   <iconify-icon icon="lucide:external-link" style={{ fontSize: "11px" }} />
                                   Live
                                 </a>
@@ -332,7 +332,7 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
                             </div>
                           </div>
                         ) : (
-                          <div className="text-[11px] text-[#666] font-body-readable mb-3">
+                          <div className="text-[11px] text-[var(--muted-4)] font-body-readable mb-3">
                             {t("trackDetail.myProject.noProject")}
                           </div>
                         )}
@@ -346,22 +346,22 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
                       </div>
                     ) : null}
 
-                    <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4">
-                      <div className="font-venite-italic text-[11px] tracking-widest text-[#888] mb-3">{t("trackDetail.progressionPlan")}</div>
+                    <div className="rounded-xl border border-[var(--border-3)] bg-[var(--overlay-2)] p-4">
+                      <div className="font-venite-italic text-[11px] tracking-widest text-[var(--muted-3)] mb-3">{t("trackDetail.progressionPlan")}</div>
                       <div className="space-y-2.5">
                         {stepRows.map((step, index) => {
                           const ui = getStepUi(step.state);
                           return (
                             <div
                               key={`${track.id}-step-${step.label}`}
-                              className="rounded-lg border border-white/[0.08] bg-[#0f0f0f] px-3 py-2.5 flex items-center gap-2.5"
+                              className="rounded-lg border border-[var(--border-3)] bg-[var(--surface-3)] px-3 py-2.5 flex items-center gap-2.5"
                             >
                               <span className={`inline-flex h-6 w-6 items-center justify-center rounded-full border ${ui.chip}`}>
                                 <iconify-icon icon={ui.icon} style={{ fontSize: "11px" }} />
                               </span>
                               <div className="flex-1">
-                                <div className="font-body-readable text-[11px] text-[#d0d0d0] leading-snug">{step.label}</div>
-                                <div className="text-[10px] text-[#666]">{t("trackDetail.stepLabel").replace("{n}", String(index + 1))}</div>
+                                <div className="font-body-readable text-[11px] text-[var(--muted-1)] leading-snug">{step.label}</div>
+                                <div className="text-[10px] text-[var(--muted-4)]">{t("trackDetail.stepLabel").replace("{n}", String(index + 1))}</div>
                               </div>
                             </div>
                           );
@@ -369,11 +369,11 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
                       </div>
                     </div>
 
-                    <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4">
-                      <div className="font-venite-italic text-[11px] tracking-widest text-[#888] mb-3">{t("trackDetail.resourcesTitle")}</div>
+                    <div className="rounded-xl border border-[var(--border-3)] bg-[var(--overlay-2)] p-4">
+                      <div className="font-venite-italic text-[11px] tracking-widest text-[var(--muted-3)] mb-3">{t("trackDetail.resourcesTitle")}</div>
                       <div className="space-y-2">
                         {(resources.length ? resources : [t("trackDetail.resourcesPreparing")]).map((resource) => (
-                          <div key={`${track.id}-resource-${resource}`} className="flex items-center gap-2 text-[11px] text-[#9b9b9b] font-body-readable">
+                          <div key={`${track.id}-resource-${resource}`} className="flex items-center gap-2 text-[11px] text-[var(--muted-2)] font-body-readable">
                             <iconify-icon icon="lucide:file-text" style={{ fontSize: "12px", color: "#7f7f7f" }} />
                             <span>{resource}</span>
                           </div>
@@ -382,8 +382,8 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
                     </div>
 
                     {trackAffiliates.length ? (
-                      <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4">
-                        <div className="font-venite-italic text-[11px] tracking-widest text-[#888] mb-3">{t("trackDetail.partnersTitle")}</div>
+                      <div className="rounded-xl border border-[var(--border-3)] bg-[var(--overlay-2)] p-4">
+                        <div className="font-venite-italic text-[11px] tracking-widest text-[var(--muted-3)] mb-3">{t("trackDetail.partnersTitle")}</div>
                         <div className="space-y-2.5">
                           {trackAffiliates.map((aff) => (
                             <a
@@ -391,9 +391,9 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
                               href={aff.url}
                               target="_blank"
                               rel="sponsored noopener noreferrer"
-                              className="flex items-start gap-3 rounded-lg border border-white/[0.06] bg-white/[0.01] p-3 card-hover"
+                              className="flex items-start gap-3 rounded-lg border border-[var(--border-2)] bg-[var(--overlay-1)] p-3 card-hover"
                             >
-                              <div className="w-8 h-8 rounded-lg border border-white/[0.08] bg-white/[0.03] flex items-center justify-center shrink-0 overflow-hidden">
+                              <div className="w-8 h-8 rounded-lg border border-[var(--border-3)] bg-[var(--overlay-3)] flex items-center justify-center shrink-0 overflow-hidden">
                                 {aff.logoUrl ? (
                                   <img src={aff.logoUrl} alt="" className="w-full h-full object-contain" />
                                 ) : (
@@ -401,13 +401,13 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
                                 )}
                               </div>
                               <div className="min-w-0">
-                                <div className="text-[12px] text-white font-semibold leading-tight">{aff.title || aff.provider}</div>
-                                {aff.description ? <p className="font-body-readable text-[10px] text-[#9b9b9b] leading-snug mt-0.5">{aff.description}</p> : null}
+                                <div className="text-[12px] text-[var(--text-primary)] font-semibold leading-tight">{aff.title || aff.provider}</div>
+                                {aff.description ? <p className="font-body-readable text-[10px] text-[var(--muted-2)] leading-snug mt-0.5">{aff.description}</p> : null}
                               </div>
                             </a>
                           ))}
                         </div>
-                        <p className="text-[9px] text-[#555] font-body-readable mt-2">{t("trackDetail.partnersAffiliateNotice")}</p>
+                        <p className="text-[9px] text-[var(--muted-5)] font-body-readable mt-2">{t("trackDetail.partnersAffiliateNotice")}</p>
                       </div>
                     ) : null}
                   </div>
@@ -418,11 +418,11 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
                     <div className="flex items-center justify-between gap-3 flex-wrap mb-4">
                       <div>
                         <h2 className="font-venite-italic text-[13px] tracking-widest text-[#4F8EF7]">{t("trackDetail.sprints.title")}</h2>
-                        <p className="text-[11px] text-[#7a7a7a] font-body-readable mt-0.5">
+                        <p className="text-[11px] text-[var(--muted-3)] font-body-readable mt-0.5">
                           {t("trackDetail.sprints.description")}
                         </p>
                       </div>
-                      <span className="text-[10px] text-[#7a7a7a] font-body-readable">
+                      <span className="text-[10px] text-[var(--muted-3)] font-body-readable">
                         {t("trackDetail.sprints.accomplished").replace("{cleared}", String(sprints.filter((s) => s.cleared).length)).replace("{total}", String(sprints.length))}
                       </span>
                     </div>
@@ -436,7 +436,7 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
                               ? "border-emerald-500/20 bg-emerald-500/[0.03]"
                               : sprint.state === "current"
                                 ? "border-blue-500/20 bg-blue-500/[0.03]"
-                                : "border-white/[0.06] bg-white/[0.01]"
+                                : "border-[var(--border-2)] bg-[var(--overlay-1)]"
                           }`}
                         >
                           <div className="flex items-start justify-between gap-3 flex-wrap">
@@ -445,7 +445,7 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
                                 sprint.state === "completed"
                                   ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-200"
                                   : sprint.state === "locked"
-                                    ? "border-white/[0.12] bg-white/[0.03] text-[#7a7a7a]"
+                                    ? "border-[var(--border-4)] bg-[var(--overlay-3)] text-[var(--muted-3)]"
                                     : "border-blue-500/30 bg-blue-500/10 text-blue-200"
                               }`}>
                                 {sprint.state === "locked" ? (
@@ -458,25 +458,25 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
                               </span>
                               <div className="min-w-0">
                                 <div className="flex items-center gap-2 flex-wrap">
-                                  <span className="text-[10px] text-[#666] font-semibold">{t("trackDetail.sprints.sprint").replace("{n}", String(sprint.sprintNumber))}</span>
+                                  <span className="text-[10px] text-[var(--muted-4)] font-semibold">{t("trackDetail.sprints.sprint").replace("{n}", String(sprint.sprintNumber))}</span>
                                   <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${getSprintStatusChip(sprint.state)}`}>
                                     {getSprintStatusLabel(sprint.state)}
                                   </span>
                                 </div>
-                                <div className="font-venite-italic text-[14px] text-white leading-tight mt-0.5">{sprint.title}</div>
+                                <div className="font-venite-italic text-[14px] text-[var(--text-primary)] leading-tight mt-0.5">{sprint.title}</div>
                                 <div className="text-[12px] text-[#89c7ff] font-body-readable mt-1">
                                   {t("trackDetail.sprints.deliverable").replace("{deliverable}", sprint.deliverable)}
                                 </div>
                                 <div className="flex items-center gap-3 mt-2">
                                   <div className="flex-1 max-w-[160px]">
-                                    <div className="h-1.5 rounded bg-white/[0.07] overflow-hidden">
+                                    <div className="h-1.5 rounded bg-[var(--overlay-7)] overflow-hidden">
                                       <div
                                         className="h-full rounded bg-gradient-to-r from-[#4F8EF7] to-[#9B6DFF] transition-all"
                                         style={{ width: `${sprint.totalLessons > 0 ? Math.floor((sprint.completedLessons / sprint.totalLessons) * 100) : 0}%` }}
                                       />
                                     </div>
                                   </div>
-                                  <span className="text-[10px] text-[#666]">
+                                  <span className="text-[10px] text-[var(--muted-4)]">
                                     {t("trackDetail.sprints.lessonCount").replace("{completed}", String(sprint.completedLessons)).replace("{total}", String(sprint.totalLessons))}
                                   </span>
                                 </div>
@@ -494,7 +494,7 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
                             ) : sprint.state === "locked" ? (
                               // Un sprint verrouille n'est pas un lien : pas de onClick
                               // (fonction non serialisable depuis un composant serveur).
-                              <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-2 rounded-lg border border-white/[0.06] bg-white/[0.02] text-[#555] cursor-not-allowed shrink-0">
+                              <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-2 rounded-lg border border-[var(--border-2)] bg-[var(--overlay-2)] text-[var(--muted-5)] cursor-not-allowed shrink-0">
                                 <iconify-icon icon="lucide:lock" style={{ fontSize: "12px" }} />
                                 {t("trackDetail.sprints.locked")}
                               </span>
@@ -519,12 +519,12 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
                         {isMine || (hasCurriculum && curriculum!.completedLessons > 0) ? t("trackDetail.cta.continueProject") : t("trackDetail.cta.startProject")}
                       </Link>
                       {hasProject ? (
-                        <Link href={localePath(`/dashboard/projects/${trackProject!.id}`, localeP)} className="inline-flex items-center gap-1.5 text-[12px] text-[#888] hover:text-white transition-colors">
+                        <Link href={localePath(`/dashboard/projects/${trackProject!.id}`, localeP)} className="inline-flex items-center gap-1.5 text-[12px] text-[var(--muted-3)] hover:text-[var(--text-primary)] transition-colors">
                           <iconify-icon icon="lucide:folder-code" style={{ fontSize: "13px" }} />
                           {t("trackDetail.cta.manageProject")}
                         </Link>
                       ) : (
-                        <Link href={localePath(`/dashboard/projects/new?track=${track.id}`, localeP)} className="inline-flex items-center gap-1.5 text-[12px] text-[#888] hover:text-white transition-colors">
+                        <Link href={localePath(`/dashboard/projects/new?track=${track.id}`, localeP)} className="inline-flex items-center gap-1.5 text-[12px] text-[var(--muted-3)] hover:text-[var(--text-primary)] transition-colors">
                           <iconify-icon icon="lucide:plus" style={{ fontSize: "13px" }} />
                           {t("trackDetail.cta.createProject")}
                         </Link>
@@ -536,7 +536,7 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
                         <iconify-icon icon="lucide:play" style={{ fontSize: "15px" }} />
                         {t("trackDetail.cta.startTrack")}
                       </Link>
-                      <Link href={localePath("/signin?next=/dashboard", localeP)} className="inline-flex items-center gap-1.5 text-[12px] text-[#888] hover:text-white transition-colors">
+                      <Link href={localePath("/signin?next=/dashboard", localeP)} className="inline-flex items-center gap-1.5 text-[12px] text-[var(--muted-3)] hover:text-[var(--text-primary)] transition-colors">
                         <iconify-icon icon="lucide:log-in" style={{ fontSize: "13px" }} />
                         {t("trackDetail.cta.haveAccount")}
                       </Link>
@@ -559,19 +559,19 @@ function GuestCTA({ locale: localeP }: { locale?: Locale } = {}) {
   const effectiveLocale = localeP || "en";
   const { t } = getLocale(effectiveLocale);
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white">
+    <div className="min-h-screen bg-[var(--bg-app)] text-[var(--text-primary)]">
       <Navbar />
       <main className="pt-[64px]">
         <section className="py-24 md:py-28 px-8">
           <div className="max-w-[600px] mx-auto text-center">
-            <div className="w-16 h-16 rounded-2xl border border-white/[0.08] bg-white/[0.02] flex items-center justify-center mx-auto mb-6">
+            <div className="w-16 h-16 rounded-2xl border border-[var(--border-3)] bg-[var(--overlay-2)] flex items-center justify-center mx-auto mb-6">
               <iconify-icon icon="lucide:book-open" className="text-[#4F8EF7]" style={{ fontSize: "30px" }} />
             </div>
             <div className="section-label mb-3">{t("trackDetail.guest.sectionLabel")}</div>
 <h1 className="font-valorax gradient-text" style={{ fontSize: "clamp(32px, 4vw, 52px)", letterSpacing: "-0.02em" }}>
 {t("trackDetail.guest.title")}
 </h1>
-            <p className="font-body-readable text-[14px] text-[#888] mt-3 mb-8 leading-relaxed">
+            <p className="font-body-readable text-[14px] text-[var(--muted-3)] mt-3 mb-8 leading-relaxed">
               {t("trackDetail.guest.description")}
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">

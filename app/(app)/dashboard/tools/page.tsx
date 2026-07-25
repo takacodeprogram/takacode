@@ -40,7 +40,7 @@ export default async function OutilsPage() {
       ) : links.length ? (
         <AffiliateBlock links={links} heading="" grouped />
       ) : (
-        <div className="rounded-2xl border border-white/[0.07] bg-[#111] p-8 text-center font-body-readable text-[13px] text-[#777]">
+        <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-8 text-center font-body-readable text-[13px] text-[var(--muted-3)]">
           {t("dashboardTools.empty")}
         </div>
       )}

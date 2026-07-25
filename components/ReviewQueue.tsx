@@ -38,7 +38,7 @@ const ERROR_KEYS: Record<string, string> = {
 function Avatar({ url, name }: { url?: string; name?: string }) {
   if (url) return <img src={url} alt="" className="w-8 h-8 rounded-full border border-white/10 object-cover" />;
   return (
-    <div className="w-8 h-8 rounded-full border border-white/10 bg-gradient-to-br from-blue-400 to-cyan-500 flex items-center justify-center text-[10px] font-semibold text-white">
+    <div className="w-8 h-8 rounded-full border border-white/10 bg-gradient-to-br from-blue-400 to-cyan-500 flex items-center justify-center text-[10px] font-semibold text-[var(--text-primary)]">
       {getInitials(name)}
     </div>
   );
@@ -99,7 +99,7 @@ export default function ReviewQueue({ initialItems = [] }: ReviewQueueProps) {
 
   if (!items.length) {
     return (
-      <div className="rounded-2xl border border-white/[0.07] bg-[#111] p-10 text-center font-body-readable text-[13px] text-[#777]">
+      <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-10 text-center font-body-readable text-[13px] text-[var(--muted-3)]">
         {t("review.empty")}
       </div>
     );
@@ -111,13 +111,13 @@ export default function ReviewQueue({ initialItems = [] }: ReviewQueueProps) {
         const key = keyOf(item);
         const busy = busyKey === key;
         return (
-          <article key={key} className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 space-y-3">
+          <article key={key} className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-5 space-y-3">
             <div className="flex items-center justify-between gap-3 flex-wrap">
               <div className="flex items-center gap-2.5 min-w-0">
                 <Avatar url={item.avatarUrl} name={item.author} />
                 <div className="min-w-0">
-                  <div className="text-[12px] text-white font-semibold truncate">{item.author}</div>
-                  <div className="text-[10px] text-[#777]">{item.lessonTitle}{item.trackTitle ? ` · ${item.trackTitle}` : ""}</div>
+                  <div className="text-[12px] text-[var(--text-primary)] font-semibold truncate">{item.author}</div>
+                  <div className="text-[10px] text-[var(--muted-3)]">{item.lessonTitle}{item.trackTitle ? ` · ${item.trackTitle}` : ""}</div>
                 </div>
               </div>
               <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full border border-violet-500/30 bg-violet-500/10 text-violet-200">
@@ -125,10 +125,10 @@ export default function ReviewQueue({ initialItems = [] }: ReviewQueueProps) {
               </span>
             </div>
 
-            {item.brief ? <p className="font-body-readable text-[11px] text-[#7a7a7a] leading-snug">{t("review.brief")} : {item.brief}</p> : null}
+            {item.brief ? <p className="font-body-readable text-[11px] text-[var(--muted-3)] leading-snug">{t("review.brief")} : {item.brief}</p> : null}
 
-            <div className="rounded-lg border border-white/[0.08] bg-[#0f0f0f] px-3 py-2.5 max-h-[220px] overflow-auto">
-              <pre className="font-body-readable text-[12px] text-[#d0d0d0] leading-relaxed whitespace-pre-wrap break-words">{item.submission}</pre>
+            <div className="rounded-lg border border-[var(--border-3)] bg-[var(--surface-3)] px-3 py-2.5 max-h-[220px] overflow-auto">
+              <pre className="font-body-readable text-[12px] text-[var(--muted-1)] leading-relaxed whitespace-pre-wrap break-words">{item.submission}</pre>
             </div>
 
             <textarea
@@ -137,7 +137,7 @@ export default function ReviewQueue({ initialItems = [] }: ReviewQueueProps) {
               rows={3}
               maxLength={2000}
               placeholder={t("review.feedbackPlaceholder")}
-              className="w-full rounded-lg border border-white/[0.08] bg-[#0f0f0f] px-3 py-2.5 font-body-readable text-[12px] text-[#d0d0d0] placeholder:text-[#555] focus:outline-none focus:border-blue-400/40"
+              className="w-full rounded-lg border border-[var(--border-3)] bg-[var(--surface-3)] px-3 py-2.5 font-body-readable text-[12px] text-[var(--muted-1)] placeholder:text-[var(--muted-5)] focus:outline-none focus:border-blue-400/40"
             />
 
             <div className="flex items-center gap-2.5">

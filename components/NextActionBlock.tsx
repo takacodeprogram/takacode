@@ -149,11 +149,11 @@ function ActionCard({
           {iconify(iconName)}
         </div>
         <div>
-          <div className="font-venite text-[10px] tracking-widest text-[#888] uppercase">{t("nextAction.label")}</div>
-          <h3 className="font-venite-italic text-[14px] text-white leading-tight">{title}</h3>
+          <div className="font-venite text-[10px] tracking-widest text-[var(--muted-3)] uppercase">{t("nextAction.label")}</div>
+          <h3 className="font-venite-italic text-[14px] text-[var(--text-primary)] leading-tight">{title}</h3>
         </div>
       </div>
-      <p className="font-body-readable text-[12px] text-[#a5a5a5] leading-relaxed mb-4">{description}</p>
+      <p className="font-body-readable text-[12px] text-[var(--muted-2)] leading-relaxed mb-4">{description}</p>
       <Link
         href={href}
         className="inline-flex items-center gap-2 text-[12px] font-semibold px-4 py-2.5 rounded-xl border transition-all"

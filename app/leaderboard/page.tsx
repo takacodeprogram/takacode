@@ -28,11 +28,11 @@ const MEDALS = ["#F5C542", "#C0C7D0", "#CD8B4A"];
 
 function Avatar({ url, name, size = 40 }: { url: string; name: string; size?: number }) {
   if (url) {
-    return <img src={url} alt="" className="rounded-full border border-white/10 object-cover bg-white/[0.03]" style={{ width: size, height: size }} />;
+    return <img src={url} alt="" className="rounded-full border border-white/10 object-cover bg-[var(--overlay-3)]" style={{ width: size, height: size }} />;
   }
   return (
     <div
-      className="rounded-full border border-white/10 bg-gradient-to-br from-blue-400 to-cyan-500 flex items-center justify-center font-semibold text-white"
+      className="rounded-full border border-white/10 bg-gradient-to-br from-blue-400 to-cyan-500 flex items-center justify-center font-semibold text-[var(--text-primary)]"
       style={{ width: size, height: size, fontSize: size * 0.32 }}
     >
       {getInitials(name)}
@@ -51,7 +51,7 @@ export default async function LeaderboardPage() {
   const rest = entries.slice(3);
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white">
+    <div className="min-h-screen bg-[var(--bg-app)] text-[var(--text-primary)]">
       <Navbar />
       <main className="pt-[64px]">
         <section className="py-24 md:py-28 px-8">
@@ -61,7 +61,7 @@ export default async function LeaderboardPage() {
               <h1 className="font-valorax gradient-text" style={{ fontSize: "clamp(32px, 4vw, 52px)", letterSpacing: "-0.02em" }}>
                 {t("classementPage.title")}
               </h1>
-              <p className="font-body-readable text-[14px] text-[#888] mt-3">{t("classementPage.description")}</p>
+              <p className="font-body-readable text-[14px] text-[var(--muted-3)] mt-3">{t("classementPage.description")}</p>
             </div>
 
             {!schemaReady ? (
@@ -69,7 +69,7 @@ export default async function LeaderboardPage() {
                 {t("classementPage.schemaPending")}
               </div>
             ) : entries.length === 0 ? (
-              <div className="rounded-2xl border border-white/[0.07] bg-[#111] p-10 text-center font-body-readable text-[13px] text-[#777]">
+              <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-10 text-center font-body-readable text-[13px] text-[var(--muted-3)]">
                 {t("classementPage.empty")}
               </div>
             ) : (
@@ -80,7 +80,7 @@ export default async function LeaderboardPage() {
                       <Link
                         key={entry.rank}
                         href={localePath(`/profile/${entry.id}`, locale)}
-                        className={`rounded-2xl border bg-[#111] p-5 text-center card-hover block ${index === 0 ? "border-[#F5C542]/40 sm:-mt-2" : "border-white/[0.08]"}`}
+                        className={`rounded-2xl border bg-[var(--surface-1)] p-5 text-center card-hover block ${index === 0 ? "border-[#F5C542]/40 sm:-mt-2" : "border-[var(--border-3)]"}`}
                       >
                         <div className="flex justify-center mb-3 relative">
                           <Avatar url={entry.avatarUrl} name={entry.publicName} size={index === 0 ? 64 : 54} />
@@ -91,29 +91,29 @@ export default async function LeaderboardPage() {
                             {entry.rank}
                           </span>
                         </div>
-                        <div className="text-[13px] text-white font-semibold truncate">
+                        <div className="text-[13px] text-[var(--text-primary)] font-semibold truncate">
                           {getCountryFlag(entry.countryCode) ? <span className="mr-1.5">{getCountryFlag(entry.countryCode)}</span> : null}
                           {entry.publicName}
                         </div>
                         <div className="text-[11px] text-[#89c7ff]">{entry.grade}</div>
-                        <div className="text-[15px] font-bold mt-1">{entry.points} <span className="text-[10px] text-[#888] font-normal">{t("classementPage.xp")}</span></div>
+                        <div className="text-[15px] font-bold mt-1">{entry.points} <span className="text-[10px] text-[var(--muted-3)] font-normal">{t("classementPage.xp")}</span></div>
                       </Link>
                     ))}
                   </div>
                 ) : null}
 
                 {rest.length ? (
-                  <div className="rounded-2xl border border-white/[0.08] bg-[#111] divide-y divide-white/[0.05]">
+                  <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] divide-y divide-white/[0.05]">
                     {rest.map((entry) => (
-                      <Link key={entry.rank} href={`/profile/${entry.id}`} className="flex items-center gap-3 px-4 py-3 hover:bg-white/[0.02] transition-colors">
-                        <span className="w-7 text-center text-[12px] text-[#888] font-semibold">{entry.rank}</span>
+                      <Link key={entry.rank} href={`/profile/${entry.id}`} className="flex items-center gap-3 px-4 py-3 hover:bg-[var(--overlay-2)] transition-colors">
+                        <span className="w-7 text-center text-[12px] text-[var(--muted-3)] font-semibold">{entry.rank}</span>
                         <Avatar url={entry.avatarUrl} name={entry.publicName} size={36} />
                         <div className="flex-1 min-w-0">
-                          <div className="text-[13px] text-white font-semibold truncate">
+                          <div className="text-[13px] text-[var(--text-primary)] font-semibold truncate">
                             {getCountryFlag(entry.countryCode) ? <span className="mr-1.5">{getCountryFlag(entry.countryCode)}</span> : null}
                             {entry.publicName}
                           </div>
-                          <div className="text-[10px] text-[#777]">{entry.grade}</div>
+                          <div className="text-[10px] text-[var(--muted-3)]">{entry.grade}</div>
                         </div>
                         <div className="text-[13px] text-[#6ec3ff] font-semibold shrink-0">{entry.points} {t("classementPage.xp")}</div>
                       </Link>

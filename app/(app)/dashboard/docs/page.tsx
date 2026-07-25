@@ -69,14 +69,14 @@ export default async function DocumentationPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {SECTIONS.map((section) => (
-          <div key={section.title} className="rounded-2xl border border-white/[0.08] bg-[#111] p-5">
+          <div key={section.title} className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-5">
             <div className="flex items-center gap-3 mb-3">
               <div className="w-10 h-10 rounded-xl bg-blue-500/15 flex items-center justify-center shrink-0">
                 <iconify-icon icon={section.icon} style={{ fontSize: "18px", color: "#4F8EF7" }} />
               </div>
               <div>
-                <h2 className="text-[14px] text-white font-semibold">{section.title}</h2>
-                <p className="font-body-readable text-[11px] text-[#777]">{section.description}</p>
+                <h2 className="text-[14px] text-[var(--text-primary)] font-semibold">{section.title}</h2>
+                <p className="font-body-readable text-[11px] text-[var(--muted-3)]">{section.description}</p>
               </div>
             </div>
             <ul className="space-y-1">
@@ -84,7 +84,7 @@ export default async function DocumentationPage() {
                 <li key={link.href}>
                   <Link
                     href={localePath(link.href, locale)}
-                    className="flex items-center gap-2 rounded-lg px-3 py-2 text-[12px] text-[#aaa] hover:text-white hover:bg-white/[0.04] transition-all font-body-readable"
+                    className="flex items-center gap-2 rounded-lg px-3 py-2 text-[12px] text-[var(--muted-2)] hover:text-[var(--text-primary)] hover:bg-[var(--overlay-4)] transition-all font-body-readable"
                   >
                     <iconify-icon icon="lucide:chevron-right" style={{ fontSize: "12px", color: "#4F8EF7" }} />
                     {link.label}

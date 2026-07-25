@@ -69,8 +69,8 @@ const QUIZ_PLACEHOLDER = '[\n  { "q": "Question ?", "choices": ["A", "B", "C"], 
 function Field({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) {
   return (
     <label className="block">
-      <span className="text-[10px] text-[#8d8d8d] uppercase tracking-widest font-semibold">{label}</span>
-      {hint ? <span className="block text-[10px] text-[#666] mb-1">{hint}</span> : <span className="block mb-1" />}
+      <span className="text-[10px] text-[var(--muted-3)] uppercase tracking-widest font-semibold">{label}</span>
+      {hint ? <span className="block text-[10px] text-[var(--muted-4)] mb-1">{hint}</span> : <span className="block mb-1" />}
       {children}
     </label>
   );
@@ -209,7 +209,7 @@ export default function LessonForm({ trackId, modules = [], lesson = null, defau
 
   return (
     <div className="space-y-6">
-    <form onSubmit={handleSubmit} className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 space-y-4">
+    <form onSubmit={handleSubmit} className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-5 space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <Field label={t("lessonForm.module")}>
           <select className={INPUT} value={form.module_id} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setField("module_id", e.target.value)}>
@@ -247,9 +247,9 @@ export default function LessonForm({ trackId, modules = [], lesson = null, defau
         <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
           <div className="flex items-center gap-2">
             <iconify-icon icon={quizQuality.valid ? "lucide:badge-check" : "lucide:circle-alert"} style={{ fontSize: "14px", color: quizQuality.valid ? "#6ec3ff" : "#fca5a5" }} />
-            <span className="font-venite-italic text-[11px] text-white">{t("lessonForm.quizQuality")}</span>
+            <span className="font-venite-italic text-[11px] text-[var(--text-primary)]">{t("lessonForm.quizQuality")}</span>
           </div>
-          <span className="text-[10px] text-[#8d8d8d] font-body-readable">
+          <span className="text-[10px] text-[var(--muted-3)] font-body-readable">
             {t("lessonForm.questionCount").replace("{n}", String(quizQuality.questionCount))}
           </span>
         </div>
@@ -257,7 +257,7 @@ export default function LessonForm({ trackId, modules = [], lesson = null, defau
         {quizQuality.answerDistribution.length ? (
           <div className="flex flex-wrap gap-1.5 mb-2.5">
             {quizQuality.answerDistribution.map((count, index) => (
-              <span key={`answer-position-${index}`} className="rounded-full border border-white/[0.08] bg-white/[0.03] px-2 py-1 text-[10px] text-[#a5a5a5] font-body-readable">
+              <span key={`answer-position-${index}`} className="rounded-full border border-[var(--border-3)] bg-[var(--overlay-3)] px-2 py-1 text-[10px] text-[var(--muted-2)] font-body-readable">
                 {t("lessonForm.position").replace("{n}", String(index + 1)).replace("{count}", String(count || 0))}
               </span>
             ))}
@@ -285,7 +285,7 @@ export default function LessonForm({ trackId, modules = [], lesson = null, defau
         <Field label={t("lessonForm.order")}><input type="number" min="1" className={INPUT} value={form.sort_order} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("sort_order", e.target.value)} /></Field>
       </div>
 
-      <label className="text-[11px] text-[#9b9b9b] flex items-center gap-1.5">
+      <label className="text-[11px] text-[var(--muted-2)] flex items-center gap-1.5">
         <input type="checkbox" checked={form.is_published === "true"} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("is_published", e.target.checked ? "true" : "false")} /> {t("lessonForm.published")}
       </label>
 

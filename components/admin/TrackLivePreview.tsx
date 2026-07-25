@@ -52,7 +52,7 @@ export default function TrackLivePreview({ data }: { data: PreviewData }) {
   const meta = formatMeta(data.level_label, data.duration_weeks);
 
   return (
-    <article className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4 card-hover project-card">
+    <article className="rounded-xl border border-[var(--border-3)] bg-[var(--overlay-2)] p-4 card-hover project-card">
       <div className="flex items-center justify-between gap-3 mb-3">
         <span className="text-[10px] px-2 py-1 rounded-full border border-blue-400/25 bg-blue-500/10 text-blue-200 font-semibold">
           {data.slug ? `/${data.slug}` : t("adminTrackPreview.preview")}
@@ -74,13 +74,13 @@ export default function TrackLivePreview({ data }: { data: PreviewData }) {
         <iconify-icon icon={data.icon || "lucide:route"} style={{ color: data.accent_color, fontSize: "18px" }} />
       </div>
 
-      <h3 className="font-venite-italic text-[14px] text-white leading-tight mb-1.5">
+      <h3 className="font-venite-italic text-[14px] text-[var(--text-primary)] leading-tight mb-1.5">
         {data.title || t("adminTrackPreview.trackTitle")}
       </h3>
 
-      <p className="font-body-readable text-[11px] text-[#6f6f6f] mb-3">{meta}</p>
+      <p className="font-body-readable text-[11px] text-[var(--muted-4)] mb-3">{meta}</p>
 
-      <p className="font-body-readable text-[11px] text-[#555] leading-relaxed mb-4">
+      <p className="font-body-readable text-[11px] text-[var(--muted-5)] leading-relaxed mb-4">
         {(data.summary || data.objective || t("adminTrackPreview.summaryPlaceholder")).slice(0, 120)}
       </p>
 
@@ -88,7 +88,7 @@ export default function TrackLivePreview({ data }: { data: PreviewData }) {
         {competencies.map((c, i) => (
           <span
             key={`comp-${i}`}
-            className="text-[10px] px-2 py-1 rounded-full border border-white/[0.08] bg-white/[0.03] text-[#9f9f9f]"
+            className="text-[10px] px-2 py-1 rounded-full border border-[var(--border-3)] bg-[var(--overlay-3)] text-[var(--muted-2)]"
           >
             {c}
           </span>

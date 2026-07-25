@@ -21,11 +21,11 @@ export default function AffiliateBlock({ links = [], heading = "Fournisseurs rec
 
   return (
     <section className="space-y-4">
-      {heading ? <h2 className="font-venite text-[13px] tracking-widest text-[#888]">{heading.toUpperCase()}</h2> : null}
+      {heading ? <h2 className="font-venite text-[13px] tracking-widest text-[var(--muted-3)]">{heading.toUpperCase()}</h2> : null}
 
       {Object.entries(groups).map(([key, items]) => (
         <div key={key} className="space-y-2.5">
-          {grouped ? <div className="text-[11px] text-[#8d8d8d] uppercase tracking-widest font-semibold">{categoryLabel(key)}</div> : null}
+          {grouped ? <div className="text-[11px] text-[var(--muted-3)] uppercase tracking-widest font-semibold">{categoryLabel(key)}</div> : null}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {items.map((link) => (
               <a
@@ -33,9 +33,9 @@ export default function AffiliateBlock({ links = [], heading = "Fournisseurs rec
                 href={link.url || "#"}
                 target="_blank"
                 rel="sponsored noopener noreferrer"
-                className="rounded-2xl border border-white/[0.08] bg-[#111] p-4 card-hover flex items-start gap-3"
+                className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-4 card-hover flex items-start gap-3"
               >
-                <div className="w-10 h-10 rounded-xl border border-white/[0.08] bg-white/[0.03] flex items-center justify-center shrink-0 overflow-hidden">
+                <div className="w-10 h-10 rounded-xl border border-[var(--border-3)] bg-[var(--overlay-3)] flex items-center justify-center shrink-0 overflow-hidden">
                   {link.logoUrl ? (
                     <img src={link.logoUrl} alt="" className="w-full h-full object-contain" />
                   ) : (
@@ -43,8 +43,8 @@ export default function AffiliateBlock({ links = [], heading = "Fournisseurs rec
                   )}
                 </div>
                 <div className="min-w-0">
-                  <div className="text-[12px] text-white font-semibold leading-tight">{link.title || link.provider}</div>
-                  {link.description ? <p className="font-body-readable text-[11px] text-[#9b9b9b] leading-snug mt-0.5">{link.description}</p> : null}
+                  <div className="text-[12px] text-[var(--text-primary)] font-semibold leading-tight">{link.title || link.provider}</div>
+                  {link.description ? <p className="font-body-readable text-[11px] text-[var(--muted-2)] leading-snug mt-0.5">{link.description}</p> : null}
                   <span className="inline-flex items-center gap-1 text-[11px] text-[#4F8EF7] mt-1.5">
                     Voir l'offre
                     <iconify-icon icon="lucide:arrow-up-right" style={{ fontSize: "11px" }} />
@@ -56,7 +56,7 @@ export default function AffiliateBlock({ links = [], heading = "Fournisseurs rec
         </div>
       ))}
 
-      <p className="text-[10px] text-[#555] font-body-readable">Certains liens sont affilies : ils soutiennent TakaCode sans cout supplementaire pour toi.</p>
+      <p className="text-[10px] text-[var(--muted-5)] font-body-readable">Certains liens sont affilies : ils soutiennent TakaCode sans cout supplementaire pour toi.</p>
     </section>
   );
 }

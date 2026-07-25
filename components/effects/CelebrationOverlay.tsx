@@ -79,14 +79,14 @@ export default function CelebrationOverlay({
         onClick={onClose}
       >
         <div
-          className="celebrate-pop relative w-full max-w-[400px] rounded-2xl border border-white/[0.1] bg-[#111] p-7 text-center"
+          className="celebrate-pop relative w-full max-w-[400px] rounded-2xl border border-[var(--border-4)] bg-[var(--surface-1)] p-7 text-center"
           style={{ boxShadow: "0 20px 60px rgba(0,0,0,0.5)" }}
           onClick={(event: React.MouseEvent) => event.stopPropagation()}
         >
           <button
             type="button"
             onClick={toggleMute}
-            className="absolute top-3 right-3 text-[#666] hover:text-white transition-colors p-1"
+            className="absolute top-3 right-3 text-[var(--muted-4)] hover:text-[var(--text-primary)] transition-colors p-1"
             aria-label={muted ? t("celebrations.activateSound") : t("celebrations.muteSound")}
             title={muted ? t("celebrations.activateSound") : t("celebrations.muteSound")}
           >
@@ -108,7 +108,7 @@ export default function CelebrationOverlay({
           </div>
 
           <h2 className="font-valorax text-[22px] leading-tight mb-2">{title}</h2>
-          {message ? <p className="font-body-readable text-[13px] text-[#a5a5a5] leading-relaxed mb-4">{message}</p> : null}
+          {message ? <p className="font-body-readable text-[13px] text-[var(--muted-2)] leading-relaxed mb-4">{message}</p> : null}
 
           {isSuccess && xp > 0 ? (
             <div className="inline-flex items-center gap-1.5 rounded-full border border-blue-400/30 bg-blue-500/10 px-3.5 py-1.5 text-[12px] font-semibold text-[#89c7ff] mb-5">
@@ -119,7 +119,7 @@ export default function CelebrationOverlay({
 
           {isSuccess && shareText ? (
             <div className="mb-5">
-              <div className="text-[10px] text-[#777] uppercase tracking-widest mb-2">{t("shareButtons.shareVictory")}</div>
+              <div className="text-[10px] text-[var(--muted-3)] uppercase tracking-widest mb-2">{t("shareButtons.shareVictory")}</div>
               <ShareButtons text={shareText} url={shareUrl} />
             </div>
           ) : null}
@@ -136,7 +136,7 @@ export default function CelebrationOverlay({
                 <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "13px" }} />
               </button>
             ) : null}
-            <button type="button" onClick={onClose} className="text-[12px] text-[#888] hover:text-white px-3 py-2">
+            <button type="button" onClick={onClose} className="text-[12px] text-[var(--muted-3)] hover:text-[var(--text-primary)] px-3 py-2">
               {t("celebrations.close")}
             </button>
           </div>

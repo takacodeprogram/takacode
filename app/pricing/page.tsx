@@ -21,7 +21,7 @@ export default async function TarifsPage() {
   const locale = await getServerLocale();
   const { t } = getLocale(locale);
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white">
+    <div className="min-h-screen bg-[var(--bg-app)] text-[var(--text-primary)]">
       <Navbar />
       <main className="pt-[64px]">
         <section className="py-32 relative overflow-hidden">
@@ -31,7 +31,7 @@ export default async function TarifsPage() {
             <h1 className="font-valorax gradient-text mb-6" style={{ fontSize: "clamp(42px, 5vw, 70px)", letterSpacing: "-0.02em" }}>
               {t("tarifsPage.title")}
             </h1>
-            <p className="font-body-readable text-[#888] text-[15px] leading-relaxed max-w-[620px] mx-auto mb-10">
+            <p className="font-body-readable text-[var(--muted-3)] text-[15px] leading-relaxed max-w-[620px] mx-auto mb-10">
               {t("tarifsPage.description")}
             </p>
             <div className="inline-flex items-center gap-3">

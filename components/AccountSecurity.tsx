@@ -83,39 +83,39 @@ export default function AccountSecurity({ userId, lastSignInAt }: { userId: stri
 
   return (
     <div className="space-y-4">
-      <article className="rounded-2xl border border-white/[0.08] bg-[#111] p-5">
+      <article className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-5">
         <div className="flex items-center gap-2.5 mb-3">
           <div className="w-8 h-8 rounded-lg border border-[#22D3EE]/30 bg-[#22D3EE]/10 inline-flex items-center justify-center">
             <iconify-icon icon="lucide:clock" style={{ color: "#22D3EE", fontSize: "15px" }} />
           </div>
           <div>
-            <div className="font-venite text-[10px] tracking-widest text-[#888] uppercase">{t("accountSecurity.title")}</div>
-            <h3 className="font-venite-italic text-[14px] text-white">{t("accountSecurity.subtitle")}</h3>
+            <div className="font-venite text-[10px] tracking-widest text-[var(--muted-3)] uppercase">{t("accountSecurity.title")}</div>
+            <h3 className="font-venite-italic text-[14px] text-[var(--text-primary)]">{t("accountSecurity.subtitle")}</h3>
           </div>
         </div>
 
-        <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-3 mb-4">
-          <div className="text-[10px] text-[#777] uppercase tracking-widest mb-0.5">{t("accountSecurity.lastSignIn")}</div>
-          <div className="text-[13px] text-white font-semibold">
+        <div className="rounded-xl border border-[var(--border-3)] bg-[var(--overlay-2)] px-4 py-3 mb-4">
+          <div className="text-[10px] text-[var(--muted-3)] uppercase tracking-widest mb-0.5">{t("accountSecurity.lastSignIn")}</div>
+          <div className="text-[13px] text-[var(--text-primary)] font-semibold">
             {lastSignInAt ? formatDate(lastSignInAt, locale) : t("accountSecurity.notAvailable")}
           </div>
         </div>
 
         {sessions.length > 0 ? (
           <div className="space-y-2 mb-4">
-            <div className="text-[10px] text-[#777] uppercase tracking-widest mb-1">
+            <div className="text-[10px] text-[var(--muted-3)] uppercase tracking-widest mb-1">
               {t("accountSecurity.connectedDevices").replace("{n}", String(sessions.length))}
             </div>
             {sessions.map((session) => (
               <div
                 key={session.id}
-                className="rounded-xl border border-white/[0.06] bg-white/[0.01] px-3.5 py-2.5 flex items-center gap-3"
+                className="rounded-xl border border-[var(--border-2)] bg-[var(--overlay-1)] px-3.5 py-2.5 flex items-center gap-3"
               >
-                <div className="w-8 h-8 rounded-lg border border-white/[0.08] bg-white/[0.03] inline-flex items-center justify-center shrink-0">
+                <div className="w-8 h-8 rounded-lg border border-[var(--border-3)] bg-[var(--overlay-3)] inline-flex items-center justify-center shrink-0">
                   {iconify(deviceIcon(session.deviceType))}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="text-[12px] text-white font-semibold leading-tight truncate flex items-center gap-1.5">
+                  <div className="text-[12px] text-[var(--text-primary)] font-semibold leading-tight truncate flex items-center gap-1.5">
                     {session.deviceName || session.browser || t("accountSecurity.unknownDevice")}
                     {session.isCurrent ? (
                       <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-200">
@@ -123,12 +123,12 @@ export default function AccountSecurity({ userId, lastSignInAt }: { userId: stri
                       </span>
                     ) : null}
                   </div>
-                  <div className="text-[10px] text-[#888] font-body-readable">
+                  <div className="text-[10px] text-[var(--muted-3)] font-body-readable">
                     {[session.browser, session.os, session.ipAddress].filter(Boolean).join(" · ")}
                     {session.countryCode ? ` ${getCountryFlag(session.countryCode)}` : ""}
                   </div>
                 </div>
-                <div className="text-[10px] text-[#666] shrink-0">
+                <div className="text-[10px] text-[var(--muted-4)] shrink-0">
                   {formatDate(session.lastActiveAt, locale)}
                 </div>
               </div>
@@ -137,17 +137,17 @@ export default function AccountSecurity({ userId, lastSignInAt }: { userId: stri
         ) : null}
       </article>
 
-      <article className="rounded-2xl border border-red-500/20 bg-[#111] p-5">
+      <article className="rounded-2xl border border-red-500/20 bg-[var(--surface-1)] p-5">
         <div className="flex items-center gap-2.5 mb-3">
           <div className="w-8 h-8 rounded-lg border border-red-500/30 bg-red-500/10 inline-flex items-center justify-center">
             <iconify-icon icon="lucide:trash-2" style={{ color: "#EF4444", fontSize: "15px" }} />
           </div>
           <div>
-            <div className="font-venite text-[10px] tracking-widest text-[#888] uppercase">{t("accountSecurity.dangerZone")}</div>
-            <h3 className="font-venite-italic text-[14px] text-white">{t("accountSecurity.dangerSubtitle")}</h3>
+            <div className="font-venite text-[10px] tracking-widest text-[var(--muted-3)] uppercase">{t("accountSecurity.dangerZone")}</div>
+            <h3 className="font-venite-italic text-[14px] text-[var(--text-primary)]">{t("accountSecurity.dangerSubtitle")}</h3>
           </div>
         </div>
-        <p className="font-body-readable text-[12px] text-[#a5a5a5] leading-relaxed mb-4">
+        <p className="font-body-readable text-[12px] text-[var(--muted-2)] leading-relaxed mb-4">
           {t("accountSecurity.dangerDesc")}
         </p>
         <div className="flex items-center gap-3 flex-wrap">

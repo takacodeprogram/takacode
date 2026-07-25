@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 
 export default function DocContent({ children }: { children: ReactNode }) {
   return (
-    <div className="prose-custom max-w-3xl rounded-2xl border border-white/[0.08] bg-[#111] p-6 md:p-8">
+    <div className="prose-custom max-w-3xl rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-6 md:p-8">
       <style>{`
         .prose-custom h2 {
           font-size: 16px;

@@ -83,7 +83,7 @@ function toResourcesInput(resources: string[] | undefined): string {
 function Field({ label, children, error }: { label: string; children: React.ReactNode; error?: string }) {
   return (
     <label className="block">
-      <span className="text-[10px] text-[#8d8d8d] uppercase tracking-widest font-semibold">{label}</span>
+      <span className="text-[10px] text-[var(--muted-3)] uppercase tracking-widest font-semibold">{label}</span>
       <div className="mt-1">{children}</div>
       {error && <p className="mt-1 text-[10px] text-red-400">{error}</p>}
     </label>
@@ -91,8 +91,8 @@ function Field({ label, children, error }: { label: string; children: React.Reac
 }
 
 const INPUT_CLASS = "auth-input text-[12px] w-full";
-const ACTIVE_TAB_CLASS = "bg-white/[0.08] text-white border-white/20";
-const INACTIVE_TAB_CLASS = "text-[#6d6d6d] hover:text-[#aaa] border-transparent";
+const ACTIVE_TAB_CLASS = "bg-[var(--overlay-7)] text-[var(--text-primary)] border-white/20";
+const INACTIVE_TAB_CLASS = "text-[var(--muted-4)] hover:text-[var(--muted-2)] border-transparent";
 
 function TabDot({ filled }: { filled: boolean }) {
   return <span className={`inline-block w-1.5 h-1.5 rounded-full ${filled ? "bg-emerald-400" : "bg-[#444]"}`} />;
@@ -357,7 +357,7 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
       case "promesse":
         return (
           <div className="space-y-3">
-            <p className="text-[11px] text-[#6d6d6d] font-body-readable">
+            <p className="text-[11px] text-[var(--muted-4)] font-body-readable">
               {t("trackForm.promiseHint")}
             </p>
             <Field label={t("trackForm.fieldObjective")}>
@@ -384,7 +384,7 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
             </Field>
             {isEdit && (
               <Field label={t("trackForm.fieldSlug")}>
-                <div className="text-[11px] text-[#6d6d6d] h-[36px] flex items-center">/{track?.slug}</div>
+                <div className="text-[11px] text-[var(--muted-4)] h-[36px] flex items-center">/{track?.slug}</div>
               </Field>
             )}
           </div>
@@ -400,10 +400,10 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
         return (
           <div className="space-y-4">
             <div className="flex items-center gap-5">
-              <label className="text-[11px] text-[#9b9b9b] flex items-center gap-1.5">
+              <label className="text-[11px] text-[var(--muted-2)] flex items-center gap-1.5">
                 <input type="checkbox" checked={form.is_published === "true"} onChange={(e) => setField("is_published", e.target.checked ? "true" : "false")} /> {t("trackForm.publishedLabel")}
               </label>
-              <label className="text-[11px] text-[#9b9b9b] flex items-center gap-1.5">
+              <label className="text-[11px] text-[var(--muted-2)] flex items-center gap-1.5">
                 <input type="checkbox" checked={form.is_active === "true"} onChange={(e) => setField("is_active", e.target.checked ? "true" : "false")} /> {t("trackForm.activeLabel")}
               </label>
             </div>
@@ -421,14 +421,14 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
   }
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-2xl border border-white/[0.08] bg-[#111]">
+    <form onSubmit={handleSubmit} className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)]">
       {/* Completeness bar */}
       <div className="px-5 pt-4 pb-2">
         <div className="flex items-center gap-2 mb-2">
-          <span className="text-[10px] text-[#6d6d6d] uppercase tracking-widest">
+          <span className="text-[10px] text-[var(--muted-4)] uppercase tracking-widest">
             {t("trackForm.completeness").replace("{n}", String(filledCount)).replace("{total}", String(requiredFields.length))}
           </span>
-          <div className="flex-1 h-1 rounded-full bg-[#222] overflow-hidden">
+          <div className="flex-1 h-1 rounded-full bg-[var(--surface-2)] overflow-hidden">
             <div
               className="h-full rounded-full transition-all duration-300"
               style={{
@@ -441,7 +441,7 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
       </div>
 
       {/* Tab bar */}
-      <div className="flex border-b border-white/[0.06] px-5 overflow-x-auto">
+      <div className="flex border-b border-[var(--border-2)] px-5 overflow-x-auto">
         {TABS.map((tab) => {
           const complete = completeness(tab.id);
           const hasErr = tabHasErrors(tab.id);
@@ -475,14 +475,14 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
         <button
           type="button"
           onClick={() => setShowPreview(!showPreview)}
-          className="flex items-center gap-2 text-[10px] text-[#6d6d6d] uppercase tracking-widest hover:text-[#aaa] transition-colors"
+          className="flex items-center gap-2 text-[10px] text-[var(--muted-4)] uppercase tracking-widest hover:text-[var(--muted-2)] transition-colors"
         >
           <iconify-icon icon={showPreview ? "lucide:eye-off" : "lucide:eye"} style={{ fontSize: "12px" }} />
           {showPreview ? t("trackForm.previewHide") : t("trackForm.previewShow")}
         </button>
         {showPreview && (
           <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="text-[10px] text-[#555] uppercase tracking-widest font-semibold self-end">{t("trackForm.previewCatalog")}</div>
+            <div className="text-[10px] text-[var(--muted-5)] uppercase tracking-widest font-semibold self-end">{t("trackForm.previewCatalog")}</div>
             <TrackLivePreview
               data={{
                 title: form.title || "",
@@ -499,12 +499,12 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
         )}
 
         {track?.id && (
-          <div className="space-y-3 border-t border-white/[0.06] pt-3">
+          <div className="space-y-3 border-t border-[var(--border-2)] pt-3">
             <div className="flex items-center justify-between gap-2">
               <button
                 type="button"
                 onClick={() => setShowVersionPrompt(true)}
-                className="flex items-center gap-2 text-[10px] text-[#6d6d6d] uppercase tracking-widest hover:text-[#aaa] transition-colors"
+                className="flex items-center gap-2 text-[10px] text-[var(--muted-4)] uppercase tracking-widest hover:text-[var(--muted-2)] transition-colors"
               >
                 <iconify-icon icon="lucide:plus-circle" style={{ fontSize: "12px" }} />
                 {t("trackForm.createVersion")}
@@ -530,7 +530,7 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
                   <button
                     type="button"
                     onClick={() => { setShowVersionPrompt(false); setVersionLabel(""); }}
-                    className="text-[11px] text-[#888] hover:text-white px-2 py-1.5"
+                    className="text-[11px] text-[var(--muted-3)] hover:text-[var(--text-primary)] px-2 py-1.5"
                   >
                     {t("admin.cancel")}
                   </button>
@@ -567,7 +567,7 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
               <div className="rounded-xl border border-blue-500/30 bg-blue-500/10 p-3">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-[10px] text-blue-100 uppercase tracking-widest font-semibold">{t("trackForm.compareTitle")}</span>
-                  <button type="button" onClick={closeComparison} className="text-blue-300 hover:text-white text-[14px]">✕</button>
+                  <button type="button" onClick={closeComparison} className="text-blue-300 hover:text-[var(--text-primary)] text-[14px]">✕</button>
                 </div>
                 <div className="grid grid-cols-2 gap-4 text-[11px]">
                   {(() => {
@@ -578,7 +578,7 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
                       const oldVal = comparisonSnapshot[key];
                       const changed = JSON.stringify(currentVal) !== JSON.stringify(oldVal);
                       return (
-                        <div key={key} className={`flex flex-col gap-1 ${changed ? "text-amber-300" : "text-[#666]"}`}>
+                        <div key={key} className={`flex flex-col gap-1 ${changed ? "text-amber-300" : "text-[var(--muted-4)]"}`}>
                           <span className="uppercase tracking-widest font-semibold text-[9px]">{key}</span>
                           <div className="flex gap-2">
                             <span className="text-green-400">{t("trackForm.currentLabel")}{JSON.stringify(currentVal)}</span>
@@ -596,7 +596,7 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
       </div>
 
       {/* Footer with actions */}
-      <div className="flex items-center justify-between gap-3 border-t border-white/[0.06] px-5 py-4">
+      <div className="flex items-center justify-between gap-3 border-t border-[var(--border-2)] px-5 py-4">
         <div className="flex items-center gap-3">
           {autosaveStatus === "saving" && <span className="text-[10px] text-[#4F8EF7]">{t("trackForm.autosaving")}</span>}
           {autosaveStatus === "saved" && <span className="text-[10px] text-emerald-400">{t("trackForm.autosaved")}</span>}
@@ -610,7 +610,7 @@ export default function TrackForm({ mode = "create", track = null, proposal = fa
                 setDirty(false);
                 router.push(redirectBase);
               }}
-              className="text-[11px] text-[#888] hover:text-white px-3 py-2"
+              className="text-[11px] text-[var(--muted-3)] hover:text-[var(--text-primary)] px-3 py-2"
             >
               {t("admin.cancel")}
             </button>

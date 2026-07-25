@@ -83,16 +83,16 @@ export default function MicroProjectBuilder({ value, onChange }: MicroProjectBui
   }
 
   return (
-    <div className="space-y-3 rounded-xl border border-white/[0.08] bg-white/[0.02] p-4">
-      <div className="text-[10px] text-[#8d8d8d] uppercase tracking-widest font-semibold mb-2">{t("adminMicroProject.title")}</div>
+    <div className="space-y-3 rounded-xl border border-[var(--border-3)] bg-[var(--overlay-2)] p-4">
+      <div className="text-[10px] text-[var(--muted-3)] uppercase tracking-widest font-semibold mb-2">{t("adminMicroProject.title")}</div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <div>
-          <label className="text-[10px] text-[#6d6d6d] block mb-1">{t("adminMicroProject.labelTitle")}</label>
+          <label className="text-[10px] text-[var(--muted-4)] block mb-1">{t("adminMicroProject.labelTitle")}</label>
           <input className={INPUT} value={data.title} onChange={(e) => update({ title: e.target.value })} placeholder={t("adminMicroProject.placeholderTitle")} />
         </div>
         <div>
-          <label className="text-[10px] text-[#6d6d6d] block mb-1">{t("adminMicroProject.validationMode")}</label>
+          <label className="text-[10px] text-[var(--muted-4)] block mb-1">{t("adminMicroProject.validationMode")}</label>
           <select className={INPUT} value={data.validation} onChange={(e) => update({ validation: e.target.value as MicroProjectData["validation"] })}>
             <option value="auto">{t("adminMicroProject.optionAuto")}</option>
             <option value="ai">{t("adminMicroProject.optionAI")}</option>
@@ -103,12 +103,12 @@ export default function MicroProjectBuilder({ value, onChange }: MicroProjectBui
       </div>
 
       <div>
-        <label className="text-[10px] text-[#6d6d6d] block mb-1">{t("adminMicroProject.description")}</label>
+        <label className="text-[10px] text-[var(--muted-4)] block mb-1">{t("adminMicroProject.description")}</label>
         <textarea className={AREA} value={data.brief} onChange={(e) => update({ brief: e.target.value })} placeholder={t("adminMicroProject.placeholderBrief")} />
       </div>
 
       <div>
-        <label className="text-[10px] text-[#6d6d6d] block mb-1">{t("adminMicroProject.steps")}</label>
+        <label className="text-[10px] text-[var(--muted-4)] block mb-1">{t("adminMicroProject.steps")}</label>
         <div className="space-y-1.5">
           {data.steps.map((step, index) => (
             <div key={index} className="flex items-center gap-2">
@@ -140,11 +140,11 @@ export default function MicroProjectBuilder({ value, onChange }: MicroProjectBui
       </div>
 
       <div>
-        <label className="text-[10px] text-[#6d6d6d] block mb-1">{t("adminMicroProject.deliverable")}</label>
+        <label className="text-[10px] text-[var(--muted-4)] block mb-1">{t("adminMicroProject.deliverable")}</label>
         <textarea className={AREA} value={data.deliverable} onChange={(e) => update({ deliverable: e.target.value })} placeholder={t("adminMicroProject.placeholderDeliverable")} />
       </div>
 
-      <label className="text-[11px] text-[#9b9b9b] flex items-center gap-1.5">
+      <label className="text-[11px] text-[var(--muted-2)] flex items-center gap-1.5">
         <input type="checkbox" checked={data.requiresLink} onChange={(e) => update({ requiresLink: e.target.checked })} />
         {t("adminMicroProject.requiresLink")}
       </label>

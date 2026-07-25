@@ -15,25 +15,25 @@ export default function Pagination({ currentPage, hasNextPage, baseUrl }: Pagina
       {currentPage > 1 ? (
         <Link
           href={prevHref}
-          className="rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-2 text-[13px] font-medium text-[#888] hover:text-white hover:bg-white/[0.06] transition-all"
+          className="rounded-xl border border-[var(--border-3)] bg-[var(--overlay-3)] px-4 py-2 text-[13px] font-medium text-[var(--muted-3)] hover:text-[var(--text-primary)] hover:bg-[var(--overlay-6)] transition-all"
         >
           ← Page precedente
         </Link>
       ) : (
-        <span className="rounded-xl border border-white/[0.04] bg-white/[0.01] px-4 py-2 text-[13px] font-medium text-[#444] cursor-not-allowed">
+        <span className="rounded-xl border border-[var(--border-1)] bg-[var(--overlay-1)] px-4 py-2 text-[13px] font-medium text-[var(--muted-6)] cursor-not-allowed">
           ← Page precedente
         </span>
       )}
-      <span className="text-[12px] text-[#555]">Page {currentPage}</span>
+      <span className="text-[12px] text-[var(--muted-5)]">Page {currentPage}</span>
       {hasNextPage ? (
         <Link
           href={nextHref}
-          className="rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-2 text-[13px] font-medium text-[#888] hover:text-white hover:bg-white/[0.06] transition-all"
+          className="rounded-xl border border-[var(--border-3)] bg-[var(--overlay-3)] px-4 py-2 text-[13px] font-medium text-[var(--muted-3)] hover:text-[var(--text-primary)] hover:bg-[var(--overlay-6)] transition-all"
         >
           Page suivante →
         </Link>
       ) : (
-        <span className="rounded-xl border border-white/[0.04] bg-white/[0.01] px-4 py-2 text-[13px] font-medium text-[#444] cursor-not-allowed">
+        <span className="rounded-xl border border-[var(--border-1)] bg-[var(--overlay-1)] px-4 py-2 text-[13px] font-medium text-[var(--muted-6)] cursor-not-allowed">
           Page suivante →
         </span>
       )}

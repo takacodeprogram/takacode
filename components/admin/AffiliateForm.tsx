@@ -35,7 +35,7 @@ function cleanUrl(value: string): string {
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block">
-      <span className="text-[10px] text-[#8d8d8d] uppercase tracking-widest font-semibold">{label}</span>
+      <span className="text-[10px] text-[var(--muted-3)] uppercase tracking-widest font-semibold">{label}</span>
       <div className="mt-1">{children}</div>
     </label>
   );
@@ -125,7 +125,7 @@ export default function AffiliateForm({ link = null }: AffiliateFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-2xl border border-white/[0.08] bg-[#111] p-5 space-y-4">
+    <form onSubmit={handleSubmit} className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-5 space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <Field label={t("affiliateForm.fieldProvider")}><input className={INPUT} value={String(form.provider)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("provider", e.target.value)} placeholder={t("affiliateForm.placeholderProvider")} /></Field>
         <Field label={t("affiliateForm.fieldCategory")}>
@@ -149,11 +149,11 @@ export default function AffiliateForm({ link = null }: AffiliateFormProps) {
         <Field label={t("affiliateForm.fieldTrackSlug")}>
           <input className={INPUT} value={String(form.track_slug)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("track_slug", e.target.value)} placeholder={t("affiliateForm.placeholderTrackSlug")} />
         </Field>
-        <label className="text-[11px] text-[#9b9b9b] flex items-center gap-1.5" style={{ maxWidth: 140, alignSelf: "end", paddingBottom: "4px" }}>
+        <label className="text-[11px] text-[var(--muted-2)] flex items-center gap-1.5" style={{ maxWidth: 140, alignSelf: "end", paddingBottom: "4px" }}>
           {t("affiliateForm.fieldOrder")}
           <input type="number" min="1" className="auth-input text-[12px] w-[80px]" value={String(form.sort_order)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("sort_order", e.target.value)} />
         </label>
-        <label className="text-[11px] text-[#9b9b9b] flex items-center gap-1.5" style={{ alignSelf: "end", paddingBottom: "4px" }}>
+        <label className="text-[11px] text-[var(--muted-2)] flex items-center gap-1.5" style={{ alignSelf: "end", paddingBottom: "4px" }}>
           <input type="checkbox" checked={form.is_published === true} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setField("is_published", e.target.checked)} /> {t("affiliateForm.published")}
         </label>
       </div>
