@@ -244,14 +244,14 @@ const FR: Translations = {
       statTracks: "Parcours projets",
       roadmapLabel: "ROADMAP PROJET",
       roadmapStatus: "Progression active",
-      roadmapIdea: "IDÉE",
+      roadmapIdea: "IDEE",
       roadmapDone: "Complète",
       roadmapTrack: "Parcours",
       roadmapInProgress: "En cours",
       roadmapMonetization: "Monétisation",
       roadmapUpcoming: "À venir",
       liveStatus: "En cours",
-      floatingPublished: "PROJET PUBLIÉ",
+      floatingPublished: "PROJET PUBLIE",
       floatingWebApp: "Application web",
       floatingSessionLive: "SESSION LIVE",
       floatingSessionInfo: "Dans 2h - 34 inscrits"
@@ -324,15 +324,15 @@ const FR: Translations = {
   },
   process: {
     sectionLabel: "PROCESSUS",
-    title: "COMMENT ÇA MARCHE",
+    title: "COMMENT CA MARCHE",
     subtitle: "De ton idée à ton projet rentable, un chemin clair et guidé.",
     steps: {
       idea: {
-        title: "TON IDÉE",
+        title: "TON IDEE",
         desc: "Tu as une idée de projet ou un problème à résoudre. On t'aide à la structurer."
       },
       track: {
-        title: "LE PARCOURS LIÉ",
+        title: "LE PARCOURS LIE",
         desc: "Choisis le parcours qui correspond à ton archétype de projet (site, SaaS, e-commerce...)."
       },
       resources: {
@@ -348,7 +348,7 @@ const FR: Translations = {
         desc: "Déploie ton projet en ligne : GitHub, Vercel, domaine personnalisé."
       },
       monetize: {
-        title: "MONÉTISATION",
+        title: "MONETISATION",
         desc: "Génère des revenus : abonnements, produits digitaux, publicité, affiliation."
       }
     },
@@ -379,7 +379,7 @@ const FR: Translations = {
     }
   },
   skills: {
-    sectionLabel: "POSSIBILITÉS",
+    sectionLabel: "POSSIBILITES",
     title: "CE QUE TU PEUX CREER",
     tagsRow1: [
       "Sites web",
@@ -409,7 +409,7 @@ const FR: Translations = {
   faq: {
     sectionLabel: "FAQ",
     title1: "QUESTIONS",
-    title2: "FRÉQUENTES",
+    title2: "FREQUENTES",
     subtitle: "Une question sur la création de projet, la publication ou la monétisation ? La réponse est sûrement ici.",
     questions: {
       q1: "Dois-je savoir coder pour commencer ?",
@@ -897,7 +897,7 @@ const FR: Translations = {
     ul2_3: "Date du dernier parrainage"
   },
   profile: {
-    edit: "ÉDITER MON PROFIL",
+    edit: "EDITER MON PROFIL",
     avatar: "Avatar",
     moreSuggestions: "Autres propositions",
     removeAvatar: "Retirer l'avatar",
@@ -1410,7 +1410,7 @@ const FR: Translations = {
     empty: "Le catalogue parcours sera visible ici dès que les données BDD sont actives."
   },
   ressources: {
-    sectionLabel: "BIBLIOTHÈQUE",
+    sectionLabel: "BIBLIOTHEQUE",
     title: "RESSOURCES POUR AVANCER",
     description: "Guides, tutoriels, templates, prompts, outils recommandés et bien plus. Tout ce dont tu as besoin pour construire ton projet.",
     tags: "Guides, Tutoriels, Vidéos, Templates, Prompts IA, Outils, Cheat Sheets, Bibliothèque IA",
@@ -1422,12 +1422,12 @@ const FR: Translations = {
         count: "124 guides disponibles"
       },
       videos: {
-        title: "VIDÉOS",
+        title: "VIDEOS",
         desc: "Démonstrations et tutoriels pratiques en vidéo.",
         count: "89 vidéos"
       },
       templates: {
-        title: "MODÈLES ET TEMPLATES",
+        title: "MODELES ET TEMPLATES",
         desc: "Templates de prompts, documents et modèles réutilisables.",
         count: "67 templates"
       },
@@ -1785,7 +1785,7 @@ const FR: Translations = {
     sectionDesc: "Change les points directement. Les changements de rôle demandent une confirmation et sont journalisés.",
     userCount: "{n} utilisateur(s)",
     apply: "Appliquer",
-    confirmTitle: "CONFIRMER LE CHANGEMENT DE RÔLE",
+    confirmTitle: "CONFIRMER LE CHANGEMENT DE ROLE",
     cancel: "Annuler",
     confirm: "Confirmer",
     applying: "Application...",
@@ -1829,13 +1829,13 @@ const FR: Translations = {
   adminLessonEdit: {
     metaTitle: "Admin - Editer leçon",
     metaDesc: "Éditer une leçon.",
-    title: "EDITER LA LEÇON",
+    title: "EDITER LA LECON",
     backToTrack: "Retour au parcours"
   },
   adminLessonNew: {
     metaTitle: "Admin - Nouvelle leçon",
     metaDesc: "Créer une leçon.",
-    title: "NOUVELLE LEÇON",
+    title: "NOUVELLE LECON",
     backToTrack: "Retour au parcours",
     createModuleFirst: "Crée d'abord un module dans ce parcours avant d'ajouter une leçon."
   },
@@ -2054,7 +2054,7 @@ const FR: Translations = {
     versionLabelText: "Version: "
   },
   trackEl: {
-    sectionTitle: "MODULES ET LEÇONS",
+    sectionTitle: "MODULES ET LECONS",
     moduleCount: "{n} module(s)",
     publishedTooltip: "Publié - cliquer pour brouillon",
     draftTooltip: "Brouillon - cliquer pour publier",
