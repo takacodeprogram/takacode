@@ -5,12 +5,14 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import type { StaticImageData } from "next/image";
 import logoLight4 from "../assets/logos-light-png/logo-light-4.png";
+import logoDark4 from "../assets/logos-dark-png/logo-dark-4.png";
 import NavUserMenu from "./NavUserMenu";
 import NotificationBell from "./NotificationBell";
 import SignOutButton from "./SignOutButton";
 import ThemeToggle from "./ThemeToggle";
 import { createClient } from "../utils/supabase/client";
 import { useI18n } from "./I18nProvider";
+import { useTheme } from "./ThemeProvider";
 import type { Locale } from "../lib/i18n";
 import { DEFAULT_LOCALE } from "../lib/i18n";
 import { localePath, switchLocalePath } from "../utils/localePath";
@@ -203,7 +205,9 @@ export default function Navbar() {
   const isAuthenticated = authState === "authenticated";
 
   const { t, locale } = useI18n();
+  const { theme } = useTheme();
   const navLinks = buildNavLinks(locale, t);
+  const logoSrc = theme === "light" ? logoDark4.src : logoLight4.src;
 
   const authHref = localePath("/signin", locale);
   const authLabel = t("navbar.connexion");
@@ -221,7 +225,7 @@ export default function Navbar() {
     >
       <div className="max-w-[1320px] mx-auto px-8 nav-shell flex items-center justify-between">
         <Link href="/" id="nav-logo-link" className="flex items-center gap-2 flex-shrink-0" onClick={closeMobileMenu}>
-           <img src={logoLight4.src} alt="TakaCode" width="130" height="130" className="nav-logo-image" />
+           <img src={logoSrc} alt="TakaCode" width="130" height="130" className="nav-logo-image" />
         </Link>
 
         <div className="nav-desktop-links flex items-center gap-7">

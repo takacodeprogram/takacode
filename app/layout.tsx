@@ -2,6 +2,7 @@ import "./globals.css";
 import Script from "next/script";
 import { cookies } from "next/headers";
 import logoLight2 from "../assets/logos-light-png/logo-light-2.png";
+import logoDark2 from "../assets/logos-dark-png/logo-dark-2.png";
 import CookieNotice from "../components/CookieNotice";
 import LiveRefreshWrapper from "../components/LiveRefreshWrapper";
 import { I18nProvider } from "../components/I18nProvider";
@@ -78,7 +79,10 @@ export async function generateMetadata() {
       description: SEO_DEFAULTS.defaultDescription
     },
     icons: {
-      icon: logoLight2.src,
+      icon: [
+        { url: logoLight2.src, media: "(prefers-color-scheme: dark)" },
+        { url: logoDark2.src, media: "(prefers-color-scheme: light)" }
+      ],
       shortcut: logoLight2.src,
       apple: logoLight2.src
     }
