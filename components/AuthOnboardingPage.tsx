@@ -174,29 +174,6 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
     }
   }
 
-  async function handleWalletLogin() {
-    setLoading(true);
-
-    try {
-      const { error } = await supabase.auth.signInWithWeb3({
-        chain: "ethereum",
-        statement: t("auth.walletStatement")
-      });
-
-      if (error) {
-        toast(toAuthErrorMessage(error, t("auth.walletError")), "error");
-        setLoading(false);
-        return;
-      }
-
-      router.push(nextPath);
-      router.refresh();
-    } catch {
-      toast(t("auth.networkError"), "error");
-      setLoading(false);
-    }
-  }
-
   async function handleSignIn(event: React.FormEvent) {
     event.preventDefault();
 
@@ -421,17 +398,7 @@ export default function AuthOnboardingPage({ initialMode = "signin" }: AuthOnboa
                 </button>
               </div>
 
-              <button
-                type="button"
-                className="btn-secondary w-full flex items-center justify-center gap-2 py-3 mb-8"
-                disabled={loading}
-                onClick={handleWalletLogin}
-              >
-                <iconify-icon icon="lucide:wallet" className="text-lg" />
-                <span className="text-[12px]">{t("auth.continueWithWallet")}</span>
-              </button>
-
-              <div className="flex items-center gap-4 mb-8">
+              <div className="flex items-center gap-4 mt-4 mb-8">
                 <div className="h-px flex-1 bg-[var(--overlay-5)]" />
                 <span className="text-[11px] text-[var(--muted-6)] uppercase font-bold">{t("auth.orDivider")}</span>
                 <div className="h-px flex-1 bg-[var(--overlay-5)]" />

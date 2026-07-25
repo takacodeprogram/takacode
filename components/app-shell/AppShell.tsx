@@ -10,8 +10,10 @@ import { useLiveRefresh } from "../../hooks/useLiveRefresh";
 import type { ReactNode } from "react";
 import logoLight4 from "../../assets/logos-light-png/logo-light-4.png";
 import GuidedTour from "./GuidedTour";
+import LangSwitch from "../LangSwitch";
 import NotificationBell from "../NotificationBell";
 import ReleaseBanner from "../ReleaseBanner";
+import ThemeToggle from "../ThemeToggle";
 import { ADMIN_AREA_LINKS, ADMIN_ENTRY_LINK, MEMBER_NAV, MENTOR_LINK, isAdminAreaPath, isSidebarLinkActive, isNavGroup } from "./appNav";
 import type { NavItem, NavLink } from "./appNav";
 import SignOutButton from "../SignOutButton";
@@ -237,7 +239,9 @@ export default function AppShell({ user, children }: AppShellProps) {
             <iconify-icon icon="lucide:menu" style={{ fontSize: "18px" }} />
           </button>
 
-          <div className="ml-auto flex items-center gap-1">
+          <div className="ml-auto flex items-center gap-2">
+            <ThemeToggle />
+            <LangSwitch />
             <NotificationBell />
 
             <div className="relative" ref={menuRef}>

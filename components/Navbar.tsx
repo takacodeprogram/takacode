@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import type { StaticImageData } from "next/image";
 import logoLight4 from "../assets/logos-light-png/logo-light-4.png";
 import logoDark4 from "../assets/logos-dark-png/logo-dark-4.png";
+import LangSwitch from "./LangSwitch";
 import NavUserMenu from "./NavUserMenu";
 import NotificationBell from "./NotificationBell";
 import SignOutButton from "./SignOutButton";
@@ -15,7 +16,7 @@ import { useI18n } from "./I18nProvider";
 import { useTheme } from "./ThemeProvider";
 import type { Locale } from "../lib/i18n";
 import { DEFAULT_LOCALE } from "../lib/i18n";
-import { localePath, switchLocalePath } from "../utils/localePath";
+import { localePath } from "../utils/localePath";
 
 interface NavLink {
   href: string;
@@ -57,33 +58,6 @@ function isLinkActive(pathname: string, link: NavLink): boolean {
     }
     return pathname === prefix || pathname.startsWith(`${prefix}/`) || pathname === `/en${prefix}` || pathname.startsWith(`/en${prefix}/`);
   });
-}
-
-function LangSwitch() {
-  const { t, locale, setLocale } = useI18n();
-  const pathname = usePathname();
-  const router = useRouter();
-
-  const toggle = () => {
-    const next: Locale = locale === "fr" ? "en" : "fr";
-    const nextPath = switchLocalePath(pathname, locale, next);
-    setLocale(next);
-    // Navigation client-side - le middleware intercepte et réécrit
-    router.push(nextPath);
-  };
-
-  return (
-    <button
-      type="button"
-      onClick={toggle}
-      className="inline-flex items-center justify-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-lg border border-[var(--border-4)] bg-[var(--overlay-3)] text-[var(--muted-2)] hover:text-[var(--text-primary)] hover:border-[var(--border-5)] transition-all min-w-[44px]"
-      aria-label={locale === "fr" ? t("navbar.switchToEnglish") : t("navbar.switchToFrench")}
-    >
-      <span className={`${locale === "fr" ? "text-[var(--text-primary)]" : "text-[var(--muted-4)]"}`}>FR</span>
-      <span className="text-[var(--muted-6)]">/</span>
-      <span className={`${locale === "en" ? "text-[var(--text-primary)]" : "text-[var(--muted-4)]"}`}>EN</span>
-    </button>
-  );
 }
 
 export default function Navbar() {
