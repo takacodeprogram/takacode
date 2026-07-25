@@ -36,7 +36,7 @@ export default async function Home() {
   const supabase = await createClient(cookieStore);
   const locale = await getServerLocale();
   const [{ tracks }, stats] = await Promise.all([
-    listPublishedTracks(supabase, { limit: 7, locale }),
+    listPublishedTracks(supabase, { limit: 3, locale }),
     getPlatformStats(supabase)
   ]);
 

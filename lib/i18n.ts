@@ -378,7 +378,7 @@ const FR: Translations = {
   },
   skills: {
     sectionLabel: "POSSIBILITÉS",
-    title: "CE QUE TU PEUX CRÉER",
+    title: "CE QUE TU PEUX CREER",
     tagsRow1: [
       "Sites web",
       "Applications web",

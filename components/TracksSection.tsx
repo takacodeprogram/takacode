@@ -15,7 +15,6 @@ export default async function ParcoursSection({ tracks = [] }: Props) {
   const locale: Locale = await getServerLocale();
   const { t } = getLocale(locale);
   const featuredTracks = tracks.slice(0, 3);
-  const secondaryTracks = tracks.slice(3, 7);
 
   return (
     <section className="py-28" id="parcours">
@@ -34,9 +33,8 @@ export default async function ParcoursSection({ tracks = [] }: Props) {
         </div>
 
         {featuredTracks.length ? (
-          <>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-6">
-              {featuredTracks.map((track) => (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+            {featuredTracks.map((track) => (
                 <article key={track.id} className="bg-[#111] border border-white/[0.07] rounded-2xl p-6 card-hover project-card">
                   <div className="flex items-start justify-between mb-5">
                     <div
@@ -59,37 +57,9 @@ export default async function ParcoursSection({ tracks = [] }: Props) {
                   <Link href={localePath("/tracks", locale)} className="w-full btn-secondary flex items-center justify-center gap-2 text-[12px]" style={{ padding: "10px 20px" }}>
                     {t("parcoursSection.discover")} <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "13px" }} />
                   </Link>
-                </article>
-              ))}
-            </div>
-
-            {secondaryTracks.length ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
-                {secondaryTracks.map((track) => (
-                  <article key={track.id} className="bg-[#111] border border-white/[0.07] rounded-2xl p-5 card-hover project-card">
-                    <div
-                      className="w-10 h-10 rounded-xl border flex items-center justify-center mb-4"
-                      style={{
-                        borderColor: `${track.accentColor}55`,
-                        background: `${track.accentColor}22`
-                      }}
-                    >
-                      <iconify-icon icon={track.icon} style={{ color: track.accentColor, fontSize: "18px" }} />
-                    </div>
-                    <div className="font-venite text-[12px] text-white mb-1.5">{track.title.toUpperCase()}</div>
-                    <p className="font-body-readable text-[11px] text-[#555] leading-relaxed mb-4">{track.summary}</p>
-                    <div className="font-body-readable flex items-center gap-3 mb-4 text-[10px] text-[#444]">
-                      <span className="flex items-center gap-1"><iconify-icon icon="lucide:clock" /> {track.durationWeeks} {t("parcoursSection.shortWeeks")}</span>
-                      <span className={getLevelChipClass(track.levelLabel) + " text-[10px] font-medium px-2 py-0.5 rounded-full"}>{track.levelLabel}</span>
-                    </div>
-                    <Link href={localePath("/tracks", locale)} className="text-[11px] text-[#4F8EF7] font-medium flex items-center gap-1 hover:gap-2 transition-all">
-                      {t("parcoursSection.discover")} <iconify-icon icon="lucide:arrow-right" style={{ fontSize: "12px" }} />
-                    </Link>
-                  </article>
-                ))}
-              </div>
-            ) : null}
-          </>
+              </article>
+            ))}
+          </div>
         ) : (
           <div className="rounded-2xl border border-white/[0.08] bg-[#111] p-6 text-[13px] text-[#888] font-body-readable">
             {t("parcoursSection.empty")}
