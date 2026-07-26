@@ -43,28 +43,27 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
       <div className="relative z-10 max-w-[1320px] mx-auto px-8 w-full py-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-20 items-center">
           <div>
-            <div className="animate-fade-up mb-3">
+            <div className="animate-fade-up mb-6">
               <div className="flex items-center gap-3 mb-2">
                 <span
-                  className="w-2 h-2 rounded-full bg-green-400 inline-block"
+                  className="w-2.5 h-2.5 rounded-full bg-green-400 inline-block"
                   style={{ animation: "pulse-glow 2s ease-in-out infinite" }}
                 />
-                <span className="font-valorax text-[22px] tracking-[0.06em] text-[var(--text-primary)]">TakaCode</span>
+                <span className="text-[12px] font-medium uppercase tracking-[0.14em] text-[#4F8EF7]">
+                  {t("home.hero.badge")}
+                </span>
               </div>
-              <div className="text-[12px] font-medium uppercase tracking-[0.14em] text-[#4F8EF7]">
-                {t("home.hero.badge")}
-              </div>
+              <h1 className="font-valorax text-[clamp(48px,6vw,80px)] leading-[0.95] tracking-[0.02em] text-[var(--text-primary)]">
+                TakaCode
+              </h1>
             </div>
 
-            <h1 className="font-valorax animate-fade-up-d1 mb-4 hero-title">
+            <h2 className="font-valorax animate-fade-up-d1 mb-5 text-[clamp(28px,3vw,44px)] leading-[1.05] tracking-[-0.01em]">
               {t("home.hero.title1")}
               <br />
               <span className="gradient-text-blue">{t("home.hero.title2")}</span>
-            </h1>
-
-            <h2 className="font-body-readable text-[16px] leading-snug text-[var(--muted-1)] mb-3 max-w-[520px] font-semibold">
-              {t("home.hero.purposeHeading", "TakaCode is a project-first learning platform.")}
             </h2>
+
             <p className="animate-fade-up-d2 font-body-readable text-[var(--muted-2)] text-[15px] leading-relaxed mb-9 max-w-[520px]">
               {t("home.hero.subtitle")}
             </p>
