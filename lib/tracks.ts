@@ -274,9 +274,26 @@ export async function listPublishedTracks(supabase: SupabaseClient, options: Lis
     return { tracks: [], error, schemaReady: true };
   }
 
-  const tracks = ((data as unknown as TrackRow[]) || [])
+  let tracks = ((data as unknown as TrackRow[]) || [])
     .map((row) => normalizeTrackRow(row))
     .filter(Boolean) as Track[];
+
+  // Fallback : si on filtre par locale et qu'il manque des parcours pour
+  // atteindre la limite (ou si aucun parcours dans la locale demandée), on
+  // complète avec les parcours des autres locales pour ne pas afficher un
+  // catalogue quasi-vide (les parcours ne sont pas des traductions mais
+  // masquer les autres langues frustre l'utilisateur).
+  const needsBackfill = locale && (limit ? tracks.length < limit : tracks.length === 0);
+  if (needsBackfill) {
+    const { data: fallbackData, error: fallbackError } = await buildQuery(false);
+    if (!fallbackError && Array.isArray(fallbackData)) {
+      const seen = new Set(tracks.map((t) => t.id));
+      const extras = (fallbackData as unknown as TrackRow[])
+        .map((row) => normalizeTrackRow(row))
+        .filter((t) => t && !seen.has(t.id)) as Track[];
+      tracks = limit ? tracks.concat(extras).slice(0, limit) : tracks.concat(extras);
+    }
+  }
 
   return { tracks, error: null, schemaReady: true };
 }
