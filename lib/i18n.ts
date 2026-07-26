@@ -234,7 +234,7 @@ const FR: Translations = {
   home: {
     hero: {
       badge: "Plateforme de création de projets",
-      purposeHeading: "À propos de TakaCode",
+      purposeHeading: "TakaCode est une plateforme d'apprentissage par projets pour créer, publier et monétiser tes idées avec l'IA.",
       title1: "CREE TON PROJET.",
       title2: "PUBLIE ET MONETISE.",
       subtitle: "TakaCode t'aide à transformer tes idées en projets digitaux concrets, les publier en ligne et générer des revenus. Parcours guidés, templates, IA et communauté pour accélérer chaque étape.",
@@ -2372,7 +2372,7 @@ const EN: Translations = {
   home: {
     hero: {
       badge: "Project creation platform",
-      purposeHeading: "About TakaCode",
+      purposeHeading: "TakaCode is a project-first learning platform to build, publish and monetize your ideas with AI.",
       title1: "BUILD YOUR PROJECT.",
       title2: "DEPLOY & MONETIZE.",
       subtitle: "TakaCode helps you turn your ideas into real digital projects, publish them online, and generate revenue. Guided tracks, templates, AI, and a community to accelerate every step.",
