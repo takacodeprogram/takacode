@@ -43,12 +43,14 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
       <div className="relative z-10 max-w-[1320px] mx-auto px-8 w-full py-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-20 items-center">
           <div>
-            <div className="animate-fade-up mb-7">
+            <div className="animate-fade-up mb-4">
               <span className="tag-badge font-venite-italic">
                 <span
                   className="w-1.5 h-1.5 rounded-full bg-green-400 inline-block"
                   style={{ animation: "pulse-glow 2s ease-in-out infinite" }}
                 />
+                <strong className="font-semibold text-[var(--text-primary)]">TakaCode</strong>
+                <span className="mx-1.5 text-[var(--muted-4)]">•</span>
                 {t("home.hero.badge")}
               </span>
             </div>
@@ -59,6 +61,7 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
               <span className="gradient-text-blue">{t("home.hero.title2")}</span>
             </h1>
 
+            <h2 className="sr-only">{t("home.hero.purposeHeading", "About TakaCode")}</h2>
             <p className="animate-fade-up-d2 font-body-readable text-[var(--muted-2)] text-[15px] leading-relaxed mb-9 max-w-[460px]">
               {t("home.hero.subtitle")}
             </p>

@@ -85,6 +85,12 @@ export async function generateMetadata() {
       ],
       shortcut: logoLight2.src,
       apple: logoLight2.src
+    },
+    verification: {
+      google: process.env.GOOGLE_SITE_VERIFICATION || undefined,
+      other: process.env.BING_SITE_VERIFICATION
+        ? { "msvalidate.01": process.env.BING_SITE_VERIFICATION }
+        : undefined
     }
   };
 }
