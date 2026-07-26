@@ -2,6 +2,194 @@
 
 Ce document est la source de verite produit et technique. Chaque livraison visible recoit un numero de version, une entree dans `lib/productReleases.ts` et une mise a jour de la page `/dashboard/nouveautes`.
 
+---
+
+## État des lieux — 26 juillet 2026
+
+> **Mise à jour majeure post-sprint Mistral + design + i18n.** Plusieurs
+> chantiers ont été livrés ou avancés en avance de phase par rapport au
+> planning initial. Cette section reflète la réalité prod ; les sections
+> version plus bas restent la trace décisionnelle.
+
+### 🟢 Livré et en prod
+
+**Fondations techniques (V1.0–V1.5)** : tests, validation Zod, rate limiting, CI/CD, i18n fr/en, multi-devise (fondations), Supabase RLS carrée.
+
+**Domaine + SEO + OAuth** :
+- `takacode.app` branché sur Vercel (nameservers via GoDaddy)
+- Google Search Console vérifié
+- Meta tags OG/hreflang/description propres
+- OAuth Google en cours de vérification (dernières 2 issues corrigées)
+
+**Design & thème (initialement V1.9)** :
+- **Dark / light mode complet** avec tokens CSS (--bg-app, --surface-*, --muted-*, --border-*, --overlay-*), toggle navbar + AppShell, favicon theme-aware, loader theme-aware
+- Contraste light retravaillé (palette slate, shadow-card), footer lisible
+- Titre hero refactorisé (H1 impact, wordmark TakaCode dans le badge)
+- Accents/cédilles retirés des titres polices display (VALORAX/VENITE)
+
+**Catalogue tracks** :
+- 5 parcours EN publiés : `ai-foundations-en`, `digital-products-en`, `full-vibe-coding-en`, `ai-automations-en`, `wordpress-elementor-en` — tous hand-crafted (200+ lignes chacun, ressources anglophones dédiées, non traduits)
+- Fallback locale strict (chaque langue vit son propre catalogue par design)
+- `counterpart_slug` posé fr↔en pour les 5 paires
+- 6 FR restants sans EN : dev-web, création-contenu, web3, bot-trading, media-buyer, bases-internet
+
+**IA — infrastructure multi-provider (majeure)** :
+- **5 providers supportés** : Mistral (default), OpenAI, Anthropic, OpenRouter, Gemini — chacun avec endpoint/headers/parsing dédiés
+- **Config user par membre** : chaque user apporte sa clé perso via `/dashboard/profile` → section « Ta configuration IA » (5 cards, provider default picker, clés masquées)
+- **Migration BDD** : `user_profiles.ai_provider` + 5 colonnes `ai_api_key_*` avec RLS self-only
+- Endpoint `/api/user/ai-config` GET/POST
+
+**IA — flows en prod utilisant la config user** :
+- ✅ Chat coach dashboard (`/api/dashboard/ai-chat` + `DashboardAssistant`)
+- ✅ Chat assistant leçon (`/api/lessons/[id]/ai-chat` + `LessonAssistant`)
+- ✅ Review projet auto (`/api/lessons/ai-review` — sécurisé via user.id auth)
+- ✅ Recommandations tracks (Mistral score les parcours selon le projet — badge « ✨ IA » visible sur la roadmap dashboard)
+- ✅ Suggestions IA admin sur les tracks (`/api/admin/tracks/[id]/ai-suggest` + `TrackAiSuggestions`)
+- Sélecteur provider dans le header des chats (Auto/Mistral/OpenAI/Anthropic/OpenRouter/Gemini)
+
+**Dashboard** :
+- LangSwitch + ThemeToggle dans AppShell (locale préservée en interne)
+- ProfileCompletionReminder (bandeau bleu si country/nom public/bio/avatar manquants)
+- Coach IA flottant en bas à droite, préview provider+model utilisé
+- Retrait login par wallet dans signin/signup
+
+### 🟡 En cours / partiel
+
+- **OAuth Google verification** — 2 fixes déployés (H1 + purpose), attend recheck Google
+- **Vérification finale i18n** : quelques strings body/subtitle encore en fr dur dans 3-4 sections landing (à re-checker)
+- **Multi-devise "premier revenu"** : `DeclareFirstRevenue` composant fait, migration BDD + RPC pas encore appliqués
+
+### 🔴 Bloquants / dette
+
+- Aucun bloquant technique actuellement
+- Les 6 tracks FR sans EN counterpart limitent le catalogue anglophone
+
+### 📊 KPI produit (à date)
+
+- 26 tracks total en BDD, dont 16 publiés (11 FR + 5 EN)
+- 8 membres inscrits, 1 projet soumis, 2 likes, 6 leçons complétées
+- 1 pays représenté sur le globe (BJ) — d'où le reminder profil
+
+---
+
+## Priorités réorganisées — Vue 8 semaines à partir du 27 juillet 2026
+
+Le planning initial (semaines 1-8) est **partiellement obsolète** : dark mode
+(V1.9) et infra IA (V1.8) ont été livrés en avance. Voici les priorités
+réordonnées selon la réalité produit.
+
+### Ordre d'exécution recommandé
+
+| # | Chantier | Version | Effort | Impact utilisateur | Statut |
+|:-:|:---------|:-------:|:------:|:-------------------|:------:|
+| 1 | **OAuth Google validé + landing i18n complète** | V1.4.5 | 3 jours | Google login + versions EN cohérentes | 🟡 |
+| 2 | **Multi-devise premier revenu (finaliser)** | V1.4.3 | 1 semaine | Vrai support FCFA/NGN/MAD | 🟡 |
+| 3 | **Communauté V1 (fil, likes, commentaires — déjà partiel)** | V1.6 | 1 semaine | Retention sociale | 🟠 |
+| 4 | **Streaks + Portfolio auto + Partage social** | V1.7 | 2 semaines | Habitude quotidienne + viralité | ⚪ |
+| 5 | **Agents IA — ProjectCoach (Mistral tool use)** | V1.8.5 | 2 semaines | Différenciateur concurrentiel | ⚪ |
+| 6 | **Agents IA — ReviewBot (GitHub OAuth)** | V1.8.6 | 2 semaines | Automatisation review | ⚪ |
+| 7 | **Agents IA — TrackAdvisor (cron nightly)** | V1.8.7 | 1 semaine | Roadmap qui s'auto-ajuste | ⚪ |
+| 8 | **PWA offline + banque questions enrichie** | V1.9 (reste) | 1 semaine | Mobile Afrique | ⚪ |
+| 9 | **Marketplace + Stripe Connect** | V2.0 | 3 semaines | Monetisation directe | ⚪ |
+
+### Ce qui SORT du planning V1.5-V1.9 initial (déjà fait)
+
+- ✅ Tests unitaires (V1.5) — livré
+- ✅ Dark/light mode (V1.9) — livré en avance
+- ✅ Chatbot contextuel leçons (V1.8) — livré en avance
+- ✅ Recommandations dynamiques (V1.8) — livré en avance
+- ✅ Suggestions admin tracks (bonus non planifié) — livré
+
+### Ce qui EST déplacé plus loin
+
+- Mode oral Web Speech API (V1.8) → **V1.8.8** (après agents)
+- Génération quiz auto par IA (V1.8) → intégré au **ReviewBot** V1.8.6
+- Export PDF + certificat (V1.9) → **V2.x** (comme prévu)
+- Accessibilité WCAG AA complète → **V2.x**
+
+---
+
+## V1.8.5 — Agent IA « ProjectCoach » (2 semaines) 🟣 NOUVEAU
+
+> **Pourquoi maintenant :** l'IA en mode complétion (chat) est en prod et
+> tourne. La prochaine étape n'est PAS d'ajouter plus de chats, c'est de
+> passer l'IA en **mode agent** : elle exécute des actions dans l'app plutôt
+> que d'envoyer des textes que l'utilisateur doit exécuter lui-même.
+>
+> Voir `docs/ai-agents-architecture.md` pour le design complet.
+
+### Priorité : HAUTE (démarrer après V1.6.2)
+
+**Provider par défaut : Mistral** (`mistral-small-latest` pour dev, `mistral-large-latest` pour tâches complexes). Le tool use Mistral est compatible OpenAI, économique, francophone. L'user override reste actif — un membre peut basculer sur Claude Haiku via sa clé perso.
+
+#### Sprint 1 — Foundation (semaine 1)
+
+- [ ] Migration BDD : `agent_actions` (audit) + RLS
+- [ ] `lib/agents/toolRegistry.ts` — registre typé
+- [ ] `lib/agents/mistralAgent.ts` — wrapper autour du tool use Mistral (compatible OpenAI format)
+- [ ] Endpoint `/api/agents/project-coach/run` (POC)
+- [ ] Table `agent_actions` visible dans `/admin/agent-log`
+
+#### Sprint 2 — 8 tools ProjectCoach (semaine 2)
+
+- [ ] `get_current_project(userId)` — read-only
+- [ ] `get_track_progress(trackId, userId)` — read-only
+- [ ] `get_last_review(projectId)` — read-only
+- [ ] `list_next_actions(projectId)` — read-only
+- [ ] `create_next_action(projectId, {title, description})` — write, confirmable
+- [ ] `update_project_status(projectId, status)` — write, confirmable
+- [ ] `suggest_track_enrollment(trackSlug, reason)` — propose (user confirme)
+- [ ] `send_reminder(delayMinutes, text)` — write, différé
+
+#### UX
+
+- [ ] Bouton "Coach IA (agentique)" dans le dashboard remplace le chat quand la config user a une clé
+- [ ] Chaque action proposée affichée comme un **diff** dans le chat, avec Accepter / Rejeter
+- [ ] Rate limit 20 actions/jour/user
+
+---
+
+## V1.8.6 — Agent IA « ReviewBot » (2 semaines) 🟣 NOUVEAU
+
+> **Pourquoi :** l'`aiReview` actuel note en un round et retourne un verdict
+> texte. Le ReviewBot lit vraiment le repo (via user GitHub OAuth), teste
+> le live URL, note en plusieurs dimensions, et propose des enrichissements
+> concrets au catalogue.
+
+### Priorité : HAUTE (après ProjectCoach)
+
+#### Sprint 1 — GitHub OAuth + tools repo (semaine 1)
+
+- [ ] GitHub OAuth app enregistrée (callback URL sur takacode.app)
+- [ ] Tables `user_github_tokens` + RLS
+- [ ] Tools : `fetch_repo_files(repoUrl, paths[])`, `list_repo_structure(repoUrl)`
+- [ ] Tool `analyze_live_url(url)` — fetch + parsing perf/SEO basique
+
+#### Sprint 2 — Review multi-dimensions + amélioration catalogue (semaine 2)
+
+- [ ] Tool `verdict_and_feedback(submissionId, verdict, feedback, dimensions)`
+- [ ] Tool `flag_lesson_for_improvement(lessonId, reason)` + queue admin
+- [ ] Tool `propose_new_lesson(moduleSlug, title, brief)` — proposition → validation admin
+- [ ] Dashboard admin : `/admin/ai-suggestions-queue` pour trier flags/propositions
+- [ ] Génération auto de quiz (V1.8 initial) intégrée ici via `generate_quiz_from_lesson(lessonId)`
+
+---
+
+## V1.8.7 — Agent IA « TrackAdvisor » (1 semaine) 🟣 NOUVEAU
+
+> **Pourquoi :** la roadmap actuelle "Accélérateurs" est suggestive. Le
+> TrackAdvisor l'exécute — inscription auto (avec accord user), notif quand
+> compétence manquante détectée.
+
+### Priorité : MOYENNE (après ReviewBot)
+
+- [ ] Tools tracks : `list_available_tracks`, `analyze_project_needs`, `enroll_user`, `set_track_priority`, `flag_track_gap`
+- [ ] Cron nightly Supabase Edge Function : scanne les users actifs, détecte les gaps, envoie une notif intelligente
+- [ ] UI : notification "3 parcours recommandés pour ton projet" avec bouton "M'inscrire à tout" en un clic
+- [ ] Auto-unenroll des tracks devenus non pertinents (avec log agent_actions)
+
+---
+
 ## Mission
 
 **Aider chaque membre a creer un projet digital et a le monetiser.**
@@ -285,62 +473,75 @@ Objectif : chaque membre a une raison quotidienne de revenir, et chaque projet t
 
 ---
 
-## V1.8 — Assistant IA & Apprentissage adaptatif (2-3 semaines) 🟣
+## V1.8 — Assistant IA & Apprentissage adaptatif (majoritairement livré) 🟣
 
-> **Pourquoi maintenant :** c'est LA difference concurrentielle. Aucune plateforme d'apprentissage
-> n'offre un tuteur IA contextuel dans chaque lecon + un parcours qui s'adapte au membre.
+> **Statut : ~70 % livré en avance.** L'infra multi-provider (Mistral, OpenAI,
+> Anthropic, OpenRouter, Gemini) + assistants + reviews sont en prod. Le
+> reste (mode oral, quiz auto, code review GitHub) est reporté aux versions
+> V1.8.5-V1.8.7 (agents) ou intégré dans le ReviewBot.
 
-### Priorite : MOYENNE (apres communaute et retention)
-
-Objectif : chaque membre a un tuteur IA personnel qui adapte le contenu, repond aux questions et suggere la meilleure etape suivante.
+### Priorite : LIVRÉE (items restants → V1.8.5+ agents)
 
 #### Tuteur IA contextuel
 
-- [ ] **Chatbot contextuel** dans chaque lecon : le membre pose une question, l'IA repond avec le contexte de la lecon
-- [ ] **Bouton "Explique-moi autrement"** : reformule la lecon en fonction du niveau du membre
-- [ ] **Historique des questions** par lecon (visible pour le membre)
-- [ ] **Mode oral** : le membre parle, l'IA ecoute et repond (Web Speech API)
-- [ ] **Suggestions automatiques** : "Les membres qui ont lu cette lecon ont aussi demande..."
+- [x] **Chatbot contextuel** dans chaque lecon (`LessonAssistant` flottant + `/api/lessons/[id]/ai-chat`, provider config user)
+- [x] **Suggestions/prompts pré-remplis** ("Quelle est la prochaine étape ?" etc.) dans le chat coach dashboard
+- [ ] **Bouton "Explique-moi autrement"** : reformule la lecon en fonction du niveau du membre → **reporté V1.8.5**
+- [ ] **Historique des questions** persistant par leçon (actuellement local session) → **reporté V1.8.5**
+- [ ] **Mode oral** (Web Speech API) → **reporté V1.8.8**
 
 #### Parcours personnalise dynamique
 
-- [ ] **Analyse du profil** : l'IA analyse les resultats quiz, le temps passe, le type de projet
-- [ ] **Recommandation dynamique** : prochain module suggere en fonction des forces/faiblesses
-- [ ] **Contournement intelligent** : sauter les modules deja maitrises (test de niveau)
-- [ ] **Difficulte adaptative** : si le membre reussit tous les quiz, accelerer ; sinon, proposer des ressources supplementaires
-- [ ] **Alerte "zone de confusion"** : detecter les lecons ou le membre bloque et proposer de l'aide
+- [x] **Recommandation dynamique** : Mistral score les parcours selon le projet en cours (`trackRecommender.ts` + badge "✨ IA" sur la roadmap dashboard)
+- [ ] **Analyse du profil** : quiz results, temps passé, type de projet → **reporté V1.8.7 TrackAdvisor**
+- [ ] **Contournement intelligent** : sauter les modules maîtrisés (test de niveau) → **reporté V1.8.7**
+- [ ] **Difficulté adaptative** → **reporté V1.8.7**
+- [ ] **Alerte "zone de confusion"** → **reporté V1.8.7**
 
 #### Revue de code IA (GitHub)
 
-- [ ] **Connexion GitHub OAuth** optionnelle pour le depot du projet
-- [ ] **Revue automatique** du code du projet a chaque push
-- [ ] **Suggestions d'amelioration** : performance, securite, bonnes pratiques
-- [ ] **Badge "Code audite par IA"** sur les projets revus
+- [ ] **Connexion GitHub OAuth** → **reporté V1.8.6 ReviewBot**
+- [ ] **Revue automatique** du code repo à chaque push → **reporté V1.8.6**
+- [ ] **Suggestions d'amelioration** : performance, sécurité → **reporté V1.8.6**
+- [ ] **Badge "Code audite par IA"** → **reporté V1.8.6**
 
 #### Generation de quiz
 
-- [ ] **Generation automatique** de questions de quiz a partir du contenu d'une lecon
-- [ ] **Variation infinie** : chaque membre voit des questions differentes
-- [ ] **Analyse semantique** : detecter les concepts mal compris et generer des questions de rattrapage
+- [ ] **Generation automatique** de questions à partir du contenu d'une leçon → **reporté V1.8.6** (intégré au ReviewBot via `generate_quiz_from_lesson` tool)
+- [ ] **Variation infinie** → **reporté V1.8.6**
+- [ ] **Analyse sémantique** des concepts mal compris → **reporté V1.8.7 TrackAdvisor**
+
+#### Nouveau — Suggestions IA admin sur les tracks (bonus livré)
+
+- [x] Bouton "Lancer l'analyse" dans `/admin/tracks/[id]` → Mistral analyse titre + modules + leçons et retourne un JSON structuré (`summary_verdict`, `priority_actions` avec impact, `missing_lessons`, `structure`, `quiz_and_projects`, `resources`)
+- [x] Rendu propre avec chips d'impact rouge/orange/bleu
+
+#### Nouveau — Multi-provider avec clé user (bonus livré)
+
+- [x] 5 providers : Mistral, OpenAI, Anthropic, OpenRouter, Gemini
+- [x] Migration `user_profiles.ai_provider` + 5 colonnes `ai_api_key_*` (RLS self-only)
+- [x] `/api/user/ai-config` GET/POST, section dans `/dashboard/profile`
+- [x] Sélecteur provider dans le header des chats
+- [x] Utilisé par TOUS les flows IA (chat leçon, chat coach, review projet, recommandations, suggestions admin)
 
 ---
 
-## V1.9 — Contenu & Experience (2 semaines) 🔵
+## V1.9 — Contenu & Experience (~40% livré en avance) 🔵
 
-> **Pourquoi maintenant :** le polish transforme un bon produit en produit professionnel.
-> PWA et dark mode sont particulierement attendus sur le marche africain (data saver, batterie).
-> On en profite pour enrichir le contenu pedagogique (lecons bonus, banque de questions).
+> **Statut : dark/light mode LIVRÉ en avance.** PWA offline, banque de questions
+> et accessibilité restent à faire.
 
-### Priorite : MOYENNE
+### Priorite : MOYENNE (items restants)
 
 Objectif : le site est accessible, utilisable hors-ligne, s'adapte aux preferences, et le contenu est enrichi.
 
-#### Mode sombre / theme clair
+#### Mode sombre / theme clair (LIVRÉ) ✅
 
-- [ ] **Bascule clair/sombre** avec persistance dans les preferences
-- [ ] **Palette de couleurs** qui s'inverse proprement (gradients, cartes, sidebar)
-- [ ] **Navigation et formulaires** adaptes au mode clair
-- [ ] **Images et logos** avec variante claire
+- [x] **Bascule clair/sombre** avec persistance cookie 1 an + inline script anti-FOUC
+- [x] **Palette de couleurs** via tokens CSS (5 slate levels light, 5 gris dark), inversion propre
+- [x] **Navigation et formulaires** adaptés avec `--surface-*`, `--muted-*`, `--border-*`, `--overlay-*`
+- [x] **Images et logos** : logo-dark-* pour light, logo-light-* pour dark (navbar + favicon + loader)
+- [x] Contraste light renforcé (bg-app #EEF1F6, muted slate scale, --shadow-card)
 
 #### PWA offline
 
@@ -458,17 +659,20 @@ Une version est terminee lorsque :
 
 ## Annexes
 
-### Strategie de versionning
+### Strategie de versionning (mise à jour 26 juillet 2026)
 
-| Version | Objectif | Effort | Public cible |
-|:-------:|:---------|:------:|:-------------|
-| V1.5 | Securiser le code | 1-2 sem | Technique (interne) |
-| V1.6 | Retention sociale | 2 sem | Membres actifs |
-| V1.7 | Habitude quotidienne | 1-2 sem | Tous membres |
-| V1.8 | Apprentissage IA | 2-3 sem | Apprenants |
-| V1.9 | Polish & offline | 1-2 sem | Mobile (Afrique) |
-| V2.0 | Revenus | 2-3 sem | Createurs monetises |
-| V2.1 | Scale & B2B | 2-3 sem | Ecoles, mentors |
+| Version | Objectif | Effort | Public cible | Statut |
+|:-------:|:---------|:------:|:-------------|:------:|
+| V1.5 | Securiser le code | 1-2 sem | Technique (interne) | ✅ Livrée |
+| V1.6 | Retention sociale | 2 sem | Membres actifs | 🟡 Partiel |
+| V1.7 | Habitude quotidienne | 1-2 sem | Tous membres | ⚪ Todo |
+| V1.8 | Apprentissage IA (chat + reco) | 2-3 sem | Apprenants | ✅ ~70% livrée |
+| **V1.8.5** | **Agent ProjectCoach (Mistral tools)** | **2 sem** | **Apprenants avancés** | **⚪ Todo** |
+| **V1.8.6** | **Agent ReviewBot (GitHub audit)** | **2 sem** | **Créateurs code** | **⚪ Todo** |
+| **V1.8.7** | **Agent TrackAdvisor (cron nightly)** | **1 sem** | **Tous membres** | **⚪ Todo** |
+| V1.9 | Dark mode ✅ + PWA/offline | 1 sem restant | Mobile (Afrique) | 🟡 40% livrée |
+| V2.0 | Revenus (Marketplace + Stripe) | 3 sem | Createurs monetises | ⚪ Todo |
+| V2.1 | Scale & B2B | 2-3 sem | Ecoles, mentors | ⚪ Todo |
 
 ### Risques et mitigation
 
