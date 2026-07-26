@@ -5,6 +5,7 @@ import { createClient } from "../../../../utils/supabase/server";
 import { apiRateLimit, buildRateLimitKey } from "../../../../lib/rateLimit";
 import { listOwnProjects } from "../../../../lib/userProjects";
 import { listUserTrackEnrollments } from "../../../../lib/tracks";
+import { getUserAiConfig, resolveAskOverride } from "../../../../lib/userAiConfig";
 
 // POST /api/dashboard/ai-chat
 // Assistant IA du dashboard : sait qui tu es, ton projet, tes parcours en
@@ -17,6 +18,7 @@ const MAX_CONTENT_CHARS = 4000;
 
 interface ChatBody {
   messages?: ChatMessage[];
+  provider?: string;
 }
 
 function safeMessages(raw: unknown): ChatMessage[] {
@@ -103,8 +105,11 @@ export async function POST(request: NextRequest) {
 
   const system = contextLines.join("\n");
 
+  const userConfig = await getUserAiConfig(supabase, user.id);
+  const override = resolveAskOverride(userConfig, body.provider);
+
   try {
-    const result = await askAI({ system, messages, maxTokens: 700 });
+    const result = await askAI({ system, messages, maxTokens: 700, ...override });
     return NextResponse.json({ reply: result.text, provider: result.provider, model: result.model });
   } catch (e) {
     return NextResponse.json(

@@ -104,6 +104,10 @@ export interface AskOptions {
   messages: ChatMessage[];
   model?: string;
   maxTokens?: number;
+  // Override user : force ce provider en premier dans la chaîne, avec sa clé.
+  // Si la clé est vide, on utilise la clé serveur pour ce provider.
+  providerOverride?: ChatProviderId;
+  apiKeyOverride?: string;
 }
 
 export interface AskResult {
@@ -112,14 +116,32 @@ export interface AskResult {
   model: string;
 }
 
-export async function askAI({ system, messages, model, maxTokens }: AskOptions): Promise<AskResult> {
-  const chain = orderedChain();
+function chainForOverride(override?: ChatProviderId): ChatProviderId[] {
+  const base = orderedChain();
+  if (!override || !CHAT_PROVIDERS[override]) return base;
+  return [override, ...base.filter((p) => p !== override)];
+}
+
+export async function askAI({ system, messages, model, maxTokens, providerOverride, apiKeyOverride }: AskOptions): Promise<AskResult> {
+  const chain = chainForOverride(providerOverride);
+  // Si l'override fournit une clé et qu'il n'apparaît pas dans le chain (env
+  // vide côté serveur), on le pousse quand même en tête.
+  if (providerOverride && apiKeyOverride && !chain.includes(providerOverride) && CHAT_PROVIDERS[providerOverride]) {
+    chain.unshift(providerOverride);
+  }
   if (!chain.length) throw new Error("Aucun provider IA configuré. Ajoute AI_MISTRAL_API_KEY (ou autre) dans .env.local");
 
   const errors: string[] = [];
   for (const providerId of chain) {
     const config = CHAT_PROVIDERS[providerId];
-    const apiKey = readEnvKey(config.envKeys);
+    const apiKey =
+      providerId === providerOverride && apiKeyOverride
+        ? apiKeyOverride
+        : readEnvKey(config.envKeys);
+    if (!apiKey) {
+      errors.push(`${providerId}: no key`);
+      continue;
+    }
     const actualModel = model || config.defaultModel;
 
     const body = config.buildBody(actualModel, system, messages) as Record<string, unknown>;

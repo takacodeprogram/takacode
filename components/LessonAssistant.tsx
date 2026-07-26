@@ -13,6 +13,8 @@ interface Props {
   lessonTitle: string;
 }
 
+type ProviderChoice = "" | "mistral" | "openrouter" | "gemini";
+
 export default function LessonAssistant({ lessonId, lessonTitle }: Props) {
   const { t } = useI18n();
   const [open, setOpen] = useState<boolean>(false);
@@ -20,6 +22,7 @@ export default function LessonAssistant({ lessonId, lessonTitle }: Props) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
+  const [providerChoice, setProviderChoice] = useState<ProviderChoice>("");
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -40,7 +43,7 @@ export default function LessonAssistant({ lessonId, lessonTitle }: Props) {
       const res = await fetch(`/api/lessons/${lessonId}/ai-chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: next })
+        body: JSON.stringify({ messages: next, provider: providerChoice || undefined })
       });
       const json = await res.json();
       if (!res.ok) {
@@ -87,14 +90,27 @@ export default function LessonAssistant({ lessonId, lessonTitle }: Props) {
                 <div className="text-[10px] text-[var(--muted-3)] truncate max-w-[220px]">{lessonTitle}</div>
               </div>
             </div>
-            <button
-              type="button"
-              onClick={() => setOpen(false)}
-              className="text-[var(--muted-3)] hover:text-[var(--text-primary)] p-1"
-              aria-label={t("common.close", "Fermer")}
-            >
-              <iconify-icon icon="lucide:x" style={{ fontSize: "16px" }} />
-            </button>
+            <div className="flex items-center gap-1.5">
+              <select
+                value={providerChoice}
+                onChange={(e) => setProviderChoice(e.target.value as ProviderChoice)}
+                className="text-[10px] rounded-md border border-[var(--border-3)] bg-[var(--overlay-2)] px-1.5 py-1 text-[var(--muted-2)] focus:outline-none focus:border-[#4F8EF7]"
+                aria-label={t("lessonAssistant.providerPicker", "Provider")}
+              >
+                <option value="">Auto</option>
+                <option value="mistral">Mistral</option>
+                <option value="openrouter">OpenRouter</option>
+                <option value="gemini">Gemini</option>
+              </select>
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                className="text-[var(--muted-3)] hover:text-[var(--text-primary)] p-1"
+                aria-label={t("common.close", "Fermer")}
+              >
+                <iconify-icon icon="lucide:x" style={{ fontSize: "16px" }} />
+              </button>
+            </div>
           </div>
 
           <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-3 space-y-3 font-body-readable text-[13px] text-[var(--text-primary)]">

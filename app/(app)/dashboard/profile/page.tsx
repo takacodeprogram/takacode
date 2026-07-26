@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import AccountSecurity from "../../../../components/AccountSecurity";
+import AiConfigSection from "../../../../components/AiConfigSection";
 import PageHeader from "../../../../components/app-shell/PageHeader";
 import ProfileEditor from "../../../../components/ProfileEditor";
 import GradeProgress from "../../../../components/GradeProgress";
@@ -142,6 +143,8 @@ export default async function ProfilePage() {
             realName={displayName}
             seedBase={profileFields.publicName || displayName}
           />
+
+          <AiConfigSection />
         </div>
       </div>
     </>

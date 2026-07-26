@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { askAI, hasAnyChatProvider, type ChatMessage } from "../../../../../lib/aiChat";
 import { createClient } from "../../../../../utils/supabase/server";
 import { apiRateLimit, buildRateLimitKey } from "../../../../../lib/rateLimit";
+import { getUserAiConfig, resolveAskOverride } from "../../../../../lib/userAiConfig";
 
 // POST /api/lessons/[lessonId]/ai-chat
 // Body: { messages: [{ role: "user"|"assistant", content: string }] }
@@ -17,6 +18,7 @@ const MAX_CONTENT_CHARS = 4000;
 
 interface ChatBody {
   messages?: ChatMessage[];
+  provider?: string;
 }
 
 function safeMessages(raw: unknown): ChatMessage[] {
@@ -130,8 +132,11 @@ export async function POST(request: NextRequest, ctx: { params: Promise<{ lesson
 
   const system = buildLessonSystemPrompt(lesson as Parameters<typeof buildLessonSystemPrompt>[0]);
 
+  const userConfig = await getUserAiConfig(supabase, user.id);
+  const override = resolveAskOverride(userConfig, body.provider);
+
   try {
-    const result = await askAI({ system, messages, maxTokens: 800 });
+    const result = await askAI({ system, messages, maxTokens: 800, ...override });
     return NextResponse.json({ reply: result.text, provider: result.provider, model: result.model });
   } catch (e) {
     return NextResponse.json(

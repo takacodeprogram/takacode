@@ -24,6 +24,8 @@ const SUGGESTED_PROMPTS_EN = [
   "What should I spend more time on this week?"
 ];
 
+type ProviderChoice = "" | "mistral" | "openrouter" | "gemini";
+
 export default function DashboardAssistant({ projectTitle }: Props) {
   const { t, locale } = useI18n();
   const [open, setOpen] = useState(false);
@@ -32,6 +34,7 @@ export default function DashboardAssistant({ projectTitle }: Props) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [meta, setMeta] = useState<{ provider?: string; model?: string }>({});
+  const [providerChoice, setProviderChoice] = useState<ProviderChoice>("");
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const prompts = locale === "en" ? SUGGESTED_PROMPTS_EN : SUGGESTED_PROMPTS_FR;
@@ -52,7 +55,7 @@ export default function DashboardAssistant({ projectTitle }: Props) {
       const res = await fetch("/api/dashboard/ai-chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: next })
+        body: JSON.stringify({ messages: next, provider: providerChoice || undefined })
       });
       const json = await res.json();
       if (!res.ok) {
@@ -95,30 +98,44 @@ export default function DashboardAssistant({ projectTitle }: Props) {
         </button>
       ) : (
         <div className="fixed bottom-6 right-6 z-40 w-[min(400px,calc(100vw-3rem))] h-[min(600px,calc(100vh-6rem))] flex flex-col rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] shadow-[0_25px_60px_rgba(15,23,42,0.4)]">
-          <div className="flex items-center justify-between px-4 py-3 border-b border-[var(--border-2)]">
-            <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-[#4F8EF7] to-[#9B6DFF] flex items-center justify-center">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-[var(--border-2)] gap-2">
+            <div className="flex items-center gap-2 min-w-0">
+              <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-[#4F8EF7] to-[#9B6DFF] flex items-center justify-center shrink-0">
                 <iconify-icon icon="lucide:sparkles" style={{ color: "white", fontSize: "14px" }} />
               </div>
-              <div>
-                <div className="text-[12px] font-semibold text-[var(--text-primary)]">
+              <div className="min-w-0">
+                <div className="text-[12px] font-semibold text-[var(--text-primary)] truncate">
                   {t("dashboardAssistant.title", "Coach IA TakaCode")}
                 </div>
-                <div className="text-[10px] text-[var(--muted-3)]">
+                <div className="text-[10px] text-[var(--muted-3)] truncate">
                   {projectTitle
                     ? `${t("dashboardAssistant.about", "À propos de")} : ${projectTitle}`
                     : t("dashboardAssistant.generic", "Conseil personnalisé")}
                 </div>
               </div>
             </div>
-            <button
-              type="button"
-              onClick={() => setOpen(false)}
-              className="text-[var(--muted-3)] hover:text-[var(--text-primary)] p-1"
-              aria-label={t("common.close", "Fermer")}
-            >
-              <iconify-icon icon="lucide:x" style={{ fontSize: "16px" }} />
-            </button>
+            <div className="flex items-center gap-1.5 shrink-0">
+              <select
+                value={providerChoice}
+                onChange={(e) => setProviderChoice(e.target.value as ProviderChoice)}
+                className="text-[10px] rounded-md border border-[var(--border-3)] bg-[var(--overlay-2)] px-1.5 py-1 text-[var(--muted-2)] focus:outline-none focus:border-[#4F8EF7]"
+                title={t("dashboardAssistant.providerPicker", "Choisir le provider IA")}
+                aria-label={t("dashboardAssistant.providerPicker", "Choisir le provider IA")}
+              >
+                <option value="">Auto</option>
+                <option value="mistral">Mistral</option>
+                <option value="openrouter">OpenRouter</option>
+                <option value="gemini">Gemini</option>
+              </select>
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                className="text-[var(--muted-3)] hover:text-[var(--text-primary)] p-1"
+                aria-label={t("common.close", "Fermer")}
+              >
+                <iconify-icon icon="lucide:x" style={{ fontSize: "16px" }} />
+              </button>
+            </div>
           </div>
 
           <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-3 space-y-3 font-body-readable text-[13px] text-[var(--text-primary)]">
