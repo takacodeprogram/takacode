@@ -65,6 +65,43 @@ const GUIDANCE: Record<string, TrackGuidance> = {
     level: "Avancé",
     prereq: ["ia-fondamentaux", "automatisation-ia"],
     tagline: "Ta stratégie codée par l'IA, backtestée et disciplinée — l'outil avant les promesses."
+  },
+  "wordpress-elementor": {
+    order: 10,
+    level: "Débutant",
+    prereq: [],
+    tagline: "Crée un site pro sans coder avec WordPress et Elementor : la voie no-code universelle."
+  },
+  // EN counterparts (afficher la même orientation en anglais)
+  "ai-foundations-en": {
+    order: 1,
+    level: "Beginner",
+    prereq: [],
+    tagline: "Start here: understand AI before you make it work for you."
+  },
+  "full-vibe-coding-en": {
+    order: 2,
+    level: "Beginner",
+    prereq: ["ai-foundations-en"],
+    tagline: "Ship a real project online with AI writing the code — you stay the director."
+  },
+  "digital-products-en": {
+    order: 5,
+    level: "Beginner",
+    prereq: ["ai-foundations-en"],
+    tagline: "Build once, sell repeatedly — the shortest path from skill to first revenue."
+  },
+  "ai-automations-en": {
+    order: 7,
+    level: "Intermediate",
+    prereq: ["ai-foundations-en"],
+    tagline: "Automate repetitive work and ship a deployed AI chatbot — then sell it as a service."
+  },
+  "wordpress-elementor-en": {
+    order: 10,
+    level: "Beginner",
+    prereq: [],
+    tagline: "Build, publish and monetize a pro WordPress site with Elementor — no code, no compromise."
   }
 };
 

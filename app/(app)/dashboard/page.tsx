@@ -234,7 +234,7 @@ export default async function DashboardHomePage() {
               >
                 <div className="flex items-center justify-between gap-2 mb-2">
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full border border-blue-400/25 bg-blue-500/10 text-blue-200">
-                    {t("dashboard.step", `${index + 1}`)}
+                    {t("dashboard.step").replace("{n}", String(index + 1))}
                   </span>
                   {entry.state === "done" ? (
                     <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-200">
