@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { getLocale } from "../../../lib/i18n";
 import { getServerLocale } from "../../../lib/serverLocale";
 import { redirectLocale } from "../../../lib/redirectLocale";
+import DashboardAssistant from "../../../components/DashboardAssistant";
 import GradeProgress from "../../../components/GradeProgress";
 import NextActionBlock from "../../../components/NextActionBlock";
 import ProjectCockpit from "../../../components/ProjectCockpit";
@@ -252,6 +253,12 @@ export default async function DashboardHomePage() {
             <h3 className="font-venite text-[12px] tracking-widest text-[var(--muted-3)] inline-flex items-center gap-2">
               <iconify-icon icon="lucide:route" style={{ color: "#4F8EF7", fontSize: "14px" }} />
               {t("dashboard.projectAccelerators")}
+              {recommendedRoadmap.length ? (
+                <span className="inline-flex items-center gap-1 text-[9px] font-semibold uppercase tracking-widest px-2 py-0.5 rounded-full border border-[#4F8EF7]/30 bg-gradient-to-r from-[#4F8EF7]/10 to-[#9B6DFF]/10 text-[#89c7ff]">
+                  <iconify-icon icon="lucide:sparkles" style={{ fontSize: "9px" }} />
+                  {t("dashboard.aiPowered", "IA")}
+                </span>
+              ) : null}
             </h3>
             <Link href={localePath("/tracks", locale)} className="text-[11px] text-[#4F8EF7] hover:underline">
               {t("dashboard.viewAllCatalog")}
@@ -301,6 +308,8 @@ export default async function DashboardHomePage() {
           </div>
         </section>
       ) : null}
+
+      <DashboardAssistant projectTitle={mainProject?.title} />
     </>
   );
 }
