@@ -1,4 +1,4 @@
-const PROVIDER_IDS = ["openrouter", "gemini", "huggingface"];
+const PROVIDER_IDS = ["mistral", "openrouter", "gemini", "huggingface"];
 
 // Modeles OpenRouter essayes par defaut quand aucune variable d'env ne les fixe.
 // Les variantes payantes (tres bon marche) d'abord : les modeles ":free" sont
@@ -23,6 +23,22 @@ interface ProviderConfig {
 type ProviderId = (typeof PROVIDER_IDS)[number];
 
 const PROVIDER_CONFIG: Record<string, ProviderConfig> = {
+  mistral: {
+    envKeys: ["AI_REVIEW_MISTRAL_API_KEY", "AI_MISTRAL_API_KEY", "MISTRAL_API_KEY", "AI_REVIEW_API_KEY"],
+    defaultModel: "mistral-small-latest",
+    endpoint: () => "https://api.mistral.ai/v1/chat/completions",
+    headers: (apiKey: string) => ({
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      ...(apiKey ? { Authorization: `Bearer ${apiKey}` } : {})
+    }),
+    parseResponse: (json: any) => {
+      const msg = json?.choices?.[0]?.message || {};
+      const text = typeof msg.content === "string" ? msg.content : "";
+      return extractJson(text);
+    },
+    needsKey: true
+  },
   openrouter: {
     envKeys: ["AI_REVIEW_OPENROUTER_API_KEY", "AI_REVIEW_OPEN_ROUTER_API_KEY", "AI_REVIEW_API_KEY"],
     defaultModel: "meta-llama/llama-3.2-3b-instruct:free",
@@ -173,15 +189,26 @@ async function callProvider(provider: string, model: string, apiKey: string, mes
             inputs: `${messages.system}\n\n${messages.prompt}`,
             parameters: { temperature: 0.3, max_new_tokens: 1024, return_full_text: false }
           }
-        : {
-            model: actualModel,
-            messages: [
-              { role: "system", content: messages.system },
-              { role: "user", content: messages.prompt }
-            ],
-            temperature: 0.3,
-            max_tokens: 1024
-          };
+        : provider === "mistral"
+          ? {
+              model: actualModel,
+              messages: [
+                { role: "system", content: messages.system },
+                { role: "user", content: messages.prompt }
+              ],
+              temperature: 0.3,
+              max_tokens: 1024,
+              response_format: { type: "json_object" }
+            }
+          : {
+              model: actualModel,
+              messages: [
+                { role: "system", content: messages.system },
+                { role: "user", content: messages.prompt }
+              ],
+              temperature: 0.3,
+              max_tokens: 1024
+            };
 
   const response = await fetch(url, {
     method: "POST",
@@ -222,7 +249,7 @@ function isProviderReady(providerId: string): boolean {
 }
 
 function buildProviderChain(): string[] {
-  const primary = (process.env.AI_REVIEW_PROVIDER || "openrouter").trim().toLowerCase();
+  const primary = (process.env.AI_REVIEW_PROVIDER || "mistral").trim().toLowerCase();
   const fallbackRaw = process.env.AI_REVIEW_FALLBACK || "";
 
   const fallbackList = fallbackRaw
@@ -253,7 +280,7 @@ export interface AIReviewConfig {
 }
 
 export function getAIReviewConfig(overrides: Record<string, unknown> = {}): AIReviewConfig {
-  const provider = (overrides.provider as string) || process.env.AI_REVIEW_PROVIDER || "openrouter";
+  const provider = (overrides.provider as string) || process.env.AI_REVIEW_PROVIDER || "mistral";
   const config = PROVIDER_CONFIG[provider];
 
   const apiKey = (overrides.apiKey as string) || getKeyForProvider(provider) || "";
@@ -286,7 +313,7 @@ export async function reviewProject(input: ReviewInput, configOverrides: Record<
   const messages = buildReviewPrompt(input);
 
   const errors: string[] = [];
-  const primaryProvider = (process.env.AI_REVIEW_PROVIDER || "openrouter").trim().toLowerCase();
+  const primaryProvider = (process.env.AI_REVIEW_PROVIDER || "mistral").trim().toLowerCase();
 
   for (const providerId of chain) {
     const apiKey = getKeyForProvider(providerId);
