@@ -233,8 +233,8 @@ const FR: Translations = {
   },
   home: {
     hero: {
-      badge: "Plateforme de création de projets",
-      purposeHeading: "TakaCode est une plateforme d'apprentissage par projets pour créer, publier et monétiser tes idées avec l'IA.",
+      badge: "Créer des projets digitaux avec l'IA",
+      purposeHeading: "TakaCode est une plateforme d'apprentissage qui t'aide à créer, publier et monétiser tes projets digitaux (sites, applis, chatbots, produits numériques) avec l'IA.",
       title1: "CREE TON PROJET.",
       title2: "PUBLIE ET MONETISE.",
       subtitle: "TakaCode t'aide à transformer tes idées en projets digitaux concrets, les publier en ligne et générer des revenus. Parcours guidés, templates, IA et communauté pour accélérer chaque étape.",
@@ -2371,8 +2371,8 @@ const EN: Translations = {
   },
   home: {
     hero: {
-      badge: "Project creation platform",
-      purposeHeading: "TakaCode is a project-first learning platform to build, publish and monetize your ideas with AI.",
+      badge: "Build digital projects with AI",
+      purposeHeading: "TakaCode is a learning platform that helps you build, publish and monetize digital projects (websites, apps, chatbots, digital products) with AI.",
       title1: "BUILD YOUR PROJECT.",
       title2: "DEPLOY & MONETIZE.",
       subtitle: "TakaCode helps you turn your ideas into real digital projects, publish them online, and generate revenue. Guided tracks, templates, AI, and a community to accelerate every step.",

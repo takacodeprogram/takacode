@@ -44,15 +44,16 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-20 items-center">
           <div>
             <div className="animate-fade-up mb-6">
-              <div className="flex items-center gap-3 mb-2">
-                <span
-                  className="w-2.5 h-2.5 rounded-full bg-green-400 inline-block"
-                  style={{ animation: "pulse-glow 2s ease-in-out infinite" }}
-                />
-                <span className="text-[12px] font-medium uppercase tracking-[0.14em] text-[#4F8EF7]">
+              <span className="inline-flex items-center gap-2 rounded-full border border-[var(--border-3)] bg-[var(--overlay-3)] backdrop-blur-md pl-2.5 pr-3.5 py-1.5 mb-4 shadow-[0_0_28px_rgba(79,142,247,0.10)]">
+                <span className="relative inline-flex items-center justify-center w-4 h-4">
+                  <span className="absolute inset-0 rounded-full bg-green-400/25" style={{ animation: "pulse-glow 2s ease-in-out infinite" }} />
+                  <span className="relative w-2 h-2 rounded-full bg-green-400" />
+                </span>
+                <iconify-icon icon="lucide:sparkles" style={{ color: "#4F8EF7", fontSize: "13px" }} />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.16em] bg-gradient-to-r from-[#4F8EF7] to-[#9B6DFF] bg-clip-text text-transparent">
                   {t("home.hero.badge")}
                 </span>
-              </div>
+              </span>
               <h1 className="font-valorax text-[clamp(48px,6vw,80px)] leading-[0.95] tracking-[0.02em] text-[var(--text-primary)]">
                 TakaCode
               </h1>
