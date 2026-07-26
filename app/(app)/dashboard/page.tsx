@@ -15,6 +15,7 @@ import { getOnboardingProfile, isOnboardingCompleted } from "../../../lib/onboar
 import { buildPageMetadata } from "../../../lib/seo";
 import { formatTrackMeta, listPublishedTracks, listRecommendedTracksForGoal, listUserTrackEnrollments } from "../../../lib/tracks";
 import { getTrackGuidance, guidanceLevelChip, orderTracksByGuidance } from "../../../lib/trackGuidance";
+import { recommendTracksForProject, type RecommenderTrack } from "../../../lib/trackRecommender";
 import { localePath } from "../../../lib/localeHelpers";
 import { listOwnProjects } from "../../../lib/userProjects";
 import { createClient } from "../../../utils/supabase/server";
@@ -97,13 +98,48 @@ export default async function DashboardHomePage() {
   const points = Number.isFinite(Number(accessContext.profile?.points)) ? Number(accessContext.profile!.points) : 0;
   const grade = accessContext.profile?.grade || "Starter";
 
-  const roadmapResult = await listPublishedTracks(supabase, { limit: 20, locale });
+  const roadmapResult = await listPublishedTracks(supabase, { limit: 30, locale });
   const enrollmentByTrackId = new Map(enrolledTracks.map((entry) => [entry.trackId, entry]));
-  const roadmap = orderTracksByGuidance(roadmapResult.tracks).map((item) => {
-    const entry = enrollmentByTrackId.get(item.id) || null;
-    const state = entry ? (entry.status === "completed" ? "done" : "active") : "todo";
-    return { track: item, guidance: getTrackGuidance(item.slug), state };
-  });
+
+  // Tracks recommandés selon le projet en cours (Mistral) + tracks IA fondamentaux
+  // toujours inclus. Fallback rule-based si l'IA échoue.
+  let recommendedRoadmap: Array<{ track: (typeof roadmapResult.tracks)[number]; guidance: ReturnType<typeof getTrackGuidance>; state: string; reason?: string }> = [];
+  if (mainProject) {
+    const catalog: RecommenderTrack[] = roadmapResult.tracks.map((t) => ({
+      id: t.id,
+      slug: t.slug,
+      title: t.title,
+      tagline: getTrackGuidance(t.slug).tagline || "",
+      level: getTrackGuidance(t.slug).level || t.levelLabel || ""
+    }));
+    const recs = await recommendTracksForProject(
+      {
+        title: mainProject.title,
+        description: mainProject.description,
+        objective: mainProject.objective,
+        revenueModel: mainProject.revenueModel,
+        currentTrackSlug: primaryEnrollment?.track?.slug
+      },
+      catalog,
+      { locale, maxRecommendations: 5 }
+    );
+    const catalogById = new Map(roadmapResult.tracks.map((t) => [t.slug, t]));
+    for (const rec of recs) {
+      const track = catalogById.get(rec.slug);
+      if (!track) continue;
+      const entry = enrollmentByTrackId.get(track.id) || null;
+      const state = entry ? (entry.status === "completed" ? "done" : "active") : "todo";
+      recommendedRoadmap.push({ track, guidance: getTrackGuidance(track.slug), state, reason: rec.reason });
+    }
+  }
+
+  const roadmap = recommendedRoadmap.length
+    ? recommendedRoadmap
+    : orderTracksByGuidance(roadmapResult.tracks).map((item) => {
+        const entry = enrollmentByTrackId.get(item.id) || null;
+        const state = entry ? (entry.status === "completed" ? "done" : "active") : "todo";
+        return { track: item, guidance: getTrackGuidance(item.slug), state };
+      });
 
   const quickActions = [
     { label: t("dashboard.myTracks"), href: "/dashboard/tracks", icon: "lucide:map" },
@@ -251,6 +287,12 @@ export default async function DashboardHomePage() {
                   ) : null}
                 </div>
                 <div className="text-[12px] text-[var(--text-primary)] font-semibold leading-tight mb-1">{entry.track.title}</div>
+                {(entry as { reason?: string }).reason ? (
+                  <p className="font-body-readable text-[11px] text-[#89c7ff] leading-snug italic mb-1">
+                    <iconify-icon icon="lucide:sparkles" style={{ fontSize: "10px", marginRight: "3px" }} />
+                    {(entry as { reason?: string }).reason}
+                  </p>
+                ) : null}
                 {entry.guidance.tagline ? (
                   <p className="font-body-readable text-[11px] text-[var(--muted-3)] leading-snug">{entry.guidance.tagline}</p>
                 ) : null}
