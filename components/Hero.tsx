@@ -43,27 +43,26 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
       <div className="relative z-10 max-w-[1320px] mx-auto px-8 w-full py-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-20 items-center">
           <div>
-            <div className="animate-fade-up mb-6">
-              <span className="inline-flex items-center gap-2 rounded-full border border-[var(--border-3)] bg-[var(--overlay-3)] backdrop-blur-md pl-2.5 pr-3.5 py-1.5 mb-4 shadow-[0_0_28px_rgba(79,142,247,0.10)]">
+            <div className="animate-fade-up mb-7">
+              <span className="inline-flex items-center gap-2 rounded-full border border-[var(--border-3)] bg-[var(--overlay-3)] backdrop-blur-md pl-2.5 pr-3.5 py-1.5 shadow-[0_0_28px_rgba(79,142,247,0.10)]">
                 <span className="relative inline-flex items-center justify-center w-4 h-4">
                   <span className="absolute inset-0 rounded-full bg-green-400/25" style={{ animation: "pulse-glow 2s ease-in-out infinite" }} />
                   <span className="relative w-2 h-2 rounded-full bg-green-400" />
                 </span>
-                <iconify-icon icon="lucide:sparkles" style={{ color: "#4F8EF7", fontSize: "13px" }} />
-                <span className="text-[11px] font-semibold uppercase tracking-[0.16em] bg-gradient-to-r from-[#4F8EF7] to-[#9B6DFF] bg-clip-text text-transparent">
+                <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--text-primary)]">TakaCode</span>
+                <span className="text-[var(--muted-5)]">•</span>
+                <iconify-icon icon="lucide:sparkles" style={{ color: "#4F8EF7", fontSize: "12px" }} />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.14em] bg-gradient-to-r from-[#4F8EF7] to-[#9B6DFF] bg-clip-text text-transparent">
                   {t("home.hero.badge")}
                 </span>
               </span>
-              <h1 className="font-valorax text-[clamp(48px,6vw,80px)] leading-[0.95] tracking-[0.02em] text-[var(--text-primary)]">
-                TakaCode
-              </h1>
             </div>
 
-            <h2 className="font-valorax animate-fade-up-d1 mb-5 text-[clamp(28px,3vw,44px)] leading-[1.05] tracking-[-0.01em]">
+            <h1 className="font-valorax animate-fade-up-d1 mb-6 hero-title">
               {t("home.hero.title1")}
               <br />
               <span className="gradient-text-blue">{t("home.hero.title2")}</span>
-            </h2>
+            </h1>
 
             <p className="animate-fade-up-d2 font-body-readable text-[var(--muted-2)] text-[15px] leading-relaxed mb-9 max-w-[520px]">
               {t("home.hero.subtitle")}
