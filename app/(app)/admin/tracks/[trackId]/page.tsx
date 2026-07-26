@@ -2,6 +2,7 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import PageHeader from "../../../../../components/app-shell/PageHeader";
+import TrackAiSuggestions from "../../../../../components/admin/TrackAiSuggestions";
 import TrackElementsManager from "../../../../../components/admin/TrackElementsManager";
 import TrackForm from "../../../../../components/admin/TrackForm";
 import { getAdminTrack, getAdminTrackCurriculum } from "../../../../../lib/adminCurriculum";
@@ -71,6 +72,8 @@ export default async function AdminTrackDetailPage({ params }: { params: Promise
         </section>
 
         <TrackElementsManager trackId={String(tr.id || "")} trackSlug={String(tr.slug || "")} initialModules={modules} />
+
+        <TrackAiSuggestions trackId={String(tr.id || "")} />
       </div>
     </>
   );

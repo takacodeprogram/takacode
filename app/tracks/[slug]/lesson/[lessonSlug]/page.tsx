@@ -4,6 +4,7 @@ import { notFound, redirect } from "next/navigation";
 import { redirectLocale } from "../../../../../lib/redirectLocale";
 import FooterSection from "../../../../../components/FooterSection";
 import LessonExperience from "../../../../../components/LessonExperience";
+import LessonAssistant from "../../../../../components/LessonAssistant";
 import Navbar from "../../../../../components/Navbar";
 import PublicTour from "../../../../../components/public-tour/PublicTour";
 import { findLessonInCurriculum, getTrackCurriculum } from "../../../../../lib/curriculum";
@@ -177,6 +178,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
       <hr className="section-divider" />
       <FooterSection />
       <PublicTour />
+      <LessonAssistant lessonId={lesson.id} lessonTitle={lesson.title} />
     </div>
   );
 }
