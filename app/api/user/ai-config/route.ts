@@ -2,12 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { createClient } from "../../../../utils/supabase/server";
 
-const ALLOWED_PROVIDERS = new Set(["", "mistral", "openrouter", "gemini"]);
+const ALLOWED_PROVIDERS = new Set(["", "mistral", "openrouter", "gemini", "openai", "anthropic"]);
 const MAX_KEY_LEN = 200;
 
 interface WriteBody {
   provider?: string;
-  keys?: { mistral?: string; openrouter?: string; gemini?: string };
+  keys?: { mistral?: string; openrouter?: string; gemini?: string; openai?: string; anthropic?: string };
 }
 
 function safeKey(v: unknown): string | null {
@@ -34,7 +34,7 @@ export async function GET() {
 
   const { data } = await supabase
     .from("user_profiles")
-    .select("ai_provider, ai_api_key_mistral, ai_api_key_openrouter, ai_api_key_gemini")
+    .select("ai_provider, ai_api_key_mistral, ai_api_key_openrouter, ai_api_key_gemini, ai_api_key_openai, ai_api_key_anthropic")
     .eq("id", user.id)
     .maybeSingle();
 
@@ -44,12 +44,16 @@ export async function GET() {
     keysMasked: {
       mistral: mask(rec.ai_api_key_mistral || ""),
       openrouter: mask(rec.ai_api_key_openrouter || ""),
-      gemini: mask(rec.ai_api_key_gemini || "")
+      gemini: mask(rec.ai_api_key_gemini || ""),
+      openai: mask(rec.ai_api_key_openai || ""),
+      anthropic: mask(rec.ai_api_key_anthropic || "")
     },
     hasKey: {
       mistral: Boolean(rec.ai_api_key_mistral),
       openrouter: Boolean(rec.ai_api_key_openrouter),
-      gemini: Boolean(rec.ai_api_key_gemini)
+      gemini: Boolean(rec.ai_api_key_gemini),
+      openai: Boolean(rec.ai_api_key_openai),
+      anthropic: Boolean(rec.ai_api_key_anthropic)
     }
   });
 }
@@ -85,6 +89,10 @@ export async function POST(request: NextRequest) {
   if (kOpenrouter !== null) update.ai_api_key_openrouter = kOpenrouter;
   const kGemini = safeKey(body.keys?.gemini);
   if (kGemini !== null) update.ai_api_key_gemini = kGemini;
+  const kOpenai = safeKey(body.keys?.openai);
+  if (kOpenai !== null) update.ai_api_key_openai = kOpenai;
+  const kAnthropic = safeKey(body.keys?.anthropic);
+  if (kAnthropic !== null) update.ai_api_key_anthropic = kAnthropic;
 
   if (!Object.keys(update).length) {
     return NextResponse.json({ error: "nothing_to_update" }, { status: 400 });

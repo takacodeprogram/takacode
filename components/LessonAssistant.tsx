@@ -13,7 +13,7 @@ interface Props {
   lessonTitle: string;
 }
 
-type ProviderChoice = "" | "mistral" | "openrouter" | "gemini";
+type ProviderChoice = "" | "mistral" | "openrouter" | "gemini" | "openai" | "anthropic";
 
 export default function LessonAssistant({ lessonId, lessonTitle }: Props) {
   const { t } = useI18n();
@@ -99,6 +99,8 @@ export default function LessonAssistant({ lessonId, lessonTitle }: Props) {
               >
                 <option value="">Auto</option>
                 <option value="mistral">Mistral</option>
+                <option value="openai">OpenAI</option>
+                <option value="anthropic">Anthropic</option>
                 <option value="openrouter">OpenRouter</option>
                 <option value="gemini">Gemini</option>
               </select>

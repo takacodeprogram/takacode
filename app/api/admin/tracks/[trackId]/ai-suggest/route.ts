@@ -4,6 +4,7 @@ import { askAI, hasAnyChatProvider, type ChatMessage } from "../../../../../../l
 import { createClient } from "../../../../../../utils/supabase/server";
 import { getUserAccessContext } from "../../../../../../lib/auth";
 import { apiRateLimit, buildRateLimitKey } from "../../../../../../lib/rateLimit";
+import { getUserAiConfig, resolveAskOverride } from "../../../../../../lib/userAiConfig";
 
 // POST /api/admin/tracks/[trackId]/ai-suggest
 // Return : { suggestions: TrackSuggestions, provider, model }
@@ -140,8 +141,11 @@ export async function POST(request: NextRequest, ctx: { params: Promise<{ trackI
     content: `Voici le parcours à analyser (JSON) :\n\n\`\`\`json\n${JSON.stringify(brief, null, 2)}\n\`\`\`\n\nProduis les suggestions au format exigé.`
   };
 
+  const userConfig = await getUserAiConfig(supabase, user.id);
+  const override = resolveAskOverride(userConfig);
+
   try {
-    const result = await askAI({ system: SUGGEST_SYSTEM, messages: [userMessage], maxTokens: 1600 });
+    const result = await askAI({ system: SUGGEST_SYSTEM, messages: [userMessage], maxTokens: 1600, ...override });
     let suggestions: unknown = null;
     try {
       const match = result.text.match(/\{[\s\S]*\}/);

@@ -7,6 +7,7 @@ import { redirectLocale } from "../../../lib/redirectLocale";
 import DashboardAssistant from "../../../components/DashboardAssistant";
 import GradeProgress from "../../../components/GradeProgress";
 import NextActionBlock from "../../../components/NextActionBlock";
+import ProfileCompletionReminder from "../../../components/ProfileCompletionReminder";
 import ProjectCockpit from "../../../components/ProjectCockpit";
 import PageHeader from "../../../components/app-shell/PageHeader";
 import { getUserAccessContext } from "../../../lib/auth";
@@ -17,6 +18,7 @@ import { buildPageMetadata } from "../../../lib/seo";
 import { formatTrackMeta, listPublishedTracks, listRecommendedTracksForGoal, listUserTrackEnrollments } from "../../../lib/tracks";
 import { getTrackGuidance, guidanceLevelChip, orderTracksByGuidance } from "../../../lib/trackGuidance";
 import { recommendTracksForProject, type RecommenderTrack } from "../../../lib/trackRecommender";
+import { getUserAiConfig, resolveAskOverride } from "../../../lib/userAiConfig";
 import { localePath } from "../../../lib/localeHelpers";
 import { listOwnProjects } from "../../../lib/userProjects";
 import { createClient } from "../../../utils/supabase/server";
@@ -113,6 +115,8 @@ export default async function DashboardHomePage() {
       tagline: getTrackGuidance(t.slug).tagline || "",
       level: getTrackGuidance(t.slug).level || t.levelLabel || ""
     }));
+    const userConfig = await getUserAiConfig(supabase, user.id);
+    const askOverride = resolveAskOverride(userConfig);
     const recs = await recommendTracksForProject(
       {
         title: mainProject.title,
@@ -122,7 +126,7 @@ export default async function DashboardHomePage() {
         currentTrackSlug: primaryEnrollment?.track?.slug
       },
       catalog,
-      { locale, maxRecommendations: 5 }
+      { locale, maxRecommendations: 5, askOverride }
     );
     const catalogById = new Map(roadmapResult.tracks.map((t) => [t.slug, t]));
     for (const rec of recs) {
@@ -148,9 +152,23 @@ export default async function DashboardHomePage() {
     { label: t("dashboard.leaderboard"), href: "/classement", icon: "lucide:trophy" }
   ];
 
+  const profile = accessContext.profile as Record<string, unknown> | null;
+  const missingCountry = !String(profile?.country_code || "").trim();
+  const missingPublicName = !String(profile?.public_name || "").trim();
+  const missingBio = !String(profile?.bio || "").trim();
+  const missingAvatar = !String(profile?.avatar_url || "").trim();
+
   return (
     <>
       <PageHeader title={t("dashboard.title")} subtitle={`${t("dashboard.welcome")} ${displayName}`} />
+
+      <ProfileCompletionReminder
+        missingCountry={missingCountry}
+        missingPublicName={missingPublicName}
+        missingBio={missingBio}
+        missingAvatar={missingAvatar}
+        locale={locale}
+      />
 
       <div className="grid xl:grid-cols-[1.4fr_0.9fr] gap-6">
         <div className="space-y-6">

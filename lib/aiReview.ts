@@ -1,4 +1,4 @@
-const PROVIDER_IDS = ["mistral", "openrouter", "gemini", "huggingface"];
+const PROVIDER_IDS = ["mistral", "openrouter", "gemini", "openai", "anthropic", "huggingface"];
 
 // Modeles OpenRouter essayes par defaut quand aucune variable d'env ne les fixe.
 // Les variantes payantes (tres bon marche) d'abord : les modeles ":free" sont
@@ -67,6 +67,42 @@ const PROVIDER_CONFIG: Record<string, ProviderConfig> = {
     }),
     parseResponse: (json: any) => {
       const text = json?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+      return extractJson(text);
+    },
+    needsKey: true
+  },
+  openai: {
+    envKeys: ["AI_OPENAI_API_KEY", "OPENAI_API_KEY", "AI_REVIEW_OPENAI_API_KEY", "AI_REVIEW_API_KEY"],
+    defaultModel: "gpt-4o-mini",
+    endpoint: () => "https://api.openai.com/v1/chat/completions",
+    headers: (apiKey: string) => ({
+      "Content-Type": "application/json",
+      ...(apiKey ? { Authorization: `Bearer ${apiKey}` } : {})
+    }),
+    parseResponse: (json: any) => {
+      const msg = json?.choices?.[0]?.message || {};
+      const text = typeof msg.content === "string" ? msg.content : "";
+      return extractJson(text);
+    },
+    needsKey: true
+  },
+  anthropic: {
+    envKeys: ["AI_ANTHROPIC_API_KEY", "ANTHROPIC_API_KEY", "AI_REVIEW_ANTHROPIC_API_KEY", "AI_REVIEW_API_KEY"],
+    defaultModel: "claude-haiku-4-5",
+    endpoint: () => "https://api.anthropic.com/v1/messages",
+    headers: (apiKey: string) => ({
+      "Content-Type": "application/json",
+      "x-api-key": apiKey,
+      "anthropic-version": "2023-06-01"
+    }),
+    parseResponse: (json: any) => {
+      const blocks = json?.content;
+      if (!Array.isArray(blocks)) return null;
+      const text = blocks
+        .filter((b: any) => b?.type === "text" && typeof b.text === "string")
+        .map((b: any) => b.text)
+        .join("\n")
+        .trim();
       return extractJson(text);
     },
     needsKey: true
@@ -189,7 +225,7 @@ async function callProvider(provider: string, model: string, apiKey: string, mes
             inputs: `${messages.system}\n\n${messages.prompt}`,
             parameters: { temperature: 0.3, max_new_tokens: 1024, return_full_text: false }
           }
-        : provider === "mistral"
+        : provider === "mistral" || provider === "openai"
           ? {
               model: actualModel,
               messages: [
@@ -200,15 +236,23 @@ async function callProvider(provider: string, model: string, apiKey: string, mes
               max_tokens: 1024,
               response_format: { type: "json_object" }
             }
-          : {
-              model: actualModel,
-              messages: [
-                { role: "system", content: messages.system },
-                { role: "user", content: messages.prompt }
-              ],
-              temperature: 0.3,
-              max_tokens: 1024
-            };
+          : provider === "anthropic"
+            ? {
+                model: actualModel,
+                system: messages.system,
+                messages: [{ role: "user", content: messages.prompt }],
+                max_tokens: 1024,
+                temperature: 0.3
+              }
+            : {
+                model: actualModel,
+                messages: [
+                  { role: "system", content: messages.system },
+                  { role: "user", content: messages.prompt }
+                ],
+                temperature: 0.3,
+                max_tokens: 1024
+              };
 
   const response = await fetch(url, {
     method: "POST",
@@ -304,7 +348,18 @@ export function isAIReviewAvailable(config: AIReviewConfig): boolean {
 
 export async function reviewProject(input: ReviewInput, configOverrides: Record<string, unknown> = {}): Promise<{ verdict: string; feedback: string; usedProvider: string; usedModel: string }> {
   const config = getAIReviewConfig(configOverrides);
-  const chain = config.fallbackChain?.length ? config.fallbackChain : config.enabled ? [config.provider] : [];
+  // Support user override : si l'appelant passe { userProvider, userApiKey }, on
+  // met ce provider en tête et on utilise sa clé quand on tape ce provider.
+  const userProvider = typeof configOverrides.userProvider === "string" ? configOverrides.userProvider : "";
+  const userApiKey = typeof configOverrides.userApiKey === "string" ? configOverrides.userApiKey : "";
+  const baseChain = config.fallbackChain?.length ? config.fallbackChain : config.enabled ? [config.provider] : [];
+  const chain = userProvider && PROVIDER_CONFIG[userProvider]
+    ? [userProvider, ...baseChain.filter((p) => p !== userProvider)]
+    : baseChain;
+  // Si l'user apporte sa clé pour un provider absent de la chaîne serveur, on l'ajoute.
+  if (userProvider && userApiKey && !chain.includes(userProvider) && PROVIDER_CONFIG[userProvider]) {
+    chain.unshift(userProvider);
+  }
 
   if (!chain.length) {
     throw new Error("Aucun provider IA disponible. Configure AI_REVIEW_PROVIDER et AI_REVIEW_FALLBACK dans .env.local");
@@ -316,7 +371,13 @@ export async function reviewProject(input: ReviewInput, configOverrides: Record<
   const primaryProvider = (process.env.AI_REVIEW_PROVIDER || "mistral").trim().toLowerCase();
 
   for (const providerId of chain) {
-    const apiKey = getKeyForProvider(providerId);
+    const apiKey = providerId === userProvider && userApiKey
+      ? userApiKey
+      : getKeyForProvider(providerId);
+    if (!apiKey && PROVIDER_CONFIG[providerId]?.needsKey !== false) {
+      errors.push(`${providerId}: no key`);
+      continue;
+    }
 
     // AI_REVIEW_MODEL (generique) ne s'applique qu'au provider principal :
     // un id de modele OpenRouter envoye a Gemini/HuggingFace donne un 404

@@ -24,7 +24,7 @@ const SUGGESTED_PROMPTS_EN = [
   "What should I spend more time on this week?"
 ];
 
-type ProviderChoice = "" | "mistral" | "openrouter" | "gemini";
+type ProviderChoice = "" | "mistral" | "openrouter" | "gemini" | "openai" | "anthropic";
 
 export default function DashboardAssistant({ projectTitle }: Props) {
   const { t, locale } = useI18n();
@@ -124,6 +124,8 @@ export default function DashboardAssistant({ projectTitle }: Props) {
               >
                 <option value="">Auto</option>
                 <option value="mistral">Mistral</option>
+                <option value="openai">OpenAI</option>
+                <option value="anthropic">Anthropic</option>
                 <option value="openrouter">OpenRouter</option>
                 <option value="gemini">Gemini</option>
               </select>

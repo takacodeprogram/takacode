@@ -5,6 +5,7 @@ import { createClient } from "../../../../utils/supabase/server";
 import { createAdminClient } from "../../../../utils/supabase/admin";
 import { apiRateLimit, buildRateLimitKey } from "../../../../lib/rateLimit";
 import { aiReviewSchema, parseAndValidateBody } from "../../../../lib/validation";
+import { getUserAiConfig, resolveAskOverride } from "../../../../lib/userAiConfig";
 
 // Declenche une revue IA sur un micro-projet soumis.
 // Post-condition : le verdict est enregistre via submit_project_review RPC.
@@ -93,7 +94,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "no_submission" }, { status: 400 });
     }
 
-    // Lancer la review IA
+    // Lancer la review IA — utilise la config du user authentifié si présente
+    const userConfig = user ? await getUserAiConfig(supabase, user.id) : { provider: "" as const, keys: { mistral: "", openrouter: "", gemini: "", openai: "", anthropic: "" } };
+    const override = resolveAskOverride(userConfig);
     const result = await reviewProject({
       lessonTitle: (lesson as Record<string, unknown>).title as string || "",
       projectTitle: (microProject as Record<string, unknown>).title as string || "",
@@ -101,6 +104,9 @@ export async function POST(request: NextRequest) {
       deliverable: (microProject as Record<string, unknown>).deliverable as string || "",
       steps,
       submission
+    }, {
+      userProvider: override.providerOverride || "",
+      userApiKey: override.apiKeyOverride || ""
     });
 
     // Enregistrer le verdict via la RPC existante

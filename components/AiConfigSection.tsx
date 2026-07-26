@@ -3,16 +3,19 @@
 import { useEffect, useState } from "react";
 import { useI18n } from "./I18nProvider";
 
-type Provider = "" | "mistral" | "openrouter" | "gemini";
+type Provider = "" | "mistral" | "openrouter" | "gemini" | "openai" | "anthropic";
+type ProviderId = Exclude<Provider, "">;
 
 interface ConfigResponse {
   provider: Provider;
-  keysMasked: { mistral: string; openrouter: string; gemini: string };
-  hasKey: { mistral: boolean; openrouter: boolean; gemini: boolean };
+  keysMasked: Record<ProviderId, string>;
+  hasKey: Record<ProviderId, boolean>;
 }
 
-const PROVIDERS: { id: Provider; label: string; help: string; docs: string }[] = [
-  { id: "mistral", label: "Mistral", help: "Rapide et économique, réponses FR de qualité.", docs: "https://console.mistral.ai/api-keys" },
+const PROVIDERS: { id: ProviderId; label: string; help: string; docs: string }[] = [
+  { id: "mistral", label: "Mistral", help: "Rapide et économique, réponses FR de qualité (mistral-small).", docs: "https://console.mistral.ai/api-keys" },
+  { id: "openai", label: "OpenAI", help: "GPT-4o mini par défaut : très polyvalent, coût modéré.", docs: "https://platform.openai.com/api-keys" },
+  { id: "anthropic", label: "Anthropic (Claude)", help: "Claude Haiku par défaut : excellent en raisonnement et français.", docs: "https://console.anthropic.com/settings/keys" },
   { id: "openrouter", label: "OpenRouter", help: "Passerelle vers Llama, Qwen et autres modèles open-source.", docs: "https://openrouter.ai/keys" },
   { id: "gemini", label: "Gemini", help: "Modèle Google, gratuit jusqu'à un certain quota.", docs: "https://aistudio.google.com/apikey" }
 ];
@@ -24,9 +27,9 @@ export default function AiConfigSection() {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [provider, setProvider] = useState<Provider>("");
-  const [keys, setKeys] = useState<{ mistral: string; openrouter: string; gemini: string }>({ mistral: "", openrouter: "", gemini: "" });
-  const [hasKey, setHasKey] = useState({ mistral: false, openrouter: false, gemini: false });
-  const [masked, setMasked] = useState({ mistral: "", openrouter: "", gemini: "" });
+  const [keys, setKeys] = useState<Record<ProviderId, string>>({ mistral: "", openrouter: "", gemini: "", openai: "", anthropic: "" });
+  const [hasKey, setHasKey] = useState<Record<ProviderId, boolean>>({ mistral: false, openrouter: false, gemini: false, openai: false, anthropic: false });
+  const [masked, setMasked] = useState<Record<ProviderId, string>>({ mistral: "", openrouter: "", gemini: "", openai: "", anthropic: "" });
 
   useEffect(() => {
     fetch("/api/user/ai-config", { credentials: "include" })
@@ -48,7 +51,7 @@ export default function AiConfigSection() {
       const body: { provider: Provider; keys: Record<string, string> } = { provider, keys: {} };
       // On envoie seulement les clés qui ont été modifiées (non vides dans l'input).
       // Pour effacer une clé, il faut taper "" explicitement — géré par un bouton dédié.
-      for (const p of ["mistral", "openrouter", "gemini"] as const) {
+      for (const p of ["mistral", "openrouter", "gemini", "openai", "anthropic"] as const) {
         if (keys[p]) body.keys[p] = keys[p];
       }
       const res = await fetch("/api/user/ai-config", {
@@ -69,7 +72,7 @@ export default function AiConfigSection() {
       setProvider(fresh.provider);
       setHasKey(fresh.hasKey);
       setMasked(fresh.keysMasked);
-      setKeys({ mistral: "", openrouter: "", gemini: "" });
+      setKeys({ mistral: "", openrouter: "", gemini: "", openai: "", anthropic: "" });
     } catch {
       setError("Problème réseau.");
     } finally {
@@ -77,7 +80,7 @@ export default function AiConfigSection() {
     }
   }
 
-  async function clearKey(p: "mistral" | "openrouter" | "gemini") {
+  async function clearKey(p: ProviderId) {
     setSaving(true);
     try {
       const res = await fetch("/api/user/ai-config", {
@@ -122,10 +125,10 @@ export default function AiConfigSection() {
         <label className="text-[11px] font-semibold uppercase tracking-widest text-[var(--muted-3)] block mb-2">
           {t("aiConfig.providerLabel", "Provider par défaut")}
         </label>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
           {[
-            { id: "" as Provider, label: "Auto (serveur)" },
-            ...PROVIDERS.map((p) => ({ id: p.id, label: p.label }))
+            { id: "" as Provider, label: "Auto" },
+            ...PROVIDERS.map((p) => ({ id: p.id as Provider, label: p.label }))
           ].map((opt) => {
             const active = provider === opt.id;
             return (
@@ -155,7 +158,7 @@ export default function AiConfigSection() {
             <div className="flex items-center justify-between gap-3 flex-wrap mb-2">
               <div className="flex items-center gap-2">
                 <span className="text-[13px] font-semibold text-[var(--text-primary)]">{p.label}</span>
-                {hasKey[p.id as "mistral"] ? (
+                {hasKey[p.id] ? (
                   <span className="text-[9px] font-semibold uppercase tracking-widest px-1.5 py-0.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-300">
                     Clé posée
                   </span>
@@ -175,16 +178,16 @@ export default function AiConfigSection() {
                 type="password"
                 autoComplete="off"
                 spellCheck={false}
-                value={keys[p.id as "mistral"]}
+                value={keys[p.id]}
                 onChange={(e) => setKeys((k) => ({ ...k, [p.id]: e.target.value }))}
-                placeholder={hasKey[p.id as "mistral"] ? masked[p.id as "mistral"] || "•••••••" : "Colle ta clé ici"}
+                placeholder={hasKey[p.id] ? masked[p.id] || "•••••••" : "Colle ta clé ici"}
                 className="auth-input flex-1"
                 maxLength={200}
               />
-              {hasKey[p.id as "mistral"] ? (
+              {hasKey[p.id] ? (
                 <button
                   type="button"
-                  onClick={() => clearKey(p.id as "mistral")}
+                  onClick={() => clearKey(p.id)}
                   className="text-[11px] text-red-400/80 hover:text-red-400 whitespace-nowrap"
                   disabled={saving}
                 >

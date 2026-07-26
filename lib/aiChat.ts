@@ -3,7 +3,7 @@
 // contract for project submissions). This one returns raw text and supports
 // the same provider fallback chain: mistral > openrouter > gemini > huggingface.
 
-const CHAT_PROVIDER_IDS = ["mistral", "openrouter", "gemini"] as const;
+const CHAT_PROVIDER_IDS = ["mistral", "openrouter", "gemini", "openai", "anthropic"] as const;
 type ChatProviderId = (typeof CHAT_PROVIDER_IDS)[number];
 
 interface ChatProviderConfig {
@@ -71,6 +71,48 @@ const CHAT_PROVIDERS: Record<ChatProviderId, ChatProviderConfig> = {
       generationConfig: { temperature: 0.4, maxOutputTokens: 1024 }
     }),
     parseText: (json) => json?.candidates?.[0]?.content?.parts?.[0]?.text ?? ""
+  },
+  openai: {
+    envKeys: ["AI_OPENAI_API_KEY", "OPENAI_API_KEY", "AI_REVIEW_OPENAI_API_KEY"],
+    defaultModel: "gpt-4o-mini",
+    endpoint: () => "https://api.openai.com/v1/chat/completions",
+    headers: (apiKey) => ({
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${apiKey}`
+    }),
+    buildBody: (model, system, messages) => ({
+      model,
+      messages: [{ role: "system", content: system }, ...messages],
+      temperature: 0.4,
+      max_tokens: 1024
+    }),
+    parseText: (json) => json?.choices?.[0]?.message?.content ?? ""
+  },
+  anthropic: {
+    envKeys: ["AI_ANTHROPIC_API_KEY", "ANTHROPIC_API_KEY", "AI_REVIEW_ANTHROPIC_API_KEY"],
+    defaultModel: "claude-haiku-4-5",
+    endpoint: () => "https://api.anthropic.com/v1/messages",
+    headers: (apiKey) => ({
+      "Content-Type": "application/json",
+      "x-api-key": apiKey,
+      "anthropic-version": "2023-06-01"
+    }),
+    buildBody: (model, system, messages) => ({
+      model,
+      system,
+      messages,
+      max_tokens: 1024,
+      temperature: 0.4
+    }),
+    parseText: (json) => {
+      const blocks = json?.content;
+      if (!Array.isArray(blocks)) return "";
+      return blocks
+        .filter((b: any) => b?.type === "text" && typeof b.text === "string")
+        .map((b: any) => b.text)
+        .join("\n")
+        .trim();
+    }
   }
 };
 

@@ -4,6 +4,7 @@
 
 import { askAI } from "./aiChat";
 import { getTrackGuidance } from "./trackGuidance";
+import type { AskOverride } from "./userAiConfig";
 
 export interface RecommenderTrack {
   id: string;
@@ -115,6 +116,7 @@ export interface RecommendOptions {
   locale?: string;
   maxRecommendations?: number;
   useAI?: boolean;
+  askOverride?: AskOverride;
 }
 
 export async function recommendTracksForProject(
@@ -142,7 +144,8 @@ export async function recommendTracksForProject(
     const result = await askAI({
       system: buildSystem(locale),
       messages: [{ role: "user", content: buildUserPrompt(project, rest) }],
-      maxTokens: 700
+      maxTokens: 700,
+      ...(options.askOverride || {})
     });
     const scored = parseAIResponse(result.text);
     if (!scored.length) throw new Error("no valid AI output");
