@@ -289,7 +289,7 @@ export default async function DashboardHomePage() {
             {roadmap.map((entry, index) => (
               <Link
                 key={entry.track.id}
-                href={`/tracks/${entry.track.slug}`}
+                href={localePath(`/tracks/${entry.track.slug}`, locale)}
                 className="rounded-xl border border-[var(--border-3)] bg-[var(--overlay-2)] p-3.5 card-hover block"
               >
                 <div className="flex items-center justify-between gap-2 mb-2">

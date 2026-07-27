@@ -1,4 +1,6 @@
 import { PRODUCT_RELEASES } from "../../lib/productReleases";
+import { SUPPORTED_LOCALES } from "../../lib/i18n";
+import { stripLocale } from "../../lib/localeHelpers";
 
 export interface NavLink {
   href: string;
@@ -82,22 +84,23 @@ export const ADMIN_AREA_LINKS: NavLink[] = [
   { href: "/admin/ai", icon: "lucide:bot", labelKey: "sidebar.adminAi" }
 ];
 
+function normalizePath(pathname: string): string {
+  const clean = String(pathname || "").split("?")[0].split("#")[0] || "/";
+  return stripLocale(clean, SUPPORTED_LOCALES);
+}
+
 export function isAdminAreaPath(pathname: string): boolean {
-  const clean = String(pathname || "").split("?")[0].split("#")[0];
+  const clean = normalizePath(pathname);
   return clean === "/admin" || clean.startsWith("/admin/");
 }
 
 export function isSidebarLinkActive(pathname: string, link: NavLink): boolean {
   const target = String(link?.href || "").split("#")[0].trim();
-  if (!target) {
-    return false;
-  }
+  if (!target) return false;
 
-  const current = String(pathname || "").split("?")[0].split("#")[0] || "/";
+  const current = normalizePath(pathname);
 
-  if (link?.exact) {
-    return current === target;
-  }
+  if (link?.exact) return current === target;
 
   return current === target || current.startsWith(target + "/");
 }

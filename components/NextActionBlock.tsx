@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useI18n } from "./I18nProvider";
+import { localePath } from "../lib/localeHelpers";
 
 interface NextActionProject {
   id: string;
@@ -22,7 +23,7 @@ function iconify(icon: string) {
 }
 
 export default function NextActionBlock({ project, hasEnrollment, hasOnboarding }: NextActionBlockProps) {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
 
   if (!hasOnboarding) {
     return (
@@ -44,7 +45,7 @@ export default function NextActionBlock({ project, hasEnrollment, hasOnboarding 
         accent="#4F8EF7"
         title={t("nextAction.noTrackTitle")}
         description={t("nextAction.noTrackDesc")}
-        href="/tracks"
+        href={localePath("/tracks", locale)}
         label={t("nextAction.noTrackLabel")}
       />
     );
@@ -129,7 +130,7 @@ function ActionCard({
   href: string;
   label: string;
 }) {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   return (
     <div
       className="rounded-2xl border p-5"

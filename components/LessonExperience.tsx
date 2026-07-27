@@ -11,6 +11,7 @@ import { playPop } from "./effects/sound";
 import CodeEditor from "./CodeEditor";
 import { useToast } from "./Toast";
 import { useI18n } from "./I18nProvider";
+import { localePath } from "../lib/localeHelpers";
 
 interface LessonQuizQuestion {
   question: string;
@@ -172,7 +173,7 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
 }
 
 export default function LessonExperience({ lesson, trackSlug, previousLessonSlug, nextLessonSlug, nextLessonTitle, projectTitle, projectId }: Props) {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const router = useRouter();
   const supabaseClient = useMemo(() => createClient(), []);
   const { toast } = useToast();
@@ -592,7 +593,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
           </div>
           {nextLessonSlug ? (
             <Link
-              href={`/tracks/${trackSlug}/lesson/${nextLessonSlug}`}
+              href={localePath(`/tracks/${trackSlug}/lesson/${nextLessonSlug}`, locale)}
               className="btn-secondary inline-flex items-center gap-2 text-[12px]"
               style={{ padding: "9px 14px" }}
             >
@@ -601,7 +602,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
             </Link>
           ) : (
             <Link
-              href={`/tracks/${trackSlug}`}
+              href={localePath(`/tracks/${trackSlug}`, locale)}
               className="btn-secondary inline-flex items-center gap-2 text-[12px]"
               style={{ padding: "9px 14px" }}
             >
@@ -622,7 +623,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
           </div>
           {nextLessonSlug ? (
             <Link
-              href={`/tracks/${trackSlug}/lesson/${nextLessonSlug}`}
+              href={localePath(`/tracks/${trackSlug}/lesson/${nextLessonSlug}`, locale)}
               className="btn-secondary inline-flex items-center gap-2 text-[12px]"
               style={{ padding: "9px 14px" }}
             >
@@ -1021,7 +1022,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
       <div className="flex items-center justify-between gap-2.5 flex-wrap pt-2">
         {previousLessonSlug ? (
           <Link
-            href={`/tracks/${trackSlug}/lesson/${previousLessonSlug}`}
+            href={localePath(`/tracks/${trackSlug}/lesson/${previousLessonSlug}`, locale)}
             className="btn-secondary inline-flex items-center gap-2 text-[12px]"
             style={{ padding: "9px 14px" }}
           >
@@ -1034,7 +1035,7 @@ export default function LessonExperience({ lesson, trackSlug, previousLessonSlug
 
         {(isCompleted || awaitingReview) && nextLessonSlug ? (
           <Link
-            href={`/tracks/${trackSlug}/lesson/${nextLessonSlug}`}
+            href={localePath(`/tracks/${trackSlug}/lesson/${nextLessonSlug}`, locale)}
             className="btn-secondary inline-flex items-center gap-2 text-[12px]"
             style={{ padding: "9px 14px" }}
           >

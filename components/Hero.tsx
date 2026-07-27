@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import L from "./L";
 import CountUpStat from "./CountUpStat";
 import { useI18n } from "./I18nProvider";
 
@@ -69,22 +70,22 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
             </p>
 
             <div className="animate-fade-up-d3 flex flex-col sm:flex-row sm:items-center gap-4 mb-12">
-              <Link
+              <L
                 href="/projects"
                 id="hero-cta-primary"
                 className="btn-primary glow-btn flex items-center justify-center gap-2"
                 style={{ fontSize: "14px", padding: "14px 28px" }}
               >
                 {t("home.hero.ctaPrimary")}
-              </Link>
-              <Link
+              </L>
+              <L
                 href="/tracks"
                 id="hero-cta-secondary"
                 className="btn-secondary flex items-center justify-center gap-2"
                 style={{ fontSize: "14px", padding: "14px 28px" }}
               >
                 {t("home.hero.ctaSecondary")}
-              </Link>
+              </L>
             </div>
 
             <div className="animate-fade-up-d4 grid grid-cols-3 gap-4 sm:gap-8 pt-8 border-t border-[var(--border-2)] max-w-[520px]">
