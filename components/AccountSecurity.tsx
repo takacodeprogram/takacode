@@ -37,7 +37,15 @@ function formatDate(value: string | null | undefined, locale: string): string {
   } catch { return String(d); }
 }
 
-export default function AccountSecurity({ userId, lastSignInAt }: { userId: string; lastSignInAt: string | null }) {
+export default function AccountSecurity({
+  userId,
+  lastSignInAt,
+  section = "all"
+}: {
+  userId: string;
+  lastSignInAt: string | null;
+  section?: "all" | "sessions" | "danger";
+}) {
   const { t, locale } = useI18n();
   const supabase = createClient();
   const [sessions, setSessions] = useState<Session[]>([]);
@@ -81,8 +89,12 @@ export default function AccountSecurity({ userId, lastSignInAt }: { userId: stri
     setDeleting(false);
   }
 
+  const showSessions = section === "all" || section === "sessions";
+  const showDanger = section === "all" || section === "danger";
+
   return (
     <div className="space-y-4">
+      {showSessions ? (
       <article className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-5">
         <div className="flex items-center gap-2.5 mb-3">
           <div className="w-8 h-8 rounded-lg border border-[#22D3EE]/30 bg-[#22D3EE]/10 inline-flex items-center justify-center">
@@ -136,7 +148,9 @@ export default function AccountSecurity({ userId, lastSignInAt }: { userId: stri
           </div>
         ) : null}
       </article>
+      ) : null}
 
+      {showDanger ? (
       <article className="rounded-2xl border border-red-500/20 bg-[var(--surface-1)] p-5">
         <div className="flex items-center gap-2.5 mb-3">
           <div className="w-8 h-8 rounded-lg border border-red-500/30 bg-red-500/10 inline-flex items-center justify-center">
@@ -176,6 +190,7 @@ export default function AccountSecurity({ userId, lastSignInAt }: { userId: stri
           </div>
         ) : null}
       </article>
+      ) : null}
     </div>
   );
 }

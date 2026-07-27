@@ -128,7 +128,7 @@ export default async function ProfilePage() {
 
           {referralCode ? <ReferralLink code={referralCode} /> : null}
 
-          <AccountSecurity userId={user.id} lastSignInAt={lastSignInAt} />
+          <AccountSecurity userId={user.id} lastSignInAt={lastSignInAt} section="sessions" />
         </section>
 
         <section className="space-y-4">
@@ -145,6 +145,10 @@ export default async function ProfilePage() {
           />
 
           <AiConfigSection />
+        </section>
+
+        <section className="pt-6 mt-4 border-t border-[var(--border-2)]">
+          <AccountSecurity userId={user.id} lastSignInAt={lastSignInAt} section="danger" />
         </section>
       </div>
     </>
