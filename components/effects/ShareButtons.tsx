@@ -20,7 +20,7 @@ export default function ShareButtons({ text = "", url = "", compact = false }: P
   const { t } = useI18n();
   const [copied, setCopied] = useState(false);
 
-  const shareUrl = url || (typeof window !== "undefined" ? window.location.origin : "https://takacode.vercel.app");
+  const shareUrl = url || (typeof window !== "undefined" ? window.location.origin : "https://takacode.app");
   const encodedUrl = encodeURIComponent(shareUrl);
   const encodedText = encodeURIComponent(text);
 

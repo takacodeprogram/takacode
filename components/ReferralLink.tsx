@@ -13,7 +13,7 @@ export default function ReferralLink({ code = "", baseUrl = "" }: Props) {
   const [copied, setCopied] = useState(false);
 
   const normalizedCode = String(code || "").trim().toUpperCase();
-  const origin = baseUrl || (typeof window !== "undefined" ? window.location.origin : "https://takacode.vercel.app");
+  const origin = baseUrl || (typeof window !== "undefined" ? window.location.origin : "https://takacode.app");
   const link = normalizedCode ? `${origin}/signup?ref=${encodeURIComponent(normalizedCode)}` : "";
 
   async function copy() {

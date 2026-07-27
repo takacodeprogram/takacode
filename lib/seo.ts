@@ -1,7 +1,7 @@
 import type { Locale } from "./i18n";
 import { SUPPORTED_LOCALES, DEFAULT_LOCALE } from "./i18n";
 
-const FALLBACK_SITE_URL = "https://takacode.vercel.app";
+const FALLBACK_SITE_URL = "https://takacode.app";
 
 function normalizeSiteUrl(rawValue: unknown): string {
   const value = typeof rawValue === "string" ? rawValue.trim() : "";

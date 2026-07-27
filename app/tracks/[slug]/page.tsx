@@ -57,7 +57,7 @@ export async function generateMetadata({ params }: ParcoursPageProps) {
     });
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://takacode.vercel.app";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://takacode.app";
   const ogImage = track.accentColor
     ? `${siteUrl}/api/og?title=${encodeURIComponent(track.title)}&color=${encodeURIComponent(track.accentColor)}`
     : `${siteUrl}/og-default.png`;

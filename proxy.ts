@@ -72,8 +72,30 @@ function interceptRedirect(response: NextResponse, originalUrl: string, locale: 
   return null;
 }
 
+// Domaine canonique unique : tous les autres hôtes redirigent vers celui-ci.
+// Évite les liens historiques vers vercel.app ou www.* qui divisent le SEO,
+// polluent l'historique de navigation, et cassent les cookies (cookie posé
+// sur takacode.app n'est pas lu sur takacode.vercel.app).
+const CANONICAL_HOST = "takacode.app";
+const HOSTS_TO_REDIRECT = new Set([
+  "www.takacode.app",
+  "takacode.vercel.app",
+  "www.takacode.vercel.app"
+]);
+
 export async function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
+
+  // 0) Canonical host redirect
+  const host = request.headers.get("host")?.toLowerCase() || "";
+  if (host && HOSTS_TO_REDIRECT.has(host)) {
+    const url = new URL(request.url);
+    url.host = CANONICAL_HOST;
+    url.protocol = "https:";
+    url.port = "";
+    return NextResponse.redirect(url, 308);
+  }
+
   const segments = pathname.split("/").filter(Boolean);
   const firstSegment = (segments[0] || "").toLowerCase();
 
