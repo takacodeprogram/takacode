@@ -4,9 +4,11 @@ import { cookies } from "next/headers";
 import logoLight2 from "../assets/logos-light-png/logo-light-2.png";
 import logoDark2 from "../assets/logos-dark-png/logo-dark-2.png";
 import CookieNotice from "../components/CookieNotice";
+import GlobalAssistantMount from "../components/GlobalAssistantMount";
 import LiveRefreshWrapper from "../components/LiveRefreshWrapper";
 import { I18nProvider } from "../components/I18nProvider";
 import { ThemeProvider, type Theme } from "../components/ThemeProvider";
+import { createClient } from "../utils/supabase/server";
 import { SEO_DEFAULTS, buildHreflang } from "../lib/seo";
 import type { Locale } from "../lib/i18n";
 import { SUPPORTED_LOCALES, DEFAULT_LOCALE } from "../lib/i18n";
@@ -95,10 +97,22 @@ export async function generateMetadata() {
   };
 }
 
+async function detectAuthenticated(): Promise<boolean> {
+  try {
+    const cookieStore = await cookies();
+    const supabase = await createClient(cookieStore);
+    const { data } = await supabase.auth.getUser();
+    return Boolean(data?.user);
+  } catch {
+    return false;
+  }
+}
+
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const [locale, theme] = await Promise.all([
+  const [locale, theme, authenticated] = await Promise.all([
     detectLocaleFromCookie(),
-    detectThemeFromCookie()
+    detectThemeFromCookie(),
+    detectAuthenticated()
   ]);
 
   return (
@@ -121,6 +135,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <I18nProvider>
             <LiveRefreshWrapper>{children}</LiveRefreshWrapper>
             <CookieNotice />
+            <GlobalAssistantMount initialAuthenticated={authenticated} />
           </I18nProvider>
         </ThemeProvider>
       </body>

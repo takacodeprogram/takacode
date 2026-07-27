@@ -4,7 +4,6 @@ import { redirect } from "next/navigation";
 import { getLocale } from "../../../lib/i18n";
 import { getServerLocale } from "../../../lib/serverLocale";
 import { redirectLocale } from "../../../lib/redirectLocale";
-import DashboardAssistant from "../../../components/DashboardAssistant";
 import GradeProgress from "../../../components/GradeProgress";
 import NextActionBlock from "../../../components/NextActionBlock";
 import ProfileCompletionReminder from "../../../components/ProfileCompletionReminder";
@@ -327,7 +326,6 @@ export default async function DashboardHomePage() {
         </section>
       ) : null}
 
-      <DashboardAssistant projectTitle={mainProject?.title} />
     </>
   );
 }

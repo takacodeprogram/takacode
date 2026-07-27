@@ -1026,6 +1026,32 @@ const FR: Translations = {
       done: { title: "Prêt à créer", body: "Tu connais maintenant les sections clés. Explore, apprends et construis ton projet. Ce guide reste accessible depuis ton Tableau de bord." }
     }
   },
+  globalAssistant: {
+    buttonLabel: "Coach IA",
+    open: "Ouvrir l'assistant IA",
+    provider: "Fournisseur IA",
+    thinking: "Le coach réfléchit…",
+    poweredBy: "Propulsé par",
+    placeholder: "Ta question…",
+    send: "Envoyer",
+    errorGeneric: "Assistant indisponible.",
+    errorNetwork: "Problème réseau.",
+    configureKeyCta: "Configurer une clé IA",
+    context: {
+      dashboard: "Dashboard",
+      lesson: "Cette leçon",
+      track: "Ce parcours",
+      project: "Ce projet",
+      generic: "Coach personnel"
+    },
+    hint: {
+      dashboard: "Pose une question sur ton projet, ta prochaine étape ou comment monétiser plus vite.",
+      lesson: "Pose une question sur la leçon, demande une reformulation ou un exemple.",
+      track: "Demande si ce parcours colle à ton projet, ou par où commencer.",
+      project: "Discute de ce projet public — inspiration pour le tien.",
+      generic: "Pose n'importe quelle question sur ton apprentissage ou ton projet."
+    }
+  },
   sidebar: {
     dashboard: "Tableau de bord",
     formation: "Formation",
@@ -3200,6 +3226,32 @@ const EN: Translations = {
       welcome: { title: "Getting started guide", body: "Here is a quick tour of your TakaCode space sections. Explore each section to discover everything you can do." },
       navigate: { title: "Navigation", body: "Click a section in the list below to go there directly. You can also use the sidebar on the left." },
       done: { title: "Ready to create", body: "You now know the key sections. Explore, learn, and build your project. This guide remains accessible from your Dashboard." }
+    }
+  },
+  globalAssistant: {
+    buttonLabel: "AI Coach",
+    open: "Open AI assistant",
+    provider: "AI provider",
+    thinking: "Coach is thinking…",
+    poweredBy: "Powered by",
+    placeholder: "Your question…",
+    send: "Send",
+    errorGeneric: "Assistant unavailable.",
+    errorNetwork: "Network issue.",
+    configureKeyCta: "Configure an AI key",
+    context: {
+      dashboard: "Dashboard",
+      lesson: "This lesson",
+      track: "This track",
+      project: "This project",
+      generic: "Personal coach"
+    },
+    hint: {
+      dashboard: "Ask about your project, next step or how to monetize faster.",
+      lesson: "Ask about the lesson, request a rephrase or a concrete example.",
+      track: "Ask if this track fits your project, or where to start.",
+      project: "Discuss this public project — inspiration for your own.",
+      generic: "Ask anything about your learning or your project."
     }
   },
   sidebar: {
