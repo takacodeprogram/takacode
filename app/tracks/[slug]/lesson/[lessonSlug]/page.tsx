@@ -67,21 +67,6 @@ export default async function LessonPage({ params }: LessonPageProps) {
   const track = allTracksResult.tracks.find((item) => String(item.slug || "").trim().toLowerCase() === slug) || null;
 
   if (!track) {
-    // Typos courants avant 404 : ai-* ↔ ia-* + suffixe -en.
-    // Garde-fou anti-boucle : on ne redirige que si la cible est différente
-    // du slug reçu (évite tout scénario où la logique se déclencherait
-    // deux fois sur la même valeur).
-    const slugCandidates = new Set<string>();
-    if (slug.startsWith("ai-")) slugCandidates.add("ia-" + slug.slice(3));
-    if (slug.startsWith("ia-")) slugCandidates.add("ai-" + slug.slice(3));
-    if (slug.endsWith("-en")) slugCandidates.add(slug.slice(0, -3));
-    for (const alt of slugCandidates) {
-      if (alt === slug) continue;
-      const hit = allTracksResult.tracks.find((it) => String(it.slug || "").trim().toLowerCase() === alt);
-      if (hit && hit.slug !== slug) {
-        await redirectLocale(`/tracks/${hit.slug}/lesson/${lessonSlug}`);
-      }
-    }
     notFound();
   }
 
