@@ -1037,6 +1037,10 @@ const FR: Translations = {
     errorGeneric: "Assistant indisponible.",
     errorNetwork: "Problème réseau.",
     configureKeyCta: "Configurer une clé IA",
+    loadingHistory: "Chargement de l'historique…",
+    restoredHint: "{n} messages précédents restaurés",
+    clearHistory: "Effacer l'historique",
+    clearConfirm: "Effacer l'historique du chat pour cette page ?",
     context: {
       dashboard: "Dashboard",
       lesson: "Cette leçon",
@@ -3239,6 +3243,10 @@ const EN: Translations = {
     errorGeneric: "Assistant unavailable.",
     errorNetwork: "Network issue.",
     configureKeyCta: "Configure an AI key",
+    loadingHistory: "Loading history…",
+    restoredHint: "{n} previous messages restored",
+    clearHistory: "Clear history",
+    clearConfirm: "Clear the chat history for this page?",
     context: {
       dashboard: "Dashboard",
       lesson: "This lesson",

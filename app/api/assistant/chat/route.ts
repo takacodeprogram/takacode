@@ -50,6 +50,13 @@ interface ContextKind {
   projectId?: string;
 }
 
+function contextRefFromKind(ctx: ContextKind): string {
+  if (ctx.kind === "lesson") return ctx.lessonSlug || "";
+  if (ctx.kind === "track") return ctx.trackSlug || "";
+  if (ctx.kind === "project") return ctx.projectId || "";
+  return "";
+}
+
 function detectContext(pathname: string | undefined): ContextKind {
   const p = String(pathname || "").split("?")[0].split("#")[0];
   if (!p) return { kind: "generic" };
@@ -199,6 +206,32 @@ export async function POST(request: NextRequest) {
 
   try {
     const result = await askAI({ system, messages, maxTokens: 700, task: "chat", ...override });
+
+    // Persister le dernier message user + la réponse assistant (fire-and-forget
+    // pour ne pas ralentir la réponse). RLS garantit self-only.
+    const contextRef = contextRefFromKind(ctx);
+    const lastUserMsg = messages[messages.length - 1];
+    void supabase
+      .from("ai_chat_messages")
+      .insert([
+        {
+          user_id: user.id,
+          context_kind: ctx.kind,
+          context_ref: contextRef,
+          role: "user",
+          content: lastUserMsg.content
+        },
+        {
+          user_id: user.id,
+          context_kind: ctx.kind,
+          context_ref: contextRef,
+          role: "assistant",
+          content: result.text,
+          provider: result.provider,
+          model: result.model
+        }
+      ]);
+
     return NextResponse.json({
       reply: result.text,
       provider: result.provider,

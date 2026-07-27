@@ -81,19 +81,24 @@ const CONTEXT_ICONS: Record<ContextKind, string> = {
   generic: "lucide:sparkles"
 };
 
-function contextFromPathname(pathname: string): ContextKind {
+function contextFromPathname(pathname: string): { kind: ContextKind; ref: string } {
   const stripped = pathname.replace(/^\/(fr|en)(?=\/|$)/, "") || "/";
-  if (/^\/tracks\/[^/]+\/lesson\//.test(stripped)) return "lesson";
-  if (/^\/tracks\/[^/]+/.test(stripped)) return "track";
-  if (/^\/projects\/[^/]+/.test(stripped)) return "project";
-  if (stripped.startsWith("/dashboard") || stripped.startsWith("/admin")) return "dashboard";
-  return "generic";
+  const lessonMatch = stripped.match(/^\/tracks\/([^/]+)\/lesson\/([^/]+)/);
+  if (lessonMatch) return { kind: "lesson", ref: lessonMatch[2] };
+  const trackMatch = stripped.match(/^\/tracks\/([^/]+)/);
+  if (trackMatch) return { kind: "track", ref: trackMatch[1] };
+  const projectMatch = stripped.match(/^\/projects\/([^/]+)/);
+  if (projectMatch) return { kind: "project", ref: projectMatch[1] };
+  if (stripped.startsWith("/dashboard") || stripped.startsWith("/admin")) return { kind: "dashboard", ref: "" };
+  return { kind: "generic", ref: "" };
 }
 
 export default function GlobalAssistant({ fallbackTitle }: Props) {
   const { t, locale } = useI18n();
   const pathname = usePathname() || "/";
-  const contextKind = useMemo<ContextKind>(() => contextFromPathname(pathname), [pathname]);
+  const contextInfo = useMemo(() => contextFromPathname(pathname), [pathname]);
+  const contextKind = contextInfo.kind;
+  const contextRef = contextInfo.ref;
 
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
@@ -103,14 +108,51 @@ export default function GlobalAssistant({ fallbackTitle }: Props) {
   const [errorCta, setErrorCta] = useState<string | null>(null);
   const [meta, setMeta] = useState<{ provider?: string; model?: string; context?: string }>({});
   const [providerChoice, setProviderChoice] = useState<ProviderChoice>("");
+  const [restoredCount, setRestoredCount] = useState<number>(0);
+  const [historyLoading, setHistoryLoading] = useState<boolean>(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Reset history when the context type changes (nav from lesson to track for ex.)
+  // Fetch history when context changes (nav from lesson to track for ex.)
   useEffect(() => {
-    setMessages([]);
+    let cancelled = false;
     setError("");
     setErrorCta(null);
-  }, [contextKind]);
+    setMessages([]);
+    setRestoredCount(0);
+    setHistoryLoading(true);
+    const url = `/api/assistant/history?context=${encodeURIComponent(contextKind)}&ref=${encodeURIComponent(contextRef)}&limit=100`;
+    fetch(url, { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : Promise.reject(r)))
+      .then((data) => {
+        if (cancelled) return;
+        const hist: Message[] = Array.isArray(data.messages)
+          ? data.messages
+              .filter((m: any) => m && (m.role === "user" || m.role === "assistant") && typeof m.content === "string")
+              .map((m: any) => ({ role: m.role as "user" | "assistant", content: m.content }))
+          : [];
+        setMessages(hist);
+        setRestoredCount(hist.length);
+      })
+      .catch(() => {})
+      .finally(() => {
+        if (!cancelled) setHistoryLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [contextKind, contextRef]);
+
+  async function clearHistory() {
+    if (!confirm(t("globalAssistant.clearConfirm", "Effacer l'historique du chat pour cette page ?"))) return;
+    try {
+      await fetch(`/api/assistant/history?context=${encodeURIComponent(contextKind)}&ref=${encodeURIComponent(contextRef)}`, {
+        method: "DELETE"
+      });
+    } catch {}
+    setMessages([]);
+    setRestoredCount(0);
+    setMeta({});
+  }
 
   useEffect(() => {
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -202,6 +244,17 @@ export default function GlobalAssistant({ fallbackTitle }: Props) {
               <option value="openrouter">OpenRouter</option>
               <option value="gemini">Gemini</option>
             </select>
+            {messages.length > 0 ? (
+              <button
+                type="button"
+                onClick={clearHistory}
+                className="text-[var(--muted-3)] hover:text-red-400 p-1"
+                aria-label={t("globalAssistant.clearHistory", "Effacer l'historique")}
+                title={t("globalAssistant.clearHistory", "Effacer l'historique")}
+              >
+                <iconify-icon icon="lucide:trash-2" style={{ fontSize: "13px" }} />
+              </button>
+            ) : null}
             <button
               type="button"
               onClick={() => setOpen(false)}
@@ -213,7 +266,18 @@ export default function GlobalAssistant({ fallbackTitle }: Props) {
           </div>
 
           <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-3 space-y-3 font-body-readable text-[13px] text-[var(--text-primary)]">
-            {messages.length === 0 ? (
+            {historyLoading ? (
+              <div className="text-[11px] text-[var(--muted-4)] italic flex items-center gap-1.5">
+                <iconify-icon icon="lucide:loader" style={{ fontSize: "10px", animation: "spin 1s linear infinite" }} />
+                {t("globalAssistant.loadingHistory", "Chargement de l'historique…")}
+              </div>
+            ) : restoredCount > 0 ? (
+              <div className="text-[10px] text-[var(--muted-4)] italic flex items-center gap-1.5">
+                <iconify-icon icon="lucide:history" style={{ fontSize: "10px" }} />
+                {t("globalAssistant.restoredHint", "{n} messages précédents restaurés").replace("{n}", String(restoredCount))}
+              </div>
+            ) : null}
+            {!historyLoading && messages.length === 0 ? (
               <div className="space-y-2.5">
                 <div className="text-[12px] text-[var(--muted-3)] leading-relaxed">
                   {t(`globalAssistant.hint.${contextKind}`, t("globalAssistant.hint.generic", "Pose une question, je te réponds avec le contexte de cette page."))}
