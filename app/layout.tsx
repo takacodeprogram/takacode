@@ -5,6 +5,7 @@ import logoLight2 from "../assets/logos-light-png/logo-light-2.png";
 import logoDark2 from "../assets/logos-dark-png/logo-dark-2.png";
 import CookieNotice from "../components/CookieNotice";
 import GlobalAssistantMount from "../components/GlobalAssistantMount";
+import OAuthCodeRelay from "../components/OAuthCodeRelay";
 import LiveRefreshWrapper from "../components/LiveRefreshWrapper";
 import { I18nProvider } from "../components/I18nProvider";
 import { ThemeProvider, type Theme } from "../components/ThemeProvider";
@@ -130,6 +131,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <Script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js" strategy="beforeInteractive" />
         <ThemeProvider initialTheme={theme}>
           <I18nProvider>
+            <OAuthCodeRelay />
             <LiveRefreshWrapper>{children}</LiveRefreshWrapper>
             <CookieNotice />
             <GlobalAssistantMount initialAuthenticated={authenticated} />
