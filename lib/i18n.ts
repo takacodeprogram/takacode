@@ -1026,6 +1026,18 @@ const FR: Translations = {
       done: { title: "Prêt à créer", body: "Tu connais maintenant les sections clés. Explore, apprends et construis ton projet. Ce guide reste accessible depuis ton Tableau de bord." }
     }
   },
+  profileReminder: {
+    title: "Complète ton profil pour apparaître sur le globe",
+    important: "Important",
+    country: "Pays (pour le globe)",
+    publicName: "Nom public",
+    bio: "Bio courte",
+    avatar: "Avatar",
+    description: "Renseigne au moins ton pays pour que les autres membres puissent te voir sur la carte communautaire. Un profil complet augmente aussi ta visibilité.",
+    missingLabel: "Il manque",
+    cta: "Compléter mon profil",
+    later: "Plus tard"
+  },
   common: {
     loading: "Chargement...",
     error: "Erreur",
@@ -3164,6 +3176,18 @@ const EN: Translations = {
       navigate: { title: "Navigation", body: "Click a section in the list below to go there directly. You can also use the sidebar on the left." },
       done: { title: "Ready to create", body: "You now know the key sections. Explore, learn, and build your project. This guide remains accessible from your Dashboard." }
     }
+  },
+  profileReminder: {
+    title: "Complete your profile to appear on the globe",
+    important: "Important",
+    country: "Country (for the globe)",
+    publicName: "Public name",
+    bio: "Short bio",
+    avatar: "Avatar",
+    description: "Add at least your country so other members can see you on the community map. A complete profile also boosts your visibility.",
+    missingLabel: "Missing",
+    cta: "Complete my profile",
+    later: "Later"
   },
   common: {
     loading: "Loading...",

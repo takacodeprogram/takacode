@@ -40,11 +40,11 @@ export default function ProfileCompletionReminder({
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-1 flex-wrap">
-          <h4 className="text-[13px] font-semibold text-[var(--text-primary)]">
+          <h4 className="font-body-readable normal-case tracking-normal text-[14px] font-semibold text-[var(--text-primary)]">
             {t("profileReminder.title", "Complète ton profil pour apparaître sur le globe")}
           </h4>
           {missingCountry ? (
-            <span className="text-[9px] font-semibold uppercase tracking-widest px-1.5 py-0.5 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-300">
+            <span className="font-body-readable text-[9px] font-semibold uppercase tracking-widest px-1.5 py-0.5 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-300">
               {t("profileReminder.important", "Important")}
             </span>
           ) : null}
