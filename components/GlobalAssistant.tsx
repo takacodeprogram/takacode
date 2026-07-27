@@ -230,39 +230,42 @@ export default function GlobalAssistant({ fallbackTitle }: Props) {
                 </div>
               </div>
             </div>
-            <select
-              value={providerChoice}
-              onChange={(e) => setProviderChoice(e.target.value as ProviderChoice)}
-              className="text-[10px] bg-[var(--overlay-2)] border border-[var(--border-3)] rounded-md px-1.5 py-1 text-[var(--muted-2)] focus:outline-none focus:border-[#4F8EF7]"
-              aria-label={t("globalAssistant.provider", "Fournisseur IA")}
-              title={t("globalAssistant.provider", "Fournisseur IA")}
-            >
-              <option value="">Auto</option>
-              <option value="mistral">Mistral</option>
-              <option value="openai">OpenAI</option>
-              <option value="anthropic">Anthropic</option>
-              <option value="openrouter">OpenRouter</option>
-              <option value="gemini">Gemini</option>
-            </select>
-            {messages.length > 0 ? (
+            <div className="flex items-center gap-1.5 ml-auto shrink-0">
+              <select
+                value={providerChoice}
+                onChange={(e) => setProviderChoice(e.target.value as ProviderChoice)}
+                className="h-7 text-[10px] bg-[var(--overlay-2)] border border-[var(--border-3)] rounded-md px-1.5 text-[var(--muted-2)] focus:outline-none focus:border-[#4F8EF7]"
+                aria-label={t("globalAssistant.provider", "Fournisseur IA")}
+                title={t("globalAssistant.provider", "Fournisseur IA")}
+              >
+                <option value="">Auto</option>
+                <option value="mistral">Mistral</option>
+                <option value="openai">OpenAI</option>
+                <option value="anthropic">Anthropic</option>
+                <option value="openrouter">OpenRouter</option>
+                <option value="gemini">Gemini</option>
+              </select>
+              {messages.length > 0 ? (
+                <button
+                  type="button"
+                  onClick={clearHistory}
+                  className="w-7 h-7 inline-flex items-center justify-center rounded-md text-[var(--muted-3)] hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                  aria-label={t("globalAssistant.clearHistory", "Effacer l'historique")}
+                  title={t("globalAssistant.clearHistory", "Effacer l'historique")}
+                >
+                  <iconify-icon icon="lucide:trash-2" style={{ fontSize: "13px" }} />
+                </button>
+              ) : null}
               <button
                 type="button"
-                onClick={clearHistory}
-                className="text-[var(--muted-3)] hover:text-red-400 p-1"
-                aria-label={t("globalAssistant.clearHistory", "Effacer l'historique")}
-                title={t("globalAssistant.clearHistory", "Effacer l'historique")}
+                onClick={() => setOpen(false)}
+                className="w-7 h-7 inline-flex items-center justify-center rounded-md text-[var(--muted-3)] hover:text-[var(--text-primary)] hover:bg-[var(--overlay-4)] transition-colors"
+                aria-label={t("globalAssistant.closeChat", "Fermer le chat (l'historique reste sauvegardé)")}
+                title={t("globalAssistant.closeChat", "Fermer le chat (l'historique reste sauvegardé)")}
               >
-                <iconify-icon icon="lucide:trash-2" style={{ fontSize: "13px" }} />
+                <iconify-icon icon="lucide:x" style={{ fontSize: "15px" }} />
               </button>
-            ) : null}
-            <button
-              type="button"
-              onClick={() => setOpen(false)}
-              className="text-[var(--muted-3)] hover:text-[var(--text-primary)] p-1"
-              aria-label={t("common.close", "Fermer")}
-            >
-              <iconify-icon icon="lucide:x" style={{ fontSize: "16px" }} />
-            </button>
+            </div>
           </div>
 
           <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-3 space-y-3 font-body-readable text-[13px] text-[var(--text-primary)]">

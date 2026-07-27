@@ -1041,6 +1041,7 @@ const FR: Translations = {
     restoredHint: "{n} messages précédents restaurés",
     clearHistory: "Effacer l'historique",
     clearConfirm: "Effacer l'historique du chat pour cette page ?",
+    closeChat: "Fermer le chat (l'historique reste sauvegardé)",
     context: {
       dashboard: "Dashboard",
       lesson: "Cette leçon",
@@ -3247,6 +3248,7 @@ const EN: Translations = {
     restoredHint: "{n} previous messages restored",
     clearHistory: "Clear history",
     clearConfirm: "Clear the chat history for this page?",
+    closeChat: "Close chat (history is preserved)",
     context: {
       dashboard: "Dashboard",
       lesson: "This lesson",
