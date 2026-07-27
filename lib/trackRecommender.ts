@@ -145,6 +145,7 @@ export async function recommendTracksForProject(
       system: buildSystem(locale),
       messages: [{ role: "user", content: buildUserPrompt(project, rest) }],
       maxTokens: 700,
+      task: "recommend",
       ...(options.askOverride || {})
     });
     const scored = parseAIResponse(result.text);

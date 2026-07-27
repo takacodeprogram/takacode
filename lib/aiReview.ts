@@ -1,3 +1,5 @@
+import { getModelForTask, type AiProviderId } from "./aiModels";
+
 const PROVIDER_IDS = ["mistral", "openrouter", "gemini", "openai", "anthropic", "huggingface"];
 
 // Modeles OpenRouter essayes par defaut quand aucune variable d'env ne les fixe.
@@ -390,8 +392,18 @@ export async function reviewProject(input: ReviewInput, configOverrides: Record<
       ? modelsRaw.split(",").map((m) => m.trim()).filter(Boolean)
       : [];
     if (!models.length) {
-      // Memes modeles par defaut que la route de test connexion.
-      models = providerId === "openrouter" ? [...OPENROUTER_DEFAULT_MODELS] : [""];
+      // Priorité au registre task-based (aiModels.ts) pour picker le modèle
+      // optimal review pour ce provider. Fallback sur OPENROUTER_DEFAULT_MODELS
+      // ou le default du provider config.
+      try {
+        const spec = getModelForTask(providerId as AiProviderId, "review");
+        if (spec?.id) models = [spec.id];
+      } catch {
+        // provider absent du registre (huggingface) : on garde le fallback
+      }
+      if (!models.length) {
+        models = providerId === "openrouter" ? [...OPENROUTER_DEFAULT_MODELS] : [""];
+      }
     }
 
     let success = false;

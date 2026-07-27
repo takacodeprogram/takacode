@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { askAI, hasAnyChatProvider, type ChatMessage } from "../../../../../lib/aiChat";
+import { askAI, hasAnyChatProvider, AiError, type ChatMessage } from "../../../../../lib/aiChat";
 import { createClient } from "../../../../../utils/supabase/server";
 import { apiRateLimit, buildRateLimitKey } from "../../../../../lib/rateLimit";
 import { getUserAiConfig, resolveAskOverride } from "../../../../../lib/userAiConfig";
@@ -136,12 +136,16 @@ export async function POST(request: NextRequest, ctx: { params: Promise<{ lesson
   const override = resolveAskOverride(userConfig, body.provider);
 
   try {
-    const result = await askAI({ system, messages, maxTokens: 800, ...override });
+    const result = await askAI({ system, messages, maxTokens: 800, task: "chat", ...override });
     return NextResponse.json({ reply: result.text, provider: result.provider, model: result.model });
   } catch (e) {
+    const err = e as AiError;
+    const code = err.code || "UNKNOWN";
+    const cta = code === "NO_PROVIDER" || code === "INVALID_KEY" ? "/dashboard/profile" : null;
+    const status = code === "NO_PROVIDER" ? 503 : code === "INVALID_KEY" ? 401 : code === "RATE_LIMITED" ? 429 : 502;
     return NextResponse.json(
-      { error: "ai_failed", message: (e as Error).message.slice(0, 300) },
-      { status: 502 }
+      { error: "ai_failed", code, message: err.message?.slice(0, 400) || "Erreur IA", cta },
+      { status }
     );
   }
 }

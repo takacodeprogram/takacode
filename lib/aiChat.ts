@@ -3,6 +3,8 @@
 // contract for project submissions). This one returns raw text and supports
 // the same provider fallback chain: mistral > openrouter > gemini > huggingface.
 
+import { getModelForTask, type AiTask, type AiProviderId } from "./aiModels";
+
 const CHAT_PROVIDER_IDS = ["mistral", "openrouter", "gemini", "openai", "anthropic"] as const;
 type ChatProviderId = (typeof CHAT_PROVIDER_IDS)[number];
 
@@ -146,6 +148,7 @@ export interface AskOptions {
   messages: ChatMessage[];
   model?: string;
   maxTokens?: number;
+  task?: AiTask;
   // Override user : force ce provider en premier dans la chaîne, avec sa clé.
   // Si la clé est vide, on utilise la clé serveur pour ce provider.
   providerOverride?: ChatProviderId;
@@ -158,22 +161,46 @@ export interface AskResult {
   model: string;
 }
 
+export type AiErrorCode = "NO_PROVIDER" | "INVALID_KEY" | "PROVIDER_DOWN" | "RATE_LIMITED" | "UNKNOWN";
+
+export class AiError extends Error {
+  code: AiErrorCode;
+  providerErrors: string[];
+  constructor(code: AiErrorCode, message: string, providerErrors: string[] = []) {
+    super(message);
+    this.code = code;
+    this.providerErrors = providerErrors;
+  }
+}
+
+function classifyErrorMessage(msg: string): AiErrorCode {
+  const lower = msg.toLowerCase();
+  if (/\b(401|403|invalid.*key|unauthorized|forbidden)\b/.test(lower)) return "INVALID_KEY";
+  if (/\b(429|rate.limit|too many requests)\b/.test(lower)) return "RATE_LIMITED";
+  if (/\b(5\d\d|timeout|econnreset|service unavailable)\b/.test(lower)) return "PROVIDER_DOWN";
+  return "UNKNOWN";
+}
+
 function chainForOverride(override?: ChatProviderId): ChatProviderId[] {
   const base = orderedChain();
   if (!override || !CHAT_PROVIDERS[override]) return base;
   return [override, ...base.filter((p) => p !== override)];
 }
 
-export async function askAI({ system, messages, model, maxTokens, providerOverride, apiKeyOverride }: AskOptions): Promise<AskResult> {
+export async function askAI({ system, messages, model, maxTokens, task, providerOverride, apiKeyOverride }: AskOptions): Promise<AskResult> {
   const chain = chainForOverride(providerOverride);
-  // Si l'override fournit une clé et qu'il n'apparaît pas dans le chain (env
-  // vide côté serveur), on le pousse quand même en tête.
   if (providerOverride && apiKeyOverride && !chain.includes(providerOverride) && CHAT_PROVIDERS[providerOverride]) {
     chain.unshift(providerOverride);
   }
-  if (!chain.length) throw new Error("Aucun provider IA configuré. Ajoute AI_MISTRAL_API_KEY (ou autre) dans .env.local");
+  if (!chain.length) {
+    throw new AiError(
+      "NO_PROVIDER",
+      "Aucun provider IA disponible. Ajoute une clé dans /dashboard/profile → Configuration IA, ou configure AI_MISTRAL_API_KEY côté serveur."
+    );
+  }
 
   const errors: string[] = [];
+  let lastCode: AiErrorCode = "UNKNOWN";
   for (const providerId of chain) {
     const config = CHAT_PROVIDERS[providerId];
     const apiKey =
@@ -184,7 +211,9 @@ export async function askAI({ system, messages, model, maxTokens, providerOverri
       errors.push(`${providerId}: no key`);
       continue;
     }
-    const actualModel = model || config.defaultModel;
+    // Choix modèle : override explicite > registre par task > default provider.
+    const actualModel = model
+      || (task ? getModelForTask(providerId as AiProviderId, task).id : config.defaultModel);
 
     const body = config.buildBody(actualModel, system, messages) as Record<string, unknown>;
     if (maxTokens && typeof body === "object") {
@@ -202,7 +231,9 @@ export async function askAI({ system, messages, model, maxTokens, providerOverri
       });
       if (!res.ok) {
         const err = await res.text().catch(() => "");
-        throw new Error(`${providerId} HTTP ${res.status}: ${err.slice(0, 200)}`);
+        const msg = `${providerId} HTTP ${res.status}: ${err.slice(0, 200)}`;
+        lastCode = classifyErrorMessage(msg);
+        throw new Error(msg);
       }
       const json = await res.json();
       const text = config.parseText(json).trim();
@@ -213,5 +244,17 @@ export async function askAI({ system, messages, model, maxTokens, providerOverri
     }
   }
 
-  throw new Error(`Tous les providers IA ont échoué : ${errors.join(" | ")}`);
+  // Si tous ont échoué sans jamais avoir de clé valide, c'est NO_PROVIDER.
+  const codeFinal = errors.every((e) => /no key/i.test(e)) ? "NO_PROVIDER" : lastCode;
+  const message =
+    codeFinal === "NO_PROVIDER"
+      ? "Aucune clé IA disponible pour toi. Ajoute une clé dans /dashboard/profile → Configuration IA."
+      : codeFinal === "INVALID_KEY"
+        ? "La clé IA fournie est refusée par le provider. Vérifie qu'elle est active et bien copiée."
+        : codeFinal === "RATE_LIMITED"
+          ? "Trop de requêtes vers le provider IA. Réessaie dans une minute."
+          : codeFinal === "PROVIDER_DOWN"
+            ? "Le provider IA est temporairement indisponible. Bascule sur un autre provider dans le sélecteur du chat."
+            : "L'IA a échoué. Réessaie ou change de provider.";
+  throw new AiError(codeFinal, message, errors);
 }

@@ -145,7 +145,7 @@ export async function POST(request: NextRequest, ctx: { params: Promise<{ trackI
   const override = resolveAskOverride(userConfig);
 
   try {
-    const result = await askAI({ system: SUGGEST_SYSTEM, messages: [userMessage], maxTokens: 1600, ...override });
+    const result = await askAI({ system: SUGGEST_SYSTEM, messages: [userMessage], maxTokens: 1600, task: "analyze", ...override });
     let suggestions: unknown = null;
     try {
       const match = result.text.match(/\{[\s\S]*\}/);

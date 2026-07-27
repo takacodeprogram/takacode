@@ -22,6 +22,7 @@ export default function LessonAssistant({ lessonId, lessonTitle }: Props) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
+  const [errorCta, setErrorCta] = useState<string | null>(null);
   const [providerChoice, setProviderChoice] = useState<ProviderChoice>("");
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -39,6 +40,7 @@ export default function LessonAssistant({ lessonId, lessonTitle }: Props) {
     setInput("");
     setLoading(true);
     setError("");
+    setErrorCta(null);
     try {
       const res = await fetch(`/api/lessons/${lessonId}/ai-chat`, {
         method: "POST",
@@ -48,6 +50,7 @@ export default function LessonAssistant({ lessonId, lessonTitle }: Props) {
       const json = await res.json();
       if (!res.ok) {
         setError(json?.message || t("lessonAssistant.errorGeneric", "L'assistant est indisponible."));
+        setErrorCta(json?.cta || null);
         setMessages(next);
         return;
       }
@@ -141,6 +144,12 @@ export default function LessonAssistant({ lessonId, lessonTitle }: Props) {
             {error ? (
               <div className="rounded-xl bg-red-500/10 border border-red-500/20 px-3 py-2 text-[12px] text-red-400">
                 {error}
+                {errorCta ? (
+                  <a href={errorCta} className="mt-2 inline-flex items-center gap-1.5 text-[11px] font-semibold text-[#4F8EF7] hover:underline">
+                    <iconify-icon icon="lucide:key-round" style={{ fontSize: "12px" }} />
+                    {t("lessonAssistant.configureKeyCta", "Configurer une clé IA")}
+                  </a>
+                ) : null}
               </div>
             ) : null}
           </div>
