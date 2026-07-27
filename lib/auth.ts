@@ -4,7 +4,7 @@ import type { SupabaseClient, User } from "@supabase/supabase-js";
 const AUTH_TABLES = ["user_profiles"];
 
 const DEFAULT_ROLE = "user";
-const PROFILE_SELECT = "id, role, points, grade, referral_code, referred_by, created_at, updated_at";
+const PROFILE_SELECT = "id, role, points, grade, referral_code, referred_by, country_code, public_name, bio, avatar_url, created_at, updated_at";
 
 interface UserProfile {
   id: string;
@@ -13,6 +13,10 @@ interface UserProfile {
   grade: string | null;
   referral_code: string | null;
   referred_by: string | null;
+  country_code: string | null;
+  public_name: string | null;
+  bio: string | null;
+  avatar_url: string | null;
   created_at: string | null;
   updated_at: string | null;
 }

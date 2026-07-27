@@ -64,7 +64,7 @@ function SidebarLink({ link, pathname, onNavigate, t }: { link: NavLink; pathnam
     >
       <span className="flex items-center gap-3">
         <iconify-icon icon={link.icon} />
-        {link.label}
+        {t(link.labelKey)}
       </span>
       {link.live ?         <span className="h-2 w-2 rounded-full bg-red-500" aria-label={t("appShell.enDirect")} /> : null}
       {link.badge ? (
@@ -97,7 +97,7 @@ export default function AppShell({ user, children }: AppShellProps) {
   const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>(() => {
     const initial: Record<string, boolean> = {};
     for (const item of MEMBER_NAV) {
-      if (isNavGroup(item)) initial[item.label] = true;
+      if (isNavGroup(item)) initial[item.labelKey] = true;
     }
     return initial;
   });
@@ -142,18 +142,19 @@ export default function AppShell({ user, children }: AppShellProps) {
         <nav className="flex-1 overflow-y-auto">
           {navItems.map((item: NavItem) => {
             if (isNavGroup(item)) {
-              const expanded = expandedGroups[item.label];
+              const groupLabel = t(item.labelKey);
+              const expanded = expandedGroups[item.labelKey];
               return (
-                <div key={item.label} className="mb-1">
+                <div key={item.labelKey} className="mb-1">
                   <button
                     type="button"
                     data-tour={item.tour || undefined}
-                    onClick={() => toggleGroup(item.label)}
+                    onClick={() => toggleGroup(item.labelKey)}
                     className="flex items-center justify-between w-full rounded-xl px-4 py-2.5 text-[12px] font-semibold text-[var(--muted-5)] hover:text-[var(--text-primary)] hover:bg-[var(--overlay-4)] transition-all uppercase tracking-wider"
                   >
                     <span className="flex items-center gap-2.5">
                       <iconify-icon icon={item.icon} style={{ fontSize: "13px" }} />
-                      {item.label}
+                      {groupLabel}
                     </span>
                     <iconify-icon
                       icon={expanded ? "lucide:chevron-down" : "lucide:chevron-right"}

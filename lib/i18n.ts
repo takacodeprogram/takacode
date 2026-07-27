@@ -1026,6 +1026,31 @@ const FR: Translations = {
       done: { title: "Prêt à créer", body: "Tu connais maintenant les sections clés. Explore, apprends et construis ton projet. Ce guide reste accessible depuis ton Tableau de bord." }
     }
   },
+  sidebar: {
+    dashboard: "Tableau de bord",
+    formation: "Formation",
+    myTracks: "Mes parcours",
+    myProjects: "Mes projets",
+    reviews: "Revues",
+    resources: "Ressources",
+    community: "Communauté",
+    liveSessions: "Sessions live",
+    communityFeed: "Fil communauté",
+    personalSpace: "Espace personnel",
+    tools: "Outils",
+    changelog: "Nouveautés",
+    documentation: "Documentation",
+    profile: "Profil",
+    adminCenter: "Centre admin",
+    proposeTrack: "Proposer un parcours",
+    adminOverview: "Vue globale",
+    adminUsers: "Utilisateurs",
+    adminTracks: "Parcours",
+    adminSessions: "Sessions live",
+    adminReviews: "Historique des revues",
+    adminAffiliates: "Affiliations",
+    adminAi: "Revue IA"
+  },
   profileReminder: {
     title: "Complète ton profil pour apparaître sur le globe",
     important: "Important",
@@ -3176,6 +3201,31 @@ const EN: Translations = {
       navigate: { title: "Navigation", body: "Click a section in the list below to go there directly. You can also use the sidebar on the left." },
       done: { title: "Ready to create", body: "You now know the key sections. Explore, learn, and build your project. This guide remains accessible from your Dashboard." }
     }
+  },
+  sidebar: {
+    dashboard: "Dashboard",
+    formation: "Learning",
+    myTracks: "My tracks",
+    myProjects: "My projects",
+    reviews: "Reviews",
+    resources: "Resources",
+    community: "Community",
+    liveSessions: "Live sessions",
+    communityFeed: "Community feed",
+    personalSpace: "Personal space",
+    tools: "Tools",
+    changelog: "What's new",
+    documentation: "Documentation",
+    profile: "Profile",
+    adminCenter: "Admin center",
+    proposeTrack: "Propose a track",
+    adminOverview: "Overview",
+    adminUsers: "Users",
+    adminTracks: "Tracks",
+    adminSessions: "Live sessions",
+    adminReviews: "Review history",
+    adminAffiliates: "Affiliates",
+    adminAi: "AI review"
   },
   profileReminder: {
     title: "Complete your profile to appear on the globe",

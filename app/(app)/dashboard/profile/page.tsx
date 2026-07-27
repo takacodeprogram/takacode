@@ -88,7 +88,7 @@ export default async function ProfilePage() {
     <>
       <PageHeader title={t("dashboardProfile.title")} subtitle={displayName} />
 
-      <div className="grid xl:grid-cols-[0.9fr_1.1fr] gap-6">
+      <div className="max-w-[880px] mx-auto space-y-4">
         <section className="space-y-4">
           <article className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-5">
             <div className="flex items-center gap-4 mb-4">
@@ -131,7 +131,7 @@ export default async function ProfilePage() {
           <AccountSecurity userId={user.id} lastSignInAt={lastSignInAt} />
         </section>
 
-        <div className="space-y-4">
+        <section className="space-y-4">
           <ProfileEditor
             initialBio={profileFields.bio}
             initialBioFormat={profileFields.bioFormat}
@@ -145,7 +145,7 @@ export default async function ProfilePage() {
           />
 
           <AiConfigSection />
-        </div>
+        </section>
       </div>
     </>
   );
