@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import FooterSection from "../../../components/FooterSection";
 import Navbar from "../../../components/Navbar";
 import PublicTour from "../../../components/public-tour/PublicTour";
@@ -123,6 +123,19 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
   const track = allTracks.find((item) => String(item.slug || "").trim().toLowerCase() === slug) || null;
 
   if (!track && allTracksResult.schemaReady && !allTracksResult.error) {
+    // Fallback typos courants avant 404 : ai-* ↔ ia-* (confusion FR/EN),
+    // suppression du suffixe -en, ou match préfixe unique.
+    const slugCandidates = new Set<string>();
+    if (slug.startsWith("ai-")) slugCandidates.add("ia-" + slug.slice(3));
+    if (slug.startsWith("ia-")) slugCandidates.add("ai-" + slug.slice(3));
+    if (slug.endsWith("-en")) slugCandidates.add(slug.slice(0, -3));
+    for (const alt of slugCandidates) {
+      const hit = allTracks.find((it) => String(it.slug || "").trim().toLowerCase() === alt);
+      if (hit) {
+        // Requête initiale peut être une lesson : preserve tout après le slug
+        redirect(`/tracks/${hit.slug}`);
+      }
+    }
     notFound();
   }
 

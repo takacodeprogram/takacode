@@ -67,6 +67,15 @@ export default async function LessonPage({ params }: LessonPageProps) {
   const track = allTracksResult.tracks.find((item) => String(item.slug || "").trim().toLowerCase() === slug) || null;
 
   if (!track) {
+    // Typos courants avant 404 : ai-* ↔ ia-* + suffixe -en
+    const slugCandidates = new Set<string>();
+    if (slug.startsWith("ai-")) slugCandidates.add("ia-" + slug.slice(3));
+    if (slug.startsWith("ia-")) slugCandidates.add("ai-" + slug.slice(3));
+    if (slug.endsWith("-en")) slugCandidates.add(slug.slice(0, -3));
+    for (const alt of slugCandidates) {
+      const hit = allTracksResult.tracks.find((it) => String(it.slug || "").trim().toLowerCase() === alt);
+      if (hit) redirect(`/tracks/${hit.slug}/lesson/${lessonSlug}`);
+    }
     notFound();
   }
 
