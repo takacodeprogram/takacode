@@ -156,7 +156,7 @@ function ActionCard({
       </div>
       <p className="font-body-readable text-[12px] text-[var(--muted-2)] leading-relaxed mb-4">{description}</p>
       <Link
-        href={href}
+        href={localePath(href, locale)}
         className="inline-flex items-center gap-2 text-[12px] font-semibold px-4 py-2.5 rounded-xl border transition-all"
         style={{
           borderColor: `${accent}55`,

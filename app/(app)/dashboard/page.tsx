@@ -148,7 +148,7 @@ export default async function DashboardHomePage() {
   const quickActions = [
     { label: t("dashboard.myTracks"), href: "/dashboard/tracks", icon: "lucide:map" },
     { label: t("dashboard.myProjects"), href: "/dashboard/projects", icon: "lucide:folder-code" },
-    { label: t("dashboard.leaderboard"), href: "/classement", icon: "lucide:trophy" }
+    { label: t("dashboard.leaderboard"), href: "/leaderboard", icon: "lucide:trophy" }
   ];
 
   const profile = accessContext.profile as Record<string, unknown> | null;

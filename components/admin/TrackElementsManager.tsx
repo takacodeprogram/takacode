@@ -435,7 +435,7 @@ export default function TrackElementsManager({ trackId, initialModules = [], bas
                             </div>
                           </div>
                           <div className="flex items-center gap-1.5 shrink-0">
-                            <Link href={`${basePath}/lecons/${lesson.id}`} className="text-[var(--muted-3)] hover:text-[var(--text-primary)] p-1" title={t("trackEl.editLesson")}>
+                            <Link href={`${basePath}/lessons/${lesson.id}`} className="text-[var(--muted-3)] hover:text-[var(--text-primary)] p-1" title={t("trackEl.editLesson")}>
                               <iconify-icon icon="lucide:pencil" style={{ fontSize: "13px" }} />
                             </Link>
                             <button type="button" onClick={() => handleDuplicateLesson(lesson, module.id)} disabled={busy} className="text-[var(--muted-3)] hover:text-[var(--text-primary)] p-1" title={t("trackEl.duplicateLesson")}>
@@ -449,7 +449,7 @@ export default function TrackElementsManager({ trackId, initialModules = [], bas
                       ))}
                     </SortableContext>
                     <Link
-                      href={`${basePath}/lecons/nouveau?module=${module.id}`}
+                      href={`${basePath}/lessons/new?module=${module.id}`}
                       className="inline-flex items-center gap-1.5 text-[11px] text-[#4F8EF7] hover:underline mt-1"
                     >
                       <iconify-icon icon="lucide:plus" style={{ fontSize: "12px" }} />
