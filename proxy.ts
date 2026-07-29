@@ -101,9 +101,10 @@ export async function proxy(request: NextRequest) {
 
   // a) Détection de la locale
   const isLocaleInUrl = SUPPORTED_LOCALES.includes(firstSegment as Locale);
-  const locale: Locale = isLocaleInUrl
-    ? (firstSegment as Locale)
-    : (request.cookies.get(COOKIE_NAME)?.value as Locale) || DEFAULT_LOCALE;
+  // L'URL fait foi : les routes sans préfixe utilisent toujours la locale
+  // par défaut (anglais), tandis que /fr/... sélectionne le français.
+  const locale: Locale = isLocaleInUrl ? (firstSegment as Locale) : DEFAULT_LOCALE;
+  request.cookies.set(COOKIE_NAME, locale);
 
   // b') Redirection des anciennes routes françaises vers les nouvelles routes anglaises
   const checkPath = isLocaleInUrl ? "/" + segments.slice(1).join("/") : pathname;
@@ -141,7 +142,9 @@ export async function proxy(request: NextRequest) {
   }
   if (hasChanges && newPath !== checkPath) {
     const redirectUrl = isLocaleInUrl ? `/${locale}${newPath}` : newPath;
-    return NextResponse.redirect(new URL(redirectUrl + search, request.url));
+    const redirectResponse = NextResponse.redirect(new URL(redirectUrl + search, request.url));
+    redirectResponse.cookies.set(COOKIE_NAME, locale, COOKIE_OPTIONS);
+    return redirectResponse;
   }
 
   // b) Pathname interne sans le préfixe locale
@@ -173,10 +176,8 @@ export async function proxy(request: NextRequest) {
     return rewritten;
   }
 
-  // f) Cookie de locale par défaut si jamais choisi
-  if (!request.cookies.get(COOKIE_NAME)) {
-    response.cookies.set(COOKIE_NAME, DEFAULT_LOCALE, COOKIE_OPTIONS);
-  }
+  // f) Synchroniser le cookie avec la locale portée par l'URL.
+  response.cookies.set(COOKIE_NAME, locale, COOKIE_OPTIONS);
 
   return response;
 }

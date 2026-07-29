@@ -44,7 +44,7 @@ export function readStoredLocale(): Locale {
   } catch {
     // localStorage inaccessible (SSR, private browsing restrictions)
   }
-  return detectBrowserLocale();
+  return DEFAULT_LOCALE;
 }
 
 export function persistLocale(locale: Locale): void {

@@ -85,19 +85,19 @@ describe("readStoredLocale", () => {
     expect(readStoredLocale()).toBe("en");
   });
 
-  it("returns browser locale when nothing is stored", () => {
-    setNavigatorLanguage("en-US");
+  it("returns the default locale when nothing is stored", () => {
+    setNavigatorLanguage("fr-FR");
     expect(readStoredLocale()).toBe("en");
   });
 
-  it("returns fr when stored value is invalid", () => {
+  it("returns the default locale when stored value is invalid", () => {
     setNavigatorLanguage("fr-FR");
     persistLocale("de" as "fr");
-    expect(readStoredLocale()).toBe("fr");
+    expect(readStoredLocale()).toBe("en");
   });
 
-  it("falls back to browser locale when localStorage throws", () => {
-    setNavigatorLanguage("en-US");
+  it("falls back to the default locale when localStorage throws", () => {
+    setNavigatorLanguage("fr-FR");
     const orig = localStorage.getItem;
     localStorage.getItem = () => { throw new Error("Storage error"); };
     expect(readStoredLocale()).toBe("en");
