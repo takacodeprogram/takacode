@@ -28,9 +28,9 @@ export default function LangSwitch({ className = "" }: Props) {
       className={`inline-flex items-center justify-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-lg border border-[var(--border-4)] bg-[var(--overlay-3)] text-[var(--muted-2)] hover:text-[var(--text-primary)] hover:border-[var(--border-5)] transition-all min-w-[44px] ${className}`}
       aria-label={locale === "fr" ? t("navbar.switchToEnglish") : t("navbar.switchToFrench")}
     >
-      <span className={locale === "fr" ? "text-[var(--text-primary)]" : "text-[var(--muted-4)]"}>FR</span>
-      <span className="text-[var(--muted-6)]">/</span>
       <span className={locale === "en" ? "text-[var(--text-primary)]" : "text-[var(--muted-4)]"}>EN</span>
+      <span className="text-[var(--muted-6)]">/</span>
+      <span className={locale === "fr" ? "text-[var(--text-primary)]" : "text-[var(--muted-4)]"}>FR</span>
     </button>
   );
 }
