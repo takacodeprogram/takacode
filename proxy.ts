@@ -3,6 +3,7 @@ import type { NextRequest } from "next/server";
 import { updateSession } from "./utils/supabase/middleware";
 import type { Locale } from "./lib/i18n";
 import { SUPPORTED_LOCALES, DEFAULT_LOCALE } from "./lib/i18n";
+import { translateLegacyRoutePath } from "./lib/legacyRoutes";
 
 // Next 16 n'accepte qu'un seul point d'entree : proxy.ts (middleware.ts est
 // refuse au build). On y combine donc les deux responsabilites :
@@ -108,38 +109,10 @@ export async function proxy(request: NextRequest) {
 
   // b') Redirection des anciennes routes françaises vers les nouvelles routes anglaises
   const checkPath = isLocaleInUrl ? "/" + segments.slice(1).join("/") : pathname;
-  const OLD_ROUTE_MAP: Record<string, string> = {
-    "/tarifs": "/pricing",
-    "/projets": "/projects",
-    "/profil": "/profile",
-    "/parcours": "/tracks",
-    "/classement": "/leaderboard",
-    "/connexion": "/login",
-    "/communaute": "/community",
-    "/competences": "/skills",
-    "/ressources": "/resources",
-    "/nouveautes": "/changelog",
-    "/nouveau": "/new",
-    "/outils": "/tools",
-    "/utilisateurs": "/users",
-    "/revues": "/reviews",
-    "/ia": "/ai",
-    "/affiliations": "/affiliates",
-    "/documentation": "/docs",
-    "/progression": "/progress",
-    "/mentorat": "/mentoring",
-    "/edition": "/editing",
-    "/lecon": "/lesson"
-  };
-  // Replace all French route segments in one pass (e.g., /parcours/.../lecon → /tracks/.../lesson)
-  let newPath = checkPath;
-  let hasChanges = false;
-  for (const [oldSeg, newSeg] of Object.entries(OLD_ROUTE_MAP)) {
-    const regex = new RegExp("\\b" + oldSeg.replace(/\//g, "\\/") + "\\b", "g");
-    const replaced = newPath.replace(regex, newSeg);
-    if (replaced !== newPath) hasChanges = true;
-    newPath = replaced;
-  }
+  // Traduire des segments complets uniquement. Les slugs de contenu sont
+  // opaques : `ia-fondamentaux` ne doit jamais devenir `ai-fondamentaux`.
+  const newPath = translateLegacyRoutePath(checkPath);
+  const hasChanges = newPath !== checkPath;
   if (hasChanges && newPath !== checkPath) {
     const redirectUrl = isLocaleInUrl ? `/${locale}${newPath}` : newPath;
     const redirectResponse = NextResponse.redirect(new URL(redirectUrl + search, request.url));
