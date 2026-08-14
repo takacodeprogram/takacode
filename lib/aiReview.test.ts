@@ -60,7 +60,7 @@ describe("getAIReviewConfig", () => {
 
   it("returns defaults when no env vars are set", () => {
     const config = getAIReviewConfig();
-    expect(config.provider).toBe("openrouter");
+    expect(config.provider).toBe("mistral");
     expect(config.model).toBe("");
     expect(config.apiKey).toBe("");
     expect(config.enabled).toBe(false);

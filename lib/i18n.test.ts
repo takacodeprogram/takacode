@@ -52,7 +52,7 @@ describe("createT", () => {
 
   it("returns nested translations", () => {
     const t = createT("fr");
-    expect(t("home.hero.badge")).toBe("Plateforme de création de projets");
+    expect(t("home.hero.badge")).toBe("Créer des projets digitaux avec l'IA");
     expect(t("home.hero.ctaPrimary")).toBe("Commencer un projet");
   });
 
