@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import FooterSection from "../../../components/FooterSection";
 import Navbar from "../../../components/Navbar";
 import PublicTour from "../../../components/public-tour/PublicTour";
@@ -23,6 +23,7 @@ import { missingPrerequisites } from "../../../lib/trackGuidance";
 import { createClient } from "../../../utils/supabase/server";
 import { buildSprintMilestones, computeProjectProgress, getSprintStatusChip, getSprintStatusLabel } from "../../../lib/milestones";
 import { listAffiliatesByTrack, categoryLabel } from "../../../lib/affiliate";
+import { localizedTrackPath } from "../../../lib/trackLocalization";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -126,6 +127,13 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
     notFound();
   }
 
+  if (track && track.locale !== locale) {
+    redirect(localizedTrackPath(track, locale));
+  }
+
+  const targetLocale: Locale = locale === "fr" ? "en" : "fr";
+  const languageSwitchPath = track ? localizedTrackPath(track, targetLocale) : localePath("/tracks", targetLocale);
+
   const myEnrollmentsResult = user
     ? await listUserTrackEnrollments(supabase, user.id, { limit: 32 })
     : { enrollments: [], schemaReady: allTracksResult.schemaReady, error: null };
@@ -167,7 +175,7 @@ export default async function ParcoursDetailPage({ params }: ParcoursPageProps) 
 
   return (
     <div className="min-h-screen bg-[var(--bg-app)] text-[var(--text-primary)]">
-      <Navbar />
+      <Navbar languageSwitchPath={languageSwitchPath} />
       <main className="pt-[64px]">
         <section className="py-24 md:py-28 px-8">
           <div className="max-w-[1320px] mx-auto space-y-8">

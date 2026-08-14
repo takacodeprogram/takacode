@@ -60,7 +60,7 @@ function isLinkActive(pathname: string, link: NavLink): boolean {
   });
 }
 
-export default function Navbar() {
+export default function Navbar({ languageSwitchPath }: { languageSwitchPath?: string } = {}) {
   const pathname = usePathname();
   const supabase = useMemo(() => createClient(), []);
 
@@ -217,7 +217,7 @@ export default function Navbar() {
 
         <div className="nav-desktop-actions flex items-center gap-3">
           <ThemeToggle />
-          <LangSwitch />
+          <LangSwitch alternatePath={languageSwitchPath} />
           {isAuthLoading ? (
             <div className="h-10 w-[120px]" aria-hidden="true" />
           ) : isAuthenticated ? (
@@ -269,7 +269,7 @@ export default function Navbar() {
           <div className="nav-mobile-actions">
             <div className="flex justify-center items-center gap-2 mb-2">
               <ThemeToggle />
-              <LangSwitch />
+              <LangSwitch alternatePath={languageSwitchPath} />
             </div>
             {isAuthLoading ? null : isAuthenticated ? (
               <>

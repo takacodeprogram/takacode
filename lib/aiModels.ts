@@ -94,3 +94,16 @@ export function getModelForTask(provider: AiProviderId, task: AiTask): ModelSpec
 export function getAllModelsForProvider(provider: AiProviderId): Record<AiTask, ModelSpec> {
   return MODELS[provider];
 }
+
+export function getUniqueModelsForProvider(provider: AiProviderId): ModelSpec[] {
+  const seen = new Set<string>();
+  return Object.values(MODELS[provider]).filter((model) => {
+    if (seen.has(model.id)) return false;
+    seen.add(model.id);
+    return true;
+  });
+}
+
+export function isModelAvailableForProvider(provider: AiProviderId, model: string): boolean {
+  return getUniqueModelsForProvider(provider).some((candidate) => candidate.id === model);
+}

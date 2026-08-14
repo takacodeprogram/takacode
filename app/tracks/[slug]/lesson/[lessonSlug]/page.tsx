@@ -14,6 +14,7 @@ import { createClient } from "../../../../../utils/supabase/server";
 import { localePath } from "../../../../../lib/localeHelpers";
 import { getServerLocale } from "../../../../../lib/serverLocale";
 import { getLocale, type Locale } from "../../../../../lib/i18n";
+import { localizedTrackPath } from "../../../../../lib/trackLocalization";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -70,6 +71,13 @@ export default async function LessonPage({ params }: LessonPageProps) {
     notFound();
   }
 
+  if (track.locale !== localeP) {
+    redirect(localizedTrackPath(track, localeP));
+  }
+
+  const targetLocale: Locale = localeP === "fr" ? "en" : "fr";
+  const languageSwitchPath = localizedTrackPath(track, targetLocale);
+
   // Ouvrir une lecon marque le parcours comme demarre (apparait dans le dashboard).
   await ensureUserTrackEnrollment(supabase, user.id, track.id);
 
@@ -98,7 +106,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
 
   return (
     <div className="min-h-screen bg-[var(--bg-app)] text-[var(--text-primary)]">
-      <Navbar />
+      <Navbar languageSwitchPath={languageSwitchPath} />
       <main className="pt-[64px]">
         <section className="py-24 md:py-28 px-8">
           <div className="max-w-[980px] mx-auto space-y-8">

@@ -1,7 +1,7 @@
 import { normalizeText, normalizeArray, normalizeNextSteps, isMissingSchemaError, NextStep } from "./utils";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
-const TRACK_SELECT = [
+const TRACK_SELECT_LEGACY = [
   "id",
   "slug",
   "goal_key",
@@ -21,6 +21,8 @@ const TRACK_SELECT = [
   "sort_order"
 ].join(", ");
 
+const TRACK_SELECT = `${TRACK_SELECT_LEGACY}, locale, counterpart_slug`;
+
 const ENROLLMENT_SELECT = [
   "id",
   "user_id",
@@ -31,7 +33,7 @@ const ENROLLMENT_SELECT = [
   "completed_at",
   "created_at",
   "updated_at",
-  "track:learning_tracks(" + TRACK_SELECT + ")"
+  "track:learning_tracks(" + TRACK_SELECT_LEGACY + ")"
 ].join(", ");
 
 const DEFAULT_TRACK_COLOR = "#4F8EF7";
@@ -57,6 +59,8 @@ export interface Track {
   isPublished: boolean;
   isActive: boolean;
   sortOrder: number;
+  locale: string;
+  counterpartSlug: string;
 }
 
 interface TrackRow {
@@ -77,6 +81,8 @@ interface TrackRow {
   is_published: boolean;
   is_active: boolean;
   sort_order: number;
+  locale?: string;
+  counterpart_slug?: string;
 }
 
 export interface Enrollment {
@@ -216,7 +222,9 @@ export function normalizeTrackRow(row: unknown): Track | null {
     nextSteps,
     isPublished: r.is_published === true,
     isActive: r.is_active !== false,
-    sortOrder: Number.isFinite(Number(r.sort_order)) ? Number(r.sort_order) : 100
+    sortOrder: Number.isFinite(Number(r.sort_order)) ? Number(r.sort_order) : 100,
+    locale: normalizeText(r.locale, "fr"),
+    counterpartSlug: normalizeText(r.counterpart_slug)
   };
 }
 
@@ -242,16 +250,16 @@ export async function listPublishedTracks(supabase: SupabaseClient, options: Lis
   const limit = Number.isFinite(Number(options.limit)) ? Number(options.limit) : null;
   const locale = typeof options.locale === "string" && options.locale.trim() ? options.locale.trim() : null;
 
-  function buildQuery(withLocale: boolean) {
+  function buildQuery(withLocalization: boolean) {
     let q = supabase
       .from("learning_tracks")
-      .select(TRACK_SELECT)
+      .select(withLocalization ? TRACK_SELECT : TRACK_SELECT_LEGACY)
       .eq("is_published", true)
       .eq("is_active", true)
       .order("sort_order", { ascending: true })
       .order("created_at", { ascending: true });
 
-    if (withLocale && locale) {
+    if (withLocalization && locale) {
       q = q.eq("locale", locale);
     }
     if (limit && limit > 0) {
@@ -260,9 +268,9 @@ export async function listPublishedTracks(supabase: SupabaseClient, options: Lis
     return q;
   }
 
-  let { data, error } = await buildQuery(Boolean(locale));
+  let { data, error } = await buildQuery(true);
 
-  if (error && locale && isMissingLocaleColumn(error)) {
+  if (error && isMissingLocaleColumn(error)) {
     ({ data, error } = await buildQuery(false));
   }
 
@@ -294,7 +302,7 @@ export async function listRecommendedTracksForGoal(supabase: SupabaseClient, goa
 
   let query = supabase
     .from("learning_tracks")
-    .select(TRACK_SELECT)
+    .select(TRACK_SELECT_LEGACY)
     .eq("is_published", true)
     .eq("is_active", true)
     .order("sort_order", { ascending: true })

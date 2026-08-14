@@ -5,8 +5,8 @@
 
 import { getModelForTask, type AiTask, type AiProviderId } from "./aiModels";
 
-const CHAT_PROVIDER_IDS = ["mistral", "openrouter", "gemini", "openai", "anthropic"] as const;
-type ChatProviderId = (typeof CHAT_PROVIDER_IDS)[number];
+export const CHAT_PROVIDER_IDS = ["mistral", "openrouter", "gemini", "openai", "anthropic"] as const;
+export type ChatProviderId = (typeof CHAT_PROVIDER_IDS)[number];
 
 interface ChatProviderConfig {
   envKeys: string[];
@@ -124,6 +124,14 @@ function readEnvKey(keys: string[]): string {
     if (v && v.trim()) return v.trim();
   }
   return "";
+}
+
+export function hasServerKeyForProvider(provider: ChatProviderId): boolean {
+  return Boolean(readEnvKey(CHAT_PROVIDERS[provider].envKeys));
+}
+
+export function getServerKeyForProvider(provider: ChatProviderId): string {
+  return readEnvKey(CHAT_PROVIDERS[provider].envKeys);
 }
 
 function orderedChain(): ChatProviderId[] {

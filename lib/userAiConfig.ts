@@ -45,15 +45,17 @@ export async function getUserAiConfig(supabase: SupabaseClient, userId: string):
 export interface AskOverride {
   providerOverride?: AiProviderId;
   apiKeyOverride?: string;
+  model?: string;
 }
 
 // À partir de la config user + d'un provider optionnellement forcé par le
 // client (ex. dropdown chat), renvoie l'override à passer à askAI.
-export function resolveAskOverride(config: UserAiConfig, clientProviderChoice?: string): AskOverride {
+export function resolveAskOverride(config: UserAiConfig, clientProviderChoice?: string, model?: string): AskOverride {
   const wanted = (clientProviderChoice || config.provider || "").trim();
   if (!isValidProvider(wanted)) return {};
   const userKey = config.keys[wanted];
   const out: AskOverride = { providerOverride: wanted };
   if (userKey) out.apiKeyOverride = userKey;
+  if (model) out.model = model;
   return out;
 }

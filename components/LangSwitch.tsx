@@ -7,16 +7,17 @@ import { switchLocalePath } from "../utils/localePath";
 
 interface Props {
   className?: string;
+  alternatePath?: string;
 }
 
-export default function LangSwitch({ className = "" }: Props) {
+export default function LangSwitch({ className = "", alternatePath }: Props) {
   const { t, locale, setLocale } = useI18n();
   const pathname = usePathname();
   const router = useRouter();
 
   const toggle = () => {
     const next: Locale = locale === "fr" ? "en" : "fr";
-    const nextPath = switchLocalePath(pathname, locale, next);
+    const nextPath = alternatePath || switchLocalePath(pathname, locale, next);
     setLocale(next);
     router.push(nextPath);
   };

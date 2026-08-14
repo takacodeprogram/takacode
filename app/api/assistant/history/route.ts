@@ -31,6 +31,32 @@ export async function GET(request: NextRequest) {
   if ("error" in resolved) return resolved.error;
   const { supabase, user, kind, ref, limit } = resolved;
 
+  const url = new URL(request.url);
+  if (url.searchParams.get("view") === "threads") {
+    const { data, error } = await supabase
+      .from("ai_chat_messages")
+      .select("context_kind, context_ref, role, content, created_at")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false })
+      .limit(500);
+    if (error) return NextResponse.json({ error: "db_error", message: error.message }, { status: 500 });
+
+    const grouped = new Map<string, { contextKind: string; contextRef: string; preview: string; updatedAt: string; messageCount: number }>();
+    for (const message of data || []) {
+      const key = `${message.context_kind}:${message.context_ref}`;
+      const current = grouped.get(key);
+      if (current) current.messageCount += 1;
+      else grouped.set(key, {
+        contextKind: message.context_kind,
+        contextRef: message.context_ref,
+        preview: String(message.content || "").slice(0, 100),
+        updatedAt: message.created_at,
+        messageCount: 1
+      });
+    }
+    return NextResponse.json({ threads: Array.from(grouped.values()).slice(0, 30) });
+  }
+
   const { data, error } = await supabase
     .from("ai_chat_messages")
     .select("role, content, provider, model, created_at")

@@ -1,11 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { askAI, hasAnyChatProvider, AiError, type ChatMessage } from "../../../../lib/aiChat";
+import { AiError, type ChatMessage } from "../../../../lib/aiChat";
 import { createClient } from "../../../../utils/supabase/server";
 import { apiRateLimit, buildRateLimitKey } from "../../../../lib/rateLimit";
 import { listOwnProjects } from "../../../../lib/userProjects";
 import { listUserTrackEnrollments } from "../../../../lib/tracks";
 import { getUserAiConfig, resolveAskOverride } from "../../../../lib/userAiConfig";
+import { runAgent } from "../../../../lib/agentRuntime";
+import { parseAgentToolCall } from "../../../../lib/agentTools";
+import { isModelAvailableForProvider, type AiProviderId } from "../../../../lib/aiModels";
 
 // POST /api/assistant/chat
 // Assistant IA global. Le prompt système s'adapte au contexte de la page
@@ -25,7 +28,10 @@ const MAX_CONTENT_CHARS = 4000;
 interface ChatBody {
   messages?: ChatMessage[];
   provider?: string;
+  model?: string;
   pathname?: string;
+  attachmentIds?: string[];
+  confirmedAction?: unknown;
 }
 
 function safeMessages(raw: unknown): ChatMessage[] {
@@ -69,7 +75,7 @@ function detectContext(pathname: string | undefined): ContextKind {
   const trackMatch = stripped.match(/^\/tracks\/([^/]+)/);
   if (trackMatch) return { kind: "track", trackSlug: trackMatch[1] };
 
-  const projectMatch = stripped.match(/^\/projects\/([^/]+)/);
+  const projectMatch = stripped.match(/^(?:\/dashboard)?\/projects\/([^/]+)/);
   if (projectMatch) return { kind: "project", projectId: projectMatch[1] };
 
   if (stripped.startsWith("/dashboard") || stripped.startsWith("/admin")) {
@@ -160,13 +166,6 @@ async function buildSystem(supabase: any, userId: string, ctx: ContextKind): Pro
 }
 
 export async function POST(request: NextRequest) {
-  if (!hasAnyChatProvider()) {
-    return NextResponse.json(
-      { error: "ai_not_configured", code: "NO_PROVIDER", message: "AI non configurée.", cta: "/dashboard/profile" },
-      { status: 503 }
-    );
-  }
-
   let body: ChatBody;
   try {
     body = (await request.json()) as ChatBody;
@@ -202,15 +201,55 @@ export async function POST(request: NextRequest) {
   const system = await buildSystem(supabase, user.id, ctx);
 
   const userConfig = await getUserAiConfig(supabase, user.id);
-  const override = resolveAskOverride(userConfig, body.provider);
+  const originalUserContent = messages[messages.length - 1].content;
+  const selectedProvider = body.provider as AiProviderId | undefined;
+  const selectedModel = String(body.model || "").trim();
+  if (selectedModel && (!selectedProvider || !isModelAvailableForProvider(selectedProvider, selectedModel))) {
+    return NextResponse.json({ error: "invalid_model", message: "Ce modèle n'est pas disponible pour ce fournisseur." }, { status: 400 });
+  }
+  const override = resolveAskOverride(userConfig, body.provider, selectedModel || undefined);
+
+  const attachmentIds = Array.isArray(body.attachmentIds)
+    ? body.attachmentIds.filter((id) => typeof id === "string").slice(0, 5)
+    : [];
+  if (attachmentIds.length) {
+    const { data: attachments } = await supabase
+      .from("ai_chat_attachments")
+      .select("id, file_name, mime_type, extracted_text")
+      .eq("user_id", user.id)
+      .in("id", attachmentIds);
+    if (attachments?.length) {
+      const fileContext = attachments.map((file: any) => {
+        const text = String(file.extracted_text || "").slice(0, 20_000);
+        return `FICHIER ${file.file_name} (${file.mime_type || "type inconnu"})${text ? `:\n${text}` : " — contenu non extractible, utilise uniquement ses métadonnées."}`;
+      }).join("\n\n");
+      messages[messages.length - 1] = {
+        ...messages[messages.length - 1],
+        content: `${messages[messages.length - 1].content}\n\n${fileContext}`.slice(0, 30_000)
+      };
+    }
+  }
 
   try {
-    const result = await askAI({ system, messages, maxTokens: 700, task: "chat", ...override });
+    const confirmedAction = body.confirmedAction
+      ? parseAgentToolCall(JSON.stringify(body.confirmedAction)) || undefined
+      : undefined;
+    if (body.confirmedAction && !confirmedAction) {
+      return NextResponse.json({ error: "invalid_action", message: "Action agent invalide." }, { status: 400 });
+    }
+
+    const result = await runAgent({
+      supabase,
+      userId: user.id,
+      system,
+      messages,
+      askOptions: override,
+      confirmedAction
+    });
 
     // Persister le dernier message user + la réponse assistant (fire-and-forget
     // pour ne pas ralentir la réponse). RLS garantit self-only.
     const contextRef = contextRefFromKind(ctx);
-    const lastUserMsg = messages[messages.length - 1];
     void supabase
       .from("ai_chat_messages")
       .insert([
@@ -219,7 +258,7 @@ export async function POST(request: NextRequest) {
           context_kind: ctx.kind,
           context_ref: contextRef,
           role: "user",
-          content: lastUserMsg.content
+          content: originalUserContent
         },
         {
           user_id: user.id,
@@ -236,7 +275,9 @@ export async function POST(request: NextRequest) {
       reply: result.text,
       provider: result.provider,
       model: result.model,
-      context: ctx.kind
+      context: ctx.kind,
+      toolEvents: result.toolEvents,
+      pendingAction: result.pendingAction || null
     });
   } catch (e) {
     const err = e as AiError;

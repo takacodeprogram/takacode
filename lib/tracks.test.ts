@@ -49,6 +49,8 @@ describe("normalizeTrackRow", () => {
       is_published: true,
       is_active: true,
       sort_order: 10,
+      locale: "en",
+      counterpart_slug: "parcours-test",
     };
 
     const track = normalizeTrackRow(row);
@@ -59,6 +61,8 @@ describe("normalizeTrackRow", () => {
     expect(track!.durationWeeks).toBe(4);
     expect(track!.isPublished).toBe(true);
     expect(track!.isActive).toBe(true);
+    expect(track!.locale).toBe("en");
+    expect(track!.counterpartSlug).toBe("parcours-test");
   });
 });
 
