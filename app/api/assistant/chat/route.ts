@@ -248,10 +248,9 @@ export async function POST(request: NextRequest) {
       confirmedAction
     });
 
-    // Persister le dernier message user + la réponse assistant (fire-and-forget
-    // pour ne pas ralentir la réponse). RLS garantit self-only.
+    // Persister le dernier message user + la réponse assistant
     const contextRef = contextRefFromKind(ctx);
-    void supabase
+    const { error: insertError } = await supabase
       .from("ai_chat_messages")
       .insert([
         {
@@ -271,6 +270,9 @@ export async function POST(request: NextRequest) {
           model: result.model
         }
       ]);
+    if (insertError) {
+      console.error("Failed to insert chat messages:", insertError);
+    }
 
     return NextResponse.json({
       reply: result.text,
