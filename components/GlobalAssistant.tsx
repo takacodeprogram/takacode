@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useI18n } from "./I18nProvider";
+import RichTextRenderer from "./RichTextRenderer";
 
 interface Message {
   role: "user" | "assistant";
@@ -618,10 +619,14 @@ export default function GlobalAssistant({ fallbackTitle }: Props) {
                 className={
                   m.role === "user"
                     ? "ml-8 rounded-xl bg-gradient-to-br from-[#4F8EF7] to-[#3d7ce6] text-white px-3 py-2 whitespace-pre-wrap"
-                    : "mr-8 rounded-xl bg-[var(--overlay-4)] text-[var(--text-primary)] px-3 py-2 whitespace-pre-wrap"
+                    : "mr-8 rounded-xl bg-[var(--overlay-4)] text-[var(--text-primary)] px-3 py-2"
                 }
               >
-                {m.content}
+                {m.role === "assistant" ? (
+                  <RichTextRenderer content={m.content} format="markdown" className="text-[var(--text-primary)]" />
+                ) : (
+                  m.content
+                )}
                 {m.role === "assistant" ? (
                   <button type="button" onClick={() => speak(m.content)} disabled={voiceBusy} className="mt-2 flex items-center gap-1 text-[10px] text-[var(--muted-4)] hover:text-[#7aa8ff] disabled:opacity-40" aria-label="Écouter la réponse">
                     <iconify-icon icon="lucide:volume-2" style={{ fontSize: "11px" }} /> Écouter

@@ -33,13 +33,14 @@ export async function POST(request: NextRequest) {
   const id = crypto.randomUUID();
   const storagePath = `${user.id}/${id}/${safeName(file.name)}`;
   const bytes = await file.arrayBuffer();
+  const buffer = Buffer.from(bytes);
   const extractedText = TEXT_TYPES.has(file.type)
     ? new TextDecoder().decode(bytes).replace(/\u0000/g, "").slice(0, 50_000)
     : "";
 
   const { error: uploadError } = await supabase.storage
     .from("ai-chat-files")
-    .upload(storagePath, bytes, { contentType: file.type, upsert: false });
+    .upload(storagePath, buffer, { contentType: file.type, upsert: false });
   if (uploadError) return NextResponse.json({ error: "upload_failed", message: uploadError.message }, { status: 500 });
 
   const { data, error } = await supabase
