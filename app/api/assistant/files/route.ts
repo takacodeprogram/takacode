@@ -41,8 +41,9 @@ export async function POST(request: NextRequest) {
   } else if (file.type === "application/pdf") {
     try {
       // @ts-ignore
-      const pdfParse = require("pdf-parse");
-      const parsed = await pdfParse(buffer);
+      const { PDFParse } = require("pdf-parse");
+      const parser = new PDFParse({ data: buffer });
+      const parsed = await parser.getText();
       extractedText = String(parsed.text || "").replace(/\u0000/g, "").slice(0, 50_000);
     } catch (err) {
       console.error("PDF parse error:", err);
