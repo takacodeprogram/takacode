@@ -95,7 +95,8 @@ async function buildSystem(supabase: any, userId: string, ctx: ContextKind): Pro
 
   const parts: string[] = [
     "Tu es le coach IA personnel du membre TakaCode. Réponds en français, court (2-5 phrases), actionnable, sans jargon.",
-    "Objectif : l'aider à avancer sur son projet et son apprentissage. Si la question sort du sujet, recentre-le poliment."
+    "Objectif : l'aider à avancer sur son projet, ses idées et son apprentissage.",
+    "IMPORTANT : L'utilisateur peut soumettre des fichiers ou discuter d'un NOUVEAU projet ou d'une autre idée qui n'existe pas encore dans son espace. Dans ce cas, lis d'abord attentivement le fichier ou le prompt et aide-le sur ce sujet. N'essaie pas de ramener de force la discussion à son projet actif actuel, et n'appelle pas get_project ou update_project avec des titres de projets ou des identifiants invalides."
   ];
 
   // Contexte spécifique à la page
