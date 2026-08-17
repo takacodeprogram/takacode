@@ -243,9 +243,19 @@ export async function executeAgentTool(
       value = projects.projects;
     } else if (call.tool === "get_project") {
       const projectId = String(call.arguments.projectId || "");
-      if (!UUID_RE.test(projectId)) throw new Error("Identifiant projet invalide.");
-      value = (await getOwnProject(supabase, userId, projectId)).project;
-      if (!value) throw new Error("Projet introuvable.");
+      if (!UUID_RE.test(projectId)) {
+        const { projects } = await listOwnProjects(supabase, userId, { limit: 20 });
+        const exactMatch = projects.find((p) => p.title.toLowerCase() === projectId.toLowerCase());
+        const partialMatch = exactMatch || projects.find((p) => p.title.toLowerCase().includes(projectId.toLowerCase()));
+        if (partialMatch) {
+          value = partialMatch;
+        } else {
+          throw new Error(`Aucun projet trouve avec le titre ou l'ID '${projectId}'. Utilisez get_my_projects.`);
+        }
+      } else {
+        value = (await getOwnProject(supabase, userId, projectId)).project;
+        if (!value) throw new Error("Projet introuvable.");
+      }
     } else if (call.tool === "search_web") {
       value = await searchWeb(String(call.arguments.query || ""));
     } else if (call.tool === "list_mcp_tools") {
@@ -253,8 +263,17 @@ export async function executeAgentTool(
     } else if (call.tool === "call_mcp_tool") {
       value = await callMcpTool(call.arguments);
     } else if (call.tool === "update_project") {
-      const projectId = String(call.arguments.projectId || "");
-      if (!UUID_RE.test(projectId)) throw new Error("Identifiant projet invalide.");
+      let projectId = String(call.arguments.projectId || "");
+      if (!UUID_RE.test(projectId)) {
+        const { projects } = await listOwnProjects(supabase, userId, { limit: 20 });
+        const exactMatch = projects.find((p) => p.title.toLowerCase() === projectId.toLowerCase());
+        const partialMatch = exactMatch || projects.find((p) => p.title.toLowerCase().includes(projectId.toLowerCase()));
+        if (partialMatch) {
+          projectId = partialMatch.id;
+        } else {
+          throw new Error(`Aucun projet trouve avec le titre ou l'ID '${projectId}'. Utilisez get_my_projects.`);
+        }
+      }
       const changes = validateProjectChanges(call.arguments.changes);
       if (!Object.keys(changes).length) throw new Error("Aucune modification valide.");
       const { data, error } = await supabase
