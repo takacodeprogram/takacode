@@ -45,8 +45,9 @@ export async function POST(request: NextRequest) {
       const parser = new PDFParse({ data: buffer });
       const parsed = await parser.getText();
       extractedText = String(parsed.text || "").replace(/\u0000/g, "").slice(0, 50_000);
-    } catch (err) {
+    } catch (err: any) {
       console.error("PDF parse error:", err);
+      return NextResponse.json({ error: "pdf_parse_error", message: `Erreur d'extraction du PDF : ${err.message}` }, { status: 500 });
     }
   }
 
