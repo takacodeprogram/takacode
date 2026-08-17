@@ -34,9 +34,20 @@ export async function POST(request: NextRequest) {
   const storagePath = `${user.id}/${id}/${safeName(file.name)}`;
   const bytes = await file.arrayBuffer();
   const buffer = Buffer.from(bytes);
-  const extractedText = TEXT_TYPES.has(file.type)
-    ? new TextDecoder().decode(bytes).replace(/\u0000/g, "").slice(0, 50_000)
-    : "";
+  let extractedText = "";
+
+  if (TEXT_TYPES.has(file.type)) {
+    extractedText = new TextDecoder().decode(bytes).replace(/\u0000/g, "").slice(0, 50_000);
+  } else if (file.type === "application/pdf") {
+    try {
+      // @ts-ignore
+      const pdfParse = require("pdf-parse");
+      const parsed = await pdfParse(buffer);
+      extractedText = String(parsed.text || "").replace(/\u0000/g, "").slice(0, 50_000);
+    } catch (err) {
+      console.error("PDF parse error:", err);
+    }
+  }
 
   const { error: uploadError } = await supabase.storage
     .from("ai-chat-files")
