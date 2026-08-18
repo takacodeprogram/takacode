@@ -6,7 +6,12 @@
 > L'exécution (versions, livraisons, `lib/productReleases.ts`) reste pilotée par
 > [ROADMAP_EVOLUTION.md](ROADMAP_EVOLUTION.md).
 >
-> Rédigé le 18 août 2026.
+> Vocabulaire : lexique fixé au §2 de [VISION.md](VISION.md#2-qui-arrive-et-à-quel-moment) —
+> **personne** (pas de compte) → **membre** (compte créé) → **Builder** (projet en cours)
+> → Contributor / Mentor / Expert. Ce lexique s'applique aussi à la copy produit : voir
+> le chantier C7.
+>
+> Rédigé le 18 août 2026, révisé le 19 août 2026.
 
 ---
 
@@ -211,8 +216,15 @@ liquidité (≥ 200 projets terminés, ≥ 30 mentors).
 - **Prompt système du coach** ([app/api/assistant/chat/route.ts:88](app/api/assistant/chat/route.ts:88)) :
   injecter le `project_type` et adapter l'accompagnement. Un parcours « chaîne YouTube »
   (niche → branding → workflow vidéo → publication → acquisition → monétisation) n'a
-  rien à voir avec un parcours SaaS. C'est le changement le plus visible pour
-  l'utilisateur, et le moins cher à livrer.
+  rien à voir avec un parcours SaaS. C'est le changement le plus visible pour le membre,
+  et le moins cher à livrer.
+- **Lexique** : appliquer la règle du §2 de [VISION.md](VISION.md#2-qui-arrive-et-à-quel-moment).
+  Les textes d'acquisition (accueil, `/pricing`, `/tracks` en visiteur, SEO) s'adressent
+  à une **personne** sans compte — ils ne doivent pas la nommer « membre » ni supposer
+  un projet existant. Les textes de l'espace connecté s'adressent à un **membre**, et
+  ceux du cockpit projet à un **Builder**. L'audit de copy existante est mince : la
+  formulation `noAccountPrompt: "Pas encore membre ?"` ([lib/i18n.ts:1145](lib/i18n.ts:1145))
+  est déjà correcte ; c'est surtout la nouvelle copy qu'il faut écrire du bon point de vue.
 - Faire tourner `node scripts/fix-french-content.mjs --apply` après toute modification
   de contenu en base (voir README).
 

@@ -15,7 +15,7 @@ voir [RAPPORT_OPERATIONNEL.md](RAPPORT_OPERATIONNEL.md) et
 **Stack :** Next.js 16 (App Router, TypeScript strict) + Supabase (Postgres, Auth, RLS, Storage) + React 19 + Tailwind CSS  
 **Deploiement :** Vercel  
 **Langue :** Francais. Le contenu pedagogique en base est accentue (corrige via `scripts/fix-french-content.mjs`) ; certains libelles UI restent volontairement sans accents (convention historique en cours d'harmonisation)  
-**Fonction principale :** GPS des createurs de projets — le membre cree un projet digital, se forme via des parcours accelerateurs, construit de vrais livrables, publie et vise son premier euro (boucle Idee -> Projet -> Construction -> Publication -> Cash)
+**Fonction principale :** transformer une idee en projet, puis un projet en opportunite — une personne arrive avec une idee (tous domaines, pas seulement logiciel), devient membre, suit un parcours, construit de vrais livrables, publie, et en tire une experience, un revenu ou une opportunite professionnelle (boucle Idee -> Projet -> Experience -> Portfolio -> Opportunite). Positionnement et lexique : [VISION.md](VISION.md)
 
 ---
 

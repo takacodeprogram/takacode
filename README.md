@@ -1,15 +1,17 @@
 # TakaCode
 
 **La plateforme ou les idees deviennent des projets, et les projets deviennent des
-opportunites.** Chaque membre arrive avec une idee — un SaaS, une boutique, une
-formation en ligne, une chaine YouTube, un podcast, une activite freelance — suit le
-parcours correspondant, construit de vrais livrables valides par IA/pairs/mentors,
-publie, et transforme son projet en experience, en revenu ou en opportunite
-professionnelle.
+opportunites.** Une personne arrive avec une idee — un SaaS, une boutique, une formation
+en ligne, une chaine YouTube, un podcast, une activite freelance. Elle cree un compte,
+suit le parcours correspondant, construit de vrais livrables valides par
+IA/pairs/mentors, publie, et transforme son projet en experience, en revenu ou en
+opportunite professionnelle.
 
 Trois facons d'entrer : **BUILD** (son projet personnel), **CHALLENGES** (projets
 proposes par TakaCode), **MISSIONS** (vrais besoins d'organisations). Le detail du
-positionnement est dans [VISION.md](./VISION.md).
+positionnement est dans [VISION.md](./VISION.md), qui fixe aussi le **lexique** :
+une *personne* avant l'inscription, un *membre* apres, un *Builder* des le premier
+projet — a respecter dans les docs comme dans la copy produit.
 
 **Stack** : Next.js 16 (App Router, TypeScript strict) · Supabase (Postgres, Auth, RLS,
 Storage) · Tailwind · deploye sur Vercel.

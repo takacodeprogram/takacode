@@ -6,7 +6,12 @@
 > Les chantiers applicatifs correspondants (paiement, Taka+, marketplace, missions)
 > sont détaillés dans [ROADMAP_REPOSITIONNEMENT.md](ROADMAP_REPOSITIONNEMENT.md).
 >
-> Dernière révision : 18 août 2026. Montants en FCFA (zone XOF/XAF), convertis à titre
+> Vocabulaire : ce document suit le lexique fixé au §2 de [VISION.md](VISION.md#2-qui-arrive-et-à-quel-moment).
+> Une **personne** n'a pas encore de compte ; un **membre** en a un ; un **Builder** a un
+> projet en cours. Les sources de revenus ci-dessous s'adressent presque toutes à des
+> membres — c'est justement pourquoi l'entrée doit rester gratuite pour une personne.
+>
+> Dernière révision : 19 août 2026. Montants en FCFA (zone XOF/XAF), convertis à titre
 > indicatif à ~655 FCFA / €.
 
 ---
