@@ -4,18 +4,19 @@ Derniere mise a jour : 2026-07-18. Pour l'etat operationnel et le reste a faire,
 voir [RAPPORT_OPERATIONNEL.md](RAPPORT_OPERATIONNEL.md) et
 [ROADMAP_EVOLUTION.md](ROADMAP_EVOLUTION.md).
 
-> **Note (18 aout 2026).** Ce guide decrit l'architecture telle qu'elle est aujourd'hui,
-> concue sous l'ancienne promesse (projet = projet logiciel). Le repositionnement
-> « idee → projet → experience → opportunite » est cadre dans [VISION.md](VISION.md) et
-> [BUSINESS_MODEL.md](BUSINESS_MODEL.md) ; son impact sur le schema et les routes est
-> detaille dans [ROADMAP_REPOSITIONNEMENT.md](ROADMAP_REPOSITIONNEMENT.md).
+> **Note du 19 aout 2026.** Ce guide decrit le code tel qu'il est aujourd'hui. Il a ete
+> concu quand un projet voulait forcement dire un projet informatique. Ce n'est plus le
+> cas : voir [VISION.md](VISION.md) pour ce qu'est TakaCode maintenant,
+> [BUSINESS_MODEL.md](BUSINESS_MODEL.md) pour les revenus, et
+> [ROADMAP_REPOSITIONNEMENT.md](ROADMAP_REPOSITIONNEMENT.md) pour ce que ca change dans
+> la base de donnees et les pages.
 
 ## 1. Vue d'ensemble
 
 **Stack :** Next.js 16 (App Router, TypeScript strict) + Supabase (Postgres, Auth, RLS, Storage) + React 19 + Tailwind CSS  
 **Deploiement :** Vercel  
 **Langue :** Francais. Le contenu pedagogique en base est accentue (corrige via `scripts/fix-french-content.mjs`) ; certains libelles UI restent volontairement sans accents (convention historique en cours d'harmonisation)  
-**Fonction principale :** transformer une idee en projet, puis un projet en opportunite — une personne arrive avec une idee (tous domaines, pas seulement logiciel), devient membre, suit un parcours, construit de vrais livrables, publie, et en tire une experience, un revenu ou une opportunite professionnelle (boucle Idee -> Projet -> Experience -> Portfolio -> Opportunite). Positionnement et lexique : [VISION.md](VISION.md)
+**A quoi sert le site :** transformer une idee en projet, puis un projet en opportunite. Quelqu'un arrive avec une idee (dans n'importe quel domaine, pas seulement l'informatique), cree un compte, suit un parcours, construit quelque chose de reel et le publie. Ce qu'il a construit lui sert ensuite a decrocher un emploi, une mission payee ou a lancer son business. Boucle : Idee -> Projet -> Experience -> Portfolio -> Opportunite. Details : [VISION.md](VISION.md)
 
 ---
 

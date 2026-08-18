@@ -1,11 +1,11 @@
 # TAKACODE MVP — MASTER PROMPT
 
-> **Note (mise a jour du 18 aout 2026)** : document historique — le prompt produit qui a
-> lance le MVP. Il ne reflete plus ni l'etat courant de la plateforme, ni son
-> positionnement. Sources de verite actuelles : [VISION.md](VISION.md) (positionnement),
-> [BUSINESS_MODEL.md](BUSINESS_MODEL.md) (monetisation),
-> [ROADMAP_EVOLUTION.md](ROADMAP_EVOLUTION.md) (produit) et
-> [RAPPORT_OPERATIONNEL.md](RAPPORT_OPERATIONNEL.md) (technique).
+> **Note du 19 aout 2026** : vieux document, garde pour l'historique. C'est le prompt qui
+> a servi a lancer la premiere version du site. Il ne decrit plus ni ce qu'est TakaCode
+> aujourd'hui, ni comment le site fonctionne. A lire a la place :
+> [VISION.md](VISION.md) (ce qu'est TakaCode), [BUSINESS_MODEL.md](BUSINESS_MODEL.md)
+> (les revenus), [ROADMAP_EVOLUTION.md](ROADMAP_EVOLUTION.md) (ce qui est livre) et
+> [RAPPORT_OPERATIONNEL.md](RAPPORT_OPERATIONNEL.md) (l'etat technique).
 
 ## ROLE
 

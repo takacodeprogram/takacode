@@ -2,17 +2,19 @@
 
 Ce document est la source de verite produit et technique. Chaque livraison visible recoit un numero de version, une entree dans `lib/productReleases.ts` et une mise a jour de la page `/dashboard/nouveautes`.
 
-> **Cadrage amont (18 aout 2026).** Le *pourquoi* et le *quoi* ne sont plus decides
-> ici : le positionnement est fige dans [VISION.md](VISION.md) et la monetisation dans
-> [BUSINESS_MODEL.md](BUSINESS_MODEL.md). Le plan de traduction de ce repositionnement
-> en changements applicatifs (schema, routes, copy, prompt agent) est dans
-> [ROADMAP_REPOSITIONNEMENT.md](ROADMAP_REPOSITIONNEMENT.md). Ce document reste la
-> source de verite de l'**execution** : versions, livraisons, reste a faire.
+> **A lire avant (mis a jour le 19 aout 2026).** Ce document ne decide plus *pourquoi* ni
+> *quoi* : ca se trouve maintenant dans [VISION.md](VISION.md) (ce qu'est TakaCode) et
+> [BUSINESS_MODEL.md](BUSINESS_MODEL.md) (comment on gagne de l'argent). Ce que le
+> repositionnement change dans l'app — base de donnees, pages, textes, coach IA — est
+> dans [ROADMAP_REPOSITIONNEMENT.md](ROADMAP_REPOSITIONNEMENT.md).
 >
-> Les sections anterieures au 18 aout 2026 ont ete ecrites sous l'ancienne promesse
-> (« Build your project. Deploy & monetize. », projet implicitement logiciel). Elles
-> restent valables comme trace decisionnelle et technique ; en cas de contradiction sur
-> le positionnement, `VISION.md` fait foi.
+> Ici, on suit uniquement **ce qui est livre** : versions, livraisons, reste a faire.
+>
+> Tout ce qui est ecrit plus bas et date d'avant le 18 aout 2026 a ete redige avec
+> l'ancienne promesse (« Build your project. Deploy & monetize. », ou un projet voulait
+> forcement dire un projet informatique). Ces sections restent utiles pour comprendre les
+> decisions techniques passees. Mais si elles contredisent `VISION.md` sur ce qu'est
+> TakaCode, c'est `VISION.md` qui a raison.
 
 ---
 

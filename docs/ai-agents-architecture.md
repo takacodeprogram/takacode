@@ -10,11 +10,12 @@
 > **expérience → portfolio → opportunité** (emploi, mission, collaboration ou
 > business à soi).
 >
-> **Mise à jour du 18 août 2026 :** le flow ne s'arrête plus à la monétisation, et
-> « projet » ne signifie plus « projet logiciel » — une formation en ligne, une chaîne
-> YouTube ou une activité freelance sont des projets de plein droit. L'agent doit donc
-> raisonner par **type de projet**, pas par stack technique. Cadrage :
-> [VISION.md](../VISION.md) · impact applicatif :
+> **Mise à jour du 19 août 2026 :** deux choses ont changé. Le parcours ne s'arrête plus
+> à la monétisation, et « projet » ne veut plus dire « projet informatique » : une
+> formation en ligne, une chaîne YouTube ou une activité freelance sont des projets à part
+> entière. L'agent doit donc raisonner par **type de projet**, et pas par technologie —
+> accompagner une chaîne YouTube n'a rien à voir avec accompagner un SaaS.
+> Voir [VISION.md](../VISION.md) et
 > [ROADMAP_REPOSITIONNEMENT.md](../ROADMAP_REPOSITIONNEMENT.md).
 
 ---

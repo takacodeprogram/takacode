@@ -1,26 +1,27 @@
 # TakaCode
 
-**La plateforme ou les idees deviennent des projets, et les projets deviennent des
-opportunites.** Une personne arrive avec une idee — un SaaS, une boutique, une formation
-en ligne, une chaine YouTube, un podcast, une activite freelance. Elle cree un compte,
-suit le parcours correspondant, construit de vrais livrables valides par
-IA/pairs/mentors, publie, et transforme son projet en experience, en revenu ou en
-opportunite professionnelle.
+**Sur TakaCode, une idee devient un projet, et un projet devient une opportunite.**
 
-Trois facons d'entrer : **BUILD** (son projet personnel), **CHALLENGES** (projets
-proposes par TakaCode), **MISSIONS** (vrais besoins d'organisations). Le detail du
-positionnement est dans [VISION.md](./VISION.md), qui fixe aussi le **lexique** :
-une *personne* avant l'inscription, un *membre* apres, un *Builder* des le premier
-projet — a respecter dans les docs comme dans la copy produit.
+Quelqu'un arrive avec une idee : un logiciel, une boutique en ligne, une formation, une
+chaine YouTube, un podcast, une activite freelance. Il cree un compte, suit le parcours
+qui correspond, construit quelque chose de reel (relu par l'IA, par d'autres membres et
+par un mentor), le publie. Ce qu'il a construit devient sa preuve, et cette preuve peut
+lui apporter un emploi, une mission payee ou son propre business.
+
+Trois facons de commencer : **BUILD** (mon idee), **CHALLENGES** (un projet propose par
+TakaCode), **MISSIONS** (le vrai besoin d'une entreprise). Tout est explique dans
+[VISION.md](./VISION.md), y compris le **vocabulaire a respecter** : on dit *une
+personne* avant l'inscription, *un membre* apres, *un Builder* des le premier projet —
+dans les docs comme dans les textes du site.
 
 **Stack** : Next.js 16 (App Router, TypeScript strict) · Supabase (Postgres, Auth, RLS,
 Storage) · Tailwind · deploye sur Vercel.
 
 **Docs** :
-- [VISION.md](./VISION.md) — source de verite du positionnement (probleme, promesse, acteurs, KPIs)
-- [BUSINESS_MODEL.md](./BUSINESS_MODEL.md) — comment TakaCode gagne de l'argent sans barriere a l'entree
-- [ROADMAP_REPOSITIONNEMENT.md](./ROADMAP_REPOSITIONNEMENT.md) — traduction de la vision en chantiers applicatifs
-- [ROADMAP_EVOLUTION.md](./ROADMAP_EVOLUTION.md) — source de verite produit (versions, reste a faire)
+- [VISION.md](./VISION.md) — ce qu'est TakaCode, pour qui, pourquoi. Le document de reference
+- [BUSINESS_MODEL.md](./BUSINESS_MODEL.md) — comment on gagne de l'argent sans faire payer l'entree
+- [ROADMAP_REPOSITIONNEMENT.md](./ROADMAP_REPOSITIONNEMENT.md) — ce que ca change concretement dans l'app
+- [ROADMAP_EVOLUTION.md](./ROADMAP_EVOLUTION.md) — les versions livrees et ce qu'il reste a faire
 - [RAPPORT_OPERATIONNEL.md](./RAPPORT_OPERATIONNEL.md) — etat operationnel courant (audit, installation)
 - [ANALYSIS_GUIDE.md](./ANALYSIS_GUIDE.md) — guide d'architecture pour developpeurs
 - [INSTRUCTIONS.md](./INSTRUCTIONS.md) — prompt produit d'origine (historique)

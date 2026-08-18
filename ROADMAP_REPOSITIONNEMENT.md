@@ -1,259 +1,276 @@
-# Roadmap de repositionnement — de « projet digital » à « projet → expérience → opportunité »
+# Ce que le repositionnement change dans l'application
 
-> Traduction du cadrage [VISION.md](VISION.md) / [BUSINESS_MODEL.md](BUSINESS_MODEL.md)
-> en changements applicatifs concrets. Plan d'implémentation — pas du code.
+> Ce document traduit [VISION.md](VISION.md) et [BUSINESS_MODEL.md](BUSINESS_MODEL.md) en
+> travaux concrets. C'est un plan, pas du code.
 >
-> L'exécution (versions, livraisons, `lib/productReleases.ts`) reste pilotée par
+> Le suivi des versions et des livraisons reste dans
 > [ROADMAP_EVOLUTION.md](ROADMAP_EVOLUTION.md).
 >
-> Vocabulaire : lexique fixé au §2 de [VISION.md](VISION.md#2-qui-arrive-et-à-quel-moment) —
-> **personne** (pas de compte) → **membre** (compte créé) → **Builder** (projet en cours)
-> → Contributor / Mentor / Expert. Ce lexique s'applique aussi à la copy produit : voir
-> le chantier C7.
+> Vocabulaire : voir le §2 de [VISION.md](VISION.md#2-qui-est-qui-et-comment-on-lappelle).
+> Une **personne** n'a pas de compte, un **membre** en a un, un **Builder** a un projet en
+> cours, puis viennent Contributor, Mentor et Expert. Cette règle vaut aussi pour les
+> textes du site : voir le chantier C7.
 >
-> Rédigé le 18 août 2026, révisé le 19 août 2026.
+> Écrit le 18 août 2026, revu le 19 août 2026.
 
 ---
 
-## 0. Le principe : réorienter la finalité, pas reconstruire
+## 0. L'idée générale : changer la finalité, pas tout refaire
 
-**Rien de ce qui existe n'est à jeter.** Tracks, Projects, Community, Leaderboard,
-sessions live, mentors, projets publiés, le concept « learn by building » : tout est
-déjà compatible avec la nouvelle promesse. Ce qui change, c'est **la finalité du
-système** et **la définition du mot « projet »**.
+**Il n'y a rien à jeter.** Les parcours, les projets, la communauté, le classement, les
+sessions live, les mentors, les projets publiés : tout ça sert déjà. Ce qui change, c'est
+**où on emmène les gens**, et **ce qu'on appelle un projet**.
 
 ```
-Aujourd'hui : Parcours → Projet → Publication → Monétisation
-Demain      : Parcours → Projet → Expérience → Portfolio → Opportunité
-              (et la voie « → Publication → Monétisation » reste entière)
+Avant     : Parcours → Projet → Publication → Revenus
+Maintenant: Parcours → Projet → Expérience → Portfolio → Opportunité
+            (et le chemin « → Publication → Revenus » reste entier)
 ```
 
-## 1. Ce qui est déjà en place et sert directement
+## 1. Ce qui existe déjà et qui sert directement
 
-| Existant | Rôle dans la nouvelle vision |
+| Ce qui existe | À quoi ça sert maintenant |
 |---|---|
-| `learning_tracks` / `track_modules` / `track_lessons` | Les parcours, quel que soit le type de projet |
-| `user_projects` (+ `project_reviews`, `project_likes`, `project_comments`) | Le projet BUILD ; base du portfolio |
-| `user_profiles` (rôles, points, parrainage) | Base de la progression Builder → Expert |
-| RPC de projets publiés + profil public | Base du portfolio vérifiable |
-| `live_sessions` | Base des sessions mentor, puis des sessions payantes |
-| `affiliate_links` | Source de revenus déjà active, à conserver telle quelle |
-| Coach IA agentique (`app/api/assistant/chat/route.ts`) | Le générateur de parcours par type de projet |
-| `lib/currency.ts` (« premier euro » → « premier revenu ») | Déjà généralisé, à réutiliser |
+| `learning_tracks`, `track_modules`, `track_lessons` | les parcours, quel que soit le type de projet |
+| `user_projects`, `project_reviews`, `project_likes`, `project_comments` | le projet personnel, et la base du portfolio |
+| `user_profiles` (rôles, points, parrainage) | la base de la progression Builder → Expert |
+| les RPC de projets publiés et le profil public | la base du portfolio qu'on peut montrer |
+| `live_sessions` | les sessions avec un mentor, puis les sessions payantes |
+| `affiliate_links` | une source de revenus déjà active, à garder telle quelle |
+| le coach IA ([app/api/assistant/chat/route.ts](app/api/assistant/chat/route.ts)) | ce qui construira le parcours selon le type de projet |
+| [lib/currency.ts](lib/currency.ts) | le « premier euro » est déjà devenu « premier revenu » |
 
-## 2. Les frictions actuelles avec la nouvelle vision
+## 2. Ce qui coince aujourd'hui
 
-Constats vérifiés dans le code, par ordre de blocage :
+Vérifié dans le code, du plus bloquant au moins bloquant.
 
-1. **Le projet est implicitement logiciel.**
-   `user_projects` porte `repo_url` et `live_url` comme seuls livrables
-   ([supabase/sql/008_user_projects.sql](supabase/sql/008_user_projects.sql)).
-   Une formation en ligne, une chaîne YouTube ou un podcast n'ont ni repo ni URL de
-   démo — ils ont une chaîne, une playlist, une page de vente, un flux RSS, un PDF.
+**1. Un projet est forcément un projet informatique.**
+Dans [supabase/sql/008_user_projects.sql](supabase/sql/008_user_projects.sql), un projet
+n'a que deux liens : `repo_url` (le code) et `live_url` (la démo). Une formation en
+ligne, une chaîne YouTube ou un podcast n'ont ni l'un ni l'autre. Ils ont une chaîne, une
+playlist, une page de vente, un fichier PDF.
 
-2. **La copy annonce l'ancienne promesse.**
-   `BUILD YOUR PROJECT. / DEPLOY & MONETIZE.` ([lib/i18n.ts:2445](lib/i18n.ts:2445)),
-   « chaque parcours est lié à un archétype de projet (site vitrine, SaaS, e-commerce,
-   blog, app mobile, API) » ([lib/i18n.ts:2867](lib/i18n.ts:2867)) — la liste est
-   exclusivement logicielle.
+**2. Les textes du site annoncent encore l'ancienne promesse.**
+Le titre de la page d'accueil dit `BUILD YOUR PROJECT. / DEPLOY & MONETIZE.`
+([lib/i18n.ts:2445](lib/i18n.ts:2445)). Et la liste des types de projets proposés — « site
+vitrine, SaaS, e-commerce, blog, app mobile, API » ([lib/i18n.ts:2867](lib/i18n.ts:2867))
+— ne contient que de l'informatique.
 
-3. **Le rôle mentor est un attribut, pas un statut mérité.**
-   `role text check (role in ('user','mentor','admin'))`
-   ([supabase/sql/001_roles_points_referrals.sql:9](supabase/sql/001_roles_points_referrals.sql:9)).
-   Aucune progression, aucun critère, aucune trace de ce que le mentor a lui-même terminé.
+**3. Être mentor, c'est une case cochée, pas quelque chose qu'on gagne.**
+Le rôle est un simple champ à trois valeurs : `role in ('user','mentor','admin')`
+([supabase/sql/001_roles_points_referrals.sql:9](supabase/sql/001_roles_points_referrals.sql:9)).
+Il n'y a aucune progression, aucun critère, et nulle part la trace de ce que le mentor a
+lui-même terminé.
 
-4. **Il n'existe qu'une seule entrée : mon idée.** Pas de CHALLENGES, pas de MISSIONS,
-   pas d'organisations. Le deuxième côté du marché n'existe pas dans le schéma.
+**4. Il n'y a qu'une seule porte d'entrée : mon idée.**
+Pas de challenges, pas de missions, pas d'entreprises. Le deuxième côté de la plateforme
+n'existe nulle part dans la base de données.
 
-5. **`revenue_model` est un enum fermé** (`vente | abonnement | publicite | affiliation |
-   freelance`, [supabase/migrations/20260718110000_project_revenue_model.sql](supabase/migrations/20260718110000_project_revenue_model.sql)) —
-   il manque au minimum la vente de formation, le sponsoring et les dons/adhésions.
+**5. La liste des façons de gagner de l'argent est trop courte.**
+`revenue_model` n'accepte que `vente`, `abonnement`, `publicite`, `affiliation`,
+`freelance` ([supabase/migrations/20260718110000_project_revenue_model.sql](supabase/migrations/20260718110000_project_revenue_model.sql)).
+Il manque au minimum la vente de formation, le sponsoring et les dons.
 
-6. **Le prompt système du coach parle « projet et apprentissage » sans typer le projet**
-   ([app/api/assistant/chat/route.ts:88](app/api/assistant/chat/route.ts:88)). Il ne sait
-   pas qu'accompagner une chaîne YouTube n'a rien à voir avec accompagner un SaaS.
+**6. Le coach IA ne sait pas de quel type de projet on parle.**
+Ses instructions ([app/api/assistant/chat/route.ts:88](app/api/assistant/chat/route.ts:88))
+lui disent d'aider « sur son projet et son apprentissage », sans jamais préciser de quoi
+il s'agit. Or accompagner une chaîne YouTube n'a rien à voir avec accompagner un SaaS.
 
-7. **`/pricing` est une page vide** ([app/pricing/page.tsx](app/pricing/page.tsx)) — ce
-   qui est cohérent tant qu'il n'y a rien à vendre, et à reprendre à l'activation de Taka+.
+**7. La page tarifs est vide.**
+[app/pricing/page.tsx](app/pricing/page.tsx) ne contient que deux boutons. C'est normal
+tant qu'il n'y a rien à vendre, mais c'est à reprendre quand Taka+ arrivera.
 
 ## 3. Les chantiers
 
-Ordonnés par dépendance. Chaque chantier est livrable seul.
+Rangés par dépendance : chacun peut être livré seul, mais ceux du haut débloquent ceux du
+bas.
 
 ---
 
-### C1 — Généraliser le projet · *prérequis de tout le reste*
+### C1 — Un projet peut être autre chose que du code
 
-**But :** qu'un projet non-logiciel soit un citoyen de première classe.
+*À faire en premier : tout le reste en dépend.*
 
-**Schéma**
-- `user_projects.project_type` : `logiciel | boutique | formation | contenu_video |
-  podcast | newsletter | freelance | produit_digital | autre`. Valeur par défaut
-  déduite du parcours, modifiable.
-- Remplacer `repo_url` / `live_url` par une table `project_deliverables`
-  (`project_id`, `kind`, `label`, `url`, `sort_order`) où `kind` dépend du type :
-  repo, démo, chaîne, playlist, page de vente, épisode, flux RSS, fichier, capture.
-  *Garder `repo_url` / `live_url` en lecture pendant la migration, les alimenter comme
-  deux livrables de type `repo` et `demo` pour ne rien casser côté RPC publiques.*
-- Élargir le check de `revenue_model` (ajouter `formation`, `sponsoring`, `dons`,
-  `services`), ou le remplacer par une table de référence.
-- `learning_tracks` : ajouter `project_type` pour que la recommandation de parcours
-  parte du type de projet visé.
+**Base de données**
+
+- Ajouter `user_projects.project_type` : `logiciel`, `boutique`, `formation`,
+  `contenu_video`, `podcast`, `newsletter`, `freelance`, `produit_digital`, `autre`.
+  Valeur devinée à partir du parcours choisi, modifiable ensuite.
+- Remplacer `repo_url` et `live_url` par une table `project_deliverables`
+  (`project_id`, `kind`, `label`, `url`, `sort_order`). Le champ `kind` dépend du type de
+  projet : dépôt de code, démo, chaîne, playlist, page de vente, épisode, flux RSS,
+  fichier, capture d'écran.
+  *Pendant la transition, on garde `repo_url` et `live_url` en lecture et on les remplit
+  comme deux entrées de cette table, pour ne rien casser.*
+- Élargir la liste de `revenue_model` (ajouter `formation`, `sponsoring`, `dons`,
+  `services`), ou la sortir dans une table à part.
+- Ajouter `learning_tracks.project_type`, pour pouvoir recommander un parcours à partir
+  du type de projet visé.
 
 **Code**
-- `lib/userProjects` / `lib/getPublicProject.ts` / `lib/publicProfile.ts` : lecture des livrables.
-- RPC publiques de projets (`supabase/migrations/2026071822*`, `2026071900*`) : elles
-  sérialisent explicitement `repo_url` / `revenue_model` — à faire évoluer ensemble.
-- Dashboard projet + formulaire de création : champs dynamiques selon `project_type`.
 
-**Risque :** les RPC `security definer` listent les colonnes une à une ; toute
-généralisation les impacte. À traiter en une seule migration cohérente, avec les tests
-`lib/*.test.ts` correspondants.
+- `lib/userProjects`, [lib/getPublicProject.ts](lib/getPublicProject.ts),
+  [lib/publicProfile.ts](lib/publicProfile.ts) : lire les nouveaux livrables.
+- Les fonctions SQL qui renvoient les projets publics (`supabase/migrations/2026071822*`,
+  `2026071900*`) listent les colonnes une par une, `repo_url` et `revenue_model` compris.
+  Elles doivent évoluer en même temps, dans une seule migration.
+- Formulaire de création et page projet : afficher les champs selon le type de projet.
+
+**Attention :** ces fonctions SQL sont des `security definer`, c'est-à-dire qu'elles
+s'exécutent avec des droits élevés et contournent les règles d'accès habituelles. Il faut
+les modifier avec les tests correspondants, pas à la va-vite.
 
 ---
 
-### C2 — Le portfolio comme produit
+### C2 — Faire du portfolio une vraie preuve
 
-**But :** que le profil public cesse d'être une carte de visite et devienne **la preuve**.
+Aujourd'hui, le profil public est une carte de visite. Il doit devenir ce qu'on montre à
+un recruteur ou à un client.
 
-- Profil public = liste de projets terminés, avec livrables, rôle tenu, durée,
-  compétences mobilisées, et validations (IA / pairs / mentor).
-- Distinguer visuellement **projet terminé** de **projet publié** : la vision fait de la
-  complétion la métrique n°1, elle doit être visible.
-- Export / partage : lien public propre, aperçu social, version imprimable.
-- Ajouter la notion de **rôle tenu sur un projet** (indispensable dès les projets à
-  plusieurs en C4/C5) : `project_members (project_id, user_id, role, is_lead)`.
+- Afficher les projets terminés avec : les livrables, le rôle qu'on a tenu, le temps que
+  ça a pris, les compétences utilisées, et les validations reçues (IA, pairs, mentor).
+- Distinguer clairement **projet terminé** et **projet publié**. La vision fait du nombre
+  de projets terminés le chiffre le plus important : il doit se voir.
+- Permettre de partager : une adresse propre, un aperçu correct sur les réseaux, une
+  version imprimable.
+- Créer `project_members` (`project_id`, `user_id`, `role`, `is_lead`). Indispensable dès
+  qu'on aura des projets à plusieurs (C4 et C5).
 
 ---
 
 ### C3 — La progression Builder → Contributor → Mentor → Expert
 
-**But :** faire du mentor un statut mérité, condition du modèle de mentorat bénévole.
+Sans ça, il n'y a pas de mentors bénévoles crédibles, donc pas de missions.
 
-- Séparer **rôle système** (`user | admin`, permissions) et **niveau communautaire**
-  (`builder | contributor | mentor | expert`). Ne pas surcharger `user_profiles.role`,
-  dont le check est utilisé par les policies RLS.
-- Critères explicites et automatiques : nombre de projets terminés, reviews utiles
-  rendues, réponses acceptées en communauté, parcours complétés.
-- Candidature au mentorat **sur un parcours qu'on a soi-même terminé** — c'est la règle
-  qui rend le mentorat crédible sans salarier personne.
-- Table `mentorships (mentor_id, builder_id, project_id, track_id, status, started_at)`.
+- Séparer deux choses aujourd'hui mélangées : les **droits techniques**
+  (`user | admin`, utilisés par les règles de sécurité de la base) et le **niveau dans la
+  communauté** (`builder | contributor | mentor | expert`). Ne pas surcharger
+  `user_profiles.role`, dont les valeurs servent aux règles d'accès.
+- Définir des critères automatiques : nombre de projets terminés, relectures utiles,
+  réponses acceptées dans la communauté, parcours complétés.
+- On ne peut se porter candidat mentor que **sur un parcours qu'on a soi-même terminé**.
+  C'est cette règle qui rend le mentorat sérieux.
+- Créer `mentorships` (`mentor_id`, `builder_id`, `project_id`, `track_id`, `status`,
+  `started_at`).
 
-**Pourquoi maintenant et pas plus tard :** le vivier de mentors est le goulot
-d'étranglement de MISSIONS (C5). Il se construit en amont, pas au moment où on en a besoin.
-
----
-
-### C4 — CHALLENGES
-
-**But :** donner un projet à ceux qui n'ont pas d'idée, et créer de la collaboration.
-
-- Table `challenges` (titre, brief, `project_type`, difficulté, livrables attendus,
-  dates, parcours associé) + `challenge_participations` (solo ou équipe, via `project_members`).
-- Un challenge produit **un `user_projects` normal** : le portfolio, les reviews et le
-  leaderboard fonctionnent sans modification.
-- Réutiliser `project_reviews` pour l'évaluation, et `live_sessions` pour les points d'étape.
-
-**Valeur secondaire, sous-estimée :** les challenges produisent des livrables
-**comparables entre membres** — c'est ce qui rend la sélection sur MISSIONS possible
-et défendable.
+**Pourquoi maintenant et pas plus tard :** les missions ont besoin de mentors. Un vivier
+de mentors ne se fabrique pas en un mois, il se construit avant d'en avoir besoin.
 
 ---
 
-### C5 — MISSIONS et organisations
+### C4 — Les challenges
 
-**But :** ouvrir le deuxième côté du marché.
+- Créer `challenges` (titre, énoncé, `project_type`, difficulté, ce qu'on attend, dates,
+  parcours associé) et `challenge_participations` (seul ou en équipe, via
+  `project_members`).
+- Un challenge crée **un projet normal** dans `user_projects`. Comme ça, le portfolio, les
+  relectures et le classement fonctionnent sans rien changer.
+- Réutiliser `project_reviews` pour l'évaluation et `live_sessions` pour les points
+  d'étape.
 
-- Table `organizations` (nom, secteur, contact, pays) + `organization_members`.
-- Table `missions` (organisation, besoin brut, brief structuré, `project_type`, budget,
-  échéance, statut : `soumise | cadrée | ouverte | en_cours | livrée | clôturée`).
-- `mission_applications` (candidatures), `mission_team` (mentor responsable + participants),
-  et une mission produit là aussi **un projet** rattaché.
-- Espace organisation : soumettre un besoin, suivre l'avancement, valider le livrable.
-- **Un mentor responsable nommé, obligatoire, dès la création de la mission.**
-
-**Ce chantier n'est pas d'abord technique.** Les 5 à 10 premières missions se vendent et
-se pilotent à la main, hors produit. On ne construit `missions` qu'après avoir vérifié
-que des organisations paient — c'est l'hypothèse la plus coûteuse de la vision.
+**L'intérêt qu'on oublie :** comme tout le monde travaille sur le même énoncé, on obtient
+des travaux comparables entre eux. C'est ce qui permettra de choisir qui envoyer sur une
+mission payée, et de justifier ce choix.
 
 ---
 
-### C6 — Paiement, marketplace et Taka+
+### C5 — Les missions et les organisations
 
-**But :** encaisser, et surtout **reverser**.
+- Créer `organizations` (nom, secteur, contact, pays) et `organization_members`.
+- Créer `missions` (organisation, besoin brut, énoncé clarifié, `project_type`, budget,
+  échéance, état : `soumise`, `cadrée`, `ouverte`, `en_cours`, `livrée`, `clôturée`).
+- Créer `mission_applications` (candidatures) et `mission_team` (le mentor responsable et
+  les participants). Une mission crée elle aussi un projet normal.
+- Créer un espace organisation : déposer un besoin, suivre l'avancement, valider le
+  travail livré.
+- **Un mentor responsable doit être désigné dès la création de la mission. Ce n'est pas
+  optionnel.**
 
-- **Rail de paiement d'abord** : mobile money (Wave, Orange Money, MTN MoMo) en
-  encaissement *et* en reversement. En zone FCFA, la carte bancaire n'est pas le sujet.
-  Rien d'autre dans ce chantier n'a de sens tant que ce point n'est pas résolu.
-- Séquestre : fonds retenus jusqu'à validation du livrable, + procédure de litige.
-- Taka+ : gating des fonctionnalités premium (modèles IA supérieurs, quotas, analytics,
-  portfolio avancé). Reprendre `app/pricing/page.tsx`, aujourd'hui une page vitrine vide.
-  **Ajouter des capacités, ne jamais retirer du gratuit existant.**
-- Marketplace : commencer par les **sessions d'expertise** (ticket faible, risque faible)
-  avant les prestations (ticket élevé, risque de litige).
-- Commissions et reversements : table `transactions` + `payouts`, traçabilité complète.
-
-**Ordre imposé par le business model :** Taka+ avant marketplace, marketplace après
-liquidité (≥ 200 projets terminés, ≥ 30 mentors).
+**Ce chantier n'est pas d'abord technique.** Les cinq à dix premières missions se vendent
+et se pilotent à la main. On ne construit ces tables qu'une fois qu'on sait que des
+entreprises paient.
 
 ---
 
-### C7 — Copy, i18n et prompt de l'agent
+### C6 — Le paiement, l'abonnement et la place de marché
 
-**But :** que le discours corresponde à la promesse, partout.
+- **Le paiement d'abord.** Mobile money (Wave, Orange Money, MTN MoMo), pour encaisser
+  **et** pour payer les membres. En zone FCFA, la carte bancaire n'est pas le sujet. Tant
+  que ce point n'est pas réglé, rien d'autre dans ce chantier n'a de sens.
+- Bloquer l'argent jusqu'à validation du travail, et prévoir une procédure en cas de
+  désaccord.
+- Taka+ : réserver certaines fonctions aux abonnés (meilleurs modèles IA, quotas plus
+  élevés, statistiques, portfolio complet). Reprendre
+  [app/pricing/page.tsx](app/pricing/page.tsx), aujourd'hui vide.
+  **On ajoute des fonctions payantes, on n'en retire jamais du gratuit.**
+- Place de marché : commencer par les heures de conseil (petits montants, peu de risque)
+  avant les prestations (gros montants, litiges possibles).
+- Créer `transactions` et `payouts`, pour garder la trace de tout ce qui entre et sort.
 
-- **Hero** : remplacer `BUILD YOUR PROJECT. / DEPLOY & MONETIZE.`
-  ([lib/i18n.ts:2445](lib/i18n.ts:2445)) par la nouvelle formulation.
-  ⚠️ Le hero utilise les polices display **VALORAX / VENITE, sans glyphes accentués**
-  (voir [INVENTAIRE_POLICES_DISPLAY.md](INVENTAIRE_POLICES_DISPLAY.md)) : toute
-  formulation française du titre doit être sans accents, ou changer de police.
-- **Archétypes de projet** ([lib/i18n.ts:2867](lib/i18n.ts:2867)) : la liste « site
-  vitrine, SaaS, e-commerce, blog, app mobile, API » doit inclure formation en ligne,
-  chaîne vidéo, podcast, newsletter, produit téléchargeable, activité freelance.
+**L'ordre est imposé par le business model :** Taka+ avant la place de marché, et la
+place de marché seulement quand il y a assez de monde (au moins 200 projets terminés et
+30 mentors).
+
+---
+
+### C7 — Les textes du site et les instructions du coach IA
+
+**But :** que ce qu'on affiche corresponde à ce qu'on fait.
+
+- **Le titre de la page d'accueil.** Remplacer `BUILD YOUR PROJECT. / DEPLOY & MONETIZE.`
+  ([lib/i18n.ts:2445](lib/i18n.ts:2445)).
+  ⚠️ Ce titre utilise les polices VALORAX et VENITE, **qui n'ont pas les caractères
+  accentués** (voir [INVENTAIRE_POLICES_DISPLAY.md](INVENTAIRE_POLICES_DISPLAY.md)). Une
+  formulation française doit donc être sans accents, ou il faut changer de police.
+- **La liste des types de projets** ([lib/i18n.ts:2867](lib/i18n.ts:2867)) : ajouter
+  formation en ligne, chaîne vidéo, podcast, newsletter, produit à télécharger, activité
+  freelance.
 - **« Premier euro »** ([lib/i18n.ts:1253](lib/i18n.ts:1253), `membersEuro`,
-  `membersWithEuro`) : `lib/currency.ts` a déjà généralisé le concept en « premier
-  revenu » — aligner les libellés restants.
-- **Prompt système du coach** ([app/api/assistant/chat/route.ts:88](app/api/assistant/chat/route.ts:88)) :
-  injecter le `project_type` et adapter l'accompagnement. Un parcours « chaîne YouTube »
-  (niche → branding → workflow vidéo → publication → acquisition → monétisation) n'a
-  rien à voir avec un parcours SaaS. C'est le changement le plus visible pour le membre,
-  et le moins cher à livrer.
-- **Lexique** : appliquer la règle du §2 de [VISION.md](VISION.md#2-qui-arrive-et-à-quel-moment).
-  Les textes d'acquisition (accueil, `/pricing`, `/tracks` en visiteur, SEO) s'adressent
-  à une **personne** sans compte — ils ne doivent pas la nommer « membre » ni supposer
-  un projet existant. Les textes de l'espace connecté s'adressent à un **membre**, et
-  ceux du cockpit projet à un **Builder**. L'audit de copy existante est mince : la
-  formulation `noAccountPrompt: "Pas encore membre ?"` ([lib/i18n.ts:1145](lib/i18n.ts:1145))
-  est déjà correcte ; c'est surtout la nouvelle copy qu'il faut écrire du bon point de vue.
-- Faire tourner `node scripts/fix-french-content.mjs --apply` après toute modification
-  de contenu en base (voir README).
+  `membersWithEuro`) : [lib/currency.ts](lib/currency.ts) parle déjà de « premier
+  revenu ». Il reste des libellés à aligner.
+- **Les instructions du coach IA**
+  ([app/api/assistant/chat/route.ts:88](app/api/assistant/chat/route.ts:88)) : lui donner
+  le type de projet et adapter sa façon d'aider. Un parcours « chaîne YouTube » (choisir
+  sa niche, son image, sa méthode de production, publier, gagner des abonnés, monétiser)
+  n'a rien à voir avec un parcours SaaS. C'est ce que le membre verra le plus, et c'est le
+  moins cher à faire.
+- **Le vocabulaire.** Les pages publiques (accueil, tarifs, parcours vus sans compte,
+  textes pour Google) parlent à une **personne** qui n'a pas de compte : elles ne doivent
+  ni l'appeler « membre », ni supposer qu'elle a déjà un projet. L'espace connecté parle à
+  un **membre**, et la page projet à un **Builder**. Bonne nouvelle : les textes actuels
+  sont déjà corrects sur ce point (`noAccountPrompt: "Pas encore membre ?"`,
+  [lib/i18n.ts:1145](lib/i18n.ts:1145)). C'est surtout la nouvelle copy qu'il faut écrire
+  du bon point de vue.
+- Relancer `node scripts/fix-french-content.mjs --apply` après toute modification de
+  contenu en base (voir le README).
 
-**C7 est livrable immédiatement, indépendamment de tout le reste.** C'est le meilleur
-rapport signal/effort du repositionnement.
+**C7 peut être livré tout de suite, sans attendre le reste.** C'est ce qui se voit le
+plus pour le moins de travail.
 
 ---
 
-## 4. Ordre d'exécution proposé
+## 4. Dans quel ordre
 
-| Jalon | Contenu | Condition de sortie |
+| Étape | Ce qu'on fait | Quand on peut passer à la suite |
 |---|---|---|
-| **J1** | C7 (copy + prompt agent typé) | La promesse affichée = la promesse réelle |
-| **J2** | C1 (projet généralisé) | Un projet « chaîne YouTube » est aussi bien traité qu'un SaaS |
-| **J3** | C2 (portfolio comme preuve) | Un profil public suffit à candidater quelque part |
-| **J4** | C3 (progression + mentorat) | ≥ 30 membres de niveau Mentor, mentorats actifs |
-| **J5** | C4 (challenges) | Des livrables comparables entre membres |
-| **J6** | 5–10 missions vendues **à la main**, hors produit | Des organisations ont payé |
-| **J7** | C5 (missions dans le produit) | Une mission se pilote sans intervention manuelle |
-| **J8** | C6 (paiement, Taka+, marketplace) | Encaissement **et** reversement fonctionnels |
+| **J1** | C7 : textes du site et coach IA qui connaît le type de projet | ce qu'on annonce correspond à ce qu'on fait |
+| **J2** | C1 : un projet peut être autre chose que du code | une chaîne YouTube est aussi bien traitée qu'un SaaS |
+| **J3** | C2 : le portfolio devient une preuve | un profil public suffit pour candidater quelque part |
+| **J4** | C3 : la progression et le mentorat | 30 mentors, des mentorats en cours |
+| **J5** | C4 : les challenges | on a des travaux comparables entre membres |
+| **J6** | 5 à 10 missions vendues à la main, sans rien développer | des entreprises ont payé pour de vrai |
+| **J7** | C5 : les missions dans l'application | une mission se gère sans intervention manuelle |
+| **J8** | C6 : paiement, Taka+, place de marché | on sait encaisser **et** payer les membres |
 
-Les jalons J1→J3 sont du produit pur et peuvent être menés sans validation marché.
-**J6 est un jalon commercial, pas technique** — et c'est lui qui autorise J7 et J8.
+J1 à J3 ne demandent aucune validation commerciale : c'est du produit, on peut y aller.
+**J6 n'est pas une étape technique, c'est une étape commerciale** — et c'est elle qui
+autorise J7 et J8.
 
 ## 5. Ce qu'on ne fait pas maintenant
 
-- Refondre le design ou l'architecture : rien dans la vision ne l'exige.
-- Ouvrir la marketplace avant la liquidité.
+- Refaire le design ou l'architecture : rien dans la vision ne l'exige.
+- Ouvrir la place de marché avant d'avoir du monde des deux côtés.
 - Construire l'espace organisation avant d'avoir vendu des missions à la main.
 - Faire payer quoi que ce soit qui est gratuit aujourd'hui.
-- Renommer les entités existantes : `user_projects` reste `user_projects`, un challenge
-  et une mission produisent des projets ordinaires. Moins de concepts, plus de réemploi.
+- Renommer les tables existantes. `user_projects` reste `user_projects`. Un challenge et
+  une mission créent des projets ordinaires. Moins de concepts, plus de réutilisation.

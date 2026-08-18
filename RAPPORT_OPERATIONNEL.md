@@ -4,12 +4,12 @@ Date : 2026-07-18 (audit complet — remplace le rapport du 2026-07-14)
 
 ## Resume
 
-Plateforme ou les idees deviennent des projets et les projets deviennent des
-opportunites : une personne arrive avec une idee (produit logiciel, boutique, formation
-en ligne, chaine video, activite freelance...), devient membre, suit le parcours
-correspondant, construit de vrais livrables, publie, et transforme son projet en
-experience, en revenu ou en opportunite professionnelle. Positionnement et lexique
-detailles : [VISION.md](VISION.md) ; monetisation : [BUSINESS_MODEL.md](BUSINESS_MODEL.md).
+Sur TakaCode, une idee devient un projet et un projet devient une opportunite. Quelqu'un
+arrive avec une idee (logiciel, boutique en ligne, formation, chaine video, activite
+freelance...), cree un compte, suit le parcours qui correspond, construit quelque chose
+de reel et le publie. Ce qu'il a construit lui sert ensuite a decrocher un emploi, une
+mission payee ou a lancer son propre business.
+Details : [VISION.md](VISION.md) ; revenus : [BUSINESS_MODEL.md](BUSINESS_MODEL.md).
 
 Stack : Next.js 16 (App Router, TypeScript strict) + Supabase (Postgres, Auth,
 RLS, Storage) + Tailwind. Deploiement Vercel. Build de production vert.

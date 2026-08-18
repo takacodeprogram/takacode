@@ -1,278 +1,294 @@
 # Vision TakaCode
 
-> Document de cadrage. **Source de vérité pour le positionnement**, le discours produit
-> et les arbitrages. En cas de contradiction avec un autre document du dépôt, celui-ci
-> fait foi.
+> Ce document explique ce qu'est TakaCode, pour qui, et pourquoi. C'est le document de
+> référence : si un autre texte du dépôt dit le contraire, c'est celui-ci qui a raison.
 >
-> Suite de lecture :
-> [BUSINESS_MODEL.md](BUSINESS_MODEL.md) (monétisation) →
-> [ROADMAP_REPOSITIONNEMENT.md](ROADMAP_REPOSITIONNEMENT.md) (chantiers applicatifs) →
-> [ROADMAP_EVOLUTION.md](ROADMAP_EVOLUTION.md) (exécution, versions).
+> À lire ensuite :
+> [BUSINESS_MODEL.md](BUSINESS_MODEL.md) (comment on gagne de l'argent) →
+> [ROADMAP_REPOSITIONNEMENT.md](ROADMAP_REPOSITIONNEMENT.md) (ce que ça change dans l'app) →
+> [ROADMAP_EVOLUTION.md](ROADMAP_EVOLUTION.md) (les versions et les livraisons).
 >
 > Dernière révision : 19 août 2026.
 
 ---
 
-## 1. Le problème
+## 1. Le problème qu'on résout
 
-Quelqu'un termine une formation. Il a un certificat, des notes, peut-être un tutoriel
-qu'il a su suivre jusqu'au bout. Il postule. Et on lui demande :
+Prenons quelqu'un qui vient de finir une formation en ligne. Il a suivi les vidéos, fait
+les exercices, obtenu son certificat. Il postule à un poste. On lui pose trois questions :
 
-- « Vous avez combien d'années d'expérience ? »
-- « Quels projets avez-vous réalisés ? »
-- « Montrez-nous votre portfolio. »
+- Combien d'années d'expérience avez-vous ?
+- Quels projets avez-vous réalisés ?
+- Montrez-nous votre portfolio.
 
-Il n'a rien à montrer. Non pas parce qu'il n'a rien appris — parce qu'il n'a rien
-*fait*. Deux cents heures de React, de data, d'IA, de design ou de marketing ne
-produisent aucune preuve opposable à ces trois questions.
+Il ne peut répondre à aucune des trois. Pas parce qu'il n'a rien appris, mais parce
+qu'il n'a rien construit. Suivre 200 heures de cours ne laisse aucune trace qu'on peut
+montrer à quelqu'un.
 
-**Il n'y a pas de pénurie de formation. Il y a une pénurie de preuve.**
+**Les formations ne manquent pas. Ce qui manque, c'est de quoi prouver qu'on sait
+faire.**
 
-Le trajet réel comporte quatre étapes, et la formation n'en couvre qu'une :
+Pour aller d'un cours à un emploi, il faut passer quatre étapes :
 
-```
-« J'ai appris »  →  « Je sais faire »  →  « J'ai déjà fait »  →  « Quelqu'un me paie pour le faire »
-     ▲                                                                                    ▲
-     └── là où s'arrêtent les plateformes de formation          là où commence une carrière
-```
-
-Les trois dernières étapes ne s'obtiennent pas en regardant du contenu. Elles
-s'obtiennent en produisant quelque chose que quelqu'un d'autre peut regarder.
-C'est l'espace que TakaCode occupe.
-
-## 2. Qui arrive, et à quel moment
-
-Le vocabulaire compte, parce qu'il détermine le point de vue depuis lequel on écrit.
-Au moment où le problème ci-dessus se pose, la personne concernée **n'a pas de compte,
-ne connaît pas TakaCode, et n'est membre de rien**. On ne l'appelle pas « membre » —
-on l'appellerait ainsi qu'on raisonnerait déjà depuis l'intérieur de la plateforme.
-
-| On dit | Pour désigner | À partir de quand |
+| | On peut dire | Comment on y arrive |
 |---|---|---|
-| **une personne**, quelqu'un, un porteur d'idée | celui à qui la promesse s'adresse | avant toute inscription — c'est le lecteur de la page d'accueil |
+| 1 | « J'ai appris » | en suivant une formation |
+| 2 | « Je sais faire » | en construisant quelque chose soi-même |
+| 3 | « J'ai déjà fait » | en le terminant et en le publiant |
+| 4 | « Quelqu'un me paie pour le faire » | en le montrant à quelqu'un qui a un besoin |
+
+Les plateformes de formation s'arrêtent à l'étape 1. Les étapes 2, 3 et 4 demandent de
+faire, pas de regarder. **TakaCode s'occupe des étapes 2, 3 et 4.**
+
+C'est aussi ce qui nous différencie. Une plateforme qui propose « des formations, une
+communauté, des outils IA et de l'accompagnement » ressemble à des centaines d'autres.
+Une plateforme où on repart avec un projet fini et des gens prêts à payer pour le
+suivant, il y en a beaucoup moins.
+
+## 2. Qui est qui, et comment on l'appelle
+
+Les mots utilisés ici comptent, parce qu'ils disent à qui on parle. Au moment où le
+problème ci-dessus se pose, la personne n'a pas de compte chez nous et ne nous connaît
+pas encore. On ne l'appelle donc pas « membre ».
+
+| Mot | Qui c'est | À partir de quand |
+|---|---|---|
+| **une personne** | celui à qui on s'adresse sur le site public | avant l'inscription |
 | **un membre** | quelqu'un qui a créé un compte | à l'inscription |
-| **un Builder** | un membre qui a un projet en cours | dès le premier projet créé |
-| **un Contributor** | un Builder qui aide les autres | statut mérité, attribué sur activité réelle |
-| **un Mentor** | un Contributor qui accompagne formellement | statut mérité, sur un parcours qu'il a lui-même terminé |
-| **un Expert** | un référent de domaine | statut mérité, peut encadrer des missions |
-| **une organisation** | PME, startup, ONG, association | le second côté du marché |
+| **un Builder** | un membre qui a un projet en cours | dès son premier projet |
+| **un Contributor** | un Builder qui aide les autres | quand il commence à aider |
+| **un Mentor** | quelqu'un qui accompagne des Builders | quand il est accepté comme mentor |
+| **un Expert** | un mentor reconnu sur un domaine | quand il encadre des missions |
+| **une organisation** | une entreprise, une ONG, une association | quand elle nous confie un besoin |
 
-**Règle d'écriture, valable pour les documents comme pour la copy produit :** on
-n'appelle jamais « membre » quelqu'un qui n'a pas encore de compte, et on ne parle pas
-de « Builder » avant qu'un projet existe. Un texte qui présente le problème s'adresse à
-une personne ; un texte qui présente une fonctionnalité s'adresse à un membre.
+Les trois premiers s'obtiennent tout seul : il suffit de s'inscrire, puis de créer un
+projet. Les trois suivants se gagnent : on les obtient en ayant fait des choses.
 
-## 3. La promesse
+**Règle à respecter dans les documents et dans les textes du site :** on n'écrit jamais
+« membre » pour parler de quelqu'un qui n'a pas encore de compte. Un texte qui présente
+le problème parle à une personne. Un texte qui explique une fonctionnalité parle à un
+membre.
 
-> **TakaCode est la plateforme où les idées deviennent des projets, et les projets
-> deviennent des opportunités.**
+## 3. Ce qu'on promet
 
-En clair, pour la personne qui lit ça sans rien connaître de nous :
+> **Sur TakaCode, une idée devient un projet, et un projet devient une opportunité.**
 
-> Tu construis une chose réelle, avec de l'aide, jusqu'au bout. Ce que tu construis
-> devient ta preuve — et cette preuve t'ouvre un emploi, une mission, une collaboration
-> ou ton propre business.
+Dit simplement, à quelqu'un qui découvre le site :
 
-Formulation courte, pour un slogan :
+> Tu construis quelque chose de vrai, avec de l'aide, jusqu'au bout. Ce que tu as
+> construit devient ta preuve. Cette preuve peut te donner un emploi, une mission, un
+> associé ou ton propre business.
+
+En version courte :
 
 > **Construire pour apprendre. Réaliser pour devenir professionnel.**
 
-## 4. L'objet de la plateforme : le projet
+## 4. Un projet, pas forcément du code
 
-C'est l'arbitrage qui structure tout le reste, et il doit être tenu partout — dans le
-schéma de données, dans la copy, dans le prompt du coach IA.
+C'est la décision la plus importante de ce document, et elle doit se voir partout : dans
+la base de données, dans les textes du site, dans le coach IA.
 
-**TakaCode n'est pas une plateforme pour apprendre à développer.** Le développement est
-un cas d'usage parmi d'autres. L'unité de valeur est le **projet**, quel que soit son
-domaine.
+**TakaCode n'est pas un site pour apprendre à programmer.** Le développement est un
+projet possible parmi beaucoup d'autres. Ce qu'on suit sur TakaCode, c'est un projet,
+quel qu'il soit.
 
-| Type de projet | Ce que le parcours déroule |
+| Le projet | Ce que le parcours fait faire |
 |---|---|
-| Produit logiciel | SaaS, application, agent IA, automatisation d'un processus |
-| Boutique en ligne | catalogue, paiement, logistique, acquisition |
-| Formation en ligne | expertise → cible → programme → tournage → plateforme → lancement |
-| Chaîne vidéo, y compris *faceless* | niche → branding → workflow → publication → acquisition → monétisation |
-| Podcast, newsletter, marque digitale | audience, distribution, régularité, revenus |
-| Activité freelance | offre, positionnement, portfolio, premiers clients |
-| Produit téléchargeable | conception, packaging, plateforme de vente |
+| Un logiciel | SaaS, application, agent IA, automatisation d'une tâche |
+| Une boutique en ligne | catalogue, paiement, livraison, premiers clients |
+| Une formation en ligne | choisir son sujet, sa cible, son programme, filmer, publier, vendre |
+| Une chaîne YouTube (visage visible ou non) | choisir sa niche, son image, sa méthode de production, publier, gagner des abonnés, monétiser |
+| Un podcast, une newsletter | trouver son audience, publier régulièrement, gagner de l'argent |
+| Une activité freelance | définir son offre, se positionner, monter son portfolio, trouver ses premiers clients |
+| Un produit à télécharger | le concevoir, le mettre en forme, choisir où le vendre |
 
-Quelqu'un qui veut lancer une chaîne YouTube n'est pas un cas dégradé de développeur.
-C'est un porteur de projet à part entière, et son parcours est aussi structuré que
-celui d'un SaaS.
+Quelqu'un qui veut lancer une chaîne YouTube n'est pas un développeur au rabais. C'est
+un porteur de projet, et son parcours est aussi sérieux que celui d'un SaaS.
 
-**Conséquence technique :** tout ce qui présuppose « projet = dépôt de code + URL de
-démo » est à généraliser. Une chaîne, une playlist, une page de vente, un flux RSS, un
-fichier téléchargeable sont des livrables de plein droit. Détail dans
-[ROADMAP_REPOSITIONNEMENT.md](ROADMAP_REPOSITIONNEMENT.md), chantier C1.
+**Ce que ça implique techniquement :** aujourd'hui, l'app suppose qu'un projet, c'est un
+dépôt de code plus une adresse de démo. Il faut élargir. Une chaîne YouTube, une
+playlist, une page de vente, un fichier PDF sont des résultats de projet au même titre.
+Le détail est dans [ROADMAP_REPOSITIONNEMENT.md](ROADMAP_REPOSITIONNEMENT.md), chantier C1.
 
-## 5. Trois façons d'entrer, un seul écosystème
+## 5. Trois façons de commencer
 
-Ces trois entrées existent pour couvrir trois situations réelles : *j'ai une idée*,
-*je n'ai pas d'idée*, *je veux qu'on me paie*.
+Ces trois entrées répondent à trois situations différentes.
 
-### BUILD — je viens avec mon idée
-La personne arrive avec son projet. TakaCode lui donne le parcours correspondant et
-l'accompagne jusqu'à la publication, puis éventuellement la monétisation.
-C'est ce qui existe aujourd'hui, c'est le cœur, et ça reste gratuit.
+### BUILD — « j'ai une idée »
+La personne arrive avec son projet. TakaCode lui donne le parcours qui correspond et
+l'accompagne jusqu'à la publication, puis jusqu'aux premiers revenus si elle le
+souhaite. C'est ce qui existe déjà aujourd'hui, et ça reste gratuit.
 
-### CHALLENGES — je n'ai pas encore d'idée
-Des projets réalistes et cadrés, proposés par TakaCode : construire un SaaS, automatiser
-un processus, monter un dashboard, produire une série de contenus, concevoir un produit
-digital. En solo ou en équipe.
+### CHALLENGES — « je n'ai pas d'idée »
+TakaCode propose des projets tout prêts : construire un SaaS, automatiser une tâche,
+monter un tableau de bord, produire une série de vidéos. Seul ou en équipe.
 
-L'intérêt évident, c'est de débloquer ceux qui n'ont pas d'idée. L'intérêt moins
-évident, et qui compte davantage : un challenge produit des livrables **comparables
-entre membres** — ce qui rend possible, plus tard, une sélection défendable sur les
-missions.
+Le premier intérêt est évident : ça débloque ceux qui ne savent pas quoi faire. Le
+deuxième compte encore plus : comme tout le monde travaille sur le même sujet, on peut
+comparer les résultats. C'est ce qui permettra plus tard de choisir qui envoyer sur une
+mission payée, et de justifier ce choix.
 
-### MISSIONS — un vrai besoin, un vrai budget
-Une organisation soumet un besoin. TakaCode le transforme en projet structuré. Des
-membres sélectionnés le réalisent, encadrés par un mentor. L'organisation paie ; les
-participants sont rémunérés et repartent avec une référence citable.
+### MISSIONS — « je veux qu'on me paie »
+Une organisation nous dit ce dont elle a besoin. On transforme ce besoin en projet clair.
+Des membres le réalisent, avec un mentor qui les encadre. L'organisation paie. Les
+participants sont payés, et repartent avec une vraie référence à citer.
 
-> **Ce que MISSIONS n'est pas : une agence de juniors à bas coût.**
+> **Attention à ce que MISSIONS ne doit pas devenir : une agence qui vend des débutants
+> pas chers.**
 >
-> La tentation est réelle et il faut la nommer pour l'éviter. Si la proposition devient
-> « les entreprises nous donnent leurs projets moins cher et nos membres les réalisent »,
-> TakaCode devient une ESN, vend des heures, se fait comparer à d'autres ESN sur le prix,
-> et perd tout ce qui le rendait défendable. La formulation juste est l'inverse :
-> **TakaCode transforme des besoins réels en expériences professionnelles structurées.**
-> L'organisation obtient un livrable ; la personne obtient une expérience ; c'est la
-> rencontre qui est le produit.
+> La tentation est réelle, donc autant la nommer. Si on se met à dire « les entreprises
+> nous donnent leurs projets moins cher et nos membres les font », on devient une agence
+> comme les autres. On vend des heures, on se fait comparer sur le prix, et tout ce qui
+> nous rendait différents disparaît.
+>
+> La bonne façon de le dire est l'inverse : **on transforme des besoins réels en
+> expérience professionnelle**. L'organisation obtient son travail. La personne obtient
+> une expérience qu'aucune formation ne lui aurait donnée. Ce qu'on vend, c'est cette
+> rencontre.
 
-## 6. Les mentors : un statut mérité, pas un poste
+## 6. Les mentors
 
-Un mentor n'est pas un salarié, ni un consultant payé par TakaCode. C'est quelqu'un qui
-a déjà mené ses propres projets à terme sur la plateforme — ou un professionnel externe
-vérifié — et qui se porte volontaire pour aider d'autres à avancer.
+Un mentor n'est pas un salarié de TakaCode, ni un consultant qu'on paie. C'est un membre
+qui a déjà mené ses propres projets jusqu'au bout, ou un professionnel de l'extérieur
+dont on a vérifié le parcours, et qui accepte d'aider les autres.
 
-La progression est explicite et se gagne sur activité réelle :
+On progresse comme ça :
 
 ```
 Builder  →  Contributor  →  Mentor  →  Expert
 ```
 
-Concrètement : quelqu'un termine « Créer une chaîne YouTube de A à Z ». Quelques mois
-plus tard, il peut demander à devenir mentor **sur ce parcours précis** — celui qu'il a
-lui-même terminé. C'est cette règle qui rend le mentorat crédible sans embaucher
-personne.
+Un exemple concret. Quelqu'un termine le parcours « Créer une chaîne YouTube de A à Z ».
+Quelques mois plus tard, il peut demander à devenir mentor **sur ce parcours-là**, celui
+qu'il a lui-même terminé. C'est cette règle qui rend le mentorat sérieux : on
+n'accompagne que ce qu'on a déjà fait.
 
-Le bénévolat initial n'est pas un défaut du modèle, c'est son amorçage : il permet de
-constituer un réseau d'expertise sans masse salariale. Mais il ne tient pas seul.
-**La rémunération doit arriver par la demande, pas par un budget TakaCode** : sessions
-privées, audits, accompagnement premium, encadrement de missions — via la marketplace,
-dont TakaCode prend une commission. Le mentor qui a aidé gratuitement pendant des mois
-trouve un revenu au moment où sa réputation devient monnayable, au lieu de partir.
+Au début, les mentors sont bénévoles. Ce n'est pas un défaut, c'est la seule façon de
+démarrer : ça nous permet d'avoir des gens compétents sans avoir à les payer alors qu'on
+n'a pas encore de revenus.
 
-## 7. Les organisations : le second côté du marché
+Mais le bénévolat ne tient pas éternellement. **L'argent doit venir de la demande, pas
+de la poche de TakaCode.** Quand quelqu'un veut une session privée, un audit ou un
+accompagnement poussé, il paie le mentor, et TakaCode prend une commission au passage.
+Le mentor qui a aidé gratuitement pendant des mois gagne de l'argent au moment où sa
+réputation vaut quelque chose, au lieu de s'en aller.
 
-C'est ce qui n'existe pas aujourd'hui, et c'est ce qui change la nature de la
-plateforme. Une organisation arrive avec un problème et un budget contraint.
+## 7. Les organisations
 
-Volontairement, les exemples ne sont pas logiciels :
+C'est ce qui n'existe pas encore, et c'est ce qui change tout. Jusqu'ici, TakaCode n'a
+qu'un seul type d'utilisateur : celui qui apprend. Avec les organisations, on en a deux,
+et ils se rendent service mutuellement.
 
-- « Nous voulons lancer notre chaîne YouTube et publier nos 10 premières vidéos. »
-- « Il nous faut un catalogue numérique. »
-- « Nous voulons créer une formation en ligne pour nos bénéficiaires. »
-- « Il nous faut une landing page, une identité et une campagne de lancement. »
+Une organisation arrive avec un problème et un budget serré. Les exemples ne sont
+volontairement pas des projets informatiques :
 
-TakaCode est la couche qui traduit un besoin flou en projet cadré, puis qui l'apparie
-avec des personnes capables de le mener — et prêtes à le mener parce qu'elles y gagnent
-une expérience qu'aucune formation ne leur donnera.
+- « On veut lancer notre chaîne YouTube et publier nos 10 premières vidéos. »
+- « Il nous faut un catalogue en ligne. »
+- « On veut créer une formation en ligne pour les gens qu'on accompagne. »
+- « Il nous faut une page de vente, un logo et une campagne de lancement. »
 
-## 8. Le cycle
+TakaCode est au milieu. On prend un besoin mal défini, on en fait un projet clair, et on
+le confie à des gens capables de le faire — capables, et motivés, parce qu'ils y gagnent
+une expérience qu'aucun cours ne leur donnera.
 
-Chaque tour élargit les deux côtés du marché :
+## 8. Pourquoi ça s'auto-entretient
+
+Chaque tour de cette boucle agrandit les deux côtés :
 
 ```
-plus de Builders  →  plus de projets terminés  →  plus de membres expérimentés
+plus de Builders  →  plus de projets terminés  →  plus de gens expérimentés
        ↑                                                        ↓
-plus de missions réelles  ←  plus d'organisations  ←  plus de mentors et de réputation
+plus de missions payées  ←  plus d'organisations  ←  plus de mentors et de réputation
        ↓
 plus d'opportunités et de revenus  →  plus de Builders
 ```
 
-**Le goulot d'étranglement n'est pas l'acquisition, c'est la complétion.** Un membre
-qui s'inscrit et abandonne son projet ne fait tourner aucun tour de ce cycle. C'est
-pour ça que la métrique n°1 est le taux de projets terminés, et pas le nombre
-d'inscrits.
+**Ce qui bloque cette boucle, ce n'est pas le nombre d'inscrits, c'est le nombre de
+projets terminés.** Quelqu'un qui s'inscrit et abandonne son projet ne fait avancer
+personne. C'est pour ça que le chiffre le plus important, c'est le taux de projets menés
+à leur terme.
 
 ## 9. Ce qui change, ce qui ne change pas
 
 | | Avant | Maintenant |
 |---|---|---|
-| Promesse | Build your project. Deploy & monetize. | Les idées deviennent des projets, les projets deviennent des opportunités. |
-| Objet | Projet digital, implicitement logiciel | Projet, tous domaines |
-| Finalité | Parcours → Projet → Publication → Monétisation | Parcours → Projet → Expérience → Portfolio → Opportunité |
-| Entrées | Une seule : mon idée | Trois : BUILD, CHALLENGES, MISSIONS |
-| Mentor | Rôle attribué | Statut mérité, avec progression |
-| Second côté du marché | Aucun | Les organisations |
+| La promesse | Build your project. Deploy & monetize. | Une idée devient un projet, un projet devient une opportunité. |
+| Le projet | un projet digital, en pratique un projet informatique | un projet, dans n'importe quel domaine |
+| Où ça s'arrête | à la publication et aux premiers revenus | à l'opportunité : emploi, mission, associé ou business |
+| Comment on entre | une seule façon : mon idée | trois : BUILD, CHALLENGES, MISSIONS |
+| Le mentor | un rôle qu'on attribue | un statut qu'on gagne |
+| Les entreprises | absentes | le deuxième côté de la plateforme |
 
-**Ce qui ne change pas :** la voie entrepreneuriale reste entière. « Deploy & Monetize »
-n'est pas supprimé — tout le monde ne cherche pas un emploi. Quelqu'un peut venir sur
-TakaCode uniquement pour construire son SaaS, sa chaîne ou son business, et repartir
-avec des revenus plutôt qu'avec un CV.
+**Ce qui ne change pas :** on garde entièrement la partie « lance ton business ». Tout le
+monde ne cherche pas un emploi. Quelqu'un peut venir uniquement pour construire son
+SaaS, sa chaîne ou sa boutique, et repartir avec des revenus plutôt qu'avec un CV.
 
-Les deux trajectoires coexistent, et c'est délibéré :
+Les deux chemins existent en même temps, et c'est voulu :
 
 ```
 Parcours → Projet → Expérience → Portfolio → Emploi, mission ou collaboration
-Parcours → Projet personnel → Publication → Monétisation → Business à soi
+Parcours → Projet → Publication → Revenus  → Son propre business
 ```
 
-C'est aussi ce qui évite d'enfermer TakaCode dans une case. Devant un financeur,
-l'insertion professionnelle se présente comme **un impact mesurable** de la plateforme,
-pas comme sa définition — « encore une plateforme d'insertion » est une catégorie
-encombrée, et une catégorie dont on ne sort plus.
+C'est aussi ce qui nous évite d'être rangés dans une case. Devant un financeur, on
+présente l'insertion professionnelle comme **un résultat qu'on sait mesurer**, pas comme
+la définition de TakaCode. « Encore une plateforme d'insertion des jeunes » est une
+catégorie déjà pleine, et dont on ne ressort pas.
 
 ## 10. Ce qu'on mesure
 
-Le KPI de vanité à abandonner : *nombre de personnes formées*.
+Le chiffre à arrêter de mettre en avant : *le nombre de personnes formées*. Il ne dit
+rien de ce que ces personnes savent faire.
 
-| Famille | Indicateur |
+| Ce qu'on veut savoir | Ce qu'on compte |
 |---|---|
-| Activation | Projets créés, projets avec un premier livrable |
-| **Complétion** | **Projets terminés, projets publiés** ← métrique n°1 |
-| Collaboration | Projets à plusieurs, mentorats actifs, réponses communautaires |
-| Preuve | Portfolios constitués, livrables vérifiables par profil |
-| Demande | Missions publiées, missions livrées, satisfaction des organisations |
-| Revenus | Revenus générés par les membres via la plateforme |
-| Opportunités | Emplois, missions et activités lancées à la suite d'un projet |
+| Est-ce que les gens démarrent ? | projets créés, projets avec un premier résultat |
+| **Est-ce qu'ils finissent ?** | **projets terminés, projets publiés** ← le plus important |
+| Est-ce qu'ils travaillent ensemble ? | projets à plusieurs, mentorats en cours, entraide |
+| Est-ce qu'ils ont de quoi montrer ? | portfolios remplis, résultats vérifiables |
+| Est-ce que les entreprises viennent ? | missions publiées, missions livrées, clients satisfaits |
+| Est-ce qu'ils gagnent de l'argent ? | revenus générés par les membres |
+| Est-ce que ça débouche ? | emplois, missions et activités lancées après un projet |
 
-## 11. Ce qui peut tuer le modèle
+## 11. Ce qui peut faire échouer le projet
 
-Le positionnement tient sur le papier. Voici ce qui n'est pas prouvé, du plus grave au
-moins grave.
+Le plan tient sur le papier. Voici ce dont on n'a aucune preuve, du plus grave au moins
+grave.
 
-1. **Les organisations ne paient pas.** Tout le volet B2B suppose qu'une PME ou une ONG
-   confie un besoin réel à une plateforme dont les exécutants sont en montée en
-   compétence. C'est l'hypothèse la plus coûteuse si elle est fausse, et elle ne se
-   valide pas par un sondage : elle se valide en vendant cinq à dix missions à la main.
-2. **On ne livre pas.** Une organisation qui paie attend un livrable, pas une expérience
-   pédagogique. Dès la première mission, TakaCode assume une obligation de résultat —
-   c'est un métier de delivery, pas un métier de plateforme. Sous-estimer ce point, ce
-   n'est pas perdre de l'argent, c'est perdre la réputation qui rend tout le reste
-   possible.
-3. **Les mentors s'épuisent.** Le bénévolat fonctionne à petite échelle et par affinité.
-   Il se dilue quand la communauté grossit. Le chemin de rémunération doit exister
-   **avant** que les meilleurs décrochent.
-4. **La marketplace reste vide.** Une place de marché sans volume des deux côtés ne sert
-   à rien et se referme. Ne pas l'ouvrir trop tôt.
-5. **On ne peut pas encaisser ni reverser.** En zone FCFA, la friction n'est pas le
-   prix, c'est le rail : mobile money, pas carte bancaire. Aucun revenu n'est réel tant
-   que ce point n'est pas résolu.
+1. **Les entreprises ne paient pas.** Toute la partie MISSIONS suppose qu'une PME ou une
+   ONG accepte de confier un vrai besoin à des gens qui sont encore en train
+   d'apprendre. Si c'est faux, c'est le plus coûteux à découvrir. Et ça ne se vérifie
+   pas en posant la question : ça se vérifie en vendant cinq à dix missions pour de vrai.
 
-## 12. Comment on le dit
+2. **On ne livre pas ce qu'on a promis.** Une organisation qui paie attend un résultat,
+   pas une expérience pédagogique. Dès la première mission, on doit livrer, point. C'est
+   un métier différent de celui d'un site web : ça demande quelqu'un de responsable sur
+   chaque mission, capable de reprendre le travail si l'équipe lâche. Se tromper là-dessus
+   ne coûte pas de l'argent, ça coûte la réputation dont tout le reste dépend.
 
-**À une personne qui découvre la plateforme :**
-> Tu as un projet ? Commence à le construire, gratuitement. Tu ne repartiras pas avec un
-> certificat — tu repartiras avec quelque chose que tu as fait.
+3. **Les mentors se fatiguent.** Le bénévolat marche quand on est peu nombreux et qu'on
+   se connaît. Ça se délite quand la communauté grandit. Il faut que les mentors puissent
+   commencer à gagner de l'argent **avant** que les meilleurs s'en aillent.
 
-**À une organisation :**
-> Confiez-nous un besoin. Nous le transformons en projet cadré, encadré par un mentor,
-> réalisé par des talents qui ont tout à prouver — et qui le prouvent sur votre projet.
+4. **Personne n'utilise la place de marché.** Un espace où on peut vendre ses services ne
+   sert à rien s'il n'y a ni vendeurs ni acheteurs. Il ne faut pas l'ouvrir trop tôt.
+
+5. **On ne sait pas encaisser ni reverser l'argent.** En Afrique de l'Ouest et centrale,
+   le problème n'est pas le prix, c'est le moyen de paiement : les gens utilisent le
+   mobile money (Wave, Orange Money, MTN MoMo), pas la carte bancaire. Tant qu'on ne sait
+   pas encaisser un client **et** payer un membre, aucun revenu n'est réel.
+
+## 12. Comment on le dit, selon à qui on parle
+
+**À quelqu'un qui découvre le site :**
+> Tu as une idée ? Commence à la construire, gratuitement. Tu ne repartiras pas avec un
+> certificat, tu repartiras avec quelque chose que tu as fait.
+
+**À une entreprise ou une association :**
+> Dites-nous ce dont vous avez besoin. On en fait un projet clair, encadré par un mentor,
+> réalisé par des gens qui ont tout à prouver — et qui le prouvent sur votre projet.
 
 **À un financeur :**
-> TakaCode transforme des besoins réels en expériences professionnelles structurées.
-> Les talents apprennent en réalisant ; les organisations accèdent à des solutions
-> digitales à coût accessible.
+> TakaCode transforme les besoins réels des entreprises en expérience professionnelle.
+> Les jeunes apprennent en faisant. Les entreprises obtiennent un travail qu'elles
+> n'auraient pas pu s'offrir autrement.
