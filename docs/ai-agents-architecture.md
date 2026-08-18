@@ -11,11 +11,17 @@
 > business à soi).
 >
 > **Mise à jour du 19 août 2026 :** deux choses ont changé. Le parcours ne s'arrête plus
-> à la monétisation, et « projet » ne veut plus dire « projet informatique » : une
-> formation en ligne, une chaîne YouTube ou une activité freelance sont des projets à part
-> entière. L'agent doit donc raisonner par **type de projet**, et pas par technologie —
+> à la monétisation — il va jusqu'à la preuve d'expérience et à l'opportunité. Et
+> « projet » ne veut plus dire « projet informatique » : une formation en ligne, une
+> chaîne YouTube, un podcast ou une activité freelance sont des projets à part entière,
+> avec des livrables différents.
+>
+> Concrètement, le rôle de l'agent est celui décrit au §03 de la vision : transformer un
+> objectif en parcours concret — **objectif → étapes → tâches → ressources → livrables →
+> publication**. Il doit donc raisonner par **type de projet**, pas par technologie :
 > accompagner une chaîne YouTube n'a rien à voir avec accompagner un SaaS.
-> Voir [VISION.md](../VISION.md) et
+>
+> Voir [VISION.md](../VISION.md) et le jalon J1 de
 > [ROADMAP_REPOSITIONNEMENT.md](../ROADMAP_REPOSITIONNEMENT.md).
 
 ---

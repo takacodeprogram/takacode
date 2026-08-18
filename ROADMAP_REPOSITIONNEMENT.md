@@ -1,43 +1,43 @@
 # Ce que le repositionnement change dans l'application
 
-> Ce document traduit [VISION.md](VISION.md) et [BUSINESS_MODEL.md](BUSINESS_MODEL.md) en
-> travaux concrets. C'est un plan, pas du code.
+> Ce document développe le **§07 de [VISION.md](VISION.md)**. La vision donne les huit
+> jalons et leur critère de validation. Ici, on dit ce que chaque jalon implique
+> concrètement : base de données, pages, textes, coach IA.
 >
-> Le suivi des versions et des livraisons reste dans
-> [ROADMAP_EVOLUTION.md](ROADMAP_EVOLUTION.md).
+> C'est un plan, pas du code. Le suivi des versions livrées reste dans
+> [ROADMAP_EVOLUTION.md](ROADMAP_EVOLUTION.md). Le détail du modèle économique est dans
+> [BUSINESS_MODEL.md](BUSINESS_MODEL.md).
 >
-> Vocabulaire : voir le §2 de [VISION.md](VISION.md#2-qui-est-qui-et-comment-on-lappelle).
-> Une **personne** n'a pas de compte, un **membre** en a un, un **Builder** a un projet en
-> cours, puis viennent Contributor, Mentor et Expert. Cette règle vaut aussi pour les
-> textes du site : voir le chantier C7.
+> Vocabulaire : celui du §04 de la vision — **Visiteur**, **Membre**, **Builder**,
+> **Contributor**, **Mentor**, **Expert**.
 >
 > Écrit le 18 août 2026, revu le 19 août 2026.
 
 ---
 
-## 0. L'idée générale : changer la finalité, pas tout refaire
+## 0. Le principe : changer la finalité, pas tout refaire
 
 **Il n'y a rien à jeter.** Les parcours, les projets, la communauté, le classement, les
 sessions live, les mentors, les projets publiés : tout ça sert déjà. Ce qui change, c'est
 **où on emmène les gens**, et **ce qu'on appelle un projet**.
 
 ```
-Avant     : Parcours → Projet → Publication → Revenus
-Maintenant: Parcours → Projet → Expérience → Portfolio → Opportunité
-            (et le chemin « → Publication → Revenus » reste entier)
+Avant      : Parcours → Projet → Publication → Revenus
+Maintenant : Parcours → Projet → Réalisation → Preuve d'expérience → Opportunité
+             (et le chemin « → Publication → Revenus » reste entier)
 ```
 
-## 1. Ce qui existe déjà et qui sert directement
+## 1. Ce qui existe déjà et sert directement
 
 | Ce qui existe | À quoi ça sert maintenant |
-|---|---|
+| --- | --- |
 | `learning_tracks`, `track_modules`, `track_lessons` | les parcours, quel que soit le type de projet |
-| `user_projects`, `project_reviews`, `project_likes`, `project_comments` | le projet personnel, et la base du portfolio |
-| `user_profiles` (rôles, points, parrainage) | la base de la progression Builder → Expert |
-| les RPC de projets publiés et le profil public | la base du portfolio qu'on peut montrer |
-| `live_sessions` | les sessions avec un mentor, puis les sessions payantes |
+| `user_projects`, `project_reviews`, `project_likes`, `project_comments` | le projet BUILD, et la base du portfolio |
+| `user_profiles` (rôles, points, parrainage) | la base des rôles Visiteur → Expert |
+| les RPC de projets publiés et le profil public | la base de la preuve d'expérience |
+| `live_sessions` | les sessions avec un Mentor, puis les sessions payantes |
 | `affiliate_links` | une source de revenus déjà active, à garder telle quelle |
-| le coach IA ([app/api/assistant/chat/route.ts](app/api/assistant/chat/route.ts)) | ce qui construira le parcours selon le type de projet |
+| le coach IA ([app/api/assistant/chat/route.ts](app/api/assistant/chat/route.ts)) | ce qui transforme un objectif en parcours |
 | [lib/currency.ts](lib/currency.ts) | le « premier euro » est déjà devenu « premier revenu » |
 
 ## 2. Ce qui coince aujourd'hui
@@ -46,24 +46,24 @@ Vérifié dans le code, du plus bloquant au moins bloquant.
 
 **1. Un projet est forcément un projet informatique.**
 Dans [supabase/sql/008_user_projects.sql](supabase/sql/008_user_projects.sql), un projet
-n'a que deux liens : `repo_url` (le code) et `live_url` (la démo). Une formation en
-ligne, une chaîne YouTube ou un podcast n'ont ni l'un ni l'autre. Ils ont une chaîne, une
-playlist, une page de vente, un fichier PDF.
+n'a que deux liens : `repo_url` (le code) et `live_url` (la démo). Une formation en ligne,
+une chaîne YouTube ou un podcast n'ont ni l'un ni l'autre. Ils ont une chaîne, une
+playlist, une page de vente, un fichier.
 
 **2. Les textes du site annoncent encore l'ancienne promesse.**
 Le titre de la page d'accueil dit `BUILD YOUR PROJECT. / DEPLOY & MONETIZE.`
-([lib/i18n.ts:2445](lib/i18n.ts:2445)). Et la liste des types de projets proposés — « site
-vitrine, SaaS, e-commerce, blog, app mobile, API » ([lib/i18n.ts:2867](lib/i18n.ts:2867))
-— ne contient que de l'informatique.
+([lib/i18n.ts:2445](lib/i18n.ts:2445)). Et la liste des types de projets — « site vitrine,
+SaaS, e-commerce, blog, app mobile, API » ([lib/i18n.ts:2867](lib/i18n.ts:2867)) — ne
+contient que de l'informatique.
 
-**3. Être mentor, c'est une case cochée, pas quelque chose qu'on gagne.**
+**3. Être Mentor, c'est une case cochée, pas quelque chose qu'on gagne.**
 Le rôle est un simple champ à trois valeurs : `role in ('user','mentor','admin')`
 ([supabase/sql/001_roles_points_referrals.sql:9](supabase/sql/001_roles_points_referrals.sql:9)).
-Il n'y a aucune progression, aucun critère, et nulle part la trace de ce que le mentor a
-lui-même terminé.
+Aucune progression, aucun critère, et nulle part la trace de ce que le Mentor a lui-même
+réalisé — alors que c'est précisément ce qui doit fonder son statut.
 
-**4. Il n'y a qu'une seule porte d'entrée : mon idée.**
-Pas de challenges, pas de missions, pas d'entreprises. Le deuxième côté de la plateforme
+**4. Il n'y a qu'une seule porte d'entrée : BUILD.**
+Pas de Challenges, pas de Missions, pas d'organisations. Le second côté de la plateforme
 n'existe nulle part dans la base de données.
 
 **5. La liste des façons de gagner de l'argent est trop courte.**
@@ -77,35 +77,75 @@ lui disent d'aider « sur son projet et son apprentissage », sans jamais préci
 il s'agit. Or accompagner une chaîne YouTube n'a rien à voir avec accompagner un SaaS.
 
 **7. La page tarifs est vide.**
-[app/pricing/page.tsx](app/pricing/page.tsx) ne contient que deux boutons. C'est normal
-tant qu'il n'y a rien à vendre, mais c'est à reprendre quand Taka+ arrivera.
-
-## 3. Les chantiers
-
-Rangés par dépendance : chacun peut être livré seul, mais ceux du haut débloquent ceux du
-bas.
+[app/pricing/page.tsx](app/pricing/page.tsx) ne contient que deux boutons. C'est cohérent
+tant qu'il n'y a rien à vendre, à reprendre au moment de Taka+.
 
 ---
 
-### C1 — Un projet peut être autre chose que du code
+## 3. Les huit jalons
 
-*À faire en premier : tout le reste en dépend.*
+---
+
+### J1 — Clarifier le positionnement
+
+> **Validation (vision) :** un nouveau Visiteur comprend immédiatement que TakaCode aide à
+> réaliser des projets, pas uniquement des projets informatiques.
+
+**Textes du site**
+
+- **Titre de la page d'accueil.** Remplacer `BUILD YOUR PROJECT. / DEPLOY & MONETIZE.`
+  ([lib/i18n.ts:2445](lib/i18n.ts:2445)).
+  ⚠️ Ce titre utilise les polices VALORAX et VENITE, **qui n'ont pas les caractères
+  accentués** (voir [INVENTAIRE_POLICES_DISPLAY.md](INVENTAIRE_POLICES_DISPLAY.md)). Une
+  formulation française doit donc être sans accents, ou il faut changer de police.
+- **Liste des types de projets** ([lib/i18n.ts:2867](lib/i18n.ts:2867)) : ajouter formation
+  en ligne, chaîne YouTube, podcast, newsletter, produit digital, activité freelance,
+  agent IA / automatisation.
+- **« Premier euro »** ([lib/i18n.ts:1253](lib/i18n.ts:1253), `membersEuro`,
+  `membersWithEuro`) : [lib/currency.ts](lib/currency.ts) parle déjà de « premier revenu ».
+  Il reste des libellés à aligner.
+- **Vocabulaire.** Les pages publiques (accueil, tarifs, parcours vus sans compte, textes
+  pour Google) parlent à un **Visiteur** : elles ne doivent ni l'appeler « Membre », ni
+  supposer qu'il a déjà un projet. L'espace connecté parle à un **Membre**, l'espace projet
+  à un **Builder**. Les textes actuels sont déjà corrects sur ce point
+  (`noAccountPrompt: "Pas encore membre ?"`, [lib/i18n.ts:1145](lib/i18n.ts:1145)) — c'est
+  la nouvelle copy qu'il faut écrire du bon point de vue.
+
+**Coach IA**
+
+- Lui transmettre le type de projet et adapter son accompagnement
+  ([app/api/assistant/chat/route.ts:88](app/api/assistant/chat/route.ts:88)). Un parcours
+  « chaîne YouTube » (choisir une niche, créer l'identité, définir le processus de
+  production, publier) n'a rien à voir avec un parcours SaaS.
+- C'est ce que le Membre verra le plus, pour le moins de travail.
+
+**À faire après toute modification de contenu en base :**
+`node scripts/fix-french-content.mjs --apply` (voir le README).
+
+**J1 est livrable tout de suite, sans attendre le reste.**
+
+---
+
+### J2 — Généraliser le système de projets
+
+> **Validation (vision) :** une chaîne YouTube peut être accompagnée aussi efficacement
+> qu'une application.
 
 **Base de données**
 
-- Ajouter `user_projects.project_type` : `logiciel`, `boutique`, `formation`,
+- Ajouter `user_projects.project_type` : `logiciel`, `agent_ia`, `boutique`, `formation`,
   `contenu_video`, `podcast`, `newsletter`, `freelance`, `produit_digital`, `autre`.
-  Valeur devinée à partir du parcours choisi, modifiable ensuite.
+  Valeur devinée depuis le parcours choisi, modifiable ensuite.
 - Remplacer `repo_url` et `live_url` par une table `project_deliverables`
   (`project_id`, `kind`, `label`, `url`, `sort_order`). Le champ `kind` dépend du type de
-  projet : dépôt de code, démo, chaîne, playlist, page de vente, épisode, flux RSS,
-  fichier, capture d'écran.
-  *Pendant la transition, on garde `repo_url` et `live_url` en lecture et on les remplit
-  comme deux entrées de cette table, pour ne rien casser.*
-- Élargir la liste de `revenue_model` (ajouter `formation`, `sponsoring`, `dons`,
-  `services`), ou la sortir dans une table à part.
-- Ajouter `learning_tracks.project_type`, pour pouvoir recommander un parcours à partir
-  du type de projet visé.
+  projet : dépôt de code, application publiée, chaîne, playlist, boutique, épisode,
+  document, produit téléchargeable, page de vente, portfolio, premier client.
+  *Pendant la transition, garder `repo_url` et `live_url` en lecture et les remplir comme
+  deux entrées de cette table, pour ne rien casser.*
+- Élargir `revenue_model` (ajouter `formation`, `sponsoring`, `dons`, `services`), ou le
+  sortir dans une table de référence.
+- Ajouter `learning_tracks.project_type`, pour recommander un parcours à partir du type de
+  projet visé.
 
 **Code**
 
@@ -113,164 +153,131 @@ bas.
   [lib/publicProfile.ts](lib/publicProfile.ts) : lire les nouveaux livrables.
 - Les fonctions SQL qui renvoient les projets publics (`supabase/migrations/2026071822*`,
   `2026071900*`) listent les colonnes une par une, `repo_url` et `revenue_model` compris.
-  Elles doivent évoluer en même temps, dans une seule migration.
+  Elles doivent évoluer dans la même migration.
 - Formulaire de création et page projet : afficher les champs selon le type de projet.
 
 **Attention :** ces fonctions SQL sont des `security definer`, c'est-à-dire qu'elles
-s'exécutent avec des droits élevés et contournent les règles d'accès habituelles. Il faut
-les modifier avec les tests correspondants, pas à la va-vite.
+s'exécutent avec des droits élevés et contournent les règles d'accès habituelles. À
+modifier avec les tests correspondants.
 
 ---
 
-### C2 — Faire du portfolio une vraie preuve
+### J3 — Transformer le profil en preuve d'expérience
 
-Aujourd'hui, le profil public est une carte de visite. Il doit devenir ce qu'on montre à
-un recruteur ou à un client.
+> **Validation (vision) :** quelqu'un peut partager son profil TakaCode dans une
+> candidature ou auprès d'un client.
 
-- Afficher les projets terminés avec : les livrables, le rôle qu'on a tenu, le temps que
-  ça a pris, les compétences utilisées, et les validations reçues (IA, pairs, mentor).
-- Distinguer clairement **projet terminé** et **projet publié**. La vision fait du nombre
-  de projets terminés le chiffre le plus important : il doit se voir.
-- Permettre de partager : une adresse propre, un aperçu correct sur les réseaux, une
-  version imprimable.
+- Chaque projet terminé enrichit automatiquement le profil : livrables, rôle tenu, durée,
+  compétences mobilisées, validations reçues (IA, pairs, Mentor).
+- Distinguer clairement **projet terminé** et **projet publié**. La vision fait du taux de
+  projets menés jusqu'au bout le moteur de la plateforme : il doit se voir.
+- Rendre le profil partageable : adresse propre, aperçu correct sur les réseaux, version
+  imprimable.
 - Créer `project_members` (`project_id`, `user_id`, `role`, `is_lead`). Indispensable dès
-  qu'on aura des projets à plusieurs (C4 et C5).
+  qu'il y a des projets à plusieurs (J5 et J7).
 
 ---
 
-### C3 — La progression Builder → Contributor → Mentor → Expert
+### J4 — Déployer contribution et mentorat
 
-Sans ça, il n'y a pas de mentors bénévoles crédibles, donc pas de missions.
+> **Validation (vision) :** des mentors accompagnent réellement des Builders et
+> contribuent à augmenter le taux de projets terminés.
 
-- Séparer deux choses aujourd'hui mélangées : les **droits techniques**
-  (`user | admin`, utilisés par les règles de sécurité de la base) et le **niveau dans la
-  communauté** (`builder | contributor | mentor | expert`). Ne pas surcharger
-  `user_profiles.role`, dont les valeurs servent aux règles d'accès.
-- Définir des critères automatiques : nombre de projets terminés, relectures utiles,
-  réponses acceptées dans la communauté, parcours complétés.
-- On ne peut se porter candidat mentor que **sur un parcours qu'on a soi-même terminé**.
-  C'est cette règle qui rend le mentorat sérieux.
+- Séparer deux choses aujourd'hui mélangées : les **droits techniques** (`user | admin`,
+  utilisés par les règles de sécurité de la base) et le **rôle dans la communauté**
+  (`visiteur | membre | builder | contributor | mentor | expert`). Ne pas surcharger
+  `user_profiles.role`, dont les valeurs servent aux policies RLS.
+- Attribuer les rôles automatiques (Membre à l'inscription, Builder au premier projet) et
+  calculer les rôles mérités sur activité réelle : projets terminés, relectures utiles,
+  réponses acceptées, parcours complétés.
+- **On ne peut se porter candidat Mentor que sur un parcours qu'on a soi-même terminé.**
+  C'est la règle qui fonde tout le §04 de la vision.
+- Permettre la vérification d'un professionnel extérieur, qui peut devenir Mentor sans
+  avoir suivi le parcours sur la plateforme.
 - Créer `mentorships` (`mentor_id`, `builder_id`, `project_id`, `track_id`, `status`,
   `started_at`).
 
-**Pourquoi maintenant et pas plus tard :** les missions ont besoin de mentors. Un vivier
-de mentors ne se fabrique pas en un mois, il se construit avant d'en avoir besoin.
+**Pourquoi ce jalon vient avant les Missions :** un vivier de Mentors ne se fabrique pas
+en un mois. Il se construit avant d'en avoir besoin.
 
 ---
 
-### C4 — Les challenges
+### J5 — Lancer les Challenges
 
-- Créer `challenges` (titre, énoncé, `project_type`, difficulté, ce qu'on attend, dates,
-  parcours associé) et `challenge_participations` (seul ou en équipe, via
-  `project_members`).
-- Un challenge crée **un projet normal** dans `user_projects`. Comme ça, le portfolio, les
-  relectures et le classement fonctionnent sans rien changer.
+> **Validation (vision) :** plusieurs membres terminent un même Challenge avec des
+> résultats différents et publiables.
+
+- Créer `challenges` : objectif, contexte, contraintes, livrables attendus, durée
+  indicative, critères d'évaluation, `project_type`, parcours associé.
+- Créer `challenge_participations` (individuel ou en équipe, via `project_members`).
+- Un Challenge crée **un projet normal** dans `user_projects`. Le portfolio, les
+  relectures et le classement fonctionnent alors sans rien changer.
 - Réutiliser `project_reviews` pour l'évaluation et `live_sessions` pour les points
   d'étape.
 
-**L'intérêt qu'on oublie :** comme tout le monde travaille sur le même énoncé, on obtient
-des travaux comparables entre eux. C'est ce qui permettra de choisir qui envoyer sur une
-mission payée, et de justifier ce choix.
+**L'effet qu'on oublie :** comme plusieurs personnes traitent le même problème avec des
+approches différentes, on obtient des réalisations comparables. C'est ce qui permettra
+de choisir qui envoyer sur une Mission, et de justifier ce choix.
 
 ---
 
-### C5 — Les missions et les organisations
+### J6 — Vendre les premières Missions manuellement
+
+> **Validation (vision) : des entreprises ont réellement payé.**
+
+**Rien à développer.** Cinq à dix Missions vendues au téléphone, pilotées dans un tableur
+et un fil de discussion. Un responsable nommé sur chacune.
+
+Ce qu'on cherche à apprendre pendant ces missions, et qu'on ne peut apprendre autrement :
+
+- combien de temps prend réellement le cadrage d'un besoin flou ;
+- si la répartition 55-65 / 15-20 / 20-25 tient (voir [BUSINESS_MODEL.md](BUSINESS_MODEL.md)) ;
+- ce qui casse quand une équipe de Membres livre à un vrai client ;
+- ce que l'entreprise regarde vraiment au moment de valider.
+
+**C'est une validation commerciale, pas technique.** Elle conditionne J7 et J8.
+
+---
+
+### J7 — Intégrer Missions dans TakaCode
+
+> Seulement après J6.
 
 - Créer `organizations` (nom, secteur, contact, pays) et `organization_members`.
-- Créer `missions` (organisation, besoin brut, énoncé clarifié, `project_type`, budget,
-  échéance, état : `soumise`, `cadrée`, `ouverte`, `en_cours`, `livrée`, `clôturée`).
-- Créer `mission_applications` (candidatures) et `mission_team` (le mentor responsable et
-  les participants). Une mission crée elle aussi un projet normal.
-- Créer un espace organisation : déposer un besoin, suivre l'avancement, valider le
-  travail livré.
-- **Un mentor responsable doit être désigné dès la création de la mission. Ce n'est pas
-  optionnel.**
-
-**Ce chantier n'est pas d'abord technique.** Les cinq à dix premières missions se vendent
-et se pilotent à la main. On ne construit ces tables qu'une fois qu'on sait que des
-entreprises paient.
+- Créer `missions` : organisation, besoin brut, périmètre, livrables, `project_type`,
+  budget, échéance, état (`soumise`, `cadrée`, `ouverte`, `en_cours`, `livrée`, `clôturée`).
+- Créer `mission_applications` (candidatures) et `mission_team` (responsable de mission et
+  participants). Une Mission crée elle aussi un projet normal.
+- Espace entreprise : déposer un besoin, suivre l'avancement, valider les livrables.
+- **Un responsable de mission est désigné dès la création. Ce n'est pas optionnel** —
+  c'est ce qui répond au risque n°2 de la vision.
 
 ---
 
-### C6 — Le paiement, l'abonnement et la place de marché
+### J8 — Construire l'infrastructure économique
 
-- **Le paiement d'abord.** Mobile money (Wave, Orange Money, MTN MoMo), pour encaisser
-  **et** pour payer les membres. En zone FCFA, la carte bancaire n'est pas le sujet. Tant
-  que ce point n'est pas réglé, rien d'autre dans ce chantier n'a de sens.
-- Bloquer l'argent jusqu'à validation du travail, et prévoir une procédure en cas de
-  désaccord.
-- Taka+ : réserver certaines fonctions aux abonnés (meilleurs modèles IA, quotas plus
-  élevés, statistiques, portfolio complet). Reprendre
-  [app/pricing/page.tsx](app/pricing/page.tsx), aujourd'hui vide.
-  **On ajoute des fonctions payantes, on n'en retire jamais du gratuit.**
-- Place de marché : commencer par les heures de conseil (petits montants, peu de risque)
-  avant les prestations (gros montants, litiges possibles).
-- Créer `transactions` et `payouts`, pour garder la trace de tout ce qui entre et sort.
+> On automatise ce qui fonctionne déjà.
 
-**L'ordre est imposé par le business model :** Taka+ avant la place de marché, et la
-place de marché seulement quand il y a assez de monde (au moins 200 projets terminés et
-30 mentors).
+- **Le circuit d'argent d'abord**, dans les quatre étapes de la vision :
+  `encaisser → sécuriser → répartir → reverser`, via Mobile Money (Wave, Orange Money,
+  MTN MoMo). Tant que ce circuit n'est pas fiable, le reste n'a pas de sens.
+- Blocage des fonds jusqu'à validation du livrable, et procédure en cas de désaccord.
+- Taka+ : réserver certaines fonctions aux abonnés (coach IA plus performant, quotas,
+  analyses, portfolio enrichi). Reprendre [app/pricing/page.tsx](app/pricing/page.tsx),
+  aujourd'hui vide. **On ajoute des fonctions payantes, on n'en retire jamais du gratuit.**
+- Marketplace d'expertise : commencer par les sessions individuelles (petits montants, peu
+  de risque) avant les prestations.
+- Créer `transactions` et `payouts` pour tracer tout ce qui entre et sort, plus la
+  facturation.
 
 ---
 
-### C7 — Les textes du site et les instructions du coach IA
-
-**But :** que ce qu'on affiche corresponde à ce qu'on fait.
-
-- **Le titre de la page d'accueil.** Remplacer `BUILD YOUR PROJECT. / DEPLOY & MONETIZE.`
-  ([lib/i18n.ts:2445](lib/i18n.ts:2445)).
-  ⚠️ Ce titre utilise les polices VALORAX et VENITE, **qui n'ont pas les caractères
-  accentués** (voir [INVENTAIRE_POLICES_DISPLAY.md](INVENTAIRE_POLICES_DISPLAY.md)). Une
-  formulation française doit donc être sans accents, ou il faut changer de police.
-- **La liste des types de projets** ([lib/i18n.ts:2867](lib/i18n.ts:2867)) : ajouter
-  formation en ligne, chaîne vidéo, podcast, newsletter, produit à télécharger, activité
-  freelance.
-- **« Premier euro »** ([lib/i18n.ts:1253](lib/i18n.ts:1253), `membersEuro`,
-  `membersWithEuro`) : [lib/currency.ts](lib/currency.ts) parle déjà de « premier
-  revenu ». Il reste des libellés à aligner.
-- **Les instructions du coach IA**
-  ([app/api/assistant/chat/route.ts:88](app/api/assistant/chat/route.ts:88)) : lui donner
-  le type de projet et adapter sa façon d'aider. Un parcours « chaîne YouTube » (choisir
-  sa niche, son image, sa méthode de production, publier, gagner des abonnés, monétiser)
-  n'a rien à voir avec un parcours SaaS. C'est ce que le membre verra le plus, et c'est le
-  moins cher à faire.
-- **Le vocabulaire.** Les pages publiques (accueil, tarifs, parcours vus sans compte,
-  textes pour Google) parlent à une **personne** qui n'a pas de compte : elles ne doivent
-  ni l'appeler « membre », ni supposer qu'elle a déjà un projet. L'espace connecté parle à
-  un **membre**, et la page projet à un **Builder**. Bonne nouvelle : les textes actuels
-  sont déjà corrects sur ce point (`noAccountPrompt: "Pas encore membre ?"`,
-  [lib/i18n.ts:1145](lib/i18n.ts:1145)). C'est surtout la nouvelle copy qu'il faut écrire
-  du bon point de vue.
-- Relancer `node scripts/fix-french-content.mjs --apply` après toute modification de
-  contenu en base (voir le README).
-
-**C7 peut être livré tout de suite, sans attendre le reste.** C'est ce qui se voit le
-plus pour le moins de travail.
-
----
-
-## 4. Dans quel ordre
-
-| Étape | Ce qu'on fait | Quand on peut passer à la suite |
-|---|---|---|
-| **J1** | C7 : textes du site et coach IA qui connaît le type de projet | ce qu'on annonce correspond à ce qu'on fait |
-| **J2** | C1 : un projet peut être autre chose que du code | une chaîne YouTube est aussi bien traitée qu'un SaaS |
-| **J3** | C2 : le portfolio devient une preuve | un profil public suffit pour candidater quelque part |
-| **J4** | C3 : la progression et le mentorat | 30 mentors, des mentorats en cours |
-| **J5** | C4 : les challenges | on a des travaux comparables entre membres |
-| **J6** | 5 à 10 missions vendues à la main, sans rien développer | des entreprises ont payé pour de vrai |
-| **J7** | C5 : les missions dans l'application | une mission se gère sans intervention manuelle |
-| **J8** | C6 : paiement, Taka+, place de marché | on sait encaisser **et** payer les membres |
-
-J1 à J3 ne demandent aucune validation commerciale : c'est du produit, on peut y aller.
-**J6 n'est pas une étape technique, c'est une étape commerciale** — et c'est elle qui
-autorise J7 et J8.
-
-## 5. Ce qu'on ne fait pas maintenant
+## 4. Ce qu'on ne fait pas maintenant
 
 - Refaire le design ou l'architecture : rien dans la vision ne l'exige.
-- Ouvrir la place de marché avant d'avoir du monde des deux côtés.
-- Construire l'espace organisation avant d'avoir vendu des missions à la main.
+- Ouvrir la Marketplace avant d'avoir du monde des deux côtés (repère : 200 projets
+  terminés, 30 Mentors).
+- Construire l'espace entreprise avant d'avoir vendu des Missions à la main.
 - Faire payer quoi que ce soit qui est gratuit aujourd'hui.
-- Renommer les tables existantes. `user_projects` reste `user_projects`. Un challenge et
-  une mission créent des projets ordinaires. Moins de concepts, plus de réutilisation.
+- Renommer les tables existantes. `user_projects` reste `user_projects`. Un Challenge et
+  une Mission créent des projets ordinaires. Moins de concepts, plus de réutilisation.

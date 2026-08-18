@@ -1,26 +1,31 @@
 # TakaCode
 
-**Sur TakaCode, une idee devient un projet, et un projet devient une opportunite.**
+**Une idee devient un projet. Un projet devient une opportunite.**
 
-Quelqu'un arrive avec une idee : un logiciel, une boutique en ligne, une formation, une
-chaine YouTube, un podcast, une activite freelance. Il cree un compte, suit le parcours
-qui correspond, construit quelque chose de reel (relu par l'IA, par d'autres membres et
-par un mentor), le publie. Ce qu'il a construit devient sa preuve, et cette preuve peut
-lui apporter un emploi, une mission payee ou son propre business.
+TakaCode aide chacun a transformer une idee, une competence ou une envie d'entreprendre
+en projet reel, termine, publie et valorisable. Un projet n'est pas forcement du code :
+un SaaS, un agent IA, une boutique en ligne, une formation, une chaine YouTube, un
+podcast, une activite freelance ou un produit digital sont tous des projets, avec des
+livrables differents. L'objectif n'est pas simplement d'apprendre — **l'objectif est de
+faire**.
 
-Trois facons de commencer : **BUILD** (mon idee), **CHALLENGES** (un projet propose par
-TakaCode), **MISSIONS** (le vrai besoin d'une entreprise). Tout est explique dans
-[VISION.md](./VISION.md), y compris le **vocabulaire a respecter** : on dit *une
-personne* avant l'inscription, *un membre* apres, *un Builder* des le premier projet —
-dans les docs comme dans les textes du site.
+Trois facons de commencer : **BUILD** (« j'ai une idee »), **CHALLENGES** (« je veux
+construire, mais je ne sais pas quoi »), **MISSIONS** (« je veux travailler sur un vrai
+besoin »).
+
+Tout est explique dans [VISION.md](./VISION.md), y compris les **roles** a respecter dans
+les docs comme dans les textes du site : *Visiteur* (pas encore de compte), *Membre*,
+*Builder*, *Contributor*, *Mentor*, *Expert*.
+
+> **TakaCode — Passe de « je sais faire » a « je l'ai fait ».**
 
 **Stack** : Next.js 16 (App Router, TypeScript strict) · Supabase (Postgres, Auth, RLS,
 Storage) · Tailwind · deploye sur Vercel.
 
 **Docs** :
-- [VISION.md](./VISION.md) — ce qu'est TakaCode, pour qui, pourquoi. Le document de reference
-- [BUSINESS_MODEL.md](./BUSINESS_MODEL.md) — comment on gagne de l'argent sans faire payer l'entree
-- [ROADMAP_REPOSITIONNEMENT.md](./ROADMAP_REPOSITIONNEMENT.md) — ce que ca change concretement dans l'app
+- [VISION.md](./VISION.md) — le document de reference : probleme, projet, entrees, roles, boucle, modele, jalons, risques
+- [BUSINESS_MODEL.md](./BUSINESS_MODEL.md) — le detail du modele economique (§06 de la vision)
+- [ROADMAP_REPOSITIONNEMENT.md](./ROADMAP_REPOSITIONNEMENT.md) — ce que chaque jalon implique dans l'app (§07 de la vision)
 - [ROADMAP_EVOLUTION.md](./ROADMAP_EVOLUTION.md) — les versions livrees et ce qu'il reste a faire
 - [RAPPORT_OPERATIONNEL.md](./RAPPORT_OPERATIONNEL.md) — etat operationnel courant (audit, installation)
 - [ANALYSIS_GUIDE.md](./ANALYSIS_GUIDE.md) — guide d'architecture pour developpeurs

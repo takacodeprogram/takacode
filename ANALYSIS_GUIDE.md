@@ -16,7 +16,7 @@ voir [RAPPORT_OPERATIONNEL.md](RAPPORT_OPERATIONNEL.md) et
 **Stack :** Next.js 16 (App Router, TypeScript strict) + Supabase (Postgres, Auth, RLS, Storage) + React 19 + Tailwind CSS  
 **Deploiement :** Vercel  
 **Langue :** Francais. Le contenu pedagogique en base est accentue (corrige via `scripts/fix-french-content.mjs`) ; certains libelles UI restent volontairement sans accents (convention historique en cours d'harmonisation)  
-**A quoi sert le site :** transformer une idee en projet, puis un projet en opportunite. Quelqu'un arrive avec une idee (dans n'importe quel domaine, pas seulement l'informatique), cree un compte, suit un parcours, construit quelque chose de reel et le publie. Ce qu'il a construit lui sert ensuite a decrocher un emploi, une mission payee ou a lancer son business. Boucle : Idee -> Projet -> Experience -> Portfolio -> Opportunite. Details : [VISION.md](VISION.md)
+**A quoi sert le site :** transformer une idee, une competence ou une envie d'entreprendre en projet reel, termine, publie et valorisable. Un projet n'est pas forcement du code (SaaS, agent IA, boutique, formation en ligne, chaine YouTube, podcast, freelance, produit digital). Boucle : apprendre -> construire -> terminer -> montrer -> obtenir une opportunite. Trois entrees : BUILD, CHALLENGES, MISSIONS. Details : [VISION.md](VISION.md)
 
 ---
 

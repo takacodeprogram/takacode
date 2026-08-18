@@ -8,7 +8,8 @@ Ce document est la source de verite produit et technique. Chaque livraison visib
 > repositionnement change dans l'app — base de donnees, pages, textes, coach IA — est
 > dans [ROADMAP_REPOSITIONNEMENT.md](ROADMAP_REPOSITIONNEMENT.md).
 >
-> Ici, on suit uniquement **ce qui est livre** : versions, livraisons, reste a faire.
+> Ici, on suit uniquement **ce qui est livre** : versions, livraisons, reste a faire. Les
+> livraisons a venir se rattachent aux jalons J1 a J8 definis au §07 de `VISION.md`.
 >
 > Tout ce qui est ecrit plus bas et date d'avant le 18 aout 2026 a ete redige avec
 > l'ancienne promesse (« Build your project. Deploy & monetize. », ou un projet voulait
