@@ -30,6 +30,8 @@ interface Attachment {
   file_name: string;
   mime_type: string;
   size_bytes: number;
+  extracted_chars?: number;
+  warning?: string;
 }
 
 interface PendingAction {
@@ -711,11 +713,20 @@ export default function GlobalAssistant({ fallbackTitle }: Props) {
                 ))}
               </div>
             ) : null}
+            {attachments.some((attachment) => attachment.warning) ? (
+              <div className="mx-1 mb-2 rounded-lg border border-amber-500/25 bg-amber-500/10 px-2.5 py-1.5 text-[10px] leading-relaxed text-amber-300">
+                {attachments.filter((attachment) => attachment.warning).map((attachment) => (
+                  <div key={attachment.id}>
+                    <span className="font-semibold">{attachment.file_name}</span> — {attachment.warning}
+                  </div>
+                ))}
+              </div>
+            ) : null}
             {viewingThread ? (
               <button type="button" onClick={returnToCurrentContext} className="w-full rounded-lg border border-[#4F8EF7]/25 bg-[#4F8EF7]/10 py-2 text-[11px] font-semibold text-[#9bbcff]">Revenir à la page actuelle pour continuer</button>
             ) : (
             <div className="flex items-end gap-2">
-              <input ref={fileInputRef} type="file" multiple accept=".txt,.md,.csv,.json,.html,.css,.js,.ts,.pdf,image/png,image/jpeg,image/webp" className="hidden" onChange={(event) => uploadFiles(event.target.files)} />
+              <input ref={fileInputRef} type="file" multiple accept=".txt,.md,.csv,.tsv,.json,.html,.css,.js,.ts,.tsx,.yml,.yaml,.sql,.xml,.pdf,.docx,image/png,image/jpeg,image/webp" className="hidden" onChange={(event) => uploadFiles(event.target.files)} />
               <div className="flex flex-col gap-1">
                 <button type="button" onClick={() => fileInputRef.current?.click()} disabled={loading || uploading || attachments.length >= 5} className="rounded-lg border border-[var(--border-3)] bg-[var(--overlay-2)] h-8 w-8 flex items-center justify-center text-[var(--muted-3)] hover:text-[#7aa8ff] disabled:opacity-40" aria-label="Joindre un fichier" title="Joindre un fichier (10 Mo max)">
                   <iconify-icon icon={uploading ? "lucide:loader" : "lucide:paperclip"} style={{ fontSize: "13px", animation: uploading ? "spin 1s linear infinite" : undefined }} />
