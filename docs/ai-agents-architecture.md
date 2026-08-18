@@ -7,7 +7,15 @@
 >
 > Ce document propose l'évolution vers un système **multi-agent avec tools**
 > qui participe à tout le flow : idée → projet → parcours → publication →
-> monétisation.
+> **expérience → portfolio → opportunité** (emploi, mission, collaboration ou
+> business à soi).
+>
+> **Mise à jour du 18 août 2026 :** le flow ne s'arrête plus à la monétisation, et
+> « projet » ne signifie plus « projet logiciel » — une formation en ligne, une chaîne
+> YouTube ou une activité freelance sont des projets de plein droit. L'agent doit donc
+> raisonner par **type de projet**, pas par stack technique. Cadrage :
+> [VISION.md](../VISION.md) · impact applicatif :
+> [ROADMAP_REPOSITIONNEMENT.md](../ROADMAP_REPOSITIONNEMENT.md).
 
 ---
 

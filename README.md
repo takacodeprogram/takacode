@@ -1,13 +1,23 @@
 # TakaCode
 
-Le GPS des createurs de projets : chaque membre cree un projet digital, se forme via
-des parcours accelerateurs (IA, dev web, vibe coding...), construit de vrais livrables
-valides par IA/pairs/mentors, publie son projet et vise son premier euro.
+**La plateforme ou les idees deviennent des projets, et les projets deviennent des
+opportunites.** Chaque membre arrive avec une idee — un SaaS, une boutique, une
+formation en ligne, une chaine YouTube, un podcast, une activite freelance — suit le
+parcours correspondant, construit de vrais livrables valides par IA/pairs/mentors,
+publie, et transforme son projet en experience, en revenu ou en opportunite
+professionnelle.
+
+Trois facons d'entrer : **BUILD** (son projet personnel), **CHALLENGES** (projets
+proposes par TakaCode), **MISSIONS** (vrais besoins d'organisations). Le detail du
+positionnement est dans [VISION.md](./VISION.md).
 
 **Stack** : Next.js 16 (App Router, TypeScript strict) · Supabase (Postgres, Auth, RLS,
 Storage) · Tailwind · deploye sur Vercel.
 
 **Docs** :
+- [VISION.md](./VISION.md) — source de verite du positionnement (probleme, promesse, acteurs, KPIs)
+- [BUSINESS_MODEL.md](./BUSINESS_MODEL.md) — comment TakaCode gagne de l'argent sans barriere a l'entree
+- [ROADMAP_REPOSITIONNEMENT.md](./ROADMAP_REPOSITIONNEMENT.md) — traduction de la vision en chantiers applicatifs
 - [ROADMAP_EVOLUTION.md](./ROADMAP_EVOLUTION.md) — source de verite produit (versions, reste a faire)
 - [RAPPORT_OPERATIONNEL.md](./RAPPORT_OPERATIONNEL.md) — etat operationnel courant (audit, installation)
 - [ANALYSIS_GUIDE.md](./ANALYSIS_GUIDE.md) — guide d'architecture pour developpeurs

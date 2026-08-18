@@ -2,6 +2,18 @@
 
 Ce document est la source de verite produit et technique. Chaque livraison visible recoit un numero de version, une entree dans `lib/productReleases.ts` et une mise a jour de la page `/dashboard/nouveautes`.
 
+> **Cadrage amont (18 aout 2026).** Le *pourquoi* et le *quoi* ne sont plus decides
+> ici : le positionnement est fige dans [VISION.md](VISION.md) et la monetisation dans
+> [BUSINESS_MODEL.md](BUSINESS_MODEL.md). Le plan de traduction de ce repositionnement
+> en changements applicatifs (schema, routes, copy, prompt agent) est dans
+> [ROADMAP_REPOSITIONNEMENT.md](ROADMAP_REPOSITIONNEMENT.md). Ce document reste la
+> source de verite de l'**execution** : versions, livraisons, reste a faire.
+>
+> Les sections anterieures au 18 aout 2026 ont ete ecrites sous l'ancienne promesse
+> (« Build your project. Deploy & monetize. », projet implicitement logiciel). Elles
+> restent valables comme trace decisionnelle et technique ; en cas de contradiction sur
+> le positionnement, `VISION.md` fait foi.
+
 ---
 
 ## État des lieux — 26 juillet 2026

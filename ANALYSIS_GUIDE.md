@@ -1,7 +1,14 @@
 # Analyse complete du projet TakaCode
 
 Derniere mise a jour : 2026-07-18. Pour l'etat operationnel et le reste a faire,
-voir `RAPPORT_OPERATIONNEL.md` et `ROADMAP_EVOLUTION.md`.
+voir [RAPPORT_OPERATIONNEL.md](RAPPORT_OPERATIONNEL.md) et
+[ROADMAP_EVOLUTION.md](ROADMAP_EVOLUTION.md).
+
+> **Note (18 aout 2026).** Ce guide decrit l'architecture telle qu'elle est aujourd'hui,
+> concue sous l'ancienne promesse (projet = projet logiciel). Le repositionnement
+> « idee → projet → experience → opportunite » est cadre dans [VISION.md](VISION.md) et
+> [BUSINESS_MODEL.md](BUSINESS_MODEL.md) ; son impact sur le schema et les routes est
+> detaille dans [ROADMAP_REPOSITIONNEMENT.md](ROADMAP_REPOSITIONNEMENT.md).
 
 ## 1. Vue d'ensemble
 
