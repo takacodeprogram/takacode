@@ -6,8 +6,6 @@
 > document. **Les chiffres de traction sont laissés en `[À REMPLIR]`** : ce sont les seuls
 > qui comptent vraiment, et ils doivent être vrais. Un chiffre inventé dans un dossier se
 > voit à la première question.
->
-> Écrit le 19 août 2026.
 
 ---
 
@@ -17,15 +15,9 @@ Un document ne fait pas la valeur d'une entreprise. Ce qui rend TakaCode finanç
 **le mécanisme** — transformer des besoins réels d'entreprises en expérience
 professionnelle — et **la preuve que ce mécanisme tourne**.
 
-Concrètement, la chose la plus rentable à faire avant toute levée est le **jalon J6 de la
-vision** : vendre cinq à dix Missions à la main. Un dossier qui dit « nous avons vendu
-9 missions à 7 entreprises, 31 membres ont été payés, voici les livrables » vaut plus que
-n'importe quelle présentation. Les rédacteurs de dossiers Y Combinator le disent
-simplement : ce qui fait rejeter, c'est d'être vague.
+Concrètement, la chose la plus rentable à faire avant toute levée est de **valider la demande réelle** : vendre cinq à dix Missions à la main. Un dossier qui dit « nous avons vendu 9 missions à 7 entreprises, 31 membres ont été payés, voici les livrables » vaut plus que n'importe quelle présentation. Les rédacteurs de dossiers Y Combinator le disent simplement : ce qui fait rejeter, c'est d'être vague.
 
-D'ailleurs, environ 40 % des entreprises financées par YC dans chaque promotion n'ont
-qu'une idée au moment du financement, et seulement 7 % dépassent 50 000 $ de revenu
-mensuel. Le manque de traction n'est donc pas éliminatoire — le flou, oui.
+D'ailleurs, environ 40 % des entreprises financées par YC dans chaque promotion n'ont qu'une idée au moment du financement, et seulement 7 % dépassent 50 000 $ de revenu mensuel. Le manque de traction n'est donc pas éliminatoire — le flou, oui.
 
 ---
 
@@ -35,15 +27,10 @@ mensuel. Le manque de traction n'est donc pas éliminatoire — le flou, oui.
 > `Real company projects as career experience`
 
 **Version française, une phrase :**
-> TakaCode transforme les besoins réels des entreprises en expérience professionnelle pour
-> les jeunes talents africains.
+> TakaCode transforme les besoins réels des entreprises en expérience professionnelle vérifiable pour les jeunes talents.
 
 **Version longue, trois phrases :**
-> Des millions de jeunes terminent une formation sans rien à montrer. TakaCode leur fait
-> construire des projets réels — logiciels, mais aussi boutiques, formations, chaînes
-> vidéo, activités freelance — jusqu'à un résultat publié et vérifiable. Puis nous
-> transformons les besoins concrets d'entreprises en missions encadrées, qui donnent à ces
-> talents une expérience payée et une référence citable.
+> Des millions de jeunes terminent une formation avec des certificats mais sans expérience concrète. TakaCode les guide pour construire des projets réels — SaaS, boutiques, formations, chaînes YouTube ou activités freelance — en utilisant l'IA pour coacher et valider leur compréhension réelle. Nous convertissons ensuite les besoins numériques d'entreprises en missions encadrées par des mentors, offrant aux talents une première expérience payée et une référence citable.
 
 **Le slogan :**
 > Construire pour apprendre. Réaliser pour progresser. Utiliser l'IA pour aller plus loin. Transformer l'expérience en opportunité.
@@ -53,27 +40,15 @@ mensuel. Le manque de traction n'est donc pas éliminatoire — le flou, oui.
 
 ## 2. Le pitch de 60 secondes
 
-> Un jeune finit une formation en ligne. Il a le certificat. Il postule, et on lui demande :
-> « Qu'avez-vous déjà réalisé ? Montrez-moi un projet. » Il n'a rien.
+> Un jeune finit une formation. Il a le certificat. Il postule, et on lui demande : « Qu'avez-vous déjà réalisé ? Montrez-moi des preuves. » Il n'a rien. Le problème n'est pas l'accès au contenu — Internet en regorge — c'est le passage à l'action et la preuve de compétence.
 >
-> Ce n'est pas un problème d'accès à la formation — il y en a partout, et c'est souvent
-> gratuit. C'est un problème de preuve.
+> TakaCode résout cela. Nous guidons l'utilisateur pour construire des projets réels de bout en bout. Mais nous ne produisons pas à sa place : notre Coach IA agit comme un copilote exigeant qui valide sa compréhension réelle (explications, justifications des choix, documentation). Le projet publié devient son portfolio vérifiable.
 >
-> TakaCode fait construire. Vous arrivez avec une idée, on la transforme en plan, on vous
-> donne les modèles, les kits de démarrage et un mentor, et vous allez jusqu'au résultat
-> publié. Et ce n'est pas réservé au code : une formation en ligne, une chaîne YouTube ou
-> une activité freelance sont des projets à part entière.
+> Ensuite, nous fermons la boucle. Une PME a besoin d'un site vitrine, une ONG d'une formation en ligne. Nous transformons ce besoin en mission cadrée avec des critères d'acceptation stricts, pilotée par un Mentor expérimenté qui garantit la livraison. Le membre obtient sa première expérience rémunérée via Mobile Money et une référence solide. L'organisation obtient un livrable de qualité à coût maîtrisé.
 >
-> Ensuite on ferme la boucle. Une PME a besoin d'un catalogue en ligne, une ONG d'une
-> formation pour ses bénéficiaires. On transforme ce besoin en mission cadrée, encadrée par
-> un mentor, réalisée par nos membres. L'entreprise obtient un livrable à un coût
-> accessible. Le membre obtient une expérience payée et une référence.
+> Nous validons la demande manuellement avant d'automatiser. Notre modèle repose sur les transactions : nous prenons une commission sur les missions et sur le marché d'expertise entre membres.
 >
-> Nous prenons une part sur la mission. Plus il y a de projets terminés, plus il y a de
-> mentors ; plus il y a de mentors, plus les entreprises nous font confiance ; plus il y a
-> de missions, plus il y a de gens qui construisent.
->
-> `[À REMPLIR : traction]`. Nous levons pour industrialiser les missions.
+> `[À REMPLIR : traction]`. Nous levons pour industrialiser et passer à l'échelle.
 
 ---
 
@@ -85,266 +60,133 @@ mensuel. Le manque de traction n'est donc pas éliminatoire — le flou, oui.
 > `Real company projects as career experience`
 
 ### What is your company going to make? Please describe your product and what it does.
-> TakaCode is a platform where people build real projects and turn them into proof of
-> professional experience.
+> TakaCode is an agent-guided platform where users build real projects and turn them into verified professional experience.
 >
-> A user arrives with something they want to build — a SaaS, an online store, a course, a
-> YouTube channel, a freelance practice. We turn that goal into a concrete plan: steps,
-> tasks, templates, starter kits, and a deliverable at every step. An AI coach guides them,
-> peers review their work against a published rubric, and a mentor who has completed the
-> same path validates it. The finished project, its deliverables and its build log become a
-> public portfolio.
+> A user starts with a project idea (SaaS, e-commerce, online course, YouTube channel, freelance practice). We turn it into a step-by-step roadmap with clear deliverables. An AI coach guides them but prevents the "illusion of competence" by testing their understanding: users must explain their choices, document their setup, and present their work. Peers review work against standard rubrics, and experienced mentors validate it.
 >
-> Then we close the loop. Companies, NGOs and small businesses submit real needs. We turn
-> each need into a scoped mission with written acceptance criteria, assign a mentor as
-> delivery owner, and staff it with members selected on their portfolio. The client gets a
-> deliverable at an accessible price. The members get paid work and a citable reference.
+> We then close the loop by onboarding real businesses, NGOs, and partners. We translate their digital needs into scoped, paid missions with strict acceptance criteria. We staff these missions with qualified members and assign a Mentor as the Delivery Owner to guarantee high-quality execution. Payments are securely held in escrow and distributed via Mobile Money.
 >
-> We take a platform fee on missions, a commission on the expertise marketplace, an
-> optional subscription, and sponsorships on relevant tracks. Building a project is free
-> and always will be.
+> Building a project is free. We monetize via a 20-25% platform fee on company project budgets. We charge a 10-20% commission on peer-to-peer mentorship sessions, and optional premium subscriptions (Taka+).
 
 ### What's new about what you're making?
-> Three things, and the third is the one that matters.
+> Three key differences:
 >
-> **1. Project, not code.** Every comparable platform — ALX, Microverse, Frontend Mentor,
-> Boot.dev — teaches software engineering. The only one that accepted any kind of project
-> was buildspace, and it shut down. Nobody today guides someone launching an online course
-> or a YouTube channel with the same rigour as a SaaS. That is most of the market, and it
-> is unserved.
+> **1. Output-driven AI coaching.** Most educational platforms use AI to write code or generate answers *for* the student. Our AI coach acts as a tutor that probes understanding: it asks "why did you choose this layout?", "how would you debug this?", forcing the user to document and validate their choices.
 >
-> **2. The path is the plan.** On other platforms, the course and the project are separate
-> objects, and you can finish the course having built nothing. Here they are the same
-> object. Progress in the path *is* progress in the project. You cannot finish without
-> having built.
+> **2. Project-type agnosticism.** Competitors only focus on coding/SaaS. TakaCode applies the same structural rigour (milestones, checklists, rubrics, mentors) to creator-economy and business projects (YouTube channels, digital products, WooCommerce, freelance setup). This opens up a far larger market.
 >
-> **3. Two sides, one platform.** Others stop at the portfolio or at a job board. We take
-> the demand side directly: a company's real need becomes a structured mission executed by
-> our members. That is the part competitors cannot copy quickly, because it requires
-> selling to businesses, not just shipping product.
+> **3. Scoped business integration.** We do not stop at a static portfolio. We bring paid business demand onto the platform. By transforming company needs into scoped missions led by certified mentors, we solve the chicken-and-egg problem of portfolios: we provide their very first professional reference.
 
 ### Who are your competitors, and who might become competitors? Who do you most fear?
-> Direct, on training: ALX Africa, AltSchool Africa, Decagon, Semicolon. They sell
-> employability through software engineering, often with deferred or income-share tuition.
-> That model commits them to job placement, which forces them to select at the door and to
-> steer everyone toward whatever is hiring. It cannot accommodate someone who wants to
-> launch a podcast.
+> Direct competitors in training: ALX Africa, AltSchool Africa, Semicolon. They train software developers and rely heavily on job placements or income-share agreements. This model limits them to IT jobs and forces them to select only highly-skilled applicants.
 >
-> On the practice side: Frontend Mentor, Odin Project, Exercism. Excellent at exercises,
-> stop at the portfolio.
+> Practice platforms: Frontend Mentor, The Odin Project. Great for exercises, but they stop at mock portfolios and offer no real client work.
 >
-> On the demand side: Andela, Gebeya, Turing, Upwork. They match people who *already* have
-> experience. They do not create it.
+> Talent marketplaces: Upwork, Fiverr, Andela. They match experienced professionals, but do not help beginners build their first reference.
 >
-> The one we would fear most is a platform that already has both the audience and a
-> demand-side relationship, and decides to add missions — a large learning platform with an
-> enterprise arm. Our defence is the completion data and the mentor network: knowing who
-> actually finishes what, and having the people who can vouch for it, is not something you
-> buy.
+> Our main threat would be a global online learning platform adding a managed freelance marketplace. We protect ourselves by building proprietary completion data, localized payment infrastructure (Mobile Money escrow), and a trusted peer-and-mentor network that is hard to clone online.
 
 ### How do you make money? How much could you make?
-> Five sources, activated in order. Access to paths is never charged.
+> We monetize value transactions, not content access:
 >
-> 1. **Missions** — 20–25 % platform fee on the mission budget.
-> 2. **Expertise marketplace** — 10–20 % commission on sessions and services between members.
-> 3. **Taka+** — optional subscription, 3 000–5 000 FCFA/month (≈ 5–8 $).
-> 4. **Affiliate** — tools recommended at the moment the project actually needs them.
->    Complementary revenue, never the core.
-> 5. **Sponsored tracks** — a company funds a track where its tool is genuinely relevant.
->    At least 70 % of the sponsor budget goes back to builders as credits and prizes.
+> 1. **Missions** — 20-25% platform fee on company project budgets.
+> 2. **Expertise Marketplace** — 10-20% commission on paid 1-on-1 mentor sessions.
+> 3. **Taka+** — optional builder subscription (3,000–5,000 FCFA/mo, ≈ $5-8) for advanced AI quotas and priority reviews.
+> 4. **Sponsored Tracks & Challenges** — brands fund target roadmaps and challenges, with 70%+ of the budget distributed to builders.
 >
-> Ceiling: the Mastercard Foundation is targeting 30 million young Africans in dignified
-> work by 2030 and is deploying over 770 M$ on digital empowerment. If TakaCode reaches
-> 1 % of that population with an average of 30 $ of annual gross margin per active member,
-> that is 9 M$ a year — before counting the mission volume, which has a far higher value
-> per transaction.
+> Global foundations like the Mastercard Foundation are targeting 30 million young Africans in dignified work by 2030, investing heavily in digital enablement. By capturing 1% of this ecosystem and generating a $30 annual margin per builder (via a mix of subscription, tool affiliation, and marketplace fees), TakaCode reaches a $9M ARR potential, before accounting for B2B mission volumes.
 
 ### How far along are you? How many users? Revenue?
 > `[À REMPLIR — chiffres réels uniquement]`
 >
-> - Plateforme en production sur takacode.app : parcours, projets, communauté, classement,
->   sessions live, revue par IA et par les pairs, coach IA agentique avec outils.
-> - Membres inscrits : `[N]`
-> - Projets créés : `[N]` · terminés : `[N]` · publiés : `[N]`
-> - Parcours publiés : `[N]` · leçons : `[N]`
-> - Revenus : `[montant, ou « aucun à ce jour »]`
-> - Missions vendues : `[N]` — c'est le chiffre que nous cherchons à faire monter dès
->   maintenant, à la main.
+> - Platform live at takacode.app: interactive roadmaps, AI coach with file-reading capabilities, peer reviews, community board, leaderboard.
+> - Registered members: `[N]`
+> - Projects started: `[N]` · Completed: `[N]` · Published: `[N]`
+> - Revenue: `[montant, ou « aucun à ce jour »]`
+> - Scoped missions sold manually: `[N]` (our primary focus before fully automating the marketplace).
 
 ### Why did you pick this idea to work on? Do you have domain expertise?
-> `[À REMPLIR — l'histoire personnelle du fondateur]`
->
-> Ce qu'il faut y mettre : d'où vient la connaissance du problème, ce qui a déjà été
-> construit seul, pourquoi ce marché précis, et pourquoi maintenant.
+> `[À REMPLIR — histoire personnelle du fondateur : expertise locale, observation de l'échec des formations purement théoriques, opportunités du Mobile Money et de l'IA générative]`.
 
 ### What have you learned so far from working on this?
-> Trois choses.
->
-> Un : les gens n'abandonnent pas par manque de contenu, ils abandonnent quand ils restent
-> bloqués seuls. Ce n'est pas un problème pédagogique, c'est un problème de déblocage.
->
-> Deux : dès qu'on a arrêté de supposer qu'un projet était un projet informatique, une
-> autre demande est apparue — formations, chaînes, boutiques, activités freelance. Le
-> marché est beaucoup plus large que le développement.
->
-> Trois : `[À REMPLIR — un apprentissage tiré d'un vrai échange avec une entreprise]`.
+> 1. Students don't drop out because they lack content; they drop out because they get stuck alone. The bottleneck is troubleshooting and feedback, not tutorials.
+> 2. AI creates an illusion of competence. If the tool builds everything, the user learns nothing. We had to pivot our AI to act as a challenger, requiring the user to justify and document their work.
+> 3. Businesses are willing to pay for simple digital deliverables, but they buy *results*, not educational support. That is why every mission requires a Mentor as the Delivery Owner.
 
 ---
 
 ## 4. Le dossier fondation (type Mastercard Foundation)
 
-*Angle différent : ici, l'interlocuteur achète de l'impact mesurable, pas de la croissance.*
+*Ici, le financeur achète de l'impact mesurable, de l'insertion et du développement local.*
 
 ### Le problème, formulé pour une fondation
-> L'investissement massif dans la formation numérique en Afrique produit des diplômés, pas
-> des expériences professionnelles. Le goulot d'étranglement s'est déplacé : il n'est plus
-> à l'entrée de la formation, il est à la sortie — au moment où un employeur demande une
-> preuve d'expérience que personne n'a pu donner au candidat.
+> Les investissements massifs dans l'éducation numérique en Afrique créent des certifiés, pas des professionnels expérimentés. Le goulot d'étranglement s'est déplacé : il n'est plus à l'accès aux cours, il est à la sortie — au moment d'entrer sur le marché du travail sans aucune preuve d'expérience concrète à présenter.
 
 ### Ce que TakaCode fait
-> Nous transformons les besoins réels de petites organisations en projets encadrés, réalisés
-> par des jeunes accompagnés par des mentors. Le jeune acquiert une expérience documentée et
-> une rémunération. L'organisation obtient une solution numérique qu'elle n'aurait pas pu
-> s'offrir. Le mentor, issu de la communauté, transforme son expérience en revenu.
+> Nous fournissons une infrastructure de passage à l'action. Nous aidons les jeunes à concevoir des projets réels (SaaS, créateurs, e-commerce) et connectons les diplômés avec des besoins numériques réels de PME et d'associations locales. Le jeune acquiert une expérience encadrée et un revenu. L'association obtient sa transition numérique. Le mentor valorise son expertise.
 
-### Ce qu'on peut mesurer, et qui compte pour un financeur
+### Ce que l'on peut mesurer, et qui compte pour un financeur
 
-| Indicateur | Pourquoi une fondation le veut |
+| Indicateur d'impact | Ce que cela prouve |
 | --- | --- |
-| Jeunes ayant terminé au moins un projet | preuve d'acquisition de compétence par la pratique |
-| Projets publiés et vérifiables | preuve opposable, contrôlable par un tiers |
-| Missions réalisées pour des organisations | insertion économique réelle |
-| Montant reversé aux participants | revenu direct généré |
-| Jeunes ayant obtenu emploi, mission ou activité | l'objectif final |
-| Part de femmes parmi les Builders actifs | priorité explicite du bailleur |
-| Petites organisations servies | double impact : jeunes **et** tissu économique local |
-| Coût par jeune accompagné | efficacité de la subvention |
-
-### L'argument qui distingue
-> La plupart des programmes financent la formation et espèrent l'emploi. TakaCode finance
-> la **réalisation**, et l'emploi devient une conséquence mesurable. Le double impact est
-> notre différence : chaque franc dépensé sert deux fois, une fois pour le jeune, une fois
-> pour la petite organisation qui obtient une solution numérique.
-
-### Alignement affiché
-> La stratégie *Young Africa Works* vise 30 millions de jeunes en emploi digne d'ici 2030,
-> et plus de 770 M$ sont déployés pour l'autonomisation numérique. TakaCode ne demande pas à
-> remplacer les programmes de formation existants : nous nous branchons **après**, sur leurs
-> diplômés, pour transformer leur formation en expérience.
+| Jeunes ayant validé un projet réel | Acquisition de compétences par la pratique |
+| Portfolios publics et livrables vérifiables | Preuves d'expérience opposables et auditables |
+| Missions réalisées pour des PME/ONG locales | Insertion économique et transition numérique locale |
+| Revenus reversés aux membres (via Mobile Money) | Autonomisation financière directe |
+| Coût d'accompagnement par projet terminé | Efficacité et scalabilité de la subvention |
 
 ---
 
 ## 5. Le pitch hackathon (3 minutes)
 
-| Temps | Contenu |
+| Temps | Contenu de la présentation |
 | --- | --- |
-| 0:00–0:20 | **La scène.** Un jeune, un certificat, trois questions auxquelles il ne peut pas répondre. |
-| 0:20–0:40 | **Le constat.** Le problème n'est pas l'accès à la formation. C'est la preuve. |
-| 0:40–1:20 | **La démonstration.** En direct : je crée un projet « chaîne YouTube », le coach génère le plan, je vois les étapes, les modèles, le kit, la grille de validation. |
-| 1:20–1:50 | **La boucle.** Côté entreprise : je dépose un besoin, il devient une mission cadrée avec des critères d'acceptation. |
-| 1:50–2:20 | **Le modèle.** Gratuit à l'entrée. On prend une part sur les missions et la marketplace. |
-| 2:20–2:45 | **La traction.** `[À REMPLIR]`. |
-| 2:45–3:00 | **La demande.** Ce qu'on cherche ici, précisément. |
-
-**Règle de démonstration :** montrer le produit qui tourne, jamais des maquettes. Et
-montrer un projet **non informatique** — c'est ce qui surprend le jury et qui prouve le
-positionnement.
+| 0:00–0:20 | **L'accroche.** Un diplômé, son certificat, et le mur de la « première expérience exigée ». |
+| 0:20–0:40 | **Le constat.** Internet déborde de cours gratuits. Ce qui manque, c'est la preuve de réalisation. |
+| 0:40–1:20 | **La démo.** Montrer le produit en action : un projet réel (ex: e-commerce), le plan guidé, le Coach IA qui teste la compréhension, et le portfolio public généré. |
+| 1:20–1:50 | **La boucle.** Comment une PME dépose un besoin réel, transformé en mission payée sous la supervision d'un Mentor. |
+| 1:50–2:20 | **Le modèle.** Accès gratuit pour les builders. Commissions sur les transactions d'expertise et de missions. |
+| 2:20–2:45 | **Traction & Validation.** `[À REMPLIR : missions vendues manuellement]`. |
+| 2:45–3:00 | **L'appel à l'action.** Nos besoins de financement et de partenaires. |
 
 ---
 
 ## 6. La demande de financement
 
-*Structure d'une levée d'amorçage de 1 M$. Ce n'est pas une valorisation, c'est une demande
-et un plan d'emploi des fonds.*
+*Levée de fonds d'amorçage ciblée de 1 M$ (basée sur des jalons de validation).*
 
-| Poste | Part | À quoi ça sert |
+| Poste d'investissement | Part | Usage concret |
 | --- | --- | --- |
-| Équipe produit et ingénierie | 40 % | livrer J2 à J5 : projets généralisés, portfolio, mentorat, challenges |
-| Vente et cadrage des missions | 25 % | l'équipe qui vend et pilote les premières centaines de missions |
-| Réseau de mentors | 15 % | recrutement, vérification, animation, premières rémunérations |
-| Infrastructure de paiement | 10 % | Mobile Money : encaisser, sécuriser, répartir, reverser |
-| Fonctionnement | 10 % | juridique, comptabilité, conformité |
-
-**Ce que l'argent doit produire, en 18 mois :**
-
-| Objectif | Cible |
-| --- | --- |
-| Projets terminés | `[cible]` |
-| Taux de complétion | `[actuel]` → `[cible]` |
-| Mentors actifs | 30 → `[cible]` |
-| Missions livrées | `[N]` → `[cible]` |
-| Revenu reversé aux membres | `[montant]` |
-| Revenu plateforme | `[montant]` |
-
-**Le seuil de crédibilité :** aucune de ces cibles n'est défendable tant que J6 n'est pas
-franchi. La séquence est donc : vendre des missions à la main → mesurer → lever sur des
-chiffres réels.
+| Équipe produit et ingénierie | 40 % | Amélioration du coach IA (validation), portfolios publics, outils de revue. |
+| Cadrage et vente des missions | 25 % | Force commerciale pour acquérir et cadrer manuellement les premières missions B2B. |
+| Réseau de mentors et experts | 15 % | Recrutement, onboarding et animation du réseau de mentors. |
+| Infrastructure de paiement local | 10 % | Intégration du flux Mobile Money (encaisser, sécuriser, répartir, reverser). |
+| Opérations et conformité | 10 % | Support légal pour les contrats de missions et la gestion de séquestre (escrow). |
 
 ---
 
 ## 7. Les objections, et quoi répondre
 
-**« C'est encore une plateforme de formation. »**
-> Non. Sur une plateforme de formation, on peut finir le cours sans rien avoir construit.
-> Ici, terminer une étape produit un livrable : impossible d'arriver au bout sans que le
-> projet existe. Et nous allons jusqu'à la mission payée par un vrai client.
+**« C'est encore une plateforme de formation en ligne. »**
+> Non. TakaCode ne produit pas de cours. Nous redirigeons vers les meilleures ressources du web et nous concentrons 100 % de notre valeur sur la réalisation de projets, le coaching IA, la validation de la compréhension et les missions rémunérées.
 
-**« Une entreprise ne confiera jamais un vrai travail à des débutants. »**
-> C'est l'hypothèse la plus risquée du modèle, et nous le disons dans notre propre document
-> de vision. C'est pourquoi nous la testons en vendant des missions à la main avant de
-> construire quoi que ce soit. Trois garde-fous : un mentor responsable de la livraison sur
-> chaque mission, des critères d'acceptation écrits avant le début, et des fonds bloqués
-> jusqu'à validation par le client.
+**« Une entreprise ne confiera pas de travail à des débutants. »**
+> Elles ne le font pas en direct. Elles le confient à TakaCode. Sur chaque mission, nous assignons un Mentor expérimenté qui agit comme responsable de livraison (Delivery Owner). Le client a la garantie d'un résultat validé, et le builder est guidé pour produire au bon niveau.
 
-**« Vous êtes donc une agence de développement low-cost. »**
-> Une agence vend des heures et se fait comparer sur le prix. Nous vendons un livrable cadré
-> et nous produisons de l'expérience professionnelle. Si nous devenions une agence, nous
-> perdrions ce qui rend le modèle défendable — et c'est écrit noir sur blanc dans notre
-> vision comme la chose à ne jamais devenir.
+**« L'IA va tout coder/générer à la place du membre. »**
+> Notre Coach IA est conçu pour l'éviter. Il ne fournit pas de solutions toutes faites. Il demande des explications de code, exige que le membre documente sa configuration et teste sa compréhension avant chaque étape. La triche est détectée lors des validations humaines.
 
-**« Les mentors bénévoles vont s'épuiser. »**
-> Oui, et c'est prévu. Le bénévolat sert à amorcer. Ensuite les mentors gagnent de l'argent
-> par la demande — sessions, accompagnements, encadrement de missions — avec une commission
-> pour la plateforme. Nous ne salarions pas les mentors, nous créons un marché autour de
-> leur expérience.
+**« Vos mentors bénévoles vont s'épuiser. »**
+> Le bénévolat ne sert qu'à amorcer. Les mentors entrent ensuite dans notre circuit économique : ils sont payés sur les budgets de missions qu'ils encadrent et peuvent vendre leurs services d'expertise sur notre marketplace.
 
-**« Comment vous payez les gens en Afrique de l'Ouest ? »**
-> Mobile Money, pas carte bancaire. Et pas seulement pour encaisser : le circuit complet est
-> encaisser, sécuriser, répartir, reverser. C'est un chantier identifié comme bloquant, et
-> il conditionne l'ouverture de la marketplace.
-
-**« Qu'est-ce qui vous protège ? »**
-> Trois choses qui s'accumulent avec le temps. Les données de complétion : savoir qui
-> termine réellement quoi, et donc savoir qui envoyer sur une mission. Le réseau de mentors,
-> qui ne s'achète pas. Et la relation avec les organisations qui reviennent, parce qu'elles
-> ont déjà été livrées.
-
-**« Pourquoi maintenant ? »**
-> Parce que l'IA a rendu la génération d'un plan de projet personnalisé possible à coût
-> quasi nul, ce qui était impossible il y a trois ans. Et parce que le financement massif de
-> la formation numérique en Afrique a créé une génération de diplômés sans expérience — le
-> problème que nous résolvons est en train d'être fabriqué à grande échelle.
+**« Comment gérez-vous les paiements dans cette région ? »**
+> Par Mobile Money. Nous concevons un circuit adapté aux réalités locales : encaisser le client, sécuriser en séquestre, répartir selon les tâches, et reverser aux builders et mentors.
 
 ---
 
-## 8. Ce qu'il faut préparer avant tout dossier
+## 8. Ce qu'il faut préparer avant tout dossier de présentation
 
-| # | À faire | Pourquoi |
-| --- | --- | --- |
-| 1 | Vendre 5 à 10 missions à la main | c'est la seule chose qui prouve le modèle |
-| 2 | Mesurer le taux de projets terminés | c'est notre métrique, il faut la connaître |
-| 3 | Filmer 3 démonstrations de 90 s | dont une sur un projet non informatique |
-| 4 | Réunir 5 témoignages | 3 membres, 2 organisations |
-| 5 | Publier une galerie de projets terminés | la preuve visuelle, immédiate |
-| 6 | Chiffrer le coût par projet terminé | ce que demandera toute fondation |
-
----
-
-## Sources des chiffres de marché
-
-- [Mastercard Foundation — stratégie Young Africa Works, 30 millions de jeunes d'ici 2030](https://mastercardfdn.org/en/the-young-africa-works-strategy/)
-- [Mastercard Foundation — plus de 770 M$ pour l'autonomisation numérique](https://mastercardfdn.org/en/what-we-do/focus-areas/digital/)
-- [Y Combinator — ce que regarde le comité de sélection en 2026](https://hub.causo.ai/guides/how-to-apply-to-yc-2026)
-- [Y Combinator — 40 % des entreprises financées ne sont qu'une idée, 7 % au-dessus de 50 k$ de revenu mensuel](https://capwave.ai/blog/blog-how-to-apply-to-y-combinator)
-- [AltSchool Africa — modèle de paiement et tarifs](https://engineering.altschoolafrica.com/programs/ai-powered-fullstack-engineering)
-- [daily.dev — repères de prix des sponsorings orientés développeurs](https://daily.dev/blog/the-complete-guide-for-developer-focused-sponsorships-in-2025)
+1. **Valider la demande** : Avoir vendu et livré manuellement 5 à 10 missions réelles à des entreprises.
+2. **Mesurer le coût** : Connaître le coût IA/infrastructure exact pour amener un membre à un projet terminé.
+3. **Créer les démonstrations** : Avoir des vidéos courtes (90s) montrant la construction d'un projet non informatique (ex: e-commerce ou canal média).
+4. **Recueillir les preuves** : Compiler les témoignages de 3 builders rémunérés et de 2 PME clientes satisfaites.
