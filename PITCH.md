@@ -11,11 +11,9 @@
 
 ## Avertissement utile avant de commencer
 
-Un document ne fait pas la valeur d'une entreprise. Ce qui rend TakaCode finançable, c'est
-**le mécanisme** — transformer des besoins réels d'entreprises en expérience
-professionnelle — et **la preuve que ce mécanisme tourne**.
+Un document ne fait pas la valeur d'une entreprise. Ce qui rend TakaCode finançable, c'est **le mécanisme** — accompagner les personnes de l'orientation à la réalisation dans l'économie numérique grâce à des projets réels — et **la preuve que ce mécanisme tourne**.
 
-Concrètement, la chose la plus rentable à faire avant toute levée est de **valider la demande réelle** : vendre cinq à dix Missions à la main. Un dossier qui dit « nous avons vendu 9 missions à 7 entreprises, 31 membres ont été payés, voici les livrables » vaut plus que n'importe quelle présentation. Les rédacteurs de dossiers Y Combinator le disent simplement : ce qui fait rejeter, c'est d'être vague.
+Concrètement, cela consiste à amener des membres à concevoir et finaliser des projets réels (Build, Challenges), puis à connecter certains d'entre eux à des besoins numériques réels d'organisations (Missions). La chose la plus rentable à faire avant toute levée est de valider le circuit complet en vendant les premières Missions à la main. Un dossier qui dit « nous avons vendu 9 missions à 7 entreprises, 31 membres ont été payés, voici les livrables » vaut plus que n'importe quelle présentation. Les rédacteurs de dossiers Y Combinator le disent simplement : ce qui fait rejeter, c'est d'être vague.
 
 D'ailleurs, environ 40 % des entreprises financées par YC dans chaque promotion n'ont qu'une idée au moment du financement, et seulement 7 % dépassent 50 000 $ de revenu mensuel. Le manque de traction n'est donc pas éliminatoire — le flou, oui.
 
@@ -24,13 +22,13 @@ D'ailleurs, environ 40 % des entreprises financées par YC dans chaque promotion
 ## 1. La phrase courte
 
 **Version 50 caractères (format YC) :**
-> `Real company projects as career experience`
+> `Agent-guided platform for real-world projects`
 
 **Version française, une phrase :**
-> TakaCode transforme les besoins réels des entreprises en expérience professionnelle vérifiable pour les jeunes talents.
+> TakaCode accompagne les personnes de l'orientation à la réalisation concrète et aux opportunités de l'économie numérique.
 
 **Version longue, trois phrases :**
-> Des millions de jeunes terminent une formation avec des certificats mais sans expérience concrète. TakaCode les guide pour construire des projets réels — SaaS, boutiques, formations, chaînes YouTube ou activités freelance — en utilisant l'IA pour coacher et valider leur compréhension réelle. Nous convertissons ensuite les besoins numériques d'entreprises en missions encadrées par des mentors, offrant aux talents une première expérience payée et une référence citable.
+> Des millions de personnes veulent progresser dans le numérique mais manquent d'orientation et de pratique. TakaCode les guide pour construire des projets réels — SaaS, boutiques, formations, chaînes YouTube ou activités freelance — en utilisant l'IA pour coacher et valider leur compréhension. Nous convertissons ensuite des besoins numériques réels d'organisations en missions encadrées, offrant aux membres une première expérience rémunérée et une preuve d'expérience vérifiable.
 
 **Le slogan :**
 > Construire pour apprendre. Réaliser pour progresser. Utiliser l'IA pour aller plus loin. Transformer l'expérience en opportunité.
