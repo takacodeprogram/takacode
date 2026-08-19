@@ -22,7 +22,42 @@ les docs comme dans les textes du site : *Visiteur* (pas encore de compte), *Mem
 **Stack** : Next.js 16 (App Router, TypeScript strict) · Supabase (Postgres, Auth, RLS,
 Storage) · Tailwind · deploye sur Vercel.
 
-**Docs**
+## Ordre de lecture
+
+**Tout part de [VISION.md](./VISION.md).** C'est le document de reference : si un autre
+texte du depot le contredit, c'est lui qui fait foi. Les six autres le developpent, chacun
+sur une section precise.
+
+**Si tu decouvres le projet — lis dans cet ordre :**
+
+1. **[VISION.md](./VISION.md)** — ce qu'est TakaCode, pour qui, pourquoi. Ne pas sauter :
+   tout le reste y fait reference par numero de section.
+2. **[SYSTEME_PROJET.md](./SYSTEME_PROJET.md)** — ce qu'est un projet concretement. C'est
+   ce qui rend le §02 de la vision utilisable.
+3. **[FONCTIONNALITES.md](./FONCTIONNALITES.md)** — ce qu'il faut construire, et pour quel
+   acteur.
+4. **[BUSINESS_MODEL.md](./BUSINESS_MODEL.md)** — comment on gagne de l'argent, et dans
+   quel ordre on active chaque source.
+5. **[ROADMAP_REPOSITIONNEMENT.md](./ROADMAP_REPOSITIONNEMENT.md)** — ce que chaque jalon
+   implique dans la base de donnees et les pages.
+
+[BENCHMARK.md](./BENCHMARK.md) et [PITCH.md](./PITCH.md) se lisent quand le besoin se
+presente, pas dans la sequence.
+
+**Selon ce que tu viens faire :**
+
+| Tu es | Lis, dans cet ordre |
+| --- | --- |
+| Nouveau sur le code | VISION → ANALYSIS_GUIDE → RAPPORT_OPERATIONNEL → ROADMAP_REPOSITIONNEMENT |
+| Tu implementes une fonctionnalite | VISION → SYSTEME_PROJET → FONCTIONNALITES → ROADMAP_REPOSITIONNEMENT |
+| Tu ecris du contenu ou des textes du site | VISION (§02 et §04 surtout) → SYSTEME_PROJET → FONCTIONNALITES §1 |
+| Tu prepares une levee ou un dossier | VISION → PITCH → BUSINESS_MODEL → BENCHMARK |
+| Tu cherches quoi faire ensuite | VISION §07 → ROADMAP_REPOSITIONNEMENT → ROADMAP_EVOLUTION |
+| Tu arbitres un desaccord | VISION, et rien d'autre |
+
+---
+
+## Docs
 
 Le document de reference, puis ceux qui le developpent :
 
