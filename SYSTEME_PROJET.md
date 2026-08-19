@@ -1,409 +1,1272 @@
 # Le système de projet
 
-> Ce document définit ce qu'est un projet sur TakaCode, de quoi il est composé, comment il
-> se relie à un parcours, et ce que la plateforme lui fournit : cadres, modèles et kits de
-> démarrage.
+> Ce document définit ce qu'est un projet sur TakaCode, comment il se construit, comment les ressources d'apprentissage s'y rattachent et comment il peut progressivement devenir une preuve d'expérience puis une opportunité.
 >
-> Il développe le **§02 de [VISION.md](VISION.md)** — « un projet ne signifie pas forcément
-> coder ». Les fonctionnalités qui en découlent sont dans
-> [FONCTIONNALITES.md](FONCTIONNALITES.md). Les mécanismes empruntés à d'autres
-> plateformes sont justifiés dans [BENCHMARK.md](BENCHMARK.md).
+> Il développe un principe fondamental de [VISION.md](./VISION.md) :
 >
-> Écrit le 19 août 2026.
+> **sur TakaCode, on n'apprend pas d'abord pour construire ensuite. On apprend au fil de ce que l'on cherche à réaliser.**
+>
+> TakaCode ne crée pas systématiquement des formations.
+>
+> La plateforme utilise principalement des ressources existantes — documentations, vidéos YouTube, tutoriels, articles, cours ouverts, dépôts GitHub, outils et autres ressources accessibles — puis les organise autour des besoins réels du projet.
+>
+> L'intelligence artificielle intervient comme **coach, outil de compréhension, de structuration, de feedback et d'accélération**, mais le projet reste réalisé par le membre.
+>
+> Les fonctionnalités correspondantes sont définies dans [FONCTIONNALITES.md](./FONCTIONNALITES.md).
+>
+> Les choix de mécanismes sont documentés dans [BENCHMARK.md](./BENCHMARK.md).
 
 ---
 
-## 1. Le principe : le parcours est le plan du projet
+# 01 — Le principe central
 
-C'est l'idée centrale, et elle change tout le reste.
+## Le parcours est le plan du projet
 
-Sur une plateforme de formation classique, il y a d'un côté un cours, de l'autre — parfois
-— un projet d'application. Les deux vivent séparément. On peut finir le cours sans avoir
-rien construit.
+Sur une plateforme de formation classique, le schéma est souvent :
 
-**Sur TakaCode, ce sont les mêmes objets.** Le parcours n'est pas un programme
-pédagogique à côté du projet : c'est le **plan du projet**, découpé en étapes. Chaque
-étape produit un morceau du projet.
-
-```
-Parcours classique :   Leçon 1 → Leçon 2 → Leçon 3 → Quiz → Certificat
-                       (à la fin, on n'a rien construit)
-
-Parcours TakaCode :    Étape 1 → livrable 1 ─┐
-                       Étape 2 → livrable 2 ─┼→ LE PROJET
-                       Étape 3 → livrable 3 ─┘
-                       (à la fin, le projet existe)
+```text id="d3h91f"
+Cours → Leçons → Exercices → Quiz → Certificat
 ```
 
-**Trois conséquences immédiates.**
+Le projet, lorsqu'il existe, arrive souvent après.
 
-1. **Avancer dans le parcours, c'est avancer dans le projet.** Il n'y a pas deux barres de
-   progression. Terminer une étape ajoute un livrable au projet. On ne peut pas « finir le
-   parcours » sans que le projet existe.
-2. **Un parcours sans projet n'a pas de sens.** Personne ne « suit un parcours » sur
-   TakaCode. On démarre un projet, et le parcours apparaît comme son plan.
-3. **Le parcours s'adapte au projet, pas l'inverse.** Deux personnes qui lancent une chaîne
-   YouTube n'ont pas la même niche, le même matériel, le même temps disponible. Le
-   coach IA part du parcours type et le personnalise.
+Il est donc possible de terminer la formation sans avoir réalisé quelque chose de réellement utilisable ou valorisable.
+
+Sur TakaCode, la logique est différente.
+
+```text id="fh88dp"
+Objectif
+   ↓
+Étape 1 → besoin → ressource → action → livrable 1
+   ↓
+Étape 2 → besoin → ressource → action → livrable 2
+   ↓
+Étape 3 → besoin → ressource → action → livrable 3
+   ↓
+Projet réalisé
+```
+
+Le parcours n'est donc pas un programme pédagogique placé à côté du projet.
+
+> **Le parcours est le chemin permettant au projet d'exister.**
+
+Chaque étape doit faire avancer quelque chose de réel.
 
 ---
 
-## 2. L'anatomie d'un projet
+# 02 — Conséquences de ce principe
 
-Un projet TakaCode est composé de douze éléments. Ils valent pour tous les types de projet.
+## 1. Avancer dans le parcours = avancer dans le projet
 
-### 2.1 — Identité
-Ce qui permet de reconnaître le projet.
+Il n'y a pas :
 
-| Champ | Exemple (chaîne YouTube) | Exemple (SaaS) |
-| --- | --- | --- |
-| Titre | « Chaîne faceless sur la finance perso » | « FactureRapide » |
-| Type | contenu vidéo | logiciel / SaaS |
-| Résumé | Une vidéo par semaine expliquant l'épargne aux 20-30 ans en Afrique de l'Ouest | Facturation simplifiée pour freelances en zone FCFA |
-| Visuel | miniature de la chaîne | capture de l'écran principal |
-| Domaines | finance, montage vidéo, écriture | développement web, paiement, design |
+> 60 % du cours terminé
 
-### 2.2 — Intention
-Pourquoi ce projet existe, et à quoi on saura qu'il a réussi.
+et :
 
-- **Objectif** — ce qu'on veut obtenir, en une phrase.
-- **Pour qui** — la personne à qui ça s'adresse. Pas « tout le monde ».
-- **Critère de réussite** — un fait vérifiable, pas un sentiment.
-  *Bon :* « 10 vidéos publiées et 500 abonnés. » *Mauvais :* « une belle chaîne. »
-- **Échéance visée** — une date. Sans date, un projet personnel ne se termine pas.
+> 25 % du projet terminé.
 
-### 2.3 — Cadre
-Le **framework de projet** : la suite de phases propre à ce type de projet. Voir §3.
+Il existe une seule progression.
 
-### 2.4 — Plan
-Le framework appliqué à ce projet précis, découpé en étapes puis en tâches. C'est le
-parcours. Il est modifiable : le Builder peut retirer une étape qui ne le concerne pas.
+Si une étape est terminée, elle doit avoir produit :
 
-### 2.5 — Ressources
-Ce que la plateforme fournit pour avancer : modèles, kits de démarrage, outils recommandés,
-lectures, exemples de projets similaires déjà terminés.
-
-### 2.6 — Livrables
-Ce que le projet produit réellement. C'est la partie qui remplace `repo_url` et `live_url`.
-Voir §6 pour la liste exhaustive par type.
-
-### 2.7 — Preuves
-Ce qui atteste que le livrable est réel et qu'il a produit un effet : captures d'écran,
-chiffres (abonnés, ventes, visites, téléchargements), témoignage d'un utilisateur, capture
-d'un premier paiement reçu.
-
-Un livrable montre qu'on a fait. Une preuve montre que ça a marché.
-
-### 2.8 — Accompagnement
-Qui aide, et comment : le coach IA en continu, la communauté à la demande, un mentor
-attribué, les sessions de déblocage, un binôme.
-
-### 2.9 — Validation
-Qui dit que c'est bon, et selon quels critères. Quatre niveaux, cumulables :
-
-| Niveau | Qui valide | Ce que ça vaut |
-| --- | --- | --- |
-| Auto-déclaré | le Builder | rien en soi, sert au suivi |
-| IA | le coach, contre une grille écrite | un premier filtre, immédiat |
-| Pairs | d'autres Builders ou Contributors | crédible, et ça fait progresser le relecteur |
-| Mentor | un Mentor du domaine | c'est ce qui compte pour une Mission |
-| Client | l'organisation, sur une Mission | la validation la plus forte |
-
-**La grille de validation est visible avant de commencer.** Le Builder sait sur quoi il
-sera évalué au moment où il attaque, pas après.
-
-### 2.10 — Publication
-La page publique du projet. C'est ce qu'on envoie à un recruteur ou à un client.
-
-### 2.11 — Valorisation
-Ce que le projet a rapporté : revenus générés, opportunité obtenue, mission décrochée,
-réutilisation du projet comme base d'un autre.
-
-### 2.12 — Journal de bord
-La trace datée de ce qui s'est passé : décisions, blocages, essais ratés, ce qui a été
-changé et pourquoi.
-
-> **Pourquoi c'est important et souvent oublié.** Un recruteur ou un client regarde le
-> résultat, mais ce qui le convainc, c'est le raisonnement. Le journal de bord transforme
-> « j'ai fait un site » en « voilà comment j'ai décidé, ce qui a raté, et ce que j'ai
-> corrigé ». C'est le §01 de la vision — *je peux le montrer, l'expliquer et documenter mon
-> travail* — rendu concret.
+* une décision ;
+* un livrable ;
+* une preuve ;
+* ou une avancée vérifiable.
 
 ---
 
-## 3. Les frameworks de projet
+## 2. Une ressource n'est jamais une étape en soi
 
-Un **framework de projet** est la suite de phases type d'une catégorie de projet. Il ne
-change pas d'un Builder à l'autre. C'est le squelette.
+Regarder une vidéo ne signifie pas avoir terminé une étape.
 
-### 3.1 — Logiciel / SaaS
-```
-Problème → Utilisateur cible → Périmètre minimal → Maquette → Modèle de données
-→ Développement → Tests → Déploiement → Premiers utilisateurs → Monétisation
-```
+Lire une documentation non plus.
 
-### 3.2 — Agent IA / automatisation
-```
-Tâche répétitive identifiée → Mesure du temps perdu → Choix des outils → Prototype
-→ Fiabilisation → Mise en production → Mesure du gain → Réutilisation ou vente
-```
+Une ressource sert à accomplir quelque chose.
 
-### 3.3 — Boutique en ligne
-```
-Produit → Fournisseur ou stock → Positionnement prix → Catalogue → Plateforme
-→ Paiement → Livraison → Lancement → Acquisition → Premières commandes
-```
+Mauvais modèle :
 
-### 3.4 — Formation en ligne
-```
-Expertise → Public cible → Promesse → Programme → Production du contenu
-→ Plateforme d'hébergement → Page de vente → Tarification → Lancement → Premiers élèves
-```
+> Regarde ces trois vidéos sur les landing pages.
 
-### 3.5 — Chaîne vidéo
-```
-Niche → Étude des chaînes existantes → Identité → Format → Processus de production
-→ 3 premières vidéos → Publication régulière → Miniatures et titres → Audience
-→ Monétisation
-```
+Meilleur modèle :
 
-### 3.6 — Podcast / newsletter
-```
-Angle → Public → Format et fréquence → Nom et identité → Production du n°1
-→ Plateforme de diffusion → 5 premiers numéros → Distribution → Régularité → Revenus
-```
-
-### 3.7 — Activité freelance
-```
-Compétence vendable → Offre précise → Prix → Portfolio → Présence en ligne
-→ Prospection → Premier devis → Premier client → Livraison → Recommandation
-```
-
-### 3.8 — Produit digital
-```
-Besoin → Format du produit → Production → Mise en forme → Page de vente
-→ Plateforme de paiement → Prix → Lancement → Premières ventes → Itération
-```
-
-**Règle :** un framework a entre 8 et 12 phases. Moins, il est trop vague pour guider.
-Plus, il décourage avant d'avoir commencé.
+> Construis la première version de ta landing page. Voici les ressources utiles pour comprendre les éléments dont tu as besoin.
 
 ---
 
-## 4. Les modèles (templates)
+## 3. Le projet détermine ce qu'il faut apprendre
 
-Un **modèle** est un document à remplir. Il ne fait pas le travail, il évite la page
-blanche et impose de répondre aux bonnes questions.
+Deux personnes peuvent avoir besoin de compétences très différentes même si elles construisent un projet similaire.
 
-| Modèle | À quelle phase | Ce qu'il contient |
-| --- | --- | --- |
-| Fiche projet | au démarrage, tous types | objectif, cible, critère de réussite, échéance |
-| Fiche utilisateur cible | phase 2, tous types | qui, quel problème, comment il fait aujourd'hui |
-| Périmètre minimal | logiciel, boutique, SaaS | ce qui est dans la v1, ce qui est explicitement dehors |
-| Modèle de données | logiciel, SaaS | tables, champs, relations |
-| Plan de programme | formation | modules, objectifs pédagogiques, durée |
-| Script vidéo | vidéo, formation | accroche, corps, appel à l'action |
-| Calendrier éditorial | vidéo, podcast, newsletter | 8 semaines de publications planifiées |
-| Fiche produit | boutique | photos, description, prix, marge |
-| Page de vente | formation, produit digital, freelance | promesse, preuves, objections, prix, garantie |
-| Grille tarifaire | freelance, formation | offres, ce qui est inclus, ce qui ne l'est pas |
-| Proposition commerciale | freelance | contexte client, livrables, délai, prix |
-| Plan de lancement | tous types | J-14, J-7, jour J, J+7 |
-| Journal de bord | tous types | date, décision, blocage, résultat |
-| Brief de mission | Missions | besoin, périmètre, livrables, critères d'acceptation, budget |
+Exemple :
+
+Deux personnes lancent une chaîne YouTube.
+
+La première maîtrise déjà le montage.
+
+La seconde non.
+
+Il serait inutile d'imposer le même parcours d'apprentissage aux deux.
+
+TakaCode part donc :
+
+> **du projet + du niveau + du contexte du membre**
+
+pour déterminer les ressources réellement utiles.
 
 ---
 
-## 5. Les kits de démarrage (starter kits)
+## 4. Le plan peut évoluer
 
-Un **kit de démarrage** n'est pas un document : c'est un point de départ déjà fonctionnel.
-On le prend, on le modifie, on gagne des jours.
+Un vrai projet change.
 
-| Kit | Pour | Contenu |
-| --- | --- | --- |
-| Application web | logiciel, SaaS | dépôt prêt à déployer : authentification, base de données, page d'accueil, déploiement configuré |
-| Agent IA | agent IA | squelette d'appel à un modèle, gestion des clés, exemple d'outil, garde-fous |
-| Automatisation | automatisation | scénario type déclencheur → action, avec journalisation |
-| Boutique | boutique | structure de catalogue, fiches produits, paiement mobile money, page de commande |
-| Espace de formation | formation | arborescence des modules, page de vente, tunnel d'inscription, accès aux vidéos |
-| Production vidéo | vidéo | structure de dossiers, modèle de miniature, préréglages de montage, checklist de publication |
-| Podcast | podcast | modèle de flux RSS, habillage sonore, structure d'épisode |
-| Newsletter | newsletter | page d'inscription, modèle d'email, séquence de bienvenue |
-| Portfolio freelance | freelance | page personnelle, présentation de 3 études de cas, formulaire de contact |
-| Produit téléchargeable | produit digital | mise en page du document, page de vente, livraison automatique après paiement |
+Une idée peut être simplifiée.
 
-**Deux règles pour les kits.**
+Une technologie peut être remplacée.
 
-1. **Un kit doit être déployable en moins de 30 minutes.** Au-delà, il devient lui-même un
-   obstacle.
-2. **Un kit n'est jamais imposé.** Un Builder qui veut tout construire lui-même doit
-   pouvoir ignorer le kit sans que le parcours se bloque.
+Une cible peut évoluer.
 
-> Les kits sont aussi le meilleur endroit pour les liens d'affiliation du §06 de la vision.
-> Le kit « application web » a besoin d'un hébergement ; la recommandation apparaît là, au
-> moment exact où le besoin existe.
+Une fonctionnalité peut être abandonnée.
+
+Le système doit donc permettre de modifier le plan sans considérer cela comme un échec.
+
+> **Le plan sert le projet. Le projet ne sert pas le plan.**
 
 ---
 
-## 6. Les livrables, par type de projet
+# 03 — Avant le projet : l'orientation
 
-C'est la liste qui remplace « dépôt GitHub + URL de démo ». Elle doit être exhaustive,
-parce qu'un type de livrable manquant rend un type de projet impossible à suivre.
+Tout le monde n'arrive pas avec une idée précise.
 
-| Type de projet | Livrables acceptés |
-| --- | --- |
-| **Logiciel / SaaS** | dépôt de code · application en ligne · vidéo de démonstration · documentation · page de tarifs |
-| **Agent IA / automatisation** | dépôt · scénario exporté · démonstration avant/après · mesure du temps gagné |
-| **Boutique en ligne** | boutique en ligne · fiche produit · première commande · tableau de bord des ventes |
-| **Formation en ligne** | espace de formation · plan de programme · module publié · page de vente · premier élève inscrit |
-| **Chaîne vidéo** | chaîne · playlist · vidéo publiée · miniature · statistiques d'audience |
-| **Podcast** | flux RSS · épisode publié · page du podcast · statistiques d'écoute |
-| **Newsletter** | page d'inscription · numéro publié · nombre d'abonnés |
-| **Activité freelance** | portfolio · étude de cas · proposition commerciale · contrat signé · premier paiement |
-| **Produit digital** | fichier téléchargeable · page de vente · première vente |
-| **Tous types** | journal de bord · capture d'écran · témoignage · attestation TakaCode |
+Une personne peut arriver en disant :
 
-**Chaque livrable porte :** un type, un intitulé, un lien ou un fichier, une date, un état
-(brouillon, soumis, validé), et le niveau de validation obtenu (§2.9).
+> « Je veux travailler dans le numérique mais je ne sais pas quoi faire. »
 
----
+ou :
 
-## 7. Le lien permanent parcours ↔ projet
+> « Je veux apprendre une compétence qui pourrait me permettre de gagner de l'argent. »
 
-C'est le mécanisme le plus important à implémenter correctement.
+Dans ce cas, TakaCode ne crée pas immédiatement un projet artificiel.
 
-### 7.1 — Comment il se crée
-1. Un Membre crée un projet et décrit son objectif.
-2. Le coach IA identifie le **type de projet** et propose le **framework** correspondant.
-3. Le framework est instancié en un **plan** : les phases deviennent des étapes du parcours.
-4. Chaque étape reçoit son **livrable attendu**, son **modèle**, ses **ressources** et sa
-   **grille de validation**.
+La plateforme peut d'abord aider la personne à :
 
-### 7.2 — Comment il vit
-- Terminer une étape → un livrable entre dans le projet. Pas de livrable, pas d'étape
-  terminée.
-- La progression du parcours **est** la progression du projet. Un seul pourcentage.
-- Le Builder peut **retirer une étape** qui ne le concerne pas, ou **en ajouter une**. Le
-  plan lui appartient.
-- Si le projet change de direction, le coach recalcule le plan à partir de l'étape en cours
-  — sans effacer ce qui a déjà été livré.
+* identifier ses objectifs ;
+* comprendre ses contraintes ;
+* découvrir des métiers ou activités numériques ;
+* explorer plusieurs types de projets ;
+* réaliser éventuellement un petit Challenge ;
+* choisir une première direction.
 
-### 7.3 — Ce que ça interdit
-- Un parcours qui ne produit aucun livrable.
-- Une leçon qui n'a pas de contribution identifiable au projet.
-- Un projet sans plan.
-- Deux barres de progression.
+La logique devient alors :
 
-### 7.4 — La leçon devient un brief
-Conséquence directe du mécanisme n°1 du benchmark (ALX). Une étape de parcours contient :
-
-| Bloc | Contenu |
-| --- | --- |
-| Ce qu'on cherche à obtenir | le livrable attendu, décrit précisément |
-| Pourquoi cette étape | à quoi elle sert dans le projet |
-| Comment s'y prendre | la démarche, pas la solution |
-| Ressources | modèle, kit, lectures, exemples de projets terminés |
-| Grille de validation | les critères, visibles avant de commencer |
-| Où demander de l'aide | coach IA, communauté, prochaine session de déblocage |
-
----
-
-## 8. Trois exemples déroulés
-
-### 8.1 — « Je veux lancer une chaîne YouTube faceless sur la finance personnelle »
-
-| Étape | Livrable attendu | Modèle / kit | Validation |
-| --- | --- | --- | --- |
-| 1. Choisir la niche | Fiche niche : sujet, angle, public, 3 chaînes concurrentes analysées | Fiche projet, fiche public cible | IA |
-| 2. Valider la demande | 10 sujets de vidéos avec volume de recherche estimé | Modèle de recherche de sujets | IA |
-| 3. Créer l'identité | Nom, logo, bannière, description de chaîne | Kit production vidéo | Pairs |
-| 4. Définir le format | Durée, structure type, voix, style visuel | Script vidéo | IA |
-| 5. Monter le processus | Chaîne de production : script → voix → montage → miniature | Kit production vidéo | Mentor |
-| 6. Produire la vidéo 1 | Vidéo publiée | Script vidéo, préréglages | Pairs + Mentor |
-| 7. Produire les vidéos 2 et 3 | 2 vidéos publiées | — | Pairs |
-| 8. Planifier 8 semaines | Calendrier éditorial rempli | Calendrier éditorial | IA |
-| 9. Optimiser | 3 miniatures testées, titres réécrits | Modèle miniature | Pairs |
-| 10. Monétiser | Dossier de monétisation : affiliation, sponsors, produit | Grille tarifaire | Mentor |
-
-**Livrables finaux :** la chaîne, une playlist, 10 vidéos, les statistiques d'audience, le
-journal de bord.
-**Preuve :** le nombre d'abonnés et de vues à la fin, capture à l'appui.
-
-### 8.2 — « Je veux créer une formation en ligne sur la comptabilité pour commerçants »
-
-| Étape | Livrable attendu | Modèle / kit | Validation |
-| --- | --- | --- | --- |
-| 1. Cadrer l'expertise | Fiche projet : ce que je sais faire, pour qui | Fiche projet | IA |
-| 2. Interroger 5 personnes de la cible | 5 comptes rendus d'entretien | Guide d'entretien | Mentor |
-| 3. Écrire la promesse | Une phrase : à la fin, l'élève sait faire X | Page de vente (bloc promesse) | Pairs |
-| 4. Structurer le programme | Plan : modules, objectifs, durée | Plan de programme | Mentor |
-| 5. Produire le module 1 | Module 1 en ligne | Script vidéo, kit formation | Pairs |
-| 6. Produire les modules restants | Formation complète | — | IA |
-| 7. Monter l'espace | Espace de formation accessible | Kit espace de formation | IA |
-| 8. Écrire la page de vente | Page de vente publiée | Page de vente | Mentor |
-| 9. Fixer le prix | Grille tarifaire justifiée | Grille tarifaire | Mentor |
-| 10. Lancer | Plan de lancement exécuté | Plan de lancement | — |
-| 11. Premier élève | Une inscription payante | — | Preuve |
-
-### 8.3 — « Je veux devenir freelance en design graphique »
-
-| Étape | Livrable attendu | Modèle / kit | Validation |
-| --- | --- | --- | --- |
-| 1. Choisir la spécialité | Fiche offre : ce que je vends, à qui, pas à qui | Fiche projet | IA |
-| 2. Fixer les prix | Grille tarifaire avec 3 offres | Grille tarifaire | Mentor |
-| 3. Monter le portfolio | 3 études de cas en ligne | Kit portfolio freelance | Pairs + Mentor |
-| 4. Créer la présence | Profil professionnel complet et cohérent | — | Pairs |
-| 5. Bâtir la liste de prospects | 30 prospects qualifiés | Modèle de prospection | IA |
-| 6. Prospecter | 30 messages envoyés, réponses consignées | Modèle de prospection | — |
-| 7. Premier devis | Proposition commerciale envoyée | Proposition commerciale | Mentor |
-| 8. Premier client | Contrat signé | — | Preuve |
-| 9. Livrer | Travail livré et accepté | — | Client |
-| 10. Capitaliser | Témoignage obtenu, étude de cas ajoutée | — | Pairs |
-
-> Remarquer ce qui se passe à l'étape 8 : le premier client d'un Builder freelance est
-> exactement ce que le §01 de la vision appelle l'étape 4 — *quelqu'un est prêt à me payer
-> pour le faire*. Le système de projet mène jusque-là par construction.
-
----
-
-## 9. Les états d'un projet
-
-```
-idée → en cours → terminé → publié → valorisé
-                     ↓
-                  en pause / abandonné
+```text id="hl90ml"
+Intention
+   ↓
+Orientation
+   ↓
+Première direction
+   ↓
+Projet / Challenge
+   ↓
+Apprentissage par la réalisation
 ```
 
-| État | Ce que ça veut dire | Compté dans les statistiques ? |
-| --- | --- | --- |
-| Idée | déclaré, pas commencé | non |
-| En cours | au moins une étape franchie | oui, en activation |
-| **Terminé** | tous les livrables obligatoires sont validés | **oui — c'est LA métrique** |
-| Publié | page publique visible | oui |
-| Valorisé | a produit un revenu ou une opportunité | oui, en impact |
-| En pause | inactif depuis 30 jours, relançable | signalé au Builder |
-| Abandonné | déclaré abandonné par le Builder | oui — et on demande pourquoi |
-
-> **Demander pourquoi à l'abandon** est une petite fonctionnalité à fort rendement. C'est
-> la seule façon d'apprendre ce qui bloque réellement, et donc d'améliorer le taux de
-> projets terminés — le moteur décrit au §05 de la vision.
+L'orientation fait donc partie du système global, mais **le système de projet commence réellement lorsqu'un résultat à produire est identifié**.
 
 ---
 
-## 10. Ce que ça implique dans la base de données
+# 04 — L'anatomie d'un projet
 
-Résumé technique, détaillé dans [ROADMAP_REPOSITIONNEMENT.md](ROADMAP_REPOSITIONNEMENT.md).
+Un projet TakaCode comporte plusieurs éléments communs, quelle que soit sa nature.
 
-| Table | Rôle |
-| --- | --- |
-| `project_types` | les 8+ types, avec leur framework associé |
-| `project_frameworks` / `framework_phases` | les phases types par type de projet |
-| `user_projects` | + `project_type`, `objective`, `target_audience`, `success_criteria`, `deadline` |
-| `project_plan_steps` | le plan instancié : les étapes du projet, liées aux leçons du parcours |
-| `project_deliverables` | les livrables : type, intitulé, lien, état, niveau de validation |
-| `project_proofs` | les preuves : captures, chiffres, témoignages |
-| `project_journal` | le journal de bord daté |
-| `project_members` | qui travaille dessus, avec quel rôle |
-| `templates` | les modèles, par type de projet et par phase |
-| `starter_kits` | les kits, par type de projet |
-| `validation_rubrics` | les grilles de validation, visibles avant de commencer |
+---
+
+## 4.1 — Identité
+
+Ce qui permet de comprendre rapidement le projet.
+
+| Élément | Exemple chaîne YouTube                                        | Exemple SaaS                           |
+| ------- | ------------------------------------------------------------- | -------------------------------------- |
+| Titre   | Finance Simple                                                | FactureRapide                          |
+| Type    | Création de contenu                                           | SaaS                                   |
+| Résumé  | Chaîne expliquant les finances personnelles aux jeunes actifs | Facturation simplifiée pour freelances |
+| Domaine | contenu, finance, vidéo                                       | logiciel, paiement, gestion            |
+| Visuel  | bannière / miniature                                          | capture produit                        |
+
+---
+
+## 4.2 — Intention
+
+Pourquoi ce projet existe.
+
+Il comprend notamment :
+
+### Objectif
+
+Ce que l'on cherche réellement à obtenir.
+
+### Public cible
+
+Pour qui le résultat est construit.
+
+### Résultat final
+
+Ce qui doit exister lorsque le projet est terminé.
+
+### Critère de réussite
+
+Un résultat observable.
+
+Exemple :
+
+> 5 vidéos publiées.
+
+plutôt que :
+
+> avoir une bonne chaîne.
+
+### Échéance
+
+Une date indicative aide à éviter les projets sans fin.
+
+---
+
+# 05 — Le framework de projet
+
+Un framework est **le squelette réutilisable d'une catégorie de projet**.
+
+Il ne constitue pas une formation.
+
+Il décrit simplement les grandes phases généralement nécessaires pour atteindre un résultat.
+
+Exemple :
+
+```text id="j80x8h"
+Idée
+→ validation du besoin
+→ définition du résultat minimal
+→ construction
+→ publication
+→ premiers utilisateurs
+→ amélioration
+```
+
+Le framework devient ensuite un plan personnalisé.
+
+---
+
+# 06 — Le plan personnalisé
+
+Le framework est générique.
+
+Le plan appartient au Builder.
+
+Le Coach IA peut utiliser :
+
+* l'objectif ;
+* le niveau ;
+* le temps disponible ;
+* les outils ;
+* les contraintes ;
+* les compétences existantes ;
+
+pour transformer le framework en plan concret.
+
+Le résultat devient :
+
+```text id="km2qcp"
+Framework
+   +
+Objectif du membre
+   +
+Niveau
+   +
+Contraintes
+   ↓
+Plan personnalisé
+```
+
+Le Builder peut :
+
+* retirer une étape ;
+* en ajouter une ;
+* changer l'ordre ;
+* reformuler un objectif ;
+* remplacer une solution ;
+* recalculer la suite du plan.
+
+---
+
+# 07 — Les étapes
+
+Chaque étape répond à cinq questions.
+
+### 1. Qu'est-ce qu'on cherche à obtenir ?
+
+Le livrable.
+
+### 2. Pourquoi cette étape existe-t-elle ?
+
+Son rôle dans le projet.
+
+### 3. Que faut-il comprendre ou savoir faire ?
+
+Le besoin de compétence.
+
+### 4. Quelles ressources peuvent aider ?
+
+Documentation, vidéo, guide, exemple, outil, etc.
+
+### 5. Comment sait-on que l'étape est terminée ?
+
+La grille de validation.
+
+Une étape TakaCode ressemble donc davantage à **un brief de réalisation** qu'à une leçon.
+
+---
+
+# 08 — Le moteur Ressource → Action
+
+C'est l'un des éléments fondamentaux du système.
+
+TakaCode n'a pas vocation à produire systématiquement le contenu pédagogique utilisé dans les projets.
+
+La plateforme orchestre principalement des ressources existantes.
+
+Une ressource peut être :
+
+* documentation officielle ;
+* vidéo YouTube ;
+* article ;
+* tutoriel ;
+* cours ouvert ;
+* dépôt GitHub ;
+* template ;
+* communauté ;
+* outil interactif ;
+* exemple ;
+* livre ou guide librement accessible.
+
+---
+
+## Une ressource doit toujours avoir un contexte
+
+Une ressource ne doit pas simplement être ajoutée à une liste.
+
+Elle doit répondre à :
+
+> **Pourquoi cette ressource maintenant ?**
+
+Le système doit pouvoir préciser :
+
+* l'étape concernée ;
+* ce qu'il faut comprendre ;
+* quelle partie consulter ;
+* le temps approximatif ;
+* ce qu'il faut faire ensuite.
+
+Exemple :
+
+> **Ressource : documentation Supabase Auth**
+>
+> Pourquoi : tu dois maintenant permettre à un utilisateur de créer son compte.
+>
+> À comprendre : email/password authentication et gestion de session.
+>
+> À faire après : implémenter l'inscription et fournir une capture du compte créé.
+
+---
+
+# 09 — La priorité aux ressources ouvertes
+
+TakaCode doit privilégier :
+
+1. ressources gratuites ;
+2. documentations officielles ;
+3. ressources fiables et maintenues ;
+4. formats adaptés à la connexion disponible ;
+5. alternatives dans plusieurs langues lorsque possible.
+
+Une ressource payante peut être proposée lorsqu'elle apporte une valeur réelle.
+
+Elle ne doit pas être imposée si une alternative gratuite raisonnable existe.
+
+---
+
+# 10 — Les modèles
+
+Un modèle est un document ou une structure préremplie qui évite la page blanche.
+
+Il ne réalise pas le travail à la place du Builder.
+
+Il l'aide à poser les bonnes questions.
+
+| Modèle                  | Usage                                        |
+| ----------------------- | -------------------------------------------- |
+| Fiche projet            | objectif, cible, résultat, échéance          |
+| Fiche utilisateur       | besoin, contexte, comportement               |
+| Périmètre minimal       | ce qui entre ou non dans la première version |
+| Script vidéo            | structure d'une vidéo                        |
+| Calendrier éditorial    | planifier les publications                   |
+| Page de vente           | structurer une offre                         |
+| Proposition commerciale | formaliser une prestation                    |
+| Journal de bord         | documenter décisions et difficultés          |
+| Brief de Mission        | besoin, périmètre, livrables, critères       |
+
+---
+
+# 11 — Les kits de démarrage
+
+Un starter kit est un point de départ déjà fonctionnel.
+
+Il permet de ne pas perdre du temps sur certaines tâches répétitives.
+
+Exemples :
+
+| Kit                 | Contenu                                              |
+| ------------------- | ---------------------------------------------------- |
+| Application web     | structure de base, authentification, base de données |
+| Agent IA            | connexion modèle, outils, garde-fous                 |
+| Automatisation      | workflow minimal déclencheur → action                |
+| Boutique            | catalogue, commande, paiement                        |
+| Chaîne vidéo        | organisation, templates, checklist                   |
+| Newsletter          | template, inscription, séquence                      |
+| Portfolio freelance | structure portfolio et études de cas                 |
+| Produit digital     | page de vente et livraison                           |
+
+Deux règles :
+
+> **Un kit accélère. Il ne remplace pas la compréhension.**
+
+et :
+
+> **Un kit n'est jamais obligatoire.**
+
+---
+
+# 12 — Le Coach IA dans le système de projet
+
+Le Coach IA doit connaître le contexte du projet.
+
+Il ne doit pas répondre comme un chatbot générique.
+
+Il peut connaître :
+
+* objectif ;
+* étapes ;
+* progression ;
+* ressources ;
+* livrables ;
+* historique ;
+* blocages ;
+* niveau du membre.
+
+---
+
+## Son rôle
+
+Le Coach peut :
+
+* clarifier l'objectif ;
+* créer le premier plan ;
+* adapter le plan ;
+* expliquer une notion ;
+* recommander une ressource ;
+* aider à lire une documentation ;
+* décomposer une tâche ;
+* identifier un blocage ;
+* analyser un livrable ;
+* préparer la prochaine étape ;
+* détecter un décrochage ;
+* aider à documenter le projet.
+
+---
+
+## Ce qu'il ne doit pas faire
+
+Il ne doit pas systématiquement produire le livrable final.
+
+Le but n'est pas :
+
+> **IA → résultat → validation**
+
+mais :
+
+> **IA → compréhension → action → feedback → résultat**
+
+Une étape peut donc demander :
+
+* d'expliquer un choix ;
+* de modifier une partie ;
+* de démontrer le fonctionnement ;
+* de répondre à quelques questions.
+
+---
+
+# 13 — L'accompagnement humain
+
+Lorsque l'IA ne suffit pas :
+
+```text id="0sldvi"
+Coach IA
+   ↓
+Communauté
+   ↓
+Contributor
+   ↓
+Mentor
+   ↓
+Expert
+```
+
+Le niveau d'aide dépend du problème.
+
+Un problème simple ne doit pas mobiliser un Expert.
+
+Un problème complexe ne doit pas être abandonné à une IA.
+
+---
+
+# 14 — Les livrables
+
+Un livrable est **ce que le Builder produit réellement**.
+
+Il peut prendre plusieurs formes.
+
+| Type de projet  | Exemples de livrables                         |
+| --------------- | --------------------------------------------- |
+| SaaS            | application, documentation, démonstration     |
+| Agent IA        | agent fonctionnel, workflow, démonstration    |
+| Automatisation  | scénario, logs, mesure du gain                |
+| Projet data     | dataset nettoyé, pipeline, dashboard, analyse |
+| Boutique        | catalogue, boutique publiée, commande         |
+| Chaîne vidéo    | chaîne, vidéos, miniatures                    |
+| Podcast         | épisode, flux, page                           |
+| Newsletter      | numéro publié, page d'inscription             |
+| Freelance       | offre, portfolio, proposition commerciale     |
+| Produit digital | fichier, page de vente, transaction           |
+| Formation       | plan, contenus, espace publié                 |
+| Tous types      | journal, captures, témoignages                |
+
+Chaque livrable doit pouvoir avoir :
+
+* un type ;
+* un titre ;
+* un lien ou fichier ;
+* une date ;
+* un statut ;
+* un niveau de validation.
+
+---
+
+# 15 — Livrable et preuve : deux choses différentes
+
+Un livrable montre :
+
+> **« J'ai fait quelque chose. »**
+
+Une preuve peut montrer :
+
+> **« Cela a fonctionné dans un contexte réel. »**
+
+Exemples de preuves :
+
+* utilisateur ;
+* avis ;
+* première vente ;
+* statistiques ;
+* client ;
+* téléchargement ;
+* abonnement ;
+* résultat mesurable.
+
+Un projet peut être terminé même avant d'avoir produit un impact économique.
+
+La preuve vient renforcer sa valeur.
+
+---
+
+# 16 — Validation
+
+La validation peut être progressive.
+
+| Niveau          | Qui ?              | Utilité                |
+| --------------- | ------------------ | ---------------------- |
+| Auto-validation | Builder            | suivi                  |
+| IA              | Coach              | premier filtre         |
+| Pairs           | communauté         | feedback               |
+| Contributor     | membre expérimenté | revue structurée       |
+| Mentor          | Mentor du domaine  | validation forte       |
+| Client          | organisation       | preuve professionnelle |
+
+Toutes les étapes n'ont pas besoin de tous les niveaux.
+
+---
+
+## Principe fondamental
+
+> **Les critères sont connus avant de commencer.**
+
+Le Builder ne découvre pas à la fin ce que l'on attendait.
+
+---
+
+# 17 — Le journal de bord
+
+Le journal documente :
+
+* décisions ;
+* difficultés ;
+* essais ;
+* erreurs ;
+* corrections ;
+* changements de direction ;
+* apprentissages.
+
+C'est une partie importante du projet.
+
+Deux personnes peuvent produire un résultat similaire.
+
+Mais celle qui peut expliquer :
+
+> **pourquoi elle a choisi cette approche, ce qui a échoué et comment elle a corrigé**
+
+démontre davantage d'expérience.
+
+Le Coach IA peut ensuite transformer le journal en :
+
+* étude de cas ;
+* résumé professionnel ;
+* documentation ;
+* présentation de portfolio.
+
+---
+
+# 18 — Publication
+
+Lorsqu'un projet est suffisamment abouti, il peut avoir une page publique.
+
+Elle peut présenter :
+
+* objectif ;
+* contexte ;
+* résultat ;
+* étapes ;
+* technologies ou outils ;
+* compétences ;
+* livrables ;
+* preuves ;
+* difficultés ;
+* rôle du membre ;
+* validation obtenue.
+
+Le membre choisit ce qui peut être public.
+
+---
+
+# 19 — Valorisation
+
+Un projet ne s'arrête pas nécessairement à sa publication.
+
+Il peut produire :
+
+* portfolio ;
+* candidature ;
+* Mission ;
+* client ;
+* revenu ;
+* produit ;
+* entreprise ;
+* nouvelle collaboration ;
+* crédibilité ;
+* possibilité de devenir Mentor.
+
+La chaîne devient :
+
+```text id="b75iao"
+Projet
+→ Réalisation
+→ Preuve d'expérience
+→ Valorisation
+→ Opportunité
+```
+
+---
+
+# 20 — Les frameworks principaux
+
+Les frameworks doivent rester courts.
+
+En général :
+
+> **6 à 12 grandes phases.**
+
+Ils décrivent un chemin, pas chaque clic.
+
+---
+
+## 20.1 — Logiciel / SaaS
+
+```text id="xav41d"
+Problème
+→ utilisateur
+→ périmètre minimal
+→ prototype
+→ architecture
+→ construction
+→ tests
+→ publication
+→ premiers utilisateurs
+→ itération
+```
+
+---
+
+## 20.2 — Agent IA
+
+```text id="73h9q8"
+Besoin
+→ tâche à augmenter
+→ données / outils nécessaires
+→ prototype
+→ évaluation
+→ garde-fous
+→ intégration
+→ utilisation réelle
+→ mesure du gain
+→ amélioration
+```
+
+---
+
+## 20.3 — Automatisation
+
+```text id="4t9x03"
+Processus actuel
+→ problème
+→ mesure du temps
+→ workflow
+→ outils
+→ prototype
+→ tests
+→ déploiement
+→ monitoring
+→ gain mesuré
+```
+
+---
+
+## 20.4 — Projet Data
+
+```text id="05v12u"
+Question métier
+→ sources
+→ collecte
+→ nettoyage
+→ stockage
+→ transformation
+→ analyse
+→ visualisation
+→ validation
+→ utilisation
+```
+
+---
+
+## 20.5 — Boutique en ligne
+
+```text id="tkyqqx"
+Produit
+→ cible
+→ offre
+→ catalogue
+→ plateforme
+→ paiement
+→ logistique
+→ lancement
+→ acquisition
+→ premières commandes
+```
+
+---
+
+## 20.6 — Formation numérique
+
+Il s'agit ici du projet d'un Builder qui souhaite lui-même créer et vendre une formation.
+
+Ce n'est pas une formation produite par TakaCode.
+
+```text id="lrgdku"
+Expertise
+→ cible
+→ problème
+→ promesse
+→ structure
+→ production
+→ plateforme
+→ page de vente
+→ lancement
+→ premiers utilisateurs
+```
+
+---
+
+## 20.7 — Chaîne vidéo
+
+```text id="f203j0"
+Niche
+→ cible
+→ analyse
+→ positionnement
+→ identité
+→ format
+→ système de production
+→ premières publications
+→ distribution
+→ croissance
+```
+
+---
+
+## 20.8 — Podcast / newsletter
+
+```text id="7fj296"
+Angle
+→ public
+→ format
+→ identité
+→ premier contenu
+→ distribution
+→ régularité
+→ audience
+→ feedback
+→ monétisation
+```
+
+---
+
+## 20.9 — Activité freelance
+
+```text id="8k67po"
+Compétence
+→ marché
+→ offre
+→ positionnement
+→ portfolio
+→ prospection
+→ premier échange
+→ proposition
+→ premier client
+→ livraison
+→ recommandation
+```
+
+---
+
+## 20.10 — Produit digital
+
+```text id="670whu"
+Besoin
+→ cible
+→ format
+→ prototype
+→ production
+→ présentation
+→ prix
+→ page de vente
+→ lancement
+→ premières ventes
+→ amélioration
+```
+
+---
+
+# 21 — BUILD, CHALLENGES et MISSIONS utilisent le même moteur
+
+Il ne doit pas exister trois systèmes de projet différents.
+
+Le moteur est le même.
+
+Ce qui change est **l'origine du projet**.
+
+---
+
+## BUILD
+
+Le projet vient du membre.
+
+```text id="o22n6p"
+Idée personnelle
+→ projet
+→ plan
+→ réalisation
+```
+
+---
+
+## CHALLENGE
+
+Le projet vient de TakaCode ou d'un partenaire.
+
+```text id="ckdv4j"
+Brief proposé
+→ projet
+→ plan
+→ réalisation
+```
+
+---
+
+## MISSION
+
+Le projet vient d'un besoin réel.
+
+```text id="eqjb6o"
+Besoin organisation
+→ cadrage
+→ projet
+→ équipe
+→ réalisation
+→ validation client
+```
+
+Le système de projet doit donc être suffisamment générique pour les trois cas.
+
+---
+
+# 22 — Exemple 1 : lancer une chaîne YouTube faceless
+
+## Objectif
+
+Créer et lancer une chaîne sur la finance personnelle.
+
+| Étape                  | Besoin                      | Ressource possible         | Livrable              |
+| ---------------------- | --------------------------- | -------------------------- | --------------------- |
+| Définir la niche       | comprendre niche et cible   | vidéo / article / exemples | fiche niche           |
+| Analyser le marché     | savoir observer des chaînes | YouTube + grille           | analyse de 5 chaînes  |
+| Définir le format      | comprendre les formats      | exemples                   | fiche format          |
+| Créer l'identité       | branding                    | guide / outil              | nom, bannière, avatar |
+| Construire le workflow | production vidéo            | tutoriels adaptés          | workflow documenté    |
+| Produire vidéo 1       | script / voix / montage     | ressources ciblées         | vidéo publiée         |
+| Produire vidéos 2–3    | répétition                  | mêmes ressources si besoin | 2 vidéos              |
+| Planifier              | calendrier                  | template                   | 8 semaines            |
+| Mesurer                | analytics                   | documentation YouTube      | tableau de suivi      |
+
+Le projet progresse grâce à des ressources externes.
+
+TakaCode fournit surtout :
+
+> **le chemin, le contexte, les critères, le suivi et l'accompagnement.**
+
+---
+
+# 23 — Exemple 2 : créer une formation en ligne
+
+Le membre souhaite créer son propre produit de formation.
+
+| Étape               | Livrable            |
+| ------------------- | ------------------- |
+| Cadrer le problème  | fiche cible         |
+| Vérifier le besoin  | entretiens          |
+| Définir la promesse | promesse claire     |
+| Structurer          | plan                |
+| Produire prototype  | premier module      |
+| Tester              | feedback            |
+| Produire            | contenus            |
+| Installer           | espace              |
+| Vendre              | page de vente       |
+| Lancer              | campagne            |
+| Valider             | premier utilisateur |
+
+Encore une fois :
+
+> **TakaCode n'est pas l'organisme qui crée la formation.**
+
+Le Builder réalise ce projet, en utilisant des ressources existantes pour apprendre ce dont il a besoin.
+
+---
+
+# 24 — Exemple 3 : devenir freelance
+
+L'objectif final n'est pas :
+
+> suivre une formation freelance.
+
+L'objectif est :
+
+> **obtenir les premiers clients dans une activité définie.**
+
+```text id="4vljft"
+Choisir une compétence
+→ choisir une cible
+→ construire une offre
+→ créer des preuves
+→ prospecter
+→ envoyer une proposition
+→ obtenir un client
+→ livrer
+→ obtenir un témoignage
+```
+
+Le premier client constitue ici une preuve particulièrement forte de valorisation.
+
+---
+
+# 25 — Les états d'un projet
+
+```text id="lg4odp"
+Idée
+  ↓
+Planifié
+  ↓
+En cours
+  ↓
+Terminé
+  ↓
+Publié
+  ↓
+Valorisé
+```
+
+Un projet peut également être :
+
+* en pause ;
+* abandonné.
+
+| État      | Signification                                                              |
+| --------- | -------------------------------------------------------------------------- |
+| Idée      | objectif enregistré                                                        |
+| Planifié  | plan validé mais travail non commencé                                      |
+| En cours  | au moins une action réalisée                                               |
+| Terminé   | livrables obligatoires validés                                             |
+| Publié    | page publique disponible                                                   |
+| Valorisé  | projet utilisé pour obtenir une opportunité ou créer une valeur économique |
+| En pause  | volontairement suspendu                                                    |
+| Abandonné | arrêté                                                                     |
+
+---
+
+# 26 — L'abandon comme donnée produit
+
+Lorsqu'un projet est abandonné, TakaCode doit demander :
+
+> **Qu'est-ce qui t'a empêché de continuer ?**
+
+Exemples :
+
+* manque de temps ;
+* projet trop ambitieux ;
+* ressource incompréhensible ;
+* problème technique ;
+* coût d'un outil ;
+* perte de motivation ;
+* absence d'accompagnement ;
+* changement d'objectif.
+
+Cette information sert directement à améliorer le système.
+
+---
+
+# 27 — Reprendre un projet abandonné ou en pause
+
+Le système ne doit pas simplement afficher :
+
+> « Tu n'as pas travaillé depuis 30 jours. »
+
+Le Coach IA peut analyser :
+
+* dernière étape ;
+* dernier blocage ;
+* temps disponible ;
+* objectif restant.
+
+Puis proposer :
+
+> **la plus petite action possible pour redémarrer.**
+
+Exemple :
+
+> « Tu avais arrêté au moment de publier ton site. Ne reprends pas tout. Aujourd'hui, connecte simplement ton projet à Vercel. »
+
+---
+
+# 28 — Le système de projet doit produire de la donnée d'impact
+
+Chaque projet permet progressivement de mesurer :
+
+* orientation choisie ;
+* compétences mobilisées ;
+* ressources utilisées ;
+* temps de progression ;
+* livrables ;
+* validations ;
+* projet terminé ;
+* portfolio produit ;
+* opportunité obtenue.
+
+Cela permettra à TakaCode de mesurer non seulement :
+
+> **combien de personnes utilisent la plateforme**
+
+mais :
+
+> **combien avancent réellement vers une capacité économique ou professionnelle.**
+
+---
+
+# 29 — Ce que le système doit interdire
+
+Le produit doit empêcher autant que possible certaines incohérences.
+
+### Un parcours sans projet
+
+Non.
+
+### Une étape sans résultat
+
+Non.
+
+### Une ressource sans contexte
+
+Non.
+
+### Une vidéo considérée comme une réussite simplement parce qu'elle a été regardée
+
+Non.
+
+### Deux progressions séparées apprentissage / projet
+
+Non.
+
+### Une IA qui valide son propre travail fait à la place du membre
+
+Non.
+
+### Une compétence déclarée sans preuve lorsqu'on prétend qu'elle est démontrée
+
+Non.
+
+---
+
+# 30 — Implications dans la base de données
+
+Le modèle exact sera détaillé dans [ROADMAP_REPOSITIONNEMENT.md](./ROADMAP_REPOSITIONNEMENT.md), mais le système implique au minimum des concepts équivalents à :
+
+| Entité                  | Rôle                             |
+| ----------------------- | -------------------------------- |
+| `project_types`         | catégories de projet             |
+| `project_frameworks`    | frameworks                       |
+| `framework_phases`      | phases standards                 |
+| `user_projects`         | projets réels des membres        |
+| `project_plan_steps`    | étapes personnalisées            |
+| `project_tasks`         | actions                          |
+| `project_deliverables`  | livrables                        |
+| `project_proofs`        | preuves                          |
+| `project_journal`       | journal                          |
+| `project_members`       | participants et rôles            |
+| `resource_library`      | ressources externes              |
+| `step_resources`        | ressources rattachées aux étapes |
+| `templates`             | modèles                          |
+| `starter_kits`          | kits                             |
+| `validation_rubrics`    | critères                         |
+| `deliverable_reviews`   | validations                      |
+| `project_opportunities` | valorisations / opportunités     |
+
+Les noms exacts peuvent évoluer.
+
+Ce qui ne doit pas changer est le modèle conceptuel.
+
+---
+
+# 31 — La métrique du système de projet
+
+La métrique principale n'est pas :
+
+> nombre de parcours suivis.
+
+Elle n'est pas non plus :
+
+> nombre de ressources consultées.
+
+La première métrique est :
+
+> **taux de projets menés jusqu'à une réalisation concrète.**
+
+Puis vient :
+
+> **taux de réalisations transformées en preuves d'expérience.**
+
+Et à maturité :
+
+> **taux de réalisations transformées en opportunités.**
+
+---
+
+# 32 — Le test de toute étape
+
+Avant d'ajouter une étape à un framework ou à un projet, poser trois questions :
+
+### 1.
+
+> **Qu'est-ce que le Builder doit avoir produit à la fin ?**
+
+### 2.
+
+> **Pourquoi ce résultat est-il nécessaire pour le projet ?**
+
+### 3.
+
+> **Est-il possible de l'obtenir avec une ressource existante plutôt que de créer un nouveau cours ?**
+
+Si aucune réponse claire n'existe :
+
+> **l'étape n'a probablement pas sa place.**
+
+---
+
+# En résumé
+
+Le système TakaCode ne fonctionne pas ainsi :
+
+```text id="9od871"
+Apprendre beaucoup
+→ peut-être construire plus tard
+```
+
+Il fonctionne ainsi :
+
+```text id="2ldipn"
+Choisir une direction
+→ choisir quelque chose à réaliser
+→ identifier la prochaine étape
+→ comprendre ce dont on a besoin
+→ utiliser la bonne ressource
+→ appliquer immédiatement
+→ produire un livrable
+→ recevoir du feedback
+→ continuer
+→ terminer
+→ montrer
+→ valoriser
+```
+
+La philosophie du système tient donc en quelques phrases :
+
+> **Le projet donne la direction.**
+>
+> **Les étapes donnent le chemin.**
+>
+> **Les ressources apportent ce qu'il faut apprendre.**
+>
+> **L'IA accélère et accompagne.**
+>
+> **La communauté et les Mentors débloquent et transmettent.**
+>
+> **Les livrables prouvent la réalisation.**
+>
+> **Le portfolio transforme cette réalisation en expérience visible.**
+>
+> **Et l'expérience peut progressivement devenir une opportunité.**
+
+# **Sur TakaCode, apprendre n'est pas une destination. C'est une ressource mobilisée pour construire quelque chose de réel.**

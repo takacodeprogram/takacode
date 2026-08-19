@@ -46,8 +46,8 @@ mensuel. Le manque de traction n'est donc pas éliminatoire — le flou, oui.
 > talents une expérience payée et une référence citable.
 
 **Le slogan :**
-> Construire pour apprendre. Réaliser pour devenir professionnel.
-> **TakaCode — Passe de « je sais faire » à « je l'ai fait ».**
+> Construire pour apprendre. Réaliser pour progresser. Utiliser l'IA pour aller plus loin. Transformer l'expérience en opportunité.
+> **TakaCode — Passe de « je veux faire » à « je l'ai fait ».**
 
 ---
 

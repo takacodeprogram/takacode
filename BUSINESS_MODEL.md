@@ -1,237 +1,1214 @@
 # Le modèle économique de TakaCode
 
-> Ce document développe le **§06 de [VISION.md](VISION.md)**. La vision pose le principe
-> et les cinq sources de revenus. Ici, on détaille chaque source : comment elle
-> fonctionne, ce qu'elle rapporte réellement, ce qui doit exister avant de l'activer,
-> et dans quel ordre.
+> Ce document développe le modèle économique défini dans [VISION.md](./VISION.md).
 >
-> Les travaux techniques correspondants sont dans
-> [ROADMAP_REPOSITIONNEMENT.md](ROADMAP_REPOSITIONNEMENT.md), jalon J8. Les fonctionnalités
-> de sponsoring, de marketplace et de missions sont détaillées dans
-> [FONCTIONNALITES.md](FONCTIONNALITES.md) ; les repères de prix du marché viennent de
-> [BENCHMARK.md](BENCHMARK.md).
+> Le principe fondamental est simple :
 >
-> Vocabulaire : celui du §04 de la vision — **Visiteur**, **Membre**, **Builder**,
-> **Contributor**, **Mentor**, **Expert**.
+> **TakaCode doit pouvoir créer de l'impact sans rendre l'accès à l'action dépendant de la capacité à payer.**
 >
-> Montants en FCFA. Pour se repérer : 655 FCFA ≈ 1 €.
+> Le modèle économique repose donc sur la création progressive de valeur autour d'un parcours qui reste largement accessible :
 >
-> Dernière révision : 19 août 2026.
+> **Orientation → Ressources → Apprentissage → Projet → Réalisation → Expérience → Opportunité**
+>
+> TakaCode ne vend pas des formations.
+>
+> La plateforme structure des ressources existantes, fournit un environnement de réalisation, utilise l'intelligence artificielle comme accélérateur et organise progressivement l'accès à l'accompagnement humain et aux opportunités économiques.
+>
+> Les revenus apparaissent lorsqu'une valeur supplémentaire est créée autour de ce parcours.
 
 ---
 
-## Le principe, rappelé
+# 01 — Le principe
 
-**TakaCode ne met pas de péage devant l'envie de construire.**
+## Ne pas mettre de péage devant l'envie d'avancer
 
-Restent gratuits, définitivement :
+Une personne qui arrive sur TakaCode sans compétence, sans expérience ou sans moyens financiers doit pouvoir commencer.
 
-| Ce qu'on peut faire | Gratuit |
-| --- | --- |
-| Créer son compte | oui |
-| Démarrer un projet | oui |
-| Suivre son parcours | oui |
-| Publier ses résultats | oui |
-| Demander de l'aide à la communauté | oui |
-| Construire son portfolio | oui |
-| Participer à un Challenge | oui |
-| Candidater à une Mission | oui |
+Elle doit pouvoir :
 
-On fait payer quand TakaCode apporte **plus de vitesse, plus d'accompagnement, plus de
-visibilité, ou un accès direct à des opportunités économiques**. Jamais l'accès lui-même.
+* découvrir des possibilités ;
+* identifier une voie ;
+* accéder à des ressources ;
+* commencer un projet ;
+* apprendre au fil de sa réalisation ;
+* utiliser une première couche du Coach IA ;
+* demander de l'aide à la communauté ;
+* participer à des Challenges accessibles ;
+* publier ses réalisations ;
+* construire son portfolio ;
+* candidater aux Missions auxquelles elle est éligible.
 
-**Conséquence à court terme :** l'objectif n'est pas le chiffre d'affaires, c'est le
-nombre de projets terminés. Sans projets terminés, il n'y a ni Contributors, ni Mentors,
-ni réputation, ni entreprises — donc aucune des sources ci-dessous n'a de matière.
+> **La capacité à payer ne doit pas déterminer la capacité à commencer.**
 
----
+C'est à la fois un principe social et une décision économique.
 
-## 1. Affiliation
+Si TakaCode veut créer un écosystème de Builders, Contributors, Mentors et Experts, il faut d'abord permettre à suffisamment de personnes de construire et de progresser.
 
-**Comment ça marche.** Quand un projet a réellement besoin d'un outil — hébergement, nom
-de domaine, emailing, IA, paiement, création graphique, automatisation, stockage — TakaCode
-recommande une solution pertinente. Si le Membre passe par nous, on touche une commission.
+Sans réalisations :
 
-**La règle.** La recommandation apparaît **au moment où le besoin existe dans le projet**,
-jamais avant, jamais en dehors du contexte.
+**pas d'expérience.**
 
-**La limite, qu'il faut assumer.** Rien n'oblige un Membre à passer par nos liens. Il peut
-suivre tout le parcours, comprendre qu'il lui faut un hébergement, puis aller l'acheter
-directement chez le fournisseur. C'est structurel : ce n'est pas un défaut à corriger.
+Sans expérience :
 
-Ce qu'on peut faire pour améliorer le taux de passage :
+**pas de Contributors ni de Mentors issus de la communauté.**
 
-- obtenir un avantage réel pour ceux qui passent par nous — réduction, crédit offert,
-  configuration guidée. C'est la seule chose qui change vraiment le comportement ;
-- mesurer la conversion par parcours, pour choisir avec qui s'associer.
+Sans profils crédibles :
 
-**Statut : revenu complémentaire.** Bonne marge, aucun travail humain, disponible tout de
-suite. Mais on ne construit pas le plan financier dessus.
+**pas de Missions.**
 
----
+Sans activité :
 
-## 2. Taka+
+**pas de marketplace.**
 
-**Prix visé :** 3 000 à 5 000 FCFA / mois, moins cher à l'année.
+Sans communauté active :
 
-**Ce qu'on vend :** pas l'accès, mais le confort et la puissance — coach IA plus
-performant, analyses avancées du projet, historique et suivi approfondis, outils
-supplémentaires, portfolio enrichi, recommandations personnalisées.
+**peu de valeur pour les partenaires.**
 
-**Le message ne change pas :** le parcours principal reste utilisable gratuitement.
+Le modèle économique commence donc paradoxalement par quelque chose qui ne rapporte pas immédiatement :
 
-**Ce que ça rapporte.** De l'argent qui rentre chaque mois, sans travail humain
-supplémentaire. Mais dans une zone à faible pouvoir d'achat, la conversion d'un freemium
-est basse : entre 2 et 5 % des Membres actifs est déjà un bon résultat. Taka+ ne fera pas
-vivre l'entreprise à lui seul.
-
-**Ce qu'il doit couvrir en priorité.** Chaque Membre actif nous coûte quelque chose,
-surtout en appels IA. Taka+ doit d'abord payer cette dépense-là. Tant que ce n'est pas le
-cas, l'usage IA gratuit doit rester plafonné.
-
-**Règle absolue :** on **ajoute** des fonctions payantes, on n'en retire jamais du
-gratuit existant.
+> **faire réussir les premiers Builders.**
 
 ---
 
-## 3. Missions
+# 02 — Ce qui reste accessible gratuitement
 
-C'est ce qui rapporte le plus par affaire, et c'est le plus exigeant.
+| Fonction                                      | Accès                             |
+| --------------------------------------------- | --------------------------------- |
+| Créer un compte                               | Gratuit                           |
+| S'orienter dans les parcours disponibles      | Gratuit                           |
+| Commencer un projet                           | Gratuit                           |
+| Accéder aux ressources ouvertes sélectionnées | Gratuit                           |
+| Suivre les étapes essentielles du projet      | Gratuit                           |
+| Produire et soumettre des livrables           | Gratuit                           |
+| Utiliser une première couche du Coach IA      | Gratuit avec limites raisonnables |
+| Demander de l'aide à la communauté            | Gratuit                           |
+| Publier ses réalisations                      | Gratuit                           |
+| Construire son portfolio de base              | Gratuit                           |
+| Participer aux Challenges gratuits            | Gratuit                           |
+| Contribuer à la communauté                    | Gratuit                           |
+| Candidater aux Missions accessibles           | Gratuit                           |
 
-**Répartition d'une mission à 500 000 FCFA :**
+Le gratuit doit être suffisamment puissant pour permettre une vraie réussite.
 
-| Qui | Part |
-| --- | --- |
-| L'équipe de réalisation (3 à 5 Membres) | 55 à 65 % |
-| Le mentor / responsable de mission | 15 à 20 % |
-| TakaCode (cadrage, mise en relation, suivi, sécurisation) | 20 à 25 % |
+Un membre gratuit doit pouvoir dire :
 
-Ces pourcentages sont des hypothèses. Ils devront être validés sur les premières Missions
-réelles — c'est le genre de chiffre qu'on ajuste après avoir vu combien de temps le
-cadrage prend vraiment.
-
-**Pourquoi notre part est plus élevée qu'en Marketplace.** Elle ne paie pas l'usage d'un
-site, elle paie du travail humain : cadrer un besoin flou, vérifier que l'équipe a les
-compétences, suivre l'avancement, contrôler les livrables, intervenir quand ça dérape.
-
-**Ce qui doit exister avant de vendre la première Mission :**
-
-- un responsable nommé sur chaque mission ;
-- un document écrit qui dit ce qui est livré et ce qui ne l'est pas ;
-- quelqu'un capable de reprendre le travail si l'équipe lâche.
-
-**Comment démarrer :** à la main. Les 5 à 10 premières Missions se vendent au téléphone,
-se pilotent dans un tableur, et ne demandent aucun développement. C'est le jalon J6 de la
-vision, et c'est une validation commerciale, pas technique.
+> **« J'ai commencé sans rien payer et j'ai réellement construit quelque chose. »**
 
 ---
 
-## 4. Marketplace d'expertise
+# 03 — Alors, qu'est-ce qui se paie ?
 
-**Comment ça marche.** Les Mentors et Experts proposent des sessions individuelles, des
-audits, du coaching, des accompagnements ou des prestations spécialisées. TakaCode
-organise la rencontre, sécurise le paiement, et prélève une commission.
+TakaCode ne fait pas payer l'accès à l'apprentissage fondamental.
 
-**Exemple.** Une session facturée 15 000 FCFA : 12 000 pour l'Expert, 3 000 pour TakaCode.
-Une prestation à 50 000 FCFA : 40 000 à 45 000 pour le Membre qui réalise, 5 000 à 10 000
-pour la plateforme. La commission se situe entre **10 et 20 %**.
+La plateforme monétise principalement quatre types de valeur supplémentaires :
 
-**Pourquoi c'est important au-delà du revenu.** C'est la seule source qui **fait gagner de
-l'argent à nos meilleurs Membres au lieu de leur en prendre**. Un Mentor aide gratuitement
-pendant des mois ; le jour où sa réputation vaut quelque chose, on lui ouvre un moyen d'en
-vivre au lieu de le regarder partir. C'est autant un outil de rétention qu'une source de
-revenus, et c'est ce qui rend le mentorat bénévole soutenable dans la durée.
+### Accélération
 
-**Ce qu'il faut avant d'ouvrir :**
+> Je veux aller plus vite.
 
-- **Assez de monde des deux côtés.** Une marketplace vide décourage tout le monde et ne
-  se remplit jamais. Repère : au moins 200 projets terminés et 30 Mentors.
-- **Le circuit d'argent complet** — voir plus bas.
-- **Un mécanisme de blocage des fonds** : TakaCode garde le paiement jusqu'à ce que le
-  client valide le travail, avec une procédure prévue en cas de désaccord. Sans ça, le
-  premier litige mal géré se saura plus vite que cent transactions réussies.
+### Personnalisation
 
-**Le contournement est inévitable.** Deux Membres qui se rencontrent chez nous peuvent se
-payer en dehors. On ne l'empêchera pas. On le rend juste moins intéressant : argent
-sécurisé, historique visible, réputation qui compte.
+> Je veux un accompagnement davantage adapté à ma situation et à mon projet.
 
-**Par quoi commencer :** les sessions individuelles (petits montants, peu de risque) avant
-les prestations (gros montants, litiges possibles).
+### Expertise
 
----
+> J'ai besoin de l'intervention d'une personne expérimentée.
 
-## 5. Parcours sponsorisés
+### Accès économique
 
-**Comment ça marche.** Une entreprise dont l'outil est pertinent pour un type de projet
-finance une partie du parcours : un hébergeur dans « lancer son premier SaaS », un outil
-emailing dans « lancer sa newsletter », un outil vidéo dans « lancer sa chaîne YouTube ».
-Elle peut aussi offrir des crédits aux participants.
+> Une transaction, une Mission, une prestation ou une opportunité économique est créée grâce à l'écosystème.
 
-**La règle :** le sponsor finance une présence pertinente, pas une recommandation
-artificielle. Si l'outil n'est pas le bon pour le projet, on ne le met pas, même payé.
+À cela s'ajoute une cinquième source :
 
-**Quand ça devient possible.** Pas avant d'avoir du monde et des chiffres d'usage à
-montrer par parcours. **Repère réaliste : 10 000 Membres actifs.** Avant ça, ce n'est pas
-une source de revenus, c'est une conversation.
+### Partenariat
+
+> Une organisation souhaite financer une ressource, une opportunité ou une présence pertinente dans l'écosystème.
+
+Le principe devient :
+
+> **L'accès reste ouvert. La valeur supplémentaire finance la plateforme.**
 
 ---
 
-## Vue d'ensemble
+# 04 — Source de revenu n°1 : affiliation contextuelle
 
-| Source | Qui paie | Ce que ça rapporte | Travail humain | Quand |
-| --- | --- | --- | --- | --- |
-| Affiliation | le partenaire | bonne marge, irrégulier | presque nul | déjà en place |
-| Taka+ | le Membre | petits montants, récurrents | nul | J8 |
-| Missions | l'organisation | gros montants | **élevé** | J6 à la main, J7 dans l'app |
-| Marketplace | le Membre ou son client | proportionnel au volume | moyen | J8 |
-| Parcours sponsorisés | le partenaire | bonne marge, peu d'efforts | faible | à l'échelle |
+## Principe
 
-Aucune de ces lignes ne suffit seule. C'est leur empilement qui fait un modèle — et il ne
-s'empile que dans cet ordre, parce que chaque étage a besoin du volume produit par le
-précédent.
+Les ressources pédagogiques utilisées par TakaCode sont prioritairement accessibles gratuitement.
+
+Mais réaliser un projet nécessite parfois des outils payants :
+
+* hébergement ;
+* nom de domaine ;
+* IA ;
+* emailing ;
+* automatisation ;
+* design ;
+* vidéo ;
+* stockage ;
+* paiement ;
+* cloud ;
+* analytics ;
+* services professionnels.
+
+TakaCode peut recommander des outils lorsque le projet en a réellement besoin.
+
+Exemple :
+
+Un Builder construit un SaaS.
+
+Il arrive à l'étape :
+
+> **Mettre l'application en ligne.**
+
+C'est seulement à ce moment que TakaCode peut lui présenter des solutions d'hébergement pertinentes.
 
 ---
 
-## Le circuit d'argent : la vraie difficulté
+## La règle
 
-C'est le point qui conditionne Missions, Marketplace et Taka+ à la fois.
+> **L'affiliation suit le besoin. Le besoin ne doit jamais être créé pour générer une commission.**
 
-TakaCode vise des marchés où la carte bancaire n'est pas le moyen de paiement dominant.
-Il faut donc gérer le **Mobile Money** (Wave, Orange Money, MTN MoMo), et pas seulement
-pour encaisser.
+La plateforme doit pouvoir présenter :
+
+* une solution recommandée ;
+* une alternative gratuite lorsqu'elle existe ;
+* d'autres solutions pertinentes ;
+* l'éventuel avantage obtenu grâce au partenariat.
+
+Si le membre choisit un lien partenaire, TakaCode peut recevoir une commission.
+
+---
+
+## Comment augmenter naturellement la conversion
+
+La bonne stratégie n'est pas de cacher les alternatives.
+
+Elle consiste à négocier une vraie valeur pour le membre :
+
+* réduction ;
+* crédits gratuits ;
+* mois offerts ;
+* configuration facilitée ;
+* template ;
+* intégration ;
+* support ;
+* avantage réservé à la communauté.
+
+Le membre doit pouvoir penser :
+
+> **« Je passe par TakaCode parce que cela m'apporte quelque chose. »**
+
+et non :
+
+> « TakaCode essaie de me vendre cet outil. »
+
+---
+
+## Place dans le modèle
+
+L'affiliation est :
+
+* simple à lancer ;
+* peu coûteuse ;
+* automatisable ;
+* potentiellement rentable.
+
+Mais elle reste **un revenu complémentaire**.
+
+TakaCode ne doit jamais dépendre financièrement de sa capacité à pousser des liens affiliés.
+
+---
+
+# 05 — Source de revenu n°2 : Taka+
+
+## Principe
+
+Le gratuit permet de construire.
+
+Taka+ permet de disposer de **davantage de puissance, de personnalisation et d'accélération**.
+
+> **On ne vend pas le droit d'avancer. On vend la possibilité d'avancer avec davantage de moyens.**
+
+---
+
+## Ce que Taka+ peut apporter
+
+### Coach IA avancé
+
+* davantage d'interactions ;
+* contexte projet plus profond ;
+* mémoire du parcours ;
+* analyses plus poussées ;
+* comparaison de solutions ;
+* recherche avancée ;
+* feedback plus détaillé.
+
+### Pilotage du projet
+
+* suivi approfondi ;
+* recommandations personnalisées ;
+* détection des blocages ;
+* priorisation intelligente ;
+* synthèses de progression ;
+* préparation automatique des prochaines étapes.
+
+### Portfolio avancé
+
+* présentation enrichie ;
+* analytics ;
+* personnalisation ;
+* export ;
+* preuves détaillées ;
+* outils de partage.
+
+### Productivité
+
+* templates ;
+* automatisations ;
+* outils avancés ;
+* fonctionnalités supplémentaires liées aux projets.
+
+---
+
+## Règle fondamentale
+
+> **Une fonctionnalité gratuite utile ne doit pas devenir payante simplement parce que TakaCode grandit.**
+
+La stratégie consiste à :
+
+> **ajouter de la valeur premium, pas retirer de la valeur gratuite.**
+
+---
+
+## Le rôle économique de Taka+
+
+Taka+ doit notamment contribuer à financer le coût variable de l'intelligence artificielle.
+
+L'utilisation gratuite du Coach IA peut donc être soumise à des quotas raisonnables.
+
+Les membres ayant besoin d'une utilisation intensive peuvent passer à Taka+.
+
+Cela permet de conserver une première couche d'assistance IA accessible au plus grand nombre sans rendre le modèle économiquement insoutenable.
+
+---
+
+## Prix
+
+Le prix doit être validé expérimentalement selon les marchés.
+
+Une première hypothèse peut être testée autour de :
+
+**3 000 à 5 000 FCFA / mois**, avec une formule annuelle plus avantageuse.
+
+Ce montant n'est pas une vérité du modèle économique.
+
+C'est une hypothèse à tester.
+
+---
+
+# 06 — Source de revenu n°3 : Missions
+
+## La source de revenu la plus directement liée à l'impact
+
+Les Missions sont particulières.
+
+Elles peuvent simultanément créer :
+
+### Pour l'organisation
+
+> un résultat utile.
+
+### Pour le participant
+
+> une expérience professionnelle réelle.
+
+### Pour le Mentor
+
+> une activité rémunérée.
+
+### Pour TakaCode
+
+> un revenu.
+
+C'est donc potentiellement l'un des mécanismes économiques les plus importants de l'écosystème.
+
+---
+
+# Comment fonctionne une Mission ?
+
+Une entreprise, une ONG, une startup, une association, une administration ou un entrepreneur possède un besoin réel.
+
+TakaCode transforme ce besoin en Mission structurée :
+
+> **Besoin → Cadrage → Critères d'acceptation → Compétences → Équipe → Mentor → Jalons → Livrables → Validation → Paiement**
+
+Exemples :
+
+* créer un site ;
+* automatiser un processus ;
+* analyser des données ;
+* construire un dashboard ;
+* produire du contenu ;
+* mettre en place une boutique ;
+* créer un prototype ;
+* réaliser une campagne numérique ;
+* développer un outil interne.
+
+---
+
+# Ce que l'organisation paie réellement
+
+Elle ne paie pas simplement :
+
+> « l'accès à des freelances ».
+
+TakaCode apporte potentiellement :
+
+* cadrage du besoin ;
+* sélection des participants ;
+* constitution de l'équipe ;
+* Mentor ;
+* suivi ;
+* jalons ;
+* critères d'acceptation ;
+* contrôle qualité ;
+* sécurisation du paiement ;
+* résolution des problèmes.
+
+C'est ce travail qui justifie la part de TakaCode.
+
+---
+
+# Répartition indicative
+
+Pour une Mission de **500 000 FCFA**, une première hypothèse pourrait être :
+
+| Acteur                | Part indicative |
+| --------------------- | --------------: |
+| Équipe de réalisation |         55–65 % |
+| Mentor / responsable  |         15–20 % |
+| TakaCode              |         20–25 % |
+
+Ces pourcentages ne constituent pas encore une règle.
+
+> **Ils doivent être validés par les premières Missions réelles.**
+
+Le temps de cadrage, la complexité, la responsabilité du Mentor et le niveau de support nécessaire détermineront le véritable modèle.
+
+---
+
+# Règle fondamentale
+
+TakaCode ne doit jamais devenir :
+
+> **une agence qui utilise des débutants comme main-d'œuvre moins chère.**
+
+Une Mission doit produire une valeur réelle pour chaque partie.
+
+Le participant doit recevoir :
+
+* expérience ;
+* preuve ;
+* feedback ;
+* accompagnement ;
+* rémunération lorsque prévue.
+
+L'organisation doit recevoir :
+
+* résultat ;
+* qualité ;
+* responsabilité ;
+* visibilité sur l'avancement.
+
+---
+
+# Commencer manuellement
+
+Il serait dangereux de construire immédiatement :
+
+* marketplace ;
+* système complexe de candidatures ;
+* escrow ;
+* matching automatique ;
+* dashboard entreprise complet.
+
+Avant cela :
+
+> **vendre et exécuter 5 à 10 Missions manuellement.**
+
+Téléphone.
+
+Email.
+
+WhatsApp.
+
+Tableur.
+
+Contrat.
+
+Suivi manuel.
+
+La question à valider est :
+
+> **« Une organisation est-elle réellement prête à payer TakaCode pour transformer son besoin en Mission encadrée ? »**
+
+Une réponse positive n'est pas :
+
+> « Très bonne idée. »
+
+Une réponse positive est :
+
+> **un paiement.**
+
+---
+
+# 07 — Source de revenu n°4 : Marketplace d'expertise
+
+## Transformer l'expérience accumulée en opportunité
+
+Au départ, certains membres expérimentés peuvent aider bénévolement la communauté.
+
+Mais le bénévolat ne peut pas soutenir indéfiniment un écosystème.
+
+TakaCode doit créer une progression :
+
+> **Contribution → Réputation → Expertise reconnue → Opportunités → Revenus**
+
+---
+
+## Ce que les Mentors et Experts peuvent proposer
+
+* sessions individuelles ;
+* audits ;
+* revues ;
+* coaching ;
+* déblocages ;
+* accompagnement de projet ;
+* consulting ;
+* prestations spécialisées.
+
+TakaCode facilite :
+
+* découverte ;
+* réservation ;
+* paiement ;
+* historique ;
+* réputation ;
+* protection des transactions.
+
+En échange, la plateforme perçoit une commission.
+
+---
+
+## Exemple
+
+Session :
+
+**15 000 FCFA**
+
+Expert :
+
+**12 000 FCFA**
+
+TakaCode :
+
+**3 000 FCFA**
+
+La commission peut être testée autour de **10 à 20 %**, selon le service fourni.
+
+Là encore :
+
+> **ce sont des hypothèses à valider, pas des règles immuables.**
+
+---
+
+# Pourquoi cette marketplace est stratégiquement importante
+
+Elle ne sert pas uniquement à générer des revenus pour TakaCode.
+
+Elle permet également de retenir les meilleurs membres.
+
+Un membre peut suivre une trajectoire :
+
+> **Je commence → je construis → je progresse → j'aide → je développe une réputation → mon expérience devient valorisable.**
+
+TakaCode ne lui demande donc pas simplement :
+
+> **« Continue à aider gratuitement. »**
+
+La plateforme peut progressivement lui permettre de transformer cette expérience en activité économique.
+
+---
+
+# Quand ouvrir la marketplace ?
+
+Pas immédiatement.
+
+Une marketplace vide détruit la confiance.
+
+Il faut suffisamment :
+
+* de membres ;
+* de projets terminés ;
+* de Mentors ;
+* d'Experts ;
+* de demandes.
+
+Les seuils précis doivent être déterminés par l'activité réelle.
+
+Avant une marketplace automatisée, TakaCode peut tester manuellement :
+
+> **« Réserver une session avec un Mentor. »**
+
+C'est beaucoup plus simple.
+
+---
+
+# 08 — Source de revenu n°5 : partenaires et parcours sponsorisés
+
+## Principe
+
+Une organisation peut vouloir soutenir un parcours, un Challenge, une communauté ou une catégorie de projets.
+
+Exemples :
+
+Un fournisseur cloud soutient :
+
+> **Créer et publier son premier SaaS.**
+
+Un outil vidéo soutient :
+
+> **Lancer sa première chaîne YouTube.**
+
+Une solution de paiement soutient :
+
+> **Créer sa première boutique en ligne.**
+
+Une entreprise data soutient :
+
+> **Construire son premier projet Data.**
+
+---
+
+# Ce que le partenaire peut apporter
+
+Pas uniquement de l'argent.
+
+Il peut fournir :
+
+* crédits ;
+* outils ;
+* licences ;
+* API ;
+* ressources ;
+* Experts ;
+* Mentors ;
+* Challenges ;
+* Missions ;
+* prix ;
+* opportunités professionnelles.
+
+Le partenariat devient alors également un mécanisme d'impact.
+
+---
+
+# Règle absolue
+
+> **Un partenaire peut financer sa présence. Il ne peut pas acheter notre recommandation.**
+
+Si son produit n'est pas pertinent :
+
+> il n'est pas recommandé.
+
+Si une alternative gratuite est meilleure :
+
+> elle doit pouvoir être présentée.
+
+La confiance des membres est un actif économique plus important qu'un contrat de sponsoring ponctuel.
+
+---
+
+# Quand vendre du sponsoring ?
+
+Lorsque TakaCode peut présenter des données crédibles :
+
+* nombre de Builders actifs ;
+* projets dans la catégorie ;
+* taux de réalisation ;
+* pays ;
+* profils ;
+* usages ;
+* Challenges ;
+* résultats.
+
+Avant cela, un partenariat peut être recherché pour obtenir :
+
+* crédits ;
+* accès gratuits ;
+* soutien aux membres ;
+* Missions ;
+* prix de Challenges.
+
+La monétisation sponsor vient après l'audience et l'impact.
+
+---
+
+# 09 — Une sixième source potentielle : programmes financés
+
+Le positionnement social de TakaCode ouvre une autre possibilité importante.
+
+Des acteurs peuvent financer **l'accès et l'accompagnement d'un public sans que ce public ait à payer lui-même**.
+
+Cela peut concerner :
+
+* fondations ;
+* ONG ;
+* programmes jeunesse ;
+* institutions publiques ;
+* coopération internationale ;
+* entreprises dans le cadre de programmes d'impact ;
+* initiatives d'insertion professionnelle.
+
+Exemple :
+
+> **Accompagner 500 jeunes vers la réalisation d'un premier projet numérique et mesurer leur progression vers l'emploi, le freelancing ou l'entrepreneuriat.**
+
+Le partenaire finance :
+
+* onboarding ;
+* accompagnement ;
+* usage IA ;
+* Challenges ;
+* Mentors ;
+* suivi ;
+* mesure d'impact.
+
+Les bénéficiaires conservent un accès gratuit.
+
+---
+
+## Pourquoi ce modèle est cohérent
+
+Il permet d'aligner :
+
+**impact social + accessibilité + revenu TakaCode.**
+
+L'utilisateur n'est pas nécessairement celui qui paie.
+
+C'est particulièrement pertinent lorsque le public cible possède une faible capacité financière.
+
+---
+
+## Condition
+
+TakaCode ne doit pas construire son existence uniquement autour des subventions.
+
+Les programmes financés doivent être **une composante du modèle**, pas sa seule source de survie.
+
+---
+
+# 10 — Qui paie réellement TakaCode ?
+
+Le modèle devient plus clair lorsqu'on distingue les acteurs.
+
+| Acteur                               | Pourquoi paie-t-il ?                         |
+| ------------------------------------ | -------------------------------------------- |
+| **Membre premium**                   | Accélération, puissance IA, personnalisation |
+| **Client d'un Expert**               | Expertise humaine                            |
+| **Organisation**                     | Réalisation d'une Mission                    |
+| **Partenaire outil**                 | Accès contextuel à une communauté pertinente |
+| **Fournisseur affilié**              | Acquisition d'un client                      |
+| **Fondation / bailleur / programme** | Impact mesurable sur une population cible    |
+| **Entreprise sponsor**               | Visibilité utile, talent, adoption ou impact |
+
+Cette diversification est importante.
+
+> **Le membre ne doit pas porter seul le financement de TakaCode.**
+
+C'est particulièrement essentiel si TakaCode veut rester accessible à des personnes économiquement vulnérables.
+
+---
+
+# 11 — Le moteur économique
+
+Le modèle ne doit pas être compris comme cinq ou six revenus indépendants.
+
+Ils se nourrissent les uns les autres.
+
+### Étape 1
+
+Davantage de personnes commencent gratuitement.
+
+↓
+
+### Étape 2
+
+Davantage de projets sont réalisés.
+
+↓
+
+### Étape 3
+
+Davantage de profils possèdent une expérience démontrable.
+
+↓
+
+### Étape 4
+
+Davantage de Contributors et Mentors apparaissent.
+
+↓
+
+### Étape 5
+
+La communauté devient plus compétente.
+
+↓
+
+### Étape 6
+
+Les Missions deviennent possibles.
+
+↓
+
+### Étape 7
+
+Des transactions économiques apparaissent.
+
+↓
+
+### Étape 8
+
+La marketplace d'expertise devient viable.
+
+↓
+
+### Étape 9
+
+L'audience et les résultats attirent partenaires et programmes financés.
+
+↓
+
+### Étape 10
+
+Ces revenus permettent de financer davantage d'accès gratuit et d'accompagnement.
+
+↓
+
+### La boucle recommence.
+
+> **Impact → activité → valeur économique → revenus → capacité d'impact supplémentaire**
+
+C'est cette boucle qui doit devenir le véritable moteur économique de TakaCode.
+
+---
+
+# 12 — Vue d'ensemble
+
+| Source              | Qui paie ?                         | Valeur vendue                    | Échelle potentielle | Travail humain |
+| ------------------- | ---------------------------------- | -------------------------------- | ------------------- | -------------- |
+| Affiliation         | Fournisseur                        | Acquisition contextuelle         | Moyenne             | Très faible    |
+| Taka+               | Membre                             | Accélération et IA               | Forte               | Faible         |
+| Missions            | Organisation                       | Réalisation encadrée             | Forte               | Élevé          |
+| Marketplace         | Client / Membre                    | Expertise                        | Forte               | Moyen          |
+| Sponsoring          | Partenaire                         | Présence pertinente / écosystème | Forte               | Faible à moyen |
+| Programmes financés | Bailleur / Fondation / Institution | Impact mesurable                 | Forte               | Moyen à élevé  |
+
+Aucune ligne ne doit être considérée comme suffisante seule.
+
+> **La résilience vient de leur complémentarité.**
+
+---
+
+# 13 — Le circuit d'argent
+
+Missions et marketplace nécessitent une infrastructure financière plus complexe qu'un abonnement.
 
 Le circuit complet est :
 
-```
-encaisser  →  sécuriser  →  répartir  →  reverser
+```text
+Encaisser → Sécuriser → Répartir → Reverser
 ```
 
-- **Encaisser** : le client ou le Membre paie.
-- **Sécuriser** : l'argent est bloqué jusqu'à validation du livrable.
-- **Répartir** : calculer les parts entre participants, mentor et plateforme.
-- **Reverser** : payer effectivement chaque bénéficiaire.
+### Encaisser
 
-**Tant que ces quatre étapes ne fonctionnent pas de façon fiable, les Missions et la
-Marketplace ne peuvent pas passer à l'échelle.** On peut vendre 5 Missions à la main en
-gérant les virements manuellement. On ne peut pas en gérer 50.
+Le client paie.
+
+### Sécuriser
+
+L'argent reste sécurisé jusqu'à la réalisation des conditions prévues.
+
+### Répartir
+
+Le système calcule les parts :
+
+* participants ;
+* Mentor ;
+* Expert ;
+* TakaCode.
+
+### Reverser
+
+Chaque bénéficiaire reçoit effectivement son argent.
 
 ---
 
-## Ce qu'on ne fera pas
+# Adapter le paiement aux marchés
 
-- **Faire payer l'accès aux parcours.** Ça détruit ce qui fait venir les Visiteurs.
-- **Devenir une agence qui fait travailler des débutants moins cher.** On vendrait des
-  heures, on serait comparés sur le prix, et la valeur du projet disparaîtrait.
-- **Salarier les Mentors.** La plateforme crée un marché autour de leur expérience ; elle
-  ne les rémunère pas artificiellement.
-- **Ouvrir la Marketplace avant d'avoir du monde des deux côtés.**
-- **Compter sur l'affiliation.** On ne contrôle pas si les gens passent par nos liens.
-- **Automatiser un marché qui n'a jamais existé.** On automatise ce qui fonctionne déjà.
+TakaCode ne doit pas supposer que chaque utilisateur possède :
+
+* carte Visa ;
+* Mastercard ;
+* compte PayPal ;
+* compte bancaire international.
+
+Selon les marchés, il faudra intégrer :
+
+* Mobile Money ;
+* cartes ;
+* virements ;
+* solutions locales ;
+* solutions internationales.
+
+Le moyen de paiement doit suivre la réalité des utilisateurs.
 
 ---
 
-## En une phrase
+# 14 — Les risques économiques et leurs stratégies de contournement
 
-> Construire son projet sur TakaCode est gratuit et le restera. Ce qui se paie, c'est
-> d'aller plus vite, d'être accompagné par quelqu'un d'expérimenté, et d'accéder à de
-> vraies opportunités économiques.
+## Risque 1 — trop dépendre de Taka+
+
+**Contournement :**
+
+diversifier les payeurs.
+
+Le membre ne doit pas être la seule source de revenus.
+
+---
+
+## Risque 2 — l'IA gratuite coûte trop cher
+
+**Contournement :**
+
+* quotas raisonnables ;
+* modèles économiques pour tâches simples ;
+* cache ;
+* optimisation ;
+* Taka+ pour usage intensif.
+
+Métrique :
+
+> **coût IA par membre actif et par projet terminé.**
+
+---
+
+## Risque 3 — l'affiliation influence les recommandations
+
+**Contournement :**
+
+séparer clairement :
+
+> pertinence produit
+
+et
+
+> intérêt financier.
+
+La recommandation doit rester indépendante.
+
+---
+
+## Risque 4 — personne ne paie pour les Missions
+
+**Contournement :**
+
+vendre les premières manuellement.
+
+> **Pas de marketplace avant les premiers paiements réels.**
+
+---
+
+## Risque 5 — les Missions coûtent trop cher à opérer
+
+**Contournement :**
+
+mesurer précisément :
+
+* temps de cadrage ;
+* suivi ;
+* support ;
+* contrôle qualité ;
+* litiges.
+
+Puis ajuster la commission.
+
+---
+
+## Risque 6 — la marketplace reste vide
+
+**Contournement :**
+
+commencer par les sessions de Mentors avant les prestations complexes.
+
+Créer l'offre et la demande progressivement.
+
+---
+
+## Risque 7 — les utilisateurs contournent la plateforme
+
+Deux personnes peuvent se rencontrer sur TakaCode puis travailler directement.
+
+On ne pourra jamais totalement l'empêcher.
+
+**Contournement :**
+
+faire en sorte que rester sur TakaCode apporte :
+
+* paiement sécurisé ;
+* réputation ;
+* historique ;
+* protection ;
+* visibilité ;
+* opportunités futures.
+
+> **On ne bloque pas la sortie. On rend la plateforme plus utile que le contournement.**
+
+---
+
+## Risque 8 — dépendre des bailleurs
+
+**Contournement :**
+
+les programmes financés doivent soutenir l'expansion et l'impact, pas être la seule source de survie.
+
+Conserver des revenus commerciaux autonomes.
+
+---
+
+## Risque 9 — monétiser trop tôt
+
+**Contournement :**
+
+prioriser d'abord :
+
+> **projets terminés → expérience → communauté → transactions.**
+
+La monétisation suit la valeur créée.
+
+---
+
+# 15 — L'ordre de monétisation
+
+Toutes les sources ne doivent pas être lancées simultanément.
+
+## Phase 1 — Construire l'usage
+
+Priorité :
+
+* Builders ;
+* projets ;
+* ressources ;
+* Coach IA ;
+* Challenges ;
+* réalisations.
+
+Revenus possibles :
+
+**affiliation légère.**
+
+---
+
+## Phase 2 — Financer l'infrastructure
+
+Lorsque l'usage IA devient significatif :
+
+**Taka+.**
+
+Objectif initial :
+
+> financer une partie des coûts variables.
+
+---
+
+## Phase 3 — Valider la valeur économique
+
+Vendre :
+
+**5 à 10 Missions manuellement.**
+
+Pas besoin de marketplace.
+
+---
+
+## Phase 4 — Monétiser l'expérience
+
+Lorsque suffisamment de Mentors et Experts existent :
+
+**sessions payantes → marketplace d'expertise.**
+
+---
+
+## Phase 5 — Monétiser l'écosystème
+
+Lorsque l'audience et les résultats deviennent significatifs :
+
+* sponsoring ;
+* partenariats ;
+* programmes financés ;
+* Challenges partenaires.
+
+---
+
+## Phase 6 — Automatiser
+
+Une fois les flux validés :
+
+* matching ;
+* escrow ;
+* reversements ;
+* marketplace ;
+* dashboards organisations ;
+* analytics partenaires.
+
+> **TakaCode n'automatise pas un modèle économique théorique. TakaCode automatise ce qui a déjà fonctionné manuellement.**
+
+---
+
+# 16 — Ce que nous ne ferons pas
+
+### Faire payer systématiquement l'accès aux parcours
+
+Non.
+
+### Enfermer les meilleures ressources derrière Taka+
+
+Non.
+
+### Faire payer pour candidater à une Mission
+
+Non.
+
+### Transformer le Coach IA gratuit en simple démonstration inutilisable
+
+Non.
+
+### Recommander un outil uniquement parce qu'il paie une commission
+
+Non.
+
+### Construire une marketplace avant d'avoir validé l'offre et la demande
+
+Non.
+
+### Utiliser des débutants comme main-d'œuvre low-cost
+
+Non.
+
+### Dépendre uniquement de subventions
+
+Non.
+
+### Dépendre uniquement des abonnements des membres
+
+Non.
+
+### Automatiser un marché qui n'existe pas encore
+
+Non.
+
+---
+
+# 17 — Les métriques économiques
+
+Le chiffre d'affaires seul ne suffit pas.
+
+TakaCode doit suivre simultanément **impact et économie**.
+
+## Impact
+
+* membres actifs ;
+* projets commencés ;
+* projets terminés ;
+* taux de complétion ;
+* Challenges terminés ;
+* portfolios construits ;
+* Missions réalisées ;
+* membres ayant obtenu une opportunité.
+
+## Économie
+
+* coût par membre actif ;
+* coût IA par membre ;
+* coût par projet terminé ;
+* conversion Taka+ ;
+* revenu moyen Taka+ ;
+* revenus d'affiliation ;
+* valeur des Missions ;
+* marge par Mission ;
+* GMV marketplace ;
+* commission marketplace ;
+* revenus partenaires ;
+* financements de programmes.
+
+## La métrique particulièrement importante
+
+> **Combien coûte à TakaCode le fait d'amener une personne jusqu'à une réalisation valorisable ?**
+
+Puis :
+
+> **Quelle valeur économique l'écosystème peut-il générer à partir de cette réalisation ?**
+
+---
+
+# 18 — La thèse économique
+
+Le modèle économique de TakaCode repose sur une idée simple :
+
+> **Plus nous aidons de personnes à réaliser des projets, plus l'écosystème produit de compétences, d'expérience, de réputation, de besoins, d'expertise et d'opportunités.**
+
+TakaCode ne cherche donc pas à extraire le maximum d'argent au début du parcours.
+
+Il cherche à augmenter la valeur créée tout au long de celui-ci.
+
+Une personne peut arriver gratuitement.
+
+Elle découvre une voie.
+
+Elle utilise des ressources ouvertes.
+
+Elle construit avec l'aide du Coach IA.
+
+Elle termine un projet.
+
+Elle enrichit son portfolio.
+
+Elle contribue.
+
+Elle acquiert de l'expérience.
+
+Elle peut devenir Mentor.
+
+Elle peut réaliser une Mission.
+
+Elle peut vendre son expertise.
+
+Une organisation peut la découvrir.
+
+Un partenaire peut financer un Challenge.
+
+Un bailleur peut financer le parcours d'autres personnes.
+
+La valeur circule.
+
+> **Le membre n'est donc pas seulement un client potentiel. Il peut devenir Builder, Contributor, Mentor, Expert, prestataire, entrepreneur et créateur de valeur dans l'écosystème.**
+
+---
+
+# En une phrase
+
+> **Construire et apprendre sur TakaCode doit rester largement accessible. Le modèle économique se développe autour de ce qui accélère la progression, mobilise de l'expertise, facilite une transaction ou permet à une organisation de financer de l'impact.**
+
+Et la logique économique complète est :
+
+> **Accès → Réalisation → Expérience → Opportunité → Valeur économique → Revenus → Davantage d'accès et d'impact.**

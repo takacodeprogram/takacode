@@ -1,288 +1,1285 @@
 # Ce que le repositionnement change dans l'application
 
-> Ce document développe le **§07 de [VISION.md](VISION.md)**. La vision donne les huit
-> jalons et leur critère de validation. Ici, on dit ce que chaque jalon implique
-> concrètement : base de données, pages, textes, coach IA.
+> Ce document traduit la vision de TakaCode en évolution concrète du produit :
+> base de données, interfaces, contenus, moteur de ressources, Coach IA, projets,
+> portfolio, communauté, Missions et économie.
 >
-> C'est un plan, pas du code. Le suivi des versions livrées reste dans
-> [ROADMAP_EVOLUTION.md](ROADMAP_EVOLUTION.md). Le détail du modèle économique est dans
-> [BUSINESS_MODEL.md](BUSINESS_MODEL.md).
+> Ce n'est pas une spécification technique exhaustive ni du code.
 >
-> **À lire avant celui-ci :** [SYSTEME_PROJET.md](SYSTEME_PROJET.md) définit ce qu'est un
-> projet (anatomie, frameworks, modèles, kits, lien parcours ↔ projet) et
-> [FONCTIONNALITES.md](FONCTIONNALITES.md) liste ce qu'il faut construire, par acteur et
-> par jalon. Ce document-ci ne traite que de la traduction dans le schéma et les pages.
+> Les principes fonctionnels sont définis dans :
 >
-> Vocabulaire : celui du §04 de la vision — **Visiteur**, **Membre**, **Builder**,
-> **Contributor**, **Mentor**, **Expert**.
+> - [VISION.md](./VISION.md) — pourquoi TakaCode existe et où il va ;
+> - [SYSTEME_PROJET.md](./SYSTEME_PROJET.md) — comment fonctionne un projet ;
+> - [FONCTIONNALITES.md](./FONCTIONNALITES.md) — ce que la plateforme doit permettre ;
+> - [BUSINESS_MODEL.md](./BUSINESS_MODEL.md) — comment le modèle économique fonctionne.
 >
-> Écrit le 18 août 2026, revu le 19 août 2026.
+> Ce document répond à une seule question :
+>
+> **dans quel ordre devons-nous faire évoluer l'application pour transformer la vision
+> en produit réel sans reconstruire inutilement ce qui existe déjà ?**
 
 ---
 
-## 0. Le principe : changer la finalité, pas tout refaire
+# 01 — Le principe : changer la finalité, pas tout refaire
 
-**Il n'y a rien à jeter.** Les parcours, les projets, la communauté, le classement, les
-sessions live, les mentors, les projets publiés : tout ça sert déjà. Ce qui change, c'est
-**où on emmène les gens**, et **ce qu'on appelle un projet**.
+Le repositionnement de TakaCode ne signifie pas reconstruire toute l'application.
 
+Une grande partie de l'existant reste utile :
+
+- parcours ;
+- projets ;
+- profils ;
+- communauté ;
+- reviews ;
+- sessions ;
+- Mentors ;
+- Coach IA ;
+- projets publiés ;
+- système d'affiliation.
+
+Ce qui change profondément est **la finalité du système**.
+
+Avant, la logique était principalement :
+
+```text
+Parcours
+→ Projet numérique
+→ Publication
+→ Monétisation
 ```
-Avant      : Parcours → Projet → Publication → Revenus
-Maintenant : Parcours → Projet → Réalisation → Preuve d'expérience → Opportunité
-             (et le chemin « → Publication → Revenus » reste entier)
+
+La nouvelle logique devient :
+
+```text
+Orientation
+→ Projet
+→ Ressources utiles au moment du besoin
+→ Réalisation
+→ Preuve d'expérience
+→ Opportunité
 ```
 
-## 1. Ce qui existe déjà et sert directement
+La monétisation d'un projet reste possible :
 
-| Ce qui existe | À quoi ça sert maintenant |
+```text
+Projet
+→ Publication
+→ Utilisateurs
+→ Revenus
+```
+
+Mais ce n'est plus la seule finalité.
+
+Un projet peut également conduire à :
+
+```text
+Projet
+→ Portfolio
+→ Client
+```
+
+ou :
+
+```text
+Projet
+→ Expérience
+→ Mission
+```
+
+ou :
+
+```text
+Projet
+→ Compétence démontrée
+→ Emploi
+```
+
+ou :
+
+```text
+Projet
+→ Produit
+→ Activité entrepreneuriale
+```
+
+Le produit doit donc être pensé autour d'une idée beaucoup plus large :
+
+> **aider une personne à trouver une direction, apprendre ce dont elle a besoin,
+> réaliser quelque chose de concret et transformer progressivement cette réalisation
+> en opportunité.**
+
+---
+
+# 02 — Ce que nous conservons
+
+Le repositionnement doit réutiliser au maximum l'existant.
+
+| Existant | Nouvelle fonction |
 | --- | --- |
-| `learning_tracks`, `track_modules`, `track_lessons` | les parcours, quel que soit le type de projet |
-| `user_projects`, `project_reviews`, `project_likes`, `project_comments` | le projet BUILD, et la base du portfolio |
-| `user_profiles` (rôles, points, parrainage) | la base des rôles Visiteur → Expert |
-| les RPC de projets publiés et le profil public | la base de la preuve d'expérience |
-| `live_sessions` | les sessions avec un Mentor, puis les sessions payantes |
-| `affiliate_links` | une source de revenus déjà active, à garder telle quelle |
-| le coach IA ([app/api/assistant/chat/route.ts](app/api/assistant/chat/route.ts)) | ce qui transforme un objectif en parcours |
-| [lib/currency.ts](lib/currency.ts) | le « premier euro » est déjà devenu « premier revenu » |
+| `learning_tracks`, modules, lessons | base du plan guidé d'un projet |
+| `user_projects` | cœur du système BUILD, Challenges et Missions |
+| `project_reviews` | validation et feedback |
+| projets publiés | base du portfolio |
+| profils publics | preuve d'expérience |
+| communauté | entraide et contribution |
+| `live_sessions` | déblocage, mentorat, sessions collectives |
+| Mentors | accompagnement humain |
+| Coach IA | orientation, structuration, compréhension, déblocage et feedback |
+| affiliation | recommandation contextualisée d'outils |
+| système de revenus | base de la valorisation économique |
 
-## 2. Ce qui coince aujourd'hui
+Le principe technique est :
 
-Vérifié dans le code, du plus bloquant au moins bloquant.
-
-**1. Un projet est forcément un projet informatique.**
-Dans [supabase/sql/008_user_projects.sql](supabase/sql/008_user_projects.sql), un projet
-n'a que deux liens : `repo_url` (le code) et `live_url` (la démo). Une formation en ligne,
-une chaîne YouTube ou un podcast n'ont ni l'un ni l'autre. Ils ont une chaîne, une
-playlist, une page de vente, un fichier.
-
-**2. Les textes du site annoncent encore l'ancienne promesse.**
-Le titre de la page d'accueil dit `BUILD YOUR PROJECT. / DEPLOY & MONETIZE.`
-([lib/i18n.ts:2445](lib/i18n.ts:2445)). Et la liste des types de projets — « site vitrine,
-SaaS, e-commerce, blog, app mobile, API » ([lib/i18n.ts:2867](lib/i18n.ts:2867)) — ne
-contient que de l'informatique.
-
-**3. Être Mentor, c'est une case cochée, pas quelque chose qu'on gagne.**
-Le rôle est un simple champ à trois valeurs : `role in ('user','mentor','admin')`
-([supabase/sql/001_roles_points_referrals.sql:9](supabase/sql/001_roles_points_referrals.sql:9)).
-Aucune progression, aucun critère, et nulle part la trace de ce que le Mentor a lui-même
-réalisé — alors que c'est précisément ce qui doit fonder son statut.
-
-**4. Il n'y a qu'une seule porte d'entrée : BUILD.**
-Pas de Challenges, pas de Missions, pas d'organisations. Le second côté de la plateforme
-n'existe nulle part dans la base de données.
-
-**5. La liste des façons de gagner de l'argent est trop courte.**
-`revenue_model` n'accepte que `vente`, `abonnement`, `publicite`, `affiliation`,
-`freelance` ([supabase/migrations/20260718110000_project_revenue_model.sql](supabase/migrations/20260718110000_project_revenue_model.sql)).
-Il manque au minimum la vente de formation, le sponsoring et les dons.
-
-**6. Le coach IA ne sait pas de quel type de projet on parle.**
-Ses instructions ([app/api/assistant/chat/route.ts:88](app/api/assistant/chat/route.ts:88))
-lui disent d'aider « sur son projet et son apprentissage », sans jamais préciser de quoi
-il s'agit. Or accompagner une chaîne YouTube n'a rien à voir avec accompagner un SaaS.
-
-**7. La page tarifs est vide.**
-[app/pricing/page.tsx](app/pricing/page.tsx) ne contient que deux boutons. C'est cohérent
-tant qu'il n'y a rien à vendre, à reprendre au moment de Taka+.
+> **réutiliser avant de remplacer.**
 
 ---
 
-## 3. Les huit jalons
+# 03 — Les principales limites actuelles
+
+## 3.1 — Le projet est encore trop associé au développement logiciel
+
+Le modèle actuel repose notamment sur :
+
+- `repo_url` ;
+- `live_url`.
+
+Cela fonctionne pour une application.
+
+Beaucoup moins pour :
+
+- une activité freelance ;
+- une chaîne YouTube ;
+- un podcast ;
+- une newsletter ;
+- une formation créée par un Builder ;
+- un produit digital ;
+- un projet data ;
+- une automatisation ;
+- une activité entrepreneuriale.
+
+Le système doit donc passer de :
+
+> **projet informatique**
+
+à :
+
+> **projet produisant des livrables.**
 
 ---
 
-### J1 — Clarifier le positionnement
+## 3.2 — Le produit suppose encore trop souvent que l'utilisateur sait déjà quoi faire
 
-> **Validation (vision) :** un nouveau Visiteur comprend immédiatement que TakaCode aide à
-> réaliser des projets, pas uniquement des projets informatiques.
+Or certains membres arriveront sans :
 
-**Textes du site**
+- idée ;
+- compétence clairement identifiée ;
+- projet ;
+- connaissance des métiers numériques ;
+- orientation professionnelle précise.
 
-- **Titre de la page d'accueil.** Remplacer `BUILD YOUR PROJECT. / DEPLOY & MONETIZE.`
-  ([lib/i18n.ts:2445](lib/i18n.ts:2445)).
-  ⚠️ Ce titre utilise les polices VALORAX et VENITE, **qui n'ont pas les caractères
-  accentués** (voir [INVENTAIRE_POLICES_DISPLAY.md](INVENTAIRE_POLICES_DISPLAY.md)). Une
-  formulation française doit donc être sans accents, ou il faut changer de police.
-- **Liste des types de projets** ([lib/i18n.ts:2867](lib/i18n.ts:2867)) : ajouter formation
-  en ligne, chaîne YouTube, podcast, newsletter, produit digital, activité freelance,
-  agent IA / automatisation.
-- **« Premier euro »** ([lib/i18n.ts:1253](lib/i18n.ts:1253), `membersEuro`,
-  `membersWithEuro`) : [lib/currency.ts](lib/currency.ts) parle déjà de « premier revenu ».
-  Il reste des libellés à aligner.
-- **Vocabulaire.** Les pages publiques (accueil, tarifs, parcours vus sans compte, textes
-  pour Google) parlent à un **Visiteur** : elles ne doivent ni l'appeler « Membre », ni
-  supposer qu'il a déjà un projet. L'espace connecté parle à un **Membre**, l'espace projet
-  à un **Builder**. Les textes actuels sont déjà corrects sur ce point
-  (`noAccountPrompt: "Pas encore membre ?"`, [lib/i18n.ts:1145](lib/i18n.ts:1145)) — c'est
-  la nouvelle copy qu'il faut écrire du bon point de vue.
-
-**Coach IA**
-
-- Lui transmettre le type de projet et adapter son accompagnement
-  ([app/api/assistant/chat/route.ts:88](app/api/assistant/chat/route.ts:88)). Un parcours
-  « chaîne YouTube » (choisir une niche, créer l'identité, définir le processus de
-  production, publier) n'a rien à voir avec un parcours SaaS.
-- C'est ce que le Membre verra le plus, pour le moins de travail.
-
-**À faire après toute modification de contenu en base :**
-`node scripts/fix-french-content.mjs --apply` (voir le README).
-
-**J1 est livrable tout de suite, sans attendre le reste.**
+Le système doit donc pouvoir commencer **avant le projet**.
 
 ---
 
-### J2 — Généraliser le système de projets
+## 3.3 — Les parcours ressemblent encore trop à des formations
 
-> **Validation (vision) :** une chaîne YouTube peut être accompagnée aussi efficacement
-> qu'une application.
+Le repositionnement impose une distinction fondamentale.
 
-**Base de données**
+TakaCode n'a pas vocation à produire une formation complète pour chaque sujet.
 
-- Ajouter `user_projects.project_type` : `logiciel`, `agent_ia`, `boutique`, `formation`,
-  `contenu_video`, `podcast`, `newsletter`, `freelance`, `produit_digital`, `autre`.
-  Valeur devinée depuis le parcours choisi, modifiable ensuite.
-- Remplacer `repo_url` et `live_url` par une table `project_deliverables`
-  (`project_id`, `kind`, `label`, `url`, `sort_order`). Le champ `kind` dépend du type de
-  projet : dépôt de code, application publiée, chaîne, playlist, boutique, épisode,
-  document, produit téléchargeable, page de vente, portfolio, premier client.
-  *Pendant la transition, garder `repo_url` et `live_url` en lecture et les remplir comme
-  deux entrées de cette table, pour ne rien casser.*
-- Élargir `revenue_model` (ajouter `formation`, `sponsoring`, `dons`, `services`), ou le
-  sortir dans une table de référence.
-- Ajouter `learning_tracks.project_type`, pour recommander un parcours à partir du type de
-  projet visé.
+La logique cible est :
 
-**Code**
+```text
+Projet
+→ Étape
+→ Besoin
+→ Ressource
+→ Action
+→ Livrable
+```
 
-- `lib/userProjects`, [lib/getPublicProject.ts](lib/getPublicProject.ts),
-  [lib/publicProfile.ts](lib/publicProfile.ts) : lire les nouveaux livrables.
-- Les fonctions SQL qui renvoient les projets publics (`supabase/migrations/2026071822*`,
-  `2026071900*`) listent les colonnes une par une, `repo_url` et `revenue_model` compris.
-  Elles doivent évoluer dans la même migration.
-- Formulaire de création et page projet : afficher les champs selon le type de projet.
+Les ressources peuvent provenir de :
 
-**Attention :** ces fonctions SQL sont des `security definer`, c'est-à-dire qu'elles
-s'exécutent avec des droits élevés et contournent les règles d'accès habituelles. À
-modifier avec les tests correspondants.
+- documentations officielles ;
+- YouTube ;
+- articles ;
+- tutoriels ;
+- cours ouverts ;
+- GitHub ;
+- communautés ;
+- outils ;
+- autres ressources pertinentes.
 
 ---
 
-### J3 — Transformer le profil en preuve d'expérience
+## 3.4 — Les ressources ne constituent pas encore un véritable moteur
 
-> **Validation (vision) :** quelqu'un peut partager son profil TakaCode dans une
-> candidature ou auprès d'un client.
+Il faut pouvoir savoir :
 
-- Chaque projet terminé enrichit automatiquement le profil : livrables, rôle tenu, durée,
-  compétences mobilisées, validations reçues (IA, pairs, Mentor).
-- Distinguer clairement **projet terminé** et **projet publié**. La vision fait du taux de
-  projets menés jusqu'au bout le moteur de la plateforme : il doit se voir.
-- Rendre le profil partageable : adresse propre, aperçu correct sur les réseaux, version
-  imprimable.
-- Créer `project_members` (`project_id`, `user_id`, `role`, `is_lead`). Indispensable dès
-  qu'il y a des projets à plusieurs (J5 et J7).
+- quelle ressource correspond à quelle étape ;
+- pour quel niveau ;
+- dans quelle langue ;
+- pour quel objectif ;
+- quelle partie consulter ;
+- si elle est toujours valide ;
+- quelle alternative existe.
 
----
-
-### J4 — Déployer contribution et mentorat
-
-> **Validation (vision) :** des mentors accompagnent réellement des Builders et
-> contribuent à augmenter le taux de projets terminés.
-
-- Séparer deux choses aujourd'hui mélangées : les **droits techniques** (`user | admin`,
-  utilisés par les règles de sécurité de la base) et le **rôle dans la communauté**
-  (`visiteur | membre | builder | contributor | mentor | expert`). Ne pas surcharger
-  `user_profiles.role`, dont les valeurs servent aux policies RLS.
-- Attribuer les rôles automatiques (Membre à l'inscription, Builder au premier projet) et
-  calculer les rôles mérités sur activité réelle : projets terminés, relectures utiles,
-  réponses acceptées, parcours complétés.
-- **On ne peut se porter candidat Mentor que sur un parcours qu'on a soi-même terminé.**
-  C'est la règle qui fonde tout le §04 de la vision.
-- Permettre la vérification d'un professionnel extérieur, qui peut devenir Mentor sans
-  avoir suivi le parcours sur la plateforme.
-- Créer `mentorships` (`mentor_id`, `builder_id`, `project_id`, `track_id`, `status`,
-  `started_at`).
-
-**Pourquoi ce jalon vient avant les Missions :** un vivier de Mentors ne se fabrique pas
-en un mois. Il se construit avant d'en avoir besoin.
+Sans cela, TakaCode risque de devenir soit une plateforme de cours, soit un simple catalogue de liens.
 
 ---
 
-### J5 — Lancer les Challenges
+## 3.5 — Le Coach IA manque de contexte
 
-> **Validation (vision) :** plusieurs membres terminent un même Challenge avec des
-> résultats différents et publiables.
+Le Coach doit comprendre :
 
-- Créer `challenges` : objectif, contexte, contraintes, livrables attendus, durée
-  indicative, critères d'évaluation, `project_type`, parcours associé.
-- Créer `challenge_participations` (individuel ou en équipe, via `project_members`).
-- Un Challenge crée **un projet normal** dans `user_projects`. Le portfolio, les
-  relectures et le classement fonctionnent alors sans rien changer.
-- Réutiliser `project_reviews` pour l'évaluation et `live_sessions` pour les points
-  d'étape.
+```text
+Qui est cette personne ?
+Que veut-elle obtenir ?
+Quel est son niveau ?
+Quel projet réalise-t-elle ?
+À quelle étape est-elle ?
+Qu'a-t-elle déjà essayé ?
+Quelle ressource utilise-t-elle ?
+Où est-elle bloquée ?
+```
 
-**L'effet qu'on oublie :** comme plusieurs personnes traitent le même problème avec des
-approches différentes, on obtient des réalisations comparables. C'est ce qui permettra
-de choisir qui envoyer sur une Mission, et de justifier ce choix.
-
----
-
-### J6 — Vendre les premières Missions manuellement
-
-> **Validation (vision) : des entreprises ont réellement payé.**
-
-**Rien à développer.** Cinq à dix Missions vendues au téléphone, pilotées dans un tableur
-et un fil de discussion. Un responsable nommé sur chacune.
-
-Ce qu'on cherche à apprendre pendant ces missions, et qu'on ne peut apprendre autrement :
-
-- combien de temps prend réellement le cadrage d'un besoin flou ;
-- si la répartition 55-65 / 15-20 / 20-25 tient (voir [BUSINESS_MODEL.md](BUSINESS_MODEL.md)) ;
-- ce qui casse quand une équipe de Membres livre à un vrai client ;
-- ce que l'entreprise regarde vraiment au moment de valider.
-
-**C'est une validation commerciale, pas technique.** Elle conditionne J7 et J8.
+Sans ce contexte, il reste un chatbot généraliste.
 
 ---
 
-### J7 — Intégrer Missions dans TakaCode
+## 3.6 — Le portfolio ne démontre pas encore suffisamment l'expérience
 
-> Seulement après J6.
+Un projet terminé doit pouvoir produire automatiquement :
 
-- Créer `organizations` (nom, secteur, contact, pays) et `organization_members`.
-- Créer `missions` : organisation, besoin brut, périmètre, livrables, `project_type`,
-  budget, échéance, état (`soumise`, `cadrée`, `ouverte`, `en_cours`, `livrée`, `clôturée`).
-- Créer `mission_applications` (candidatures) et `mission_team` (responsable de mission et
-  participants). Une Mission crée elle aussi un projet normal.
-- Espace entreprise : déposer un besoin, suivre l'avancement, valider les livrables.
-- **Un responsable de mission est désigné dès la création. Ce n'est pas optionnel** —
-  c'est ce qui répond au risque n°2 de la vision.
+- livrables ;
+- preuves ;
+- compétences mobilisées ;
+- rôle tenu ;
+- validations ;
+- journal de bord ;
+- étude de cas.
 
----
-
-### J8 — Construire l'infrastructure économique
-
-> On automatise ce qui fonctionne déjà.
-
-- **Le circuit d'argent d'abord**, dans les quatre étapes de la vision :
-  `encaisser → sécuriser → répartir → reverser`, via Mobile Money (Wave, Orange Money,
-  MTN MoMo). Tant que ce circuit n'est pas fiable, le reste n'a pas de sens.
-- Blocage des fonds jusqu'à validation du livrable, et procédure en cas de désaccord.
-- Taka+ : réserver certaines fonctions aux abonnés (coach IA plus performant, quotas,
-  analyses, portfolio enrichi). Reprendre [app/pricing/page.tsx](app/pricing/page.tsx),
-  aujourd'hui vide. **On ajoute des fonctions payantes, on n'en retire jamais du gratuit.**
-- Marketplace d'expertise : commencer par les sessions individuelles (petits montants, peu
-  de risque) avant les prestations.
-- Créer `transactions` et `payouts` pour tracer tout ce qui entre et sort, plus la
-  facturation.
+Le profil doit progressivement devenir une **preuve d'expérience**.
 
 ---
 
-## 4. Ce qu'on ne fait pas maintenant
+## 3.7 — Les rôles communautaires ne reflètent pas suffisamment l'expérience
 
-- Refaire le design ou l'architecture : rien dans la vision ne l'exige.
-- Ouvrir la Marketplace avant d'avoir du monde des deux côtés (repère : 200 projets
-  terminés, 30 Mentors).
-- Construire l'espace entreprise avant d'avoir vendu des Missions à la main.
-- Faire payer quoi que ce soit qui est gratuit aujourd'hui.
-- Renommer les tables existantes. `user_projects` reste `user_projects`. Un Challenge et
-  une Mission créent des projets ordinaires. Moins de concepts, plus de réutilisation.
+Être Mentor ne doit pas simplement être une valeur dans une colonne.
+
+Les rôles doivent progressivement être fondés sur :
+
+- réalisations ;
+- contributions ;
+- expérience ;
+- validations ;
+- activité réelle.
+
+Les droits techniques doivent rester séparés des rôles communautaires.
+
+---
+
+## 3.8 — BUILD est encore la seule véritable porte d'entrée
+
+La cible est :
+
+```text
+BUILD       → J'ai une idée.
+CHALLENGES  → Je veux construire mais je ne sais pas quoi.
+MISSIONS    → Je veux contribuer à un besoin réel.
+```
+
+Ces trois portes doivent utiliser **le même moteur de projet**.
+
+---
+
+# 04 — Principe de la roadmap
+
+Nous ne construisons pas toutes les fonctionnalités de la vision immédiatement.
+
+Chaque jalon doit résoudre **un risque précis**.
+
+La règle est :
+
+> **ne pas construire le jalon suivant tant que l'hypothèse principale du précédent
+> n'est pas suffisamment validée.**
+
+---
+
+# J1 — Clarifier le positionnement
+
+## Objectif
+
+Faire comprendre immédiatement que TakaCode aide à **passer à l'action** et ne concerne
+pas uniquement les développeurs ayant déjà une idée.
+
+Le Visiteur doit comprendre qu'il peut venir :
+
+- avec une idée ;
+- sans idée ;
+- avec une compétence ;
+- sans compétence directement valorisable ;
+- pour construire ;
+- pour apprendre en construisant ;
+- pour se réorienter ;
+- pour entreprendre ;
+- pour chercher progressivement des opportunités.
+
+## À modifier
+
+### Page d'accueil
+
+Remplacer les formulations trop centrées sur :
+
+> BUILD / DEPLOY / MONETIZE
+
+par la nouvelle promesse.
+
+### Types de projets
+
+Ajouter notamment :
+
+- logiciel ;
+- SaaS ;
+- agent IA ;
+- automatisation ;
+- data ;
+- boutique ;
+- activité freelance ;
+- produit digital ;
+- formation créée par un Builder ;
+- chaîne vidéo ;
+- podcast ;
+- newsletter ;
+- autres projets numériques.
+
+### Vocabulaire
+
+Respecter :
+
+- Visiteur ;
+- Membre ;
+- Builder ;
+- Contributor ;
+- Mentor ;
+- Expert ;
+- Organisation ;
+- Partenaire.
+
+## Critère de sortie
+
+Une personne découvrant TakaCode comprend rapidement :
+
+> **« Je peux commencer même si je ne sais pas encore exactement quoi construire. »**
+
+---
+
+# J2 — Construire l'orientation
+
+## Pourquoi maintenant
+
+Si TakaCode prétend accompagner des personnes avec ou sans idée, le produit doit réellement
+savoir quoi faire lorsqu'une personne répond :
+
+> « Je ne sais pas. »
+
+## Construire
+
+### Diagnostic d'entrée
+
+Collecter progressivement :
+
+- objectif ;
+- expérience ;
+- compétences ;
+- intérêts ;
+- disponibilité ;
+- équipement ;
+- contraintes ;
+- motivation principale.
+
+### Nouvelle logique d'onboarding
+
+```text
+Pourquoi es-tu ici ?
+        ↓
+Sais-tu déjà ce que tu veux réaliser ?
+       ↙ ↘
+     Oui   Non
+      ↓     ↓
+    BUILD  Orientation
+             ↓
+      métier / domaine / Challenge
+```
+
+### Coach IA
+
+Ajouter un mode :
+
+> **Orientation**
+
+distinct du mode :
+
+> **Projet**
+
+## Attention
+
+Ne pas construire un test d'orientation de 50 questions.
+
+L'objectif est d'obtenir :
+
+> **une prochaine action raisonnable.**
+
+## Critère de sortie
+
+Une personne sans projet peut terminer l'onboarding avec une direction exploitable.
+
+---
+
+# J3 — Généraliser le moteur de projet
+
+## Objectif
+
+Faire fonctionner le même système pour différents types de réalisations.
+
+## Base de données
+
+Ajouter ou généraliser :
+
+```text
+project_types
+project_frameworks
+framework_phases
+project_plan_steps
+project_tasks
+project_deliverables
+project_proofs
+project_journal
+project_members
+validation_rubrics
+```
+
+### `user_projects`
+
+Ajouter notamment :
+
+- `project_type` ;
+- `objective` ;
+- `target_audience` ;
+- `success_criteria` ;
+- `deadline`.
+
+### Livrables
+
+Ne plus considérer `repo_url` et `live_url` comme le modèle universel.
+
+Créer un système générique :
+
+```text
+project_deliverables
+```
+
+Un livrable peut être :
+
+- dépôt ;
+- application ;
+- document ;
+- vidéo ;
+- chaîne ;
+- playlist ;
+- dashboard ;
+- dataset ;
+- automatisation ;
+- page de vente ;
+- portfolio ;
+- proposition commerciale ;
+- produit ;
+- autre.
+
+Pendant la migration, conserver les anciens champs pour compatibilité.
+
+## Critère de sortie
+
+> **Une chaîne YouTube, une activité freelance ou un projet Data peuvent être accompagnés
+> avec la même rigueur qu'un SaaS.**
+
+---
+
+# J4 — Construire le moteur de ressources
+
+## Pourquoi c'est un jalon à part entière
+
+C'est ce qui permet à TakaCode de ne pas devenir une plateforme traditionnelle de cours.
+
+Créer notamment :
+
+```text
+resource_library
+step_resources
+resource_reports
+```
+
+Une ressource doit pouvoir contenir :
+
+- URL ;
+- titre ;
+- source ;
+- format ;
+- langue ;
+- niveau ;
+- durée ;
+- gratuit / payant ;
+- date de vérification ;
+- statut ;
+- objectif pédagogique ou pratique.
+
+La relation avec une étape doit préciser :
+
+- pourquoi cette ressource ;
+- ce qu'il faut comprendre ;
+- quelle partie consulter ;
+- ce qu'il faut faire ensuite.
+
+## Interface
+
+Une étape pourrait afficher :
+
+```text
+CE QUE TU DOIS PRODUIRE
+
+Landing page fonctionnelle
+
+POUR Y ARRIVER
+
+1. Comprendre la structure d'une landing page
+   → ressource recommandée
+
+2. Construire la première version
+   → template facultatif
+
+3. Vérifier les critères
+   → checklist
+
+LIVRABLE
+
+URL + capture
+```
+
+## Maintenance
+
+Prévoir :
+
+- signalement d'un lien mort ;
+- ressource obsolète ;
+- alternative ;
+- date de dernière vérification ;
+- suggestion de remplacement.
+
+## Critère de sortie
+
+Un projet peut être accompagné de bout en bout principalement grâce à des ressources
+externes correctement contextualisées.
+
+---
+
+# J5 — Transformer le Coach IA en véritable copilote
+
+## Principe
+
+L'IA est un accélérateur.
+
+Elle ne doit pas remplacer la réalisation.
+
+Le Coach doit recevoir :
+
+```text
+profil
++ objectif
++ niveau
++ projet
++ framework
++ étape
++ ressources
++ livrables
++ journal
++ historique des blocages
+```
+
+## Modes
+
+Le Coach peut progressivement disposer de plusieurs contextes :
+
+### ORIENT
+
+Trouver une direction.
+
+### PLAN
+
+Transformer un objectif en projet.
+
+### LEARN
+
+Expliquer ce qui est nécessaire à l'étape.
+
+### BUILD
+
+Aider pendant la réalisation.
+
+### UNBLOCK
+
+Diagnostiquer un blocage.
+
+### REVIEW
+
+Analyser un livrable.
+
+### REFLECT
+
+Aider à documenter ce qui a été appris.
+
+### SHOW
+
+Transformer le projet en étude de cas ou présentation.
+
+## Garde-fou
+
+Éviter :
+
+```text
+Demande
+→ IA produit tout
+→ Builder copie
+→ validation
+```
+
+Favoriser :
+
+```text
+Question
+→ explication
+→ tentative
+→ feedback
+→ correction
+→ livrable
+```
+
+## Critère de sortie
+
+Le Coach augmente la capacité du membre à avancer sans transformer TakaCode en générateur
+automatique de projets.
+
+---
+
+# J6 — Transformer le profil en preuve d'expérience
+
+## Objectif
+
+Faire du projet terminé un actif professionnel.
+
+Créer ou enrichir :
+
+```text
+project_proofs
+project_members
+deliverable_reviews
+project_skills
+```
+
+Chaque projet terminé peut alimenter :
+
+- portfolio ;
+- rôle ;
+- compétences ;
+- livrables ;
+- preuves ;
+- validations ;
+- durée ;
+- journal ;
+- étude de cas.
+
+## Profil public
+
+Prévoir :
+
+- URL partageable ;
+- aperçu réseaux sociaux ;
+- projets ;
+- contributions ;
+- compétences démontrées ;
+- Missions ;
+- éventuellement export PDF.
+
+## Distinctions importantes
+
+```text
+Projet commencé ≠ projet terminé
+Projet terminé ≠ projet publié
+Projet publié ≠ projet valorisé
+```
+
+## Critère de sortie
+
+Un membre peut envoyer son profil TakaCode à :
+
+- un client ;
+- un recruteur ;
+- une organisation ;
+- un partenaire.
+
+---
+
+# J7 — Déployer contribution et mentorat
+
+## Séparer deux systèmes
+
+### Droits techniques
+
+```text
+user
+admin
+```
+
+### Rôles communautaires
+
+```text
+membre
+builder
+contributor
+mentor
+expert
+```
+
+Ne pas utiliser le même champ pour les deux.
+
+## Progression
+
+Exemple :
+
+```text
+Membre
+   ↓ premier projet
+Builder
+   ↓ contributions utiles
+Contributor
+   ↓ expérience + candidature
+Mentor
+   ↓ expertise avancée
+Expert
+```
+
+Ce n'est pas nécessairement une progression strictement linéaire.
+
+Un professionnel extérieur peut être validé directement.
+
+## Construire
+
+```text
+mentorships
+contributions
+mentor_domains
+mentor_availability
+```
+
+Réutiliser :
+
+```text
+live_sessions
+project_reviews
+```
+
+## Critère de sortie
+
+L'accompagnement humain contribue réellement à augmenter la complétion des projets.
+
+---
+
+# J8 — Lancer les Challenges
+
+## Objectif
+
+Résoudre :
+
+> **« Je veux construire mais je ne sais pas quoi. »**
+
+Créer :
+
+```text
+challenges
+challenge_participations
+challenge_cohorts
+```
+
+Un Challenge contient :
+
+- problème ;
+- contexte ;
+- objectif ;
+- niveau ;
+- durée ;
+- contraintes ;
+- livrables ;
+- critères ;
+- ressources ;
+- framework.
+
+## Principe technique
+
+Un Challenge ne crée pas un second moteur.
+
+Lorsqu'un membre rejoint un Challenge :
+
+```text
+Challenge
+   ↓
+user_project
+   ↓
+même moteur projet
+```
+
+## Critère de sortie
+
+Plusieurs personnes terminent un même Challenge avec des réalisations différentes.
+
+---
+
+# J9 — Vendre les premières Missions manuellement
+
+## Rien ou presque à développer
+
+Avant de créer une marketplace complexe :
+
+> **vendre 5 à 10 Missions réelles.**
+
+Les gérer initialement avec :
+
+- outils existants ;
+- tableur ;
+- messagerie ;
+- suivi manuel.
+
+## Ce qu'il faut apprendre
+
+- les organisations paient-elles réellement ?
+- pour quels besoins ?
+- quel budget ?
+- combien coûte le cadrage ?
+- quels profils fonctionnent ?
+- quels problèmes apparaissent ?
+- que considère le client comme un livrable acceptable ?
+- quel accompagnement est nécessaire ?
+- combien TakaCode peut raisonnablement prendre ?
+
+## Critère de sortie
+
+> **Des organisations ont payé pour des Missions et accepté des livrables.**
+
+C'est une validation commerciale.
+
+---
+
+# J10 — Intégrer les Missions
+
+Seulement après validation de J9.
+
+Créer :
+
+```text
+organizations
+organization_members
+missions
+mission_applications
+mission_team
+mission_milestones
+```
+
+Une Mission contient :
+
+- besoin brut ;
+- organisation ;
+- périmètre ;
+- livrables ;
+- budget ;
+- échéance ;
+- compétences ;
+- critères d'acceptation ;
+- responsable.
+
+## Coach IA
+
+Peut aider à transformer :
+
+```text
+« Nous avons besoin d'améliorer notre gestion clients. »
+```
+
+en :
+
+```text
+problème
+→ contexte
+→ résultat attendu
+→ périmètre
+→ livrables
+→ compétences
+→ estimation
+```
+
+Une validation humaine reste obligatoire avant publication.
+
+## Même moteur
+
+```text
+Mission
+   ↓
+Projet
+   ↓
+Équipe
+   ↓
+Plan
+   ↓
+Livrables
+   ↓
+Validation client
+```
+
+## Critère de sortie
+
+Une Mission peut être pilotée de bout en bout dans TakaCode.
+
+---
+
+# J11 — Construire l'infrastructure économique
+
+On automatise ce qui a déjà démontré son utilité.
+
+## Priorité
+
+```text
+Encaisser
+→ Sécuriser
+→ Répartir
+→ Reverser
+```
+
+Créer notamment :
+
+```text
+transactions
+payouts
+payment_disputes
+```
+
+Prévoir selon les marchés :
+
+- Mobile Money ;
+- cartes ;
+- virements ;
+- solutions internationales.
+
+## Taka+
+
+Le premium doit vendre :
+
+> **accélération + personnalisation + puissance**
+
+et non retirer au gratuit ce qu'il permet déjà.
+
+Exemples :
+
+- Coach IA avancé ;
+- quotas supérieurs ;
+- analyses ;
+- mémoire projet avancée ;
+- portfolio enrichi ;
+- gestion multi-projets.
+
+## Marketplace Expert
+
+Commencer par :
+
+> sessions individuelles.
+
+Puis élargir uniquement si la demande existe.
+
+## Critère de sortie
+
+TakaCode sait correctement :
+
+> **encaisser → sécuriser → répartir → reverser.**
+
+---
+
+# J12 — Partenaires et programmes d'impact
+
+Ce jalon devient important pour travailler avec :
+
+- entreprises ;
+- fondations ;
+- ONG ;
+- programmes jeunesse ;
+- institutions ;
+- bailleurs.
+
+Créer progressivement :
+
+```text
+partners
+programs
+program_cohorts
+program_participants
+program_metrics
+```
+
+Un programme peut financer :
+
+> « 500 jeunes accompagnés vers une première réalisation numérique valorisable. »
+
+## Dashboard
+
+Mesurer notamment :
+
+```text
+Inscrits
+↓
+Orientés
+↓
+Projet commencé
+↓
+Premier livrable
+↓
+Projet terminé
+↓
+Portfolio
+↓
+Mission / client / emploi / activité
+```
+
+## Principe
+
+Ne pas présenter :
+
+> nombre d'inscrits
+
+comme :
+
+> impact.
+
+L'impact recherché se situe plus loin dans la chaîne.
+
+## Critère de sortie
+
+Un partenaire peut financer une cohorte et comprendre ce que les bénéficiaires ont
+réellement réalisé.
+
+---
+
+# 05 — Ce qu'on ne construit pas maintenant
+
+## Une bibliothèque gigantesque de cours
+
+Non.
+
+Utiliser d'abord les ressources existantes.
+
+---
+
+## Une marketplace complète
+
+Non.
+
+Valider manuellement la demande avant.
+
+---
+
+## Un LMS complexe
+
+Non.
+
+TakaCode n'a pas besoin de reproduire une plateforme traditionnelle de formation.
+
+---
+
+## Une IA qui fait tout
+
+Non.
+
+L'objectif est d'augmenter la capacité du Builder.
+
+---
+
+## Un réseau social généraliste
+
+Non.
+
+Les interactions communautaires doivent principalement aider à :
+
+> construire, débloquer, revoir, terminer.
+
+---
+
+## Une infrastructure partenaire complète avant d'avoir des partenaires
+
+Non.
+
+Commencer avec des rapports simples.
+
+---
+
+## Une refonte technique totale
+
+Non.
+
+Réutiliser les structures existantes lorsqu'elles restent adaptées.
+
+---
+
+# 06 — Ordre de dépendance
+
+La roadmap n'est pas une simple liste.
+
+Les jalons dépendent les uns des autres.
+
+```text
+J1 Positionnement
+        ↓
+J2 Orientation
+        ↓
+J3 Moteur projet
+        ↓
+J4 Ressources
+        ↓
+J5 Coach IA
+        ↓
+J6 Preuve d'expérience
+        ↓
+J7 Communauté / Mentorat
+        ↓
+J8 Challenges
+        ↓
+J9 Missions manuelles
+        ↓
+J10 Missions intégrées
+        ↓
+J11 Économie
+        ↓
+J12 Programmes d'impact
+```
+
+Certaines tâches peuvent être développées en parallèle.
+
+Mais la **validation produit** doit respecter cette logique.
+
+---
+
+# 07 — Les validations les plus importantes
+
+| Jalon | Question à valider |
+| --- | --- |
+| J1 | Les gens comprennent-ils TakaCode ? |
+| J2 | Une personne sans idée trouve-t-elle une direction ? |
+| J3 | Plusieurs types de projets fonctionnent-ils réellement ? |
+| J4 | Peut-on accompagner sans produire nous-mêmes tous les cours ? |
+| J5 | L'IA aide-t-elle réellement à avancer ? |
+| J6 | Les réalisations deviennent-elles des preuves crédibles ? |
+| J7 | L'entraide augmente-t-elle la complétion ? |
+| J8 | Les Challenges permettent-ils de commencer sans idée ? |
+| J9 | Des organisations paient-elles ? |
+| J10 | Les Missions peuvent-elles être opérées dans TakaCode ? |
+| J11 | L'économie fonctionne-t-elle de manière fiable ? |
+| J12 | Peut-on démontrer un impact à un partenaire ? |
+
+---
+
+# 08 — La règle anti-surconstruction
+
+Avant chaque développement important, poser trois questions :
+
+### 1.
+
+**Ce problème existe-t-il réellement chez nos utilisateurs ?**
+
+### 2.
+
+**Peut-on le résoudre manuellement avant de l'automatiser ?**
+
+### 3.
+
+**Un outil ou une ressource existante peut-il déjà résoudre une partie du problème ?**
+
+Si oui :
+
+> **intégrer ou orchestrer avant de reconstruire.**
+
+Cette règle vaut autant pour les ressources pédagogiques que pour les fonctionnalités.
+
+---
+
+# 09 — La trajectoire produit
+
+Le repositionnement peut finalement être résumé ainsi :
+
+```text
+TakaCode aujourd'hui
+        ↓
+Élargir ce qu'on appelle un projet
+        ↓
+Permettre de commencer sans idée
+        ↓
+Transformer le parcours en plan de réalisation
+        ↓
+Connecter les bonnes ressources aux bonnes étapes
+        ↓
+Faire du Coach IA un accélérateur contextuel
+        ↓
+Transformer les réalisations en preuves d'expérience
+        ↓
+Faire circuler l'expérience dans la communauté
+        ↓
+Proposer des Challenges
+        ↓
+Connecter les Builders à des besoins réels
+        ↓
+Créer une économie autour de cette activité
+        ↓
+Mesurer l'impact professionnel et économique
+```
+
+---
+
+# 10 — Ce qui ne doit jamais être perdu pendant le développement
+
+À mesure que TakaCode devient plus complexe, quatre principes doivent rester visibles.
+
+### 1. Le projet avant le cours
+
+> On apprend parce qu'on cherche à réaliser quelque chose.
+
+### 2. Les ressources avant la production systématique de formations
+
+> Si une excellente ressource existe déjà, TakaCode l'utilise et la contextualise.
+
+### 3. L'IA comme accélérateur, pas comme substitut
+
+> Elle aide à comprendre, décider, construire, corriger et avancer.
+
+### 4. La réalisation avant les métriques superficielles
+
+> Le succès n'est pas le nombre de vidéos regardées ou de messages envoyés.
+
+Le succès est progressivement :
+
+```text
+Je trouve une direction.
+        ↓
+Je commence.
+        ↓
+Je construis.
+        ↓
+Je termine.
+        ↓
+Je peux montrer ce que j'ai fait.
+        ↓
+Cette réalisation m'ouvre une opportunité.
+```
+
+# C'est cette transformation que toute l'évolution technique de TakaCode doit servir.
