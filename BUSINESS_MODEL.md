@@ -6,7 +6,10 @@
 > et dans quel ordre.
 >
 > Les travaux techniques correspondants sont dans
-> [ROADMAP_REPOSITIONNEMENT.md](ROADMAP_REPOSITIONNEMENT.md), jalon J8.
+> [ROADMAP_REPOSITIONNEMENT.md](ROADMAP_REPOSITIONNEMENT.md), jalon J8. Les fonctionnalités
+> de sponsoring, de marketplace et de missions sont détaillées dans
+> [FONCTIONNALITES.md](FONCTIONNALITES.md) ; les repères de prix du marché viennent de
+> [BENCHMARK.md](BENCHMARK.md).
 >
 > Vocabulaire : celui du §04 de la vision — **Visiteur**, **Membre**, **Builder**,
 > **Contributor**, **Mentor**, **Expert**.

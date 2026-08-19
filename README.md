@@ -22,10 +22,22 @@ les docs comme dans les textes du site : *Visiteur* (pas encore de compte), *Mem
 **Stack** : Next.js 16 (App Router, TypeScript strict) · Supabase (Postgres, Auth, RLS,
 Storage) · Tailwind · deploye sur Vercel.
 
-**Docs** :
-- [VISION.md](./VISION.md) — le document de reference : probleme, projet, entrees, roles, boucle, modele, jalons, risques
-- [BUSINESS_MODEL.md](./BUSINESS_MODEL.md) — le detail du modele economique (§06 de la vision)
-- [ROADMAP_REPOSITIONNEMENT.md](./ROADMAP_REPOSITIONNEMENT.md) — ce que chaque jalon implique dans l'app (§07 de la vision)
+**Docs**
+
+Le document de reference, puis ceux qui le developpent :
+
+| Document | Ce qu'il contient | Rattache a |
+| --- | --- | --- |
+| **[VISION.md](./VISION.md)** | **le document de reference** : probleme, projet, entrees, roles, boucle, modele, jalons, risques | — |
+| [SYSTEME_PROJET.md](./SYSTEME_PROJET.md) | anatomie d'un projet, frameworks, modeles, kits de demarrage, lien parcours ↔ projet, exemples deroules | §02 |
+| [FONCTIONNALITES.md](./FONCTIONNALITES.md) | ce qu'il faut construire et pour qui : parties prenantes, sessions de deblocage, challenges, missions, sponsoring, coach IA | §03 a §07 |
+| [BUSINESS_MODEL.md](./BUSINESS_MODEL.md) | le detail des cinq sources de revenus, les seuils, le circuit d'argent | §06 |
+| [ROADMAP_REPOSITIONNEMENT.md](./ROADMAP_REPOSITIONNEMENT.md) | ce que chaque jalon J1–J8 implique dans la base de donnees et les pages | §07 |
+| [BENCHMARK.md](./BENCHMARK.md) | ce que font ALX, Metaschool, buildspace, Frontend Mentor, Gitcoin — et ce qu'on en prend | transverse |
+| [PITCH.md](./PITCH.md) | dossier Y Combinator, dossier fondation, pitch hackathon, objections, demande de financement | transverse |
+
+Docs techniques et historiques :
+
 - [ROADMAP_EVOLUTION.md](./ROADMAP_EVOLUTION.md) — les versions livrees et ce qu'il reste a faire
 - [RAPPORT_OPERATIONNEL.md](./RAPPORT_OPERATIONNEL.md) — etat operationnel courant (audit, installation)
 - [ANALYSIS_GUIDE.md](./ANALYSIS_GUIDE.md) — guide d'architecture pour developpeurs

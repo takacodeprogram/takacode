@@ -8,6 +8,11 @@
 > [ROADMAP_EVOLUTION.md](ROADMAP_EVOLUTION.md). Le détail du modèle économique est dans
 > [BUSINESS_MODEL.md](BUSINESS_MODEL.md).
 >
+> **À lire avant celui-ci :** [SYSTEME_PROJET.md](SYSTEME_PROJET.md) définit ce qu'est un
+> projet (anatomie, frameworks, modèles, kits, lien parcours ↔ projet) et
+> [FONCTIONNALITES.md](FONCTIONNALITES.md) liste ce qu'il faut construire, par acteur et
+> par jalon. Ce document-ci ne traite que de la traduction dans le schéma et les pages.
+>
 > Vocabulaire : celui du §04 de la vision — **Visiteur**, **Membre**, **Builder**,
 > **Contributor**, **Mentor**, **Expert**.
 >
