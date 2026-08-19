@@ -6,7 +6,7 @@
 > et dans quel ordre.
 >
 > Les travaux techniques correspondants sont dans
-> [ROADMAP_REPOSITIONNEMENT.md](ROADMAP_REPOSITIONNEMENT.md), chantier C6.
+> [ROADMAP_REPOSITIONNEMENT.md](ROADMAP_REPOSITIONNEMENT.md), jalon J8.
 >
 > Vocabulaire : celui du §04 de la vision — **Visiteur**, **Membre**, **Builder**,
 > **Contributor**, **Mentor**, **Expert**.
