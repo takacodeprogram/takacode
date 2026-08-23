@@ -92,6 +92,12 @@ const WEEKLY_VISUALS: Record<string, Visual> = {
 
 const TOOL_SWATCHES = ["#4F8EF7", "#9B6DFF", "#22D3EE", "#10B981", "#F59E0B"];
 
+const INTENT_OPTIONS = [
+  { key: "build", icon: "lucide:hammer", accent: "#4F8EF7", goalKeys: ["website", "web_app", "wordpress_nocode", "mobile_app", "digital_business"] },
+  { key: "explore", icon: "lucide:flame", accent: "#F59E0B", goalKeys: ["learn_explore", "automation_ai", "videos_youtube", "data_analysis", "other"] },
+  { key: "work", icon: "lucide:briefcase", accent: "#10B981", goalKeys: ["custom_projects", "marketing_online", "web3", "three_d", "podcast_audio", "paid_ads"] }
+] as const;
+
 function getRevenueOptions(t: (key: string) => string) {
   return [
     { key: "", label: t("onboarding.revenue.unknown"), icon: "lucide:help-circle", accent: "#8b8b8b" },
@@ -129,42 +135,24 @@ function sanitizeTools(value: unknown): string[] {
 
 function getStepStateUi(state: string): StepStateUi {
   if (state === "done") {
-    return {
-      icon: "lucide:check",
-      chip: "bg-emerald-500/10 border-emerald-500/30 text-emerald-300"
-    };
+    return { icon: "lucide:check", chip: "bg-emerald-500/10 border-emerald-500/30 text-emerald-300" };
   }
-
   if (state === "current") {
-    return {
-      icon: "lucide:hourglass",
-      chip: "bg-blue-500/10 border-blue-500/30 text-blue-200"
-    };
+    return { icon: "lucide:hourglass", chip: "bg-blue-500/10 border-blue-500/30 text-blue-200" };
   }
-
-  return {
-    icon: "lucide:lock",
-    chip: "bg-[var(--overlay-3)] border-[var(--border-3)] text-[var(--muted-3)]"
-  };
+  return { icon: "lucide:lock", chip: "bg-[var(--overlay-3)] border-[var(--border-3)] text-[var(--muted-3)]" };
 }
 
 function getToolChipStyle(index: number, selected: boolean): React.CSSProperties {
   const color = TOOL_SWATCHES[index % TOOL_SWATCHES.length];
-
   if (selected) {
-    return {
-      borderColor: `${color}77`,
-      background: `linear-gradient(135deg, ${color}44, rgba(255,255,255,0.04))`,
-      color: "#ffffff",
-      boxShadow: `0 0 18px ${color}26`
-    };
+    return { borderColor: `${color}77`, background: `linear-gradient(135deg, ${color}44, rgba(255,255,255,0.04))`, color: "#ffffff", boxShadow: `0 0 18px ${color}26` };
   }
+  return { borderColor: "rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.02)", color: "#a3a3a3" };
+}
 
-  return {
-    borderColor: "rgba(255,255,255,0.1)",
-    background: "rgba(255,255,255,0.02)",
-    color: "#a3a3a3"
-  };
+function selectedStyle(accent: string): React.CSSProperties {
+  return { background: `linear-gradient(145deg, ${accent}30, rgba(255,255,255,0.02))`, boxShadow: `0 0 24px ${accent}33` };
 }
 
 export default function OnboardingExperiencePage({ user }: OnboardingExperiencePageProps) {
@@ -211,103 +199,46 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
   const recommendation = databaseRecommendation || (fallbackRecommendation as unknown as Recommendation);
   const stepMeta = STEP_META[step] || STEP_META[1];
 
-  const draftPayload = useMemo(() => {
-    return {
-      step,
-      goal_key: selectedGoal.key,
-      level_key: selectedLevel.key,
-      project_clarity: selectedProjectClarity.key,
-      project_idea: selectedProjectClarity.key === "explore" ? "" : sanitizeText(projectIdea),
-      project_name: sanitizeText(projectName),
-      revenue_model: revenueModelKey,
-      tools,
-      weekly_commitment: selectedWeeklyCommitment.key
-    };
-  }, [
+  const draftPayload = useMemo(() => ({
     step,
-    selectedGoal.key,
-    selectedLevel.key,
-    selectedProjectClarity.key,
-    projectIdea,
-    projectName,
-    revenueModelKey,
+    goal_key: selectedGoal.key,
+    level_key: selectedLevel.key,
+    project_clarity: selectedProjectClarity.key,
+    project_idea: selectedProjectClarity.key === "explore" ? "" : sanitizeText(projectIdea),
+    project_name: sanitizeText(projectName),
+    revenue_model: revenueModelKey,
     tools,
-    selectedWeeklyCommitment.key
-  ]);
+    weekly_commitment: selectedWeeklyCommitment.key
+  }), [step, selectedGoal.key, selectedLevel.key, selectedProjectClarity.key, projectIdea, projectName, revenueModelKey, tools, selectedWeeklyCommitment.key]);
 
   useEffect(() => {
-    if (metadata?.onboarding_completed === true || saving) {
-      return;
-    }
-
-    if (skipDraftSyncRef.current) {
-      skipDraftSyncRef.current = false;
-      return;
-    }
-
+    if (metadata?.onboarding_completed === true || saving) return;
+    if (skipDraftSyncRef.current) { skipDraftSyncRef.current = false; return; }
     const timeoutId = window.setTimeout(async () => {
-      const { error } = await supabase.auth.updateUser({
-        data: {
-          onboarding_draft: {
-            ...draftPayload,
-            updated_at: new Date().toISOString()
-          }
-        }
-      });
-
-      if (error) {
-        toast(t("onboarding.resultSection.draftSaveError"), "error");
-      }
+      const { error } = await supabase.auth.updateUser({ data: { onboarding_draft: { ...draftPayload, updated_at: new Date().toISOString() } } });
+      if (error) toast(t("onboarding.resultSection.draftSaveError"), "error");
     }, 450);
-
     return () => window.clearTimeout(timeoutId);
   }, [draftPayload, metadata?.onboarding_completed, saving, supabase]);
 
   useEffect(() => {
     let isMounted = true;
-
     async function loadDatabaseRecommendation() {
-      if (isMounted) {
-        setDatabaseRecommendation(null);
-      }
-
+      if (isMounted) setDatabaseRecommendation(null);
       try {
-        const response = await fetch("/api/tracks/recommendation?goal_key=" + encodeURIComponent(goalKey), {
-          method: "GET",
-          cache: "no-store"
-        });
-
-        if (!response.ok) {
-          if (isMounted) {
-            setDatabaseRecommendation(null);
-          }
-          return;
-        }
-
+        const response = await fetch("/api/tracks/recommendation?goal_key=" + encodeURIComponent(goalKey), { method: "GET", cache: "no-store" });
+        if (!response.ok) { if (isMounted) setDatabaseRecommendation(null); return; }
         const payload = await response.json();
-
-        if (!isMounted) {
-          return;
-        }
-
+        if (!isMounted) return;
         if (payload?.recommendation && typeof payload.recommendation === "object") {
           setDatabaseRecommendation(payload.recommendation as Recommendation);
           return;
         }
-
         setDatabaseRecommendation(null);
-      } catch {
-        if (isMounted) {
-          setDatabaseRecommendation(null);
-        }
-      }
+      } catch { if (isMounted) setDatabaseRecommendation(null); }
     }
-
     loadDatabaseRecommendation();
-
-    return () => {
-      isMounted = false;
-    };
+    return () => { isMounted = false; };
   }, [goalKey]);
 
   const canContinue = useMemo(() => {
@@ -315,27 +246,17 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
     if (step === 2) return Boolean(goalKey);
     if (step === 3) return Boolean(levelKey);
     if (step === 4) {
-      if (!projectClarityKey) {
-        return false;
-      }
-
-      if (projectClarityKey === "clear_idea") {
-        return projectIdea.trim().length >= 8;
-      }
-
+      if (!projectClarityKey) return false;
+      if (projectClarityKey === "clear_idea") return projectIdea.trim().length >= 8;
       return true;
     }
-
     if (step === 5) return true;
     if (step === 6) return Boolean(weeklyCommitmentKey);
     return true;
   }, [goalKey, levelKey, projectClarityKey, projectIdea, weeklyCommitmentKey, step]);
 
   function handleNext() {
-    if (!canContinue || step >= TOTAL_STEPS) {
-      return;
-    }
-
+    if (!canContinue || step >= TOTAL_STEPS) return;
     setStep((current) => Math.min(TOTAL_STEPS, current + 1));
   }
 
@@ -344,92 +265,45 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
   }
 
   function toggleTool(toolName: string) {
-    setTools((current) => {
-      if (current.includes(toolName)) {
-        return current.filter((item) => item !== toolName);
-      }
-
-      return [...current, toolName].slice(0, 12);
-    });
+    setTools((current) => current.includes(toolName) ? current.filter((item) => item !== toolName) : [...current, toolName].slice(0, 12));
   }
 
   async function completeOnboarding(targetPath: string) {
-    if (saving) {
-      return;
-    }
-
+    if (saving) return;
     setSaving(true);
     setErrorMessage("");
 
     const cleanIdea = sanitizeText(projectIdea);
-
     const profilePayload = {
-      goal_key: selectedGoal.key,
-      goal_label: selectedGoal.label,
-      level_key: selectedLevel.key,
-      level_label: selectedLevel.label,
-      project_clarity: selectedProjectClarity.key,
-      project_clarity_label: selectedProjectClarity.label,
+      goal_key: selectedGoal.key, goal_label: selectedGoal.label,
+      level_key: selectedLevel.key, level_label: selectedLevel.label,
+      project_clarity: selectedProjectClarity.key, project_clarity_label: selectedProjectClarity.label,
       project_idea: selectedProjectClarity.key === "explore" ? "" : cleanIdea,
-      project_name: sanitizeText(projectName),
-      revenue_model: revenueModelKey,
-      tools,
-      weekly_commitment: selectedWeeklyCommitment.key,
-      weekly_commitment_label: selectedWeeklyCommitment.label,
+      project_name: sanitizeText(projectName), revenue_model: revenueModelKey, tools,
+      weekly_commitment: selectedWeeklyCommitment.key, weekly_commitment_label: selectedWeeklyCommitment.label,
       progress: 8,
-      recommendation: {
-        parcours_title: recommendation.parcoursTitle,
-        parcours_meta: recommendation.parcoursMeta,
-        objective: recommendation.objective,
-        resources: recommendation.resources,
-        next_session: recommendation.nextSession,
-        next_steps: recommendation.nextSteps
-      }
+      recommendation: { parcours_title: recommendation.parcoursTitle, parcours_meta: recommendation.parcoursMeta, objective: recommendation.objective, resources: recommendation.resources, next_session: recommendation.nextSession, next_steps: recommendation.nextSteps }
     };
 
-    const { error } = await supabase.auth.updateUser({
-      data: {
-        onboarding_completed: true,
-        onboarding_completed_at: new Date().toISOString(),
-        onboarding_profile: profilePayload,
-        onboarding_draft: null
-      }
-    });
+    const { error } = await supabase.auth.updateUser({ data: { onboarding_completed: true, onboarding_completed_at: new Date().toISOString(), onboarding_profile: profilePayload, onboarding_draft: null } });
+    if (error) { setErrorMessage(error.message); setSaving(false); return; }
 
-    if (error) {
-      setErrorMessage(error.message);
-      setSaving(false);
-      return;
-    }
-
-    // Le projet nait nomme et avec un cap de monetisation : c'est le produit central.
     const cleanName = sanitizeText(projectName);
-    const projectTitle = cleanName
-      ? cleanName.slice(0, 120)
-      : cleanIdea
-        ? cleanIdea.slice(0, 120)
-        : `Mon ${selectedGoal.label.toLowerCase()}`;
-
+    const projectTitle = cleanName ? cleanName.slice(0, 120) : cleanIdea ? cleanIdea.slice(0, 120) : `Mon ${selectedGoal.label.toLowerCase()}`;
     const userId = (await supabase.auth.getUser()).data.user?.id;
-    // Anti-doublon : si le membre refait l'onboarding, on ne recree pas de projet.
-    const { count: existingProjects } = await supabase
-      .from("user_projects")
-      .select("id", { count: "exact", head: true })
-      .eq("user_id", userId);
-
+    const { count: existingProjects } = await supabase.from("user_projects").select("id", { count: "exact", head: true }).eq("user_id", userId);
     if (!existingProjects) {
-      await supabase.from("user_projects").insert({
-        user_id: userId,
-        title: projectTitle,
-        objective: cleanIdea ? cleanIdea.slice(0, 300) : recommendation.objective.slice(0, 300),
-        status: "idea",
-        revenue_model: revenueModelKey
-      }).then(() => {});
+      await supabase.from("user_projects").insert({ user_id: userId, title: projectTitle, objective: cleanIdea ? cleanIdea.slice(0, 300) : recommendation.objective.slice(0, 300), status: "idea", revenue_model: revenueModelKey });
     }
-
     router.push(targetPath);
     router.refresh();
   }
+
+  const intentLabelMap: Record<string, string> = {
+    build: "onboarding.goalSection.intentBuild",
+    explore: "onboarding.goalSection.intentExplore",
+    work: "onboarding.goalSection.intentWork"
+  };
 
   return (
     <div className="min-h-screen bg-[var(--bg-app)] px-6 py-20 md:py-24 relative overflow-hidden text-[var(--text-primary)]">
@@ -439,11 +313,7 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
 
       <div className="relative z-10 w-full max-w-[1020px] mx-auto">
         <div className="mb-8 animate-fade-up">
-          <Link
-            href="/"
-            id="onboarding-back-home"
-            className="inline-flex items-center gap-2 rounded-xl border border-[var(--border-3)] bg-black/30 px-4 py-2.5 group"
-          >
+          <Link href="/" id="onboarding-back-home" className="inline-flex items-center gap-2 rounded-xl border border-[var(--border-3)] bg-black/30 px-4 py-2.5 group">
             <span className="w-7 h-7 rounded-lg border border-[var(--border-4)] bg-[var(--overlay-4)] inline-flex items-center justify-center text-[#8ba1ff] group-hover:text-[var(--text-primary)] transition-colors">
               <iconify-icon icon="lucide:arrow-left" style={{ fontSize: "15px" }} />
             </span>
@@ -454,34 +324,20 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
         </div>
 
         <div className="bg-[var(--surface-1)] border border-[var(--border-3)] rounded-3xl p-8 sm:p-10 shadow-2xl animate-fade-up">
+          {/* Progress dots */}
           <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
             <div className="flex items-center gap-2.5 flex-wrap">
               {Array.from({ length: TOTAL_STEPS }).map((_, index) => {
                 const rank = index + 1;
                 const active = rank <= step;
                 return (
-                  <span
-                    key={`step-${rank}`}
-                    className="h-2 rounded-full transition-all duration-500"
-                    style={{
-                      width: active ? "30px" : "9px",
-                      background: active
-                        ? "linear-gradient(90deg, #4F8EF7, #9B6DFF, #22D3EE)"
-                        : "rgba(255,255,255,0.14)",
-                      boxShadow: active ? "0 0 14px rgba(79,142,247,0.45)" : "none"
-                    } as React.CSSProperties}
-                  />
+                  <span key={`step-${rank}`} className="h-2 rounded-full transition-all duration-500"
+                    style={{ width: active ? "30px" : "9px", background: active ? "linear-gradient(90deg, #4F8EF7, #9B6DFF, #22D3EE)" : "rgba(255,255,255,0.14)", boxShadow: active ? "0 0 14px rgba(79,142,247,0.45)" : "none" } as React.CSSProperties} />
                 );
               })}
             </div>
-
-            <div
-              className="inline-flex items-center gap-2 rounded-full border px-3 py-1.5"
-              style={{
-                borderColor: `${stepMeta.accent}66`,
-                background: `${stepMeta.accent}1f`
-              } as React.CSSProperties}
-            >
+            <div className="inline-flex items-center gap-2 rounded-full border px-3 py-1.5"
+              style={{ borderColor: `${stepMeta.accent}66`, background: `${stepMeta.accent}1f` } as React.CSSProperties}>
               <iconify-icon icon={stepMeta.icon} style={{ color: stepMeta.accent, fontSize: "14px" }} />
               <span className="text-[11px] font-semibold tracking-widest uppercase" style={{ color: stepMeta.accent }}>
                 {t("onboarding.resultSection.step")} {step} / {TOTAL_STEPS}
@@ -490,14 +346,12 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
           </div>
 
           <div key={step} className="onboarding-step-pane">
-            {step === 1 ? (
+            {/* STEP 1 — Welcome */}
+            {step === 1 && (
               <section className="space-y-8">
                 <div className="section-label font-venite-italic">{t("onboarding.welcomeSection.label")}</div>
                 <h1 className="font-valorax text-[clamp(36px,4vw,54px)] leading-[0.9] gradient-text-blue">{t("onboarding.welcomeSection.title")}</h1>
-                <p className="font-body-readable text-[15px] text-[var(--muted-2)] leading-relaxed max-w-[700px]">
-                  {t("onboarding.welcomeSection.desc")}
-                </p>
-
+                <p className="font-body-readable text-[15px] text-[var(--muted-2)] leading-relaxed max-w-[700px]">{t("onboarding.welcomeSection.desc")}</p>
                 <div className="grid sm:grid-cols-3 gap-3">
                   <article className="rounded-2xl border border-blue-500/25 bg-blue-500/10 p-4">
                     <div className="w-9 h-9 rounded-lg bg-blue-500/20 border border-blue-400/30 inline-flex items-center justify-center mb-3">
@@ -506,7 +360,6 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
                     <h3 className="font-venite-italic text-[13px] text-[var(--text-primary)] mb-1">{t("onboarding.welcomeSection.card1Title")}</h3>
                     <p className="text-[12px] text-blue-100/80 font-body-readable">{t("onboarding.welcomeSection.card1Desc")}</p>
                   </article>
-
                   <article className="rounded-2xl border border-violet-500/25 bg-violet-500/10 p-4">
                     <div className="w-9 h-9 rounded-lg bg-violet-500/20 border border-violet-400/30 inline-flex items-center justify-center mb-3">
                       <iconify-icon icon="lucide:users" style={{ color: "#9B6DFF", fontSize: "16px" }} />
@@ -514,7 +367,6 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
                     <h3 className="font-venite-italic text-[13px] text-[var(--text-primary)] mb-1">{t("onboarding.welcomeSection.card2Title")}</h3>
                     <p className="text-[12px] text-violet-100/80 font-body-readable">{t("onboarding.welcomeSection.card2Desc")}</p>
                   </article>
-
                   <article className="rounded-2xl border border-cyan-500/25 bg-cyan-500/10 p-4">
                     <div className="w-9 h-9 rounded-lg bg-cyan-500/20 border border-cyan-400/30 inline-flex items-center justify-center mb-3">
                       <iconify-icon icon="lucide:bot" style={{ color: "#22D3EE", fontSize: "16px" }} />
@@ -524,246 +376,141 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
                   </article>
                 </div>
               </section>
-            ) : null}
+            )}
 
-            {step === 2 ? (
+            {/* STEP 2 — Intention + Goal */}
+            {step === 2 && (
               <section className="space-y-7">
                 <div>
                   <div className="section-label font-venite-italic mb-3">{t("onboarding.goalSection.label")}</div>
                   <h2 className="font-valorax text-[clamp(30px,3.4vw,44px)] leading-[0.9] gradient-text">{t("onboarding.goalSection.title")}</h2>
                 </div>
 
-                {/* Intention cards — 3 portes d'entrée */}
+                {/* Intention cards */}
                 <div className="grid sm:grid-cols-3 gap-3 mb-6">
-                  {[
-                    { key: "build", icon: "lucide:hammer", accent: "#4F8EF7", label: t("onboarding.goalSection.intentBuild"), goals: ["website", "web_app", "wordpress_nocode", "mobile_app", "digital_business"] },
-                    { key: "explore", icon: "lucide:flame", accent: "#F59E0B", label: t("onboarding.goalSection.intentExplore"), goals: ["learn_explore", "automation_ai", "videos_youtube", "data_analysis", "other"] },
-                    { key: "work", icon: "lucide:briefcase", accent: "#10B981", label: t("onboarding.goalSection.intentWork"), goals: ["custom_projects", "marketing_online", "web3", "three_d", "podcast_audio", "paid_ads"] }
-                  ].map((intent) => {
-                    const intentSelected = intent.goals.includes(goalKey);
+                  {INTENT_OPTIONS.map((intent) => {
+                    const active = intent.goalKeys.includes(goalKey);
                     return (
-                      <button
-                        key={intent.key}
-                        type="button"
-                        onClick={() => { if (!intentSelected) setGoalKey(intent.goals[0]); }}
-                        className={[
-                          "rounded-2xl border p-5 text-left transition-all duration-300",
-                          intentSelected
-                            ? "border-white/0"
-                            : "border-[var(--border-3)] bg-[var(--overlay-2)] hover:border-[var(--border-5)]"
-                        ].join(" ")}
-                        style={
-                          intentSelected
-                            ? {
-                                background: `linear-gradient(145deg, ${intent.accent}30, rgba(255,255,255,0.02))`,
-                                boxShadow: `0 0 24px ${intent.accent}33`
-                              } as React.CSSProperties
-                            : undefined
-                        }
-                      >
-                        <div
-                          className="w-10 h-10 rounded-xl border inline-flex items-center justify-center mb-3"
-                          style={{
-                            borderColor: `${intent.accent}55`,
-                            background: `${intent.accent}22`
-                          } as React.CSSProperties}
-                        >
+                      <button key={intent.key} type="button"
+                        onClick={() => { if (!active) setGoalKey(intent.goalKeys[0]); }}
+                        className={`rounded-2xl border p-5 text-left transition-all duration-300 ${active ? "border-white/0" : "border-[var(--border-3)] bg-[var(--overlay-2)] hover:border-[var(--border-5)]"}`}
+                        style={active ? selectedStyle(intent.accent) : undefined}>
+                        <div className="w-10 h-10 rounded-xl border inline-flex items-center justify-center mb-3"
+                          style={{ borderColor: `${intent.accent}55`, background: `${intent.accent}22` } as React.CSSProperties}>
                           <iconify-icon icon={intent.icon} style={{ fontSize: "18px", color: intent.accent }} />
                         </div>
-                        <div className="font-venite-italic text-[14px] text-[var(--text-primary)] leading-snug">{intent.label}</div>
+                        <div className="font-venite-italic text-[14px] text-[var(--text-primary)] leading-snug">{t(intentLabelMap[intent.key])}</div>
                       </button>
                     );
                   })}
                 </div>
 
-                {/* Grille détaillée des types de projet */}
+                {/* Detailed project grid */}
                 <div>
                   <div className="text-[12px] text-[var(--muted-3)] mb-3 font-body-readable">{t("onboarding.goalSection.title")}</div>
                   <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                    {GOAL_OPTIONS.map((goal: Option) => {
-                      const selected = goal.key === goalKey;
+                    {GOAL_OPTIONS.map((goal) => {
+                      const active = goal.key === goalKey;
                       const accent = goal.accent || "#4F8EF7";
-
                       return (
-                        <button
-                          key={goal.key}
-                          type="button"
-                          onClick={() => setGoalKey(goal.key)}
-                          className={[
-                            "onboarding-goal-card rounded-2xl border p-4 text-left transition-all duration-300",
-                            selected
-                              ? "border-white/0"
-                              : "border-[var(--border-3)] bg-[var(--overlay-2)] hover:border-[var(--border-5)]"
-                          ].join(" ")}
-                          style={
-                            selected
-                              ? {
-                                  background: `linear-gradient(145deg, ${accent}30, rgba(255,255,255,0.02))`,
-                                  boxShadow: `0 0 24px ${accent}33`
-                                } as React.CSSProperties
-                              : { "--goal-accent": accent } as React.CSSProperties
-                          }
-                      >
-                        <div
-                          className="w-10 h-10 rounded-xl border inline-flex items-center justify-center mb-3"
-                          style={{
-                            borderColor: `${accent}55`,
-                            background: `${accent}22`
-                          } as React.CSSProperties}
-                        >
-                          <iconify-icon icon={goal.icon!} style={{ fontSize: "18px", color: accent }} />
-                        </div>
-                        <div className="flex items-start justify-between gap-2">
-                          <div className="font-venite-italic text-[13px] text-[var(--text-primary)] leading-snug">{goal.label}</div>
-                          {selected ? (
-                            <span className="onboarding-pulse-dot inline-flex h-5 w-5 items-center justify-center rounded-full border border-white/35 bg-white/15">
-                              <iconify-icon icon="lucide:check" style={{ fontSize: "11px", color: "#fff" }} />
-                            </span>
-                          ) : null}
-                        </div>
-                      </button>
-                    );
-                  })}
+                        <button key={goal.key} type="button" onClick={() => setGoalKey(goal.key)}
+                          className={`onboarding-goal-card rounded-2xl border p-4 text-left transition-all duration-300 ${active ? "border-white/0" : "border-[var(--border-3)] bg-[var(--overlay-2)] hover:border-[var(--border-5)]"}`}
+                          style={active ? selectedStyle(accent) : { "--goal-accent": accent } as React.CSSProperties}>
+                          <div className="w-10 h-10 rounded-xl border inline-flex items-center justify-center mb-3"
+                            style={{ borderColor: `${accent}55`, background: `${accent}22` } as React.CSSProperties}>
+                            <iconify-icon icon={goal.icon!} style={{ fontSize: "18px", color: accent }} />
+                          </div>
+                          <div className="flex items-start justify-between gap-2">
+                            <div className="font-venite-italic text-[13px] text-[var(--text-primary)] leading-snug">{goal.label}</div>
+                            {active && (
+                              <span className="onboarding-pulse-dot inline-flex h-5 w-5 items-center justify-center rounded-full border border-white/35 bg-white/15">
+                                <iconify-icon icon="lucide:check" style={{ fontSize: "11px", color: "#fff" }} />
+                              </span>
+                            )}
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
               </section>
-            ) : null}
+            )}
 
-            {step === 3 ? (
+            {/* STEP 3 — Level */}
+            {step === 3 && (
               <section className="space-y-7">
                 <div>
                   <div className="section-label font-venite-italic mb-3">{t("onboarding.levelSection.label")}</div>
                   <h2 className="font-valorax text-[clamp(30px,3.4vw,44px)] leading-[0.9] gradient-text">{t("onboarding.levelSection.title")}</h2>
                 </div>
-
                 <div className="space-y-3">
-                  {LEVEL_OPTIONS.map((level: Option) => {
-                    const selected = level.key === levelKey;
+                  {LEVEL_OPTIONS.map((level) => {
+                    const active = level.key === levelKey;
                     const visual = LEVEL_VISUALS[level.key] || LEVEL_VISUALS.beginner;
-
                     return (
-                      <button
-                        key={level.key}
-                        type="button"
-                        onClick={() => setLevelKey(level.key)}
-                        className={[
-                          "w-full rounded-xl border px-4 py-3.5 text-left transition-all flex items-center gap-3",
-                          selected
-                            ? "border-white/0"
-                            : "border-[var(--border-3)] bg-[var(--overlay-2)] hover:border-[var(--border-5)]"
-                        ].join(" ")}
-                        style={
-                          selected
-                            ? {
-                                background: `linear-gradient(145deg, ${visual.accent}2e, rgba(255,255,255,0.02))`,
-                                boxShadow: `0 0 20px ${visual.accent}22`
-                              } as React.CSSProperties
-                            : undefined
-                        }
-                      >
-                        <span
-                          className="w-8 h-8 rounded-lg border inline-flex items-center justify-center"
-                          style={{
-                            borderColor: `${visual.accent}66`,
-                            background: `${visual.accent}1f`
-                          } as React.CSSProperties}
-                        >
+                      <button key={level.key} type="button" onClick={() => setLevelKey(level.key)}
+                        className={`w-full rounded-xl border px-4 py-3.5 text-left transition-all flex items-center gap-3 ${active ? "border-white/0" : "border-[var(--border-3)] bg-[var(--overlay-2)] hover:border-[var(--border-5)]"}`}
+                        style={active ? selectedStyle(visual.accent) : undefined}>
+                        <span className="w-8 h-8 rounded-lg border inline-flex items-center justify-center"
+                          style={{ borderColor: `${visual.accent}66`, background: `${visual.accent}1f` } as React.CSSProperties}>
                           <iconify-icon icon={visual.icon} style={{ fontSize: "14px", color: visual.accent }} />
                         </span>
-
                         <span className="text-[14px] text-[var(--text-primary)] font-body-readable flex-1">{level.label}</span>
-
-                        <span className={[
-                          "w-4 h-4 rounded-full border inline-flex items-center justify-center",
-                          selected ? "border-blue-300" : "border-[var(--border-4)]"
-                        ].join(" ")}>
-                          {selected ? <span className="w-2 h-2 rounded-full bg-blue-300" /> : null}
+                        <span className={`w-4 h-4 rounded-full border inline-flex items-center justify-center ${active ? "border-blue-300" : "border-[var(--border-4)]"}`}>
+                          {active && <span className="w-2 h-2 rounded-full bg-blue-300" />}
                         </span>
                       </button>
                     );
                   })}
                 </div>
               </section>
-            ) : null}
+            )}
 
-            {step === 4 ? (
+            {/* STEP 4 — Project */}
+            {step === 4 && (
               <section className="space-y-7">
                 <div>
                   <div className="section-label font-venite-italic mb-3">{t("onboarding.projectSection.label")}</div>
                   <h2 className="font-valorax text-[clamp(30px,3.4vw,44px)] leading-[0.9] gradient-text">{t("onboarding.projectSection.title")}</h2>
                 </div>
-
                 <div className="space-y-3">
-                  {PROJECT_CLARITY_OPTIONS.map((option: Option) => {
-                    const selected = option.key === projectClarityKey;
+                  {PROJECT_CLARITY_OPTIONS.map((option) => {
+                    const active = option.key === projectClarityKey;
                     const visual = CLARITY_VISUALS[option.key] || CLARITY_VISUALS.explore;
-
                     return (
-                      <button
-                        key={option.key}
-                        type="button"
-                        onClick={() => setProjectClarityKey(option.key)}
-                        className={[
-                          "w-full rounded-xl border px-4 py-3.5 text-left transition-all flex items-center gap-3",
-                          selected
-                            ? "border-white/0"
-                            : "border-[var(--border-3)] bg-[var(--overlay-2)] hover:border-[var(--border-5)]"
-                        ].join(" ")}
-                        style={
-                          selected
-                            ? {
-                                background: `linear-gradient(145deg, ${visual.accent}2e, rgba(255,255,255,0.02))`,
-                                boxShadow: `0 0 20px ${visual.accent}22`
-                              } as React.CSSProperties
-                            : undefined
-                        }
-                      >
-                        <span
-                          className="w-8 h-8 rounded-lg border inline-flex items-center justify-center"
-                          style={{
-                            borderColor: `${visual.accent}66`,
-                            background: `${visual.accent}1f`
-                          } as React.CSSProperties}
-                        >
+                      <button key={option.key} type="button" onClick={() => setProjectClarityKey(option.key)}
+                        className={`w-full rounded-xl border px-4 py-3.5 text-left transition-all flex items-center gap-3 ${active ? "border-white/0" : "border-[var(--border-3)] bg-[var(--overlay-2)] hover:border-[var(--border-5)]"}`}
+                        style={active ? selectedStyle(visual.accent) : undefined}>
+                        <span className="w-8 h-8 rounded-lg border inline-flex items-center justify-center"
+                          style={{ borderColor: `${visual.accent}66`, background: `${visual.accent}1f` } as React.CSSProperties}>
                           <iconify-icon icon={visual.icon} style={{ fontSize: "14px", color: visual.accent }} />
                         </span>
                         <span className="text-[14px] text-[var(--text-primary)] font-body-readable flex-1">{option.label}</span>
-                        <span className={[
-                          "w-4 h-4 rounded-full border inline-flex items-center justify-center",
-                          selected ? "border-blue-300" : "border-[var(--border-4)]"
-                        ].join(" ")}>
-                          {selected ? <span className="w-2 h-2 rounded-full bg-blue-300" /> : null}
+                        <span className={`w-4 h-4 rounded-full border inline-flex items-center justify-center ${active ? "border-blue-300" : "border-[var(--border-4)]"}`}>
+                          {active && <span className="w-2 h-2 rounded-full bg-blue-300" />}
                         </span>
                       </button>
                     );
                   })}
                 </div>
 
-                {projectClarityKey !== "explore" ? (
+                {projectClarityKey !== "explore" && (
                   <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--overlay-2)] p-4">
                     <label className="text-[12px] text-[var(--muted-2)] block mb-2">{t("onboarding.projectSection.ideaLabel")}</label>
-                    <textarea
-                      className="auth-input min-h-[110px] resize-y"
-                      value={projectIdea}
-                      onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => setProjectIdea(event.target.value)}
-                      placeholder={t("onboarding.projectSection.ideaPlaceholder")}
-                    />
-                    {projectClarityKey === "clear_idea" && projectIdea.trim().length > 0 && projectIdea.trim().length < 8 ? (
+                    <textarea className="auth-input min-h-[110px] resize-y" value={projectIdea}
+                      onChange={(e) => setProjectIdea(e.target.value)} placeholder={t("onboarding.projectSection.ideaPlaceholder")} />
+                    {projectClarityKey === "clear_idea" && projectIdea.trim().length > 0 && projectIdea.trim().length < 8 && (
                       <p className="text-[11px] text-orange-300 mt-2">{t("onboarding.projectSection.ideaHint")}</p>
-                    ) : null}
+                    )}
                   </div>
-                ) : null}
+                )}
 
                 <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--overlay-2)] p-4">
                   <label className="text-[12px] text-[var(--muted-2)] block mb-2">
                     {t("onboarding.projectSection.nameLabel")} <span className="text-[var(--muted-4)]">{t("onboarding.projectSection.nameHint")}</span>
                   </label>
-                  <input
-                    className="auth-input"
-                    value={projectName}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => setProjectName(event.target.value)}
-                    placeholder={t("onboarding.projectSection.namePlaceholder")}
-                    maxLength={120}
-                  />
+                  <input className="auth-input" value={projectName}
+                    onChange={(e) => setProjectName(e.target.value)} placeholder={t("onboarding.projectSection.namePlaceholder")} maxLength={120} />
                 </div>
 
                 <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--overlay-2)] p-4">
@@ -771,27 +518,12 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
                   <p className="text-[11px] text-[var(--muted-3)] mb-3">{t("onboarding.projectSection.monetizationHint")}</p>
                   <div className="flex flex-wrap gap-2">
                     {revenueOptions.map((option) => {
-                      const selected = option.key === revenueModelKey;
+                      const active = option.key === revenueModelKey;
                       return (
-                        <button
-                          key={option.key || "later"}
-                          type="button"
-                          onClick={() => setRevenueModelKey(option.key)}
-                          className={[
-                            "inline-flex items-center gap-2 rounded-full border px-3.5 py-2 text-[12px] font-semibold transition-all",
-                            selected ? "text-[var(--text-primary)]" : "text-[var(--muted-2)] border-[var(--border-4)] bg-[var(--overlay-2)] hover:border-[var(--border-5)]"
-                          ].join(" ")}
-                          style={
-                            selected
-                              ? {
-                                  borderColor: `${option.accent}77`,
-                                  background: `linear-gradient(135deg, ${option.accent}44, rgba(255,255,255,0.04))`,
-                                  boxShadow: `0 0 18px ${option.accent}26`
-                                } as React.CSSProperties
-                              : undefined
-                          }
-                        >
-                          <iconify-icon icon={option.icon} style={{ fontSize: "13px", color: selected ? "#fff" : option.accent }} />
+                        <button key={option.key || "later"} type="button" onClick={() => setRevenueModelKey(option.key)}
+                          className={`inline-flex items-center gap-2 rounded-full border px-3.5 py-2 text-[12px] font-semibold transition-all ${active ? "text-[var(--text-primary)]" : "text-[var(--muted-2)] border-[var(--border-4)] bg-[var(--overlay-2)] hover:border-[var(--border-5)]"}`}
+                          style={active ? { borderColor: `${option.accent}77`, background: `linear-gradient(135deg, ${option.accent}44, rgba(255,255,255,0.04))`, boxShadow: `0 0 18px ${option.accent}26` } as React.CSSProperties : undefined}>
+                          <iconify-icon icon={option.icon} style={{ fontSize: "13px", color: active ? "#fff" : option.accent }} />
                           {option.label}
                         </button>
                       );
@@ -799,75 +531,49 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
                   </div>
                 </div>
               </section>
-            ) : null}
+            )}
 
-            {step === 5 ? (
+            {/* STEP 5 — Tools */}
+            {step === 5 && (
               <section className="space-y-7">
                 <div>
                   <div className="section-label font-venite-italic mb-3">{t("onboarding.toolsSection.label")}</div>
                   <h2 className="font-valorax text-[clamp(30px,3.4vw,44px)] leading-[0.9] gradient-text">{t("onboarding.toolsSection.title")}</h2>
                   <p className="font-body-readable text-[13px] text-[var(--muted-3)] mt-3">{t("onboarding.toolsSection.subtitle")}</p>
                 </div>
-
                 <div className="flex flex-wrap gap-2.5">
-                  {TOOL_OPTIONS.map((toolName: string, index: number) => {
-                    const selected = tools.includes(toolName);
+                  {TOOL_OPTIONS.map((toolName, index) => {
+                    const active = tools.includes(toolName);
                     return (
-                      <button
-                        key={toolName}
-                        type="button"
-                        onClick={() => toggleTool(toolName)}
+                      <button key={toolName} type="button" onClick={() => toggleTool(toolName)}
                         className="onboarding-tool-chip px-3.5 py-2 rounded-full border text-[12px] font-medium transition-all duration-300 inline-flex items-center gap-1.5"
-                        style={getToolChipStyle(index, selected)}
-                      >
+                        style={getToolChipStyle(index, active)}>
                         <span>{toolName}</span>
-                        {selected ? <iconify-icon icon="lucide:check" style={{ fontSize: "11px" }} /> : null}
+                        {active && <iconify-icon icon="lucide:check" style={{ fontSize: "11px" }} />}
                       </button>
                     );
                   })}
                 </div>
               </section>
-            ) : null}
+            )}
 
-            {step === 6 ? (
+            {/* STEP 6 — Rhythm */}
+            {step === 6 && (
               <section className="space-y-7">
                 <div>
                   <div className="section-label font-venite-italic mb-3">{t("onboarding.rhythmSection.label")}</div>
                   <h2 className="font-valorax text-[clamp(30px,3.4vw,44px)] leading-[0.9] gradient-text">{t("onboarding.rhythmSection.title")}</h2>
                 </div>
-
                 <div className="grid sm:grid-cols-2 gap-3">
-                  {WEEKLY_COMMITMENT_OPTIONS.map((option: Option) => {
-                    const selected = option.key === weeklyCommitmentKey;
+                  {WEEKLY_COMMITMENT_OPTIONS.map((option) => {
+                    const active = option.key === weeklyCommitmentKey;
                     const visual = WEEKLY_VISUALS[option.key] || WEEKLY_VISUALS.lt_2;
-
                     return (
-                      <button
-                        key={option.key}
-                        type="button"
-                        onClick={() => setWeeklyCommitmentKey(option.key)}
-                        className={[
-                          "rounded-xl border px-4 py-4 text-left transition-all flex items-center gap-3",
-                          selected
-                            ? "border-white/0"
-                            : "border-[var(--border-3)] bg-[var(--overlay-2)] hover:border-[var(--border-5)]"
-                        ].join(" ")}
-                        style={
-                          selected
-                            ? {
-                                background: `linear-gradient(145deg, ${visual.accent}2e, rgba(255,255,255,0.02))`,
-                                boxShadow: `0 0 20px ${visual.accent}22`
-                              } as React.CSSProperties
-                            : undefined
-                        }
-                      >
-                        <span
-                          className="w-9 h-9 rounded-lg border inline-flex items-center justify-center"
-                          style={{
-                            borderColor: `${visual.accent}66`,
-                            background: `${visual.accent}1f`
-                          } as React.CSSProperties}
-                        >
+                      <button key={option.key} type="button" onClick={() => setWeeklyCommitmentKey(option.key)}
+                        className={`rounded-xl border px-4 py-4 text-left transition-all flex items-center gap-3 ${active ? "border-white/0" : "border-[var(--border-3)] bg-[var(--overlay-2)] hover:border-[var(--border-5)]"}`}
+                        style={active ? selectedStyle(visual.accent) : undefined}>
+                        <span className="w-9 h-9 rounded-lg border inline-flex items-center justify-center"
+                          style={{ borderColor: `${visual.accent}66`, background: `${visual.accent}1f` } as React.CSSProperties}>
                           <iconify-icon icon={visual.icon} style={{ fontSize: "15px", color: visual.accent }} />
                         </span>
                         <div className="text-[14px] font-semibold">{option.label}</div>
@@ -876,9 +582,10 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
                   })}
                 </div>
               </section>
-            ) : null}
+            )}
 
-            {step === 7 ? (
+            {/* STEP 7 — Result */}
+            {step === 7 && (
               <section className="space-y-7">
                 <div>
                   <div className="section-label font-venite-italic mb-3">{t("onboarding.resultSection.label")}</div>
@@ -887,7 +594,6 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
                     {t("onboarding.resultSection.desc")}{selectedGoal.label.toLowerCase()}.
                   </p>
                 </div>
-
                 <div className="grid lg:grid-cols-[1.35fr_1fr] gap-5">
                   <article className="rounded-2xl border border-blue-500/20 bg-gradient-to-br from-blue-500/10 via-[#15162a] to-violet-500/10 p-5 space-y-5">
                     <div>
@@ -895,11 +601,10 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
                       <h3 className="font-venite-italic text-[24px] leading-[0.95] text-[var(--text-primary)]">{recommendation.parcoursTitle}</h3>
                       <p className="text-[12px] text-[#a2b2d9] mt-1 font-body-readable">{recommendation.parcoursMeta}</p>
                     </div>
-
                     <div>
                       <div className="font-venite-italic text-[12px] text-[var(--text-primary)] mb-2">{t("onboarding.resultSection.firstResources")}</div>
                       <div className="space-y-2">
-                        {recommendation.resources.map((resource: string) => (
+                        {recommendation.resources.map((resource) => (
                           <div key={resource} className="flex items-center gap-2 text-[12px] text-[#c1d1ff] font-body-readable">
                             <iconify-icon icon="lucide:book-marked" style={{ color: "#4F8EF7", fontSize: "14px" }} />
                             <span>{resource}</span>
@@ -907,7 +612,6 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
                         ))}
                       </div>
                     </div>
-
                     <div className="rounded-xl border border-cyan-400/30 bg-cyan-500/10 px-4 py-3 text-[12px] text-cyan-100 font-body-readable">
                       <div className="font-venite-italic text-[12px] mb-1">{t("onboarding.resultSection.objective")}</div>
                       {recommendation.objective}
@@ -921,18 +625,16 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
                       <div className="text-[12px] text-[#a2a2b5] font-body-readable mt-1">{selectedLevel.label}</div>
                       <div className="text-[12px] text-[#a2a2b5] font-body-readable">{selectedWeeklyCommitment.label} / semaine</div>
                     </div>
-
                     <div>
                       <div className="font-venite-italic text-[12px] text-[var(--text-primary)] mb-2">{t("onboarding.resultSection.nextSession")}</div>
                       <div className="rounded-xl border border-[var(--border-3)] bg-[var(--overlay-2)] px-3 py-2 text-[12px] text-[#bfbfe0] font-body-readable">
                         {recommendation.nextSession}
                       </div>
                     </div>
-
                     <div>
                       <div className="font-venite-italic text-[12px] text-[var(--text-primary)] mb-2">{t("onboarding.resultSection.nextSteps")}</div>
                       <div className="space-y-2">
-                        {recommendation.nextSteps.map((stepItem: { label: string; state: string }) => {
+                        {recommendation.nextSteps.map((stepItem) => {
                           const ui = getStepStateUi(stepItem.state);
                           return (
                             <div key={stepItem.label} className="flex items-center gap-2 text-[12px] font-body-readable">
@@ -948,43 +650,28 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
                   </article>
                 </div>
               </section>
-            ) : null}
+            )}
           </div>
 
-          {errorMessage ? (
-            <div className="mt-6 rounded-xl border border-red-500/25 bg-red-500/10 px-4 py-3 text-[12px] text-red-300">
-              {errorMessage}
-            </div>
-          ) : null}
+          {errorMessage && (
+            <div className="mt-6 rounded-xl border border-red-500/25 bg-red-500/10 px-4 py-3 text-[12px] text-red-300">{errorMessage}</div>
+          )}
 
           {step < TOTAL_STEPS ? (
             <div className="mt-8 pt-6 border-t border-[var(--border-1)] flex items-center justify-between gap-3">
               {step > 1 ? (
-                <button type="button" onClick={handleBack} className="btn-secondary" disabled={saving}>
-                  {t("onboarding.resultSection.back")}
-                </button>
+                <button type="button" onClick={handleBack} className="btn-secondary" disabled={saving}>{t("onboarding.resultSection.back")}</button>
               ) : <span />}
-
               <button type="button" onClick={handleNext} className="btn-primary" disabled={!canContinue || saving}>
                 {step === 1 ? t("onboarding.resultSection.start") : t("onboarding.resultSection.continue")}
               </button>
             </div>
           ) : (
             <div className="mt-8 pt-6 border-t border-[var(--border-1)] flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-3">
-              <button
-                type="button"
-                className="btn-secondary"
-                onClick={() => completeOnboarding("/tracks")}
-                disabled={saving}
-              >
+              <button type="button" className="btn-secondary" onClick={() => completeOnboarding("/tracks")} disabled={saving}>
                 {saving ? t("onboarding.resultSection.saveLoading") : t("onboarding.resultSection.explorePlatform")}
               </button>
-              <button
-                type="button"
-                className="btn-primary"
-                onClick={() => completeOnboarding("/dashboard")}
-                disabled={saving}
-              >
+              <button type="button" className="btn-primary" onClick={() => completeOnboarding("/dashboard")} disabled={saving}>
                 {saving ? t("onboarding.resultSection.saveLoading") : t("onboarding.resultSection.startTrack")}
               </button>
             </div>
