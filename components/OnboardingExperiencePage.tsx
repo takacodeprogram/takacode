@@ -552,13 +552,14 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
                             ? "border-white/0"
                             : "border-[var(--border-3)] bg-[var(--overlay-2)] hover:border-[var(--border-5)]"
                         ].join(" ")}
-                        style=
+                        style={
                           intentSelected
                             ? {
                                 background: `linear-gradient(145deg, ${intent.accent}30, rgba(255,255,255,0.02))`,
                                 boxShadow: `0 0 24px ${intent.accent}33`
                               } as React.CSSProperties
                             : undefined
+                        }
                       >
                         <div
                           className="w-10 h-10 rounded-xl border inline-flex items-center justify-center mb-3"
@@ -594,13 +595,14 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
                               ? "border-white/0"
                               : "border-[var(--border-3)] bg-[var(--overlay-2)] hover:border-[var(--border-5)]"
                           ].join(" ")}
-                          style=
+                          style={
                             selected
                               ? {
                                   background: `linear-gradient(145deg, ${accent}30, rgba(255,255,255,0.02))`,
                                   boxShadow: `0 0 24px ${accent}33`
                                 } as React.CSSProperties
                               : { "--goal-accent": accent } as React.CSSProperties
+                          }
                       >
                         <div
                           className="w-10 h-10 rounded-xl border inline-flex items-center justify-center mb-3"
