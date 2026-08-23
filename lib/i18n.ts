@@ -233,26 +233,26 @@ const FR: Translations = {
   },
   home: {
     hero: {
-      badge: "Créer des projets digitaux avec l'IA",
-      purposeHeading: "TakaCode est une plateforme d'apprentissage qui t'aide à créer, publier et monétiser tes projets digitaux (sites, applis, chatbots, produits numériques) avec l'IA.",
-      title1: "CREE TON PROJET.",
-      title2: "PUBLIE ET MONETISE.",
-      subtitle: "TakaCode t'aide à transformer tes idées en projets digitaux concrets, les publier en ligne et générer des revenus. Parcours guidés, templates, IA et communauté pour accélérer chaque étape.",
+      badge: "Créer. Construire. Transformer en opportunité.",
+      purposeHeading: "TakaCode résout le vrai problème : on apprend mais on n'a rien de concret à montrer. Ici, chaque leçon fait avancer un vrai projet.",
+      title1: "TU SAVOIS APPRENDRE.",
+      title2: "MAINTENANT CONSTRUIS.",
+      subtitle: "Des milliers d'heures de contenu gratuit existent. Mais apprendre ne suffit pas pour décrocher un emploi, un client ou lancer une activité. TakaCode transforme ton apprentissage en projet concret, en preuve d'expérience et en opportunité réelle.",
       ctaPrimary: "Commencer un projet",
-      ctaSecondary: "Explorer les parcours projets",
-      statMembers: "Membres inscrits",
+      ctaSecondary: "Voir comment ça marche",
+      statMembers: "Membres",
       statProjects: "Projets réalisés",
-      statTracks: "Parcours projets",
-      roadmapLabel: "ROADMAP PROJET",
-      roadmapStatus: "Progression active",
-      roadmapIdea: "IDEE",
-      roadmapDone: "Complete",
-      roadmapTrack: "Parcours",
+      statTracks: "Parcours",
+      roadmapLabel: "TA ROADMAP",
+      roadmapStatus: "En cours",
+      roadmapIdea: "IDÉE",
+      roadmapDone: "Structurée",
+      roadmapTrack: "CONSTRUCTION",
       roadmapInProgress: "En cours",
-      roadmapMonetization: "Monetisation",
-      roadmapUpcoming: "A venir",
+      roadmapMonetization: "RÉALISÉ",
+      roadmapUpcoming: "À venir",
       liveStatus: "En cours",
-      floatingPublished: "PROJET PUBLIE",
+      floatingPublished: "PROJET TERMINÉ",
       floatingWebApp: "Application web",
       floatingSessionLive: "SESSION LIVE",
       floatingSessionInfo: "Dans 2h - 34 inscrits"
@@ -265,7 +265,7 @@ const FR: Translations = {
     }
   },
   footer: {
-    tagline: "Crée, publie et monétise ton projet digital.",
+    tagline: "Trouver une voie. Apprendre. Construire. Transformer en opportunité.",
     sections: {
       platform: "Plateforme",
       community: "Communauté",
@@ -294,66 +294,66 @@ const FR: Translations = {
     footerLang: "Français"
   },
   values: {
-    sectionLabel: "Plateforme",
-    title: "Un cadre pour creer et monetiser",
+    sectionLabel: "Le vrai problème",
+    title: "Apprendre ne suffit pas. Il faut construire.",
     cards: {
       project: {
-        title: "Projet central",
-        desc: "Tout commence par ton projet. Les parcours, ressources et outils sont là pour t'aider à le réaliser, pas l'inverse."
+        title: "Le projet avant le cours",
+        desc: "On apprend parce qu'on construit quelque chose. Le projet détermine ce qu'il faut apprendre, pas l'inverse."
       },
       ai: {
-        title: "IA acceleratrice",
-        desc: "Utilise l'IA pour coder plus vite, mieux concevoir et automatiser les tâches répétitives de ton projet."
+        title: "L'IA comme accélérateur",
+        desc: "L'IA ne remplace pas la compétence. Bien maîtrisée, elle te fait avancer plus vite — comprendre, coder, créer, résoudre."
       },
       learning: {
-        title: "Apprendre en construisant",
-        desc: "Progresse en produisant des livrables concrets, pas seulement en accumulant de la théorie."
+        title: "Ressources au bon moment",
+        desc: "Nous ne produisons pas des cours pour remplir une bibliothèque. Nous organisons ce qui existe autour de ce que tu veux construire."
       },
       monetization: {
-        title: "Monetisation",
-        desc: "Chaque projet est conçu pour pouvoir être monétisé : abonnements, produits, pubs, affiliation."
+        title: "Une preuve, pas un exercice",
+        desc: "Ton projet terminé n'est pas un devoir. C'est une preuve que tu sais faire. Visible, partageable, valorisable."
       },
       community: {
-        title: "Communaute active",
-        desc: "Ne construis plus seul. Échange, collabore et progresse avec d'autres créateurs."
+        title: "Construire ensemble",
+        desc: "Ne construis plus seul. La communauté, les mentors et les retours accélèrent chaque projet."
       },
       deploy: {
-        title: "Du deploiement au revenu",
-        desc: "De la première ligne de code à la première vente, on t'accompagne à chaque étape."
+        title: "De l'apprentissage à l'activité",
+        desc: "Un projet terminé mène à un client, un emploi, une mission, une activité. C'est ça, la vraie transformation."
       }
     }
   },
   process: {
     sectionLabel: "PROCESSUS",
-    title: "COMMENT CA MARCHE",
-    subtitle: "De ton idée à ton projet rentable, un chemin clair et guidé.",
+    title: "DE L'IDÉE AU PROJET TERMINÉ",
+    subtitle: "Un chemin clair. Des ressources au bon moment. Un résultat concret.",
     steps: {
       idea: {
-        title: "TON IDEE",
-        desc: "Tu as une idée de projet ou un problème à résoudre. On t'aide à la structurer."
+        title: "TON IDÉE",
+        desc: "Tu veux créer quelque chose. On t'aide à structurer ton projet."
       },
       track: {
-        title: "LE PARCOURS LIE",
-        desc: "Choisis le parcours qui correspond à ton archétype de projet (site, SaaS, e-commerce...)."
+        title: "CHOISIS LE TYPE",
+        desc: "SaaS, YouTube, agent IA, boutique, freelance, automatisation..."
       },
       resources: {
         title: "RESSOURCES + IA",
-        desc: "Accède aux ressources, templates, outils IA et exercices pour construire ton projet."
+        desc: "Apprends au moment du besoin. Les bonnes ressources, au bon moment."
       },
       sessions: {
-        title: "SESSIONS + MENTOR",
-        desc: "Participe à des sessions live et fais reviewer tes livrables par un mentor."
+        title: "CONSTRUIS",
+        desc: "Étapes, livrables, retours. Du concret, pas juste de la théorie."
       },
       publish: {
-        title: "PUBLICATION",
-        desc: "Déploie ton projet en ligne : GitHub, Vercel, domaine personnalisé."
+        title: "PUBLIE",
+        desc: "Ton projet en ligne. Visible. Partageable. Une vraie preuve."
       },
       monetize: {
-        title: "MONETISATION",
-        desc: "Génère des revenus : abonnements, produits digitaux, publicité, affiliation."
+        title: "PROUVE & VALORISE",
+        desc: "Client, emploi, mission, activité. Ton projet ouvre la porte."
       }
     },
-    cta: "Commencer mon projet"
+    cta: "Commencer un projet"
   },
   community: {
     sectionLabel: "Communaute",      title1: "Une communaute",
@@ -380,54 +380,59 @@ const FR: Translations = {
     }
   },
   skills: {
-    sectionLabel: "POSSIBILITES",
-    title: "CE QUE TU PEUX CREER",
+    sectionLabel: "VOIES POSSIBLES",
+    title: "DES VOIES DANS L'ÉCONOMIE NUMÉRIQUE",
     tagsRow1: [
-      "Sites web",
+      "Développement web",
       "Applications web",
       "Automatisations",
       "Agents IA",
-      "Web3 et blockchain",
-      "3D immersif",
-      "Musique",
-      "Podcasts",
+      "Data et analyse",
+      "E-commerce",
       "Chaînes YouTube",
-      "Vidéos avec IA",
-      "Analyse de données"
+      "Podcasts",
+      "Produits numériques",
+      "Création de contenu",
+      "Activité freelance"
     ],
     tagsRow2: [
-      "Tableaux de bord",
-      "Web3 et blockchain",
-      "3D et expériences immersives",
-      "Produits numériques",
-      "Business digitaux",
-      "Outils SaaS",
+      "No-code et low-code",
+      "SaaS et outils",
       "Chatbots",
       "Applications mobiles",
-      "IA générative"
+      "IA générative",
+      "Marketing digital",
+      "Formations en ligne",
+      "Newsletter",
+      "Entrepreneuriat numérique"
     ]
   },
   faq: {
     sectionLabel: "FAQ",
     title1: "QUESTIONS",
-    title2: "FREQUENTES",
-    subtitle: "Une question sur la création de projet, la publication ou la monétisation ? La réponse est sûrement ici.",
+    title2: "FRÉQUENTES",
+    subtitle: "Une question sur l'orientation, la construction ou la transformation en opportunité ? La réponse est sûrement ici.",
     questions: {
-      q1: "Dois-je savoir coder pour commencer ?",
-      q2: "Puis-je commencer sans expérience ?",
-      q3: "Comment les parcours aident à construire mon projet ?",
-      q4: "Comment se déroulent les sessions live ?",
-      q5: "Comment publier mes projets ?",
-      q6: "Puis-je créer plusieurs projets ?"
+      q1: "Dois-je déjà savoir quoi faire pour commencer ?",
+      q2: "Dois-je savoir coder ?",
+      q3: "TakaCode est une école en ligne ?",
+      q4: "Comment fonctionnent les Challenges ?",
+      q5: "Comment les Missions marchent-elles ?",
+      q6: "Puis-je commencer sans expérience ?"
     },
     answers: {
-      q1: "Absolument pas. TakaCode est conçu pour les débutants complets. Les parcours commencent depuis zéro et l'assistant IA t'accompagne à chaque étape."
+      q1: "Non. TakaCode t'accompagne de l'orientation à l'action. Si tu ne sais pas encore quoi faire, la plateforme t'aide à explorer les métiers, les possibilités et les types de projets qui correspondent à tes objectifs.",
+      q2: "Non. Le développement n'est qu'une voie parmi d'autres. Tu peux construire une boutique, lancer une chaîne YouTube, devenir freelance, créer un produit digital ou automatiser des tâches. TakaCode s'adapte à ton objectif.",
+      q3: "Non. TakaCode n'est pas une plateforme de cours. Nous organisons les ressources existantes — documentations, vidéos, tutoriels — autour de projets réels. Tu apprends au moment où tu en as besoin, pas avant.",
+      q4: "Les Challenges sont des projets prêts à réaliser. Ils te permettent de construire sans avoir d'idée préalable : un brief, un objectif, des ressources, des critères. Tu le fais à ton rythme avec d'autres membres.",
+      q5: "Les Missions sont des besoins réels d'organisations. Tu y participes pour acquérir une expérience professionnelle encadrée, avec un Mentor et des livrables vérifiables.",
+      q6: "Oui. TakaCode est précisément conçu pour ça. Que tu arrives avec une idée, une envie ou juste une intention, tu peux trouver une direction et commencer à construire."
     }
   },
   dashboard: {
     myProject: "Mon projet",
     welcome: "Bonjour",
-    startPrompt: "Tout commence par un projet. Définis ce que tu veux construire : il devient ton fil rouge, et les parcours t'accompagnent jusqu'à la mise en ligne et tes premiers revenus.",
+    startPrompt: "Tout commence par une direction. Définis ce que tu veux construire ou explore les métiers du numérique : ton projet devient ton fil rouge, et les parcours t'accompagnent jusqu'à une réalisation concrète.",
     createProject: "Créer mon projet",
     seeExamples: "Voir des exemples",
     progressToLaunch: "Progression vers la mise en ligne",
@@ -1224,17 +1229,20 @@ const FR: Translations = {
     welcomeSection: {
       label: "Bienvenue",
       title: "BIENVENUE SUR TAKACODE",
-      desc: "L'endroit où l'on apprend en construisant. Nous allons personnaliser ton expérience en moins d'une minute.",
-      card1Title: "Parcours cible",
-      card1Desc: "Ton plan s'adapte à ton objectif réel.",
-      card2Title: "Communaute active",
-      card2Desc: "Sessions live, échanges et feedback concrets.",
-      card3Title: "IA pratique",
-      card3Desc: "Tu gagnes du temps sur chaque étape."
+      desc: "TakaCode t'accompagne de l'idée au projet terminé. Un plan, des ressources au bon moment, une réalisation concrète. On personnalise ton expérience en moins d'une minute.",
+      card1Title: "Un vrai projet",
+      card1Desc: "Pas un exercice. Un résultat que tu peux montrer.",
+      card2Title: "Ressources au bon moment",
+      card2Desc: "Les bonnes ressources, au moment où tu en as besoin.",
+      card3Title: "IA et communauté",
+      card3Desc: "Un Coach IA, des mentors, des retours qui t'accélèrent."
     },
     goalSection: {
-      label: "Ton objectif",
-      title: "QUE VEUX-TU REALISER ?"
+      label: "Ton intention",
+      title: "POURQUOI ES-TU ICI ?",
+      intentBuild: "J'ai une idée, je veux la réaliser",
+      intentExplore: "Je veux construire mais je ne sais pas quoi",
+      intentWork: "Je veux travailler sur un vrai besoin"
     },
     levelSection: {
       label: "Ton niveau",
@@ -1242,15 +1250,15 @@ const FR: Translations = {
     },
     projectSection: {
       label: "Ton projet",
-      title: "AS-TU DEJA UNE IDEE PRECISE ?",
+      title: "QUE VEUX-TU CONSTRUIRE ?",
       ideaLabel: "Decris ton projet en quelques mots",
       ideaPlaceholder: "Ex: créer un site pour mon restaurant, automatiser WhatsApp, lancer une chaîne YouTube",
       ideaHint: "Ajoute un peu plus de contexte pour un plan plus précis.",
       nameLabel: "Donne un nom a ton projet",
       nameHint: "(modifiable plus tard)",
       namePlaceholder: "Ex : La Table de Marco, AutoWhats, Ma chaîne Histoires",
-      monetizationLabel: "Comment veux-tu le monetiser un jour ?",
-      monetizationHint: "Sur TakaCode, un projet vise le premier euro. Choisis une piste — tu pourras changer d'avis.",
+      monetizationLabel: "Comment veux-tu le valoriser un jour ?",
+      monetizationHint: "Un projet terminé devient une preuve d'expérience. Choisis une piste — tu pourras changer d'avis.",
       noIdea: "Je ne sais pas encore"
     },
     toolsSection: {
@@ -1540,16 +1548,46 @@ const FR: Translations = {
     publishedOn: "Publié le"
   },
   finalCta: {
-    sectionLabel: "COMMENCE MAINTENANT",
+    sectionLabel: "COMMENCE",
     title1: "TON PROJET",
-    title2: "COMMENCE ICI",
-    desc1: "Tu n'as pas besoin d'être expert. Tu as besoin d'un plan et d'exécution.",
-    desc2: "TakaCode te guide pour créer ton projet, le publier et le rentabiliser.",
+    title2: "COMMENCE ICI.",
+    desc1: "Tu n'as pas besoin d'un cours de plus. Tu as besoin de construire quelque chose de réel.",
+    desc2: "Un projet terminé vaut plus qu'un certificat. C'est une preuve que tu sais faire.",
     ctaPrimary: "Commencer un projet",
-    ctaSecondary: "Explorer les parcours"
+    ctaSecondary: "Voir comment ça marche"
+  },
+  visionQuote: {
+    line1: "J'ai appris, mais je n'ai rien de concret à montrer.",
+    line2: "TakaCode change ça.",
+    desc: "Des milliers d'heures de contenu gratuit existent. Mais l'accès à l'information ne garantit ni la compétence, ni l'expérience, ni l'opportunité. TakaCode transforme ce qui existe déjà en projet réel, en preuve d'expérience et en opportunité concrète."
+  },
+  entryPoints: {
+    sectionLabel: "COMMENCER",
+    title: "Trois façons de construire",
+    subtitle: "Chaque personne arrive avec un niveau différent. Choisis celle qui te correspond.",
+    cards: {
+      build: {
+        title: "BUILD",
+        headline: "J'ai une idée. Je veux la réaliser.",
+        desc: "Tu as déjà un projet en tête — un site, un SaaS, une chaîne, une boutique. On te transforme ça en plan concret avec des étapes, des ressources et un Coach IA.",
+        cta: "Créer mon projet"
+      },
+      challenges: {
+        title: "CHALLENGES",
+        headline: "Je veux construire, mais je ne sais pas quoi.",
+        desc: "Des projets prêts à réaliser. Tu choisis un défi, tu apprends en le faisant, tu construis ton portfolio. Solo ou avec d'autres membres.",
+        cta: "Voir les challenges"
+      },
+      missions: {
+        title: "MISSIONS",
+        headline: "Je veux travailler sur un vrai besoin.",
+        desc: "Une organisation a un besoin réel. Tu y participes pour acquérir une expérience professionnelle encadrée, avec des livrables vérifiables.",
+        cta: "Découvrir les missions"
+      }
+    }
   },
   globe: {
-    sectionLabel: "Communaute mondiale",
+    sectionLabel: "Communauté mondiale",
     title: "Des builders partout dans le monde",
     subtitle: "pays représentés — explore le globe pour voir où sont les membres."
   },
@@ -2440,26 +2478,26 @@ const EN: Translations = {
   },
   home: {
     hero: {
-      badge: "Build digital projects with AI",
-      purposeHeading: "TakaCode is a learning platform that helps you build, publish and monetize digital projects (websites, apps, chatbots, digital products) with AI.",
-      title1: "BUILD YOUR PROJECT.",
-      title2: "DEPLOY & MONETIZE.",
-      subtitle: "TakaCode helps you turn your ideas into real digital projects, publish them online, and generate revenue. Guided tracks, templates, AI, and a community to accelerate every step.",
+      badge: "Create. Build. Turn it into opportunity.",
+      purposeHeading: "TakaCode solves the real problem: you learn but have nothing concrete to show. Here, every lesson moves a real project forward.",
+      title1: "YOU KNOW HOW TO LEARN.",
+      title2: "NOW BUILD.",
+      subtitle: "Thousands of hours of free content exist. But learning alone doesn't land a job, a client, or a business. TakaCode turns your learning into a real project, proof of experience, and a concrete opportunity.",
       ctaPrimary: "Start a project",
-      ctaSecondary: "Explore project tracks",
+      ctaSecondary: "See how it works",
       statMembers: "Members",
       statProjects: "Projects built",
-      statTracks: "Project tracks",
-      roadmapLabel: "PROJECT ROADMAP",
-      roadmapStatus: "Active progress",
+      statTracks: "Tracks",
+      roadmapLabel: "YOUR ROADMAP",
+      roadmapStatus: "In progress",
       roadmapIdea: "IDEA",
-      roadmapDone: "Done",
-      roadmapTrack: "Track",
+      roadmapDone: "Structured",
+      roadmapTrack: "BUILDING",
       roadmapInProgress: "In progress",
-      roadmapMonetization: "Monetization",
+      roadmapMonetization: "COMPLETED",
       roadmapUpcoming: "Upcoming",
       liveStatus: "In progress",
-      floatingPublished: "PROJECT PUBLISHED",
+      floatingPublished: "PROJECT COMPLETED",
       floatingWebApp: "Web app",
       floatingSessionLive: "LIVE SESSION",
       floatingSessionInfo: "In 2h - 34 registered"
@@ -2472,7 +2510,7 @@ const EN: Translations = {
     }
   },
   footer: {
-    tagline: "Create, publish and monetize your digital project.",
+    tagline: "Find a path. Learn. Build. Transform into opportunity.",
     sections: {
       platform: "Platform",
       community: "Community",
@@ -2501,66 +2539,66 @@ const EN: Translations = {
     footerLang: "English"
   },
   values: {
-    sectionLabel: "Platform",
-    title: "A framework to create and monetize",
+    sectionLabel: "The real problem",
+    title: "Learning is not enough. You need to build.",
     cards: {
       project: {
-        title: "Project-first",
-        desc: "Everything starts with your project. Tracks, resources, and tools exist to help you build it, not the other way around."
+        title: "Project before course",
+        desc: "You learn because you're building something. The project determines what you need to learn, not the other way around."
       },
       ai: {
-        title: "AI accelerator",
-        desc: "Use AI to code faster, design better, and automate repetitive tasks in your project."
+        title: "AI as an accelerator",
+        desc: "AI doesn't replace skill. Mastered well, it makes you move faster — understand, code, create, solve."
       },
       learning: {
-        title: "Learn by building",
-        desc: "Progress by producing concrete deliverables, not just accumulating theory."
+        title: "Resources at the right moment",
+        desc: "We don't produce courses to fill a library. We organize what exists around what you want to build."
       },
       monetization: {
-        title: "Monetization",
-        desc: "Every project is designed to be monetized: subscriptions, products, ads, affiliate."
+        title: "Proof, not an exercise",
+        desc: "Your finished project isn't homework. It's proof you can do it. Visible, shareable, valuable."
       },
       community: {
-        title: "Active community",
-        desc: "No more building alone. Exchange, collaborate, and grow with other creators."
+        title: "Build together",
+        desc: "Stop building alone. The community, mentors, and feedback accelerate every project."
       },
       deploy: {
-        title: "From deploy to revenue",
-        desc: "From the first line of code to the first sale, we guide you every step of the way."
+        title: "From learning to activity",
+        desc: "A finished project leads to a client, a job, a mission, a business. That's the real transformation."
       }
     }
   },
   process: {
     sectionLabel: "PROCESS",
-    title: "HOW IT WORKS",
-    subtitle: "From your idea to a profitable project, a clear guided path.",
+    title: "FROM IDEA TO FINISHED PROJECT",
+    subtitle: "A clear path. Resources at the right moment. A concrete result.",
     steps: {
       idea: {
         title: "YOUR IDEA",
-        desc: "You have a project idea or a problem to solve. We help you structure it."
+        desc: "You want to create something. We help you structure your project."
       },
       track: {
-        title: "THE MATCHED TRACK",
-        desc: "Choose the track that matches your project archetype (website, SaaS, e-commerce...)."
+        title: "CHOOSE THE TYPE",
+        desc: "SaaS, YouTube, AI agent, shop, freelance, automation..."
       },
       resources: {
         title: "RESOURCES + AI",
-        desc: "Access resources, templates, AI tools and exercises to build your project."
+        desc: "Learn when you need it. The right resources at the right moment."
       },
       sessions: {
-        title: "SESSIONS + MENTOR",
-        desc: "Join live sessions and get your deliverables reviewed by a mentor."
+        title: "BUILD",
+        desc: "Steps, deliverables, feedback. Real things, not just theory."
       },
       publish: {
         title: "PUBLISH",
-        desc: "Deploy your project online: GitHub, Vercel, custom domain."
+        desc: "Your project online. Visible. Shareable. A real proof."
       },
       monetize: {
-        title: "MONETIZE",
-        desc: "Generate revenue: subscriptions, digital products, ads, affiliate."
+        title: "PROVE & LEVERAGE",
+        desc: "Clients, jobs, missions, business. Your project opens the door."
       }
     },
-    cta: "Start my project"
+    cta: "Start a project"
   },
   community: {
     sectionLabel: "Community",      title1: "A community",
@@ -2587,54 +2625,59 @@ const EN: Translations = {
     }
   },
   skills: {
-    sectionLabel: "SKILLS",
-    title: "WHAT YOU CAN CREATE",
+    sectionLabel: "POSSIBLE PATHS",
+    title: "PATHS IN THE DIGITAL ECONOMY",
     tagsRow1: [
-      "Websites",
+      "Web development",
       "Web apps",
       "Automations",
       "AI agents",
-      "Web3 & blockchain",
-      "Immersive 3D",
-      "Music",
-      "Podcasts",
+      "Data & analytics",
+      "E-commerce",
       "YouTube channels",
-      "AI videos",
-      "Data analysis"
+      "Podcasts",
+      "Digital products",
+      "Content creation",
+      "Freelancing"
     ],
     tagsRow2: [
-      "Dashboards",
-      "Web3 & blockchain",
-      "3D & immersive experiences",
-      "Digital products",
-      "Digital businesses",
-      "SaaS tools",
+      "No-code & low-code",
+      "SaaS & tools",
       "Chatbots",
       "Mobile apps",
-      "Generative AI"
+      "Generative AI",
+      "Digital marketing",
+      "Online courses",
+      "Newsletters",
+      "Digital entrepreneurship"
     ]
   },
   faq: {
     sectionLabel: "FAQ",
     title1: "FREQUENTLY",
     title2: "ASKED QUESTIONS",
-    subtitle: "A question about project creation, publishing or monetization? The answer is probably here.",
+    subtitle: "A question about orientation, building or turning your work into opportunity? The answer is probably here.",
     questions: {
-      q1: "Do I need to know how to code to start?",
-      q2: "Can I start with no experience?",
-      q3: "How do tracks help build my project?",
-      q4: "How do live sessions work?",
-      q5: "How do I publish my projects?",
-      q6: "Can I create multiple projects?"
+      q1: "Do I need to already know what to do to start?",
+      q2: "Do I need to know how to code?",
+      q3: "Is TakaCode an online school?",
+      q4: "How do Challenges work?",
+      q5: "How do Missions work?",
+      q6: "Can I start with no experience?"
     },
     answers: {
-      q1: "Not at all. TakaCode is designed for complete beginners. The tracks start from zero and the AI assistant guides you every step of the way."
+      q1: "No. TakaCode accompanies you from orientation to action. If you don't know what to do yet, the platform helps you explore careers, possibilities and types of projects that match your goals.",
+      q2: "No. Development is just one path among many. You can build a shop, launch a YouTube channel, become freelance, create a digital product or automate tasks. TakaCode adapts to your goal.",
+      q3: "No. TakaCode is not an online course platform. We organize existing resources — docs, videos, tutorials — around real projects. You learn when you need it, not before.",
+      q4: "Challenges are ready-to-build projects. They let you build without having a prior idea: a brief, an objective, resources, criteria. You do it at your own pace with other members.",
+      q5: "Missions are real needs from organizations. You participate to gain supervised professional experience, with a Mentor and verifiable deliverables.",
+      q6: "Yes. TakaCode is precisely designed for that. Whether you arrive with an idea, a desire or just an intention, you can find a direction and start building."
     }
   },
   dashboard: {
     myProject: "My project",
     welcome: "Hello",
-    startPrompt: "Everything starts with a project. Define what you want to build: it becomes your guiding thread, and the tracks accompany you all the way to launch and your first revenue.",
+    startPrompt: "Everything starts with a direction. Define what you want to build or explore digital careers: your project becomes your guide, and tracks accompany you to a concrete creation.",
     createProject: "Create my project",
     seeExamples: "See examples",
     progressToLaunch: "Progress toward launch",
@@ -3431,17 +3474,20 @@ const EN: Translations = {
     welcomeSection: {
       label: "Welcome",
       title: "WELCOME TO TAKACODE",
-      desc: "The place where you learn by building. We'll personalize your experience in under a minute.",
-      card1Title: "Targeted track",
-      card1Desc: "Your plan adapts to your real goal.",
-      card2Title: "Active community",
-      card2Desc: "Live sessions, exchanges, and concrete feedback.",
-      card3Title: "Practical AI",
-      card3Desc: "Save time on every step."
+      desc: "TakaCode accompanies you from idea to finished project. A plan, resources at the right moment, a real creation. We'll personalize your experience in under a minute.",
+      card1Title: "A real project",
+      card1Desc: "Not an exercise. A result you can show.",
+      card2Title: "Resources at the right moment",
+      card2Desc: "The right resources when you actually need them.",
+      card3Title: "AI and community",
+      card3Desc: "An AI Coach, mentors, and feedback that accelerate you."
     },
     goalSection: {
-      label: "Your goal",
-      title: "WHAT DO YOU WANT TO BUILD?"
+      label: "Your intention",
+      title: "WHY ARE YOU HERE?",
+      intentBuild: "I have an idea, I want to make it real",
+      intentExplore: "I want to build but don't know what",
+      intentWork: "I want to work on a real need"
     },
     levelSection: {
       label: "Your level",
@@ -3449,15 +3495,15 @@ const EN: Translations = {
     },
     projectSection: {
       label: "Your project",
-      title: "DO YOU ALREADY HAVE A CLEAR IDEA?",
+      title: "WHAT DO YOU WANT TO BUILD?",
       ideaLabel: "Describe your project in a few words",
       ideaPlaceholder: "E.g.: build a website for my restaurant, automate WhatsApp, launch a YouTube channel",
       ideaHint: "Add a bit more context for a more precise plan.",
       nameLabel: "Give your project a name",
       nameHint: "(editable later)",
       namePlaceholder: "E.g.: Marco's Table, AutoWhats, My History Channel",
-      monetizationLabel: "How do you want to monetize it someday?",
-      monetizationHint: "On TakaCode, a project aims for the first euro. Pick a path — you can change your mind.",
+      monetizationLabel: "How do you want to leverage it someday?",
+      monetizationHint: "A finished project becomes proof of experience. Pick a path — you can change your mind.",
       noIdea: "I don't know yet"
     },
     toolsSection: {
@@ -3747,13 +3793,43 @@ const EN: Translations = {
     publishedOn: "Published on"
   },
   finalCta: {
-    sectionLabel: "START NOW",
+    sectionLabel: "GET STARTED",
     title1: "YOUR PROJECT",
-    title2: "STARTS HERE",
-    desc1: "You don't need to be an expert. You need a plan and execution.",
-    desc2: "TakaCode guides you to create your project, publish it, and make money.",
+    title2: "STARTS HERE.",
+    desc1: "You don't need another course. You need to build something real.",
+    desc2: "A finished project is worth more than a certificate. It's proof that you can do it.",
     ctaPrimary: "Start a project",
-    ctaSecondary: "Explore tracks"
+    ctaSecondary: "See how it works"
+  },
+  visionQuote: {
+    line1: "I learned, but I have nothing concrete to show.",
+    line2: "TakaCode changes that.",
+    desc: "Thousands of hours of free content exist. But access to information doesn't guarantee skill, experience, or opportunity. TakaCode turns what already exists into a real project, proof of experience, and a concrete opportunity."
+  },
+  entryPoints: {
+    sectionLabel: "GET STARTED",
+    title: "Three ways to build",
+    subtitle: "Everyone arrives at a different level. Choose the one that fits you.",
+    cards: {
+      build: {
+        title: "BUILD",
+        headline: "I have an idea. I want to make it real.",
+        desc: "You already have a project in mind — a website, a SaaS, a channel, a shop. We turn it into a concrete plan with steps, resources, and an AI Coach.",
+        cta: "Create my project"
+      },
+      challenges: {
+        title: "CHALLENGES",
+        headline: "I want to build but don't know what.",
+        desc: "Ready-to-build projects. Pick a challenge, learn by doing, build your portfolio. Solo or with other members.",
+        cta: "See challenges"
+      },
+      missions: {
+        title: "MISSIONS",
+        headline: "I want to work on a real need.",
+        desc: "An organization has a real need. You participate to gain supervised professional experience with verifiable deliverables.",
+        cta: "Discover missions"
+      }
+    }
   },
   globe: {
     sectionLabel: "Global community",

@@ -533,30 +533,74 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
                   <h2 className="font-valorax text-[clamp(30px,3.4vw,44px)] leading-[0.9] gradient-text">{t("onboarding.goalSection.title")}</h2>
                 </div>
 
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                  {GOAL_OPTIONS.map((goal: Option) => {
-                    const selected = goal.key === goalKey;
-                    const accent = goal.accent || "#4F8EF7";
-
+                {/* Intention cards — 3 portes d'entrée */}
+                <div className="grid sm:grid-cols-3 gap-3 mb-6">
+                  {[
+                    { key: "build", icon: "lucide:hammer", accent: "#4F8EF7", label: t("onboarding.goalSection.intentBuild"), goals: ["website", "web_app", "wordpress_nocode", "mobile_app", "digital_business"] },
+                    { key: "explore", icon: "lucide:flame", accent: "#F59E0B", label: t("onboarding.goalSection.intentExplore"), goals: ["learn_explore", "automation_ai", "videos_youtube", "data_analysis", "other"] },
+                    { key: "work", icon: "lucide:briefcase", accent: "#10B981", label: t("onboarding.goalSection.intentWork"), goals: ["custom_projects", "marketing_online", "web3", "three_d", "podcast_audio", "paid_ads"] }
+                  ].map((intent) => {
+                    const intentSelected = intent.goals.includes(goalKey);
                     return (
                       <button
-                        key={goal.key}
+                        key={intent.key}
                         type="button"
-                        onClick={() => setGoalKey(goal.key)}
+                        onClick={() => { if (!intentSelected) setGoalKey(intent.goals[0]); }}
                         className={[
-                          "onboarding-goal-card rounded-2xl border p-4 text-left transition-all duration-300",
-                          selected
+                          "rounded-2xl border p-5 text-left transition-all duration-300",
+                          intentSelected
                             ? "border-white/0"
                             : "border-[var(--border-3)] bg-[var(--overlay-2)] hover:border-[var(--border-5)]"
                         ].join(" ")}
-                        style={
-                          selected
+                        style=
+                          intentSelected
                             ? {
-                                background: `linear-gradient(145deg, ${accent}30, rgba(255,255,255,0.02))`,
-                                boxShadow: `0 0 24px ${accent}33`
+                                background: `linear-gradient(145deg, ${intent.accent}30, rgba(255,255,255,0.02))`,
+                                boxShadow: `0 0 24px ${intent.accent}33`
                               } as React.CSSProperties
-                            : { "--goal-accent": accent } as React.CSSProperties
-                        }
+                            : undefined
+                      >
+                        <div
+                          className="w-10 h-10 rounded-xl border inline-flex items-center justify-center mb-3"
+                          style={{
+                            borderColor: `${intent.accent}55`,
+                            background: `${intent.accent}22`
+                          } as React.CSSProperties}
+                        >
+                          <iconify-icon icon={intent.icon} style={{ fontSize: "18px", color: intent.accent }} />
+                        </div>
+                        <div className="font-venite-italic text-[14px] text-[var(--text-primary)] leading-snug">{intent.label}</div>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Grille détaillée des types de projet */}
+                <div>
+                  <div className="text-[12px] text-[var(--muted-3)] mb-3 font-body-readable">{t("onboarding.goalSection.title")}</div>
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                    {GOAL_OPTIONS.map((goal: Option) => {
+                      const selected = goal.key === goalKey;
+                      const accent = goal.accent || "#4F8EF7";
+
+                      return (
+                        <button
+                          key={goal.key}
+                          type="button"
+                          onClick={() => setGoalKey(goal.key)}
+                          className={[
+                            "onboarding-goal-card rounded-2xl border p-4 text-left transition-all duration-300",
+                            selected
+                              ? "border-white/0"
+                              : "border-[var(--border-3)] bg-[var(--overlay-2)] hover:border-[var(--border-5)]"
+                          ].join(" ")}
+                          style=
+                            selected
+                              ? {
+                                  background: `linear-gradient(145deg, ${accent}30, rgba(255,255,255,0.02))`,
+                                  boxShadow: `0 0 24px ${accent}33`
+                                } as React.CSSProperties
+                              : { "--goal-accent": accent } as React.CSSProperties
                       >
                         <div
                           className="w-10 h-10 rounded-xl border inline-flex items-center justify-center mb-3"

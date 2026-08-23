@@ -1,5 +1,7 @@
 import { cookies } from "next/headers";
 import CommunitySection from "../components/CommunitySection";
+import EntryPointsSection from "../components/EntryPointsSection";
+import VisionQuote from "../components/VisionQuote";
 import SkillsSection from "../components/SkillsSection";
 import FAQSection from "../components/FAQSection";
 import FinalCtaSection from "../components/FinalCtaSection";
@@ -27,7 +29,7 @@ export const revalidate = 0;
 export const metadata = buildPageMetadata({
   title: "Accueil",
   description:
-    "TakaCode est la plateforme où tu apprends en construisant : parcours guidés, projets réels, sessions live et communauté active.",
+    "TakaCode accompagne les personnes de l'orientation à l'action dans l'économie numérique. Trouve une direction, construis un projet réel et transforme-le en opportunité.",
   path: "/"
 });
 
@@ -57,7 +59,11 @@ export default async function Home() {
       <Navbar />
       <main>
         <Hero stats={stats} />
+        <VisionQuote />
+        <hr className="section-divider" />
         <ValuesSection />
+        <hr className="section-divider" />
+        <EntryPointsSection />
         <hr className="section-divider" />
         <HowItWorksSection />
         <hr className="section-divider" />

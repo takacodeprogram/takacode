@@ -146,7 +146,7 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
                     <div className="h-1 bg-[var(--overlay-5)] rounded-full overflow-hidden">
                       <div
                         className="progress-bar h-full roadmap-progress-fill"
-                        style={{ "--target-width": "15%", "--progress-delay": "0.46s", "--progress-start": "#f59e0b", "--progress-end": "#f97316", "--progress-accent": "#fdba74", "--progress-glow": "rgba(245,158,11,0.4)" } as React.CSSProperties}
+                        style={{ "--target-width": "15%", "--progress-delay": "0.46s", "--progress-start": "#9B6DFF", "--progress-end": "#7C3AED", "--progress-accent": "#c4b5fd", "--progress-glow": "rgba(155,109,255,0.4)" } as React.CSSProperties}
                       />
                     </div>
                   </div>

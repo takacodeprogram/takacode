@@ -7,25 +7,25 @@ const ROW1_TAGS: Array<{ icon: string }> = [
   { icon: "lucide:layout-dashboard" },
   { icon: "lucide:zap" },
   { icon: "lucide:bot" },
-  { icon: "lucide:wallet" },
-  { icon: "lucide:box" },
-  { icon: "lucide:music" },
-  { icon: "lucide:mic" },
+  { icon: "lucide:bar-chart-3" },
+  { icon: "lucide:shopping-bag" },
   { icon: "lucide:youtube" },
+  { icon: "lucide:mic" },
+  { icon: "lucide:package" },
   { icon: "lucide:video" },
-  { icon: "lucide:bar-chart-3" }
+  { icon: "lucide:briefcase" }
 ];
 
 const ROW2_TAGS: Array<{ icon: string }> = [
-  { icon: "lucide:pie-chart" },
-  { icon: "lucide:wallet" },
   { icon: "lucide:box" },
-  { icon: "lucide:package" },
-  { icon: "lucide:trending-up" },
   { icon: "lucide:wrench" },
   { icon: "lucide:message-square" },
   { icon: "lucide:smartphone" },
-  { icon: "lucide:cpu" }
+  { icon: "lucide:cpu" },
+  { icon: "lucide:trending-up" },
+  { icon: "lucide:book-open" },
+  { icon: "lucide:mail" },
+  { icon: "lucide:rocket" }
 ];
 
 function SkillsRow({ tags, t, rowKey }: { tags: Array<{ icon: string }>; t: (key: string, fallback?: string) => string; rowKey: string }) {
