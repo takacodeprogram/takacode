@@ -1619,11 +1619,6 @@ const FR: Translations = {
     ctaPrimary: "Commencer un projet",
     ctaSecondary: "Voir comment ça marche"
   },
-  visionQuote: {
-    line1: "J'ai appris, mais je n'ai rien de concret a montrer.",
-    line2: "TakaCode change ca.",
-    desc: "Des milliers d'heures de contenu gratuit existent. Mais l'accès à l'information ne garantit ni la compétence, ni l'expérience, ni l'opportunité. TakaCode transforme ce qui existe déjà en projet réel, en preuve d'expérience et en opportunité concrète."
-  },
   entryPoints: {
     sectionLabel: "TON POINT DE DEPART",
     title: "TU PEUX COMMENCER",
@@ -3934,11 +3929,6 @@ const EN: Translations = {
     desc2: "A finished project is worth more than a certificate. It's proof that you can do it.",
     ctaPrimary: "Start a project",
     ctaSecondary: "See how it works"
-  },
-  visionQuote: {
-    line1: "I learned, but I have nothing concrete to show.",
-    line2: "TakaCode changes that.",
-    desc: "Thousands of hours of free content exist. But access to information doesn't guarantee skill, experience, or opportunity. TakaCode turns what already exists into a real project, proof of experience, and a concrete opportunity."
   },
   entryPoints: {
     sectionLabel: "YOUR STARTING POINT",

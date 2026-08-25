@@ -47,6 +47,10 @@ avec un sur-titre et une icône dédiée (boussole, itinéraire, livre, marteau,
 badge vérifié). Le pas final « monétiser » disparaît : la valorisation ne se réduit
 pas au revenu.
 
+**Citation retirée** — la section `VisionQuote` (« J'ai appris, mais je n'ai rien de
+concret a montrer / TakaCode change ca ») disparaît de l'accueil, avec son composant et
+ses traductions. Elle redisait le problème que le hero venait déjà d'énoncer.
+
 **Section « Ton point de départ »** — l'ancienne section `COMMENCER` / « Trois façons
 de construire » devient `TON POINT DE DEPART` / `TU PEUX COMMENCER D'OU TU ES.` et
 passe de trois à **quatre portes d'entrée** : `EXPLORER` (nouvelle, `lucide:telescope`,
@@ -85,7 +89,8 @@ Aucune chaîne du hero, de la navigation ou du pied de page n'est écrite en dur
 - `scripts/fix-french-ui.mjs --inventory` ne scanne que les chaînes écrites en dur
   dans le JSX : il ne voit pas `lib/i18n.ts`, où vit désormais l'essentiel des textes
   display. Quatre titres accentués étaient ainsi passés en production avec un blanc à
-  la place de la lettre : `visionQuote.line1` et `line2` (« CHANGE ÇA »),
+  la place de la lettre : `visionQuote.line1` et `line2` (« CHANGE ÇA », section
+  depuis supprimée),
   `skills.title` (« L'ÉCONOMIE NUMÉRIQUE ») et `faq.title2` (« FRÉQUENTES »). Ils
   sont corrigés. Étendre le script à `i18n.ts` reste à faire, sans quoi le prochain
   titre accentué repassera de la même manière.
