@@ -1151,7 +1151,7 @@ Non.
 
 # 30 — Implications dans la base de données
 
-Le modèle exact sera détaillé dans [ROADMAP_REPOSITIONNEMENT.md](./ROADMAP_REPOSITIONNEMENT.md), mais le système implique au minimum des concepts équivalents à :
+Le modèle exact est détaillé au §11 de [ROADMAP_REPOSITIONNEMENT.md](./ROADMAP_REPOSITIONNEMENT.md) — colonnes, correspondance avec les tables actuelles et ordre des migrations. Le système implique au minimum des concepts équivalents à :
 
 | Entité                  | Rôle                             |
 | ----------------------- | -------------------------------- |
