@@ -4,6 +4,7 @@ const LEGACY_ROUTE_SEGMENTS: Readonly<Record<string, string>> = {
   profil: "profile",
   parcours: "tracks",
   classement: "leaderboard",
+  opportunites: "opportunities",
   connexion: "login",
   communaute: "community",
   competences: "skills",

@@ -4,13 +4,25 @@ import L from "./L";
 import { useEffect, useRef, useState } from "react";
 import { useI18n } from "./I18nProvider";
 
+// Les quatre portes d'entree, rangees par distance a l'action : on commence par
+// celui qui ne sait pas encore quoi faire, on finit par celui qui veut un vrai besoin.
+// La longue-vue distingue EXPLORER de la boussole de la section "L'approche" :
+// ici on regarde le paysage, la-bas on choisit un cap.
 const ENTRIES = [
   {
-    key: "build",
-    icon: "lucide:hammer",
+    key: "explore",
+    icon: "lucide:telescope",
     accent: "#4F8EF7",
     gradient: "from-blue-500/10 to-blue-600/5",
     border: "border-blue-500/20",
+    href: "/skills",
+  },
+  {
+    key: "build",
+    icon: "lucide:hammer",
+    accent: "#9B6DFF",
+    gradient: "from-violet-500/10 to-purple-600/5",
+    border: "border-violet-500/20",
     href: "/projects",
   },
   {
@@ -27,7 +39,7 @@ const ENTRIES = [
     accent: "#10B981",
     gradient: "from-emerald-500/10 to-green-600/5",
     border: "border-emerald-500/20",
-    href: "/community",
+    href: "/opportunities",
   },
 ] as const;
 
@@ -62,13 +74,18 @@ export default function EntryPointsSection() {
             style={{ fontSize: "clamp(36px, 3.5vw, 54px)", letterSpacing: "-0.02em" }}
           >
             {t("entryPoints.title")}
+            <br />
+            <span className="gradient-text-blue">{t("entryPoints.title2")}</span>
           </h2>
-          <p className="font-body-readable text-[var(--muted-4)] text-[15px] max-w-lg mx-auto">
+          <p className="font-body-readable text-[var(--muted-4)] text-[15px] max-w-[620px] mx-auto">
             {t("entryPoints.subtitle")}
+          </p>
+          <p className="font-body-readable text-[var(--muted-4)] text-[15px] max-w-[620px] mx-auto mt-2">
+            {t("entryPoints.subtitle2")}
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
           {ENTRIES.map((entry, index) => (
             <L
               key={entry.key}
@@ -77,7 +94,7 @@ export default function EntryPointsSection() {
               className="block group"
             >
               <div
-                className={`relative rounded-2xl border ${entry.border} bg-gradient-to-br ${entry.gradient} p-8 h-full transition-all duration-500 hover:scale-[1.02] hover:shadow-xl cursor-pointer`}
+                className={`relative rounded-2xl border ${entry.border} bg-gradient-to-br ${entry.gradient} p-7 h-full flex flex-col transition-all duration-500 hover:scale-[1.02] hover:shadow-xl cursor-pointer`}
                 style={{
                   opacity: visible ? 1 : 0,
                   transform: visible ? "translateY(0)" : "translateY(30px)",
@@ -109,7 +126,7 @@ export default function EntryPointsSection() {
                   {t(`entryPoints.cards.${entry.key}.headline`)}
                 </div>
 
-                <p className="font-body-readable text-[13px] text-[var(--muted-4)] leading-relaxed mb-6">
+                <p className="font-body-readable text-[13px] text-[var(--muted-4)] leading-relaxed mb-6 flex-1">
                   {t(`entryPoints.cards.${entry.key}.desc`)}
                 </p>
 

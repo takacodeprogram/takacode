@@ -1,18 +1,54 @@
 # Roadmap TakaCode
 
-> Derniere mise a jour : 2026-07-24. Voir `ROADMAP_EVOLUTION.md` pour la feuille de route produit complete.
+> Derniere mise a jour : 2026-08-25. Voir `ROADMAP_EVOLUTION.md` pour la feuille de route produit complete.
+> La vision de reference est [VISION.md](../../VISION.md) ; sa traduction produit est
+> [ROADMAP_REPOSITIONNEMENT.md](../../ROADMAP_REPOSITIONNEMENT.md).
 
 ## Vision
 
-TakaCode ne crée pas tous les cours lui-même ni n'enseigne chaque compétence de zéro.
+TakaCode accompagne les personnes **de l'orientation à l'action dans l'économie numérique**.
 
-**Notre approche :** des parcours d'apprentissage structurés qui **combinent des ressources existantes de qualité** (vidéos YouTube, documentation officielle, articles, tutoriels) avec un **guidage par IA**. L'objectif est d'aider chaque membre à apprendre en autonomie, à développer le réflexe de trouver des informations fiables, et surtout à **utiliser l'IA comme accélérateur** pour apprendre plus vite, construire des projets, résoudre des problèmes concrets et acquérir des compétences digitales valorisables.
+La chaîne complète est :
 
-TakaCode ne se limite pas à la programmation. Le spectre couvre l'ensemble des compétences digitales : développement logiciel, IA, no-code, design, automatisation, entrepreneuriat, marketing, data, et toute compétence qui aide un membre à **construire et lancer un projet digital**.
+```text
+Orientation → Ressources → Apprentissage → Projet → Réalisation → Preuve d'expérience → Opportunité
+```
 
-Chaque parcours inclut des quiz, des exercices pratiques et des micro-projets pour valider les acquis. Un **éditeur de parcours** permet aux administrateurs de créer, modifier et publier de nouveaux parcours directement depuis la plateforme.
+**TakaCode ne crée pas de formations.** Les ressources existent déjà : documentations
+officielles, vidéos YouTube, articles, tutoriels, dépôts GitHub, cours ouverts. Notre
+valeur est de les **sélectionner, contextualiser et séquencer autour des étapes d'un
+projet réel**, puis d'accompagner le membre jusqu'à un résultat qu'il peut montrer.
 
-Les **sessions live** sont animées par des **mentors** — des membres expérimentés de la communauté dont le rôle est d'accompagner les "builders" tout au long de leur chemin. Ils suivent la progression, identifient les difficultés, répondent aux questions et aident à avancer. Les sessions ne remplacent pas l'apprentissage autonome : elles le **complètent** par du soutien personnalisé, du feedback, de la responsabilisation et des encouragements.
+Une ressource n'est donc jamais une étape en soi. La logique est :
+
+```text
+Étape → Besoin → Ressource → Action → Livrable
+```
+
+Le projet n'est pas forcément du code. SaaS, agent IA, automatisation, projet data,
+boutique en ligne, chaîne vidéo, podcast, newsletter, produit digital ou activité
+freelance : ce qui compte est le résultat produit et les livrables qui le prouvent.
+
+Trois portes d'entrée, un seul moteur de projet :
+
+| Porte | Point de départ | Page |
+|-------|-----------------|------|
+| **BUILD** | « J'ai une idée » | `/projects` |
+| **CHALLENGES** | « Je veux construire mais je ne sais pas quoi » | `/tracks` |
+| **MISSIONS** | « Je veux contribuer à un besoin réel » | `/opportunities` (en préparation) |
+
+Le **Coach IA** est un accélérateur contextuel, pas un générateur de livrables : il
+oriente, explique, recommande une ressource, débloque et relit. Quand le jugement
+humain devient nécessaire, l'escalade est `Coach IA → Communauté → Contributor → Mentor → Expert`.
+
+Les **sessions live** sont animées par des mentors — des membres dont l'expérience est
+démontrée par leurs propres réalisations. Elles ne remplacent pas l'apprentissage
+autonome : elles débloquent, donnent du feedback et créent de la responsabilité.
+
+La métrique qui compte n'est pas le nombre de leçons suivies mais :
+
+> **le nombre de membres ayant terminé une réalisation valorisable, puis l'ayant
+> transformée en opportunité.**
 
 ## Ce qui est disponible maintenant
 
@@ -58,6 +94,11 @@ Ressources externes intégrées dans les leçons (FR + EN) :
 | Moyenne | Collaboration projet (invitations, roles, commentaires) |
 | Moyenne | Marketplace de services (dev, design, redaction) |
 | Basse | Export certificat, internationalisation |
+
+Les jalons produit structurants (moteur de projet généralisé, moteur de ressources,
+Coach IA contextuel, preuve d'expérience, Challenges, Missions, économie, programmes
+d'impact) sont décrits jalon par jalon dans
+[ROADMAP_REPOSITIONNEMENT.md](../../ROADMAP_REPOSITIONNEMENT.md).
 
 ## Comment suivre l'avancement
 

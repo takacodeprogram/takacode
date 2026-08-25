@@ -327,6 +327,42 @@ Le Visiteur doit comprendre qu'il peut venir :
 
 ## À modifier
 
+### Navigation
+
+La navigation doit refléter le parcours, pas l'ancien catalogue.
+
+```text
+Accueil · Explorer · Challenges · Projets · Communauté · Opportunités
+```
+
+Puis, à droite :
+
+```text
+Connexion · Commencer
+```
+
+Chaque entrée porte un rôle précis :
+
+| Entrée | Rôle | Page actuelle |
+| --- | --- | --- |
+| **Accueil** | comprendre la promesse | `/` |
+| **Explorer** | découvrir les voies, métiers et types de projets | `/skills` |
+| **Challenges** | trouver un projet prêt à réaliser | `/tracks` |
+| **Projets** | voir et créer des réalisations | `/projects` |
+| **Communauté** | entraide, sessions, contribution | `/community` |
+| **Opportunités** | portfolio, Missions, Mentors, programmes | `/opportunities` |
+
+Le classement reste accessible, mais depuis le pied de page : c'est un signal
+d'activité, pas une porte d'entrée du parcours.
+
+`Opportunités` est délibérément publiée avant que les Missions ne soient
+automatisées (J9 / J10). La page indique clairement ce qui est disponible et ce
+qui est en préparation. Elle sert d'abord à rendre visible la fin de la chaîne :
+
+```text
+Projet → Réalisation → Preuve d'expérience → Opportunité
+```
+
 ### Page d'accueil
 
 Remplacer les formulations trop centrées sur :
@@ -334,6 +370,127 @@ Remplacer les formulations trop centrées sur :
 > BUILD / DEPLOY / MONETIZE
 
 par la nouvelle promesse.
+
+Le hero devient :
+
+```text
+TAKACODE
+
+APPRENDRE • CONSTRUIRE • PROGRESSER
+
+Trouve une direction, construis un projet concret et apprends ce dont tu as
+besoin au moment où tu en as besoin.
+
+TakaCode transforme l'apprentissage en réalisation, puis chaque réalisation en
+preuve d'expérience capable d'ouvrir de nouvelles opportunités.
+
+[ Explorer ]   [ Créer ]
+
+Ressources ouvertes · Coach IA · Communauté · Mentors
+```
+
+Trois points sont volontaires :
+
+1. **`Explorer` avant `Créer`.** Une personne sans idée ne doit pas se sentir
+   exclue dès le premier écran.
+2. **La micro-copy nomme les quatre moyens** : ressources ouvertes, Coach IA,
+   communauté, mentors. Elle dit ce que TakaCode met à disposition, sans
+   promettre un résultat garanti.
+3. **Le titre reste sans accent.** C'est une convention typographique de la marque,
+   appliquée à tout texte rendu en police display (VALORAX, VENITE, `.section-label`,
+   `.font-venite`, `.font-venite-italic`). Les paragraphes en `font-body-readable`
+   gardent leurs accents. Voir [INVENTAIRE_POLICES_DISPLAY.md](./INVENTAIRE_POLICES_DISPLAY.md).
+
+   *Précision :* les deux fichiers de police contiennent bien les glyphes accentués
+   (vérifié dans leur table `cmap`, contours non vides). L'absence d'accent est donc
+   un choix de design, pas une contrainte technique.
+
+### La section « L'approche »
+
+Elle suit le hero et donne le cadre en six moments :
+
+```text
+L'APPROCHE
+
+UN CADRE POUR
+PASSER A L'ACTION.
+
+Pas besoin d'attendre de tout maîtriser avant de commencer.
+Sur TakaCode, le projet guide l'apprentissage : tu avances, apprends ce qui
+devient nécessaire et l'appliques immédiatement.
+```
+
+| # | Sur-titre | Titre | Icône | Accent |
+| --- | --- | --- | --- | --- |
+| 1 | S'ORIENTER | Trouver une direction | `lucide:compass` | `#4F8EF7` |
+| 2 | STRUCTURER | Transformer l'idee en plan | `lucide:route` | `#22D3EE` |
+| 3 | APPRENDRE | Apprendre au bon moment | `lucide:book-open` | `#10B981` |
+| 4 | CONSTRUIRE | Produire du concret | `lucide:hammer` | `#F59E0B` |
+| 5 | SE DEBLOQUER | Trouver de l'aide | `lucide:life-buoy` | `#9B6DFF` |
+| 6 | PROUVER | Montrer ce que tu sais faire | `lucide:badge-check` | `#EC4899` |
+
+Les icônes illustrent **l'action du moment, pas un outil** : une boussole pour
+choisir une direction, un itinéraire pour planifier, une bouée pour se débloquer,
+un badge vérifié pour prouver. L'ancien pas final `monetize` (`lucide:trending-up`,
+rouge) disparaît : la valorisation ne se réduit pas au revenu.
+
+L'ordre des six moments reprend la chaîne de la vision :
+
+```text
+Orientation → Structuration → Apprentissage → Réalisation → Déblocage → Preuve
+```
+
+### La section « Ton point de départ »
+
+Elle suit « L'approche » et doit apporter une information **différente** : non plus
+comment TakaCode fonctionne, mais **comment y entrer selon sa situation**.
+
+```text
+TON POINT DE DEPART
+
+TU PEUX COMMENCER
+D'OU TU ES.
+
+Tu n'as pas besoin d'avoir déjà un projet, une compétence précise ou un plan clair.
+TakaCode s'adapte à ce que tu cherches aujourd'hui.
+```
+
+| Porte | Situation du visiteur | Icône | Destination |
+| --- | --- | --- | --- |
+| **EXPLORER** | « Je ne sais pas encore quoi faire. » | `lucide:telescope` | `/skills` |
+| **BUILD** | « J'ai une idée à réaliser. » | `lucide:hammer` | `/projects` |
+| **CHALLENGES** | « Je veux pratiquer sur un projet concret. » | `lucide:flame` | `/tracks` |
+| **MISSIONS** | « Je veux travailler sur un vrai besoin. » | `lucide:briefcase` | `/opportunities` |
+
+`EXPLORER` est la porte ajoutée par le repositionnement : les trois portes
+historiques supposaient toutes que le visiteur savait déjà quoi construire.
+
+Les cartes sont rangées **par distance à l'action** : de celui qui cherche encore une
+direction à celui qui veut un besoin réel. La longue-vue distingue volontairement
+`EXPLORER` de la boussole de « L'approche » : ici on regarde le paysage, là-bas on
+choisit un cap.
+
+### Pied de page
+
+Le copyright et la signature doivent porter la même promesse que le hero :
+
+```text
+© 2026 TakaCode — Apprendre, construire, progresser. Tous droits réservés.
+Ressources ouvertes, Coach IA, communauté et mentors au service de tes réalisations.
+```
+
+Version anglaise :
+
+```text
+© 2026 TakaCode — Learn, build, grow. All rights reserved.
+Open resources, an AI Coach, a community and mentors — all serving what you build.
+```
+
+### Langues
+
+Chaque texte de positionnement existe en français et en anglais dans
+`lib/i18n.ts`. Aucune chaîne de la navigation, du hero ou du pied de page ne
+doit être écrite en dur dans un composant.
 
 ### Types de projets
 

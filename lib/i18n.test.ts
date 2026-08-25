@@ -52,8 +52,19 @@ describe("createT", () => {
 
   it("returns nested translations", () => {
     const t = createT("fr");
-    expect(t("home.hero.badge")).toBe("Créer. Construire. Transformer en opportunité.");
-    expect(t("home.hero.ctaPrimary")).toBe("Commencer un projet");
+    expect(t("home.hero.badge")).toBe("De l'orientation à l'action");
+    expect(t("home.hero.ctaPrimary")).toBe("Explorer");
+  });
+
+  it("exposes the repositioned navigation labels in both locales", () => {
+    const fr = createT("fr");
+    const en = createT("en");
+    expect(fr("navbar.explorer")).toBe("Explorer");
+    expect(fr("navbar.challenges")).toBe("Challenges");
+    expect(fr("navbar.opportunites")).toBe("Opportunités");
+    expect(en("navbar.explorer")).toBe("Explore");
+    expect(en("navbar.challenges")).toBe("Challenges");
+    expect(en("navbar.opportunites")).toBe("Opportunities");
   });
 
   it("returns key as-is for unknown path", () => {

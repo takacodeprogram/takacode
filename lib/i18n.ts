@@ -38,10 +38,13 @@ export type Translations = Record<string, NestedTranslations>;
 const FR: Translations = {
   navbar: {
     accueil: "Accueil",
+    explorer: "Explorer",
+    challenges: "Challenges",
     parcours: "Parcours",
     competences: "Compétences",
     projets: "Projets",
     communaute: "Communauté",
+    opportunites: "Opportunités",
     classement: "Classement",
     connexion: "Connexion",
     commencer: "Commencer",
@@ -233,26 +236,29 @@ const FR: Translations = {
   },
   home: {
     hero: {
-      badge: "Créer. Construire. Transformer en opportunité.",
-      purposeHeading: "TakaCode résout le vrai problème : on apprend mais on n'a rien de concret à montrer. Ici, chaque leçon fait avancer un vrai projet.",
-      title1: "TU SAVOIS APPRENDRE.",
-      title2: "MAINTENANT CONSTRUIS.",
-      subtitle: "Des milliers d'heures de contenu gratuit existent. Mais apprendre ne suffit pas pour décrocher un emploi, un client ou lancer une activité. TakaCode transforme ton apprentissage en projet concret, en preuve d'expérience et en opportunité réelle.",
-      ctaPrimary: "Commencer un projet",
-      ctaSecondary: "Voir comment ça marche",
+      badge: "De l'orientation à l'action",
+      purposeHeading: "TakaCode résout le vrai problème : on apprend mais on n'a rien de concret à montrer. Ici, chaque étape fait avancer un vrai projet.",
+      title1: "APPRENDRE • CONSTRUIRE",
+      title2: "PROGRESSER",
+      subtitle: "Trouve une direction, construis un projet concret et apprends ce dont tu as besoin au moment où tu en as besoin.",
+      subtitle2: "TakaCode transforme l'apprentissage en réalisation, puis chaque réalisation en preuve d'expérience capable d'ouvrir de nouvelles opportunités.",
+      subtitle2Highlight: "preuve d'expérience",
+      microcopy: "Ressources ouvertes · Coach IA · Communauté · Mentors",
+      ctaPrimary: "Explorer",
+      ctaSecondary: "Créer",
       statMembers: "Membres",
       statProjects: "Projets réalisés",
       statTracks: "Parcours",
       roadmapLabel: "TA ROADMAP",
       roadmapStatus: "En cours",
-      roadmapIdea: "IDÉE",
+      roadmapIdea: "IDEE",
       roadmapDone: "Structurée",
       roadmapTrack: "CONSTRUCTION",
       roadmapInProgress: "En cours",
-      roadmapMonetization: "RÉALISÉ",
+      roadmapMonetization: "REALISE",
       roadmapUpcoming: "À venir",
       liveStatus: "En cours",
-      floatingPublished: "PROJET TERMINÉ",
+      floatingPublished: "PROJET TERMINE",
       floatingWebApp: "Application web",
       floatingSessionLive: "SESSION LIVE",
       floatingSessionInfo: "Dans 2h - 34 inscrits"
@@ -265,7 +271,7 @@ const FR: Translations = {
     }
   },
   footer: {
-    tagline: "Trouver une voie. Apprendre. Construire. Transformer en opportunité.",
+    tagline: "Trouve une direction. Apprends ce dont tu as besoin. Construis. Transforme ta réalisation en opportunité.",
     sections: {
       platform: "Plateforme",
       community: "Communauté",
@@ -274,6 +280,7 @@ const FR: Translations = {
       legal: "Legal"
     },
     links: {
+      explorer: "Explorer",
       parcours: "Parcours",
       competences: "Compétences",
       projets: "Projets",
@@ -281,6 +288,10 @@ const FR: Translations = {
       communaute: "Communauté",
       sessionsLive: "Sessions live",
       challenges: "Challenges",
+      classement: "Classement",
+      opportunites: "Opportunités",
+      missions: "Missions",
+      mentors: "Mentors et Experts",
       galerieProjets: "Galerie projets",
       connexion: "Connexion",
       inscription: "S'inscrire",
@@ -290,8 +301,51 @@ const FR: Translations = {
       confidentialite: "Confidentialité",
       conditions: "Conditions"
     },
-    copyright: "(c) 2025 TakaCode. Tous droits réservés.",
+    copyright: "© 2026 TakaCode — Apprendre, construire, progresser. Tous droits réservés.",
+    madeWith: "Ressources ouvertes, Coach IA, communauté et mentors au service de tes réalisations.",
     footerLang: "Français"
+  },
+  opportunitiesPage: {
+    metaTitle: "Opportunités",
+    metaDescription: "Sur TakaCode, une réalisation terminée devient une preuve d'expérience, puis une opportunité : portfolio, client, Mission, activité ou emploi.",
+    sectionLabel: "Opportunites",
+    title: "MONTRER CE QUE TU SAIS FAIRE",
+    intro: "TakaCode ne s'arrête pas au projet terminé. Chaque réalisation documentée devient une preuve d'expérience, et cette preuve peut ouvrir une opportunité : un client, une Mission, une activité ou un emploi.",
+    chain: "Projet → Réalisation → Preuve d'expérience → Opportunité",
+    statusAvailable: "Disponible",
+    statusPreparing: "En préparation",
+    cards: {
+      portfolio: {
+        title: "Portfolio et preuves d'experience",
+        description: "Chaque projet terminé alimente ton profil public : objectif, étapes, livrables, compétences démontrées et rôle tenu. Un profil partageable vaut plus qu'une compétence déclarée.",
+        cta: "Voir les projets"
+      },
+      missions: {
+        title: "Missions",
+        description: "Des organisations déposent un besoin réel. TakaCode le transforme en Mission cadrée : critères d'acceptation, équipe, Mentor responsable, jalons et validation. Les premières Missions sont menées manuellement avant toute automatisation.",
+        cta: "Nous parler d'un besoin"
+      },
+      mentors: {
+        title: "Mentors et Experts",
+        description: "L'expérience accumulée circule : aider, relire, débloquer, accompagner. La contribution construit une réputation, et cette réputation peut progressivement devenir une source d'opportunités et de revenus.",
+        cta: "Rejoindre la communauté"
+      },
+      challenges: {
+        title: "Challenges et programmes",
+        description: "Des projets prêts à réaliser pour découvrir un domaine, pratiquer et construire un portfolio. Certains peuvent être soutenus par un partenaire, une entreprise ou un programme d'impact.",
+        cta: "Voir les challenges"
+      }
+    },
+    orgs: {
+      label: "Organisations et partenaires",
+      title: "Un besoin numerique a faire realiser ?",
+      description: "Entreprise, ONG, association, startup, administration ou entrepreneur : ton besoin peut devenir une Mission encadrée. Tu obtiens un résultat cadré et suivi ; les participants obtiennent une expérience professionnelle réelle.",
+      cta: "Entrer en contact"
+    },
+    honesty: {
+      title: "Ce que nous ne promettons pas",
+      description: "TakaCode ne garantit pas un emploi. Nous travaillons sur ce qui peut réellement être construit : la pratique, l'expérience, le portfolio et l'accès progressif à des opportunités."
+    }
   },
   values: {
     sectionLabel: "Le vrai problème",
@@ -324,33 +378,42 @@ const FR: Translations = {
     }
   },
   process: {
-    sectionLabel: "PROCESSUS",
-    title: "DE L'IDÉE AU PROJET TERMINÉ",
-    subtitle: "Un chemin clair. Des ressources au bon moment. Un résultat concret.",
+    sectionLabel: "L'APPROCHE",
+    title: "UN CADRE POUR",
+    title2: "PASSER A L'ACTION.",
+    subtitle: "Pas besoin d'attendre de tout maîtriser avant de commencer.",
+    subtitle2: "Sur TakaCode, le projet guide l'apprentissage : tu avances, apprends ce qui devient nécessaire et l'appliques immédiatement.",
+    subtitle2Highlight: "le projet guide l'apprentissage",
     steps: {
-      idea: {
-        title: "TON IDÉE",
-        desc: "Tu veux créer quelque chose. On t'aide à structurer ton projet."
+      orient: {
+        label: "S'ORIENTER",
+        title: "Trouver une direction",
+        desc: "Pars de ton objectif, de tes envies et de tes contraintes pour identifier une première voie concrète."
       },
-      track: {
-        title: "CHOISIS LE TYPE",
-        desc: "SaaS, YouTube, agent IA, boutique, freelance, automatisation..."
+      plan: {
+        label: "STRUCTURER",
+        title: "Transformer l'idee en plan",
+        desc: "Décompose ce que tu veux réaliser en étapes, actions et livrables clairs."
       },
-      resources: {
-        title: "RESSOURCES + IA",
-        desc: "Apprends au moment du besoin. Les bonnes ressources, au bon moment."
+      learn: {
+        label: "APPRENDRE",
+        title: "Apprendre au bon moment",
+        desc: "Accède aux ressources utiles lorsqu'elles deviennent nécessaires pour avancer."
       },
-      sessions: {
-        title: "CONSTRUIS",
-        desc: "Étapes, livrables, retours. Du concret, pas juste de la théorie."
+      build: {
+        label: "CONSTRUIRE",
+        title: "Produire du concret",
+        desc: "Chaque étape doit aboutir à une décision, une action ou un livrable réel."
       },
-      publish: {
-        title: "PUBLIE",
-        desc: "Ton projet en ligne. Visible. Partageable. Une vraie preuve."
+      unblock: {
+        label: "SE DEBLOQUER",
+        title: "Trouver de l'aide",
+        desc: "Coach IA, communauté, Mentors et Experts t'aident lorsque tu rencontres un blocage."
       },
-      monetize: {
-        title: "PROUVE & VALORISE",
-        desc: "Client, emploi, mission, activité. Ton projet ouvre la porte."
+      prove: {
+        label: "PROUVER",
+        title: "Montrer ce que tu sais faire",
+        desc: "Tes réalisations documentent progressivement tes compétences et enrichissent ton expérience."
       }
     },
     cta: "Commencer un projet"
@@ -1562,27 +1625,35 @@ const FR: Translations = {
     desc: "Des milliers d'heures de contenu gratuit existent. Mais l'accès à l'information ne garantit ni la compétence, ni l'expérience, ni l'opportunité. TakaCode transforme ce qui existe déjà en projet réel, en preuve d'expérience et en opportunité concrète."
   },
   entryPoints: {
-    sectionLabel: "COMMENCER",
-    title: "Trois façons de construire",
-    subtitle: "Chaque personne arrive avec un niveau différent. Choisis celle qui te correspond.",
+    sectionLabel: "TON POINT DE DEPART",
+    title: "TU PEUX COMMENCER",
+    title2: "D'OU TU ES.",
+    subtitle: "Tu n'as pas besoin d'avoir déjà un projet, une compétence précise ou un plan clair.",
+    subtitle2: "TakaCode s'adapte à ce que tu cherches aujourd'hui.",
     cards: {
+      explore: {
+        title: "EXPLORER",
+        headline: "Je ne sais pas encore quoi faire.",
+        desc: "Découvre des métiers, des activités et des projets pour trouver une première direction.",
+        cta: "Explorer"
+      },
       build: {
         title: "BUILD",
-        headline: "J'ai une idée. Je veux la réaliser.",
-        desc: "Tu as déjà un projet en tête — un site, un SaaS, une chaîne, une boutique. On te transforme ça en plan concret avec des étapes, des ressources et un Coach IA.",
-        cta: "Créer mon projet"
+        headline: "J'ai une idée à réaliser.",
+        desc: "Transforme ton idée en projet structuré, avec étapes, ressources et livrables.",
+        cta: "Créer"
       },
       challenges: {
         title: "CHALLENGES",
-        headline: "Je veux construire, mais je ne sais pas quoi.",
-        desc: "Des projets prêts à réaliser. Tu choisis un défi, tu apprends en le faisant, tu construis ton portfolio. Solo ou avec d'autres membres.",
-        cta: "Voir les challenges"
+        headline: "Je veux pratiquer sur un projet concret.",
+        desc: "Choisis un projet prêt à réaliser pour apprendre en construisant et enrichir ton portfolio.",
+        cta: "Voir les Challenges"
       },
       missions: {
         title: "MISSIONS",
         headline: "Je veux travailler sur un vrai besoin.",
-        desc: "Une organisation a un besoin réel. Tu y participes pour acquérir une expérience professionnelle encadrée, avec des livrables vérifiables.",
-        cta: "Découvrir les missions"
+        desc: "Accède progressivement à des projets proposés par des organisations et transforme tes réalisations en expérience réelle.",
+        cta: "Voir les opportunités"
       }
     }
   },
@@ -2283,10 +2354,13 @@ const FR: Translations = {
 const EN: Translations = {
   navbar: {
     accueil: "Home",
+    explorer: "Explore",
+    challenges: "Challenges",
     parcours: "Tracks",
     competences: "Skills",
     projets: "Projects",
     communaute: "Community",
+    opportunites: "Opportunities",
     classement: "Leaderboard",
     connexion: "Sign in",
     commencer: "Get started",
@@ -2478,13 +2552,16 @@ const EN: Translations = {
   },
   home: {
     hero: {
-      badge: "Create. Build. Turn it into opportunity.",
-      purposeHeading: "TakaCode solves the real problem: you learn but have nothing concrete to show. Here, every lesson moves a real project forward.",
-      title1: "YOU KNOW HOW TO LEARN.",
-      title2: "NOW BUILD.",
-      subtitle: "Thousands of hours of free content exist. But learning alone doesn't land a job, a client, or a business. TakaCode turns your learning into a real project, proof of experience, and a concrete opportunity.",
-      ctaPrimary: "Start a project",
-      ctaSecondary: "See how it works",
+      badge: "From direction to action",
+      purposeHeading: "TakaCode solves the real problem: you learn but have nothing concrete to show. Here, every step moves a real project forward.",
+      title1: "LEARN • BUILD",
+      title2: "GROW",
+      subtitle: "Find a direction, build something real, and learn what you need exactly when you need it.",
+      subtitle2: "TakaCode turns learning into finished work, and every finished project into proof of experience that can open new opportunities.",
+      subtitle2Highlight: "proof of experience",
+      microcopy: "Open resources · AI Coach · Community · Mentors",
+      ctaPrimary: "Explore",
+      ctaSecondary: "Build",
       statMembers: "Members",
       statProjects: "Projects built",
       statTracks: "Tracks",
@@ -2510,7 +2587,7 @@ const EN: Translations = {
     }
   },
   footer: {
-    tagline: "Find a path. Learn. Build. Transform into opportunity.",
+    tagline: "Find a direction. Learn what you need. Build. Turn your work into opportunity.",
     sections: {
       platform: "Platform",
       community: "Community",
@@ -2519,6 +2596,7 @@ const EN: Translations = {
       legal: "Legal"
     },
     links: {
+      explorer: "Explore",
       parcours: "Tracks",
       competences: "Skills",
       projets: "Projects",
@@ -2526,6 +2604,10 @@ const EN: Translations = {
       communaute: "Community",
       sessionsLive: "Live sessions",
       challenges: "Challenges",
+      classement: "Leaderboard",
+      opportunites: "Opportunities",
+      missions: "Missions",
+      mentors: "Mentors and Experts",
       galerieProjets: "Project gallery",
       connexion: "Sign in",
       inscription: "Sign up",
@@ -2535,8 +2617,51 @@ const EN: Translations = {
       confidentialite: "Privacy",
       conditions: "Terms"
     },
-    copyright: "(c) 2025 TakaCode. All rights reserved.",
+    copyright: "© 2026 TakaCode — Learn, build, grow. All rights reserved.",
+    madeWith: "Open resources, an AI Coach, a community and mentors — all serving what you build.",
     footerLang: "English"
+  },
+  opportunitiesPage: {
+    metaTitle: "Opportunities",
+    metaDescription: "On TakaCode, finished work becomes proof of experience, and that proof can open an opportunity: a portfolio, a client, a Mission, a business or a job.",
+    sectionLabel: "Opportunities",
+    title: "SHOW WHAT YOU CAN DO",
+    intro: "TakaCode does not stop at the finished project. Every documented outcome becomes proof of experience, and that proof can open an opportunity: a client, a Mission, a business or a job.",
+    chain: "Project → Finished work → Proof of experience → Opportunity",
+    statusAvailable: "Available",
+    statusPreparing: "In preparation",
+    cards: {
+      portfolio: {
+        title: "Portfolio and proof of experience",
+        description: "Every completed project feeds your public profile: objective, steps, deliverables, demonstrated skills and the role you held. A shareable profile is worth more than a declared skill.",
+        cta: "Browse projects"
+      },
+      missions: {
+        title: "Missions",
+        description: "Organizations submit a real need. TakaCode turns it into a scoped Mission: acceptance criteria, team, accountable Mentor, milestones and validation. The first Missions are run manually before anything is automated.",
+        cta: "Tell us about a need"
+      },
+      mentors: {
+        title: "Mentors and Experts",
+        description: "Experience circulates: helping, reviewing, unblocking, coaching. Contribution builds reputation, and that reputation can progressively become a source of opportunities and income.",
+        cta: "Join the community"
+      },
+      challenges: {
+        title: "Challenges and programs",
+        description: "Ready-to-build projects to discover a field, practise and build a portfolio. Some can be supported by a partner, a company or an impact program.",
+        cta: "Browse challenges"
+      }
+    },
+    orgs: {
+      label: "Organizations and partners",
+      title: "A digital need you want delivered?",
+      description: "Company, NGO, nonprofit, startup, public body or entrepreneur: your need can become a supervised Mission. You get a scoped, monitored result; participants get real professional experience.",
+      cta: "Get in touch"
+    },
+    honesty: {
+      title: "What we do not promise",
+      description: "TakaCode does not guarantee a job. We work on what can actually be built: practice, experience, a portfolio and progressive access to opportunities."
+    }
   },
   values: {
     sectionLabel: "The real problem",
@@ -2569,33 +2694,42 @@ const EN: Translations = {
     }
   },
   process: {
-    sectionLabel: "PROCESS",
-    title: "FROM IDEA TO FINISHED PROJECT",
-    subtitle: "A clear path. Resources at the right moment. A concrete result.",
+    sectionLabel: "THE APPROACH",
+    title: "A FRAMEWORK TO",
+    title2: "TAKE ACTION.",
+    subtitle: "You don't have to master everything before you start.",
+    subtitle2: "On TakaCode, the project drives the learning: you move forward, learn what becomes necessary, and apply it straight away.",
+    subtitle2Highlight: "the project drives the learning",
     steps: {
-      idea: {
-        title: "YOUR IDEA",
-        desc: "You want to create something. We help you structure your project."
+      orient: {
+        label: "GET ORIENTED",
+        title: "Find a direction",
+        desc: "Start from your goal, your interests and your constraints to identify a first concrete path."
       },
-      track: {
-        title: "CHOOSE THE TYPE",
-        desc: "SaaS, YouTube, AI agent, shop, freelance, automation..."
+      plan: {
+        label: "STRUCTURE",
+        title: "Turn the idea into a plan",
+        desc: "Break down what you want to achieve into clear steps, actions and deliverables."
       },
-      resources: {
-        title: "RESOURCES + AI",
-        desc: "Learn when you need it. The right resources at the right moment."
+      learn: {
+        label: "LEARN",
+        title: "Learn at the right moment",
+        desc: "Reach the resources you need exactly when they become necessary to move forward."
       },
-      sessions: {
-        title: "BUILD",
-        desc: "Steps, deliverables, feedback. Real things, not just theory."
+      build: {
+        label: "BUILD",
+        title: "Produce something real",
+        desc: "Every step must end in a decision, an action or a real deliverable."
       },
-      publish: {
-        title: "PUBLISH",
-        desc: "Your project online. Visible. Shareable. A real proof."
+      unblock: {
+        label: "GET UNBLOCKED",
+        title: "Find help",
+        desc: "The AI Coach, the community, Mentors and Experts step in when you hit a blocker."
       },
-      monetize: {
-        title: "PROVE & LEVERAGE",
-        desc: "Clients, jobs, missions, business. Your project opens the door."
+      prove: {
+        label: "PROVE",
+        title: "Show what you can do",
+        desc: "Your finished work progressively documents your skills and builds your experience."
       }
     },
     cta: "Start a project"
@@ -3807,27 +3941,35 @@ const EN: Translations = {
     desc: "Thousands of hours of free content exist. But access to information doesn't guarantee skill, experience, or opportunity. TakaCode turns what already exists into a real project, proof of experience, and a concrete opportunity."
   },
   entryPoints: {
-    sectionLabel: "GET STARTED",
-    title: "Three ways to build",
-    subtitle: "Everyone arrives at a different level. Choose the one that fits you.",
+    sectionLabel: "YOUR STARTING POINT",
+    title: "YOU CAN START",
+    title2: "FROM WHERE YOU ARE.",
+    subtitle: "You don't need to already have a project, a specific skill or a clear plan.",
+    subtitle2: "TakaCode adapts to what you are looking for today.",
     cards: {
+      explore: {
+        title: "EXPLORE",
+        headline: "I don't know what to do yet.",
+        desc: "Discover careers, activities and projects to find a first direction.",
+        cta: "Explore"
+      },
       build: {
         title: "BUILD",
-        headline: "I have an idea. I want to make it real.",
-        desc: "You already have a project in mind — a website, a SaaS, a channel, a shop. We turn it into a concrete plan with steps, resources, and an AI Coach.",
-        cta: "Create my project"
+        headline: "I have an idea to make real.",
+        desc: "Turn your idea into a structured project, with steps, resources and deliverables.",
+        cta: "Build"
       },
       challenges: {
         title: "CHALLENGES",
-        headline: "I want to build but don't know what.",
-        desc: "Ready-to-build projects. Pick a challenge, learn by doing, build your portfolio. Solo or with other members.",
-        cta: "See challenges"
+        headline: "I want to practise on a real project.",
+        desc: "Pick a ready-to-build project to learn by building and grow your portfolio.",
+        cta: "See the Challenges"
       },
       missions: {
         title: "MISSIONS",
         headline: "I want to work on a real need.",
-        desc: "An organization has a real need. You participate to gain supervised professional experience with verifiable deliverables.",
-        cta: "Discover missions"
+        desc: "Progressively access projects submitted by organizations and turn your work into real experience.",
+        cta: "See the opportunities"
       }
     }
   },

@@ -9,13 +9,83 @@ Ce document est la source de verite produit et technique. Chaque livraison visib
 > dans [ROADMAP_REPOSITIONNEMENT.md](ROADMAP_REPOSITIONNEMENT.md).
 >
 > Ici, on suit uniquement **ce qui est livre** : versions, livraisons, reste a faire. Les
-> livraisons a venir se rattachent aux jalons J1 a J8 definis au §07 de `VISION.md`.
+> livraisons a venir se rattachent aux jalons produit J1 a J12 de
+> [ROADMAP_REPOSITIONNEMENT.md](ROADMAP_REPOSITIONNEMENT.md), eux-memes derives de
+> l'ordre de developpement decrit au §13 de `VISION.md` (J1 a J10).
 >
 > Tout ce qui est ecrit plus bas et date d'avant le 18 aout 2026 a ete redige avec
 > l'ancienne promesse (« Build your project. Deploy & monetize. », ou un projet voulait
 > forcement dire un projet informatique). Ces sections restent utiles pour comprendre les
 > decisions techniques passees. Mais si elles contredisent `VISION.md` sur ce qu'est
 > TakaCode, c'est `VISION.md` qui a raison.
+
+---
+
+## Repositionnement — 25 août 2026 (J1 : positionnement)
+
+> Première livraison visible du repositionnement décrit dans
+> [ROADMAP_REPOSITIONNEMENT.md](ROADMAP_REPOSITIONNEMENT.md). Le jalon J1 ne
+> change pas le moteur : il change ce que le produit dit de lui-même.
+
+### 🟢 Livré
+
+**Navigation** — `Accueil · Explorer · Challenges · Projets · Communauté · Opportunités`,
+puis `Connexion · Commencer`. Les entrées pointent vers les pages qui portent déjà
+le rôle : Explorer → `/skills`, Challenges → `/tracks`, Opportunités → `/opportunities`.
+Le classement quitte la navigation principale et reste accessible depuis le pied de page.
+
+**Hero** — nouvelle promesse : `APPRENDRE • CONSTRUIRE • PROGRESSER`, avec les deux
+phrases d'orientation puis la micro-copy `Ressources ouvertes · Coach IA · Communauté · Mentors`.
+Les CTA deviennent `Explorer` (primaire) et `Créer` (secondaire) : une personne sans idée
+n'est plus renvoyée directement vers la création d'un projet.
+
+**Section « L'approche »** — l'ancienne section `PROCESSUS` (« De l'idée au projet
+terminé ») devient `L'APPROCHE` / `UN CADRE POUR PASSER A L'ACTION.`. Les six pas
+passent de `idée → type → ressources → construis → publie → monétise` à
+`s'orienter → structurer → apprendre → construire → se débloquer → prouver`, chacun
+avec un sur-titre et une icône dédiée (boussole, itinéraire, livre, marteau, bouée,
+badge vérifié). Le pas final « monétiser » disparaît : la valorisation ne se réduit
+pas au revenu.
+
+**Section « Ton point de départ »** — l'ancienne section `COMMENCER` / « Trois façons
+de construire » devient `TON POINT DE DEPART` / `TU PEUX COMMENCER D'OU TU ES.` et
+passe de trois à **quatre portes d'entrée** : `EXPLORER` (nouvelle, `lucide:telescope`,
+→ `/skills`), `BUILD`, `CHALLENGES` et `MISSIONS` (qui pointe désormais vers
+`/opportunities` et non plus `/community`). Chaque carte part de la phrase du visiteur
+(« Je ne sais pas encore quoi faire ») plutôt que du vocabulaire produit. Les trois
+portes historiques supposaient toutes que le visiteur savait déjà quoi construire.
+
+**Pied de page** — copyright réécrit (`© 2026 TakaCode — Apprendre, construire, progresser.`),
+colonne plateforme alignée sur la navigation, classement ajouté à la colonne communauté.
+
+**Nouvelle page `/opportunities`** — rend visible la fin de la chaîne
+`Projet → Réalisation → Preuve d'expérience → Opportunité`. Quatre blocs : portfolio
+(disponible), Missions, Mentors et Experts, Challenges et programmes (en préparation),
+plus une adresse pour les organisations et une section « ce que nous ne promettons pas ».
+Alias FR `/fr/opportunites` ajouté à `lib/legacyRoutes.ts`.
+
+**Langues** — tous les textes existent en français et en anglais dans `lib/i18n.ts`.
+Aucune chaîne du hero, de la navigation ou du pied de page n'est écrite en dur.
+
+### 🟡 Reste à faire sur ce jalon
+
+- Les Missions, la marketplace d'expertise et les programmes affichés sur
+  `/opportunities` sont marqués « en préparation ». Ils dépendent de J9 (vendre 5 à 10
+  Missions manuellement) avant tout développement.
+- `/opportunities` propose « entrer en contact » via la communauté : pas encore de
+  formulaire de dépôt de besoin côté organisation (J10).
+- Le rendu serveur des composants client part toujours de la locale par défaut (`en`)
+  avant hydratation : la version française n'apparaît qu'après montage. Dette i18n
+  antérieure, non traitée par ce jalon.
+- `HowItWorksSection` est traitée (le pas « monétiser » a disparu). En revanche la
+  FAQ, la CTA finale, `ValuesSection` (`values.cards.monetization`) et la
+  documentation dashboard (`guides.*`) décrivent encore la valorisation uniquement
+  comme « monétiser ». La vision reconnaît aussi le portfolio, la Mission, le client
+  et l'emploi comme sorties valides : à réécrire dans un passage dédié.
+- `scripts/fix-french-ui.mjs --inventory` ne scanne que les chaînes écrites en dur
+  dans le JSX : il ne voit pas `lib/i18n.ts`, où vit désormais l'essentiel des textes
+  display. Des titres accentués ont pu passer entre les mailles (c'était le cas de
+  `process.title` = « DE L'IDÉE AU PROJET TERMINÉ »). Étendre le script à `i18n.ts`.
 
 ---
 

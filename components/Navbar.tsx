@@ -32,13 +32,17 @@ interface SessionUser {
   avatarUrl: string;
 }
 
+// Navigation alignee sur la vision : Accueil, Explorer, Challenges, Projets,
+// Communaute, Opportunites. Chaque entree pointe vers la page existante qui porte
+// deja ce role : Explorer = les voies et types de projets, Challenges = les projets
+// guides prets a realiser, Opportunites = portfolio, Missions, Mentors et programmes.
 const NAV_LINK_DEFS: Array<{ href: string; id: string; labelKey: string; match: string[] }> = [
   { href: "/", id: "nav-accueil-link", labelKey: "navbar.accueil", match: ["/"] },
-  { href: "/tracks", id: "nav-tracks-link", labelKey: "navbar.parcours", match: ["/tracks"] },
-  { href: "/skills", id: "nav-skills-link", labelKey: "navbar.competences", match: ["/skills"] },
+  { href: "/skills", id: "nav-explorer-link", labelKey: "navbar.explorer", match: ["/skills"] },
+  { href: "/tracks", id: "nav-challenges-link", labelKey: "navbar.challenges", match: ["/tracks"] },
   { href: "/projects", id: "nav-projects-link", labelKey: "navbar.projets", match: ["/projects"] },
   { href: "/community", id: "nav-community-link", labelKey: "navbar.communaute", match: ["/community"] },
-  { href: "/leaderboard", id: "nav-leaderboard-link", labelKey: "navbar.classement", match: ["/leaderboard"] }
+  { href: "/opportunities", id: "nav-opportunities-link", labelKey: "navbar.opportunites", match: ["/opportunities"] }
 ];
 
 // Construit les liens Nav avec locale appliquée aux href et labels traduits

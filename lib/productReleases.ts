@@ -23,6 +23,22 @@ export const PRODUCT_RELEASES: ProductRelease[] = [
     ]
   },
   {
+    version: "1.6",
+    date: "25 août 2026",
+    title: "Repositionnement : de l'orientation à l'action",
+    summary: "Nouvelle promesse, nouvelle navigation et une page Opportunités : TakaCode t'accompagne de la direction à la réalisation, puis de la réalisation à l'opportunité.",
+    status: "livree",
+    highlights: [
+      "🧭 Nouvelle navigation : Accueil, Explorer, Challenges, Projets, Communauté, Opportunités",
+      "✨ Nouveau hero : Apprendre • Construire • Progresser — tu peux commencer même sans idée précise",
+      "🧩 Nouvelle section L'approche : les 6 moments du cadre, de s'orienter à prouver ce que tu sais faire",
+      "🚪 4 portes d'entrée au lieu de 3 : Explorer rejoint Build, Challenges et Missions — tu commences d'où tu es",
+      "🎯 Nouvelle page Opportunités : portfolio, Missions, Mentors et programmes réunis au même endroit",
+      "🌍 Tous les textes de positionnement disponibles en français et en anglais",
+      "📄 Pied de page et copyright réécrits sur la nouvelle promesse"
+    ]
+  },
+  {
     version: "1.5",
     date: "Juillet 2026",
     title: "Tests & Fondations solides",

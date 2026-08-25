@@ -1,15 +1,31 @@
 # Etat operationnel TakaCode
 
 Date : 2026-07-18 (audit complet — remplace le rapport du 2026-07-14)
+Positionnement mis a jour le 2026-08-25 (jalon J1 du repositionnement).
 
 ## Resume
 
-Une idee devient un projet, un projet devient une opportunite. TakaCode aide chacun a
-transformer une idee, une competence ou une envie d'entreprendre en projet reel, termine,
-publie et valorisable — un projet n'etant pas forcement du code (SaaS, agent IA, boutique,
-formation en ligne, chaine video, podcast, activite freelance, produit digital).
-Trois entrees : BUILD, CHALLENGES, MISSIONS.
-Details : [VISION.md](VISION.md) ; modele economique : [BUSINESS_MODEL.md](BUSINESS_MODEL.md).
+TakaCode accompagne une personne de l'orientation a l'action dans l'economie numerique :
+trouver une direction, choisir quelque chose a realiser, apprendre ce dont on a besoin au
+moment ou on en a besoin, produire des livrables, puis transformer cette realisation en
+preuve d'experience et progressivement en opportunite. Un projet n'est pas forcement du
+code (SaaS, agent IA, boutique, formation en ligne, chaine video, podcast, activite
+freelance, produit digital). Trois entrees, un seul moteur de projet : BUILD, CHALLENGES,
+MISSIONS.
+Details : [VISION.md](VISION.md) ; modele economique : [BUSINESS_MODEL.md](BUSINESS_MODEL.md) ;
+traduction produit : [ROADMAP_REPOSITIONNEMENT.md](ROADMAP_REPOSITIONNEMENT.md).
+
+## Positionnement livre (2026-08-25)
+
+- Navigation : `Accueil · Explorer · Challenges · Projets · Communaute · Opportunites`
+  (`/`, `/skills`, `/tracks`, `/projects`, `/community`, `/opportunities`).
+  Le classement passe au pied de page.
+- Hero : `APPRENDRE • CONSTRUIRE • PROGRESSER`, CTA `Explorer` et `Creer`,
+  micro-copy `Ressources ouvertes · Coach IA · Communaute · Mentors`.
+- Nouvelle page publique `/opportunities` (alias FR `/fr/opportunites`) : portfolio
+  disponible, Missions / Mentors / programmes marques en preparation.
+- Pied de page et copyright reecrits ; tous les textes existent en FR et EN
+  (`lib/i18n.ts`). Release `1.6` ajoutee a `lib/productReleases.ts`.
 
 Stack : Next.js 16 (App Router, TypeScript strict) + Supabase (Postgres, Auth,
 RLS, Storage) + Tailwind. Deploiement Vercel. Build de production vert.

@@ -7,6 +7,22 @@
 
 ---
 
+> **Mise à jour du 2026-08-25 — repositionnement (J1).**
+> Les textes de positionnement réécrits (navigation, hero, pied de page, copyright,
+> nouvelle page `/opportunities`) sont **intégralement traduits FR + EN** dans
+> `lib/i18n.ts` : clés `navbar.explorer`, `navbar.challenges`, `navbar.opportunites`,
+> `home.hero.*`, `footer.*` et le bloc `opportunitiesPage.*`. Aucune chaîne en dur
+> n'a été ajoutée dans `Navbar.tsx`, `Hero.tsx`, `FooterSection.tsx` ou
+> `OpportunitiesSection.tsx`.
+>
+> **Limite connue, non traitée par ce jalon :** `I18nProvider` initialise toujours la
+> locale à `DEFAULT_LOCALE` (`en`) puis la corrige au montage depuis le cookie. Le rendu
+> serveur d'une page `/fr` renvoie donc d'abord les textes anglais des composants client,
+> alors que les métadonnées SEO sont correctement en français. À traiter en passant la
+> locale serveur en prop au provider.
+
+---
+
 ## 1. Résumé Exécutif
 
 L'infrastructure i18n est **solide et complète** : système de traduction, provider React, middleware URL, SEO multilingue, helpers de chemins, migration DB. **6 composants landing sur 15 n'utilisent pas encore les traductions (`t()`)** et affichent du contenu FR en dur. Les pages dashboard/admin sont en bonne voie (modifs en cours dans le git). Les tracks en base ont la colonne `locale` mais **aucun track EN n'est seedé**.
