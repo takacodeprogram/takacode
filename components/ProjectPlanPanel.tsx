@@ -1,5 +1,6 @@
 import { computePlanProgress, nextStep, orderPlanSteps, type PlanStep, type StepStatus } from "../lib/projectPlan";
 import ProjectPlanStarter, { type StarterLabels } from "./ProjectPlanStarter";
+import PlanStepActions, { type StepActionLabels } from "./PlanStepActions";
 import type { FrameworkSummary } from "../lib/projectFrameworks";
 
 /**
@@ -17,6 +18,7 @@ export interface PlanLabels {
   nextAction: string;
   status: Record<StepStatus, string>;
   starter: StarterLabels;
+  actions: StepActionLabels;
 }
 
 const STATUS_STYLE: Record<StepStatus, { color: string; border: string; bg: string }> = {
@@ -141,6 +143,7 @@ export default function ProjectPlanPanel({
                         </div>
                         <StatusChip status={step.status} label={labels.status[step.status]} />
                       </div>
+                      <PlanStepActions stepId={step.id} status={step.status} labels={labels.actions} />
                     </div>
                   ))}
                 </div>

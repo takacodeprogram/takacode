@@ -117,6 +117,15 @@ export default async function EditProjectPage({ params }: { params: Promise<Reco
                 generating: t("dashboardProjectPlan.generating"),
                 noFramework: t("dashboardProjectPlan.noFramework"),
                 error: t("dashboardProjectPlan.error")
+              },
+              actions: {
+                start: t("dashboardProjectPlan.start"),
+                complete: t("dashboardProjectPlan.complete"),
+                block: t("dashboardProjectPlan.block"),
+                resume: t("dashboardProjectPlan.resume"),
+                reopen: t("dashboardProjectPlan.reopen"),
+                skip: t("dashboardProjectPlan.skip"),
+                error: t("dashboardProjectPlan.actionError")
               }
             }}
           />

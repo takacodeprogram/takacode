@@ -58,6 +58,14 @@ export const generatePlanSchema = z.object({
 
 export type GeneratePlanInput = z.infer<typeof generatePlanSchema>;
 
+/** POST /api/projects/plan/step — fait avancer une etape du plan */
+export const updateStepStatusSchema = z.object({
+  stepId: UUID,
+  status: z.enum(["todo", "doing", "blocked", "done", "skipped"])
+});
+
+export type UpdateStepStatusInput = z.infer<typeof updateStepStatusSchema>;
+
 /** GET /api/tracks/recommendation (query params) */
 export const trackRecommendationQuerySchema = z.object({
   goal_key: z.string().optional().default("")
