@@ -50,6 +50,14 @@ export const firstEuroSchema = z.object({
 
 export type FirstEuroInput = z.infer<typeof firstEuroSchema>;
 
+/** POST /api/projects/plan — genere le plan d'un projet a partir d'un framework */
+export const generatePlanSchema = z.object({
+  projectId: UUID,
+  frameworkId: UUID
+});
+
+export type GeneratePlanInput = z.infer<typeof generatePlanSchema>;
+
 /** GET /api/tracks/recommendation (query params) */
 export const trackRecommendationQuerySchema = z.object({
   goal_key: z.string().optional().default("")

@@ -1,4 +1,6 @@
 import { computePlanProgress, nextStep, orderPlanSteps, type PlanStep, type StepStatus } from "../lib/projectPlan";
+import ProjectPlanStarter, { type StarterLabels } from "./ProjectPlanStarter";
+import type { FrameworkSummary } from "../lib/projectFrameworks";
 
 /**
  * Le plan d'un projet — cf. ROADMAP_REPOSITIONNEMENT.md §11 (M2).
@@ -14,6 +16,7 @@ export interface PlanLabels {
   emptyHint: string;
   nextAction: string;
   status: Record<StepStatus, string>;
+  starter: StarterLabels;
 }
 
 const STATUS_STYLE: Record<StepStatus, { color: string; border: string; bg: string }> = {
@@ -36,7 +39,17 @@ function StatusChip({ status, label }: { status: StepStatus; label: string }) {
   );
 }
 
-export default function ProjectPlanPanel({ steps, labels }: { steps: PlanStep[]; labels: PlanLabels }) {
+export default function ProjectPlanPanel({
+  projectId,
+  steps,
+  frameworks,
+  labels
+}: {
+  projectId: string;
+  steps: PlanStep[];
+  frameworks: FrameworkSummary[];
+  labels: PlanLabels;
+}) {
   const progress = computePlanProgress(steps);
   const upcoming = nextStep(steps);
   const ordered = orderPlanSteps(steps);
@@ -71,6 +84,7 @@ export default function ProjectPlanPanel({ steps, labels }: { steps: PlanStep[];
         <div className="rounded-xl border border-[var(--border-2)] bg-[var(--overlay-1)] px-4 py-5 text-center">
           <div className="font-body-readable text-[12px] text-[var(--text-primary)] mb-1">{labels.empty}</div>
           <div className="font-body-readable text-[11px] text-[var(--muted-5)]">{labels.emptyHint}</div>
+          <ProjectPlanStarter projectId={projectId} frameworks={frameworks} labels={labels.starter} />
         </div>
       ) : (
         <>

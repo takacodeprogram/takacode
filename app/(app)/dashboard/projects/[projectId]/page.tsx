@@ -13,6 +13,7 @@ import { getServerLocale } from "../../../../../lib/serverLocale";
 import { getTemplateById } from "../../../../../lib/starterTemplates";
 import { orderTracksByGuidance } from "../../../../../lib/trackGuidance";
 import { listPublishedTracks } from "../../../../../lib/tracks";
+import { listPublishedFrameworks } from "../../../../../lib/projectFrameworks";
 import { listProjectPlan } from "../../../../../lib/projectPlan";
 import { getOwnProject, listProjectDeliverables } from "../../../../../lib/userProjects";
 import { createClient } from "../../../../../utils/supabase/server";
@@ -56,11 +57,12 @@ export default async function EditProjectPage({ params }: { params: Promise<Reco
   const locale = await getServerLocale();
   const { t } = getLocale(locale);
 
-  const [{ project }, { tracks }, deliverables, planSteps] = await Promise.all([
+  const [{ project }, { tracks }, deliverables, planSteps, frameworks] = await Promise.all([
     getOwnProject(supabase, user.id, projectId),
     listPublishedTracks(supabase, { limit: 40 }),
     listProjectDeliverables(supabase, user.id, projectId),
-    listProjectPlan(supabase, projectId)
+    listProjectPlan(supabase, projectId),
+    listPublishedFrameworks(supabase, locale)
   ]);
 
   if (!project) {
@@ -94,7 +96,9 @@ export default async function EditProjectPage({ params }: { params: Promise<Reco
           <ProjectForm userId={user.id} tracks={tracks} project={project} />
 
           <ProjectPlanPanel
+            projectId={projectId}
             steps={planSteps}
+            frameworks={frameworks}
             labels={{
               title: t("dashboardProjectPlan.title"),
               empty: t("dashboardProjectPlan.empty"),
@@ -106,6 +110,13 @@ export default async function EditProjectPage({ params }: { params: Promise<Reco
                 blocked: t("dashboardProjectPlan.status.blocked"),
                 done: t("dashboardProjectPlan.status.done"),
                 skipped: t("dashboardProjectPlan.status.skipped")
+              },
+              starter: {
+                choose: t("dashboardProjectPlan.choose"),
+                generate: t("dashboardProjectPlan.generate"),
+                generating: t("dashboardProjectPlan.generating"),
+                noFramework: t("dashboardProjectPlan.noFramework"),
+                error: t("dashboardProjectPlan.error")
               }
             }}
           />

@@ -582,6 +582,11 @@ const FR: Translations = {
     empty: "Ce projet n'a pas encore de plan.",
     emptyHint: "Choisis un framework pour transformer ton objectif en etapes, avec un livrable attendu a chaque fois.",
     nextAction: "Prochaine action",
+    choose: "Choisis un framework",
+    generate: "Generer mon plan",
+    generating: "Generation...",
+    noFramework: "Aucun framework n'est encore publie.",
+    error: "La generation a echoue. Reessaie dans un instant.",
     status: {
       todo: "A faire",
       doing: "En cours",
@@ -2906,6 +2911,11 @@ const EN: Translations = {
     empty: "This project has no plan yet.",
     emptyHint: "Pick a framework to turn your objective into steps, each with a deliverable to produce.",
     nextAction: "Next action",
+    choose: "Pick a framework",
+    generate: "Generate my plan",
+    generating: "Generating...",
+    noFramework: "No framework has been published yet.",
+    error: "Generation failed. Try again in a moment.",
     status: {
       todo: "To do",
       doing: "In progress",
