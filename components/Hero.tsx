@@ -32,6 +32,22 @@ function HeroStat({ value, suffix = "", label }: HeroStatProps) {
   );
 }
 
+// Rend un paragraphe en mettant en valeur un fragment (ex. "preuve d'experience").
+// Si le fragment est absent du texte, le paragraphe est rendu tel quel.
+function withHighlight(text: string, highlight: string) {
+  const index = highlight ? text.indexOf(highlight) : -1;
+  if (index === -1) {
+    return text;
+  }
+  return (
+    <>
+      {text.slice(0, index)}
+      <strong className="font-semibold text-[var(--text-primary)]">{highlight}</strong>
+      {text.slice(index + highlight.length)}
+    </>
+  );
+}
+
 export default function Hero({ stats = null }: { stats?: Stats | null }) {
   const { t } = useI18n();
 
@@ -62,16 +78,18 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
             <h1 className="font-valorax animate-fade-up-d1 mb-6 hero-title">
               {t("home.hero.title1")}
               <br />
-              <span className="gradient-text-blue">{t("home.hero.title2")}</span>
+              {t("home.hero.title2")}
+              <br />
+              <span className="gradient-text-blue">{t("home.hero.title3")}</span>
             </h1>
 
             <p className="animate-fade-up-d2 font-body-readable text-[var(--muted-2)] text-[15px] leading-relaxed mb-9 max-w-[520px]">
-              {t("home.hero.subtitle")}
+              {withHighlight(t("home.hero.subtitle"), t("home.hero.subtitleHighlight"))}
             </p>
 
-            <div className="animate-fade-up-d3 flex flex-col sm:flex-row sm:items-center gap-4 mb-12">
+            <div className="animate-fade-up-d3 flex flex-col sm:flex-row sm:items-center gap-4 mb-5">
               <L
-                href="/projects"
+                href="/skills"
                 id="hero-cta-primary"
                 className="btn-primary glow-btn flex items-center justify-center gap-2"
                 style={{ fontSize: "14px", padding: "14px 28px" }}
@@ -79,7 +97,7 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
                 {t("home.hero.ctaPrimary")}
               </L>
               <L
-                href="/tracks"
+                href="/projects"
                 id="hero-cta-secondary"
                 className="btn-secondary flex items-center justify-center gap-2"
                 style={{ fontSize: "14px", padding: "14px 28px" }}
@@ -87,6 +105,10 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
                 {t("home.hero.ctaSecondary")}
               </L>
             </div>
+
+            <p className="animate-fade-up-d3 font-body-readable text-[12px] text-[var(--muted-5)] mb-12 max-w-[520px]">
+              {t("home.hero.microcopy")}
+            </p>
 
             <div className="animate-fade-up-d4 grid grid-cols-3 gap-4 sm:gap-8 pt-8 border-t border-[var(--border-2)] max-w-[520px]">
               <HeroStat value={stats?.members} label={t("home.hero.statMembers")} />

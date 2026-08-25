@@ -361,6 +361,48 @@ Un membre peut commencer sans compétence ni expérience, découvrir un métier 
 
 ---
 
+# Le site aujourd'hui
+
+## Navigation
+
+```text
+Accueil · Explorer · Challenges · Projets · Communauté · Opportunités
+```
+
+| Entrée | Ce qu'elle permet | Route |
+| --- | --- | --- |
+| **Accueil** | comprendre la promesse | `/` |
+| **Explorer** | découvrir les voies, métiers et types de projets | `/skills` |
+| **Challenges** | trouver un projet prêt à réaliser | `/tracks` |
+| **Projets** | voir et créer des réalisations | `/projects` |
+| **Communauté** | entraide, sessions, contribution | `/community` |
+| **Opportunités** | portfolio, Missions, Mentors, programmes | `/opportunities` |
+
+Le classement (`/leaderboard`) reste accessible depuis le pied de page.
+
+## Le message d'accueil
+
+```text
+TAKACODE · DE L'ORIENTATION A L'ACTION
+
+APPRENDRE
+CONSTRUIRE
+PROGRESSER
+
+Trouve une direction, apprends en construisant et transforme tes projets en
+expériences que tu peux montrer et valoriser.
+
+[ Explorer ]   [ Créer ]
+
+Ressources ouvertes · Coach IA · Communauté · Mentors
+```
+
+Tous ces textes existent en français et en anglais dans `lib/i18n.ts`. Les titres
+en polices display (VALORAX, VENITE) restent sans accent : voir
+[INVENTAIRE_POLICES_DISPLAY.md](./INVENTAIRE_POLICES_DISPLAY.md).
+
+---
+
 # Documentation
 
 **[VISION.md](./VISION.md) est le document de référence de TakaCode.**
@@ -521,7 +563,10 @@ npm start
 
 * `app/(app)/dashboard` — espace membre : projets, parcours, cockpit, reviews et progression ;
 * `app/(app)/admin` — administration et studio de création des parcours ;
-* `app/parcours/[slug]/lecon/[lessonSlug]` — expérience pédagogique : leçons, ressources, quiz et micro-projets ;
+* `app/tracks/[slug]/lesson/[lessonSlug]` — expérience pédagogique : leçons, ressources, quiz et micro-projets ;
+* `app/opportunities` — portfolio, Missions, Mentors et programmes : la fin de la chaîne ;
+* `components/Navbar.tsx`, `components/Hero.tsx`, `components/FooterSection.tsx` — textes de positionnement ;
+* `lib/i18n.ts` — toutes les traductions FR / EN ;
 * `lib/` — accès aux données et logique métier ;
 * `supabase/sql` — scripts SQL et seeds ;
 * `supabase/migrations` — migrations de la base de données ;

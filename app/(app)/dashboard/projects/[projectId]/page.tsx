@@ -4,6 +4,8 @@ import { notFound, redirect } from "next/navigation";
 import DeployGuide from "../../../../../components/DeployGuide";
 import PageHeader from "../../../../../components/app-shell/PageHeader";
 import ProjectForm from "../../../../../components/ProjectForm";
+import ProjectPlanPanel from "../../../../../components/ProjectPlanPanel";
+import ProjectDeliverables from "../../../../../components/ProjectDeliverables";
 import { getTrackCurriculum } from "../../../../../lib/curriculum";
 import { getLocale } from "../../../../../lib/i18n";
 import { buildPageMetadata } from "../../../../../lib/seo";
@@ -12,6 +14,9 @@ import { getServerLocale } from "../../../../../lib/serverLocale";
 import { getTemplateById } from "../../../../../lib/starterTemplates";
 import { orderTracksByGuidance } from "../../../../../lib/trackGuidance";
 import { listPublishedTracks } from "../../../../../lib/tracks";
+import { listDeliverables } from "../../../../../lib/projectDeliverables";
+import { listPublishedFrameworks } from "../../../../../lib/projectFrameworks";
+import { listProjectPlan } from "../../../../../lib/projectPlan";
 import { getOwnProject, listProjectDeliverables } from "../../../../../lib/userProjects";
 import { createClient } from "../../../../../utils/supabase/server";
 
@@ -54,10 +59,13 @@ export default async function EditProjectPage({ params }: { params: Promise<Reco
   const locale = await getServerLocale();
   const { t } = getLocale(locale);
 
-  const [{ project }, { tracks }, deliverables] = await Promise.all([
+  const [{ project }, { tracks }, deliverables, planSteps, frameworks, projectDeliverables] = await Promise.all([
     getOwnProject(supabase, user.id, projectId),
     listPublishedTracks(supabase, { limit: 40 }),
-    listProjectDeliverables(supabase, user.id, projectId)
+    listProjectDeliverables(supabase, user.id, projectId),
+    listProjectPlan(supabase, projectId),
+    listPublishedFrameworks(supabase, locale),
+    listDeliverables(supabase, projectId)
   ]);
 
   if (!project) {
@@ -89,6 +97,78 @@ export default async function EditProjectPage({ params }: { params: Promise<Reco
       <div className="grid xl:grid-cols-[1.4fr_0.9fr] gap-6">
         <div className="space-y-5">
           <ProjectForm userId={user.id} tracks={tracks} project={project} />
+
+          <ProjectPlanPanel
+            projectId={projectId}
+            steps={planSteps}
+            frameworks={frameworks}
+            labels={{
+              title: t("dashboardProjectPlan.title"),
+              empty: t("dashboardProjectPlan.empty"),
+              emptyHint: t("dashboardProjectPlan.emptyHint"),
+              nextAction: t("dashboardProjectPlan.nextAction"),
+              status: {
+                todo: t("dashboardProjectPlan.status.todo"),
+                doing: t("dashboardProjectPlan.status.doing"),
+                blocked: t("dashboardProjectPlan.status.blocked"),
+                done: t("dashboardProjectPlan.status.done"),
+                skipped: t("dashboardProjectPlan.status.skipped")
+              },
+              starter: {
+                choose: t("dashboardProjectPlan.choose"),
+                generate: t("dashboardProjectPlan.generate"),
+                generating: t("dashboardProjectPlan.generating"),
+                noFramework: t("dashboardProjectPlan.noFramework"),
+                error: t("dashboardProjectPlan.error")
+              },
+              actions: {
+                start: t("dashboardProjectPlan.start"),
+                complete: t("dashboardProjectPlan.complete"),
+                block: t("dashboardProjectPlan.block"),
+                resume: t("dashboardProjectPlan.resume"),
+                reopen: t("dashboardProjectPlan.reopen"),
+                skip: t("dashboardProjectPlan.skip"),
+                error: t("dashboardProjectPlan.actionError")
+              }
+            }}
+          />
+
+          <ProjectDeliverables
+            projectId={projectId}
+            deliverables={projectDeliverables}
+            steps={planSteps}
+            labels={{
+              title: t("projectDeliverables.title"),
+              empty: t("projectDeliverables.empty"),
+              emptyHint: t("projectDeliverables.emptyHint"),
+              add: t("projectDeliverables.add"),
+              cancel: t("projectDeliverables.cancel"),
+              save: t("projectDeliverables.save"),
+              saving: t("projectDeliverables.saving"),
+              fieldTitle: t("projectDeliverables.fieldTitle"),
+              fieldUrl: t("projectDeliverables.fieldUrl"),
+              fieldKind: t("projectDeliverables.fieldKind"),
+              fieldStep: t("projectDeliverables.fieldStep"),
+              noStep: t("projectDeliverables.noStep"),
+              error: t("projectDeliverables.error"),
+              kinds: {
+                repo: t("projectDeliverables.kinds.repo"),
+                app: t("projectDeliverables.kinds.app"),
+                document: t("projectDeliverables.kinds.document"),
+                video: t("projectDeliverables.kinds.video"),
+                channel: t("projectDeliverables.kinds.channel"),
+                playlist: t("projectDeliverables.kinds.playlist"),
+                dashboard: t("projectDeliverables.kinds.dashboard"),
+                dataset: t("projectDeliverables.kinds.dataset"),
+                automation: t("projectDeliverables.kinds.automation"),
+                landing: t("projectDeliverables.kinds.landing"),
+                portfolio: t("projectDeliverables.kinds.portfolio"),
+                proposal: t("projectDeliverables.kinds.proposal"),
+                product: t("projectDeliverables.kinds.product"),
+                other: t("projectDeliverables.kinds.other")
+              }
+            }}
+          />
 
           {deliverables.length > 0 ? (
             <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-5">

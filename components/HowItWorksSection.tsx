@@ -4,16 +4,35 @@ import L from "./L";
 import { useEffect, useRef, useState } from "react";
 import { useI18n } from "./I18nProvider";
 
+// Les six moments du cadre, de l'orientation a la preuve d'experience.
+// Chaque icone illustre l'action du moment, pas un outil : boussole pour choisir
+// une direction, itineraire pour planifier, bouee pour se debloquer, badge pour prouver.
 const STEP_KEYS: Array<{ icon: string; key: string; accent: string }> = [
-  { icon: "lucide:lightbulb", key: "idea", accent: "#4F8EF7" },
-  { icon: "lucide:git-branch", key: "track", accent: "#22D3EE" },
-  { icon: "lucide:book-open", key: "resources", accent: "#10B981" },
-  { icon: "lucide:video", key: "sessions", accent: "#F59E0B" },
-  { icon: "lucide:package", key: "publish", accent: "#9B6DFF" },
-  { icon: "lucide:trending-up", key: "monetize", accent: "#EF4444" }
+  { icon: "lucide:compass", key: "orient", accent: "#4F8EF7" },
+  { icon: "lucide:route", key: "plan", accent: "#22D3EE" },
+  { icon: "lucide:book-open", key: "learn", accent: "#10B981" },
+  { icon: "lucide:hammer", key: "build", accent: "#F59E0B" },
+  { icon: "lucide:life-buoy", key: "unblock", accent: "#9B6DFF" },
+  { icon: "lucide:badge-check", key: "prove", accent: "#EC4899" }
 ];
 
-function StepCard({ icon, title, desc, index, isVisible, accent }: { icon: string; title: string; desc: string; index: number; isVisible: boolean; accent: string }) {
+// Met en valeur un fragment du paragraphe d'intro. Sans correspondance, le texte
+// est rendu tel quel : une traduction peut formuler la phrase autrement.
+function withHighlight(text: string, highlight: string) {
+  const index = highlight ? text.indexOf(highlight) : -1;
+  if (index === -1) {
+    return text;
+  }
+  return (
+    <>
+      {text.slice(0, index)}
+      <strong className="font-semibold text-[var(--text-primary)]">{highlight}</strong>
+      {text.slice(index + highlight.length)}
+    </>
+  );
+}
+
+function StepCard({ icon, label, title, desc, index, isVisible, accent }: { icon: string; label: string; title: string; desc: string; index: number; isVisible: boolean; accent: string }) {
   return (
     <div
       className="text-center transition-all duration-700"
@@ -32,7 +51,13 @@ function StepCard({ icon, title, desc, index, isVisible, accent }: { icon: strin
       >
         <iconify-icon icon={icon} style={{ fontSize: "28px", color: isVisible ? accent : "#666", transition: "color 0.5s" }} />
       </div>
-      <div className="font-venite text-[12px] text-[var(--text-primary)] mb-2">{title}</div>
+      <div
+        className="font-venite text-[10px] mb-1.5 transition-colors duration-500"
+        style={{ color: isVisible ? accent : "var(--muted-5)", letterSpacing: "0.12em" }}
+      >
+        {label}
+      </div>
+      <div className="font-venite text-[12px] text-[var(--text-primary)] mb-2 leading-snug">{title}</div>
       <p className="font-body-readable text-[11px] text-[var(--muted-5)] leading-relaxed transition-colors duration-500" style={{ color: isVisible ? "#888" : "#555" }}>
         {desc}
       </p>
@@ -101,9 +126,14 @@ export default function HowItWorksSection() {
           <div className="section-label mb-4">{t("process.sectionLabel")}</div>
           <h2 className="font-valorax gradient-text mb-5" style={{ fontSize: "clamp(36px, 3.5vw, 54px)", letterSpacing: "-0.02em" }}>
             {t("process.title")}
+            <br />
+            <span className="gradient-text-blue">{t("process.title2")}</span>
           </h2>
-          <p className="font-body-readable text-[var(--muted-4)] text-[15px] max-w-md mx-auto">
+          <p className="font-body-readable text-[var(--muted-4)] text-[15px] max-w-[620px] mx-auto">
             {t("process.subtitle")}
+          </p>
+          <p className="font-body-readable text-[var(--muted-4)] text-[15px] max-w-[620px] mx-auto mt-3">
+            {withHighlight(t("process.subtitle2"), t("process.subtitle2Highlight"))}
           </p>
         </div>
 
@@ -121,6 +151,7 @@ export default function HowItWorksSection() {
               <StepCard
                 key={step.key}
                 icon={step.icon}
+                label={t(`process.steps.${step.key}.label`)}
                 title={t(`process.steps.${step.key}.title`)}
                 desc={t(`process.steps.${step.key}.desc`)}
                 index={index}

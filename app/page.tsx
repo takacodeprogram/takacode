@@ -1,7 +1,6 @@
 import { cookies } from "next/headers";
 import CommunitySection from "../components/CommunitySection";
 import EntryPointsSection from "../components/EntryPointsSection";
-import VisionQuote from "../components/VisionQuote";
 import SkillsSection from "../components/SkillsSection";
 import FAQSection from "../components/FAQSection";
 import FinalCtaSection from "../components/FinalCtaSection";
@@ -59,7 +58,6 @@ export default async function Home() {
       <Navbar />
       <main>
         <Hero stats={stats} />
-        <VisionQuote />
         <hr className="section-divider" />
         <ValuesSection />
         <hr className="section-divider" />

@@ -16,7 +16,7 @@ voir [RAPPORT_OPERATIONNEL.md](RAPPORT_OPERATIONNEL.md) et
 **Stack :** Next.js 16 (App Router, TypeScript strict) + Supabase (Postgres, Auth, RLS, Storage) + React 19 + Tailwind CSS  
 **Deploiement :** Vercel  
 **Langue :** Francais. Le contenu pedagogique en base est accentue (corrige via `scripts/fix-french-content.mjs`) ; certains libelles UI restent volontairement sans accents (convention historique en cours d'harmonisation)  
-**A quoi sert le site :** transformer une idee, une competence ou une envie d'entreprendre en projet reel, termine, publie et valorisable. Un projet n'est pas forcement du code (SaaS, agent IA, boutique, formation en ligne, chaine YouTube, podcast, freelance, produit digital). Boucle : apprendre -> construire -> terminer -> montrer -> obtenir une opportunite. Trois entrees : BUILD, CHALLENGES, MISSIONS. Details : [VISION.md](VISION.md)
+**A quoi sert le site :** accompagner une personne de l'orientation a l'action. Elle trouve une direction, choisit quelque chose a realiser, apprend ce dont elle a besoin au moment ou elle en a besoin, produit des livrables, puis transforme cette realisation en preuve d'experience et, progressivement, en opportunite. Un projet n'est pas forcement du code (SaaS, agent IA, boutique, formation en ligne, chaine YouTube, podcast, freelance, produit digital). Chaine : orientation -> ressources -> apprentissage -> projet -> realisation -> preuve d'experience -> opportunite. Trois entrees, un seul moteur de projet : BUILD, CHALLENGES, MISSIONS. Details : [VISION.md](VISION.md)
 
 ---
 
@@ -146,17 +146,23 @@ Chaque lecon peut avoir un `micro_project.validation` :
 
 ### 5.1 Pages publiques
 
-| Route | Composant/Purpose |
-|---|---|
-| `/` | Landing page (Hero, HowItWorks, Competences, Community, FAQ, etc.) |
-| `/parcours` | Catalogue des parcours |
-| `/parcours/[slug]` | Detail d'un parcours (competences, curriculum, progression) |
-| `/parcours/[slug]/lecon/[lessonSlug]` | Lecon individuelle (quiz, micro-projet, ressources) |
-| `/competences` | "Ce que tu peux creer" (tags defilants) |
-| `/projets` | Catalogue des projets |
-| `/communaute` | Galerie projets communautaires |
-| `/classement` | Leaderboard public |
-| `/tarifs` | Offres et tarifs |
+Les routes canoniques sont en anglais. Les anciennes routes francaises
+(`/parcours`, `/competences`, `/projets`, `/communaute`, `/classement`,
+`/opportunites`, `/tarifs`...) restent valides et sont redirigees par
+`lib/legacyRoutes.ts`.
+
+| Route | Libelle navigation | Composant/Purpose |
+|---|---|---|
+| `/` | Accueil | Landing page (Hero, EntryPoints, HowItWorks, Skills, Tracks, Community, FAQ...) |
+| `/skills` | Explorer | Voies, metiers et types de projets realisables |
+| `/tracks` | Challenges | Catalogue des projets guides prets a realiser |
+| `/tracks/[slug]` | — | Detail d'un parcours (competences, curriculum, progression) |
+| `/tracks/[slug]/lesson/[lessonSlug]` | — | Lecon individuelle (quiz, micro-projet, ressources) |
+| `/projects` | Projets | Catalogue des projets |
+| `/community` | Communaute | Galerie projets communautaires, sessions |
+| `/opportunities` | Opportunites | Portfolio, Missions, Mentors et Experts, programmes |
+| `/leaderboard` | — (pied de page) | Leaderboard public |
+| `/pricing` | — | Offres et tarifs |
 | `/connexion` / `/signin` / `/signup` | Pages auth |
 | `/onboarding` | Questionnaire post-inscription |
 | `/privacy` / `/terms` / `/cookies` | Pages legales |

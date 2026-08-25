@@ -77,7 +77,8 @@ export const MENTOR_LINK: NavLink = { href: "/dashboard/mentor", icon: "lucide:b
 export const ADMIN_AREA_LINKS: NavLink[] = [
   { href: "/admin", icon: "lucide:layout-dashboard", labelKey: "sidebar.adminOverview", exact: true },
   { href: "/admin/users", icon: "lucide:users", labelKey: "sidebar.adminUsers" },
-  { href: "/admin/tracks", icon: "lucide:route", labelKey: "sidebar.adminTracks" },
+  { href: "/admin/frameworks", icon: "lucide:route", labelKey: "sidebar.adminFrameworks" },
+  { href: "/admin/tracks", icon: "lucide:book-open", labelKey: "sidebar.adminTracks" },
   { href: "/admin/sessions", icon: "lucide:video", labelKey: "sidebar.adminSessions" },
   { href: "/admin/reviews", icon: "lucide:git-pull-request", labelKey: "sidebar.adminReviews" },
   { href: "/admin/affiliates", icon: "lucide:link", labelKey: "sidebar.adminAffiliates" },

@@ -50,6 +50,37 @@ export const firstEuroSchema = z.object({
 
 export type FirstEuroInput = z.infer<typeof firstEuroSchema>;
 
+/** POST /api/projects/plan — genere le plan d'un projet a partir d'un framework */
+export const generatePlanSchema = z.object({
+  projectId: UUID,
+  frameworkId: UUID
+});
+
+export type GeneratePlanInput = z.infer<typeof generatePlanSchema>;
+
+/** POST /api/projects/plan/step — fait avancer une etape du plan */
+export const updateStepStatusSchema = z.object({
+  stepId: UUID,
+  status: z.enum(["todo", "doing", "blocked", "done", "skipped"])
+});
+
+export type UpdateStepStatusInput = z.infer<typeof updateStepStatusSchema>;
+
+/** POST /api/projects/deliverable — depose un livrable */
+export const addDeliverableSchema = z.object({
+  projectId: UUID,
+  stepId: UUID.optional().nullable(),
+  kind: z.enum([
+    "repo", "app", "document", "video", "channel", "playlist", "dashboard",
+    "dataset", "automation", "landing", "portfolio", "proposal", "product", "other"
+  ]),
+  title: z.string().trim().min(2, "Titre trop court").max(160, "Titre trop long"),
+  url: z.string().trim().max(500).optional().default(""),
+  body: z.string().trim().max(5000).optional().default("")
+});
+
+export type AddDeliverableInput = z.infer<typeof addDeliverableSchema>;
+
 /** GET /api/tracks/recommendation (query params) */
 export const trackRecommendationQuerySchema = z.object({
   goal_key: z.string().optional().default("")

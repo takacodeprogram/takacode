@@ -8,6 +8,7 @@ import GradeProgress from "../../../components/GradeProgress";
 import NextActionBlock from "../../../components/NextActionBlock";
 import ProfileCompletionReminder from "../../../components/ProfileCompletionReminder";
 import ProjectCockpit from "../../../components/ProjectCockpit";
+import ProjectPlanSummary from "../../../components/ProjectPlanSummary";
 import PageHeader from "../../../components/app-shell/PageHeader";
 import { getUserAccessContext } from "../../../lib/auth";
 import { getTrackCurriculum } from "../../../lib/curriculum";
@@ -19,6 +20,7 @@ import { getTrackGuidance, guidanceLevelChip, orderTracksByGuidance } from "../.
 import { recommendTracksForProject, type RecommenderTrack } from "../../../lib/trackRecommender";
 import { getUserAiConfig, resolveAskOverride } from "../../../lib/userAiConfig";
 import { localePath } from "../../../lib/localeHelpers";
+import { listProjectPlan } from "../../../lib/projectPlan";
 import { listOwnProjects } from "../../../lib/userProjects";
 import { createClient } from "../../../utils/supabase/server";
 
@@ -65,6 +67,8 @@ export default async function DashboardHomePage() {
   const enrolledTracks = enrollmentResult.enrollments;
   const ownProjectsResult = await listOwnProjects(supabase, user.id);
   const mainProject = ownProjectsResult.projects?.[0] || null;
+  // Le plan est la nouvelle unite de progression : il passe avant les parcours.
+  const planSteps = mainProject ? await listProjectPlan(supabase, mainProject.id) : [];
   const projectEnrollment = mainProject?.trackId
     ? enrolledTracks.find((entry) => entry.trackId === mainProject.trackId) || null
     : null;
@@ -172,6 +176,21 @@ export default async function DashboardHomePage() {
       <div className="grid xl:grid-cols-[1.4fr_0.9fr] gap-6">
         <div className="space-y-6">
           <ProjectCockpit project={mainProject} firstName={firstName} goalLabel={onboardingProfile.goalLabel} />
+
+          {mainProject ? (
+            <ProjectPlanSummary
+              steps={planSteps}
+              projectHref={localePath(`/dashboard/projects/${mainProject.id}`, locale)}
+              labels={{
+                title: t("dashboardProjectPlan.summaryTitle"),
+                nextAction: t("dashboardProjectPlan.nextAction"),
+                open: t("dashboardProjectPlan.open"),
+                empty: t("dashboardProjectPlan.summaryEmpty"),
+                emptyCta: t("dashboardProjectPlan.summaryEmptyCta"),
+                done: t("dashboardProjectPlan.allDone")
+              }}
+            />
+          ) : null}
 
           {primaryEnrollment ? (
             <section className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-5 animate-fade-up-d2">

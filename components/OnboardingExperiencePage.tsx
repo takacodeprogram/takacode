@@ -389,7 +389,7 @@ export default function OnboardingExperiencePage({ user }: OnboardingExperienceP
                 {/* Intention cards */}
                 <div className="grid sm:grid-cols-3 gap-3 mb-6">
                   {INTENT_OPTIONS.map((intent) => {
-                    const active = intent.goalKeys.includes(goalKey);
+                    const active = (intent.goalKeys as readonly string[]).includes(goalKey);
                     return (
                       <button key={intent.key} type="button"
                         onClick={() => { if (!active) setGoalKey(intent.goalKeys[0]); }}
