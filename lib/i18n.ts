@@ -577,6 +577,27 @@ const FR: Translations = {
     inProgress: "En cours",
     reviewLesson: "Revoir la leçon"
   },
+  projectDeliverables: {
+    title: "TES LIVRABLES",
+    empty: "Aucun livrable pour l'instant.",
+    emptyHint: "Une etape cochee est une declaration. Une etape avec un livrable est une preuve.",
+    add: "Ajouter",
+    cancel: "Annuler",
+    save: "Enregistrer",
+    saving: "Enregistrement...",
+    fieldTitle: "Titre",
+    fieldUrl: "Lien (facultatif)",
+    fieldKind: "Type",
+    fieldStep: "Etape liee",
+    noStep: "Aucune etape",
+    error: "Echec de l'enregistrement.",
+    kinds: {
+      repo: "Depot", app: "Application", document: "Document", video: "Video",
+      channel: "Chaine", playlist: "Playlist", dashboard: "Tableau de bord",
+      dataset: "Jeu de donnees", automation: "Automatisation", landing: "Landing page",
+      portfolio: "Portfolio", proposal: "Proposition", product: "Produit", other: "Autre"
+    }
+  },
   dashboardProjectPlan: {
     title: "TON PLAN",
     empty: "Ce projet n'a pas encore de plan.",
@@ -2932,6 +2953,27 @@ const EN: Translations = {
     completed: "Completed",
     inProgress: "In progress",
     reviewLesson: "Review lesson"
+  },
+  projectDeliverables: {
+    title: "YOUR DELIVERABLES",
+    empty: "No deliverable yet.",
+    emptyHint: "A checked step is a claim. A step with a deliverable is proof.",
+    add: "Add",
+    cancel: "Cancel",
+    save: "Save",
+    saving: "Saving...",
+    fieldTitle: "Title",
+    fieldUrl: "Link (optional)",
+    fieldKind: "Kind",
+    fieldStep: "Linked step",
+    noStep: "No step",
+    error: "Saving failed.",
+    kinds: {
+      repo: "Repository", app: "App", document: "Document", video: "Video",
+      channel: "Channel", playlist: "Playlist", dashboard: "Dashboard",
+      dataset: "Dataset", automation: "Automation", landing: "Landing page",
+      portfolio: "Portfolio", proposal: "Proposal", product: "Product", other: "Other"
+    }
   },
   dashboardProjectPlan: {
     title: "YOUR PLAN",
