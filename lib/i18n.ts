@@ -577,6 +577,19 @@ const FR: Translations = {
     inProgress: "En cours",
     reviewLesson: "Revoir la leçon"
   },
+  dashboardProjectPlan: {
+    title: "TON PLAN",
+    empty: "Ce projet n'a pas encore de plan.",
+    emptyHint: "Choisis un framework pour transformer ton objectif en etapes, avec un livrable attendu a chaque fois.",
+    nextAction: "Prochaine action",
+    status: {
+      todo: "A faire",
+      doing: "En cours",
+      blocked: "Bloque",
+      done: "Termine",
+      skipped: "Ignoree"
+    }
+  },
   dashboardProjectDetail: {
     subtitle: "Editer mon projet",
     backLabel: "Mes projets",
@@ -2887,6 +2900,19 @@ const EN: Translations = {
     completed: "Completed",
     inProgress: "In progress",
     reviewLesson: "Review lesson"
+  },
+  dashboardProjectPlan: {
+    title: "YOUR PLAN",
+    empty: "This project has no plan yet.",
+    emptyHint: "Pick a framework to turn your objective into steps, each with a deliverable to produce.",
+    nextAction: "Next action",
+    status: {
+      todo: "To do",
+      doing: "In progress",
+      blocked: "Blocked",
+      done: "Done",
+      skipped: "Skipped"
+    }
   },
   dashboardProjectDetail: {
     subtitle: "Edit my project",

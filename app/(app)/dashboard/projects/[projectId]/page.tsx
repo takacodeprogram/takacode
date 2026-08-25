@@ -4,6 +4,7 @@ import { notFound, redirect } from "next/navigation";
 import DeployGuide from "../../../../../components/DeployGuide";
 import PageHeader from "../../../../../components/app-shell/PageHeader";
 import ProjectForm from "../../../../../components/ProjectForm";
+import ProjectPlanPanel from "../../../../../components/ProjectPlanPanel";
 import { getTrackCurriculum } from "../../../../../lib/curriculum";
 import { getLocale } from "../../../../../lib/i18n";
 import { buildPageMetadata } from "../../../../../lib/seo";
@@ -12,6 +13,7 @@ import { getServerLocale } from "../../../../../lib/serverLocale";
 import { getTemplateById } from "../../../../../lib/starterTemplates";
 import { orderTracksByGuidance } from "../../../../../lib/trackGuidance";
 import { listPublishedTracks } from "../../../../../lib/tracks";
+import { listProjectPlan } from "../../../../../lib/projectPlan";
 import { getOwnProject, listProjectDeliverables } from "../../../../../lib/userProjects";
 import { createClient } from "../../../../../utils/supabase/server";
 
@@ -54,10 +56,11 @@ export default async function EditProjectPage({ params }: { params: Promise<Reco
   const locale = await getServerLocale();
   const { t } = getLocale(locale);
 
-  const [{ project }, { tracks }, deliverables] = await Promise.all([
+  const [{ project }, { tracks }, deliverables, planSteps] = await Promise.all([
     getOwnProject(supabase, user.id, projectId),
     listPublishedTracks(supabase, { limit: 40 }),
-    listProjectDeliverables(supabase, user.id, projectId)
+    listProjectDeliverables(supabase, user.id, projectId),
+    listProjectPlan(supabase, projectId)
   ]);
 
   if (!project) {
@@ -89,6 +92,23 @@ export default async function EditProjectPage({ params }: { params: Promise<Reco
       <div className="grid xl:grid-cols-[1.4fr_0.9fr] gap-6">
         <div className="space-y-5">
           <ProjectForm userId={user.id} tracks={tracks} project={project} />
+
+          <ProjectPlanPanel
+            steps={planSteps}
+            labels={{
+              title: t("dashboardProjectPlan.title"),
+              empty: t("dashboardProjectPlan.empty"),
+              emptyHint: t("dashboardProjectPlan.emptyHint"),
+              nextAction: t("dashboardProjectPlan.nextAction"),
+              status: {
+                todo: t("dashboardProjectPlan.status.todo"),
+                doing: t("dashboardProjectPlan.status.doing"),
+                blocked: t("dashboardProjectPlan.status.blocked"),
+                done: t("dashboardProjectPlan.status.done"),
+                skipped: t("dashboardProjectPlan.status.skipped")
+              }
+            }}
+          />
 
           {deliverables.length > 0 ? (
             <div className="rounded-2xl border border-[var(--border-3)] bg-[var(--surface-1)] p-5">
