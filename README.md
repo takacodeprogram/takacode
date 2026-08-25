@@ -389,9 +389,8 @@ APPRENDRE
 CONSTRUIRE
 PROGRESSER
 
-Trouve une direction, construis un projet concret et apprends ce dont tu as
-besoin au moment où tu en as besoin. Chaque réalisation devient une preuve
-d'expérience capable d'ouvrir de nouvelles opportunités.
+Trouve une direction, apprends en construisant et transforme tes projets en
+expériences que tu peux montrer et valoriser.
 
 [ Explorer ]   [ Créer ]
 
