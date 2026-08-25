@@ -84,8 +84,15 @@ Aucune chaîne du hero, de la navigation ou du pied de page n'est écrite en dur
   et l'emploi comme sorties valides : à réécrire dans un passage dédié.
 - `scripts/fix-french-ui.mjs --inventory` ne scanne que les chaînes écrites en dur
   dans le JSX : il ne voit pas `lib/i18n.ts`, où vit désormais l'essentiel des textes
-  display. Des titres accentués ont pu passer entre les mailles (c'était le cas de
-  `process.title` = « DE L'IDÉE AU PROJET TERMINÉ »). Étendre le script à `i18n.ts`.
+  display. Quatre titres accentués étaient ainsi passés en production avec un blanc à
+  la place de la lettre : `visionQuote.line1` et `line2` (« CHANGE ÇA »),
+  `skills.title` (« L'ÉCONOMIE NUMÉRIQUE ») et `faq.title2` (« FRÉQUENTES »). Ils
+  sont corrigés. Étendre le script à `i18n.ts` reste à faire, sans quoi le prochain
+  titre accentué repassera de la même manière.
+- Le contrôle doit viser **VALORAX seul** : ses glyphes accentués sont vides
+  (charstring de 3 octets contre 70 pour la lettre nue), alors que VENITE les dessine
+  correctement. Vérifier la présence dans la `cmap` ne suffit pas — c'est ce
+  raccourci qui avait fait conclure à tort que la police gérait les accents.
 
 ---
 

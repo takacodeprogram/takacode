@@ -410,9 +410,22 @@ Trois points sont volontaires :
    `.font-venite`, `.font-venite-italic`). Les paragraphes en `font-body-readable`
    gardent leurs accents. Voir [INVENTAIRE_POLICES_DISPLAY.md](./INVENTAIRE_POLICES_DISPLAY.md).
 
-   *Précision :* les deux fichiers de police contiennent bien les glyphes accentués
-   (vérifié dans leur table `cmap`, contours non vides). L'absence d'accent est donc
-   un choix de design, pas une contrainte technique.
+   *Précision technique, vérifiée dans les fichiers de police :*
+
+   - **VALORAX** mappe bien `É`, `À`, `Ç` dans sa table `cmap`, mais leurs
+     charstrings CFF font **3 octets** — un glyphe vide. Là où `E` en occupe 70,
+     `É` n'en occupe 3 : il ne dessine rien. Un titre accentué en VALORAX affiche
+     donc un **trou blanc** à la place de la lettre. Ce n'est pas une préférence,
+     c'est un défaut de rendu.
+   - **VENITE** dessine réellement ses accents (`É` = 132 octets de contours). Les
+     sur-titres `.section-label` et `.font-venite` peuvent donc les porter.
+
+   Comme `.font-valorax` applique `text-transform: uppercase`, écrire ces titres
+   sans accent reste conforme à l'usage français, qui rend l'accent facultatif sur
+   les capitales.
+
+   Ne pas se fier à la seule présence dans la `cmap` : c'est ce raccourci qui avait
+   laissé passer « TAKACODE CHANGE ÇA » avec un blanc à la place du `Ç`.
 
 ### La section « L'approche »
 

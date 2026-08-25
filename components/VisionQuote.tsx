@@ -31,7 +31,7 @@ export default function VisionQuote() {
       </div>
 
       <div
-        className="relative z-10 max-w-[800px] mx-auto px-8 text-center transition-all duration-1000"
+        className="relative z-10 max-w-[880px] mx-auto px-8 text-center transition-all duration-1000"
         style={{
           opacity: visible ? 1 : 0,
           transform: visible ? "translateY(0)" : "translateY(20px)",
@@ -45,7 +45,7 @@ export default function VisionQuote() {
           />
         </div>
 
-        <blockquote className="font-valorax text-[var(--text-primary)] leading-snug mb-8" style={{ fontSize: "clamp(22px, 2.5vw, 32px)", letterSpacing: "-0.01em" }}>
+        <blockquote className="font-valorax text-[var(--text-primary)] mb-8" style={{ fontSize: "clamp(19px, 2.1vw, 27px)", lineHeight: 1.15, letterSpacing: "-0.01em" }}>
           {t("visionQuote.line1")}
           <br />
           <span className="gradient-text-blue">{t("visionQuote.line2")}</span>

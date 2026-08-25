@@ -444,7 +444,7 @@ const FR: Translations = {
   },
   skills: {
     sectionLabel: "VOIES POSSIBLES",
-    title: "DES VOIES DANS L'ÉCONOMIE NUMÉRIQUE",
+    title: "DES VOIES DANS L'ECONOMIE NUMERIQUE",
     tagsRow1: [
       "Développement web",
       "Applications web",
@@ -473,7 +473,7 @@ const FR: Translations = {
   faq: {
     sectionLabel: "FAQ",
     title1: "QUESTIONS",
-    title2: "FRÉQUENTES",
+    title2: "FREQUENTES",
     subtitle: "Une question sur l'orientation, la construction ou la transformation en opportunité ? La réponse est sûrement ici.",
     questions: {
       q1: "Dois-je déjà savoir quoi faire pour commencer ?",
@@ -1620,8 +1620,8 @@ const FR: Translations = {
     ctaSecondary: "Voir comment ça marche"
   },
   visionQuote: {
-    line1: "J'ai appris, mais je n'ai rien de concret à montrer.",
-    line2: "TakaCode change ça.",
+    line1: "J'ai appris, mais je n'ai rien de concret a montrer.",
+    line2: "TakaCode change ca.",
     desc: "Des milliers d'heures de contenu gratuit existent. Mais l'accès à l'information ne garantit ni la compétence, ni l'expérience, ni l'opportunité. TakaCode transforme ce qui existe déjà en projet réel, en preuve d'expérience et en opportunité concrète."
   },
   entryPoints: {
