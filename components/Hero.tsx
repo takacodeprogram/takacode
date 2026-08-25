@@ -78,15 +78,13 @@ export default function Hero({ stats = null }: { stats?: Stats | null }) {
             <h1 className="font-valorax animate-fade-up-d1 mb-6 hero-title">
               {t("home.hero.title1")}
               <br />
-              <span className="gradient-text-blue">{t("home.hero.title2")}</span>
+              {t("home.hero.title2")}
+              <br />
+              <span className="gradient-text-blue">{t("home.hero.title3")}</span>
             </h1>
 
-            <p className="animate-fade-up-d2 font-body-readable text-[var(--muted-2)] text-[15px] leading-relaxed mb-4 max-w-[520px]">
-              {t("home.hero.subtitle")}
-            </p>
-
-            <p className="animate-fade-up-d2 font-body-readable text-[var(--muted-3)] text-[15px] leading-relaxed mb-9 max-w-[520px]">
-              {withHighlight(t("home.hero.subtitle2"), t("home.hero.subtitle2Highlight"))}
+            <p className="animate-fade-up-d2 font-body-readable text-[var(--muted-2)] text-[15px] leading-relaxed mb-9 max-w-[520px]">
+              {withHighlight(t("home.hero.subtitle"), t("home.hero.subtitleHighlight"))}
             </p>
 
             <div className="animate-fade-up-d3 flex flex-col sm:flex-row sm:items-center gap-4 mb-5">

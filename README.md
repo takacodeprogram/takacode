@@ -383,15 +383,15 @@ Le classement (`/leaderboard`) reste accessible depuis le pied de page.
 ## Le message d'accueil
 
 ```text
-TAKACODE
+TAKACODE · DE L'ORIENTATION A L'ACTION
 
-APPRENDRE • CONSTRUIRE • PROGRESSER
+APPRENDRE
+CONSTRUIRE
+PROGRESSER
 
 Trouve une direction, construis un projet concret et apprends ce dont tu as
-besoin au moment où tu en as besoin.
-
-TakaCode transforme l'apprentissage en réalisation, puis chaque réalisation en
-preuve d'expérience capable d'ouvrir de nouvelles opportunités.
+besoin au moment où tu en as besoin. Chaque réalisation devient une preuve
+d'expérience capable d'ouvrir de nouvelles opportunités.
 
 [ Explorer ]   [ Créer ]
 

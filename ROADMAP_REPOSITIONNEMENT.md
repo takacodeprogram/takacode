@@ -374,20 +374,29 @@ par la nouvelle promesse.
 Le hero devient :
 
 ```text
-TAKACODE
+TAKACODE · DE L'ORIENTATION A L'ACTION
 
-APPRENDRE • CONSTRUIRE • PROGRESSER
+APPRENDRE
+CONSTRUIRE
+PROGRESSER
 
 Trouve une direction, construis un projet concret et apprends ce dont tu as
-besoin au moment où tu en as besoin.
-
-TakaCode transforme l'apprentissage en réalisation, puis chaque réalisation en
-preuve d'expérience capable d'ouvrir de nouvelles opportunités.
+besoin au moment où tu en as besoin. Chaque réalisation devient une preuve
+d'expérience capable d'ouvrir de nouvelles opportunités.
 
 [ Explorer ]   [ Créer ]
 
 Ressources ouvertes · Coach IA · Communauté · Mentors
 ```
+
+Les trois mots sont **empilés, sans puce**. Ce n'est pas un choix esthétique :
+en VALORAX, `APPRENDRE • CONSTRUIRE` mesure 992 px alors que la demi-colonne du
+hero en fait 588 px. Sur une seule ligne, le navigateur coupe où il peut et la
+hauteur du hero double. Empilés à `clamp(38px, 4.4vw, 62px)`, les trois mots
+mesurent 447, 455 et 497 px : ils tiennent, et le bloc reste compact.
+
+La description tient en **un seul paragraphe**. Deux paragraphes séparés
+cassaient le rythme entre le titre et les boutons.
 
 Trois points sont volontaires :
 
@@ -469,6 +478,23 @@ Les cartes sont rangées **par distance à l'action** : de celui qui cherche enc
 direction à celui qui veut un besoin réel. La longue-vue distingue volontairement
 `EXPLORER` de la boussole de « L'approche » : ici on regarde le paysage, là-bas on
 choisit un cap.
+
+### La carte du hero
+
+L'illustration de droite doit raconter la même chaîne que le reste de la page :
+
+```text
+TON PARCOURS — De la direction à la preuve
+
+DIRECTION      Trouvée
+CONSTRUCTION   En cours
+PREUVE         À venir
+```
+
+Elle remplace l'ancienne progression `IDEE → CONSTRUCTION → REALISE`, qui
+s'arrêtait au projet terminé. Les chiffres inventés de la carte « session live »
+(« Dans 2h - 34 inscrits ») sont retirés : une landing ne doit pas afficher de
+statistiques fabriquées.
 
 ### Pied de page
 
