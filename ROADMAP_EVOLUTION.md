@@ -47,6 +47,16 @@ avec un sur-titre et une icône dédiée (boussole, itinéraire, livre, marteau,
 badge vérifié). Le pas final « monétiser » disparaît : la valorisation ne se réduit
 pas au revenu.
 
+**Section « Le vrai problème »** — le titre devient « Apprendre ne suffit pas. Il faut
+passer a l'action. » et les six cartes sont réécrites autour de la chaîne complète :
+le projet guide l'apprentissage, l'IA pour aller plus loin, les bonnes ressources au bon
+moment, une réalisation qui compte, avancer avec les autres, de la réalisation à
+l'opportunité. Les clés `learning`, `monetization` et `deploy` deviennent
+`resources`, `outcome` et `opportunity`. La dernière carte remplace
+« De l'apprentissage à l'activité » : la finalité ne se réduit ni au revenu ni à
+l'emploi. Le composant passe d'une liste de six blocs copiés-collés à une carte
+générée par `map`, comme les autres sections.
+
 **Citation retirée** — la section `VisionQuote` (« J'ai appris, mais je n'ai rien de
 concret a montrer / TakaCode change ca ») disparaît de l'accueil, avec son composant et
 ses traductions. Elle redisait le problème que le hero venait déjà d'énoncer.
@@ -81,9 +91,9 @@ Aucune chaîne du hero, de la navigation ou du pied de page n'est écrite en dur
 - Le rendu serveur des composants client part toujours de la locale par défaut (`en`)
   avant hydratation : la version française n'apparaît qu'après montage. Dette i18n
   antérieure, non traitée par ce jalon.
-- `HowItWorksSection` est traitée (le pas « monétiser » a disparu). En revanche la
-  FAQ, la CTA finale, `ValuesSection` (`values.cards.monetization`) et la
-  documentation dashboard (`guides.*`) décrivent encore la valorisation uniquement
+- `HowItWorksSection` et `ValuesSection` sont traitées : le pas « monétiser » et la
+  carte `values.cards.monetization` ont disparu. En revanche la FAQ, la CTA finale et
+  la documentation dashboard (`guides.*`) décrivent encore la valorisation uniquement
   comme « monétiser ». La vision reconnaît aussi le portfolio, la Mission, le client
   et l'emploi comme sorties valides : à réécrire dans un passage dédié.
 - `scripts/fix-french-ui.mjs --inventory` ne scanne que les chaînes écrites en dur

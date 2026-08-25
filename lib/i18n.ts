@@ -349,31 +349,31 @@ const FR: Translations = {
   },
   values: {
     sectionLabel: "Le vrai problème",
-    title: "Apprendre ne suffit pas. Il faut construire.",
+    title: "Apprendre ne suffit pas. Il faut passer a l'action.",
     cards: {
       project: {
-        title: "Le projet avant le cours",
-        desc: "On apprend parce qu'on construit quelque chose. Le projet détermine ce qu'il faut apprendre, pas l'inverse."
+        title: "Le projet guide l'apprentissage",
+        desc: "Tu n'apprends pas d'abord pour construire ensuite. C'est ce que tu veux réaliser qui détermine ce que tu dois apprendre."
       },
       ai: {
-        title: "L'IA comme accélérateur",
-        desc: "L'IA ne remplace pas la compétence. Bien maîtrisée, elle te fait avancer plus vite — comprendre, coder, créer, résoudre."
+        title: "L'IA pour aller plus loin",
+        desc: "Bien utilisée, l'IA t'aide à comprendre, chercher, créer, coder, analyser et résoudre plus vite — sans remplacer ta compréhension."
       },
-      learning: {
-        title: "Ressources au bon moment",
-        desc: "Nous ne produisons pas des cours pour remplir une bibliothèque. Nous organisons ce qui existe autour de ce que tu veux construire."
+      resources: {
+        title: "Les bonnes ressources, au bon moment",
+        desc: "TakaCode ne cherche pas à recréer des cours. Nous sélectionnons et organisons les ressources utiles en fonction de l'étape où tu te trouves."
       },
-      monetization: {
-        title: "Une preuve, pas un exercice",
-        desc: "Ton projet terminé n'est pas un devoir. C'est une preuve que tu sais faire. Visible, partageable, valorisable."
+      outcome: {
+        title: "Une réalisation qui compte",
+        desc: "Un projet terminé n'est pas un simple exercice. Il montre ce que tu sais réellement faire et peut enrichir ton portfolio."
       },
       community: {
-        title: "Construire ensemble",
-        desc: "Ne construis plus seul. La communauté, les mentors et les retours accélèrent chaque projet."
+        title: "Avancer avec les autres",
+        desc: "Communauté, Contributors, Mentors et Experts t'aident à obtenir du feedback, dépasser tes blocages et progresser."
       },
-      deploy: {
-        title: "De l'apprentissage à l'activité",
-        desc: "Un projet terminé mène à un client, un emploi, une mission, une activité. C'est ça, la vraie transformation."
+      opportunity: {
+        title: "De la réalisation à l'opportunité",
+        desc: "Un projet peut devenir une expérience, un portfolio, un produit, un service, une Mission, un client ou une opportunité professionnelle."
       }
     }
   },
@@ -2660,31 +2660,31 @@ const EN: Translations = {
   },
   values: {
     sectionLabel: "The real problem",
-    title: "Learning is not enough. You need to build.",
+    title: "Learning is not enough. You have to act on it.",
     cards: {
       project: {
-        title: "Project before course",
-        desc: "You learn because you're building something. The project determines what you need to learn, not the other way around."
+        title: "The project drives the learning",
+        desc: "You don't learn first and build later. What you want to achieve determines what you need to learn."
       },
       ai: {
-        title: "AI as an accelerator",
-        desc: "AI doesn't replace skill. Mastered well, it makes you move faster — understand, code, create, solve."
+        title: "AI to go further",
+        desc: "Used well, AI helps you understand, search, create, code, analyse and solve faster — without replacing your own understanding."
       },
-      learning: {
-        title: "Resources at the right moment",
-        desc: "We don't produce courses to fill a library. We organize what exists around what you want to build."
+      resources: {
+        title: "The right resources, at the right moment",
+        desc: "TakaCode does not try to recreate courses. We select and organise the resources that matter for the step you are on."
       },
-      monetization: {
-        title: "Proof, not an exercise",
-        desc: "Your finished project isn't homework. It's proof you can do it. Visible, shareable, valuable."
+      outcome: {
+        title: "Work that counts",
+        desc: "A finished project is not just an exercise. It shows what you can actually do and can grow your portfolio."
       },
       community: {
-        title: "Build together",
-        desc: "Stop building alone. The community, mentors, and feedback accelerate every project."
+        title: "Move forward with others",
+        desc: "The community, Contributors, Mentors and Experts help you get feedback, clear your blockers and keep going."
       },
-      deploy: {
-        title: "From learning to activity",
-        desc: "A finished project leads to a client, a job, a mission, a business. That's the real transformation."
+      opportunity: {
+        title: "From finished work to opportunity",
+        desc: "A project can become experience, a portfolio, a product, a service, a Mission, a client or a professional opportunity."
       }
     }
   },
